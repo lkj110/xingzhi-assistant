@@ -1,0 +1,9 @@
+import React,{useState} from 'react';
+import {Radio,Plus,ArrowUpRight} from 'lucide-react';
+import ProjectSetup from './ProjectSetup';
+import {QuickCaptureSettings} from './QuickCaptureWindow';
+export default function ActiveCollection({data,act,openProject,openRules}){
+ const [setup,setSetup]=useState(false),[created,setCreated]=useState(null);
+ const rules=(data.workRules||[]).filter(r=>r.config.trigger==='project_changes'&&r.status!=='archived');
+ return <><section className="settings-card" aria-label="主动收集与推进"><header><div><h2><Radio size={20}/>主动收集与推进</h2><p>选择资料来源和目标。材料发生变化后，自动合并到原事项、推进并跟进结果。</p></div><button className="button primary" disabled={!!data.operation} onClick={()=>setSetup(true)}><Plus size={16}/>配置主动收集</button></header><ol className="setup-stages"><li>1 确定目标和预期结果</li><li>2 选择资料来源</li><li>3 设置触发与能力</li></ol><p className="help-text">当前{data.stewardshipStatus?.automaticAllowed===false?`暂缓自动工作：${data.stewardshipStatus.message}`:'允许按各来源和规则的计划运行'}。App 退出或电脑休眠期间暂停，恢复后按检查计划继续。</p>{!rules.length&&<p>尚未配置持续收集规则。可先设置一个项目，或用快速收集小窗交代单次工作。</p>}{rules.map(r=>{const sourceCount=[...(data.connectors||[]),...(data.webConnections||[]),...(data.feedConnections||[]),...(data.folders||[])].filter(c=>c.projectId===r.config.projectId&&c.enabled).length;return <div className="connection-item" key={r.id}><strong>{r.config.name}</strong><p>{r.status==='enabled'?'规则已启用':'规则已暂停'} · {sourceCount} 个启用来源 · 每 {r.config.intervalMinutes} 分钟检查 · 关键词：{r.config.keyword||'全部材料'}</p><p>{r.summary}</p><small>最近检查：{r.lastCheckedAt?new Date(r.lastCheckedAt).toLocaleString('zh-CN'):'尚未运行'}</small><button className="text-button" onClick={()=>openRules()}>管理规则<ArrowUpRight size={14}/></button></div>;})}{created&&<p role="status">主动收集配置已保存。<button className="text-button" onClick={()=>openProject(created)}>查看项目与推进状态</button></p>}</section><QuickCaptureSettings act={act}/>{setup&&<ProjectSetup data={data} act={act} close={()=>setSetup(false)} saved={setCreated}/>}</>;
+}

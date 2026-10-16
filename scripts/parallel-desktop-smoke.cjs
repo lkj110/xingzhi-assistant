@@ -1,0 +1,25 @@
+const {electron}=require('./desktop-test-support.cjs');
+const {expect}=require('playwright/test'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..'),dir=fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-parallel-ui-')),out=path.join(root,'artifacts/parallel-execution-2026-10-14');let app;fs.mkdirSync(out,{recursive:true});
+(async()=>{try{
+  app=await electron.launch({args:['scripts/parallel-fixture.cjs'],cwd:root,env:{...process.env,ASSISTANT_TEST_DATA_DIR:dir},timeout:30000});
+  const page=await app.firstWindow();page.setDefaultTimeout(15000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const api=(action,input={})=>page.evaluate(async({action,input})=>{const r=await window.assistant.call(action,input);if(r.error)throw Error(r.error);return r.data;},{action,input});
+  const standalone=(await api('createTask',{title:'并行中可删除的独立事项'})).tasks[0];
+  await api('fixtureStart');await page.getByRole('button',{name:'Agent 委托',exact:true}).click();
+  await expect(page.locator('.operation-bar')).toContainText('2 项工作并行推进');
+  await expect(page.locator('.agent-job').filter({hasText:'正在工作'})).toHaveCount(2);
+  await page.locator('.agent-job').filter({hasText:'独立测试丙'}).click();
+  await expect(page.getByRole('button',{name:'继续推进',exact:true})).toBeEnabled();
+  await page.getByRole('button',{name:'继续推进',exact:true}).click();
+  await expect(page.locator('.operation-bar')).toContainText('3 项工作并行推进');
+  await page.locator('.agent-job').filter({hasText:'并行测试甲'}).click();await page.getByRole('button',{name:'暂停委托',exact:true}).click();
+  await expect(page.locator('.operation-bar')).toContainText('2 项工作并行推进');
+  await expect(page.locator('.agent-job').filter({hasText:'并行测试甲'})).toContainText('已暂停');
+  await expect(page.locator('.agent-job').filter({hasText:'并行测试乙'})).toContainText('正在工作');
+  await page.locator('.sidebar').getByRole('button',{name:'工作台',exact:true}).click();await page.getByRole('button').filter({has:page.getByRole('heading',{name:standalone.title,exact:true})}).click();await expect(page.getByRole('button',{name:'删除事项',exact:true})).toBeEnabled();await page.getByRole('button',{name:'删除事项',exact:true}).click();await page.getByRole('button',{name:'确认删除',exact:true}).click();assert.ok((await api('state')).deletedTasks.some(t=>t.id===standalone.id));assert.equal((await api('state')).operations.length,2);await page.getByRole('navigation',{name:'工作台二级导航'}).getByRole('button',{name:'已删除',exact:true}).click();await expect(page.getByRole('button',{name:'恢复事项',exact:true})).toBeEnabled();await page.getByRole('button',{name:'恢复事项',exact:true}).click();assert.equal((await api('state')).tasks.find(t=>t.id===standalone.id).status,'paused');assert.equal((await api('state')).operations.length,2);await page.getByRole('button',{name:'关闭事项详情',exact:true}).click();
+  await page.screenshot({path:path.join(out,'parallel-ui.png')});
+  const state=await api('fixtureRelease');assert.equal(state.operations.length,0);assert.deepEqual(errors,[]);
+  fs.writeFileSync(path.join(out,'ui-verification.json'),JSON.stringify({mockModels:true,checks:['two simultaneous jobs','third job continue enabled and starts while two run','single pause leaves others running','unrelated task can be deleted and restored while two jobs run','all calls settle into own records'],errors},null,2));
+  console.log('Parallel desktop UI checks passed (isolated data, mock models).');
+}finally{await app?.close();fs.rmSync(dir,{recursive:true,force:true});}})().catch(e=>{console.error(e);process.exitCode=1;});

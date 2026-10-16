@@ -1,0 +1,6 @@
+const {test}=require('node:test');const assert=require('node:assert/strict');
+const load=()=>import('../src/markdown-table.mjs');
+test('Document tables preserve headers, body, alignment and following sections',async()=>{const {readTable}=await load();const v=readTable(['|任务|输入|owner|','|:---|:---:|---:|','|123|table_a|me|','|456|table_b|you|','','## 下一节'],0);assert.deepEqual(v.headers,['任务','输入','owner']);assert.deepEqual(v.rows,[['123','table_a','me'],['456','table_b','you']]);assert.deepEqual(v.align,['left','center','right']);assert.equal(v.next,4);});
+test('Escaped and inline-code pipes remain in their cells',async()=>{const {tableCells}=await load();assert.deepEqual(tableCells('|a\\|b|`x|y`|``a|b``|'),['a|b','`x|y`','``a|b``']);});
+test('Plain pipes, malformed separators and extra cells never lose text',async()=>{const {readTable}=await load();assert.equal(readTable(['a | b','other text'],0),null);assert.equal(readTable(['|a|b|','|---|'],0),null);const v=readTable(['|a|b|','|---|---|','|too|many|cells|'],0);assert.equal(v.next,2);assert.equal(v.rows.length,0);});
+test('Short table rows are padded while HTML remains plain cell content',async()=>{const {readTable}=await load();const v=readTable(['|a|b|','|---|---|','|<script>alert(1)</script>|'],0);assert.deepEqual(v.rows,[['<script>alert(1)</script>','']]);});

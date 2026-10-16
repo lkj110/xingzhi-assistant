@@ -1,0 +1,7 @@
+import React,{useState} from 'react';
+export default function ExecutionContract({job,act,busy}){
+  const [editing,setEditing]=useState(false),[text,setText]=useState(''),[revision,setRevision]=useState(null),[error,setError]=useState(''),[saving,setSaving]=useState(false);
+  function edit(){setText(job.executionContract?.text||job.goal);setRevision(job.executionContract?.revision||null);setError('');setEditing(true);}
+  async function save(e){e.preventDefault();setSaving(true);setError('');try{await act('agentContract',{id:job.id,revision,text},'当前范围与验收标准已保存');setEditing(false);}catch(e){setError(e.message);}finally{setSaving(false);}}
+  return <section className="agent-section" aria-label="当前执行约定"><h3>当前范围与验收标准</h3><p className="help-text">规划、写作与检查共同使用这份约定。后续补充持续保留；调整完整约定后，旧目标中的冲突要求不再生效。</p>{editing?<form className="agent-feedback" onSubmit={save}><textarea aria-label="当前执行约定" rows={10} maxLength={16000} value={text} onChange={e=>setText(e.target.value)}/><div className="agent-actions"><button type="button" className="button" disabled={saving} onClick={()=>setEditing(false)}>取消编辑</button><button className="button primary" disabled={saving||busy||!text.trim()}>保存执行约定</button></div>{error&&<p role="alert" className="form-error">{error}</p>}</form>:<><p className="agent-goal">{job.executionContract?.text||job.goal}</p><button className="button" disabled={busy} onClick={edit}>调整范围与验收标准</button></>}{job.executionContract&&<details><summary>原始目标（历史记录）</summary><p className="agent-goal">{job.goal}</p></details>}</section>;
+}

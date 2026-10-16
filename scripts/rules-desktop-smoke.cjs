@@ -1,0 +1,41 @@
+const {electron}=require('./desktop-test-support.cjs');
+const {navigate}=require('./navigation-helper.cjs');
+const {expect}=require('playwright/test');
+const assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),http=require('node:http');
+const root=path.resolve(__dirname,'..'),dir=fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-rules-ui-'));
+const output=path.join(root,'artifacts/rules');fs.mkdirSync(output,{recursive:true});
+const materials=path.join(dir,'会议资料'),delivery=path.join(dir,'交付');fs.mkdirSync(materials);fs.mkdirSync(delivery);fs.writeFileSync(path.join(materials,'星桥纪要.md'),'星桥周五发布，负责人李青。');
+const checks=[],errors=[];let app,requests=0;
+const reply=(tool,args={})=>({tool,args,reason:'桌面规则验收'});
+const server=http.createServer(async(req,res)=>{
+  let raw='';for await(const p of req)raw+=p;const {messages}=JSON.parse(raw);requests++;const prompt=messages[0].content,ctx=JSON.parse(messages[1].content);let result;
+  if(prompt.includes('动作格式')){
+    const task=ctx.tasks[0];
+    if(!task)result=reply('plan_task',{key:'report',title:'星桥发布报告',criteria:'写明发布日期和负责人并保存',sourceIds:ctx.sources.map(s=>s.id),steps:[{key:'draft',title:'编写报告',kind:'draft'},{key:'save',title:'保存报告',kind:'external',tool:'write_file'}]});
+    else if(!task.steps[0].done)result=reply('advance_task',{taskId:task.id});
+    else if(!task.steps[1].done)result=reply('write_file',{taskId:task.id});
+    else if(task.status!=='completed')result=reply('advance_task',{taskId:task.id});
+    else result=reply('complete',{});
+  }else if(prompt.includes('推进给定事项'))result={kind:'artifact',title:'星桥发布报告',content:`# 星桥发布报告\n${ctx.sources.some(s=>s.content.includes('周六'))?'周六':'周五'}发布，负责人李青。`};
+  else result={passed:true,summary:'核验通过',gaps:[]};
+  res.setHeader('Content-Type','application/json');res.end(JSON.stringify({choices:[{message:{content:JSON.stringify(result)}}],usage:{prompt_tokens:100,completion_tokens:30}}));
+});
+(async()=>{
+  await new Promise(r=>server.listen(0,'127.0.0.1',r));app=await electron.launch({args:['.'],cwd:root,env:{...process.env,ASSISTANT_TEST_DATA_DIR:dir},timeout:60000});const page=await app.firstWindow();page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message));await page.getByRole('button',{name:'配置模型',exact:true}).waitFor();
+  const api=(action,input={})=>page.evaluate(async({action,input})=>{const r=await window.assistant.call(action,input);if(r.error)throw new Error(r.error);return r.data;},{action,input});const state=()=>api('state'),idle=()=>expect.poll(async()=>(await state()).operation,{timeout:20000}).toBe(null);
+  await navigate(page,'工作规则');await expect(page.getByRole('button',{name:'创建第一条规则'})).toBeVisible();checks.push('工作规则入口与空状态');
+  await page.getByRole('button',{name:'工具与连接',exact:true}).click();await expect(page.getByRole('button',{name:'添加资料文件夹',exact:true})).toBeVisible();
+  await app.evaluate(({dialog},paths)=>{let i=0;dialog.showOpenDialog=async()=>({canceled:false,filePaths:[paths[i++]]});},[materials,delivery]);await page.getByRole('button',{name:'添加资料文件夹',exact:true}).click();await page.getByRole('button',{name:'选择产出文件夹',exact:true}).click();
+  await navigate(page,'工作规则');await page.getByRole('button',{name:'新建工作规则',exact:true}).click();await page.getByLabel('规则模板').selectOption('0');await page.getByLabel('规则名称',{exact:true}).fill('星桥每日简报');await page.getByLabel('规则触发方式').selectOption('weekly');await page.getByLabel('规则星期').selectOption('5');await page.getByLabel('规则执行时间').fill('09:30');await page.getByLabel('规则触发方式').selectOption('daily');await expect(page.getByLabel('规则每日调用上限')).toHaveCount(0);await page.getByLabel('规则每日委托上限').fill('2');checks.push('模板、每日和每周安排、额度配置');
+  await page.getByRole('button',{name:'预览触发（不调用模型）'}).click();await expect(page.getByText(/匹配 1 份资料.*0 次模型调用/)).toBeVisible();assert.equal(requests,0);await expect(page.getByRole('button',{name:'保存并启用'})).toBeDisabled();await page.screenshot({path:path.join(output,'rules-preview.png'),fullPage:true});await page.getByRole('button',{name:'保存为暂停'}).click();await expect(page.getByRole('dialog')).toHaveCount(0);let r=(await state()).workRules[0];assert.equal(r.status,'paused');checks.push('未配置模型时可预览和保存，预览零模型调用');
+  await api('saveProvider',{inputPrice:0,outputPrice:0,cachedInputPrice:0,name:'规则桌面测试',model:'fixture',baseUrl:`http://127.0.0.1:${server.address().port}/v1`});await page.getByRole('button',{name:'启用规则',exact:true}).click();await idle();await page.getByRole('button',{name:'立即检查',exact:true}).click();await idle();let j=(await state()).delegations[0];assert.ok(j.ruleId);if(j.status==='ready'){await api('agentRun',{id:j.id});await idle();}j=(await state()).delegations[0];assert.equal(j.status,'completed');assert.match(fs.readFileSync((await state()).agentActions[0].result.latestPath,'utf8'),/周五/);checks.push('启用后自动建委托、填写事项、实际保存并完成验收');
+  await page.getByRole('button',{name:'查看当前委托'}).click();await expect(page.getByRole('button',{name:/来自工作规则：星桥每日简报/})).toBeVisible();await page.getByRole('button',{name:/来自工作规则：星桥每日简报/}).click();await expect(page.getByRole('heading',{name:'星桥每日简报'})).toBeVisible();checks.push('规则和具体委托双向导航');
+  fs.writeFileSync(path.join(materials,'星桥纪要.md'),'星桥调整为周六发布，负责人李青。');await page.getByRole('button',{name:'立即检查',exact:true}).click();await idle();const second=(await state()).delegations[0];assert.notEqual(second.id,j.id);await api('agentRun',{id:second.id});await idle();assert.equal((await state()).delegations[0].status,'completed');assert.match(fs.readFileSync((await state()).agentActions.find(action=>action.jobId===second.id).result.latestPath,'utf8'),/周六/);checks.push('新一轮材料发起新委托且采用最新日期');
+  await page.getByText('触发记录（最近 2 次）',{exact:true}).click();await expect(page.getByRole('button',{name:'查看本次委托'})).toHaveCount(2);await page.getByRole('button',{name:'查看本次委托'}).last().click();await expect(page.locator('.agent-job').last()).toHaveClass(/selected/);
+  checks.push('历史触发记录可打开对应委托');
+  await navigate(page,'工作规则');await page.screenshot({path:path.join(output,'rules-desktop.png'),fullPage:true});await page.getByRole('button',{name:'暂停规则',exact:true}).click();await page.reload();await navigate(page,'工作规则');await expect(page.getByRole('button',{name:'启用规则',exact:true})).toBeVisible();assert.equal((await state()).workRules[0].status,'paused');checks.push('暂停与重新加载保留规则、触发历史和额度');
+  await page.getByRole('button',{name:'编辑规则 星桥每日简报'}).click();await page.getByLabel('规则名称',{exact:true}).fill('星桥资料变化');await page.getByLabel('规则触发方式').selectOption('changes');await page.getByLabel('规则文件名筛选').fill('纪要');await page.getByLabel('规则关键词筛选').fill('星桥');await page.getByRole('button',{name:'保存为暂停'}).click();assert.equal((await state()).workRules[0].revision,2);checks.push('编辑建立新版本并保留旧委托');
+  await page.getByRole('button',{name:'归档规则 星桥资料变化'}).click();await expect(page.getByRole('button',{name:'创建第一条规则'})).toBeVisible();await page.getByLabel('显示归档').check();await expect(page.getByRole('heading',{name:'星桥资料变化'})).toBeVisible();checks.push('归档保留历史且停止执行');
+  await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].setSize(1000,760));assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await page.getByRole('button',{name:'模型与设置',exact:true}).click();await expect(page.getByRole('heading',{name:'模型与设置',exact:true})).toBeVisible();assert.deepEqual(errors,[]);checks.push('1000px 窗口无横向溢出，底部设置入口可用，无渲染错误');
+  fs.writeFileSync(path.join(output,'desktop-results.json'),JSON.stringify({passed:true,checks,modelRequests:requests,rendererErrors:errors},null,2));console.log(JSON.stringify({passed:true,checks,modelRequests:requests}));
+})().catch(async e=>{console.error(e);if(app){const page=await app.firstWindow();await page.screenshot({path:path.join(output,'failure.png')});fs.writeFileSync(path.join(output,'failed-state.json'),JSON.stringify(await page.evaluate(async()=>(await window.assistant.call('state')).data),null,2));}process.exitCode=1;}).finally(async()=>{if(app)await app.close();await new Promise(r=>server.close(r));fs.rmSync(dir,{recursive:true,force:true});});

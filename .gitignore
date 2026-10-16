@@ -1,0 +1,17 @@
+node_modules/
+dist/
+release*/
+artifacts/
+.local-data/
+desktop/native/bin/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+coverage/
+playwright-report/
+test-results/
+.codex/
+.idea/
+.vscode/

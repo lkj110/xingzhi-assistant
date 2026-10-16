@@ -1,0 +1,26 @@
+import React,{useState,useRef} from 'react';
+import {Globe,Plus,RefreshCw,Pause,Play,Trash2} from 'lucide-react';
+import './web-connections.css';
+const when=t=>t?new Date(t).toLocaleString('zh-CN'):'尚未检查';
+const health={healthy:'读取正常',unchecked:'待检查',paused:'已暂停',error:'需要处理',excluded:'材料已撤回'};
+const blank=projectId=>({name:'',url:'',projectId,intervalMinutes:30,enabled:true});
+export default function WebConnections({data,act,perform,openProjects}){
+  const [form,setForm]=useState(()=>blank(data.projects.find(p=>!p.archivedAt)?.id||'')),[error,setError]=useState(''),[saving,setSaving]=useState(false),formRef=useRef(null);
+  const rows=data.webConnections||[],busy=!!data.operation||saving;
+  async function save(e){e.preventDefault();setSaving(true);setError('');try{await act('webConnectionSave',form,'网页订阅已保存');setForm(blank(form.projectId));}catch(e){setError(e.message);}finally{setSaving(false);}}
+  return <section className="settings-card web-connections"><header><div><h2><Globe size={19}/>公开网页订阅</h2><p>按间隔读取指定网页，内容变化后归入原项目，由原 Agent 继续推进。</p></div></header>
+    <details className="connection-help"><summary>读取范围与变化处理</summary><p>输入一个具体的公开网页地址，只读取该页及同站点的重定向页面。不会登录、点击链接或运行网页脚本；浏览器登录后的内容和需要脚本加载的页面可能无法读取。</p><p>检查网页不调用模型。正文或标题有变化时保存新版本，已有项目再按授权拆解与推进。读取失败、404 或网络中断会保留上次材料，不推断内容已删除。</p><p>自动检查遵守全局托管暂停和工作时间。项目暂停时仍可收集，但不会恢复项目执行；单次“检查此网页”可以在订阅暂停时手动使用。</p></details>
+    {!data.projects.length?<div className="connection-health"><span>先建立项目，再订阅它需要跟进的网页。</span><button className="button" onClick={openProjects}>前往项目</button></div>:<form className="connection-form web-connection-form" ref={formRef} onSubmit={save}>
+      <label>订阅名称<input required maxLength={100} aria-label="网页订阅名称" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="例如：产品发布公告"/></label>
+      <label>归属项目<select required aria-label="网页订阅归属项目" disabled={!!form.id} value={form.projectId} onChange={e=>setForm({...form,projectId:e.target.value})}><option value="">选择项目</option>{data.projects.map(p=><option value={p.id} key={p.id} disabled={!!p.archivedAt}>{p.name}{p.archivedAt?'（已归档）':''}</option>)}</select></label>
+      <label className="connection-wide">具体网页地址<input required type="url" maxLength={2048} aria-label="网页订阅地址" disabled={!!form.id} value={form.url} onChange={e=>setForm({...form,url:e.target.value})} placeholder="https://example.com/announcements"/></label>
+      <label>检查间隔<select aria-label="网页检查间隔" value={form.intervalMinutes} onChange={e=>setForm({...form,intervalMinutes:Number(e.target.value)})}>{[5,15,30,60,240,1440].map(n=><option key={n} value={n}>每 {n} 分钟</option>)}</select></label>
+      <label className="connection-check"><input type="checkbox" checked={form.enabled} onChange={e=>setForm({...form,enabled:e.target.checked})}/>保存后自动检查网页</label>
+      {error&&<p className="test-error connection-wide">{error}</p>}
+      <div className="connection-wide connection-buttons"><button className="button primary" disabled={busy}><Plus size={15}/>{form.id?'保存网页订阅':'添加网页订阅'}</button>{form.id&&<button type="button" className="button" disabled={busy} onClick={()=>{setForm(blank(form.projectId));setError('');}}>取消网页编辑</button>}</div>
+    </form>}
+    {!rows.length&&<p className="muted">还没有网页订阅。</p>}
+    {rows.map(c=><article className="web-connection" key={c.id}><div className="connection-title"><h3>{c.name}</h3><span className="connection-tag">{c.enabled?'自动检查':'已暂停'} · {health[c.health]||'待检查'}</span></div><p>{data.projects.find(p=>p.id===c.projectId)?.name||'项目不可用'} · 每 {c.intervalMinutes} 分钟</p><code>{c.url}</code>{c.resolvedUrl&&c.resolvedUrl!==c.url&&<small>最近跳转到：{c.resolvedUrl}</small>}<small>最近检查：{when(c.lastCheckedAt)} · 最近成功：{when(c.lastSuccessAt)} · 已导入 {c.imported||0} 份版本</small>{c.error&&<p className="test-error">{c.error}</p>}{c.health==='excluded'&&<p className="muted">此材料已从项目撤回，后续变化不会重新导入。在项目中明确重新关联后才会恢复。</p>}{!data.projects.find(p=>p.id===c.projectId)?.jobId&&<p className="muted">项目尚未建立委托。网页材料会先保存；建立委托后开始自动拆解。</p>}<div className="connection-buttons"><button className="button small" disabled={busy} onClick={()=>{setForm({...c});setError('');formRef.current?.scrollIntoView({block:'center'});}}>编辑网页订阅</button><button className="button small" disabled={busy} onClick={()=>perform('webConnectionSync',{id:c.id})}><RefreshCw size={13}/>检查此网页</button><button className="button small" disabled={busy} onClick={()=>perform('webConnectionToggle',{id:c.id,enabled:!c.enabled})}>{c.enabled?<Pause size={13}/>:<Play size={13}/>} {c.enabled?'暂停网页检查':'恢复网页检查'}</button><button className="icon-button" disabled={busy} aria-label={`移除网页订阅 ${c.name}`} onClick={()=>{if(window.confirm(`移除「${c.name}」网页订阅？已收集材料和历史会保留。`))perform('webConnectionDelete',{id:c.id});}}><Trash2 size={15}/></button></div></article>)}
+    {(data.webConnectionRuns||[]).length>0&&<details className="connection-help"><summary>最近网页检查</summary>{data.webConnectionRuns.slice(0,8).map(r=><div className="connection-run" key={r.id}><strong>{r.name||'网页订阅'}</strong><small>{when(r.startedAt)}</small><p>{{updated:'已归并新版本',unchanged:'没有变化',excluded:'材料已撤回，未重新导入',running:'正在读取',error:'需要处理',paused:'读取已停止',interrupted:'上轮检查中断'}[r.status]||r.status} · 新增 {r.added||0} 份</p>{r.error&&<p className="test-error">{r.error}</p>}</div>)}</details>}
+  </section>;
+}

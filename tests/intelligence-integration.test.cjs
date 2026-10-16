@@ -1,0 +1,32 @@
+const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),crypto=require('node:crypto');
+const {Assistant}=require('../desktop/core.cjs'),capture=require('../desktop/capture.cjs'),errors=require('../desktop/model-errors.cjs');
+async function setup(t){const dir=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-v18-integration-')));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));let calls=0;const a=new Assistant({dir,chat:async()=>{calls++;if(calls===1)throw errors.httpError(503);return {tasks:[],summary:'保留背景资料'};}});await a.dispatch('saveProvider',{inputPrice:0,outputPrice:0,name:'隔离模型',model:'fixture',baseUrl:'https://example.invalid/v1'});return {a,calls:()=>calls};}
+function quick(a){return require('../desktop/quick-capture.cjs').createController({assistant:a,BrowserWindow:function(){throw Error('No native window in this test');},globalShortcut:{isRegistered:()=>false,register:()=>false,unregister(){}},preload:__filename,indexFile:__filename});}
+const material=(requestId=crypto.randomUUID())=>({requestId,textItems:[{title:'重试背景材料',content:'仅存档的背景资料'}],organize:true,autoRetry:true});
+function due(a,row){row.autoRetry.nextRetryAt=new Date(Date.now()-1000).toISOString();a.save();}
+test('quick capture retry reaches health and the original receipt without repeating imported material',async t=>{
+ const {a,calls}=await setup(t),controller=quick(a),input=material();t.after(()=>controller.dispose());const accepted=await controller.submit(input);await a.runPromise;const row=a.data.captureQueue[0];assert.equal(row.status,'failed');assert.ok(row.autoRetry.nextRetryAt);assert.equal(calls(),1);
+ const view=controller.state({receiptId:accepted.receipt.id}).receipt;assert.equal(view.autoRetry.enabled,true);assert.equal(view.autoRetry.maxAttempts,3);assert.equal(view.autoRetry.revision,undefined);assert.equal(view.imported,true);
+ const health=await a.dispatch('healthSnapshot');assert.ok(health.findings.some(f=>f.code==='capture_retry'));assert.ok(!health.findings.some(f=>f.code==='capture_failed'));
+ const repeated=await controller.submit(input);assert.equal(repeated.receipt.id,accepted.receipt.id);assert.equal(repeated.reused,true);assert.equal(calls(),1);
+ due(a,row);a.tick();await a.runPromise;assert.equal(row.status,'completed');assert.equal(row.autoRetry.used,1);assert.equal(a.data.sources.length,1);assert.equal(a.data.captureQueue.length,1);assert.equal(calls(),2);assert.equal(a.data.modelCalls.length,2);
+});
+test('a quick capture request cannot silently change its original automatic retry consent',async t=>{
+ const {a,calls}=await setup(t);await a.dispatch('stewardshipPause');const controller=quick(a),input=material();t.after(()=>controller.dispose());const saved=await controller.submit(input);assert.equal(saved.receipt.status,'queued');await assert.rejects(controller.submit({...input,autoRetry:false}),/材料已变化/);assert.equal(a.data.captureQueue.length,1);assert.equal(a.data.captureQueue[0].autoRetry.enabled,true);assert.equal(calls(),0);
+});
+test('project archive previews and revokes queued retry consent and reopening does not restore it',async t=>{
+ const {a,calls}=await setup(t);await a.dispatch('projectSave',{name:'项目归档'});const id=a.data.projects[0].id;await a.dispatch('stewardshipPause');await a.dispatch('captureEnqueue',{projectId:id,textItems:[{title:'项目材料',content:'等待导入'}],autoRetry:true,organize:false});const row=a.data.captureQueue[0];
+ const preview=await a.dispatch('projectLifecyclePreview',{id});assert.equal(preview.groups.find(g=>g.key==='capture').count,1);await a.dispatch('projectLifecycleArchive',{id,revision:preview.revision});assert.equal(row.autoRetry.enabled,false);assert.equal(row.autoRetry.nextRetryAt,null);assert.equal(row.status,'failed');
+ await a.dispatch('projectLifecycleReopen',{id,revision:(await a.dispatch('projectLifecyclePreview',{id})).revision});await a.dispatch('stewardshipResume');a.tick();await a.runPromise;assert.equal(row.status,'failed');assert.equal(a.data.sources.length,0);assert.equal(calls(),0);
+});
+test('restoring an older backup retains the latest RSS filter while revoking pending collection retries',async t=>{
+ const {a,calls}=await setup(t);await a.dispatch('projectSave',{name:'订阅项目'});const projectId=a.data.projects[0].id;await a.dispatch('feedConnectionSave',{name:'筛选订阅',projectId,url:'https://example.com/feed.xml',intervalMinutes:15,filter:{include:['甲'],exclude:[],scope:'title',match:'any'}});const c=a.data.feedConnections[0],backup=(await a.dispatch('backupCreate'))[0].id;
+ await a.dispatch('feedConnectionSave',{...c,filter:{include:['乙'],exclude:['招聘'],scope:'body',match:'all'}});await a.dispatch('captureEnqueue',material());await a.runPromise;assert.equal(a.data.captureQueue[0].status,'failed');assert.ok(a.data.captureQueue[0].autoRetry.nextRetryAt);
+ await a.dispatch('backupRestore',{id:backup});assert.deepEqual(a.data.feedConnections[0].filter,{include:['乙'],exclude:['招聘'],scope:'body',match:'all'});assert.equal(a.data.feedConnections[0].enabled,false);assert.equal(a.data.captureQueue[0].autoRetry.enabled,false);assert.equal(a.data.captureQueue[0].autoRetry.nextRetryAt,null);assert.equal(a.data.sources.length,1);assert.equal(calls(),1);
+});
+test('RSS filtered candidates do not wake an existing feed-wide wait or create material',async t=>{
+ const {a,calls}=await setup(t);await a.dispatch('projectSave',{name:'只接收发布公告'});const p=a.data.projects[0];await a.dispatch('feedConnectionSave',{name:'发布订阅',projectId:p.id,url:'https://example.com/feed.xml',intervalMinutes:15,filter:{include:['发布'],exclude:['招聘'],scope:'title',match:'any'}});const c=a.data.feedConnections[0];
+ const job=require('../desktop/agent.cjs').buildJob(a,{projectId:p.id,goal:'等待正式发布'});a.data.delegations.push(job);p.jobId=job.id;require('../desktop/agent-followup.cjs').wait(a,job,{key:'release',reason:'等待发布信息',expected:'正式版本发布',feedConnectionIds:[c.id]});a.save();const before=structuredClone(job.followups);
+ a.feedRequest=async url=>({status:200,url,headers:{'content-type':'application/rss+xml'},body:'<rss version="2.0"><channel><item><guid>1</guid><title>发布团队招聘</title><description>招聘内容</description></item></channel></rss>'});await a.dispatch('feedConnectionSync',{id:c.id});await a.runPromise;
+ assert.equal(a.data.sources.length,0);assert.equal(job.status,'watching');assert.deepEqual(job.followups,before);assert.equal(a.data.feedConnectionRuns[0].filtered,1);assert.equal(calls(),0);
+});

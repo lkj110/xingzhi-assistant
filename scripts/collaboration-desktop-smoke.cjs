@@ -1,0 +1,28 @@
+const {electron}=require('./desktop-test-support.cjs');
+const {navigate}=require('./navigation-helper.cjs');
+const {expect}=require('playwright/test'),assert=require('node:assert/strict');
+const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
+const root=path.resolve(__dirname,'..'),out=path.join(root,'artifacts/collaboration');fs.mkdirSync(out,{recursive:true});
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-collab-ui-')),checks=[],errors=[];let app;
+(async()=>{try{
+  app=await electron.launch({timeout:20000,args:['scripts/collaboration-fixture.cjs'],cwd:root,env:{...process.env,ASSISTANT_TEST_DATA_DIR:dir}});const page=await app.firstWindow();page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message));
+  const api=(action,input={})=>page.evaluate(async({action,input})=>{const r=await window.assistant.call(action,input);if(r.error)throw new Error(r.error);return r.data;},{action,input});
+  await navigate(page,'待我决策');await page.getByRole('heading',{name:'3 个节点需要你判断'}).waitFor();
+  await page.screenshot({path:path.join(out,'decisions-desktop.png'),animations:'disabled'});
+  await page.getByRole('radio',{name:/自行填写/}).check();await page.getByLabel('回答：发布预算采用哪个版本？').fill('采用最近确认的 4500 元，并保留旧版记录。');await expect(page.getByLabel('回答：发布预算采用哪个版本？')).toHaveValue('采用最近确认的 4500 元，并保留旧版记录。');
+  const beforeUpdate=await api('state'),budget=beforeUpdate.delegations.find(j=>j.goal==='发布预算'),oldDecision=beforeUpdate.decisionCards.find(d=>d.question==='发布预算采用哪个版本？');await api('agentPause',{id:budget.id});
+  await api('import',{items:[{title:'预算更新依据',content:'预算已复核为 4500 元，仍需用户选择是否采用。',projectId:budget.projectId}]});await page.getByRole('button',{name:'刷新工作空间'}).click();
+  await expect(page.getByLabel('回答：发布预算采用哪个版本？')).toHaveValue('采用最近确认的 4500 元，并保留旧版记录。');await expect(page.getByLabel('决定依据已更新')).toBeVisible();await expect(page.getByRole('button',{name:'保存决定',exact:true})).toBeDisabled();
+  await assert.rejects(api('decisionAnswer',{id:oldDecision.id,revision:oldDecision.revision,answer:'旧依据上的回答'}),/已变化/);await page.getByText('查看当前材料',{exact:true}).click();await page.getByRole('button',{name:'预算更新依据 · 第 1 版',exact:true}).click();await expect(page.locator('.decision-card pre')).toContainText('预算已复核为 4500 元');await page.getByRole('button',{name:'已核对最新依据，保留草稿',exact:true}).click();await page.getByRole('button',{name:'保存决定',exact:true}).click();
+  checks.push('来源更新后回答草稿保留，旧版本提交拒绝，查看最新材料并明确核对后提交');
+  await expect.poll(async()=>(await api('state')).decisions.find(d=>d.question.includes('预算')).status).toBe('answered');assert.equal((await api('state')).delegations.find(j=>j.id===budget.id).status,'paused');checks.push('采用建议、保存决定、关联事项更新，暂停状态保持');
+  const timeoutBefore=await api('state'),timeoutCard=timeoutBefore.decisionCards.find(d=>d.kind==='timeout'),timeoutJob=timeoutBefore.delegations.find(j=>j.id===timeoutCard.jobId);await page.getByLabel('超时调整说明').fill('保留已确认的结论，再等一天');await page.getByLabel('延长等待至').fill('2030-01-01T10:30');
+  await api('import',{items:[{title:'审核补充材料',content:'待核对新的审核附件。',projectId:timeoutJob.projectId}]});await page.getByRole('button',{name:'刷新工作空间'}).click();await expect(page.getByLabel('超时调整说明')).toHaveValue('保留已确认的结论，再等一天');await expect(page.getByLabel('延长等待至')).toHaveValue('2030-01-01T10:30');await expect(page.getByRole('button',{name:'延长等待',exact:true})).toBeDisabled();await assert.rejects(api('decisionTimeout',{id:timeoutCard.id,revision:timeoutCard.revision,choice:'extend',deadlineAt:'2030-01-01T02:30:00.000Z'}),/已变化/);await page.getByRole('button',{name:'已核对最新依据，保留草稿',exact:true}).click();
+  await page.getByRole('button',{name:'延长等待',exact:true}).click();await expect.poll(async()=>(await api('state')).decisions.find(d=>d.kind==='timeout').status).toBe('answered');checks.push('超时卡延长等待后消失，委托恢复跟进');
+  await page.getByLabel('待发送正文').fill('请确认本周六发布，谢谢。');await expect(page.getByRole('button',{name:'批准此消息并继续',exact:true})).toBeDisabled();await page.getByRole('button',{name:'保存消息修改',exact:true}).click();await expect(page.getByRole('button',{name:'批准此消息并继续',exact:true})).toBeEnabled();
+  await page.getByRole('button',{name:'批准此消息并继续',exact:true}).click();const send=(await api('state')).delegations.find(j=>j.goal==='确认发布日期');await api('agentRun',{id:send.id});await expect.poll(async()=>(await api('state')).agentActions[0].status).toBe('done');assert.equal((await api('state')).agentActions[0].content,'请确认本周六发布，谢谢。');checks.push('消息编辑使旧批准失效，新批准经实际 IPC 执行并回读');
+  await navigate(page,'信息连接');await page.getByText('确认与催办授权 · 逐次确认',{exact:true}).click();await page.getByLabel('发送方式 确认发布日期会话').selectOption('auto');await page.getByLabel('自动发送文案 确认发布日期会话').fill('请确认最终发布日期。');await page.getByRole('button',{name:'保存发送授权',exact:true}).click();
+  await expect.poll(async()=>(await api('state')).connectors.find(c=>c.name==='确认发布日期会话').sendPolicy.mode).toBe('auto');await page.screenshot({path:path.join(out,'send-policy-desktop.png'),animations:'disabled'});checks.push('会话自动文案、有效期、间隔及总次数配置持久化');
+  await navigate(page,'待我决策');await page.getByLabel('搜索决定').fill('不存在');await page.getByText('当前筛选下没有待处理事项。',{exact:true}).waitFor();await page.getByLabel('搜索决定').fill('');await page.getByText('已处理的决定',{exact:true}).waitFor();checks.push('搜索、空状态与历史决定可查看');
+  assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'desktop-results.json'),JSON.stringify({passed:true,checks,rendererErrors:errors},null,2));console.log(JSON.stringify({passed:true,checks}));
+}finally{if(app)await app.close();fs.rmSync(dir,{recursive:true,force:true});}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,15 @@
+.section-navigation{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:0 0 16px;margin:0 0 24px;border-bottom:1px solid var(--line)}
+.section-navigation button{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:8px 14px;border:1px solid transparent;border-radius:7px;background:transparent;color:#66796d;font-size:12px;white-space:nowrap}
+.section-navigation button:hover{background:#f0f4ed;color:#315e4b}
+.section-navigation button.active{background:#e9f0e5;border-color:#dbe5d5;color:#315e4b;font-weight:600}
+.section-navigation button span{font-size:10px;color:#5b7565;background:#dce7d5;border-radius:4px;min-width:18px;padding:1px 5px;text-align:center}
+.section-navigation button:focus-visible,.sidebar nav button:focus-visible{outline:2px solid #3e765b;outline-offset:2px}
+.sidebar .workspace-label{margin-bottom:24px}
+.sidebar .sidebar-navigation nav{gap:6px}
+.sidebar .sidebar-navigation nav button{height:44px;font-size:13px}
+.sidebar .navigation-utilities{margin:0 0 14px}
+.sidebar .navigation-utilities nav{margin:0}
+.sidebar .assistant-status small{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.breadcrumb .breadcrumb-section{color:#708076}
+@media(max-width:950px){.sidebar .sidebar-navigation nav button{font-size:12px}.section-navigation{gap:4px;margin-bottom:20px}.section-navigation button{padding:8px 10px}}
+@media(max-height:720px){.sidebar .window-drag{height:36px}.sidebar .brand{padding-bottom:16px}.sidebar .workspace-label{margin-bottom:16px}.sidebar .local-note{display:none}.sidebar .assistant-status{padding-block:12px}.sidebar .navigation-utilities{margin-bottom:8px}}

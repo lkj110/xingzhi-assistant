@@ -1,0 +1,22 @@
+const {electron}=require('./desktop-test-support.cjs');
+const {navigate}=require('./navigation-helper.cjs');
+const {expect}=require('playwright/test');const assert=require('node:assert/strict');
+const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
+const root=path.resolve(__dirname,'..'),out=path.join(root,'artifacts/connected');fs.mkdirSync(out,{recursive:true});
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-connected-ui-'));fs.writeFileSync(path.join(dir,'fixture-doc.md'),'发布时间：周五\n\n预算：3800');let app;const checks=[],errors=[];
+(async()=>{try{
+  app=await electron.launch({timeout:20000,args:['scripts/connected-fixture.cjs'],cwd:root,env:{...process.env,ASSISTANT_TEST_DATA_DIR:dir}});const page=await app.firstWindow({timeout:20000});page.setDefaultTimeout(20000);page.on('pageerror',e=>errors.push(e.message));
+  const api=(action,input={})=>page.evaluate(async({action,input})=>{const r=await window.assistant.call(action,input);if(r.error)throw new Error(r.error);return r.data;},{action,input});
+  await api('projectSave',{name:'自动收集项目',background:'根据新材料更新计划'});await page.getByRole('button',{name:'刷新工作空间'}).click();
+  await navigate(page,'信息连接');await page.getByRole('button',{name:'检测飞书连接',exact:true}).click();await page.getByText('飞书用户身份可用；具体来源权限将在同步时检查',{exact:true}).waitFor();
+  await page.getByLabel('连接名称',{exact:true}).fill('发布纪要');await page.getByLabel('连接来源地址').fill('https://test.feishu.cn/docx/Meeting');await page.getByLabel('保存后自动同步').uncheck();await page.getByRole('button',{name:'添加信息连接',exact:true}).click();await page.getByRole('button',{name:'立即同步／重试',exact:true}).click();
+  await expect.poll(async()=>(await api('state')).sources.length).toBe(1);await page.getByRole('button',{name:'立即同步／重试',exact:true}).click();await expect.poll(async()=>(await api('state')).connectorRuns[0]?.status).toBe('unchanged');assert.equal((await api('state')).sources.length,1);checks.push('信息入口配置、连接检测、实际 IPC 同步和重复去重');
+  fs.writeFileSync(path.join(dir,'fixture-doc.md'),'发布时间：下周一\n\n预算：3500');await page.getByRole('button',{name:'立即同步／重试',exact:true}).click();await expect.poll(async()=>(await api('state')).sources[0]?.version).toBe(2);await page.getByRole('button',{name:'恢复同步',exact:true}).click();await page.getByRole('button',{name:'暂停同步',exact:true}).click();assert.equal((await api('state')).connectors[0].enabled,false);checks.push('新版本归并、启停入口及断点保留');
+  await page.getByRole('button',{name:'编辑连接',exact:true}).click();await page.getByLabel('连接同步间隔').selectOption('30');await page.getByRole('button',{name:'保存连接设置',exact:true}).click();await expect.poll(async()=>(await api('state')).connectors[0].intervalMinutes).toBe(30);checks.push('编辑同步间隔保持原连接和断点');
+  await page.locator('.page-heading').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'connections-desktop.png'),animations:'disabled'});
+  await navigate(page,'运行与恢复');await page.getByRole('button',{name:'立即备份',exact:true}).click();await expect.poll(async()=>(await api('backupList')).length).toBe(2);await page.getByRole('button',{name:'预览恢复',exact:true}).first().click();await page.getByRole('button',{name:'恢复这份备份并暂停自动工作',exact:true}).waitFor();await page.getByRole('button',{name:'取消',exact:true}).click();
+  await page.getByLabel('规划时使用项目摘要，按需读取完整来源和文稿').uncheck();assert.equal((await api('state')).settings.compactContext,false);await page.getByLabel('规划时使用项目摘要，按需读取完整来源和文稿').check();
+  await page.getByRole('button',{name:'预览恢复',exact:true}).first().click();await page.getByRole('button',{name:'恢复这份备份并暂停自动工作',exact:true}).click();await expect.poll(async()=>(await api('state')).runtime?.recoveryAt).toBeTruthy();assert.equal((await api('state')).settings.automatic,false);checks.push('备份预览、取消、确认恢复和自动工作暂停');
+  const startup=await api('runtimeStatus');assert.equal(startup.loginSupported,false);checks.push('开发运行不更改系统登录启动设置');
+  await page.locator('.page-heading').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'runtime-desktop.png'),animations:'disabled'});assert.deepEqual(errors,[]);fs.writeFileSync(path.join(out,'desktop-results.json'),JSON.stringify({passed:true,checks,rendererErrors:errors},null,2));console.log(JSON.stringify({passed:true,checks}));
+}finally{if(app)await app.close();fs.rmSync(dir,{recursive:true,force:true});}})().catch(e=>{console.error(e);process.exitCode=1;});

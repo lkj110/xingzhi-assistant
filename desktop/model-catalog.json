@@ -1,0 +1,36 @@
+{
+  "protocols": [
+    {"id":"codex","label":"ChatGPT 订阅（Codex CLI）","baseUrl":"","hint":"复用本机 Codex 登录与订阅额度。"},
+    {"id":"openai","label":"OpenAI 兼容 · Chat Completions","baseUrl":"https://api.openai.com/v1","hint":"适用于 DeepSeek、Kimi、千问、GLM、豆包、聚合平台和自建服务。填写服务商提供的完整 Base URL。"},
+    {"id":"responses","label":"OpenAI / 兼容 · Responses","baseUrl":"https://api.openai.com/v1","hint":"支持 /responses；也可填写 Azure /openai/v1 或兼容网关地址。"},
+    {"id":"anthropic","label":"Claude / 兼容 · Messages","baseUrl":"https://api.anthropic.com/v1","hint":"支持 Claude 与 Anthropic 兼容服务。地址一般以 /v1 结尾。JSON 通过提示词请求，返回后仍会校验。"},
+    {"id":"gemini","label":"Google Gemini · 原生接口","baseUrl":"https://generativelanguage.googleapis.com/v1beta","hint":"使用 generateContent 接口，密钥放在请求头中。模型名可带 models/ 前缀。"},
+    {"id":"azure","label":"Azure OpenAI","baseUrl":"","hint":"推荐 https://你的资源.openai.azure.com/openai/v1，模型名称填写部署名。旧版资源根地址还需要 API 版本。"},
+    {"id":"ollama","label":"Ollama · 本地 / 远程服务","baseUrl":"http://localhost:11434","hint":"先在 Ollama 中下载并运行模型，再读取列表或填写实际模型名。远程收费服务请填写自己的单价。"}
+  ],
+  "presets": [
+    {"id":"codex","name":"ChatGPT 订阅","group":"订阅","type":"codex","baseUrl":""},
+    {"id":"deepseek","name":"DeepSeek","group":"国内模型","type":"openai","baseUrl":"https://api.deepseek.com/v1","hint":"可填写账号可用的 DeepSeek 对话或推理模型 ID；无需固定模型白名单。","docs":"https://api-docs.deepseek.com/"},
+    {"id":"kimi","name":"Kimi / Moonshot（国内）","group":"国内模型","type":"openai","baseUrl":"https://api.moonshot.cn/v1","jsonMode":false,"hint":"填写 Kimi / Moonshot 模型 ID；默认用提示词约束 JSON，可按具体模型开启原生 JSON。推理参数按模型文档填写。","docs":"https://platform.moonshot.cn/docs/intro"},
+    {"id":"kimi-global","name":"Kimi / Moonshot（国际）","group":"国内模型","type":"openai","baseUrl":"https://api.moonshot.ai/v1","jsonMode":false,"hint":"国际平台密钥与国内平台分别配置。","docs":"https://platform.moonshot.ai/docs/intro"},
+    {"id":"qwen","name":"通义千问 / 阿里云百炼（北京）","group":"国内模型","type":"openai","baseUrl":"https://dashscope.aliyuncs.com/compatible-mode/v1","jsonMode":false,"hint":"不同地域、工作空间、Coding Plan 的地址和密钥可能不同，请以控制台为准；可直接修改此地址。","docs":"https://help.aliyun.com/zh/model-studio/compatibility-of-openai-with-dashscope"},
+    {"id":"doubao","name":"豆包 / 火山方舟","group":"国内模型","type":"openai","baseUrl":"https://ark.cn-beijing.volces.com/api/v3","jsonMode":false,"hint":"模型名填写控制台中的模型 ID 或推理接入点 ID；Coding Plan 需使用对应专用地址。","docs":"https://docs.volcengine.com/docs/ark/base-url-and-authentication?lang=zh"},
+    {"id":"glm","name":"智谱 GLM / BigModel","group":"国内模型","type":"openai","baseUrl":"https://open.bigmodel.cn/api/paas/v4","jsonMode":false,"hint":"普通 API 与 Coding Plan 地址可能不同，按账号实际服务地址配置。","docs":"https://docs.bigmodel.cn/cn/guide/develop/openai/introduction"},
+    {"id":"minimax","name":"MiniMax（国内）","group":"国内模型","type":"anthropic","authMode":"bearer","baseUrl":"https://api.minimaxi.com/anthropic/v1","hint":"通过 Anthropic 兼容接口接入 MiniMax 文本模型；填写该平台实际开放的模型 ID。","docs":"https://platform.minimaxi.com/docs/api-reference/text-anthropic-api"},
+    {"id":"minimax-global","name":"MiniMax（国际）","group":"国内模型","type":"anthropic","authMode":"bearer","baseUrl":"https://api.minimax.io/anthropic/v1","docs":"https://platform.minimax.io/docs/api-reference/text-anthropic-api"},
+    {"id":"openai","name":"OpenAI · Responses","group":"国际模型","type":"responses","baseUrl":"https://api.openai.com/v1","docs":"https://developers.openai.com/api/docs/guides/text"},
+    {"id":"openai-chat","name":"OpenAI · Chat Completions","group":"国际模型","type":"openai","baseUrl":"https://api.openai.com/v1","tokenParameter":"max_completion_tokens","docs":"https://developers.openai.com/api/docs/guides/text"},
+    {"id":"claude","name":"Anthropic Claude","group":"国际模型","type":"anthropic","baseUrl":"https://api.anthropic.com/v1","docs":"https://platform.claude.com/docs/en/api/overview"},
+    {"id":"gemini","name":"Google Gemini","group":"国际模型","type":"gemini","baseUrl":"https://generativelanguage.googleapis.com/v1beta","docs":"https://ai.google.dev/api/generate-content"},
+    {"id":"azure","name":"Azure OpenAI","group":"国际模型","type":"azure","baseUrl":"","hint":"填写你的 Azure 资源地址及部署名。","docs":"https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/switching-endpoints"},
+    {"id":"grok","name":"xAI / Grok","group":"国际模型","type":"responses","baseUrl":"https://api.x.ai/v1","jsonMode":false,"docs":"https://docs.x.ai/developers/rest-api-reference/inference/responses"},
+    {"id":"mistral","name":"Mistral","group":"国际模型","type":"openai","baseUrl":"https://api.mistral.ai/v1","jsonMode":false,"docs":"https://docs.mistral.ai/api/endpoint/chat"},
+    {"id":"siliconflow","name":"硅基流动 · 开源模型","group":"聚合平台","type":"openai","baseUrl":"https://api.siliconflow.cn/v1","jsonMode":false,"hint":"可接入该平台提供的 DeepSeek、Qwen、GLM 等模型；填写完整模型 ID（含组织前缀）。","docs":"https://docs.siliconflow.cn/docs/userguide/quickstart"},
+    {"id":"openrouter","name":"OpenRouter","group":"聚合平台","type":"openai","baseUrl":"https://openrouter.ai/api/v1","jsonMode":false,"hint":"读取平台模型列表，或填写完整的 provider/model ID。列表可能包含非文本模型，请选择文本对话模型。","docs":"https://openrouter.ai/docs/quickstart"},
+    {"id":"groq","name":"Groq · 开源模型","group":"聚合平台","type":"openai","baseUrl":"https://api.groq.com/openai/v1","jsonMode":false,"docs":"https://console.groq.com/docs/openai"},
+    {"id":"together","name":"Together AI · 开源模型","group":"聚合平台","type":"openai","baseUrl":"https://api.together.ai/v1","jsonMode":false,"docs":"https://docs.together.ai/docs/inference/openai-compatibility"},
+    {"id":"ollama","name":"Ollama · 本地开源模型","group":"本地与自建","type":"ollama","baseUrl":"http://localhost:11434","hint":"接入本机已下载的 DeepSeek、Qwen、Llama、Gemma 等模型；以本机实际列表为准。","docs":"https://docs.ollama.com/api/chat"},
+    {"id":"lmstudio","name":"LM Studio · 本地开源模型","group":"本地与自建","type":"openai","baseUrl":"http://localhost:1234/v1","jsonMode":false,"inputPrice":0,"outputPrice":0,"hint":"先在 LM Studio 中加载模型并启动本地服务。默认模型费用为 0，不含设备和电费。","docs":"https://lmstudio.ai/docs/developer/openai-compat"},
+    {"id":"vllm","name":"vLLM / SGLang / llama.cpp","group":"本地与自建","type":"openai","baseUrl":"http://localhost:8000/v1","jsonMode":false,"hint":"填写你部署的服务地址、端口及 served model name。支持可返回文本的兼容接口，模型权重由外部服务管理。","docs":"https://docs.vllm.ai/en/stable/serving/openai_compatible_server/"}
+  ]
+}

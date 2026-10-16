@@ -1,0 +1,14 @@
+// Validate persisted evidence with final source; no new model or network request.
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const dir=path.resolve(__dirname,'../artifacts/flow/subscription-final'),read=name=>JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'));
+const data=read('pre-restore-state.json'),a={data},report=read('report.json'),checks=[];
+assert.equal(report.passed,true);assert.equal(report.actualUserWorkspaceTouched,false);
+const job=data.delegations.find(j=>j.status==='completed'),task=data.tasks.find(t=>t.agentJobId===job.id);
+assert.equal(task.status,'completed');assert.deepEqual(require('../desktop/acceptance.cjs').reasons(a,task,{completed:true}),[]);checks.push('最终源码认可真实模型完成任务的有效验收依据');
+assert.ok(require('../desktop/attention.cjs').snapshot(a).items.some(r=>r.id===`completion:job:${job.id}`));assert.ok(require('../desktop/workmap.cjs').snapshot(a,{projectId:job.projectId}).items.some(r=>r.taskId===task.id&&r.validCompletion));checks.push('完成委托进入关注中心及项目工作地图');
+const brief=require('../desktop/briefing.cjs').snapshot(a,{projectId:job.projectId,range:'24h'});assert.equal(brief.counts.completions,1);assert.equal(brief.counts.deliveries,1);assert.deepEqual(read('qinghe-result.json'),{project:'青禾',date:'2026-10-22',budget:7200,owner:'林悦'});checks.push('真实成果四字段正确，简报记录一份完成和交付');
+const pdf=data.sources.find(s=>s.title==='青禾混合资料.pdf');assert.deepEqual([...new Set(pdf.segments.map(s=>s.page))],[1,2,4]);assert.equal(pdf.segments[0].localOCR,undefined);assert.ok(pdf.segments.filter(s=>s.page!==1).every(s=>s.localOCR));assert.ok(job.sourceIds.includes(pdf.id));assert.equal(job.watchers.length,0);checks.push('扫描PDF保留原页码与本机识别标记，并进入唯一项目委托');
+assert.equal(data.projectSetupReceipts.length,1);assert.ok(data.workRules.some(r=>r.config.trigger==='project_changes'&&r.config.projectId===job.projectId));assert.ok(data.delegations.some(j=>j.goal==='手动暂停对照委托'&&j.status==='paused'));assert.equal(data.modelCalls.length,report.actualCalls);checks.push('向导单份回执、规则关联及模型计量一致，手动暂停保留');
+const archived=read('archived-state.json'),bundle=require('../desktop/delivery-bundle.cjs').snapshot({data:archived},{projectId:job.projectId});assert.equal(bundle.counts.accepted,1);assert.equal(bundle.archived,true);checks.push('归档后已验收成果仍可导出');
+const final=read('evidence.json');assert.equal(final.stewardship.paused,true);assert.ok(final.projects.find(p=>p.id===job.projectId).archivedAt);assert.equal(final.projectSetupReceipts[0].requestId,data.projectSetupReceipts[0].requestId);assert.ok(final.feedConnections.every(c=>!c.enabled));assert.ok(final.webConnections.every(c=>!c.enabled));checks.push('恢复后保留归档与原创建回执，自动入口保持暂停');
+const result={passed:true,modelCalls:0,networkRequests:0,checks,at:new Date().toISOString()};fs.writeFileSync(path.join(dir,'final-code-evidence-check.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result));

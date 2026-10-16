@@ -1,0 +1,28 @@
+// Real subscription model with fixture webpage transport and isolated local files.
+const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict');
+const {Assistant,modelChat}=require('../desktop/core.cjs'),subscription=require('../desktop/subscription.cjs'),capture=require('../desktop/capture.cjs');
+const out=path.resolve(process.argv[2]||'artifacts/reliable/subscription-first');if(fs.existsSync(path.join(out,'report.json')))throw new Error('Choose a fresh report directory');fs.mkdirSync(out,{recursive:true});
+const dir=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-v11-live-'))),delivery=path.join(dir,'delivery');fs.mkdirSync(delivery);
+const report={startedAt:new Date().toISOString(),status:'running',checks:[],actualCalls:0,stages:[],externalMessages:0,realGithubWrites:0,webTransport:'fixture'};const save=()=>fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2));let a;
+const timeout=setTimeout(()=>a?.stop(),15*60*1000);
+(async()=>{try{
+ const provider=await subscription.status();assert.equal(provider.loggedIn,true);Object.assign(report,{model:provider.model,reasoning:provider.reasoning});save();
+ let body='<title>青禾发布公告</title><p>原计划发布日期：2026-10-12。</p>';
+ a=new Assistant({dir:path.join(dir,'workspace'),chat:async(p,k,m,o)=>{report.actualCalls++;report.stages.push(o.stage);save();return modelChat(p,k,m,o);},webRequest:async url=>({status:200,headers:{'content-type':'text/html; charset=utf-8'},body,url}),agentRequest:async()=>{throw new Error('此测试仅允许使用已收集材料');}});
+ await a.dispatch('saveProvider',{name:'当前订阅',type:'codex',model:provider.model,reasoning:provider.reasoning});await a.dispatch('stewardshipSettings',{dailyCallLimit:24});a.data.agentSettings.outputFolder=delivery;
+ await a.dispatch('projectSave',{name:'青禾连续收集验证'});const p=a.data.projects[0];
+ await a.dispatch('webConnectionSave',{name:'发布公告',url:'https://example.com/release',projectId:p.id,intervalMinutes:30,enabled:false});const c=a.data.webConnections[0];
+ await a.dispatch('webConnectionSync',{id:c.id});await a.runPromise;const first=a.data.sources[0];const backup=(await a.dispatch('backupCreate'))[0].id;
+ body='<title>青禾发布公告</title><p>已确认将发布日期变更为2026-10-20，原10月12日计划已作废。项目简称为青禾。</p>';await a.dispatch('webConnectionSync',{id:c.id});await a.runPromise;assert.equal(a.data.sources[0].previousSourceId,first.id);
+ let release;a.launch('已有工作占用时收集',()=>new Promise(resolve=>{release=resolve;}));
+ await a.dispatch('captureEnqueue',{projectId:p.id,organize:true,textItems:[{title:'补充确认',content:'青禾项目负责人为陈明，已确认预算5200元。最终只需要四字段 JSON：project 字符串为青禾，date 字符串使用公告的最新日期，budget 数字为5200，owner 字符串为陈明。按已确认事实执行，不需要再询问。'}]});const receipt=a.data.captureQueue.at(-1);assert.equal(receipt.status,'queued');assert.equal(a.data.sources.length,2);release();await a.runPromise;assert.equal(capture.tick(a),true);await a.runPromise;assert.equal(receipt.status,'completed');assert.equal(receipt.sourceIds.length,1);assert.equal(report.actualCalls,0);
+ report.checks.push('网页变更保存新版本，零模型调用','已有操作运行时接收材料，空闲后实际导入并保留队列回执');save();
+ await a.dispatch('agentCreate',{projectId:p.id,goal:'使用当前项目已确认材料，建立一个事项，在授权产出目录实际交付 qinghe-tracker.json。JSON 四个字段为 project、date、budget、owner，值以最新有效材料为准；不得沿用已作废发布日期。一个正文步骤和一个实际写入步骤即可。文件系统的自动历史副本是保存机制，不是额外业务交付。无需联网、联系他人或再次确认。',allowWeb:false,folderIds:[],useOutputFolder:true,fileMode:'auto',useGithub:false,maxCalls:24,maxActions:12,autoAccept:true});await a.runPromise;
+ const j=a.data.delegations.find(j=>j.id===p.jobId);for(let n=0;n<4&&['ready','retry'].includes(j.status);n++){await a.dispatch('agentRun',{id:j.id});await a.runPromise;}
+ assert.equal(j.status,'completed',`${j.status}: ${j.lastError||j.summary}`);assert.equal(j.taskIds.length,1);const record=a.data.agentActions.findLast(r=>r.jobId===j.id&&r.status==='done'&&r.tool==='write_file'&&r.latestName==='qinghe-tracker.json');assert.ok(record);const output=fs.readFileSync(record.result.latestPath,'utf8');assert.deepEqual(JSON.parse(output),{project:'青禾',date:'2026-10-20',budget:5200,owner:'陈明'});assert.equal(record.result.verified,true);assert.equal(a.task(record.taskId).verification.passed,true);assert.equal(fs.readFileSync(record.result.path,'utf8'),output);fs.writeFileSync(path.join(out,'qinghe-tracker.json'),output);
+ report.checks.push('真实订阅使用网页最新版与队列补充内容自主形成事项','JSON 实际写入与回读，日期、数字预算、负责人准确，事项与整体验收通过');
+ const calls=report.actualCalls,health=await a.dispatch('healthExport',{format:'json'});assert.equal(report.actualCalls,calls);assert.ok(!health.content.includes(dir));assert.ok(!health.content.includes('陈明'));fs.writeFileSync(path.join(out,'health.json'),health.content);report.checks.push('工作体检零调用导出，不含原文和本地路径');
+ await a.dispatch('webConnectionDelete',{id:c.id});await a.dispatch('backupRestore',{id:backup});assert.equal(a.data.webConnections.length,0);assert.equal(a.data.captureQueue.find(r=>r.id===receipt.id).status,'completed');assert.equal(a.data.sources.find(s=>s.id===receipt.sourceIds[0]).state,'processed');assert.equal(a.data.stewardship.paused,true);report.checks.push('恢复旧备份保留已完成队列与后续材料，不恢复撤销的网页授权');
+ Object.assign(report,{passed:true,status:'completed',tasks:1,usage:j.usage,files:['qinghe-tracker.json']});
+}catch(error){Object.assign(report,{passed:false,status:'failed',error:error.stack||error.message});process.exitCode=1;}
+finally{clearTimeout(timeout);if(a)fs.writeFileSync(path.join(out,'evidence.json'),JSON.stringify(a.publicState(),null,2));report.finishedAt=new Date().toISOString();report.durationMs=Date.parse(report.finishedAt)-Date.parse(report.startedAt);save();console.log(JSON.stringify(report));a?.stop();await a?.runPromise;fs.rmSync(dir,{recursive:true,force:true});}})();

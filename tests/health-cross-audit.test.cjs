@@ -1,0 +1,18 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+const {Assistant}=require('../desktop/core.cjs');
+const health=require('../desktop/health.cjs');
+function setup(t){const dir=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'health-cross-')));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));const a=new Assistant({dir,chat:async()=>{throw new Error('no model');},webRequest:async()=>{throw new Error('no fetch');}});a.data.projects=[{id:'p',name:'本项目'},{id:'q',name:'其他项目'}];return a;}
+test('Independent health audit: an unrelated active operation cannot hide a stranded external action',t=>{
+  const a=setup(t);a.data.delegations=[{id:'old',projectId:'p',title:'旧委托',status:'ready',sourceIds:[],taskIds:[],pendingActionId:'stranded'},{id:'current',projectId:'q',title:'当前委托',status:'running',sourceIds:[],taskIds:[]}];a.data.agentActions=[{id:'stranded',jobId:'old',status:'running'}];a.operation={label:'正在收集网页'};a.activeAgentJob=a.data.delegations[1];const row=health.snapshot(a,{projectId:'p'}).findings.find(f=>f.code==='external_uncertain');assert.ok(row);assert.equal(row.route.jobId,'old');assert.equal(row.route.actionId,'stranded');
+});
+test('Independent health audit: source bodies and credentials never enter exported diagnostics',t=>{
+  const a=setup(t),hidden=['WEB_SECRET_QUERY','WEB_SECRET_BODY','QUEUE_SECRET_BODY','PRIVATE_PROJECT','PRIVATE_JOB','PRIVATE_TASK','PRIVATE_TOKEN'];a.data.projects[0].name=hidden[3];a.data.sources=[{id:'s',projectId:'p',webConnectionId:'web',title: hidden[1],content:hidden[1]}];a.data.webConnections=[{id:'web',projectId:'p',name:hidden[0],url:`https://example.test/?token=${hidden[0]}`,enabled:true,health:'error',error:hidden[1]}];a.data.captureQueue=[{id:'queue',projectId:'p',status:'failed',itemTitles:[hidden[2]],lastError:hidden[2],sourceIds:['s']}];a.data.delegations=[{id:'job',projectId:'p',title:hidden[4],goal:hidden[1],status:'blocked',sourceIds:['s'],taskIds:[],folderIds:[]}];a.data.providers=[{id:'provider',sealedKey:hidden[6],model:'fixture'}];for(const format of ['json','md']){const body=health.exportReport(a,{format,projectId:'p'}).content;for(const secret of hidden)assert.ok(!body.includes(secret));assert.ok(!body.includes('https://'));assert.ok(body.includes('网页订阅最近同步遇到问题'));}
+});
+test('Independent health audit: skipped malformed records do not affect raw project evidence or invoke content reads',t=>{
+  const a=setup(t);a.data.folders=[{id:'good',projectId:'p',name:'资料',path:a.dir,enabled:true,health:'healthy',lastSuccessAt:new Date().toISOString()},null];a.data.sources=[{id:'source',content:'原始正文保持不变'}];const before=JSON.stringify(a.data);t.mock.method(fs,'readFileSync',()=>{throw new Error('体检不得读取文件正文');});const report=health.snapshot(a,{projectId:'p'});assert.equal(report.networkRequests,0);assert.equal(report.modelCalls,0);assert.ok(report.findings.some(f=>f.code==='legacy_folders'));assert.equal(JSON.stringify(a.data),before);
+});
+test('Independent health audit: a foreign work rule reference must not offer navigation into another project',t=>{
+  const a=setup(t);a.data.delegations=[{id:'pjob',projectId:'p',title:'本项目工作',status:'ready',ruleId:'foreign-rule',ruleRevision:1,sourceIds:[],taskIds:[]}];a.data.workRules=[{id:'foreign-rule',status:'paused',revision:2,config:{projectId:'q'}}];const report=health.snapshot(a,{projectId:'p'});assert.ok(report.findings.some(f=>f.code==='job_rule'));assert.ok(!report.findings.some(f=>f.route.ruleId==='foreign-rule'));assert.ok(report.findings.some(f=>f.code==='job_rule'&&f.route.jobId==='pjob'));
+});
