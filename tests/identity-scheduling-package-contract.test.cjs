@@ -36,6 +36,37 @@ test('identity package actual module proof rejects source fallback, hashes and m
  const p={pid:1,threadId:1,entry:asar+'/desktop/engine-worker.cjs',modules:h.REQUIRED.map(n=>({file:asar+'/desktop/'+n,sha256:'a'.repeat(64)}))};h.assertModuleProof(p,config);
  for(const change of [r=>r.threadId=0,r=>r.threadId=0.5,r=>r.pid=-42,r=>r.entry='/source/desktop/engine-worker.cjs',r=>r.modules.pop(),r=>r.modules[0].file='/source/desktop/core.cjs',r=>r.modules[0].sha256='b'.repeat(64)]){const bad=clone(p);change(bad);assert.throws(()=>h.assertModuleProof(bad,config));}
 });
+test('identity package binds only the exact nine additional executed modules',()=>{
+ const asar='/tmp/final.app/Contents/Resources/app.asar';
+ const paths=['package.json',...['index.js','conventions.js','errors.js','dom.js','grammar.js','dom-parser.js','entities.js','sax.js'].map(name=>'node_modules/@xmldom/xmldom/lib/'+name)];
+ const config={asar,desktopInputs:h.REQUIRED.map(name=>({path:'desktop/'+name,sha256:'a'.repeat(64)})),additionalInputs:paths.map(name=>({path:name,sha256:'b'.repeat(64)}))};
+ const proof={pid:1,threadId:1,entry:asar+'/desktop/engine-worker.cjs',modules:[...config.desktopInputs,...config.additionalInputs].map(row=>({file:asar+'/'+row.path,sha256:row.sha256}))};
+ h.assertModuleProof(proof,config);
+ for(const change of [value=>delete value.additionalInputs,value=>value.additionalInputs.pop(),value=>value.additionalInputs.push(clone(value.additionalInputs[0])),value=>value.additionalInputs[0].path='unexpected.json',value=>value.additionalInputs[0].sha256='c'.repeat(64),value=>value.additionalInputs[1].sha256='c'.repeat(64),value=>value.additionalInputs[0].sha256='']){
+  const altered=clone(config);change(altered);assert.throws(()=>h.assertModuleProof(proof,altered));
+ }
+ for(const file of [asar+'/unexpected.json',asar+'/node_modules/unknown/index.js','/source/package.json']){
+  const altered=clone(proof);altered.modules.push({file,sha256:'b'.repeat(64)});assert.throws(()=>h.assertModuleProof(altered,config));
+ }
+});
+test('identity package additional inputs derive complete metadata and dependency bytes independently',context=>{
+ const root=fs.mkdtempSync(path.join(require('node:os').tmpdir(),'identity-inputs-'));
+ context.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const dependency=path.join(root,'node_modules/@xmldom/xmldom/lib');fs.mkdirSync(dependency,{recursive:true});
+ const names=['index.js','conventions.js','errors.js','dom.js','grammar.js','dom-parser.js','entities.js','sax.js'];
+ for(const name of names)fs.writeFileSync(path.join(dependency,name),'synthetic:'+name);
+ const metadata={name:'fixture',version:'1.2.3',private:true,scripts:{test:'node test'},devDependencies:{tool:'1'},main:'desktop/main.cjs',dependencies:{'@xmldom/xmldom':'1'},custom:{retained:true}};
+ fs.writeFileSync(path.join(root,'package.json'),JSON.stringify(metadata));
+ const digest=bytes=>require('node:crypto').createHash('sha256').update(bytes).digest('hex');
+ const expected={name:'fixture',version:'1.2.3',main:'desktop/main.cjs',dependencies:{'@xmldom/xmldom':'1'},custom:{retained:true}};
+ const before=h.additionalModuleInputs(root);
+ assert.equal(before.length,9);assert.equal(before.find(row=>row.path==='package.json').sha256,digest(JSON.stringify(expected,null,2)+'\n'));
+ for(const name of names)assert.equal(before.find(row=>row.path.endsWith('/'+name)).sha256,digest('synthetic:'+name));
+ metadata.custom.retained=false;fs.writeFileSync(path.join(root,'package.json'),JSON.stringify(metadata));
+ fs.writeFileSync(path.join(dependency,'index.js'),'changed');
+ const after=h.additionalModuleInputs(root);assert.notEqual(after[0].sha256,before[0].sha256);assert.notEqual(after[1].sha256,before[1].sha256);assert.deepEqual(after.slice(2),before.slice(2));
+ fs.unlinkSync(path.join(dependency,'sax.js'));assert.throws(()=>h.additionalModuleInputs(root),{code:'ENOENT'});
+});
 test('identity package fixture adaptation redirects only imports and rejects undeclared dependencies',()=>{
  const desktop='/tmp/final.app/Contents/Resources/app.asar/desktop',helpers={common:'/tmp/common.cjs',platform:'/tmp/platform.cjs',physical:'/tmp/physical.cjs'};
  for(const file of ['scripts/identity-scheduling-worker-fixture.cjs','scripts/generic-consumption-worker-fixture.cjs','tests/helpers/platform-fixture.cjs','tests/root-relation-physical-fixture.cjs']){

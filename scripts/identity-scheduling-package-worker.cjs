@@ -6,8 +6,14 @@ const SOURCE=path.resolve(__dirname,'..'),VERSION='identity-scheduling-package-w
 const SCENARIOS=['permanent','unknown','transient','local_recovery'];
 const REQUIRED=['engine-worker.cjs','core.cjs','agent.cjs','evidence-identity-preflight.cjs','evidence-recovery.cjs','execution-policy.cjs','operation-ledger.cjs','access-policy-store.cjs'];
 const FIXTURES=['scripts/identity-scheduling-worker-fixture.cjs','scripts/generic-consumption-worker-fixture.cjs','tests/helpers/platform-fixture.cjs','tests/root-relation-physical-fixture.cjs'];
+const ADDITIONAL_MODULES=Object.freeze(['package.json',...['index.js','conventions.js','errors.js','dom.js','grammar.js','dom-parser.js','entities.js','sax.js'].map(name=>'node_modules/@xmldom/xmldom/lib/'+name)]);
 const inside=(root,file)=>file===root||file.startsWith(root+path.sep),read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const write=(f,v)=>fs.writeFileSync(f,JSON.stringify(v,null,2)+'\n',{mode:0o600});
+function additionalModuleInputs(source){
+ const metadata=read(path.join(source,'package.json'));
+ for(const field of ['private','scripts','devDependencies'])delete metadata[field];
+ return ADDITIONAL_MODULES.map(file=>({path:file,sha256:file==='package.json'?require('node:crypto').createHash('sha256').update(JSON.stringify(metadata,null,2)+'\n').digest('hex'):h.fileHash(path.join(source,file))}));
+}
 function parseArgs(args){const out={};for(let i=0;i<args.length;i+=2){assert.ok(['--app','--output'].includes(args[i]));const k=args[i].slice(2);assert.ok(!Object.hasOwn(out,k)&&path.isAbsolute(args[i+1]||''));out[k]=args[i+1];}assert.ok(out.app?.endsWith('.app')&&out.output?.endsWith('.json'));return out;}
 function adapt(text,desktop,helpers){return h.redirectRequires(text.replace(/require\((['"])\.\/generic-consumption-worker-fixture\.cjs\1\)/g,()=> 'require('+JSON.stringify(helpers.common)+')'),desktop,helpers.platform,helpers.physical);}
 function binary(app){const dir=path.join(app,'Contents/MacOS'),files=fs.readdirSync(dir).filter(n=>fs.statSync(path.join(dir,n)).isFile());assert.equal(files.length,1);const file=fs.realpathSync(path.join(dir,files[0])),framework=fs.realpathSync(path.join(app,'Contents/Frameworks/Electron Framework.framework/Electron Framework'));assert.ok(inside(app,file)&&inside(app,framework));return {file,framework,fileSHA256:h.fileHash(file),frameworkSHA256:h.fileHash(framework),fuses:h.readNodeFuses(framework)};}
@@ -22,9 +28,11 @@ async function createFixture(input,config){
  return f.a;
 }
 function assertModuleProof(proof,config,{pid=proof?.pid,threadId=proof?.threadId,main=false}={}){
+ const additional=config.additionalInputs||[];
+ if(config.additionalInputs!==undefined){assert.ok(Array.isArray(additional));assert.deepEqual(additional.map(row=>row.path).sort(),[...ADDITIONAL_MODULES].sort());for(const row of additional)assert.match(row.sha256,/^[a-f0-9]{64}$/);}
  assert.ok(Number.isInteger(proof?.pid)&&proof.pid>0);assert.equal(proof.pid,pid);assert.ok(Number.isInteger(proof.threadId));assert.equal(proof.threadId,threadId);assert.equal(proof.entry,main?null:path.join(config.asar,'desktop/engine-worker.cjs'));assert.ok(main?proof.threadId===0:proof.threadId>0);
  for(const name of (main?['engine-client.cjs']:REQUIRED)){const file=path.join(config.asar,'desktop',name),row=proof.modules.find(r=>r.file===file),expected=config.desktopInputs.find(r=>r.path==='desktop/'+name);assert.ok(row&&expected,'missing executed module '+name);assert.equal(row.sha256,expected.sha256);}
- for(const row of proof.modules){assert.ok(inside(config.asar,row.file));assert.notEqual(row.file,path.join(config.asar,'desktop/main.cjs'));const expected=config.desktopInputs.find(r=>r.path===path.relative(config.asar,row.file));assert.ok(expected);assert.equal(row.sha256,expected.sha256);}
+ for(const row of proof.modules){assert.ok(inside(config.asar,row.file));assert.notEqual(row.file,path.join(config.asar,'desktop/main.cjs'));const relative=path.relative(config.asar,row.file),expected=[...config.desktopInputs,...additional].find(input=>input.path===relative);assert.ok(expected,'unbound executed module '+relative);assert.equal(row.sha256,expected.sha256);}
 }
 const advancesFor=c=>c.scenario==='local_recovery'?(c.phase?[]:[0]):c.phase?[0,60001,60001]:c.scenario==='transient'?[0,0,15001,0,60001,60001]:[0,60001,60001];
 const stagesFor=c=>[c.phase?'cold_initial':'initial',...advancesFor(c).map(n=>'tick_'+n),...(c.scenario==='local_recovery'?[]:['manual_request'])];
@@ -97,7 +105,7 @@ async function child(config){
   assert.ok(process.versions.electron,'selected Electron runtime required');report.versions={electron:process.versions.electron,node:process.versions.node};
   report.packageVersion=read(path.join(config.asar,'package.json')).version;assert.equal(report.packageVersion,config.expectedVersion,'selected package version');
   const packaged=h.tree(path.join(config.asar,'desktop'),rel=>/^native\/bin(?:\/|$)/.test(rel)).filter(r=>r.type==='file').map(r=>'desktop/'+r.path).sort();
-  assert.deepEqual(packaged,config.desktopInputs.map(r=>r.path).sort());for(const r of config.desktopInputs)assert.equal(h.fileHash(path.join(config.asar,r.path)),r.sha256);
+  assert.deepEqual(packaged,config.desktopInputs.map(r=>r.path).sort());for(const r of [...config.desktopInputs,...config.additionalInputs])assert.equal(h.fileHash(path.join(config.asar,r.path)),r.sha256);
   const {EngineClient}=require(path.join(config.asar,'desktop/engine-client.cjs'));report.mainModules=moduleProof(config);
   engine=new EngineClient({dir:config.workspace,fixtureModule:config.wrapper,workerOptions:{execArgv:['--require',config.preload]},safeStorage:{isEncryptionAvailable:()=>false},native:async action=>{if(action==='attentionAvailable')return {supported:false};fs.appendFileSync(path.join(config.dir,'denied-native.jsonl'),JSON.stringify({name:'native UI: '+action})+'\n');throw Error('native UI forbidden');}});
   engine.on('backgroundError',e=>report.backgroundErrors.push(e));await engine.ready;let sequence=0;
@@ -118,6 +126,7 @@ async function run(options){
  const dir=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'identity-package-'))),report={schema:VERSION,layer:'controlled',status:'failed',passed:false,productionDelivery:'not_verified',userAccepted:false,realBusinessCalls:0,realNetworkCalls:0,realModelCalls:0,evidence:dir,phases:[],limitations:['Controlled transport and clock; no production UI or business validation','Local recovery proves original retained response association and cold load only; later legitimate consumption is not asserted silent']};let beforeSource,beforePackage;
  try{
   beforeSource=report.source=h.sourceIdentity(source);beforePackage=report.package=h.packageIdentity(app);report.sourceDigest=beforeSource.digest;report.packageDigest=beforePackage.digest;report.runtime=binary(app);
+  report.additionalInputs=additionalModuleInputs(source);
   const asar=path.join(app,'Contents/Resources/app.asar'),desktop=path.join(asar,'desktop'),harness=path.join(dir,path.basename(__filename)),helper=path.join(dir,'system-package-worker.cjs'),fixture=path.join(dir,'identity-scheduling-worker-fixture.cjs'),helpers={common:path.join(dir,'generic-consumption-worker-fixture.cjs'),platform:path.join(dir,'platform-fixture.cjs'),physical:path.join(dir,'physical-fixture.cjs')};
   fs.copyFileSync(__filename,harness);fs.copyFileSync(path.join(__dirname,'system-package-worker.cjs'),helper);
   for(const [i,file]of [fixture,helpers.common,helpers.platform,helpers.physical].entries())fs.writeFileSync(file,adapt(fs.readFileSync(path.join(source,FIXTURES[i]),'utf8'),desktop,helpers));
@@ -127,14 +136,15 @@ async function run(options){
   const generated=[harness,helper,fixture,...Object.values(helpers),preload,wrapper].map(file=>({file,sha256:h.fileHash(file)})),desktopInputs=beforeSource.entries.filter(r=>r.type==='file'&&r.path.startsWith('desktop/'));
   report.fixture={original:FIXTURES.map(file=>({file,sha256:h.fileHash(path.join(source,file))})),generated};
   for(const scenario of SCENARIOS){const modeDir=path.join(dir,scenario),workspace=path.join(modeDir,'workspace'),audit=path.join(modeDir,'audit.json');fs.mkdirSync(workspace,{recursive:true});for(let phase=0;phase<2;phase++){
-   const config={dir,asar,harness,fixture,preload,wrapper,workspace,audit,scenario,phase,generated,desktopInputs,expectedVersion:read(path.join(source,'package.json')).version,result:path.join(modeDir,'phase-'+phase+'.json'),previous:phase?path.join(modeDir,'phase-0.json'):null,stdout:path.join(modeDir,'phase-'+phase+'.stdout'),stderr:path.join(modeDir,'phase-'+phase+'.stderr')},configFile=path.join(modeDir,'config-'+phase+'.json');write(configFile,config);
+   const config={dir,asar,harness,fixture,preload,wrapper,workspace,audit,scenario,phase,generated,desktopInputs,additionalInputs:report.additionalInputs,expectedVersion:read(path.join(source,'package.json')).version,result:path.join(modeDir,'phase-'+phase+'.json'),previous:phase?path.join(modeDir,'phase-0.json'):null,stdout:path.join(modeDir,'phase-'+phase+'.stdout'),stderr:path.join(modeDir,'phase-'+phase+'.stderr')},configFile=path.join(modeDir,'config-'+phase+'.json');write(configFile,config);
    assert.equal(h.fileHash(asar),beforePackage.asarSHA256);const execution=await spawn(report.runtime.file,configFile,config),result=fs.existsSync(config.result)?read(config.result):null;report.phases.push({scenario,phase,execution,result});write(realOutput,report);assertPhase(result,execution,config);assertScenario(result,phase?read(config.previous):null);
   }}
   assert.equal(new Set(report.phases.map(p=>p.execution.pid)).size,8);report.status='passed';report.passed=true;
  }catch(e){report.error=e.stack||e.message;}finally{
   try{report.blockedExternalAttempts=fs.readdirSync(dir).filter(n=>n.startsWith('denied-')).flatMap(n=>fs.readFileSync(path.join(dir,n),'utf8').trim().split('\n').filter(Boolean).map(JSON.parse));assert.deepEqual(report.blockedExternalAttempts,[]);for(const row of report.fixture?.generated||[])assert.equal(h.fileHash(row.file),row.sha256);if(beforeSource){report.afterSourceDigest=h.sourceIdentity(source).digest;assert.equal(report.afterSourceDigest,beforeSource.digest);}if(beforePackage){report.afterPackageDigest=h.packageIdentity(app).digest;assert.equal(report.afterPackageDigest,beforePackage.digest);}}catch(e){report.status='failed';report.passed=false;report.identityError=e.stack;}
+  try{if(report.additionalInputs){report.afterAdditionalInputs=additionalModuleInputs(source);assert.deepEqual(report.afterAdditionalInputs,report.additionalInputs);}}catch(error){report.status='failed';report.passed=false;report.additionalInputError=error.stack;}
   write(path.join(dir,'summary.json'),report);report.evidenceFiles=h.tree(dir);write(realOutput,report);
  }return report;
 }
-module.exports={VERSION,SCENARIOS,REQUIRED,parseArgs,adapt,createFixture,assertModuleProof,assertPhase,stagesFor,assertScenario,run};
+module.exports={VERSION,SCENARIOS,REQUIRED,ADDITIONAL_MODULES,additionalModuleInputs,parseArgs,adapt,createFixture,assertModuleProof,assertPhase,stagesFor,assertScenario,run};
 if(require.main===module)(async()=>{if(process.argv[2]==='--child'){const r=await child(read(process.argv[3]));process.exitCode=r.status==='passed'?0:1;}else{const o=parseArgs(process.argv.slice(2)),r=await run(o);console.log(JSON.stringify({status:r.status,output:o.output,evidence:r.evidence}));process.exitCode=r.passed?0:1;}})().catch(e=>{console.error(e);process.exitCode=1;});
