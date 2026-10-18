@@ -17,9 +17,9 @@ if(args[0]==='auth'){const u=s.users[s.ambient];out({appId:u.appId,brand:u.brand
 if(!who||s.revoked===who){out({ok:false,error:{type:'auth',message:'missing user token'}});process.exit(3);}
 if(args[0]==='api'){const u=s.users[who];if(s.aba)s.ambient='B';save();out({ok:true,identity:'user',data:{open_id:s.wrongOpenId||u.openId,...(!s.missingTenant?{tenant_key:s.wrongTenant||u.tenantId}:{}),email:'PRIVATE_EMAIL',mobile:'PRIVATE_PHONE'}});process.exit(0);}
 if(s.descendant&&args[0]==='im'){
- const childCode="const fs=require('node:fs');process.on('SIGTERM',()=>{});fs.writeFileSync(process.argv[1],String(process.pid));setInterval(()=>{if(!fs.existsSync(process.argv[2]))fs.writeFileSync(process.argv[3],'removed while child alive');},10);";
- const child=require('node:child_process').spawn(process.execPath,['-e',childCode,path.join(root,'child-ready'),process.env.LARKSUITE_CLI_CONFIG_DIR,path.join(root,'premature-cleanup')],{stdio:'ignore'});
- fs.writeFileSync(path.join(root,'group.json'),JSON.stringify({pid:process.pid,child:child.pid,configDir:process.env.LARKSUITE_CLI_CONFIG_DIR}));
+ const childCode="const fs=require('node:fs');process.on('SIGTERM',()=>{});setInterval(()=>{try{fs.lstatSync(process.argv[2]);}catch(error){if(error.code==='ENOENT')fs.writeFileSync(process.argv[3],'removed while child alive');else fs.writeFileSync(process.argv[4],JSON.stringify({code:error.code||'UNKNOWN',message:error.message}));}},10);fs.writeFileSync(process.argv[1]+'.tmp',String(process.pid));fs.renameSync(process.argv[1]+'.tmp',process.argv[1]);";
+ const child=require('node:child_process').spawn(process.execPath,['-e',childCode,path.join(root,'child-ready'),process.env.LARKSUITE_CLI_CONFIG_DIR,path.join(root,'premature-cleanup'),path.join(root,'child-observation-error')],{stdio:'ignore'});
+ fs.writeFileSync(path.join(root,'group.json.tmp'),JSON.stringify({pid:process.pid,child:child.pid,configDir:process.env.LARKSUITE_CLI_CONFIG_DIR}));fs.renameSync(path.join(root,'group.json.tmp'),path.join(root,'group.json'));
  const timer=setInterval(()=>{if(fs.existsSync(path.join(root,'child-ready'))){clearInterval(timer);if(s.descendant==='close'){out({ok:true,identity:'user',data:{messages:[],has_more:false}});process.exit(0);}}},10);
  return;
 }
@@ -111,17 +111,26 @@ test('I03 changed tenant after body is discarded before any observation write',a
 test('I06 concurrent sync cannot double-consume a cursor',async t=>{const f=await fixture(t);await bind(f);const results=await Promise.allSettled([connectors.sync(f.a,f.c.id),connectors.sync(f.a,f.c.id)]);assert.equal(results.filter(x=>x.status==='rejected').length,1);assert.equal(f.a.data.sources.length,2);assert.equal(bodies(f).length,2);});
 
 async function waitFor(test,ms=5000){const end=Date.now()+ms;while(!test()){if(Date.now()>end)throw Error('fixture wait expired');await new Promise(r=>setTimeout(r,10));}}
-for(const mode of ['close','abort'])test('I13 actual same-group descendant ignores TERM; '+mode+' waits for group exit before session cleanup',async t=>{
+for(const mode of ['close','abort','abort-transient-probe'])test('I13 actual same-group descendant ignores TERM; '+mode+' waits for group exit before session cleanup',async t=>{
  const f=await fixture(t);await bind(f);f.change({descendant:mode});
  const controller=new AbortController();f.a.controller=controller;
- const running=connectors.sync(f.a,f.c.id);await waitFor(()=>fs.existsSync(path.join(f.root,'child-ready')));
+ const running=connectors.sync(f.a,f.c.id);await waitFor(()=>fs.existsSync(path.join(f.root,'child-ready'))&&fs.existsSync(path.join(f.root,'group.json')));
  const group=JSON.parse(fs.readFileSync(path.join(f.root,'group.json')));
- assert.equal(fs.existsSync(group.configDir),true);
- if(mode==='abort')controller.abort(new DOMException('fixture abort','AbortError'));
- await running;assert.throws(()=>process.kill(-group.pid,0),{code:'ESRCH'});
- assert.equal(fs.existsSync(path.join(f.root,'premature-cleanup')),false);assert.equal(fs.existsSync(group.configDir),false);
+ assert.ok(Number.isSafeInteger(group.pid)&&group.pid>0);assert.ok(Number.isSafeInteger(group.child)&&group.child>0);assert.equal(Number(fs.readFileSync(path.join(f.root,'child-ready'),'utf8')),group.child);assert.ok(path.isAbsolute(group.configDir));assert.ok(fs.lstatSync(group.configDir).isDirectory(),'private config must exist before cancellation');
+ const originalKill=process.kill;let interruptedProbes=0;
+ if(mode==='abort-transient-probe')process.kill=(pid,signal)=>{
+  try{return originalKill(pid,signal);}catch(error){
+   if(pid===-group.pid&&signal===0&&error.code==='ESRCH'&&interruptedProbes===0){interruptedProbes++;throw Object.assign(Error('transient exit observation'),{code:'EPERM'});}
+   throw error;
+  }
+ };
+ try{if(mode!=='close')controller.abort(new DOMException('fixture abort','AbortError'));await running;}finally{process.kill=originalKill;}
+ assert.throws(()=>process.kill(-group.pid,0),{code:'ESRCH'});if(mode==='abort-transient-probe')assert.equal(interruptedProbes,1,'the transient probe must actually occur');
+ const observationError=path.join(f.root,'child-observation-error');
+ try{const diagnostic=fs.readFileSync(observationError,'utf8');assert.fail('child config observation failed: '+diagnostic);}catch(error){if(error.code!=='ENOENT')throw error;}
+ assert.throws(()=>fs.lstatSync(path.join(f.root,'premature-cleanup')),{code:'ENOENT'},'private config must never disappear while the child is alive');assert.throws(()=>fs.lstatSync(group.configDir),{code:'ENOENT'},'private config must be absent after confirmed group exit, not inaccessible');
  assert.equal(f.a.data.sources.length,0);assert.equal(f.a.data.sourceObservations.length,0);
- if(mode==='abort')assert.equal(f.c.cursor,null);else assert.equal(f.c.health,'healthy',f.c.error);
+ if(mode!=='close')assert.equal(f.c.cursor,null);else assert.equal(f.c.health,'healthy',f.c.error);
 });
 test('I13 unknown process-group exit retains session and refuses body submission',async t=>{
  const f=await fixture(t);await bind(f);const kill=process.kill;

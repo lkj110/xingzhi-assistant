@@ -99,9 +99,13 @@ for(const mode of ['plain','file','keychain'])test('version probe avoids ambient
 });
 test('cancellation retains private config until same-group descendants have exited',async t=>{
  const {dir,bin}=fixture(t),ready=path.join(dir,'ready'),record=path.join(dir,'group.json'),grand=path.join(dir,'grand.cjs');
- fs.writeFileSync(grand,`process.on('SIGTERM',()=>{});require('fs').writeFileSync(${JSON.stringify(ready)},String(process.pid));setInterval(()=>{},100);setTimeout(()=>process.exit(0),8000);`);
- fs.writeFileSync(bin,`#!${process.execPath}\nconst fs=require('fs'),cp=require('child_process'),child=cp.spawn(process.execPath,[${JSON.stringify(grand)}],{stdio:'ignore'});child.unref();const timer=setInterval(()=>{if(fs.existsSync(${JSON.stringify(ready)})){clearInterval(timer);fs.writeFileSync(${JSON.stringify(record)},JSON.stringify({pid:process.pid,child:child.pid,configDir:process.env.LARKSUITE_CLI_CONFIG_DIR}));}},10);setInterval(()=>{},100);setTimeout(()=>process.exit(0),8000);\n`,{mode:0o700});
+ fs.writeFileSync(grand,`process.on('SIGTERM',()=>{});const fs=require('fs'),ready=${JSON.stringify(ready)};setInterval(()=>{},100);setTimeout(()=>process.exit(0),8000);fs.writeFileSync(ready+'.tmp',String(process.pid));fs.renameSync(ready+'.tmp',ready);`);
+ fs.writeFileSync(bin,`#!${process.execPath}\nconst fs=require('fs'),cp=require('child_process'),child=cp.spawn(process.execPath,[${JSON.stringify(grand)}],{stdio:'ignore'});child.unref();const timer=setInterval(()=>{if(fs.existsSync(${JSON.stringify(ready)})){clearInterval(timer);const record=${JSON.stringify(record)};fs.writeFileSync(record+'.tmp',JSON.stringify({pid:process.pid,child:child.pid,configDir:process.env.LARKSUITE_CLI_CONFIG_DIR}));fs.renameSync(record+'.tmp',record);}},10);setInterval(()=>{},100);setTimeout(()=>process.exit(0),8000);\n`,{mode:0o700});
  const controller=new AbortController(),pending=pin.capability(bin,{signal:controller.signal}),rejected=assert.rejects(pending,e=>e.name==='AbortError');
- const deadline=Date.now()+5000;while(!fs.existsSync(record)&&Date.now()<deadline)await new Promise(r=>setTimeout(r,10));controller.abort();await rejected;assert.ok(fs.existsSync(record));
- const observed=JSON.parse(fs.readFileSync(record));assert.throws(()=>process.kill(observed.child,0),e=>e.code==='ESRCH');assert.equal(fs.existsSync(observed.configDir),false);
+ let observed;
+ try{
+  const deadline=Date.now()+5000;while(!fs.existsSync(record)&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,10));assert.ok(fs.existsSync(record),'complete group record must be published before cancellation');
+  observed=JSON.parse(fs.readFileSync(record));assert.ok(Number.isSafeInteger(observed.pid)&&observed.pid>0);assert.ok(Number.isSafeInteger(observed.child)&&observed.child>0);assert.equal(Number(fs.readFileSync(ready,'utf8')),observed.child);assert.ok(path.isAbsolute(observed.configDir));assert.ok(fs.lstatSync(observed.configDir).isDirectory());
+ }finally{controller.abort();await rejected;}
+ assert.throws(()=>process.kill(observed.child,0),{code:'ESRCH'},'cancelled child must have exited');assert.throws(()=>fs.lstatSync(observed.configDir),{code:'ENOENT'},'private config must be absent, not inaccessible');
 });

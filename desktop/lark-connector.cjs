@@ -145,13 +145,15 @@ Object.assign(module.exports,{identityPreview,confirmIdentity,pinnedPage,assertP
 async function drainGroup(pid){
  if(!pid)return;
  const unknown=()=>Object.assign(Error('飞书子进程尚未确认退出，临时会话已保留，本页未提交'),{code:'SESSION_CLEANUP_FAILED',connectorCode:'identity_binding_unavailable'});
- const exists=()=>{try{process.kill(-pid,0);return true;}catch(e){if(e.code==='ESRCH')return false;throw unknown();}};
- if(!exists())return;
- try{process.kill(-pid,'SIGTERM');}catch{}
- const start=Date.now();let killed=false;
- while(exists()){
-  if(!killed&&Date.now()-start>=1000){try{process.kill(-pid,'SIGKILL');}catch{}killed=true;}
-  if(Date.now()-start>=5000)throw unknown();
+ const probe=()=>{try{process.kill(-pid,0);return 'alive';}catch(error){return error.code==='ESRCH'?'gone':'unknown';}};
+ const start=Date.now();let termAt=null,killed=false;
+ while(true){
+  const state=probe();if(state==='gone')return;
+  const observedAt=Date.now();if(observedAt-start>=5000)throw unknown();
+  if(state==='alive'){
+   if(termAt===null){try{process.kill(-pid,'SIGTERM');}catch{}termAt=observedAt;}
+   if(!killed&&observedAt-termAt>=1000){try{process.kill(-pid,'SIGKILL');}catch{}killed=true;}
+  }
   await new Promise(resolve=>setTimeout(resolve,20));
  }
 }
