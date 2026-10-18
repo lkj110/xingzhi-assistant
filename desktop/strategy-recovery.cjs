@@ -25,12 +25,16 @@ function actionKey(a,action){
  return evidence.hash(normalized);
 }
 function gaps(task){return [...new Set([...(task.contentVerification?.passed===false?task.contentVerification.gaps||[]:[]),...(task.verification?.passed===false?task.verification.gaps||[]:[]),...(task.autoRepair?.check?.gaps||[])])].slice(0,20);}
-function candidates(a,job){
- const permitted=new Set(require('./work-state.cjs').runnableActions(a,job).map(r=>r.taskId));
+function candidates(a,job,opts={}){
+ const permitted=new Set((require('./execution-facts.cjs').candidateActions||require('./execution-facts.cjs').runnableActions)(a,job,opts).map(r=>r.taskId));
  const active=tasks(a,job).filter(t=>permitted.has(t.id)),result=[];
  const add=(id,title,instruction,queue)=>result.push({id,title,instruction,queue});
  const diagnose=active.filter(t=>t.needsReplan||diagnostics.planning(a,job,t));
  if(diagnose.length)return diagnose.map(t=>({id:'diagnose:'+t.id,title:'按检查缺口补证并协调主稿',instruction:'needsReplan 非空时先依据最新用户补充或决定修正计划，不先查询旧边界。处理当前 contentVerification 和 evidenceRequest 的具体缺口。缺新事实时使用已授权工具；稿件绑定错误时用 plan_task 明确 primaryArtifactId 与步骤 outputRole/targetArtifactId。辅助检查报告不能替代业务主稿。查询结果关联到事项后再推进；不要复述旧计划、重写缺证清单或查询已接受的权限边界。',queue:[],planning:true}));
+ // A local reading failure is not a missing platform relationship. Resolve
+ // this exact content check before choosing any generic frontier query.
+ const readingChecks=active.filter(t=>control.stage(a,t)==='deliver'&&require('./deliverables.cjs').primary(a,t)&&t.contentVerification?.basis!==control.contentBasis(a,job,t)&&(job.executionState?.workEfficiency?.reading?.[t.id]?.ineffective||0)>=3);
+ if(readingChecks.length)return readingChecks.map(t=>({id:'read_check:'+require('./generation-context.cjs').READ_POLICY_VERSION+':'+t.id,title:'复用有效读取并形成检查结论',instruction:'保留历史读取计数，先处理已保存正文；混合批次中的新内容须交给检查模型，纯重复时改用一次有界结论步骤，不转去通用边界查询。',queue:[{tool:'verify_content',args:{taskId:t.id},reason:'读取纠偏：先形成当前主稿的检查结论或明确证据缺口'}]}));
  for(const task of active){
   if(task.needsReplan)continue;
   const phase=control.stage(a,task),step=task.steps.find(s=>!s.done),artifact=require('./deliverables.cjs').primary(a,task),missing=gaps(task);
@@ -61,7 +65,7 @@ function publish(job,state,message){
  job.summary=message;job.lastError='';delete job.lastErrorCode;delete job.lastErrorAutomaticRetry;
 }
 function schedule(a,job,error){
- if(a.controller?.signal.aborted||!require('./work-state.cjs').gate(a,job).automaticAllowed)return false;
+ if(a.controller?.signal.aborted||!require('./execution-facts.cjs').gate(a,job).automaticAllowed)return false;
  if(require('./projects.cjs').relatedActions(a,job).some(r=>['running','uncertain','pending'].includes(r.status)))return false;
  const task=tasks(a,job).find(t=>t.id===error.recoveryContext?.taskId);
  if(error.code==='MODEL_INVALID_RESPONSE'&&task?.status==='blocked'&&task.lastError===error.message)task.status='todo';
@@ -87,16 +91,18 @@ function invalidOutput(a,job,error){
  return schedule(a,job,error);
 }
 function begin(a,job){
+ if(require('./continuation-control.cjs').engaged(a,job))return require('./continuation-control.cjs').ready(a,job)===true;
  const {state}=work.sync(a,job);
  if(state.phase!=='recovery_pending')return true;
- if(!require('./work-state.cjs').gate(a,job).automaticAllowed)return false;
+ if(!require('./execution-facts.cjs').gate(a,job).automaticAllowed)return false;
  if(require('./projects.cjs').relatedActions(a,job).some(r=>['running','uncertain','pending'].includes(r.status)))return false;
- const allowed=require('./work-state.cjs').runnableActions(a,job);
- if(!allowed.length&&require('./work-state.cjs').blockingReasons(a,job).length){job.status=require('./work-state.cjs').blockingReasons(a,job).some(r=>r.needsHuman)?'needs_input':'watching';return false;}
+ const allowed=(require('./execution-facts.cjs').candidateActions||require('./execution-facts.cjs').runnableActions)(a,job);
+ if(!allowed.length&&require('./execution-facts.cjs').blockingReasons(a,job).length){job.status=require('./execution-facts.cjs').blockingReasons(a,job).some(r=>r.needsHuman)?'needs_input':'watching';return false;}
  const basis=inputBasis(a,job),key=id=>basis+':'+id;
  const boundaryAttempts=Object.keys(state.tried).filter(k=>k.startsWith(key('boundary:'))).length;
- let strategy=candidates(a,job).find(c=>!state.tried[key(c.id)]&&(!c.id.startsWith('boundary:')||boundaryAttempts<MAX_BOUNDARY_ATTEMPTS));
- if(!strategy&&!state.tried[key('replan')])strategy={id:'replan',title:'重新诊断并选择其他工具',instruction:'此前方法没有进展。根据当前未满足要求、工具回执和已尝试策略，选择一条不同的可执行动作；不要重复已失败的工具请求，不要要求用户只确认继续。若边界查询已有新来源但尚未关联到事项，先核对其与用户范围的关系，再一次性纳入对应事项并继续当前步骤；不把来源数量增长当作业务缺口关闭，不继续机械遍历历史目录。可以调整内部步骤，但保留用户目标、完成标准、已接受边界、权限和预算。只有无法通过授权工具取得的具体信息、权限或人工动作才 ask/request_access。',queue:[],planning:true};
+ const choices=candidates(a,job),readingOnly=choices.some(c=>c.id.startsWith('read_check:'));
+ let strategy=choices.find(c=>!state.tried[key(c.id)]&&(!c.id.startsWith('boundary:')||boundaryAttempts<MAX_BOUNDARY_ATTEMPTS));
+ if(!strategy&&!readingOnly&&!state.tried[key('replan')])strategy={id:'replan',title:'重新诊断并选择其他工具',instruction:'此前方法没有进展。根据当前未满足要求、工具回执和已尝试策略，选择一条不同的可执行动作；不要重复已失败的工具请求，不要要求用户只确认继续。若边界查询已有新来源但尚未关联到事项，先核对其与用户范围的关系，再一次性纳入对应事项并继续当前步骤；不把来源数量增长当作业务缺口关闭，不继续机械遍历历史目录。可以调整内部步骤，但保留用户目标、完成标准、已接受边界、权限和预算。只有无法通过授权工具取得的具体信息、权限或人工动作才 ask/request_access。',queue:[],planning:true};
  if(!strategy){
   const attempted=[...new Set(state.history.map(h=>h.title))];
   state.phase='awaiting_change';state.waitBasis=basis;state.blocker={code:'NO_EXECUTABLE_ALTERNATIVE',attempted,lastFailure:state.lastFailure,at:now()};
@@ -156,18 +162,67 @@ function settled(a,job,step,{planInputInvalid=false}={}){
 }
 function started(a,job,step){const s=job.executionState?.workEfficiency;if(s?.active){s.active.actionKeys ||= [];s.active.actionKeys.push(actionKey(a,step));s.active.executedActions=[...(s.active.executedActions||[]),{tool:step.tool,args:structuredClone(step.args)}].slice(-6);s.active.inFlight={tool:step.tool,taskId:step.args?.taskId||null,at:now()};step.strategyRecovery={id:s.active.id,title:s.active.title};}}
 function plannerStarted(a,job){if(planning(job)){job.executionState.workEfficiency.active.inFlight={tool:'planner',at:now()};a.save();}}
-function ready(a,job){
- const state=job.executionState?.workEfficiency;
- if(state?.phase!=='awaiting_change')return true;
- const newlySaved=tasks(a,job).some(t=>t.steps.some(step=>{
-  if(!step.done)return false;
-  const artifact=a.data.artifacts.find(r=>r.id===step.artifactId&&r.taskId===t.id&&!r.stale);
-  const saved=artifact&&(artifact.origin==='user_import'||step.outputHash===evidence.hash(artifact.content)&&step.inputBasis?.hash===require('./step-evidence.cjs').snapshot(a,t,step).hash);
-  return saved&&!state.seen.includes('artifact:'+evidence.hash(artifact.content));
- }));
- if(newlySaved){const result=work.sync(a,job);if(result.changed){job.status='ready';job.nextRunAt=now();return true;}}
- if(state.waitBasis===inputBasis(a,job))return false;
- work.request(a,job,{message:'相关证据或执行条件已变化，自动重新评估可用路径'});
- job.status='ready';job.nextRunAt=now();return true;
+// Pure strategy projection. No sync, ledger initialization, queue consumption or
+// permission writes. The caller commits a chosen command before dispatch.
+function inspect(a,job,{taskId,automatic=a.automaticExecution!==false}={}) {
+ const facts=require('./execution-facts.cjs'),task=tasks(a,job).find(t=>t.id===taskId),s=job.executionState?.workEfficiency;
+ if(!facts.gate(a,job,task,{automatic}).automaticAllowed)return {eligible:false,phase:'guarded',reason:'EXECUTION_GATE_CLOSED'};
+ if(task&&!facts.legacyRecoveryApplies(a,job,task))return {eligible:true,phase:'working'};
+ if(!s)return {eligible:true,phase:'working'};
+ if(s.phase==='awaiting_change'||s.phase==='exhausted') {
+  const basis=inputBasis(a,job),reading=candidates(a,job,{automatic}).find(c=>c.id.startsWith('read_check:')&&!s.tried?.[basis+':'+c.id]);
+  const saved=tasks(a,job).some(t=>t.steps.some(step=>{const artifact=step.done&&a.data.artifacts.find(r=>r.id===step.artifactId&&r.taskId===t.id&&!r.stale);return artifact&&(artifact.origin==='user_import'||step.outputHash===evidence.hash(artifact.content)&&step.inputBasis?.hash===require('./step-evidence.cjs').snapshot(a,t,step).hash)&&!s.seen?.includes('artifact:'+evidence.hash(artifact.content));}));
+  const snap=work.snapshot(a,job),fresh=snap.facts.filter(f=>!s.seen?.includes(f));
+  // Work.sync's current semantic milestones are the oracle; a new body hash is
+  // not progress and cannot renew an exhausted route.
+  if(saved&&fresh.length&&s.progressVersion===1&&s.seen?.length<work.LIMITS.maxFacts)return {eligible:false,phase:'prepare_pending',command:'strategy_progress',proof:{intent:snap.intent,fresh},reason:'NEW_EFFECTIVE_OUTPUT'};
+  if(reading||/^[a-f0-9]{64}$/.test(s.waitBasis||'')&&s.waitBasis!==basis)return {eligible:false,phase:'prepare_pending',command:'strategy_wake',proof:{basis,reading:reading?.id||null},reason:reading?'READ_POLICY_CHANGED':'INPUTS_CHANGED'};
+  return {eligible:false,phase:'blocked',reason:s.blocker?.code||s.lastFailure?.code||'NO_EXECUTABLE_ALTERNATIVE'};
+ }
+ if(s.phase==='recovery_pending') {
+  const basis=inputBasis(a,job),key=id=>basis+':'+id,choices=candidates(a,job,{automatic}),tried=s.tried||{};
+  const boundaryAttempts=Object.keys(tried).filter(k=>k.startsWith(key('boundary:'))).length;
+  let strategy=choices.find(c=>!tried[key(c.id)]&&(!c.id.startsWith('boundary:')||boundaryAttempts<MAX_BOUNDARY_ATTEMPTS));
+  if(!strategy&&!choices.some(c=>c.id.startsWith('read_check:'))&&!tried[key('replan')])strategy={id:'replan',title:'重新诊断并选择其他工具',instruction:'此前方法没有进展。根据当前未满足要求、工具回执和已尝试策略选择不同的可执行动作；保留用户目标、原主稿、完成标准、权限与累计预算。只有具体人工条件才可提问，不能要求用户仅确认继续。',queue:[],planning:true};
+  return {eligible:false,phase:'prepare_pending',command:strategy?'strategy_begin':'strategy_exhausted',proof:{basis,strategy:strategy||null},reason:strategy?'STRATEGY_PREPARATION':'NO_EXECUTABLE_ALTERNATIVE'};
+ }
+ if(s.phase==='recovering'&&s.active){
+  const action=s.active.queue?.[0];
+  if(action){const t=tasks(a,job).find(t=>t.id===action.args?.taskId);if(taskId&&t&&t.id!==taskId)return {eligible:false,phase:'blocked',reason:'STRATEGY_OTHER_TASK'};
+   if(action.tool==='advance_task'&&(!t||t.needsReplan||t.evidenceRequest||t.steps.find(s=>!s.done)?.kind==='external'))return {eligible:false,phase:'prepare_pending',command:'strategy_plan',proof:{id:s.active.id,basis:s.active.basis},reason:'STRATEGY_PLAN_REQUIRED'};
+   return {eligible:true,phase:'recovering',action:structuredClone(action),owner:'strategy'};
+  }
+  if(s.active.planning)return {eligible:true,phase:'recovering',action:{tool:'planner',args:{}},owner:'strategy'};
+  return {eligible:false,phase:'prepare_pending',command:'strategy_wake',proof:{basis:inputBasis(a,job)},reason:'STRATEGY_SETTLEMENT'};
+ }
+ return {eligible:true,phase:'working'};
 }
-module.exports={begin,next,planning,acceptPlan,settled,started,plannerStarted,schedule,invalidOutput,ready,inputBasis,candidates};
+function applyPrepared(a,job,p,at) {
+ const s=job.executionState?.workEfficiency;if(!s)return;
+ if(p.command==='strategy_progress') {
+  s.seen=[...new Set([...(s.seen||[]),...p.proof.fresh])].slice(0,work.LIMITS.maxFacts);s.attempts=0;s.phase='working';s.reason='new_effective_output';s.lastProgressAt=at;delete s.waitBasis;if(job.status!=='running')job.status='ready';job.nextRunAt=at;return;
+ }
+ if(p.command==='strategy_wake') {
+  if(s.active){s.history=[...(s.history||[]),{...s.active,queue:undefined,outcome:'no_progress',finishedAt:at}].slice(-24);delete s.active;}
+  s.phase='recovery_pending';if(job.status!=='running')job.status='ready';job.nextRunAt=at;return;
+ }
+ if(p.command==='strategy_plan'){if(s.active){s.active.queue=[];s.active.planning=true;}return;}
+ const {basis,strategy}=p.proof;
+ if(p.command==='strategy_exhausted') {
+  const attempted=[...new Set((s.history||[]).map(h=>h.title))];s.phase='awaiting_change';s.waitBasis=basis;
+  s.blocker={code:'NO_EXECUTABLE_ALTERNATIVE',attempted,lastFailure:s.lastFailure,at};job.status='blocked';job.nextRunAt=null;job.retryCheck=false;
+  job.summary='自动纠偏未找到可执行的新路径：已尝试'+attempted.join('、')+'。最后原因：'+(s.lastFailure?.message||'未取得有效结果')+'。需要新的相关事实或具体执行条件。';return;
+ }
+ if(p.command==='strategy_begin') {
+  s.tried ||= {};s.tried[basis+':'+strategy.id] ||= {at,title:strategy.title};
+  s.active={...structuredClone(strategy),basis,startedAt:at,reads:0};s.phase='recovering';if(job.status!=='running')job.status='ready';job.nextRunAt=at;
+  job.summary='正在自动纠偏：'+strategy.title;job.executionState.recovery={code:'AUTOMATIC_STRATEGY_REPAIR',message:job.summary,at,strategy:strategy.title};
+ }
+}
+function ready(a,job) {
+ const c=require('./continuation-control.cjs');
+ if(c.ready(a,job)===true)return true;
+ const r=inspect(a,job);if(r.command)require('./execution-policy.cjs').prepare(a,job);
+ return inspect(a,job).eligible;
+}
+module.exports={inspect,applyPrepared,begin,next,planning,acceptPlan,settled,started,plannerStarted,schedule,invalidOutput,ready,inputBasis,candidates};

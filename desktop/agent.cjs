@@ -1,3 +1,4 @@
+const continuationControl=require('./continuation-control.cjs');
 const projectLifecycle=require('./project-lifecycle.cjs');
 const crypto = require('node:crypto');
 const tools = require('./agent-tools.cjs');
@@ -14,6 +15,8 @@ const dataPlatform=require('./data-platform.cjs');
 const ledger=require('./operation-ledger.cjs');
 const control=require('./execution-control.cjs');
 const strategy=require('./strategy-recovery.cjs');
+// Register preparation replay before startup restores job projections.
+require('./execution-policy.cjs');
 const uid=()=>crypto.randomUUID();
 const now=()=>new Date().toISOString();
 const hash=value=>crypto.createHash('sha256').update(typeof value==='string'?value:JSON.stringify(value)).digest('hex');
@@ -48,7 +51,7 @@ platform_inventory {start?:0,queryStart?:0,limit?:100}：分页读取全部已�
 read_platform {sourceId,start?:0,limit?:50}：按行读取已保存的平台查询结构化索引，适用于枚举项目、本人任务、调度节点、Coral 表血缘和表生产任务映射。Coral 返回实体类型、名称、生产/消费任务、输入输出 GUID、层数和数量；优先用此工具读完整关系，不逐段翻阅重复属性。返回本快照节点总数、平台分页信息与下一段位置；按 next 继续，不能遗漏中间节点。索引保留 ID、owner、项目、直接关系和产出字段；完整 SQL/配置仍用 read_source。无需重复访问平台。
 search_source {sourceId,query,start?:0,limit?:6}：从本委托来源全文检索关键词，返回页码／段落；read_source {sourceId,start?:0,limit?:6}：逐段读取全文。长文摘要被截断时，必须用这两个工具读取相关部分再生成结论。产出引用材料名称和真实页码／段落，不编造定位。
 github_list {}：读取授权仓库最近更新的 Issue；github_read {number,taskId?}：读取指定 Issue 及评论并持续监测。
-platform_query {queries:[{op,taskId?,projectId?,page?:1,pageSize?:100,depth?:1,database?,table?}]}：授权 dataPlatform=sg-readonly 时，批量执行 1–10 个 SG 元数据只读查询并保存完整来源。op 为 identity（当前账号）、projects（可访问项目分页）、my_tasks（指定 projectId，当前账号名下任务分页）、task（详情）、code（SQL）、outputs（产出表）、upstream/downstream（任务血缘，depth 1–10）、table/ddl/table_lineage/table_tasks（数据库与表名）。每项返回 sourceId、摘要与时间；长结果用 read_source/search_source。先 identity 核实本人；按用户指定范围查本人任务，链路内筛选不需要全站项目扫描；不能以入口任务 owner 猜测本人。完整上下游需递归展开到边界，已访问节点去重，循环标注，有限 depth 结果不是全量证明。无下游不等于最终对外输出，需结合 SQL、产出表和消费者核实。失败、不可见项目、分页未完、跨区边界都明确列为缺口，不得宣称已经全部查完。此工具不支持 SQL 执行、修改任务或代替用户登录。
+platform_query {queries:[{op,taskId?,projectId?,page?:1,pageSize?:100,depth?:1,database?,table?,entityType?}]}：授权 dataPlatform=sg-readonly 时，批量执行 1–10 个 SG 元数据只读查询并保存完整来源。op 为 identity（当前账号）、projects（可访问项目分页）、my_tasks（指定 projectId，当前账号名下任务分页）、task（详情）、code（SQL）、outputs（产出表）、upstream/downstream（任务血缘，depth 1–10）、table/ddl/table_lineage/table_tasks（数据库与表名，现有执行适配器仅支持 HiveTable；请明确 entityType:"HiveTable"。ClickHouse/Hive2CH目标及风神/Aeolus数据集须选支持该实体的已授权能力，不能把目标表塞入Hive接口）。每项返回 sourceId、摘要与时间；长结果用 read_source/search_source。先 identity 核实本人；按用户指定范围查本人任务，链路内筛选不需要全站项目扫描；不能以入口任务 owner 猜测本人。完整上下游需递归展开到边界，已访问节点去重，循环标注，有限 depth 结果不是全量证明。无下游不等于最终对外输出，需结合 SQL、产出表和消费者核实。失败、不可见项目、分页未完、跨区边界都明确列为缺口，不得宣称已经全部查完。此工具不支持 SQL 执行、修改任务或代替用户登录。
 plan_task {key,existingTaskId?,primaryArtifactId?,evidenceResolution?:{basis,sourceIds:[],operationKeys:[],reason},title,description,objective?,criteria,priority:"high|normal|low",dueAt:null,sourceIds:[],removeSourceIds?:[],dependsOn:[],reason:"修改原因",resetSteps:[],steps:[{title,kind:"analysis|draft|external",key:"稳定步骤标识",outputRole?:"primary|supporting",targetArtifactId?,tool:"lark_create|lark_update|write_file|github_create|github_update|github_comment|request_confirmation|manual"}]}：自动填写看板事项。intake.status=pending 时必须沿用 existingTaskId，将原文拆成简明标题 title、背景 description、目标 objective、完成标准 criteria，保留原文 sourceIds 后立即推进。不要要求用户先填表。external 步骤必须用 tool 绑定实际动作；等待他人完成、部署、邮件等未接入动作使用 manual。一个外部步骤只执行一种动作。同一事项始终使用同一个 key；新材料应先核对已有事项，可用 existingTaskId 明确关联同一项目原事项。项目委托持续复用已有事项，保留冲突说明；最多 10 个。sourceIds 只允许来源目录的 ID，不能放文稿或辅助报告的 artifactId；稿件应使用 primaryArtifactId/targetArtifactId。引用已取得来源；已有事项的 sourceIds 为空或省略会保留证据，新来源合并。需撤回关联时显式填 removeSourceIds 并说明原因。仅有目标时可以不引用。已有 key 可调整步骤，保留同 key 且未受影响的已完成步骤；步骤按顺序依赖，修改后面的步骤会失效并重做。resetSteps 指定需重做的步骤 key。dependsOn 指前置事项 ID，必须先完成。更新计划必须给出 reason；needsReplan 非空时先核对计划，新要求影响产出时必须 resetSteps。所有任务的最终交付必须贴合委托目标。primaryArtifactId 可显式选择本事项已有主稿；文本步骤 outputRole=primary 是业务正文，supporting 是辅助报告；targetArtifactId 指明修订原文。outputRole 和 targetArtifactId 只用于 analysis/draft 文本步骤，external 步骤不得填写，外部交付自动选择绑定主稿。三者省略会保留已有设置。evidenceRequest 表示文本执行者需要上层补证或纠正绑定，不能重复 advance_task 或把查询交给用户。补证后先 plan_task 关联真实来源并填写 evidenceResolution，basis 必须与请求一致，sourceIds 或 operationKeys 引用新证据或请求后实际失败回执，reason 解释如何处理缺口；needs_replan 可在实际修改步骤或主稿绑定后解除。未解决请求会继续保留。
 verify_content {taskId}：检查当前稿件内容，外部交付仍由后续实际工具执行。
 advance_task {taskId}：调用推进模型生成当前分析或文稿，随后由检查模型验收。写作模型可自行通过 read_context 读取本事项原文、指定章节和最新文稿。对于精简、改写任务，已有原文来源和明确要求时直接推进，不必在调度阶段反复搜索同一原文或反复读取无关仓库。
@@ -95,37 +98,39 @@ function chargeCall(a,{persist=true}={}) {
   require('./work-rules.cjs').charge(a,job);
   job.callsUsed++;if(persist)a.save();
 }
-async function model(a,job,prompt,payload,role='execute') {
+async function model(a,job,prompt,payload,role='execute',options={}) {
+  const guardOptions={...options,phase:role==='verify'?'goal':'planner',stage:role==='verify'?'goal_verify':'planner'};
   const provider=a.available(role),resolver=require('./task-context.cjs'),recovery=require('./auto-recovery.cjs'),errors=require('./model-errors.cjs'),scope={kind:'job',jobId:job.id};
   const validated=resolver.validateReads(a,scope,job.contextReads||[],{purpose:role});
-  const snapshot={...validated.context},used=[];
+  const snapshot={...validated.context},used=[],coverageReads=[];
   const savedReads=validated.reads;
   let context={...payload,...snapshot,sourceCatalog:snapshot.readableCatalog,contextReads:require('./context-batch.cjs').mergeReadRows(savedReads)};
   used.push(...savedReads);
-  const state=ledger.state(job),key='context:'+role+':'+snapshot.guard,reads=(state.reads||={})[key]||=({counts:{}});
-  const assertCurrent=()=>{a.controller?.signal.throwIfAborted();resolver.assertReadsCurrent(a,scope,snapshot,used);};
+  ledger.state(job);
+  const assertCurrent=()=>{a.controller?.signal.throwIfAborted();resolver.assertReadsCurrent(a,scope,snapshot,used);require('./relation-context-page.cjs').assertCurrent(a,scope,coverageReads);};
   while(true){
     assertCurrent();
-    require('./work-efficiency.cjs').assertAllowed(a,job);
+    require('./work-efficiency.cjs').assertAllowed(a,job,guardOptions);
     strategy.plannerStarted(a,job);
-    let response=await a.callModel(provider,undefined,[{role:'system',content:prompt+'\n资料可用 read_context 批量读取，返回 {"kind":"read_context","requests":[{"tool":"read_source","sourceId":"..."}]}。每批 1–4 项，程序自动拼接后续页；结果仍有 next 时才续读。也可用 {"tool":"list_sources","query":"关键词"} 检索目录。历史材料请加 history:true。目录只代表可读性，不代表新的业务要求；回读用于核验，不能因新回读自行重新开始。逐项 ok:false 给出 code、recovery、safeAlternatives、retryCondition；成功结果已保存，只修正失败请求，不要重读整批，也不能要求用户重贴已保存原文。'},{role:'user',content:JSON.stringify(require('./context-evidence.cjs').deduplicate(require('./context-evidence.cjs').bounded(require('./model-context.cjs').project(context,{stage:role==='verify'?'goal_verify':'planner'}))))}],{signal:a.controller?.signal,role,stage:role==='verify'?'goal_verify':'planner',routingContext:context});
+    const modelInput=require('./model-input.cjs').prepare(context,{stage:role==='verify'?'goal_verify':'planner'});
+    let response=await a.callModel(provider,undefined,[{role:'system',content:prompt+'\n资料可用 read_context 批量读取，返回 {"kind":"read_context","requests":[{"tool":"read_source","sourceId":"..."}]}。每批 1–4 项，程序自动拼接后续页；结果仍有 next 时才续读。也可用 {"tool":"list_sources","query":"关键词"} 检索目录。历史材料请加 history:true。目录只代表可读性，不代表新的业务要求；回读用于核验，不能因新回读自行重新开始。逐项 ok:false 给出 code、recovery、safeAlternatives、retryCondition；成功结果已保存，只修正失败请求，不要重读整批，也不能要求用户重贴已保存原文。'},{role:'user',content:JSON.stringify(modelInput)}],{signal:a.controller?.signal,role,stage:role==='verify'?'goal_verify':'planner',routingContext:context});
     assertCurrent();
     if(response?.tool==='read_context'||response?.kind==='read_context')response={...response,kind:'read_context',requests:response.requests??response.args?.requests};
     if(response.kind!=='read_context')return response;
-    require('./work-efficiency.cjs').readAttempt(a,job);
-    let count=0,exhausted;
+    let exhausted;
     const batch=require('./generation-context.cjs').readBatch(a,scope,response.requests,{maxChars:96000,onRows:batch=>{
       for(const row of batch.rows){
-        if(row.result.ok&&!row.result.directoryOnly&&row.result.ref){const fingerprint=resolver.readFingerprint(row);reads.counts[fingerprint]=(reads.counts[fingerprint]||0)+1;count=Math.max(count,reads.counts[fingerprint]);}
-        else if(!row.result.ok&&!recovery.contextAttempt(a,scope,row.result,row.request,{stage:role==='verify'?'goal_verify':'planner',contextRevision:context.contextRevision}).allowed)exhausted=row.result;
+        if(!row.result.ok&&!recovery.contextAttempt(a,scope,row.result,row.request,{stage:role==='verify'?'goal_verify':'planner',contextRevision:context.contextRevision}).allowed)exhausted=row.result;
       }
     }}),results=batch.rows;
-    used.push(...batch.pageRows);
+    coverageReads.push(...results.filter(r=>r.request?.tool==='read_obligations'&&r.result?.ok));
+    used.push(...batch.used);
+    const reading=require('./work-efficiency.cjs').readResult(a,job,{rows:results,visibleContext:modelInput});a.save();
+    if(!reading.allowed)require('./work-efficiency.cjs').assertAllowed(a,job,guardOptions);
     if(exhausted)throw recovery.contextExhausted(scope,exhausted);
-    if(count>=3)throw errors.contextError('CONTEXT_INVALID_REQUEST',{message:'同一读取请求没有带来新信息，请检查请求范围和读取策略；成功读取已保存。',noProgress:true,jobId:job.id});
     const refreshed=resolver.buildContext(a,scope,role);
     if(batch.pageRows.some(row=>row.result.repaired))snapshot.deliveryBasis=refreshed.deliveryBasis;
-    context={...context,...refreshed,workEfficiency:require('./work-efficiency.cjs').inspect(job),sourceCatalog:refreshed.readableCatalog,contextReads:require('./context-batch.cjs').mergeReadRows([...(context.contextReads||[]),...results]),contextRecovery:count>1?{instruction:'这些内容已经读取，请生成结果或读取尚未提供的部分。'}:null};
+    context={...context,...refreshed,workEfficiency:require('./work-efficiency.cjs').inspect(job),sourceCatalog:refreshed.readableCatalog,contextReads:require('./context-batch.cjs').mergeReadRows([...(context.contextReads||[]),...results]),contextRecovery:reading.reading.duplicate||reading.reading.empty?{instruction:'这些内容已经读取，请生成结果或读取尚未提供的部分。'}:null};
   }
 }
 function source(a,job,identity,title,content,metadata={}) {
@@ -242,7 +247,7 @@ async function checkSources(a,job) {
 }
 async function act(a,job,tool,args={}) {
   const entry=require('./tool-registry.cjs').get(tool);
-  require('./execution-gate.cjs').assert(a,{job,readOnly:entry.effect==='read'||entry.effect==='local'||entry.effect==='authorization'});
+  try{require('./execution-gate.cjs').assert(a,{job,readOnly:entry.effect==='read'||entry.effect==='local'||entry.effect==='authorization'});}catch(error){if(error.gateReason!=='source_batch_pending'||!['list_sources','read_source','list_artifacts','read_artifact'].includes(tool)){if(tool==='complete'&&error.gateReason==='source_batch_pending')error.message='关联来源仍在分页同步，请等待收集完成后再验收';throw error;}}
   if(tool==='capability_call')args=require('./capabilities.cjs').normalizeArguments(a,args);
   const result=await executeAction(a,job,tool,args);
   require('./tool-registry.cjs').observe(a,job,tool,args,result);
@@ -254,11 +259,13 @@ async function executeAction(a,job,tool,args) {
   if(tool==='read_lark_document')return require('./access.cjs').read(a,job,args);
   if(tool==='read_url'){let target;try{target=require('./lark-connector.cjs').docTarget(args.url);}catch{}if(target)return require('./access.cjs').read(a,job,{url:target});}
   projectLifecycle.assertJobActive(a.data,job);
+  if(tool==='recover_platform_result')return require('./platform-local-recovery.cjs').execute(a,job,args);
   if(tool==='read_output_state')return require('./output-state.cjs').read(a,job,args);
   if(tool==='retire_output')return require('./output-state.cjs').retire(a,job,args);
   if(tool==='capability_call'){
     require('./protocol-access.cjs').assertTool(a,job,tool,args);
     const result=await require('./capabilities.cjs').invoke(a,job,args);
+    require('./capabilities.cjs').consumeResult(a,job,args,result);
     const store=require('./evidence-store.cjs'),identity=store.capabilityKey(job,args),old=a.data.sources.find(s=>(s.resourceKey||s.identity)===identity);
     if(old)old.identity=identity;
     const s=source(a,job,identity,`${result.capabilityName} · ${result.tool}`,JSON.stringify(result.result,null,2),{resourceKey:identity,capabilityId:result.capabilityId,capabilityVersion:result.usedVersion});
@@ -271,35 +278,61 @@ async function executeAction(a,job,tool,args) {
   if(tool==='read_platform'){
     const s=a.data.sources.find(s=>s.id===args.sourceId&&job.sourceIds.includes(s.id)&&require('./protocol-access.cjs').allowedObject(a,'source',s,job)&&s.platformSnapshot&&!s.deleted&&!s.projectExcluded);
     if(!s)throw new Error('只能读取本委托保存的有效平台来源');
-    return {sourceId:s.id,...dataPlatform.index(JSON.parse(s.content),args),checkedAt:s.lastCheckedAt||JSON.parse(s.content).queriedAt};
+    return {sourceId:s.id,...dataPlatform.index(JSON.parse(s.content),args,s),checkedAt:s.lastCheckedAt||JSON.parse(s.content).queriedAt};
   }
   if(tool==='platform_query'){
     if(job.dataPlatform!=='sg-readonly')throw new Error('此委托未授权 SG 数据平台只读查询');
     if(!Array.isArray(args.queries)||!args.queries.length||args.queries.length>10)throw new Error('每批需要 1–10 个平台查询');
-    args.queries.forEach(dataPlatform.command);
+    for(const query of args.queries)try{dataPlatform.command(query);}catch(error){if(!['UNSUPPORTED_ENTITY','UNSUPPORTED_CAPABILITY'].includes(error.code))throw error;}
     const batch=await ledger.prepareBatch(a,job);
     require('./protocol-access.cjs').assertTool(a,job,'platform_query',args);
     const results=[];
     for(const query of args.queries){
       a.controller?.signal.throwIfAborted();
+      let fetched;
       try{
-        const fetched=await ledger.fetch(a,job,query,{batch});
-        if(fetched.error){results.push({query,error:fetched.error,errorCode:fetched.errorCode,reused:fetched.reused,retryAt:fetched.operation.retryAt});continue;}
-        const result=fetched.snapshot;
+        fetched=await ledger.fetch(a,job,query,{batch});
+        if(fetched.error){results.push({query,error:fetched.error,errorCode:fetched.errorCode,reused:fetched.reused,retryAt:fetched.operation?.retryAt,...Object.fromEntries(['operationId','requestedQuery','originalQuery','cachedQuery','originalObservedAt','receipt','status','acceptedBoundary','cacheReason','projectResolution'].filter(k=>fetched[k]!==undefined).map(k=>[k,fetched[k]]))});continue;}
+        // Cached ledger snapshots contain only public source.content. Restore
+        // their same-source metadata only after ledger's existing ACL checks.
+        const cached=fetched.reused?a.data.sources.find(s=>s.id===fetched.operation.sourceId):null;
+        const stored=dataPlatform.splitPlatformSnapshot(fetched.snapshot,cached||{}),result=stored.snapshot;
         const content=JSON.stringify(result,null,2);
-        if(content.length>documents.maxChars)throw new Error('结果超过材料上限，请减小查询深度或分页读取');
-        const requestKey=JSON.stringify(dataPlatform.command(query)),scopedIdentity=`platform:${job.platformPrincipal||'unverified'}:${requestKey}`;
-        const previous=a.data.sources.find(s=>s.platformSnapshot&&(s.identity===scopedIdentity||s.identity===`platform:${requestKey}`||s.platformQueryKey===requestKey)&&!s.deleted&&!s.projectExcluded&&(s.projectId||null)===(job.projectId||null));
-        const samePrincipal=previous&&(previous.platformPrincipal||null)===(job.platformPrincipal||null);
+        if(content.length>documents.maxChars)throw Object.assign(new Error('平台结构结果超过有界材料上限，不能作为完整结果保存。'),{code:'LOCAL_RESULT_STORAGE',diagnostics:{stage:'storage',reason:'snapshot_limit',snapshotChars:content.length,limitChars:documents.maxChars}});
+        const queryIdentity=require('./platform-boundaries.cjs').canonicalQuery(result.query||query),requestKey=JSON.stringify(queryIdentity),legacyRequestKey=JSON.stringify(dataPlatform.command(query)),scopedIdentity=`platform:${job.platformPrincipal||'unverified'}:${requestKey}`;
+        const previous=a.data.sources.find(s=>s.platformSnapshot&&(s.identity===scopedIdentity||s.identity===`platform:${requestKey}`||s.platformQueryKey===requestKey||s.identity===`platform:${job.platformPrincipal||'unverified'}:${legacyRequestKey}`||s.identity===`platform:${legacyRequestKey}`||s.platformQueryKey===legacyRequestKey)&&(()=>{try{return hash(require('./platform-boundaries.cjs').canonicalQuery(JSON.parse(s.content).query))===hash(queryIdentity);}catch{return false;}})()&&!s.deleted&&!s.projectExcluded&&(s.projectId||null)===(job.projectId||null));
+        const samePrincipal=previous&&hash(previous.platformPrincipal||null)===hash(job.platformPrincipal||null);
         const identity=samePrincipal?previous.identity:scopedIdentity;
-        const unchanged=fetched.reused||!!samePrincipal&&dataPlatform.sameEvidence(previous.content,result);
-        const s=fetched.reused?a.data.sources.find(s=>s.id===fetched.operation.sourceId):unchanged?previous:source(a,job,identity,`SG · ${query.op} · ${query.taskId||query.projectId||query.table||'当前账号'}${query.page?` · 第 ${query.page} 页`:''}`,content,{platformSnapshot:true,platformPrincipal:job.platformPrincipal||null,platformQueryKey:requestKey,...(previous?{previousSourceId:previous.id,version:(previous.version||1)+1}:{})});
+        const previousManifest=previous&&(()=>{try{return JSON.parse(previous.content).platformResult;}catch{return null;}})();
+        // Same raw evidence does not justify pairing a new archive with an old
+        // incompatible (or altered) projection of that evidence.
+        const unchanged=fetched.reused||!!samePrincipal&&dataPlatform.sameEvidence(previous.content,result,previous,stored.sourceMeta)&&(!previousManifest||previousManifest.projectionSha256===result.platformResult?.projectionSha256);
+        let s;
+        try{require('./state-transitions.cjs').commit(a,()=>{
+          s=fetched.reused?cached:unchanged?previous:source(a,job,identity,`SG · ${query.op} · ${query.taskId||query.projectId||query.table||'当前账号'}${query.page?` · 第 ${query.page} 页`:''}`,content,{platformSnapshot:true,platformPrincipal:job.platformPrincipal||null,platformQueryKey:requestKey,...stored.sourceMeta,...(previous?{previousSourceId:previous.id,version:(previous.version||1)+1}:{})});
+        // Unchanged evidence keeps its original manifest/archive pair. A fresh
+        // operation has a different envelope and cannot replace only the chunks.
         if(!job.sourceIds.includes(s.id))job.sourceIds.push(s.id);
         if(!fetched.reused)s.lastCheckedAt=result.queriedAt;
         if(s.previousSourceId&&!unchanged)require('./evidence-store.cjs').changed(a,job,s);
         if(!fetched.reused)ledger.finish(a,job,fetched.operation,s.id);
-        results.push({query,sourceId:s.id,...documents.summary(s,12000),unchanged,reused:fetched.reused,checkedAt:s.lastCheckedAt||result.queriedAt,...(fetched.reused?{note:'复用本委托有效查询结果，未重新访问平台；checkedAt 为实际查询时间。'}:{})});a.save();
-      }catch(error){a.controller?.signal.throwIfAborted();results.push({query,error:error.message});}
+          require('./recovery.cjs').assertStorageCapacity(a);
+        });}catch(error){if(error.committed)throw error;throw Object.assign(error,{code:error.code||'LOCAL_RESULT_STORAGE',localPersistence:true,stopBatch:true});}
+        // Response bodies always use the split public representation, including
+        // cached legacy snapshots that might still carry an inline archive.
+        results.push({query,sourceId:s.id,...documents.summary(s,12000),unchanged,reused:fetched.reused,storageValidation:fetched.storageValidation||'original_response_verified',...(fetched.compatibility?{compatibility:fetched.compatibility}:{}),checkedAt:s.lastCheckedAt||result.queriedAt,...(fetched.reused?{note:'复用本委托有效查询结果，未重新访问平台；checkedAt 为实际查询时间。'}:{})});
+      }catch(error){
+        if(error.committed||error.dispatchFailure||error.gateClosed||error.spendLimit||error.stewardshipBudget||error.stewardshipMeter)throw error;
+        if(error.localPersistence||['LOCAL_RESULT_STORAGE','LOCAL_RESULT_INTEGRITY','STORAGE_ERROR'].includes(error.code)){
+          // Do not mutate a proven cached success on a local read failure. A
+          // fresh operation retains its original response until storage works.
+          if(fetched?.operation&&!fetched.reused)require('./evidence-item-lifecycle.cjs').storageFailure(a,job,fetched.operation,error);
+          throw Object.assign(error,{stopBatch:true,partialResults:results});
+        }
+        a.controller?.signal.throwIfAborted();
+        if(error.stopBatch)throw Object.assign(error,{partialResults:results});
+        results.push({query,error:error.message,...(error.code?{errorCode:error.code}:{})});
+      }
     }
     return {results};
   }
@@ -323,7 +356,8 @@ async function executeAction(a,job,tool,args) {
   if(tool==='advance_task') {
     const task=ownedTask(a,job,args.taskId);plans.assertReady(a,task);const recovery=require('./auto-recovery.cjs');
     if(task.evidenceRequest)throw Object.assign(Error('文本步骤已请求补证或调整计划，请先处理 evidenceRequest，再通过 plan_task 提交 evidenceResolution'),{code:'EVIDENCE_REQUIRED',taskId:task.id});
-    const next=task.steps.find(s=>!s.done);if(next?.kind==='external'&&next.tool!=='manual')throw Object.assign(Error('当前是外部步骤，请调用已绑定的实际工具：'+next.tool),{code:'EXTERNAL_TOOL_REQUIRED',taskId:task.id});
+    require('./evidence-consumption.cjs').assertAdvance(a,job,task);
+    const next=require('./evidence-consumption.cjs').selectedStep(a,job,task)||task.steps.find(s=>!s.done);if(next?.kind==='external'&&next.tool!=='manual')throw Object.assign(Error('当前是外部步骤，请调用已绑定的实际工具：'+next.tool),{code:'EXTERNAL_TOOL_REQUIRED',taskId:task.id});
     recovery.repair(a,task);await a.advance(task.id);
     if(task.evidenceRequest)return {taskId:task.id,status:task.status,evidenceRequest:require('./evidence-request.cjs').view(task.evidenceRequest),nextAction:'planner'};
     // A transport success is not recovery until the returned work has been validated.
@@ -375,22 +409,35 @@ async function executeAction(a,job,tool,args) {
   }
   throw new Error('Agent 返回了不可用的工具');
 }
-async function run(a,id,{check=false,operationId,deadlineClaims=[]}={}) {
-  const job=jobById(a,id);projectLifecycle.assertJobActive(a.data,job);if(job.executionPaused||['paused','completed','cancelled'].includes(job.status)||job.deletedAt)return;a.activeAgentJob=job;
-  const record={id:operationId||uid(),jobId:id,startedAt:now(),trigger:check?'来源检查':'自主推进',callsBefore:job.callsUsed,steps:[],status:'running'};
+async function run(a,id,{check=false,operationId,deadlineClaims=[],userRequested=false}={}) {
+  const job=jobById(a,id),policy=require('./execution-policy.cjs');
+  const own=[...((a.executionOwner||a).executions?.values()||[])].find(r=>r.jobId===id&&r.context?.controller===a.controller);
+  const runId=operationId||uid(),policyOptions={mode:a.automaticExecution===true?'automatic':'manual',currentExecutionId:own?.key||runId,operationId:runId,deadlineClaims};
+  const admission=policy.prepare(a,job,policyOptions);
+  if(!admission.eligible){
+    if(policyOptions.mode==='manual'){
+      if(admission.reasonCode==='budget'){const prior=a.activeAgentJob;a.activeAgentJob=job;try{spend.check(a);}catch(error){if(error.spendLimit){spend.blockJob(a,job,error);a.save();}else throw error;}finally{a.activeAgentJob=prior;}}
+      if(userRequested){a.event('本次推进未启动',`${job.title}：${admission.reason||'当前条件不允许启动'}（${admission.reasonCode||'ADMISSION_BLOCKED'}）`,admission.taskIds?.[0]||job.taskIds?.[0], 'warning');a.save();}
+    }
+    return;
+  }
+  const existing=continuationControl.existingAction(a,job,{automatic:a.automaticExecution===true,currentExecutionId:policyOptions.currentExecutionId});
+  a.activeAgentJob=job;
+  const record={id:runId,jobId:id,startedAt:now(),trigger:check?'来源检查':'自主推进',callsBefore:job.callsUsed,steps:[],status:'running'};
   record.usage=spend.emptyUsage();record.modelCallsDetail=[];a.activeAgentRun=record;
   a.data.agentRuns.unshift(record);a.data.agentRuns=a.data.agentRuns.slice(0,200);
   job.status='running';job.lastError='';delete job.lastErrorCode;delete job.lastErrorAutomaticRetry;job.summary='Agent 正在读取资料并推进事项，进度会持续保存';a.save();
   try {
     require('./deadline-scheduler.cjs').attachRun(a,record,deadlineClaims);
-    spend.check(a);
     // Reconcile earlier side effects before new context can invalidate their plans.
-    const uncertain=require('./projects.cjs').relatedActions(a,job).find(r=>['running','uncertain'].includes(r.status));
-    if(uncertain){job.pendingActionId=uncertain.id;if(uncertain.jobId!==job.id)throw Object.assign(new Error('原外部动作的委托关联不完整，请先人工核对执行结果'),{requiresInput:true});const result=await (uncertain.tool==='request_confirmation'?communications:writes).execute(a,job,uncertain);job.history.push({tool:uncertain.tool,result,at:now(),trigger:'只读核对'});a.save();
+    const uncertain=admission.mode==='reconcile_existing'&&require('./projects.cjs').relatedActions(a,job).find(r=>r.id===admission.action?.actionId&&['running','uncertain'].includes(r.status));
+    if(uncertain){job.pendingActionId=uncertain.id;if(uncertain.jobId!==job.id)throw Object.assign(new Error('原外部动作的委托关联不完整，请先人工核对执行结果'),{requiresInput:true});if(a.automaticExecution&&existing?.kind==='reconcile'){uncertain.automaticReconciliation={basis:existing.basis,at:now()};a.save();}const result=await (uncertain.tool==='request_confirmation'?communications:writes).execute(a,job,uncertain);job.history.push({tool:uncertain.tool,result,at:now(),trigger:'只读核对'});a.save();
       if(require('./projects.cjs').relatedActions(a,job).some(r=>['running','uncertain'].includes(r.status)))throw Object.assign(new Error('还有外部动作结果需要核对'),{requiresInput:true});}
-    const initialMemoryChanged=memory.reconcile(a,job);a.save();
+    if(existing?.kind==='reconcile'){const after=policy.inspect(a,job,policyOptions);if(!after.eligible&&!after.commands.length){job.status=after.phase==='paused'?'ready':after.phase;job.nextRunAt=after.resumeAt;job.summary=after.reason;record.status=after.phase;return;}}
+    spend.check(a);
+    const initialMemoryChanged=memory.reconcile(a,job)||admission.preparedCommands?.includes('memory_reconcile');a.save();
     if(check){const changed=await checkSources(a,job);const memoryChanged=memory.reconcile(a,job);const due=followup.due(a,job);if(due.notify){record.status='needs_input';return;}if(!changed&&!memoryChanged&&!initialMemoryChanged&&!due.wake&&!job.finishAfterAcceptance){job.status='watching';job.failures=0;followup.schedule(job);record.status='unchanged';return;}}
-    if(job.pendingActionId) {
+    if(job.pendingActionId&&admission.mode==='execute_approved_existing') {
       const action=a.data.agentActions.find(r=>r.id===job.pendingActionId);
       if(action&&(action.approvedAt||['lark_create','lark_update'].includes(action.tool)&&writes.mode(job,action.tool,action.taskId)==='auto')&&['pending','running','uncertain'].includes(action.status)) {const result=await (action.tool==='request_confirmation'?communications:writes).execute(a,job,action);job.history.push({tool:action.tool,result,at:now()});job.pendingActionId=null;}
       else if(action&&['stale','failed','done'].includes(action.status))job.pendingActionId=null;
@@ -400,40 +447,77 @@ async function run(a,id,{check=false,operationId,deadlineClaims=[]}={}) {
     for(let index=actionsUsed;index<job.maxActions&&job.status==='running';index++) {
       memory.reconcile(a,job);
       a.controller?.signal.throwIfAborted();
-      if(!strategy.begin(a,job)){record.status=job.status;a.save();break;}
-      require('./work-efficiency.cjs').assertAllowed(a,job);a.save();
-      const pendingRecovery=require('./auto-recovery.cjs').pendingTask(a,job);
-      const recoveryTask=pendingRecovery&&!require('./recovery-diagnostics.cjs').planning(a,job,pendingRecovery)&&pendingRecovery.steps.find(s=>!s.done)?.kind!=='external'?pendingRecovery:null;
-      const response=strategy.next(a,job)||(!strategy.planning(job)&&control.next(a,job))||(recoveryTask&&!strategy.planning(job)?{tool:'advance_task',args:{taskId:recoveryTask.id},reason:'从已保存的模型调用断点自动恢复'}:await model(a,job,commands,context(a,job),job.taskIds.length?'execute':'organize'));
+      require('./execution-gate.cjs').assert(a,{job,readOnly:true});
+      const decision=policy.prepare(a,job,policyOptions);
+      if(!decision.eligible){job.status=decision.phase==='paused'?'ready':decision.phase==='prepare_pending'?'ready':decision.phase;job.nextRunAt=decision.resumeAt;job.summary=decision.reason;record.status=decision.phase;a.save();break;}
+      const selectedTask=decision.action?.tool==='complete'?null:a.data.tasks.find(t=>t.id===decision.taskIds[0]);
+      const claimed=policy.claim(a,job,policyOptions);
+      if(!claimed&&decision.action?.tool!=='planner')throw Object.assign(Error('动作领取已变化，停止本轮规划'),{code:'POLICY_ADMISSION_CHANGED',policyAdmission:policy.inspect(a,job,policyOptions)});
+      const response=claimed||await model(a,job,commands,context(a,job),job.taskIds.length?'execute':'organize',{task:selectedTask});
+      const recoveryTask=selectedTask;
       if(typeof response?.tool!=='string'||!response.args||typeof response.args!=='object'||Array.isArray(response.args)||JSON.stringify(response).length>20000)throw require('./model-errors.cjs').modelError('MODEL_INVALID_RESPONSE','Agent 动作格式无效，需要有效且大小适当的 tool 和 args',true);
-      strategy.acceptPlan(a,job,response);
+      if(decision.owner?.kind==='strategy')strategy.acceptPlan(a,job,response);
+      const responseTaskId=response.args?.taskId||response.args?.existingTaskId;
+      if(responseTaskId&&decision.taskIds.length&&!decision.taskIds.includes(responseTaskId))throw Object.assign(Error('规划动作不属于当前合法事项'),{code:'POLICY_TASK_MISMATCH',gateClosed:true});
+      require('./execution-gate.cjs').assert(a,{job,task:a.data.tasks.find(t=>t.id===responseTaskId)});
       if(!recoveryTask)require('./auto-recovery.cjs').succeeded(a,{stage:'planner',taskId:null});
-      const step={tool:response.tool,args:response.args,reason:String(response.reason||'').slice(0,1000),at:now()},before=efficiency.progress(a,job);step.beforeBasis=before;strategy.started(a,job,step);efficiency.action(a,job,step);record.steps.push(step);a.save();
-      spend.check(a);
-      try {const result=await act(a,job,response.tool,response.args);step.result=structuredClone(result);strategy.settled(a,job,step);job.history.push({tool:response.tool,args:structuredClone(response.args),result:structuredClone(result),at:now()});}
+      const step={tool:response.tool,args:response.args,reason:String(response.reason||'').slice(0,1000),at:now()},before=efficiency.progress(a,job);step.beforeBasis=before;
+      // Admission must inspect the still-unclaimed action. Claiming consumes its
+      // candidate; asking for another candidate afterwards rejects our own work.
+      efficiency.action(a,job,step);spend.check(a);
+      require('./dispatch-lifecycle.cjs').prepare(a,job,record,step,()=>{continuationControl.started(a,job,step);if(!step.continuation?.handled)strategy.started(a,job,step);});
+      const strategyOwner=!step.continuation?.handled&&job.executionState?.workEfficiency?.active;
+      const strategyFlight=step.strategyRecovery?.id===strategyOwner?.id?strategyOwner?.inFlight:null;
+      try {require('./dispatch-lifecycle.cjs').guard(a,job);const result=await act(a,job,response.tool,response.args);step.result=structuredClone(result);continuationControl.settled(a,job,step);if(!step.continuation?.handled)strategy.settled(a,job,step);job.history.push({tool:response.tool,args:structuredClone(response.args),result:structuredClone(result),at:now()});}
       catch(error) {
-        step.error=error.message;step.errorCode=error.code;strategy.settled(a,job,step,{planInputInvalid:error.planInputInvalid===true});control.error(error,response.args.taskId);const recovered=control.recover(a,job,step,error);
-        if(!require('./projects.cjs').relatedActions(a,job).some(r=>['running','uncertain'].includes(r.status))){const access=require('./access.cjs').recover(a,job,response.tool,response.args,error);if(access){step.result=structuredClone(access);job.history.push({tool:response.tool,result:structuredClone(access),at:now()});control.after(a,job,step);efficiency.checkProgress(a,job,step,before);a.save();break;}}
+        require('./dispatch-lifecycle.cjs').failed(a,job,error);
+        if(error.gateClosed){step.gateClosed=true;step.error=error.message;step.errorCode=error.code;const task=a.data.tasks.find(t=>t.id===(step.args?.taskId||step.args?.existingTaskId));if(task)require('./pending-check.cjs').interrupt(a,job,task,error);throw error;}
+        if(require('./evidence-identity-preflight.cjs').isError(a,job,error)&&!error.spendLimit&&!error.stewardshipBudget&&!error.stewardshipMeter&&!a.controller?.signal.aborted){
+          step.error=error.message;step.errorCode=error.code;step.identityPreflight={...structuredClone(error.identityPreflight),ownerTaskId:selectedTask?.id||responseTaskId||null};
+          continuationControl.settled(a,job,step);
+          const identityRow=job.executionState?.identityPreflights?.[error.identityPreflight.key]?.find(r=>r.id===error.identityPreflight.recordId);
+          // This identity request has a durable failure, so this exact step is
+          // no longer in flight. Preserve the strategy and its retry/history;
+          // generic strategy settlement would incorrectly consume the route.
+          // Unresolved identity requests and replaced owners/markers stay guarded.
+          if(strategyFlight&&job.executionState?.workEfficiency?.active===strategyOwner&&strategyOwner.inFlight===strategyFlight&&strategyFlight.tool===step.tool&&strategyFlight.taskId===(step.args?.taskId||null)&&identityRow?.status==='failed'&&identityRow.finishedAt&&identityRow.runId===record.id&&identityRow.dispatchId===step.dispatch.id&&identityRow.stepId===step.id)delete strategyOwner.inFlight;
+          require('./dispatch-lifecycle.cjs').clear(a,job);
+          job.history.push({tool:response.tool,error:error.message,at:now()});
+          const after=policy.inspect(a,job,policyOptions);
+          if(!after.eligible){job.status=after.phase;job.nextRunAt=after.resumeAt;job.summary=after.reason;record.status=after.phase;}
+          a.save();if(!after.eligible)break;continue;
+        }
+        step.error=error.message;step.errorCode=error.code;step.errorDiagnostic=require('./model-errors.cjs').diagnostic(error);control.error(error,response.args.taskId||response.args.existingTaskId);const redirected=continuationControl.redirect(a,job,step,error);continuationControl.settled(a,job,step);if(!step.continuation?.handled)strategy.settled(a,job,step,{planInputInvalid:error.planInputInvalid===true});const recovered=redirected||step.continuation?.kind==='evidence'||control.recover(a,job,step,error);
+        if(require('./access.cjs').recoveryCandidate(response.tool,error)&&!require('./projects.cjs').relatedActions(a,job).some(r=>['running','uncertain'].includes(r.status))){const access=require('./access.cjs').recover(a,job,response.tool,response.args,error);if(access){step.result=structuredClone(access);job.history.push({tool:response.tool,result:structuredClone(access),at:now()});control.after(a,job,step);efficiency.checkProgress(a,job,step,before);a.save();break;}}
         // A write with an uncertain side effect must stop and reconcile before planning further.
-        if(error.noProgress)throw error;
+        if(error.noProgress||['CHECK_REQUEST_UNRESOLVED','CHECK_REPAIR_STALE'].includes(error.code))throw error;
         if((writeActions.includes(response.tool)&&!error.invalidDelivery&&!recovered)||error.gateClosed||error.spendLimit||error.stewardshipBudget||error.stewardshipMeter||error.modelFailure||error.retryable||a.controller?.signal.aborted){control.after(a,job,step);if(!error.spendLimit&&!error.modelFailure&&!error.conflict&&!error.gateClosed&&!a.controller?.signal.aborted)efficiency.checkProgress(a,job,step,before);throw error;}
         job.history.push({tool:response.tool,error:error.message,at:now()});
       }
+      require('./dispatch-lifecycle.cjs').clear(a,job);
       control.after(a,job,step);
       efficiency.checkProgress(a,job,step,before);
       job.history=job.history.slice(-30);a.save();
     }
+    if(job.status==='running'){
+      const after=policy.inspect(a,job,policyOptions);
+      if(!after.eligible&&after.identity){job.status=after.phase;job.nextRunAt=after.resumeAt;job.summary=after.reason;}
+    }
     if(job.status==='running'){job.status='ready';job.nextRunAt=new Date(Date.now()+15000).toISOString();job.summary='本轮动作已完成，将继续推进';}
-    job.failures=0;record.status='done';
+    job.failures=0;record.status=['blocked','retry','needs_input','limited','approval','paused'].includes(job.status)?job.status:'done';
   } catch(error) {
     if(job.deletedAt||['completed','cancelled'].includes(job.status)){record.status=job.status;return;}
+    if(error.policyAdmission){const p=policy.inspect(a,job,policyOptions);job.status=p.eligible?'ready':p.phase;job.nextRunAt=p.resumeAt;job.summary=p.reason;record.status=job.status;return;}
+    if(error.gateClosed){const task=a.data.tasks.find(t=>t.id===(record.steps.at(-1)?.args?.taskId||record.steps.at(-1)?.args?.existingTaskId));if(task)require('./pending-check.cjs').interrupt(a,job,task,error);if(job.status!=='paused')job.status='ready';job.nextRunAt=null;job.summary=error.message;record.status='paused';record.gateClosed=true;return;}
     if(job.executionState?.workEfficiency?.active)delete job.executionState.workEfficiency.active.inFlight;
     job.lastError=error.message;if(error.modelFailure){job.lastErrorCode=error.code;job.lastErrorAutomaticRetry=error.automaticRetry===true;}job.failures++;
     if(a.controller?.signal.aborted||job.status==='paused'){job.status='paused';job.summary='已暂停，执行记录已保留';}
-    else if(error.gateClosed){job.status='ready';job.nextRunAt=null;job.summary=error.message;}
     else if(error.spendLimit){spend.blockJob(a,job,error);}
     else if(error.stewardshipBudget){require('./stewardship.cjs').defer(a,error,job);}
     else if(error.stewardshipMeter){job.status='blocked';job.summary=error.message;job.nextRunAt=null;}
+    else if(['CHECK_REQUEST_UNRESOLVED','CHECK_REPAIR_STALE'].includes(error.code)){job.status='needs_input';job.nextRunAt=null;job.retryCheck=false;job.summary=error.message;a.event('原稿检查需要核对原请求',job.summary,null,'warning');}
+    else if(continuationControl.ready(a,job)===false&&job.status==='blocked'){job.nextRunAt=null;}
+    else if(error.noProgress&&continuationControl.handoff(a,job,error)){}
     else if(error.noProgress&&strategy.schedule(a,job,error)){}
     else if(error.noProgress){job.status='blocked';job.nextRunAt=null;job.retryCheck=false;job.summary=error.message;a.event('Agent 重复动作已停止',job.summary,null,'warning');if(tasksNeedHelp(a,job))control.requestHelp(a,job,error);}
     else if(strategy.invalidOutput(a,job,error)){}
@@ -447,38 +531,23 @@ async function run(a,id,{check=false,operationId,deadlineClaims=[]}={}) {
     record.status=job.status;
     if((error.noProgress||error.code==='MODEL_INVALID_RESPONSE')&&job.status==='ready'&&job.executionState?.workEfficiency?.phase==='recovery_pending')record.recovery={reason:error.message,message:job.summary};
     else record.error=error.message;
-  } finally {record.finishedAt=now();record.modelCalls=job.callsUsed-record.callsBefore;job.updatedAt=now();a.activeAgentJob=null;a.activeAgentRun=null;a.save();}
+  } finally {require('./dispatch-lifecycle.cjs').clear(a,job);record.finishedAt=now();record.modelCalls=job.callsUsed-record.callsBefore;job.updatedAt=now();a.activeAgentJob=null;a.activeAgentRun=null;a.save();}
 }
 function tasksNeedHelp(a,job){return job.taskIds.some(id=>{const t=a.task(id);return !t.deletedAt&&!t.agentCancelled&&!['review','completed'].includes(t.status);});}
 function tick(a) {
   if(a.exclusiveOperation)return false;
-  const eventCount=a.data.events[0]?.id;
-  for(const job of a.data.delegations)if(projectLifecycle.isJobActive(a.data,job))followup.deadlines(a,job);
-  if(eventCount!==a.data.events[0]?.id)a.save();
-  const state=require('./work-state.cjs'),acceptance=require('./acceptance.cjs');
-  const jobs=a.data.delegations.filter(job=>{
-    if(job.lastErrorAutomaticRetry===false||!projectLifecycle.isJobActive(a.data,job)||job.executionPaused||!state.gate(a,job).automaticAllowed||!require('./work-rules.cjs').canRun(a,job))return false;
-    if(job.projectId&&require('./chat-streams.cjs').hasPending(a,job.projectId)||a.data.connectors.some(c=>(c.jobId===job.id||job.projectId&&c.projectId===job.projectId||(job.connectorIds||[]).includes(c.id))&&c.cursor?.token))return false;
-    if(!strategy.ready(a,job))return false;
-    if(job.nextRunAt&&Date.parse(job.nextRunAt)>Date.now()&&(job.status==='retry'||!require('./deadline-scheduler.cjs').pending(a,job).length))return false;
-    const tasks=acceptance.activeTasks(a,job),allAccepted=tasks.length&&tasks.every(t=>t.status==='completed');
-    if(allAccepted){acceptance.reconcileJobCompletion(a,job);if(job.status==='completed'||job.executionPaused)return false;}
-    if(state.runnableActions(a,job).length)return true;
-    const candidate=acceptance.completionCandidate(a,job);
-    const checkFailed=job.completionCheck?.basis===candidate.basis&&job.completionCheck.passed===false;
-    if(candidate.ready&&!candidate.checked&&!checkFailed&&!(job.completionOperation?.basis===candidate.basis&&job.completionOperation.status==='running'))return true;
-    const blockers=state.blockingReasons(a,job);
-    if(job.status==='watching')return !blockers.some(r=>r.needsHuman)&&!!(job.watchers?.length||job.followups?.some(f=>f.status==='waiting'));
-    if(allAccepted||['finalizing','review','needs_input','approval','paused','limited','blocked'].includes(job.status))return false;
-    return ['ready','retry'].includes(job.status)&&!blockers.length;
-  }).sort((x,y)=>(x.nextRunAt||'').localeCompare(y.nextRunAt||''));
+  const policy=require('./execution-policy.cjs'),facts=require('./execution-facts.cjs');
+  const jobs=[...a.data.delegations].sort((x,y)=>(x.nextRunAt||'').localeCompare(y.nextRunAt||''));
   let started=false;
   for(const job of jobs){
+    // No deadline/migration/owner writes before exclusion and the hard guards.
+    if(facts.conflict(a,job))continue;
+    const decision=policy.prepare(a,job,{mode:'automatic'});started ||= decision.changed;if(!decision.eligible)continue;
     if(require('./execution.cjs').conflict(a,{jobId:job.id}))continue;
-    // Preserve the runnable filter above; deadline launch owns durable identity,
-    // completion and release, including failures before Agent's try/finally.
+    const eventCount=a.data.events[0]?.id;followup.deadlines(a,job);if(eventCount!==a.data.events[0]?.id)a.save();
+    if(!policy.inspect(a,job,{mode:'automatic'}).eligible)continue;
     if(require('./deadline-scheduler.cjs').launchJob(a,job)){started=true;continue;}
-    const check=job.status==='watching'||(job.status==='retry'&&job.retryCheck);
+    const check=decision.mode==='watch'||job.status==='watching'||job.status==='retry'&&job.retryCheck;
     require('./execution.cjs').launch(a,{jobId:job.id,automatic:true},`Agent · ${job.title}`,view=>run(view,job.id,{check}));started=true;
   }
   return started;
@@ -506,7 +575,9 @@ async function dispatch(a,action,input) {
     require('./access.cjs').cancel(a,input.id);
     const job=jobById(a,input.id);if(job.executionState?.workEfficiency)delete job.executionState.workEfficiency.pausedByGuard;delete job.rulePausedState;if(job.status==='completed')throw new Error('已完成委托无需暂停');if(job.status!=='paused')job.resumeWatching=job.status==='watching';job.status='paused';if(a.data.runtime?.interruptedJobId===job.id)delete a.data.runtime.interruptedJobId;if(a.data.runtime?.interruptedJobIds)a.data.runtime.interruptedJobIds=a.data.runtime.interruptedJobIds.filter(id=>id!==job.id);require('./execution.cjs').abortJob(a,job.id);a.save();return a.publicState();
   }
-  if(['agentCreate','agentAdoptTask','agentRun','agentResume','agentApprove','agentReject','agentFeedback','agentResolve','agentLarkCreatePolicy','agentContract'].includes(action))a.ensureIdle({jobId:input.id,taskId:input.taskId,projectId:input.projectId});else a.ensureIdle();
+  if(['agentCreate','agentAdoptTask','agentRun','agentResume','agentApprove','agentReject','agentFeedback','agentResolve','agentLarkCreatePolicy','agentContract','agentRepairValidation','agentCheckResume','agentStorageMethodResume','agentStorageMethodResumePreview','agentModelPreflightAttest','agentModelPreflightHealthUpgrade'].includes(action))a.ensureIdle({jobId:input.id,taskId:input.taskId,projectId:input.projectId});else a.ensureIdle();
+  if(action==='agentCheckResume')return require('./pending-check.cjs').resume(a,jobById(a,input.id),input);
+  if(action==='agentRecoverPlatformResult')return require('./platform-local-recovery.cjs').execute(a,jobById(a,input.id),input);
   if(action==='agentEvaluate')return require('./agent-eval.cjs').start(a);
   if(action==='agentSettings') {
     const old=a.data.agentSettings;const next={...old};
@@ -546,12 +617,22 @@ async function dispatch(a,action,input) {
       // must stay usable while new materials wait for the next rule check.
       if(!awaitingProjectCheck||!['agentResume','agentResolve','agentBudget'].includes(action))throw new Error(awaitingProjectCheck?'项目资料变化尚未经过工作规则检查，请先到工作规则中检查资料':'关联工作规则已暂停或变更，请先到工作规则中处理');
     }
-    if(action==='agentContract'){require('./execution-contract.cjs').set(a,job,input);}
+    if(action==='agentModelPreflightAttest'){require('./model-preflight-recovery.cjs').attest(a,job,input);return a.publicState();}
+    if(action==='agentModelPreflightHealthUpgrade'){require('./model-preflight-recovery.cjs').upgradeHealth(a,job,input);return a.publicState();}
+    if(['agentStorageMethodResume','agentStorageMethodResumePreview'].includes(action)){
+      if(!require('./workspace-view.cjs').trustedCommand(a,action))throw Object.assign(Error('技术恢复必须通过可信界面操作'),{code:'TRUSTED_UI_COMMAND_REQUIRED'});
+      const resume=require('./storage-method-resume.cjs');
+      if(action===resume.PREVIEW)return resume.preview(a,job,input);
+      resume.authorize(a,job,input);return a.publicState();
+    }
+    if(action==='agentRepairValidation'){require('./repair-validation.cjs').authorize(a,job,input);return a.publicState();}
+    else if(action==='agentContract'){require('./execution-contract.cjs').set(a,job,input);}
     else if(action==='agentLarkCreatePolicy'){await require('./lark-create-policy.cjs').set(a,job,input);}
     else if(action==='agentRun') {
       if(job.status==='paused'||job.executionPaused)throw new Error('委托已暂停，请使用恢复委托或恢复收尾检查');
       if(job.status==='approval')throw new Error('请先处理具体动作确认');
       if(job.status==='completed')throw new Error('委托已完成；补充新的要求后可以继续');
+      if(job.lastErrorCode==='MODEL_CANCELLED')require('./work-journal.cjs').recordResume(a,{kind:'job',id:job.id,status:job.status});
       const blocker=require('./agent-continuation.cjs').blocker(a,job);
       if(blocker&&!(blocker.kind==='decision'&&control.runnableActions(a,job).length))throw new Error(blocker.message);
       if(require('./acceptance.cjs').activeTasks(a,job).length&&require('./acceptance.cjs').activeTasks(a,job).every(t=>t.status==='completed')) {
@@ -561,7 +642,7 @@ async function dispatch(a,action,input) {
         if(!candidate.ready||job.completionCheck?.basis===candidate.basis&&!job.completionCheck.passed)throw new Error('已验收，交付资料需核对；请先处理收尾检查原因');
       }
       if(job.progressGuard?.stoppedAt)efficiency.resetProgress(job);
-      const check=job.status==='watching'||(job.status==='retry'&&job.retryCheck);return require('./execution.cjs').launch(a,{jobId:job.id},`Agent · ${job.title}`,view=>run(view,job.id,{check}));
+      const check=job.status==='watching'||(job.status==='retry'&&job.retryCheck);return require('./execution.cjs').launch(a,{jobId:job.id},`Agent · ${job.title}`,view=>run(view,job.id,{check,userRequested:true}));
     } else if(action==='agentResume') {
       if(job.status==='completed'||job.deletedAt||job.status!=='paused'&&!job.executionPaused)throw new Error('只有暂停中的委托或收尾检查可以恢复');
       const acceptance=require('./acceptance.cjs'),tasks=acceptance.activeTasks(a,job);

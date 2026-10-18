@@ -70,6 +70,9 @@ test('project ingest cannot promote delivery readback or pending sources; explic
 });
 test('connector saves observation before its cursor without ingesting own output or blocking on unknown action',t=>{
   const {a,job}=fixture(t),c={id:'connector',name:'Fixture',kind:'document',target:url,projectId:'project',principalScope:'account'};a.data.connectors.push(c);
+  // Lark now requires a request receipt even for direct commit callers. Keep the generic
+  // observation-ordering assertions below on the unchanged JSON connector path.
+  assert.throws(()=>connectors.commit(a,c,[],{}),{code:'CONTEXT_VERSION_CHANGED'});c.provider='json';
   a.data.agentActions.push(action({status:'uncertain',effectStatus:undefined,result:undefined}));
   assert.equal(connectors.commit(a,c,[{remoteId:url,content:'complete output',remoteRevision:'2'}],{through:'cursor'}),0);
   assert.equal(c.cursor.through,'cursor');assert.equal(a.data.sources.length,0);assert.equal(a.data.sourceObservations[0].state,'pending');assert.equal(job.status,'watching');

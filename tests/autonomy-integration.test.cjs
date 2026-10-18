@@ -3,7 +3,7 @@ const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {Assistant}=require('../desktop/core.cjs'),agent=require('../desktop/agent.cjs'),capture=require('../desktop/capture.cjs');
 function setup(t,chat=async()=>{throw new Error('No model expected');}){const dir=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-autonomy-integration-')));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));return new Assistant({dir,chat});}
 async function project(a,name){await a.dispatch('projectSave',{name});return a.data.projects.find(p=>p.name===name);}
-async function route(a,p,keywords=['青禾']){await a.dispatch('intakeRoutingSave',{name:p.name+'归类',projectId:p.id,field:'all',match:'any',keywords,enabled:true});return a.data.intakeRoutingRules.at(-1);}
+async function route(a,p,keywords=['青禾']){await a.dispatch('intakeRoutingSave',{requestId:require('node:crypto').randomUUID(),expectedRevision:(await a.dispatch('intakeRoutingSnapshot')).stateRevision,name:p.name+'归类',projectId:p.id,field:'all',match:'any',keywords,enabled:true});return a.data.intakeRoutingRules.at(-1);}
 async function model(a){await a.dispatch('saveProvider',{inputPrice:0,outputPrice:0,name:'fixture',model:'fixture',baseUrl:'https://example.invalid/v1'});}
 test('Auto routing joins the existing paused delegation without granting or resuming execution',async t=>{
  const a=setup(t),p=await project(a,'青禾');await model(a);const j=agent.buildJob(a,{projectId:p.id,goal:'持续工作',allowWeb:false});j.status='paused';p.jobId=j.id;a.data.delegations.push(j);await route(a,p);

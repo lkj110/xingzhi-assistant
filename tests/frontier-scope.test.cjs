@@ -2,7 +2,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict');
 const obligations=require('../desktop/work-obligations.cjs');
 function fixture(){
  const sources=[],job={id:'job',dataPlatform:'sg-readonly',sourceIds:[],executionContract:{text:'区域 SG，两个入口：\n1 → db.first\n2 → db.second\n\n不得横向扩展。'},executionState:{operations:{}}},a={data:{sources}};
- const add=(op,taskId,ids)=>{const id='source-'+sources.length,values=ids.map(id=>typeof id==='object'?id:{id});sources.push({id,platformSnapshot:true,content:JSON.stringify({operation:op,query:{op,taskId,depth:1},data:{nodes:values.map(row=>({...row,parentRelation:row.parentRelation||(op==='upstream'?(row.id===taskId?values.filter(r=>r.id!==taskId).map(r=>({id:r.id,...(r.region?{region:r.region}:{})})):[]):(row.id===taskId?[]:[{id:taskId}]))}))}})});job.sourceIds.push(id);return sources.at(-1);};
+ const add=(op,taskId,ids)=>{const id='source-'+sources.length,values=ids.map(id=>({projectId:7,...(typeof id==='object'?id:{id})}));sources.push({id,platformSnapshot:true,content:JSON.stringify({operation:op,query:{op,taskId,depth:1},data:{nodes:values.map(row=>({...row,parentRelation:row.parentRelation||(op==='upstream'?(row.id===taskId?values.filter(r=>r.id!==taskId).map(r=>({id:r.id,...(r.region?{region:r.region}:{})})):[]):(row.id===taskId?[]:[{id:taskId}]))}))}})});job.sourceIds.push(id);return sources.at(-1);};
  return {a,job,add};
 }
 test('only explicitly labelled current user entry lists seed deterministic traversal',()=>{
@@ -18,7 +18,8 @@ test('directional reachability excludes old unrelated queries and upstreams of d
  const rows=obligations.frontier(f.a,f.job),ids=direction=>rows.filter(r=>r.direction===direction).map(r=>r.nodeId).sort();
  // 1 -> 4 -> 3 -> 1 is a real cycle: all three are reachable in both
  // directions without switching direction. The side input 90 still is not.
- assert.deepEqual(ids('upstream'),['1','2','3','4']);assert.deepEqual(ids('downstream'),['1','2','3','4','5','6']);assert.ok(rows.every(r=>r.scopeProven));
+ assert.deepEqual(ids('upstream'),['1','2','3','4']);assert.deepEqual(ids('downstream'),['1','2','3','4','5','6']);assert.ok(rows.filter(r=>r.nodeId!=='2').every(r=>r.scopeProven));
+ assert.ok(rows.filter(r=>r.nodeId==='2').every(r=>r.status==='scope_unresolved'&&r.query===null),'the untouched second root has no evidenced project to dispatch');
  assert.equal(rows.find(r=>r.nodeId==='6').status,'unexpanded');assert.equal(rows.length,new Set(rows.map(r=>r.direction+':'+r.nodeId)).size);
 });
 test('scope changes exclude old roots, source removal drops their unproven descendants',()=>{
@@ -61,8 +62,8 @@ test('contradictory regional metadata remains unresolved rather than authorizing
  }
 });
 test('contradictory source regions and mismatched response roots provide no path proof',()=>{
- for(const alter of [snap=>{snap.region='sg';snap.data.region='ttp';},snap=>{snap.data.root={id:99};},snap=>{snap.data.taskId=99;}]){
+ for(const alter of [snap=>{snap.region='sg';snap.data.region='ttp';},snap=>{snap.region='sg';snap.query.region='ttp';},snap=>{snap.data.root={id:99};},snap=>{snap.data.taskId=99;}]){
   const f=fixture(),source=f.add('upstream',1,[1,3]),snap=JSON.parse(source.content);alter(snap);source.content=JSON.stringify(snap);
-  const rows=obligations.frontier(f.a,f.job);assert.ok(!rows.some(r=>r.nodeId==='3'));assert.equal(rows.find(r=>r.nodeId==='1'&&r.direction==='upstream').status,'unexpanded');
+  const rows=obligations.frontier(f.a,f.job);assert.ok(!rows.some(r=>r.nodeId==='3'));assert.equal(rows.find(r=>r.nodeId==='1'&&r.direction==='upstream').status,'scope_unresolved');
  }
 });

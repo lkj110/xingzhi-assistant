@@ -4,7 +4,7 @@
 const pick=(row,keys)=>Object.fromEntries(keys.map(key=>[key,row[key]]));
 const taskKeys='id agentJobId projectId deletedAt agentCancelled archivedAt status sourceIds supersededSourceIds contextBindings contextWithdrawals withdrawnBindingIds steps workRevision requirementRevision criteria objective notes userRequirement'.split(' ');
 const jobKeys='id projectId ruleId taskIds sourceIds deletedAt archivedAt status workRevision requirementRevision executionContract goal userDirectives feedback'.split(' ');
-const objectKeys='id taskId jobId agentJobId projectId title stepId content segments coverage resourceKey identity url remoteId revisionId remoteRevision version principalScope platformPrincipal larkOpenId previousSourceId copiedFrom purpose deliveryActionId deleted deletedAt withdrawn withdrawnAt projectExcluded contentDeleted state retention fullContentHash platformSnapshot'.split(' ');
+const objectKeys='id taskId jobId agentJobId projectId title stepId content segments coverage resourceKey identity url remoteId revisionId remoteRevision version principalScope platformPrincipal larkOpenId previousSourceId copiedFrom purpose deliveryActionId deleted deletedAt withdrawn withdrawnAt projectExcluded contentDeleted state retention fullContentHash platformSnapshot platformArchive'.split(' ');
 const actionKeys='id taskId jobId artifactId status effectStatus presentationStatus workRevision content principalScope larkOpenId tenantId resourceKey target deliveryConflict tool'.split(' ');
 function state(a){
  const d=a.data;

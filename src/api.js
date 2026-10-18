@@ -9,7 +9,7 @@ export async function call(action, input = {}) {
     const response = await fetch('/api/call', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Assistant-Token': token }, body: JSON.stringify({ action, input }) });
     result = await response.json();
   }
-  if (result.error) throw new Error(result.error);
+  if (result.error) throw Object.assign(new Error(result.error), {...(typeof result.code==='string'?{code:result.code}:{}), ...(typeof result.committed==='boolean'?{committed:result.committed}:{})});
   return result.data;
 }
 export function download(name, content, type = 'text/markdown') {

@@ -11,6 +11,10 @@ function normalize(value){
  if(value.capturedAt){if(typeof value.capturedAt!=='string'||!Number.isFinite(Date.parse(value.capturedAt)))throw Error('来源时间格式无效');result.capturedAt=new Date(value.capturedAt).toISOString();}
  return result;
 }
+function forFile(value,fileName,capturedAt=new Date().toISOString()){
+ const provenance=normalize(value);
+ return normalize({...provenance,kind:/\.(png|jpe?g)$/i.test(fileName)?'screenshot':provenance?.kind||'file',fileName,capturedAt:provenance?.capturedAt||capturedAt});
+}
 function label(value){const p=normalize(value);if(!p)return '';return [{selection:'选中文字',screenshot:'截图',paste:'粘贴',file:'文件导入',manual:'手动输入'}[p.kind],p.appName,p.windowTitle||p.fileName,p.note].filter(Boolean).join(' · ').slice(0,500);}
 function sourceURL(data,input){
  if(!input||typeof input.id!=='string'||!Number.isInteger(input.index)||input.index<0)throw Error('来源记录无效');
@@ -19,4 +23,4 @@ function sourceURL(data,input){
  if(!item?.url)throw Error('来源链接不存在');
  return normalize({url:item.url}).url;
 }
-module.exports={normalize,label,sourceURL};
+module.exports={normalize,forFile,label,sourceURL};

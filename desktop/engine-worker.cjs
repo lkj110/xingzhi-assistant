@@ -5,7 +5,7 @@ const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const {randomUUID}=require('node:crypto');
 const {createVault}=require('./native-bridge.cjs');
 const quick=require('./quick-capture.cjs');
-const errorData=error=>({message:error.message||'业务执行失败',code:error.code,...(error.committed?{committed:true}:{})});
+const errorData=error=>({message:error.message||'业务执行失败',code:error.code,...(typeof error.committed==='boolean'?{committed:error.committed}:{})});
 
 function createEngine({assistant:a,native,emit=()=>{}}){
   const runtime=require('./runtime.cjs'),deadline=require('./deadline-scheduler.cjs');

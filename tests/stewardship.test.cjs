@@ -83,10 +83,15 @@ test('Automatic pause does not change project permissions, manual pauses or mode
   await a.dispatch('stewardshipResume');assert.equal(JSON.stringify({jobs:a.data.delegations,rules:a.data.workRules,connectors:a.data.connectors}),before);assert.equal(ready.fileMode,'auto');assert.equal(paused.status,'paused');
 });
 test('The running round completes when global pause is requested, then no new round starts',async t=>{
-  let entered,finish;const started=new Promise(r=>entered=r),response=new Promise(r=>finish=r);
-  const a=await setup(t,async()=>{entered();await response;return {tool:'ask',args:{question:'已经保留'}};});
+  let entered,finish,calls=0;const started=new Promise(r=>entered=r),response=new Promise(r=>finish=r);
+  const a=await setup(t,async()=>{calls++;entered();await response;return {tool:'ask',args:{question:'已经保留'}};});
   await a.dispatch('agentCreate',{goal:'一轮工作'});await started;await a.dispatch('stewardshipPause');finish();await a.runPromise;
-  assert.equal(a.data.delegations[0].status,'needs_input');assert.equal(current(a).reason,'paused');assert.equal(a.data.agentRuns[0].status,'done');a.tick();assert.equal(a.operation,null);
+  assert.equal(a.data.delegations[0].status,'needs_input');assert.equal(current(a).reason,'paused');
+  const run=a.data.agentRuns[0];assert.equal(run.status,'needs_input');assert.ok(run.finishedAt);assert.equal(run.steps.at(-1).tool,'ask');
+  assert.equal(a.data.decisions.length,1);assert.equal(a.data.decisions[0].status,'open');assert.equal(a.data.decisions[0].kind,'question');
+  const ready=agent.buildJob(a,{goal:'等待下一轮'});a.data.delegations.push(ready);a.save();
+  a.tick();assert.equal(a.operation,null);assert.equal(ready.status,'ready');assert.equal(a.data.agentRuns.length,1);assert.equal(calls,1);
+  const saved=JSON.parse(fs.readFileSync(a.file));assert.equal(saved.agentRuns[0].status,'needs_input');assert.equal(saved.agentRuns[0].finishedAt,run.finishedAt);
 });
 test('Fixed-zone daytime windows include the start and exclude the end; manual calls remain available',async t=>{
   const a=gated(await setup(t),'Asia/Shanghai',{enabled:true,start:'09:00',end:'18:00'});

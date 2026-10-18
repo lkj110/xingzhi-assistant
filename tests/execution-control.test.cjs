@@ -108,10 +108,14 @@ test('Unrelated new sources cannot trigger another recovery of the same unresolv
  agent.source(f.a,f.j,'unrelated','无关数据','新统计');assert.equal(control.escape(f.a,f.j,failure),false);assert.equal(f.j.executionState.forcedNext,undefined);
 });
 test('Lineage traversal maintains distinct directional frontier, cycles and accepted permission boundaries',async t=>{
- const f=await fixture(t);f.j.executionContract={revision:'scope1',text:'完整上下游；先保留缺口，完成可访问部分'};
- const snapshot=(taskId,nodes)=>({operation:'downstream',query:{op:'downstream',taskId,depth:1},data:{nodes:nodes.map(id=>({id,projectId:42}))},queriedAt:new Date().toISOString()});
+ const f=await fixture(t);f.j.executionContract={revision:'scope1',text:'入口 IDs: 1\n\n范围：\n完整上下游；先保留缺口，完成可访问部分'};
+ const snapshot=(taskId,nodes)=>({operation:'downstream',query:{op:'downstream',taskId,depth:1},data:{nodes:nodes.map(id=>({id,projectId:42,parentRelation:id===taskId?[]:[{id:taskId}]}))},queriedAt:new Date().toISOString()});
  for(const [id,nodes] of [[1,[1,2,3]],[2,[2,1]]])agent.source(f.a,f.j,'graph:'+id,'图',JSON.stringify(snapshot(id,nodes)),{platformSnapshot:true});
- const q={op:'downstream',taskId:3};ledger.state(f.j).operations[ledger.key(f.j,q)]={query:q,status:'failed',errorCode:'AUTH_REQUIRED',error:'无读取权限'};
+ const q={op:'downstream',taskId:3,projectId:42};
+ f.a.platformRequest=async()=>{throw Object.assign(Error('无读取权限'),{code:'AUTH_REQUIRED'});};
+ await agent.act(f.a,f.j,'platform_query',{queries:[q]});
+ assert.notEqual(obligations.frontier(f.a,f.j).find(r=>r.nodeId==='3').status,'accepted_boundary','generic gap prose does not accept an unlinked denial');
+ f.j.executionContract.acceptedBoundaries=[{query:q,coverage:'direction'}];
  const frontier=obligations.frontier(f.a,f.j);assert.equal(frontier.filter(r=>r.status==='queried').length,2);assert.equal(frontier.find(r=>r.nodeId==='3').status,'accepted_boundary');assert.equal(new Set(frontier.map(r=>r.direction+':'+r.nodeId)).size,frontier.length);
 });
 test('Reading the same worker evidence in reordered batches remains bounded across worker restarts',async t=>{

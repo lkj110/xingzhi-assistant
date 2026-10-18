@@ -7,6 +7,7 @@ const tokens=new WeakMap();
 function spec(kind,row){
  if(!tables[kind]||!row?.id)throw Error('采集范围无效');
  const scope={kind,projectId:row.projectId||null,...(kind==='folder'?{path:row.path}:kind==='connector'?{provider:row.provider||'lark',type:row.kind,target:row.target,credential:row.sealedToken?policy.hash(row.sealedToken):null}:{url:row.url})};
+ if(kind==='connector'&&(!row.provider||row.provider==='lark')&&row.larkBinding)scope.larkBinding={identity:row.larkBinding.identity,generation:row.larkBinding.generation};
  if(!(scope.path||scope.target||scope.url))throw Error('采集目标无效');
  return {principalScope:policy.LOCAL,resourceScope:{kind:'collection',key:kind+':'+row.id,revision:policy.hash(scope)},operations:['local_retention','local_read']};
 }
@@ -15,6 +16,7 @@ function legacy(data){
 }
 function configure(a,kind,row,{before,command='collection_configure',trusted=false}={}){
  if(!trusted)throw Error('采集保留许可需要明确用户配置');
+ if(kind==='connector'&&(!row.provider||row.provider==='lark'))throw Error('飞书采集须通过明确账号绑定授权');
  if(!a.dir)return;
  const next=spec(kind,row),prior=before&&spec(kind,before),opts={trusted:true,actor:'user_command',command};
  if(prior&&policy.hash(prior)!==policy.hash(next))policy.revoke(a,prior,opts);
@@ -48,4 +50,4 @@ function attach(a,kind,row,source,checked,token){
  catch(error){if(!error.committed)a.data.sources=a.data.sources.filter(s=>s!==saved);throw error;}
  return saved;
 }
-module.exports={spec,legacy,configure,remove,begin,attach};
+module.exports={spec,legacy,configure,remove,begin,current,attach};

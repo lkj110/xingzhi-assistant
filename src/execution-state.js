@@ -8,6 +8,7 @@ export function readyLabel(data,job){
   const state=workState(data,job);
   if(state.phase!=='ready')return null;
   if(data.stewardship?.paused)return '自动托管已暂停';
+  if(state.gate?.automaticAllowed===false||state.projectionPending)return '等待执行条件恢复';
   if(workBusy(data,{jobId:job.id}))return '等待当前操作';
   return '即将自动推进';
 }
@@ -25,5 +26,5 @@ export function workLabel(data,entity){
   if(state.projectionPending||entity?.projectionPending)return '记录已保存，界面正在恢复';
   if(state.acceptanceState==='manual')return '人工完成，未经 Agent 核验';
   if(state.acceptanceState==='awaiting_check')return '等待整体检查';
-  return ({ready:readyLabel(data,entity),running:'正在工作',watching:'持续跟进',retry:'等待重试',approval:'待确认动作',review:'待验收事项',needs_input:'需要补充',paused:'已暂停',limited:'等待额度确认',blocked:'需要处理',finalizing:'已验收，收尾待检查',completed:'已完成',deleted:'已删除',cancelled:'已取消'})[state.phase]||state.phase;
+  return ({ready:readyLabel(data,entity),running:'正在工作',prepare_pending:'正在准备接续',recovery_pending:'等待恢复调度',watching:'持续跟进',retry:'等待重试',approval:'待确认动作',review:'待验收事项',needs_input:'需要补充',paused:'已暂停',limited:'等待额度确认',blocked:'需要处理',finalizing:'已验收，收尾待检查',completed:'已完成',deleted:'已删除',cancelled:'已取消'})[state.phase]||state.phase;
 }

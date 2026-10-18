@@ -9,6 +9,20 @@ function target(a,task,check){
  if(check?.basis&&check===task.contentVerification&&check.basis!==require('./execution-control.cjs').contentBasis(a,job,task))return null;
  if(check?.basis&&check===task.verification&&check.basis!==require('./acceptance.cjs').basis(a,task))return null;
  const current=outputs.current(a,task),ids=new Set();
+ // Explicit repair targets outrank all evidence references and prose hints.
+ const explicit=(check?.gapDetails||[]).filter(d=>d.artifactId||d.stepId);
+ for(const d of explicit){
+  const artifact=d.artifactId&&current.find(r=>r.id===d.artifactId);
+  const step=d.stepId&&current.find(r=>r.stepId===d.stepId);
+  if(d.artifactId&&!artifact||d.stepId&&!step||artifact&&step&&artifact.id!==step.id)return null;
+  ids.add((artifact||step).id);
+ }
+ if(explicit.length){
+  if(ids.size!==1)return null;
+  const selected=current.find(r=>ids.has(r.id));
+  return require('./protocol-access.cjs').allowedObject(a,'artifact',selected,job,task)?selected:null;
+ }
+ // Legacy inference applies only when the check has no explicit target.
  for(const d of check?.gapDetails||[]){
   if(d.artifactId&&!current.some(r=>r.id===d.artifactId))return null;
   if((d.sourceIds||[]).some(id=>a.data.artifacts.some(r=>r.id===id)&&!current.some(r=>r.id===id)))return null;

@@ -4,6 +4,27 @@ const decisions=require('./decisions.cjs');
 const now=()=>new Date().toISOString();
 const text=(v,max=2000)=>typeof v==='string'?v.trim().slice(0,max):'';
 const permissionPattern=/授权|权限|登录|未允许|permission|forbidden|unauthenticated|unauthorized|access.denied|missing.scope|\b(?:401|403)\b/i;
+// Legacy message matching is restricted to these actual external tool contracts.
+// File and app-local tools must retain their own scope/controller diagnostics.
+const recoveryTools=new Set(['read_url','search_web','read_lark_document','lark_create','lark_update','github_list','github_read','github_create','github_update','github_comment','platform_inventory','read_platform','platform_query','capability_call']);
+const connectorAccessCodes=new Set(['auth','permission','missing_cli']);
+const externalAccessCodes=new Set(['AUTH_REQUIRED','ACCESS_POLICY_UNKNOWN','ACCESS_POLICY_REVOKED','ACCESS_PRINCIPAL_UNKNOWN','ACCESS_PRINCIPAL_CHANGED']);
+const internalRecoveryPrefixes=['CONTEXT_','MODEL_','STORAGE_','EXECUTION_','POLICY_','BUDGET_','SPEND_','STEWARDSHIP_','WORK_JOURNAL_','ENGINE_'];
+const internalRecoveryCodes=new Set(['EXTERNAL_EFFECT_UNCERTAIN','ACCESS_POLICY_STORAGE_FAILURE','ACCESS_POLICY_INVALID_REQUEST','EACCES','EPERM','EROFS','ENOSPC','EDQUOT','EIO']);
+function recoveryCandidate(tool,error){
+  if(!error||error.contextFailure||error.modelFailure||error.localPersistence||error.gateClosed||error.spendLimit||error.stewardshipBudget||error.stewardshipMeter||error.noProgress||error.planInputInvalid||error.invalidDelivery||error.conflict||error.name==='AbortError')return false;
+  const code=String(error.code||'');
+  // Stronger internal domains win even when connector metadata also says auth.
+  if(internalRecoveryCodes.has(code)||internalRecoveryPrefixes.some(prefix=>code.startsWith(prefix))||['diagnose_storage','system_diagnostic'].includes(error.recovery))return false;
+  if(code==='ACCESS_POLICY_UNKNOWN'&&['unwritable','corrupt_or_incomplete'].includes(error.reason))return false;
+  if(!recoveryTools.has(tool))return false;
+  // An unknown typed failure is not a legacy permission message or connector
+  // authorization failure. Known internal codes stay authoritative above.
+  if(code&&!externalAccessCodes.has(code)&&!['401','403'].includes(code))return false;
+  if(error.connectorCode)return connectorAccessCodes.has(error.connectorCode);
+  if(externalAccessCodes.has(code)||['401','403'].includes(code))return true;
+  return [401,403].includes(error.httpStatus)||permissionPattern.test(error.message||'');
+}
 const labels={lark_create:'在飞书创建文档',lark_document:'读取飞书文档',web:'读取公开网页',external:'检查外部访问权限'};
 function localToolRequest(args={}){
   const q=typeof args.question==='string'?args.question:'',context=typeof args.context==='string'?args.context:'';
@@ -223,9 +244,11 @@ async function dispatch(a,action,input){
   return require('./execution.cjs').launch(a,{jobId:j.id},'连接并检查飞书授权',view=>check(view,j,d,{login:action==='accessStart'}));
 }
 function recover(a,j,tool,args,error){
-  if(!permissionPattern.test(error.message||'')&&!['auth','permission','missing_cli'].includes(error.connectorCode))return null;
+  if(!recoveryCandidate(tool,error))return null;
+  if(tool==='read_lark_document'||tool==='read_url'&&docURLs(args.url).length){const r=request(a,j,{kind:'lark_document',target:lark.docTarget(args.url),reason:'文档读取权限需恢复'});failed(a,j,a.data.decisions.find(d=>d.id===r.decisionId),error);return r;}
   if(['read_url','search_web'].includes(tool)&&!j.allowWeb)return request(a,j,{kind:'web',reason:'当前委托尚未允许读取公开网页'});
   if(['lark_create','lark_update'].includes(tool)){const r=request(a,j,{kind:'lark_create',target:j.larkCreateGrant?.target,reason:'飞书文档创建权限需恢复'});failed(a,j,a.data.decisions.find(d=>d.id===r.decisionId),error);return r;}
-  return request(a,j,{kind:'external',target:text(`${tool}${args.capabilityId?` · ${args.capabilityId}`:''}`,500),reason:'工具返回登录或权限问题。请在对应平台完成授权或在委托设置补齐范围，再检查。'});
+  const resource=tool==='capability_call'?args.capabilityId:tool.startsWith('github_')?j.githubRepo:tool==='read_url'?args.url:tool==='read_platform'?args.sourceId:['platform_inventory','platform_query'].includes(tool)?j.dataPlatform:null;
+  return request(a,j,{kind:'external',target:text(`${tool}${resource?` · ${resource}`:''}`,500),reason:'工具返回登录或权限问题。请在对应平台完成授权或在委托设置补齐范围，再检查。'});
 }
-module.exports={initialize,request,fromQuestion,read,dispatch,tick,opening,view,cancel,recover,docURLs,scopes};
+module.exports={initialize,request,fromQuestion,read,dispatch,tick,opening,view,cancel,recover,recoveryCandidate,docURLs,scopes};

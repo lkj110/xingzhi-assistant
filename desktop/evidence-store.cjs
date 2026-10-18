@@ -7,6 +7,9 @@ function ancestors(data,source){
  return ids;
 }
 function current(data,source){
+ return require('./projection-cache.cjs').memo(current,[data,source],()=>currentSource(data,source));
+}
+function currentSource(data,source){
  const descendants=data.sources.filter(s=>sameScope(s,source)&&!s.projectExcluded&&ancestors(data,s).includes(source.id));
  const heads=descendants.filter(s=>!descendants.some(n=>n.previousSourceId===s.id));
  return heads.length===1?heads[0]:heads.length?null:source;

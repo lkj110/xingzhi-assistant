@@ -22,8 +22,62 @@ test('repeated planner state reads route into a different executable path on nex
  assert.equal(strategy.begin(f.a,f.job),true);assert.equal(strategy.next(f.a,f.job).tool,'advance_task');
 });
 test('worker read loop yields through core to automatic correction instead of blocking the task',async t=>{
- const f=fixture(t);let calls=0;f.a.chat=async(p,k,m,o)=>{o.onUsage({inputTokens:2,outputTokens:1});calls++;if(m[0].content.includes('动作格式'))return {tool:'advance_task',args:{taskId:f.task.id}};return {kind:'read_context',requests:[{tool:'read_source',sourceId:f.source.id}]};};
- await agent.run(f.a,f.job.id);assert.equal(f.job.status,'ready');assert.equal(f.task.status,'todo');assert.equal(work.inspect(f.job).phase,'recovery_pending');assert.ok(calls<=4);assert.equal(f.a.data.decisions.length,0);
+ const f=fixture(t),calls={planner:0,task_work:0},ineffective=[];
+ f.a.chat=async(p,k,m,o)=>{
+  o.onUsage({inputTokens:2,outputTokens:1});assert.ok(Object.hasOwn(calls,o.stage));calls[o.stage]++;
+  if(o.stage==='planner')return {tool:'advance_task',args:{taskId:f.task.id}};
+  const c=JSON.parse(m[1].content);ineffective.push(f.job.executionState.workEfficiency.reading?.[f.task.id]?.ineffective??0);
+  if(calls.task_work===1)return {kind:'read_context',requests:[{tool:'read_source',sourceId:f.source.id}]};
+  assert.match(m[1].content,/订单在周五发布。/,'repeated body must actually be visible to the model');
+  const ref=c.sourceCatalog.find(s=>s.id===f.source.id).ref;
+  return {kind:'read_context',requests:[{tool:'read_source',ref,start:0,limit:6,history:false}]};
+ };
+ await agent.run(f.a,f.job.id);assert.equal(f.job.status,'ready');assert.equal(f.task.status,'todo');assert.equal(work.inspect(f.job).phase,'recovery_pending');assert.equal(f.a.data.decisions.length,0);
+ // One planner + one fresh read + three ineffective repeats; no fifth worker call.
+ assert.deepEqual(calls,{planner:1,task_work:4});assert.deepEqual(ineffective,[0,0,1,2]);
+ const reading=f.job.executionState.workEfficiency.reading[f.task.id];
+ assert.equal(reading.ineffective,3);assert.equal(reading.batches,4);assert.equal(Object.keys(reading.coverage).length,1);
+ const saved=JSON.parse(fs.readFileSync(f.a.file));assert.deepEqual(saved.delegations.find(j=>j.id===f.job.id).executionState.workEfficiency.reading[f.task.id],reading);
+ assert.equal(f.a.data.agentRuns[0].steps[0].errorCode,'WORK_STRATEGY_CHANGE');assert.equal(f.a.data.agentRuns[0].modelCalls,5);
+});
+test('six distinct worker read batches are consumed during recovery without renewing business progress',async t=>{
+ const f=fixture(t),sections=Array.from({length:6},(_,i)=>({title:'证据段'+i,text:'ORDER_EVIDENCE_'+i+': 周五发布，第'+i+'项已核对。'}));
+ f.source.content=sections.map(s=>'## '+s.title+'\n'+s.text).join('\n\n');f.task.generationMode='single';stall(f);
+ let worker=0,baseline;
+ f.a.chat=async(p,k,m,o)=>{
+  o.onUsage({inputTokens:2,outputTokens:1});assert.notEqual(o.stage,'planner','recovery uses the current task');
+  if(o.role==='verify')return {passed:true,summary:'六项事实已核对',gaps:[]};
+  assert.equal(o.stage,'task_work');const c=JSON.parse(m[1].content),state=f.job.executionState.workEfficiency;
+  const business={attempts:state.attempts,tried:state.tried,history:state.history,lastFailure:state.lastFailure,phase:state.phase,strategy:state.active.id};
+  if(!baseline)baseline=structuredClone(business);else assert.deepEqual(business,baseline,'reading cannot clear failure history or renew business attempts');
+  assert.equal(state.phase,'recovering');assert.equal(state.attempts,work.LIMITS.stopAt);
+  if(worker){
+   const previous=sections[worker-1];assert.ok(m[1].content.includes(previous.text),'the next serialized model input consumes the previous batch body');
+   assert.equal(state.reading[f.task.id].ineffective,0);assert.equal(state.reading[f.task.id].batches,worker);
+   const saved=JSON.parse(fs.readFileSync(f.a.file));assert.equal(saved.delegations.find(j=>j.id===f.job.id).executionState.workEfficiency.reading[f.task.id].batches,worker);
+  }
+  if(worker<sections.length){const s=sections[worker++];return {kind:'read_context',requests:[{tool:'read_section',sourceId:f.source.id,title:s.title}]};}
+  worker++;assert.equal(c.contextRecovery.batches,6);assert.equal(c.contextRecovery.coveredRanges,6);
+  for(const s of sections)assert.ok(m[1].content.includes(s.text));
+  return {kind:'artifact',title:'订单报告',content:sections.map(s=>s.text).join('\n\n'),summary:'六项事实已形成报告'};
+ };
+ await agent.run(f.a,f.job.id);
+ assert.equal(worker,7);assert.equal(f.task.status,'review');assert.equal(f.job.status,'review');assert.equal(f.a.data.decisions.length,0);
+ assert.equal(f.a.data.artifacts[0].content,sections.map(s=>s.text).join('\n\n'));
+ const reading=f.job.executionState.workEfficiency.reading[f.task.id];assert.equal(reading.batches,6);assert.equal(reading.ineffective,0);assert.equal(Object.keys(reading.coverage).length,6);
+ assert.deepEqual(f.job.executionState.workEfficiency.tried,baseline.tried);
+});
+test('changing empty-search wording remains bounded through the real worker loop',async t=>{
+ const f=fixture(t),queries=['missing_alpha','missing_beta','missing_gamma'];let planner=0,worker=0;
+ f.a.chat=async(p,k,m,o)=>{
+  o.onUsage({inputTokens:2,outputTokens:1});
+  if(o.stage==='planner'){planner++;return {tool:'advance_task',args:{taskId:f.task.id}};}
+  assert.equal(o.stage,'task_work');assert.ok(worker<queries.length,'no fourth empty search is allowed');
+  return {kind:'read_context',requests:[{tool:'search_source',sourceId:f.source.id,query:queries[worker++]}]};
+ };
+ await agent.run(f.a,f.job.id);assert.equal(planner,1);assert.equal(worker,3);
+ const reading=f.job.executionState.workEfficiency.reading[f.task.id];assert.equal(reading.ineffective,3);assert.equal(Object.keys(reading.coverage).length,0);
+ assert.equal(work.inspect(f.job).phase,'recovery_pending');assert.equal(f.job.status,'ready');assert.equal(f.task.status,'todo');assert.equal(f.a.data.artifacts.length,0);assert.equal(f.a.data.decisions.length,0);
 });
 test('failed strategies persist across restart and status/plan wording cannot renew their identity',t=>{
  const f=fixture(t);stall(f);strategy.begin(f.a,f.job);const before=strategy.inputBasis(f.a,f.job),first=strategy.next(f.a,f.job);assert.equal(first.tool,'advance_task');work.request(f.a,f.job,{message:'已尝试无进展'});
@@ -102,4 +156,22 @@ test('content checking and authorized delivery take precedence over generic fron
  strategy.begin(f.a,f.job);assert.equal(strategy.next(f.a,f.job).tool,'verify_content');work.request(f.a,f.job,{message:'已核对'});
  f.task.contentVerification={basis:require('../desktop/execution-control.cjs').contentBasis(f.a,f.job,f.task),passed:true,summary:'日期准确',gaps:[]};
  work.request(f.a,f.job,{message:'继续已核验交付'});strategy.begin(f.a,f.job);assert.equal(strategy.next(f.a,f.job).tool,'write_file');
+});
+
+test('upgraded local read method wakes only its own route; old boundaries and planner stay consumed',t=>{
+ const f=fixture(t);broadFrontier(t,f);
+ const r={id:'current',taskId:f.task.id,stepId:f.task.steps[0].id,title:'报告',content:'订单在周五发布。'};
+ f.a.data.artifacts.push(r);f.task.primaryArtifactId=r.id;Object.assign(f.task.steps[0],{done:true,artifactId:r.id});policy.retain(f.a,'artifact',r,{task:f.task,job:f.job});
+ f.task.steps.push({id:'external',key:'deliver',title:'保存',kind:'external',tool:'write_file',done:false});stall(f);
+ const s=f.job.executionState.workEfficiency,basis=strategy.inputBasis(f.a,f.job);
+ s.reading={[f.task.id]:{ineffective:5}};s.phase='awaiting_change';s.waitBasis=basis;f.job.status='blocked';f.job.nextRunAt=null;
+ for(const id of ['check:'+f.task.id,'boundary:1','boundary:2','boundary:3','replan'])s.tried[basis+':'+id]={title:'old',at:'old'};
+ const old=structuredClone(s.tried);assert.equal(strategy.ready(f.a,f.job),true);assert.equal(strategy.inputBasis(f.a,f.job),basis);
+ assert.equal(strategy.begin(f.a,f.job),true);assert.equal(strategy.next(f.a,f.job).tool,'verify_content');
+ work.request(f.a,f.job,{code:'CONTEXT_INVALID_REQUEST',message:'结论路径仍未返回有效结果'});
+ assert.equal(strategy.begin(f.a,f.job),false);assert.equal(f.job.status,'blocked');assert.equal(strategy.ready(f.a,f.job),false);
+ for(const [k,v] of Object.entries(old))assert.deepEqual(s.tried[k],v);
+ assert.equal(Object.keys(s.tried).length,Object.keys(old).length+1);assert.equal(s.reading[f.task.id].ineffective,5);
+ f.a.save();const a=new Assistant({dir:f.dir,chat:prohibited}),job=a.data.delegations.find(j=>j.id===f.job.id);
+ assert.equal(strategy.ready(a,job),false);assert.equal(agent.tick(a),false);assert.equal((a.data.modelCalls||[]).length,0);
 });

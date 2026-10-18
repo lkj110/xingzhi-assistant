@@ -48,6 +48,7 @@ app.whenReady().then(async () => {
       // uiCommand is retained for all engine work, including desktop commands
       // whose business half (validation/save) runs in the worker.
       const nativeAction=action==='uiCommand'?input?.action:action,nativeInput=action==='uiCommand'?input?.input:input;
+      if(['agentStorageMethodResume','agentStorageMethodResumePreview'].includes(nativeAction)&&action!=='uiCommand')throw Object.assign(Error('技术恢复必须通过可信界面操作'),{code:'TRUSTED_UI_COMMAND_REQUIRED'});
       if(nativeAction==='screenshotRegion'||nativeAction==='screenshotClipboard')return {data:await screenshot(nativeAction,window)};
       if(nativeAction==='quickCaptureDetectionStatus')return {data:selectionCapture.reconcile()};
       if(nativeAction==='quickCapturePermission'){
@@ -61,7 +62,7 @@ app.whenReady().then(async () => {
       if(nativeAction==='quickCaptureScreenshot'){await selectionCapture.screenshot();return {data:selectionCapture.status()};}
       if(typeof nativeAction==='string'&&nativeAction.startsWith('quickCapture'))return {data:await quickCapture.dispatchMain(nativeAction,nativeInput)};
       return {data:await engine.dispatch(action,input)};
-    } catch (error) { return { error: error.message, ...(error.code?{code:error.code}:{}), ...(error.committed?{committed:true}:{}) }; }
+    } catch (error) { return { error: error.message, ...(error.code?{code:error.code}:{}), ...(typeof error.committed==='boolean'?{committed:error.committed}:{}) }; }
   });
   const control=(action,input)=>engine.control(action,input).catch(()=>{if(!quitting)window?.webContents.send('assistant:engine-status',{available:false,message:'后台操作未完成，请检查工作台'});});
   powerMonitor.on('suspend',()=>control('suspend'));

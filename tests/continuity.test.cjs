@@ -36,7 +36,7 @@ test('Plan edits preserve unaffected completed steps, reset the changed suffix, 
   const {taskId}=await plan('report',{steps:[{key:'read',title:'分析事实',kind:'analysis'},{key:'draft',title:'写报告',kind:'draft'},{key:'save',title:'保存',kind:'external',tool:'write_file'}]});
   await advance(taskId);await advance(taskId);const task=a.task(taskId),first=task.steps[0].artifactId,second=task.steps[1].artifactId;
   await plan('report',{reason:'增加灰度说明',resetSteps:['draft'],steps:[{key:'read',title:'分析事实',kind:'analysis'},{key:'draft',title:'写报告和灰度说明',kind:'draft'},{key:'save',title:'保存',kind:'external',tool:'write_file'}]});
-  assert.equal(task.steps[0].artifactId,first);assert.equal(task.steps[1].done,false);assert.equal(task.steps[1].artifactId,undefined);assert.equal(task.planHistory.length,1);assert.ok(a.data.artifacts.some(r=>r.id===second));
+  assert.equal(task.steps[0].artifactId,first);assert.equal(task.steps[1].done,false);assert.equal(task.steps[1].artifactId,second);assert.equal(task.steps[1].targetArtifactId,second);assert.equal(task.primaryArtifactId,second);assert.equal(task.steps[1].outputRole,'primary');assert.equal(task.planHistory.length,1);assert.ok(a.data.artifacts.some(r=>r.id===second));
   const before=JSON.stringify(task);await assert.rejects(plan('report',{reason:'bad',steps:[{key:'x',title:'x',kind:'draft'},{key:'x',title:'y',kind:'draft'}]}),/重复/);assert.equal(JSON.stringify(task),before);
 });
 test('Dependencies block both Agent and direct advance, reject cycles, and invalidate downstream work',async t=>{

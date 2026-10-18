@@ -1,3 +1,4 @@
+const pinnedFixture=require('./helpers/lark-pinned-fixture.cjs');
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
@@ -13,12 +14,13 @@ async function setup(t){
   const forbidden=async()=>{throw new Error('audit must not call a model or public network');};
   const a=new Assistant({dir,chat:forbidden,agentRequest:forbidden,webRequest:forbidden,
     connectorRequest:async()=>({ok:true,data:{document:{content:body,revision_id:1}}})});
+  await pinnedFixture.attach(t,a,a.connectorRequest);
   await a.dispatch('saveProvider',{inputPrice:0,outputPrice:0,name:'fixture',model:'fixture',baseUrl:'https://example.invalid/v1'});
   await a.dispatch('projectSave',{name:'独立测试项目'});const project=a.data.projects[0];
   const job=agent.buildJob(a,{projectId:project.id,goal:'根据预算编写计划',fileMode:'off',githubMode:'off'});
   a.data.delegations.push(job);project.jobId=job.id;
   await a.dispatch('connectorSave',{name:'预算材料',kind:'document',target:'https://test.feishu.cn/docx/Abc123',projectId:project.id,enabled:true,intervalMinutes:1440});
-  const connection=a.data.connectors[0];
+  const connection=a.data.connectors[0];await pinnedFixture.bind(a,connection);
   const sync=async()=>{await a.dispatch('connectorSync',{id:connection.id});await a.runPromise;return a.data.connectorRuns[0];};
   return {a,project,job,connection,sync,set:content=>{body=content;}};
 }
@@ -79,13 +81,16 @@ test('V14 audit: connector revisions invalidate independent tasks that cite the 
 });
 
 test('V14 audit: connector page save failure restores source history, task evidence and cursor together',async t=>{
-  const {a,job,connection,sync}=await setup(t);await sync();const first=a.data.sources[0];
+  const {a,job,connection,sync,set}=await setup(t);await sync();const first=a.data.sources[0];
   const planned=await agent.act(a,job,'plan_task',{key:'plan',title:'预算计划',criteria:'预算准确',sourceIds:[first.id],steps:[{key:'draft',title:'编写',kind:'draft'}]});
   const task=a.task(planned.taskId);task.status='completed';task.verification={passed:true};job.status='paused';
-  const before=structuredClone(a.data),original=a.save;a.save=()=>{throw new Error('disk unavailable');};
-  assert.throws(()=>connectors.commit(a,connection,[{remoteId:connection.target,content:'预算变更'}],{through:new Date().toISOString()}),/disk unavailable/);
-  assert.deepEqual(a.data,before);a.save=original;
-  const c=a.data.connectors[0];connectors.commit(a,c,[{remoteId:c.target,content:'预算变更'}],{through:new Date().toISOString()});
+  // Exercise the actual pinned page; a bare commit no longer has an identity proof.
+  const before=structuredClone(a.data),original=a.save;let failed=false;
+  a.save=()=>{if(!failed&&a.data.sources.length>before.sources.length){failed=true;throw new Error('disk unavailable');}return original.call(a);};
+  set('预算变更');const failedRun=await sync();assert.ok(failed);assert.equal(failedRun.status,'error');assert.match(failedRun.error,/disk unavailable/);
+  for(const key of ['sources','sourceObservations','tasks','delegations','projectChanges','projects'])assert.deepEqual(a.data[key],before[key],key);
+  assert.deepEqual(a.data.connectors[0].cursor,before.connectors[0].cursor);a.save=original;
+  await sync();
   assert.equal(a.data.sources.length,2);assert.equal(a.task(task.id).verification,null);assert.equal(a.data.delegations[0].status,'paused');
 });
 

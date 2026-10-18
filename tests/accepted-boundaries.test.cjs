@@ -3,11 +3,11 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const ledger=require('../desktop/operation-ledger.cjs');
-const obligations=require('../desktop/work-obligations.cjs');
+const frontier=require('../desktop/lineage-frontier.cjs');
+const boundaries=require('../desktop/platform-boundaries.cjs');
 const policy=require('../desktop/access-policy-store.cjs');
-const queries=[{op:'upstream',taskId:700001203},{op:'upstream',taskId:700001204},{op:'downstream',taskId:700001201}];
+const queries=[{op:'upstream',taskId:700001203,projectId:7},{op:'upstream',taskId:700001204,projectId:7},{op:'downstream',taskId:700001201,projectId:7}];
 const authorization={trusted:true,actor:'user_command',command:'accepted_boundary_fixture'};
-const accepted={kind:'permission',policy:'document_and_continue',authority:'user'};
 const remote=(job,subject='alice')=>({principalScope:{kind:'account',provider:'platform',subject},resourceScope:{kind:'platform',key:'sg-readonly',jobId:job.id},operations:['platform_query']});
 
 // Plain data + the real authority in a disposable directory. No Assistant,
@@ -16,7 +16,7 @@ function fixture(t){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'accepted-boundaries-'));
  t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
  const job={id:'fixture-job',status:'ready',goal:'Inspect SG',dataPlatform:'sg-readonly',platformPrincipal:'alice',workRevision:1,sourceIds:[],taskIds:[],feedback:[],executionContract:{revision:'contract-1',text:'入口任务 IDs: 700001203, 700001204, 700001201'}};
- ledger.state(job).acceptedBoundary=structuredClone(accepted);
+ job.executionContract.acceptedBoundaries=queries.map(query=>({query,coverage:'direction'}));
  const a={dir,file:path.join(dir,'workspace.json'),data:{version:1,settings:{automatic:false},delegations:[job],tasks:[],sources:[],artifacts:[],projects:[],providers:[],folders:[],capabilities:[],agentActions:[],events:[],runtime:{}}};
  const f={a,job,dir,calls:[],identityCalls:0,identity:{username:'alice'},errorCode:'AUTH_REQUIRED'};
  function install(target){
@@ -39,7 +39,7 @@ async function denyAll(f){
  const batch=await ledger.prepareBatch(f.a,f.job);
  for(const query of queries){const result=await ledger.fetch(f.a,f.job,query,{batch});assert.equal(result.errorCode,'AUTH_REQUIRED');assert.equal(result.reused,false);}
 }
-function statuses(f){return queries.map(q=>obligations.frontier(f.a,f.job).find(row=>row.nodeId===String(q.taskId)&&row.direction===q.op)?.status);}
+function statuses(f){return frontier.project(f.job,queries.map(q=>({nodeId:String(q.taskId),projectId:String(q.projectId),region:'sg',direction:q.op,scopeProven:true,crossRegion:false})),ledger.boundaryOptions(f.a,f.job)).map(r=>r.status);}
 
 test('accepted directions survive feedback, drafts, source relinking, work revision and persisted restart',async t=>{
  const f=fixture(t);await denyAll(f);
@@ -59,7 +59,7 @@ test('accepted directions survive feedback, drafts, source relinking, work revis
  }
  assert.notEqual(ledger.epoch(f.job),initialEpoch);
  assert.equal(f.identityCalls,6,'each new batch still verifies the current identity');
- assert.equal(obligations.context(f.a,f.job).acceptedBoundary.authority,'user');
+ assert.ok(boundaries.planMigration(f.job).records.every(r=>r.decision.authority==='user_contract'));
 });
 
 test('v2 records with a stale business epoch migrate conservatively without new resource calls',async t=>{
@@ -124,11 +124,11 @@ test('accepted denial reuse and explicit retry both respect revocation and the e
  assert.equal(f.identityCalls,identities);assert.equal(f.calls.length,calls);
 });
 
-test('revocation during explicit retry project resolution prevents the lineage request',async t=>{
+test('revocation during explicit retry makes its returned lineage response historical',async t=>{
  const f=fixture(t);await ledger.fetch(f.a,f.job,queries[0]);const calls=f.calls.length,key=ledger.key(f.job,queries[0]);
  f.onRequest=async()=>policy.revoke(f.a,remote(f.job),authorization);
  await assert.rejects(ledger.fetch(f.a,f.job,queries[0],{retry:true}),e=>e.code==='OPERATION_STALE');
- assert.equal(f.calls.length,calls+1);assert.ok(f.calls.at(-1).includes('get'));
+ assert.equal(f.calls.length,calls+1);assert.ok(f.calls.at(-1).includes('upstream'));
  assert.equal(ledger.state(f.job).operations[key].status,'superseded');
 });
 
@@ -136,16 +136,24 @@ test('normalization preserves direction, resource and explicit project boundarie
  const f=fixture(t),q=queries[2];await ledger.fetch(f.a,f.job,q);const calls=f.calls.length;
  assert.equal((await ledger.fetch(f.a,f.job,{...q,taskId:'0700001201',depth:4})).reused,true);assert.equal(f.calls.length,calls);
  for(const other of [{...q,op:'upstream'},{...q,taskId:123},{...q,projectId:8}])assert.equal((await ledger.fetch(f.a,f.job,other)).reused,false);
- // A successful explicit retry at another depth resolves the same denial.
- f.errorCode=null;const success=await ledger.fetch(f.a,f.job,{...q,depth:4},{retry:true});ledger.finish(f.a,f.job,success.operation,'result');
- assert.equal(ledger.activeFailure(f.job,q,f.a),null);
+ // A success at another depth does not erase the original denial fact.
+ f.errorCode=null;const success=await ledger.fetch(f.a,f.job,{...q,depth:4},{retry:true});
+ const source=require('../desktop/state-transitions.cjs').commit(f.a,()=>{
+  const stored=require('../desktop/data-platform.cjs').splitPlatformSnapshot(success.snapshot);
+  const s=require('../desktop/agent.cjs').source(f.a,f.job,'controlled-depth-success','Controlled depth result',JSON.stringify(stored.snapshot),{platformSnapshot:true,platformPrincipal:f.job.platformPrincipal,...stored.sourceMeta});
+  ledger.finish(f.a,f.job,success.operation,s.id);return s;
+ });
+ assert.equal(success.operation.receipt.sourceId,source.id);assert.equal(success.operation.status,'done');
+ assert.equal(require('../desktop/protocol-access.cjs').allowedObject(f.a,'source',source,f.job),true);
+ assert.equal(JSON.parse(fs.readFileSync(f.a.file)).sources.find(s=>s.id===source.id).content,source.content);
+ assert.equal(ledger.activeFailure(f.job,q,f.a)?.errorCode,'AUTH_REQUIRED');
 });
 
-test('an explicit retry at another depth cannot leave an old accepted denial active',async t=>{
+test('an explicit retry at another depth preserves the original accepted direction and exact failure',async t=>{
  const f=fixture(t),q=queries[2];const old=await ledger.fetch(f.a,f.job,q);
  f.errorCode='NOT_FOUND';const next=await ledger.fetch(f.a,f.job,{...q,depth:2},{retry:true});
- assert.equal(next.errorCode,'NOT_FOUND');assert.equal(old.operation.status,'superseded');
- assert.equal(ledger.activeFailure(f.job,q,f.a),null);assert.equal(statuses(f)[2],'unexpanded');
+ assert.equal(next.errorCode,'NOT_FOUND');assert.equal(old.operation.status,'failed');
+ assert.equal(ledger.activeFailure(f.job,q,f.a)?.id,old.operation.id);assert.equal(statuses(f)[2],'accepted_boundary');
  assert.equal(ledger.eligibility(f.job,next.operation).action,'repair_input');
 });
 
@@ -158,7 +166,7 @@ test('unrelated policy grants leave accepted SG permission failures valid',async
 });
 
 test('acceptance is a user state; unrelated accepted gaps and ordinary prose do not accept permission failures',async t=>{
- const f=fixture(t);delete ledger.state(f.job).acceptedBoundary;await denyAll(f);
+ const f=fixture(t);delete f.job.executionContract.acceptedBoundaries;await denyAll(f);
  f.job.feedback.push({text:'先保留缺口，完成可访问部分'});f.a.data.artifacts.push({content:'先保留缺口，完成可访问部分'});
  ledger.state(f.job).gaps.push({id:'unrelated',status:'accepted_gap',acceptedBy:'user',text:'Accepted missing appendix'});
  assert.deepEqual(statuses(f),queries.map(()=>'blocked'));
@@ -166,11 +174,11 @@ test('acceptance is a user state; unrelated accepted gaps and ordinary prose do 
  ledger.state(f.job).gaps.push({id:'permission',status:'accepted_gap',acceptedBy:'user',operationId:operation.id,decisionId:'explicit-user-decision'});
  assert.deepEqual(statuses(f),['blocked','blocked','accepted_boundary']);
  f.job.executionContract.text+='\n先保留缺口，完成可访问部分';
- assert.deepEqual(statuses(f),queries.map(()=>'accepted_boundary'),'the existing authoritative contract choice remains compatible');
+ assert.deepEqual(statuses(f),['blocked','blocked','accepted_boundary'],'generic contract prose must not accept arbitrary permission failures');
 });
 
 test('NOT_FOUND and transient failures retain their separate eligibility and retry rules',async t=>{
- const f=fixture(t),q=queries[2];f.errorCode='NOT_FOUND';
+ const f=fixture(t),q=queries[2];delete f.job.executionContract.acceptedBoundaries;f.errorCode='NOT_FOUND';
  const missing=await ledger.fetch(f.a,f.job,q);assert.equal(ledger.eligibility(f.job,missing.operation).action,'repair_input');
  assert.equal(statuses(f)[2],'blocked');assert.equal((await ledger.fetch(f.a,f.job,q)).reused,true);
  f.job.feedback.push({text:'Correct the resource mapping'});assert.equal((await ledger.fetch(f.a,f.job,q)).reused,true);

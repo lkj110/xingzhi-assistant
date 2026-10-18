@@ -1,6 +1,21 @@
 // A public projection must not expose a denied snapshot through its cached copies.
 const bodyFields=new Set(['content','body','readbackContent','segments','preview','tail','quote','excerpt','text','raw','chunks','outline']);
+// Archive bodies are internal storage even when the source is readable. Do not
+// let full state, details, histories or exports expose encoded platform data.
+function excludePlatformArchives(value){
+ if(!value||typeof value!=='object')return value;
+ if(Array.isArray(value)){for(const row of value)excludePlatformArchives(row);return value;}
+ if(Object.hasOwn(value,'platformArchive')){delete value.platformArchive;value.platformArchiveOmitted=true;}
+ if(value.platformResult&&typeof value.platformResult==='object')delete value.platformResult.archive;
+ for(const child of Object.values(value))excludePlatformArchives(child);
+ return value;
+}
 function sanitize(a,state){
+ if(!a.requireContextAccessPolicy)return excludePlatformArchives(state);
+ return require('./protocol-access.cjs').derivedRead(a,()=>sanitizeOnce(a,state));
+}
+function sanitizeOnce(a,state){
+ excludePlatformArchives(state);
  if(!a.requireContextAccessPolicy)return state;
  const denied=new Set();
  const known={sourceId:new Set((a.data.sources||[]).map(r=>r.id)),artifactId:new Set((a.data.artifacts||[]).map(r=>r.id))};
@@ -15,10 +30,7 @@ function sanitize(a,state){
  }
  missingReferences(state);
  for(const [kind,rows]of [['source',a.data.sources||[]],['artifact',a.data.artifacts||[]]])for(const row of rows){
-  const scopes=[{}];
-  for(const task of a.data.tasks)if(kind==='artifact'?row.taskId===task.id:(task.sourceIds||[]).includes(row.id)||(task.contextBindings||[]).some(b=>b.sourceId===row.id))scopes.push({taskId:task.id,...(task.agentJobId?{jobId:task.agentJobId}:{})});
-  for(const job of a.data.delegations)if(row.agentJobId===job.id||(job.sourceIds||[]).includes(row.id))scopes.push({jobId:job.id});
-  if(!scopes.some(scope=>a.contextAccessCheck({objectType:kind,objectId:row.id,...scope}).allowed))denied.add(row.id);
+  if(!require('./protocol-access.cjs').canReadSnapshot(a,kind,row))denied.add(row.id);
  }
  function visit(value,inherited=false){
   if(Array.isArray(value)){for(const row of value)visit(row,inherited);return;}
@@ -35,4 +47,4 @@ function sanitize(a,state){
  }
  visit(state);return state;
 }
-module.exports={sanitize};
+module.exports={sanitize,excludePlatformArchives};

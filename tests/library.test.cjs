@@ -14,9 +14,11 @@ test('Search filters current source versions, exclusions, withdrawals and projec
  const a=setup(t);await a.dispatch('projectSave',{name:'P'});const p=a.data.projects[0];
  await a.dispatch('import',{items:[{title:'版本',content:'旧预算',projectId:p.id}]});const old=a.data.sources[0];
  a.data.sources.unshift({...old,id:'next',content:'新预算',previousSourceId:old.id,version:2});
+ require('../desktop/protocol-access.cjs').retain(a,'source',a.data.sources[0],{command:'test_explicit_material',actor:'user_command'});
  a.data.sources.push({...old,id:'withdrawn',content:'撤回预算',deleted:true},{...old,id:'excluded',projectExcluded:true});
  const r=await a.dispatch('librarySearch',{type:'source',projectId:p.id});assert.deepEqual(r.items.map(s=>s.id),['next']);
- assert.equal((await a.dispatch('librarySearch',{type:'source',history:true})).total,4);
+ // History preserves readable versions, but cannot list withdrawn/excluded snapshots as readable material.
+ assert.deepEqual(new Set((await a.dispatch('librarySearch',{type:'source',history:true})).items.map(s=>s.id)),new Set([old.id,'next']));
  await assert.rejects(a.dispatch('librarySearch',{projectId:'missing'}),/项目不存在/);
 });
 test('Current deliverables require live step references; replaced and cancelled artifacts are historical',async t=>{

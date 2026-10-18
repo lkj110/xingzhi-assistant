@@ -165,7 +165,7 @@ async function dispatch(a,action,input={}){
   else throw new Error('未知托管操作');
   value.policyRevision=crypto.randomUUID();settings(value);
   const title=action==='stewardshipSettings'?'托管策略已更新':value.paused?'自动托管已暂停':'自动托管已恢复';
-  const detail=value.paused?(value.pauseUntil?`当前轮次结束后暂停；已设置 ${value.pauseUntil} 解除全局暂停，各项手动暂停继续保留。`:'当前轮次结束后暂停；各项目的计划与授权保留。'):'将按各项目原有计划和当前托管时段继续。';
+  const detail=value.paused?(value.pauseUntil?`当前请求返回并保存断点后暂停；已设置 ${value.pauseUntil} 解除全局暂停，各项手动暂停继续保留。`:'当前请求返回并保存断点后暂停；各项目的计划与授权保留。'):'将按各项目原有计划和当前托管时段继续。';
   // Commit workspace and event before the authoritative ledger; no trailing save can fail after granting consent.
   if(action==='stewardshipPause'&&value.pauseUntil){
     const previous=a.data.stewardship,events=a.data.events.slice(),runtime=structuredClone(a.data.runtime);

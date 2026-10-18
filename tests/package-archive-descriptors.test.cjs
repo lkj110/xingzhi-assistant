@@ -1,0 +1,22 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict');
+const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),{spawnSync}=require('node:child_process');
+test('package isolation admits only the selected archive descriptor and rejects foreign reads and all inherited writes',t=>{
+ const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'archive-fds-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const dir=path.join(root,'profile'),asar=path.join(root,'app.asar'),foreign=path.join(root,'foreign.asar');fs.mkdirSync(dir);fs.writeFileSync(asar,'selected');fs.writeFileSync(foreign,'selected');
+ const script=`const assert=require('node:assert/strict'),fs=require('node:fs');
+ const selected=fs.openSync(${JSON.stringify(asar)},'r+'),foreign=fs.openSync(${JSON.stringify(foreign)},'r+');
+ const rawOpen=fs.openSync.bind(fs),rawClose=fs.closeSync.bind(fs);
+ require(${JSON.stringify(path.resolve(__dirname,'../scripts/system-package-worker.cjs'))}).installIsolation(${JSON.stringify({dir,asar,phase:0})});
+ assert.equal(fs.readSync(selected,Buffer.alloc(1),0,1,0),1);
+ for(const fd of [selected,foreign])for(const f of [()=>fs.writeSync(fd,'NO'),()=>fs.writevSync(fd,[Buffer.from('NO')]),()=>fs.ftruncateSync(fd,0),()=>fs.write(fd,Buffer.from('NO'),()=>{}),()=>fs.writev(fd,[Buffer.from('NO')],()=>{}),()=>fs.ftruncate(fd,0,()=>{})])assert.throws(f,/CONTROLLED_EXTERNAL_DENIED/);
+ assert.throws(()=>fs.readSync(foreign,Buffer.alloc(1),0,1,0),/CONTROLLED_EXTERNAL_DENIED/);
+ assert.throws(()=>require('original-fs'),/CONTROLLED_EXTERNAL_DENIED/);
+ const ownedArchive=fs.openSync(${JSON.stringify(asar)},'r');for(const f of [()=>fs.fchmodSync(ownedArchive,0o600),()=>fs.futimesSync(ownedArchive,new Date(),new Date()),()=>fs.writeSync(ownedArchive,'NO'),()=>fs.createWriteStream(null,{fd:ownedArchive,autoClose:false})])assert.throws(f,/CONTROLLED_EXTERNAL_DENIED/);fs.closeSync(ownedArchive);
+ const local=${JSON.stringify(path.join(dir,'local'))},owned=fs.openSync(local,'w+');fs.writeSync(owned,'ok');fs.closeSync(owned);
+ const reused=rawOpen(${JSON.stringify(foreign)},'r+');assert.equal(reused,owned,'fixture must reuse the closed descriptor');
+ assert.throws(()=>fs.readSync(reused,Buffer.alloc(1),0,1,0),/CONTROLLED_EXTERNAL_DENIED/);assert.throws(()=>fs.writeSync(reused,'NO'),/CONTROLLED_EXTERNAL_DENIED/);rawClose(reused);
+ (async()=>{const archiveHandle=await fs.promises.open(${JSON.stringify(asar)},'r');for(const f of [()=>archiveHandle.chmod(0o600),()=>archiveHandle.utimes(new Date(),new Date()),()=>archiveHandle.writeFile('NO'),()=>archiveHandle.createWriteStream({autoClose:false})])await assert.rejects(async()=>f(),/CONTROLLED_EXTERNAL_DENIED/);await archiveHandle.close();const handle=await fs.promises.open(local,'r+'),fd=handle.fd;await handle.close();const reused=rawOpen(${JSON.stringify(foreign)},'r+');assert.equal(reused,fd);assert.throws(()=>fs.writeSync(reused,'NO'),/CONTROLLED_EXTERNAL_DENIED/);rawClose(reused);})();`;
+ const result=spawnSync(process.execPath,['-e',script],{encoding:'utf8',timeout:10000});assert.equal(result.status,0,result.stderr);
+ assert.equal(fs.readFileSync(asar,'utf8'),'selected');assert.equal(fs.readFileSync(foreign,'utf8'),'selected');assert.equal(fs.readFileSync(path.join(dir,'local'),'utf8'),'ok');
+});

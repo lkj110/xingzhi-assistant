@@ -88,6 +88,9 @@ class Assistant {
   constructor({ dir, vault, chat = modelChat, agentRequest, connectorRequest, officeRequest, webRequest, feedRequest, modelBudgetOwner, onStateSaved }) {
     fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
     this.dir = dir; this.file = path.join(dir, 'workspace.json');
+    // Fixed code adapter only; importing a workspace cannot supply a migration
+    // authority. Individual historical rows still need their complete proofs.
+    require('./evidence-recovery.cjs').registerBuiltInAdapter(this);
     this.vault = vault || fileVault(dir); this.chat = chat;
     this.modelBudgetOwner=modelBudgetOwner||null;
     this.onStateSaved=onStateSaved;
@@ -131,6 +134,8 @@ class Assistant {
     require('./evidence-links.cjs').initialize(this);
     require('./source-observations.cjs').initialize(this);
     require('./deadline-events.cjs');
+    require('./subscription-health.cjs');
+    require('./model-preflight-recovery.cjs');
     try { require('./work-journal.cjs').initialize(this,{migrate:!this.recoveryFromBackup&&(this.data.runtime?.executionSchema||1)<3,save:false}); }
     catch(error) {
       // Keep the App readable without replacing an independent authority from
@@ -154,6 +159,7 @@ class Assistant {
   save() {
     require('./work-journal.cjs').beforeSave(this);
     require('./execution-contract.cjs').initialize(this);
+    require('./relation-requirements.cjs').synchronize(this);
     attention.sync(this);
     this.data.runtime ||= {};
     const previousCommit={id:this.data.runtime.commitId,revision:this.data.runtime.revision};
@@ -173,12 +179,13 @@ class Assistant {
     this.data.events = this.data.events.slice(0, 2000);
   }
   publicState({summary = require('./workspace-view.cjs').summaryRequested(), full = false} = {}) {
+    return require('./projection-cache.cjs').scope(()=>{
     summary = summary && !full;
     const state = summary ? require('./workspace-view.cjs').projection(this.data) : clone(this.data);
     state.providers = state.providers.map(({ sealedKey, ...provider }) => ({ ...provider, hasKey: !!sealedKey }));
     agent.sanitize(state);
     for(const task of state.tasks)task.workState=require('./work-state.cjs').view(this,this.data.tasks.find(t=>t.id===task.id));
-    for(const job of state.delegations){job.workState=require('./work-state.cjs').view(this,this.data.delegations.find(j=>j.id===job.id));job.progressSummary=require('./execution-control.cjs').view(this,this.data.delegations.find(j=>j.id===job.id));delete job.executionState;}
+    for(const job of state.delegations){const original=this.data.delegations.find(j=>j.id===job.id);job.checkRecovery=require('./pending-check.cjs').view(this,original);job.repairValidation=require('./repair-validation.cjs').view(original,this.data.tasks.find(t=>original.taskIds?.includes(t.id)));job.storageMethodResume=require('./storage-method-resume.cjs').view(original);job.modelPreflightRecovery=require('./model-preflight-recovery.cjs').view(this,original);job.workState=require('./work-state.cjs').view(this,this.data.delegations.find(j=>j.id===job.id));job.progressSummary=require('./execution-control.cjs').view(this,this.data.delegations.find(j=>j.id===job.id));delete job.executionState;}
     require('./capabilities.cjs').sanitize(state);
     require('./office-connectors.cjs').sanitize(state);
     capture.sanitize(state);
@@ -204,6 +211,7 @@ class Assistant {
     require('./public-context.cjs').sanitize(this,state);
     if(summary){require('./workspace-view.cjs').finalize(state);state.viewRevision=require('./workspace-view.cjs').stamp(this);}
     return state;
+    });
   }
   task(id) {
     const task = this.data.tasks.find(t => t.id === id);
@@ -259,22 +267,27 @@ class Assistant {
     if (!provider) throw new Error(`请先在「模型与设置」中为${{organize: '信息整理', execute: '事项推进', verify: '结果检查'}[role]}选择模型`);
     return provider;
   }
-  async call(role, prompt, payload) {
-    const provider = this.available(role);
-    const result = await this.callModel(provider, undefined, [
+  modelMessages(prompt, payload) {
+    return [
       { role: 'system', content: `${instruction}\n${prompt}\n用户的工作偏好：${this.data.settings.profile || '无额外偏好'}` },
       { role: 'user', content: JSON.stringify(payload) }
-    ], { signal: this.controller?.signal, role, stage: role==='verify'?'task_verify':'task_work', routingContext: payload });
+    ];
+  }
+  async call(role, prompt, payload, {boundedFinalization} = {}) {
+    const provider = this.available(role);
+    const result = await this.callModel(provider, undefined, this.modelMessages(prompt,payload), { signal: this.controller?.signal, role, stage: role==='verify'?'task_verify':'task_work', routingContext: payload, boundedFinalization });
     this.controller?.signal.throwIfAborted();
     return result;
   }
   async callModel(provider,key,messages,options={}) {
+    if(options.role==='execute')require('./evidence-consumption.cjs').modelGuard(this);
+    const beginFinalization=require('./check-finalization.cjs').transportGuard(this,options.boundedFinalization);
     const owner=this.modelBudgetOwner||this,requestId=uid(),original=provider;
     const revision=()=>modelFallback.revision(this)+modelRouting.revision(this),authorization=revision();
     const selection=modelRouting.select(this,provider,options);
     if(selection.provider.id!==provider.id)key=undefined;
     provider=selection.provider;
-    const {routingContext,...requestOptions}=options;
+    const {routingContext,boundedFinalization,...requestOptions}=options;
     const assertActive=()=>{
       if(options.signal?.aborted||this.controller?.signal.aborted||this.suspended||this.activeAgentJob?.status==='paused')throw cancelledError();
       require('./execution-gate.cjs').assert(this,{task:this.activeSpendTask});
@@ -283,8 +296,13 @@ class Assistant {
     };
     const attempt=async(p,k,number,from,requestMessages=messages,stage=requestOptions.stage)=>{
       assertActive();
+      if(requestOptions.role==='execute')require('./evidence-consumption.cjs').modelGuard(this);
       if(authorization!==revision())throw modelError('MODEL_CONFIG','模型配置已变化，请重新推进。',false);
+      // Includes the real system/profile and both JSON serialization layers.
+      // A local rejected request must not create a usage reservation or billed attempt.
+      if(p.type==='codex')subscription.validateInput(requestMessages);
       stewardship.preflight(owner);
+      beginFinalization?.(requestId);
       const chargedJob=this.activeAgentJob,chargedRule=chargedJob?.ruleId?this.data.workRules.find(r=>r.id===chargedJob.ruleId):null;
       const priorCalls=chargedJob?.callsUsed,priorRuleUsage=chargedRule?clone(chargedRule.usage):null;
       agent.chargeCall(this,{persist:false});
@@ -299,12 +317,17 @@ class Assistant {
       try{owner.save();if(owner!==this)this.save();}catch{throw persistenceError();}
       const meta={...requestOptions,stage,spendTicket,requestId,attempt:number,...(selection.routing?{routing:selection.routing}:{}),...(from?{fallbackFrom:from}:{})};
       if(owner!==this)return efficiency.call(owner,p,k,requestMessages,{...meta,stage:'evaluation'},(p,k,m,o)=>efficiency.call(this,p,k,m,{...o,spendTicket:null},this.chat));
-      return efficiency.call(this,p,k,requestMessages,meta,this.chat);
+      const consumption=require('./evidence-consumption.cjs');consumption.beforeModel(this,meta);
+      try{const result=await efficiency.call(this,p,k,requestMessages,meta,this.chat);consumption.afterModel(this,meta);return result;}catch(error){consumption.afterModel(this,meta,error);throw error;}
     };
     assertActive();
     if(key===undefined)key=provider.sealedKey?await this.vault.open(provider.sealedKey):'';
     try{return await attempt(provider,key,1);}
     catch(error){
+      // A bounded conclusion has already spent its sole transport opportunity.
+      // Keep the original error/usage and durable started record; ordinary calls
+      // retain their existing JSON repair, retry and consented fallback below.
+      if(beginFinalization)throw error;
       if(!error.spendLimit&&!error.localPersistence)spend.check(owner,{evaluation:owner!==this});
       if(error.jsonRepairable&&authorization===revision()&&!this.modelBudgetOwner&&!['connection_test','evaluation'].includes(options.stage)){
         // Repair inference only: external application actions have not run yet.
@@ -455,9 +478,9 @@ analysis/draft 仅适用于阅读、分析、文本产出；发信、联系别�
       sources.forEach(s => { s.state = 'new'; }); throw error;
     } finally { this.save(); }
   }
-  context(task, {verification = false} = {}) {
+  context(task, {verification = false, prefetch = true} = {}) {
     const job = this.data.delegations.find(j => j.id === task.agentJobId);
-    const validated=require('./generation-context.cjs').contextBatch(this,task,{verification});
+    const validated=require('./generation-context.cjs').contextBatch(this,task,{verification,prefetch});
     const protocol=validated.context;
     const allowed=new Set([...protocol.readableCatalog,...protocol.historyCatalog].map(r=>r.id));
     const currentIds=new Set(require('./deliverables.cjs').current(this,task).map(r=>r.id));
@@ -485,6 +508,7 @@ analysis/draft 仅适用于阅读、分析、文本产出；发信、联系别�
     projectLifecycle.assertTaskActive(this.data,task);
     if(task.agentJobId)agentPlan.assertReady(this,task);
     const linkedJob=this.data.delegations.find(j=>j.id===task.agentJobId);
+    require('./evidence-consumption.cjs').assertAdvance(this,linkedJob,task);
     const ruleJob=linkedJob?.ruleId?linkedJob:null;
     if(linkedJob?.status==='paused')throw new Error('关联委托已暂停，请先恢复');
     if(ruleJob&&(!workRules.canRun(this,ruleJob)||ruleJob.status==='paused'))throw new Error('关联规则或委托已暂停，请先恢复');
@@ -499,53 +523,69 @@ analysis/draft 仅适用于阅读、分析、文本产出；发信、联系别�
     task.status = 'running'; task.lastError = ''; task.updatedAt = now(); this.save();
     try {
       spend.check(this);
-      const step = task.steps.find(s => !s.done);
+      const consumption=require('./evidence-consumption.cjs');
+      const step = consumption.selectedStep(this,linkedJob,task)||task.steps.find(s => !s.done);
       if (step?.kind === 'external') {
         task.status = 'waiting'; task.waitingOn = `需要外部执行：${step.title}`;
         task.nextCheckAt ||= new Date(Date.now() + 86400000).toISOString(); task.followupDue = false;
         this.event('等待外部结果', task.waitingOn, id); return;
       }
       if (step) {
-        const inputBasis=require('./step-evidence.cjs').snapshot(this,task,step).hash;
-        const generationSnapshot=require('./revision-protocol.cjs').snapshot(this,task);
-        const result = await generation.run(this,task,step, `推进给定事项的当前步骤。你可生成分析、计划、邮件草稿或其他文本，但不能执行外部动作。
+        consumption.begin(this,linkedJob,task,step);
+        const consumptionAttempt=consumption.active(task);
+        const retainedBasis=['generating','result_retained'].includes(consumptionAttempt?.status)?consumptionAttempt:null;
+        const inputBasis=retainedBasis?.originalInputBasis.hash||require('./step-evidence.cjs').snapshot(this,task,step).hash;
+        const generationSnapshot=retainedBasis?.originalGenerationSnapshot||require('./revision-protocol.cjs').snapshot(this,task);
+        const result = consumption.candidate(this,linkedJob,task,step)||await generation.run(this,task,step, `推进给定事项的当前步骤。你可生成分析、计划、邮件草稿或其他文本，但不能执行外部动作。
 返回 {"kind":"artifact|need_input|wait|needs_evidence|needs_replan","title":"产出标题","content":"按事项要求的完整正文","summary":"推进说明","question":"需要用户回答的问题","nextCheckAt":null}。
 ${require('./decision-options.cjs').prompt}
 nextCheckAt 非空时必须是有效且带时区的 ISO 日期时间（Z 或 ±HH:mm）；没有明确日期、时刻或时区时为 null，不猜测。
 事项明确要求 TXT、CSV 或 JSON 时，content 直接放完整对应格式正文，不加 Markdown 围栏、标题或额外解释；CSV 正确转义且不输出执行公式。其他情况使用 Markdown。外层响应仍为 JSON，content 为字符串。
 能完成文本步骤时 kind=artifact，必须给出完整可用内容；sources 是本事项引用的相关证据，truncated=true 表示仅提供节选；需要省略部分时，Agent 可先 read_source/search_source 获取，历史草稿可 read_artifact 按 ID 获取。节选不足时用 read_context 读取已保存的原文或文稿；只有确实无法从已有资料取得的新事实才 kind=need_input；等待外部结果时 kind=wait。不可用虚构事实填补缺失，不可把发送草稿描述为已发送。
 content 是给最终读者使用的业务正文，长度与目标匹配；保留业务事实、必要的未知事项和建议。不要把本应用的保存交接、尚待写入说明、内部事项/来源 ID、哈希或工具调用记录写入正文，除非用户明确要求这些内容。推进和保存说明放在 summary。业务本身的发布、审批或客户确认状态仍须如实保留。
-delegation 提供用户目标、已配置的产出目录和相关等待状态；有目录时无需再询问。文件保存由 Agent 的 write_file 步骤执行，生成正文时无须等待保存完成，也不能宣称已经保存。`, { ...this.context(task), currentStep: {id:step.id,title:step.title,kind:step.kind,outputRole:step.outputRole,targetArtifactId:step.targetArtifactId} });
+delegation 提供用户目标、已配置的产出目录和相关等待状态；有目录时无需再询问。文件保存由 Agent 的 write_file 步骤执行，生成正文时无须等待保存完成，也不能宣称已经保存。`, { ...this.context(task), ...(consumption.prompt(this,linkedJob,task)?{evidenceConsumption:consumption.prompt(this,linkedJob,task)}:{}), currentStep: {id:step.id,title:step.title,kind:step.kind,outputRole:step.outputRole,targetArtifactId:step.targetArtifactId} });
         if(inputBasis!==require('./step-evidence.cjs').snapshot(this,this.task(id),step).hash){
-          if(result.kind==='artifact'&&typeof result.content==='string')this.data.artifacts.push({id:uid(),taskId:id,stepId:step.id,title:result.title||step.title,content:result.content,createdAt:now(),stale:true});
-          throw modelError('MODEL_INVALID_RESPONSE','生成期间要求或资料已变化，候选稿已保留，将按当前依据重新推进',true);
+          throw modelError('MODEL_INVALID_RESPONSE','生成期间要求或资料已变化，旧响应未采纳，将按当前依据重新推进',true);
         }
         const evidenceRequest=require('./evidence-request.cjs').normalize(this,task,result,inputBasis);
         if(evidenceRequest&&linkedJob){
+          consumption.failed(this,task,{code:'EVIDENCE_REQUIRED',message:evidenceRequest.summary});
           task.evidenceRequest=evidenceRequest;task.status='todo';task.waitingOn='';task.nextCheckAt=null;
           this.event('已交回 Agent 补证或调整步骤',evidenceRequest.summary,id);return;
         }
         if(evidenceRequest){result.kind='need_input';result.question=evidenceRequest.summary;}
         if (!['artifact', 'need_input', 'wait'].includes(result.kind)) throw new Error('模型返回未知的推进结果');
         if (result.kind !== 'artifact') {
+          consumption.failed(this,task,{code:'EVIDENCE_NOT_INTEGRATED',message:result.summary});
           task.waitingOn = required(result.question || result.summary, '待补充信息', 3000);
           task.status = 'waiting'; task.nextCheckAt = dateOrNull(result.nextCheckAt) || new Date(Date.now() + 86400000).toISOString(); task.followupDue = false;
           if(linkedJob&&result.kind==='need_input')decisions.ask(this,linkedJob,{key:`task:${task.id}`,question:task.waitingOn,context:result.context,options:result.options,suggestion:result.suggestion,decisionType:result.decisionType,taskIds:[task.id],sourceIds:task.sourceIds});
           if(!linkedJob&&result.kind==='need_input')decisions.askTask(this,task,result);
           this.event('需要补充信息', task.waitingOn, id); return;
         }
-        const content = required(result.content, '产出正文', 100000);
+        const validatedContent = required(result.content, '产出正文', 100000);
+        const retainedConsumptionAttempt=consumption.active(task);
+        // The retained candidate, quote receipts and committed draft must be
+        // byte-identical. Validation still checks the untrimmed size and blank
+        // content; ordinary generation keeps its existing trimmed output.
+        const content = linkedJob&&retainedConsumptionAttempt?.stepId===step.id&&['generating','result_retained'].includes(retainedConsumptionAttempt.status)?result.content:validatedContent;
+        consumption.retain(this,linkedJob,task,step,result);
         const artifact = { id: uid(), taskId: id, stepId: step.id, title: short(result.title, 200) || step.title, content, generationSnapshot, createdAt: now() };
         const previousPrimary=require('./deliverables.cjs').primary(this,task);
-        this.data.artifacts.push(artifact);require('./protocol-access.cjs').retain(this,'artifact',artifact,{task}); delete step.checkpoint; step.done = true; step.artifactId = artifact.id;require('./deliverables.cjs').record(this,task,step,artifact,{previousPrimary});require('./step-evidence.cjs').record(this,task,step);
-        task.status = 'todo'; this.event('完成一个执行步骤', step.title, id);
-        this.save(); // Preserve the artifact even if the later verification request fails.
+        require('./state-transitions.cjs').commit(this,()=>{
+          consumption.validateCommit(this,linkedJob,task,step);
+          this.data.artifacts.push(artifact);require('./protocol-access.cjs').retain(this,'artifact',artifact,{task}); delete step.checkpoint; step.done = true; step.artifactId = artifact.id;require('./deliverables.cjs').record(this,task,step,artifact,{previousPrimary});require('./step-evidence.cjs').record(this,task,step);
+          consumption.committed(this,linkedJob,task,step,artifact);
+          if(linkedJob)require('./pending-check.cjs').recordGenerated(this,linkedJob,task,step,artifact);
+          task.status = 'todo'; this.event('完成一个执行步骤', step.title, id);
+        }); // Output and its original pending check share one persisted commit.
       }
       if (task.steps.every(s => s.done)) {
+        if(require('./evidence-consumption.cjs').draftOnly(this,task)){task.status='todo';return;}
         task.status = 'running'; this.save();
         const checkCache=require('./verification-cache.cjs');
-        const fullContext={...this.context(task,{verification:true}),verificationSnapshot:require('./revision-protocol.cjs').snapshot(this,task),...(linkedJob?{requirements:require('./work-obligations.cjs').requirements(this,linkedJob)}:{})};
-        const verifyPrompt=require('./revision-protocol.cjs').verificationInstruction+`本次以用户已确认的范围检查。已在 delegation 明确允许保留的权限缺口只检查是否如实标注，不重复要求取得已接受不可访问的内容。可选返回 gapDetails:[{requirementId:"task:事项 ID",text:"与 gaps 一致",sourceIds:["实际用于判断该缺口的来源 ID"]}]，仅填写确实关联的证据，不能借无关来源刷新缺口。
+        const fullContext={...this.context(task,{verification:true}),verificationSnapshot:require('./revision-protocol.cjs').snapshot(this,task),...(linkedJob?{requirements:require('./work-obligations.cjs').requirements(this,linkedJob),businessObligations:require('./relation-obligations.cjs').context(this,linkedJob,task)}:{})};
+        const verifyPrompt=(linkedJob?require('./relation-obligations.cjs').instruction+'\n':'')+require('./revision-protocol.cjs').verificationInstruction+`本次以用户已确认的范围检查。已在 delegation 明确允许保留的权限缺口只检查是否如实标注，不重复要求取得已接受不可访问的内容。可选返回 gapDetails:[{requirementId:"task:事项 ID",text:"与 gaps 一致",sourceIds:["实际用于判断该缺口的来源 ID"]}]，仅填写确实关联的证据，不能借无关来源刷新缺口。
 独立检查事项是否满足完成标准。根据实际产出和用户提供的执行证据判断，不能只相信模型声称完成。
 返回 {"passed":true或false,"summary":"检查结论与理由","gaps":["未满足的标准"]}。
 没有证据的外部行动不算完成；如果要求已经通过草稿/分析满足，不要求额外的外部发送。
@@ -563,9 +603,11 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
         if (verification.gaps.some(gap => typeof gap !== 'string') || !verification.summary.trim()) throw modelError('MODEL_INVALID_RESPONSE','模型返回的结果检查内容无效',true);
         if (verification.passed && verification.gaps.some(gap => gap.trim())) throw modelError('MODEL_INVALID_RESPONSE','检查结论存在矛盾：仍有未满足的标准，不能标记完成。将自动重试检查。',true);
         if(checkingBasis!==acceptance.basis(this,this.task(id)))throw modelError('MODEL_INVALID_RESPONSE','检查期间要求或资料已变化，旧检查已丢弃，将按当前依据重新检查',true);
+        if(linkedJob){const covered=require('./relation-obligations.cjs').validateCoverage(this,linkedJob,task,verification,checkingBasis);verification=covered.result;require('./relation-obligations.cjs').record(linkedJob,covered.receipts);}
         checkCache.remember(this,task,verification,prepared);
-        task.verification = { basisVersion:2,mode:prepared.mode,reusedChunks:prepared.reusedChunks,checkedChunks:prepared.checkedChunks,...(prepared.mode==='exact'?{avoidedModelCalls:1}:{}), passed: verification.passed, summary: short(verification.summary, 5000), gaps: verification.gaps.map(s => short(s, 1000)).slice(0, 20), gapDetails:verification.gapDetails,snapshot:fullContext.verificationSnapshot,at: now(), basis:acceptance.basis(this,task) };
+        task.verification = { basisVersion:2,mode:prepared.mode,reusedChunks:prepared.reusedChunks,checkedChunks:prepared.checkedChunks,...(prepared.mode==='exact'?{avoidedModelCalls:1}:{}), passed: verification.passed, summary: short(verification.summary, 5000), gaps: verification.gaps.map(s => short(s, 1000)).slice(0, 20), gapDetails:verification.gapDetails,relationCoverage:verification.relationCoverage,snapshot:fullContext.verificationSnapshot,at: now(), basis:acceptance.basis(this,task) };
         task.status = verification.passed ? 'review' : 'blocked';
+        if(linkedJob)require('./continuation-control.cjs').noteCheck(this,linkedJob,task,task.verification,{phase:'result'});
         task.lastError = verification.passed ? '' : `结果检查未通过：${verification.summary}`;
         const acceptIntermediate=linkedJob?.autoAccept===true&&acceptance.activeTasks(this,linkedJob).some(other=>other.id!==task.id&&other.status!=='completed');
         if(verification.passed&&(acceptIntermediate||!linkedJob&&this.data.settings.autoComplete))acceptance.acceptTask(this,{id:task.id},{actor:'policy'});
@@ -573,6 +615,12 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       }
     } catch (error) {
       if(error.committed)throw error;
+      require('./evidence-consumption.cjs').failed(this,task,error);
+      if(error.gateClosed){
+        if(!task.deletedAt&&!task.agentCancelled&&!['completed','paused'].includes(task.status))task.status='todo';
+        require('./pending-check.cjs').interrupt(this,linkedJob,task,error);
+        task.lastError=error.message;throw error;
+      }
       if(error.noProgress&&linkedJob){if(!['paused','completed'].includes(task.status)&&!task.deletedAt&&!task.agentCancelled)task.status='todo';task.lastError=error.message;this.event('正在调整推进方式',error.message,id);if(priorAgentJob!==linkedJob)require('./strategy-recovery.cjs').schedule(this,linkedJob,error);throw error;}
       if(error.spendLimit)spend.blockJob(this,linkedJob,error);
       if(error.stewardshipBudget){
@@ -652,6 +700,14 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
     }
   }
 
+  // Only workspace-only synchronous mutations belong here. Journal replay must
+  // precede the rollback snapshot; independent authorities keep their own receipts.
+  commitOrdinary(mutate, {expectedRevision, project = () => this.publicState()} = {}) {
+    require('./work-journal.cjs').beforeSave(this);
+    require('./state-transitions.cjs').commit(this, mutate, {expectedRevision});
+    try { return project(); } catch (error) { error.committed = true; throw error; }
+  }
+
   async dispatch(action, input = {}) {
     if(action==='stateView')return require('./workspace-view.cjs').view(this,input);
     if(action==='viewDetail')return require('./workspace-view.cjs').detail(this,input);
@@ -692,8 +748,8 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
     if (typeof action==='string' && action.startsWith('connector')) return connectors.dispatch(this,action,input);
     if (typeof action==='string' && action.startsWith('backup')) return recovery.dispatch(this,action,input);
     if (typeof action === 'string' && action.startsWith('project')) return projects.dispatch(this,action,input);
-    if (action === 'subscriptionStatus') return subscription.status();
-    if (action === 'readSource') { const source=require('./workspace-view.cjs').detail(this,{kind:'source',id:input.id}); return documents.excerpts(source,input); }
+    if (action === 'subscriptionStatus') return require('./subscription-health.cjs').check(this);
+    if (action === 'readSource') return documents.readSource(this,input);
     if (action === 'importDocuments') {
       this.ensureIdle();
       if(!Array.isArray(input.items)||!input.items.length||input.items.length>10)throw new Error('每次请导入 1–10 份文件');
@@ -705,7 +761,8 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
         for(const item of input.items) {
           if(typeof item.base64!=='string'||item.base64.length>14_000_000)throw new Error('文件超过 10 MB');
           const name=required(item.title,'文件名',300);
-          items.push({...await documents.parse(name,Buffer.from(item.base64,'base64'),this.controller.signal),origin:`文件导入 · ${name}`,projectId:input.projectId || null});
+          const provenance=require('./capture-provenance.cjs').forFile(item.provenance,name);
+          items.push({...await documents.parse(name,Buffer.from(item.base64,'base64'),this.controller.signal),origin:`文件导入 · ${name}`,projectId:input.projectId || null,provenance});
         }
         this.controller.signal.throwIfAborted();
         if(input.textItems){if(!Array.isArray(input.textItems)||input.textItems.length>1)throw new Error('手动材料格式无效');items.push(...input.textItems.map(s=>({...s,projectId:input.projectId||null})));}
@@ -750,6 +807,8 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
     if (action === 'restoreGenerationCheckpoint') return generation.restore(this,input);
     if (action === 'saveProvider') {
       const existing = this.data.providers.find(p => p.id === input.id);
+      if(input.id&&!existing)throw Object.assign(Error('模型配置已变化，请刷新'),{code:'STATE_STALE'});
+      const preparedFrom = existing ? JSON.stringify(existing) : null;
       const provider = {
         id: existing?.id || uid(), name: required(input.name, '配置名称', 100), ...modelProtocols.normalize(input),
         baseUrl: input.type === 'codex' ? '' : required(input.baseUrl, '服务地址', 2000), model: required(input.model, '模型名称', 200), jsonMode: input.jsonMode !== false,
@@ -767,17 +826,23 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       provider.longContextPricing=input.longContextPricing===true;
       if (provider.type !== 'codex' && typeof input.key === 'string' && input.key.trim()) provider.sealedKey = await this.vault.seal(input.key.trim());
       this.ensureIdle();
-      if (existing) Object.assign(existing, provider); else this.data.providers.push(provider);
-      for (const role of ['organize', 'execute', 'verify']) if (!this.data.providers.some(p=>p.id===this.data.settings.roles[role])) this.data.settings.roles[role] = provider.id;
-      modelFallback.changed(this);
-      modelRouting.changed(this);
-      this.event('保存模型配置', `${provider.name} · ${provider.model}`);
+      const current = this.data.providers.find(p => p.id === provider.id);
+      if((current ? JSON.stringify(current) : null)!==preparedFrom)throw Object.assign(Error('模型配置已变化，请刷新'),{code:'STATE_STALE'});
+      return this.commitOrdinary(() => {
+        if (current) Object.assign(current, provider); else this.data.providers.push(provider);
+        for (const role of ['organize', 'execute', 'verify']) if (!this.data.providers.some(p=>p.id===this.data.settings.roles[role])) this.data.settings.roles[role] = provider.id;
+        modelFallback.changed(this);
+        modelRouting.changed(this);
+        this.event('保存模型配置', `${provider.name} · ${provider.model}`);
+      });
     } else if (action === 'deleteProvider') {
-      this.data.providers = this.data.providers.filter(p => p.id !== input.id);
-      for (const role of Object.keys(this.data.settings.roles)) if (this.data.settings.roles[role] === input.id) this.data.settings.roles[role] = '';
-      this.data.settings.automatic = false;
-      modelFallback.changed(this);
-      modelRouting.changed(this);
+      return this.commitOrdinary(() => {
+        this.data.providers = this.data.providers.filter(p => p.id !== input.id);
+        for (const role of Object.keys(this.data.settings.roles)) if (this.data.settings.roles[role] === input.id) this.data.settings.roles[role] = '';
+        this.data.settings.automatic = false;
+        modelFallback.changed(this);
+        modelRouting.changed(this);
+      });
     } else if (action === 'settings') {
       const settings = clone(this.data.settings);
       if (input.roles) for (const role of ['organize', 'execute', 'verify']) {
@@ -792,9 +857,11 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       if (settings.automatic) for (const role of settings.autoExtract ? ['organize', 'execute', 'verify'] : ['execute', 'verify']) {
         if (!this.data.providers.some(p => p.id === settings.roles[role])) throw new Error(`请先为${{ organize: '信息整理', execute: '事项推进', verify: '结果检查' }[role]}选择模型`);
       }
-      this.data.settings = settings;
-      modelFallback.changed(this);
-      modelRouting.changed(this);
+      return this.commitOrdinary(() => {
+        this.data.settings = settings;
+        modelFallback.changed(this);
+        modelRouting.changed(this);
+      });
     } else if (action === 'createTask') {
       this.createTask(input);
       require('./deadline-scheduler.cjs').reconcile(this);
@@ -815,6 +882,12 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       if(input.generationMode!==undefined){if(!['auto','sections','single'].includes(input.generationMode))throw new Error('生成方式无效');changes.generationMode=input.generationMode;}
       if(input.modelPreference!==undefined){if(!modelRouting.preferences.includes(input.modelPreference))throw new Error('事项模型选择无效');changes.modelPreference=input.modelPreference;}
       const meaningChanged = ['title', 'description', 'objective', 'criteria'].some(key => key in changes && changes[key] !== task[key]);
+      if(!meaningChanged&&!deadlineInput)return this.commitOrdinary(() => {
+        require('./requirements.cjs').edit(task,changes);
+        Object.assign(task,changes);
+        this.event('更新事项',task.title,task.id);
+        task.updatedAt=now();
+      });
       if(meaningChanged)require('./work-journal.cjs').recordUserEdit(this,{id:task.id,reopen:task.status==='completed',requirementRevision:uid(),changes});
       if(deadlineInput)require('./deadline-events.cjs').setPolicy(this,{taskId:task.id,input:deadlineInput,expectedRevision:input.expectedDeadlineRevision});
       require('./requirements.cjs').edit(task,changes);
@@ -826,24 +899,30 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       const task = this.task(input.id);
       if(['feedback','externalDone','revise','retry','resume'].includes(input.command))this.assertTaskChange(task);
       const note = short(input.note, 10000);
+      if(['pause','resume','retry'].includes(input.command))return this.commitOrdinary(() => {
+        if(input.command==='pause') {
+          if(task.status==='completed')throw new Error('已完成事项无需暂停');
+          if(task.status!=='paused'){task.previousStatus=task.status;task.status='paused';this.event('暂停事项',task.title,task.id);}
+        } else if(input.command==='resume') {
+          if(task.status!=='paused')throw new Error('只有暂停中的事项可以恢复');
+          task.status=['todo','waiting','review','blocked'].includes(task.previousStatus)?task.previousStatus:'todo';delete task.previousStatus;
+          this.event('恢复事项',task.title,task.id);
+        } else {
+          if(task.status!=='blocked')throw new Error('只有中断的事项需要重试');
+          this.requeue(task);
+        }
+        if(input.command!=='pause')this.continueTaskJob(task);
+        task.updatedAt=now();
+      });
       if (input.command === 'accept') {
         acceptance.accept(this,{projectId:'',items:[{id:task.id,revision:acceptance.revision(this,task)}]});
         return this.publicState();
-      } else if (input.command === 'pause') {
-        if (task.status === 'completed') throw new Error('已完成事项无需暂停');
-        if (task.status !== 'paused') { task.previousStatus = task.status; task.status = 'paused'; this.event('暂停事项', task.title, task.id); }
-      }
-      else if (input.command === 'resume') {
-        if (task.status !== 'paused') throw new Error('只有暂停中的事项可以恢复');
-        task.status = ['todo', 'waiting', 'review', 'blocked'].includes(task.previousStatus) ? task.previousStatus : 'todo'; delete task.previousStatus;
-        this.event('恢复事项', task.title, task.id);
-      }
-      else if (input.command === 'feedback' || input.command === 'externalDone' || input.command === 'revise') {
+      } else if (input.command === 'feedback' || input.command === 'externalDone' || input.command === 'revise') {
         if (task.status === 'completed') throw new Error('已完成事项需先编辑目标，才能重新推进');
         if (!note) throw new Error('请填写反馈或执行结果，作为后续推进依据');
         if (input.command === 'externalDone') {
           spend.check(this);
-      const step = task.steps.find(s => !s.done);
+          const step = task.steps.find(s => !s.done);
           if (!step || step.kind !== 'external') throw new Error('当前没有等待外部执行的步骤');
           step.done = true; step.evidence = note;
         }
@@ -855,11 +934,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
         this.requeue(task);
         if(task.agentJobId)agentPlan.invalidateDependents(this,task);
         this.event('收到事项反馈', note, task.id);
-      } else if (input.command === 'retry') {
-        if (task.status !== 'blocked') throw new Error('只有中断的事项需要重试');
-        this.requeue(task);
-      }
-      else throw new Error('不支持的事项操作');
+      } else throw new Error('不支持的事项操作');
       if(['feedback','externalDone','revise','retry','resume'].includes(input.command))this.continueTaskJob(task,['feedback','externalDone','revise'].includes(input.command)?note:'');
       task.updatedAt = now();
     } else if (action === 'deleteSource') {

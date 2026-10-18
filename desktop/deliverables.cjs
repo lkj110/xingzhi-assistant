@@ -11,6 +11,7 @@ function current(a,task){
  return rows.filter(r=>counts.get(r.id)===1&&owned(r,task,job)&&(task.primaryArtifactId===r.id||task.steps.some(s=>s.done&&s.artifactId===r.id&&(!r.stepId||s.id===r.stepId)))&&require('./protocol-access.cjs').allowedObject(a,'artifact',r,job,task));
 }
 function primary(a,task){
+  if(!task||!Array.isArray(task.steps)||task.steps.some(s=>!s||typeof s!=='object'))return null;
   if(Object.hasOwn(task,'primaryArtifactId'))return bound(a,task);
   const list=current(a,task),explicit=task.steps.filter(s=>s.outputRole==='primary'),draft=task.steps.filter(s=>s.kind==='draft'&&s.outputRole!=='supporting');
   // A later analysis/check report must never replace the business draft.
@@ -31,6 +32,7 @@ function bind(a,task,id){
 }
 function record(a,task,step,artifact,{previousPrimary}={}){
   artifact.outputRole=step.outputRole||(step.kind==='draft'||primary(a,task)?.id===artifact.id?'primary':'supporting');
+  if(previousPrimary?.draftOnly&&step.outputRole!=='supporting'&&(step.outputRole==='primary'||step.kind==='draft'))artifact.draftOnly=true;
   if(step.outputRole==='supporting'){
     if(!Object.hasOwn(task,'primaryArtifactId')&&previousPrimary)bind(a,task,previousPrimary.id);
   }else if(step.outputRole==='primary'||step.kind==='draft')bind(a,task,artifact.id);

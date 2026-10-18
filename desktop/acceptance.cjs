@@ -130,6 +130,7 @@ function reasons(a, task, { completed = false, seen = new Set() } = {}) {
   if (task.deletedAt) add('deleted', '事项已删除');
   if (task.agentCancelled) add('cancelled', '事项已取消');
   if (task.needsReplan) add('replan', '来源或计划已变化，请先重新推进和检查');
+  if (require('./evidence-consumption.cjs').draftOnly(a,task)) add('draft_evidence', '当前为增量草稿：须补齐全部类型证据并通过当前稿内容检查，才能交付或验收');
   const verification = task.verification;
   if (verification?.passed !== true || !nonempty(verification.summary) || rows(verification.gaps).some(nonempty)) add('verification', '请先完成执行与结果检查');
   if (!rows(task.steps).length || !rows(task.steps).every(step => object(step) && ['analysis','draft','external'].includes(step.kind) && step.done === true)) add('steps', '执行步骤尚未全部完成');
@@ -166,17 +167,18 @@ function reasons(a, task, { completed = false, seen = new Set() } = {}) {
   if (verification?.basis && verification.basis !== basis(a, task)) add('changed', '结果检查之后依据已变化，请重新检查');
   return result;
 }
-// Read-only views share checks while the complete workspace is unchanged.
-// Mutating acceptance paths always validate again through reasons/preflight.
-const presentationCache = new WeakMap();
+// A display check depends on the selected task's evidence, not on a hash of
+// unrelated workspace history. Revalidate on invocation, including callbacks
+// retained across an await or an in-place change. Reasons' pure subprojections
+// may share the caller's synchronous scope; no verdict survives that call.
+function currentBasis(a, task) {
+  return nonempty(task?.verification?.basis) && task.verification.basis === basis(a, task);
+}
 function presentationChecks(a) {
-  const fingerprint = hash(a.data), previous = presentationCache.get(a);
-  const cache = previous?.fingerprint === fingerprint ? previous : {fingerprint, results:new Map()};
-  presentationCache.set(a, cache);
   return (task, completed = false) => {
-    const key = `${completed}:${task.id}`;
-    if (!cache.results.has(key)) cache.results.set(key, module.exports.reasons(a, task, {completed}));
-    return structuredClone(cache.results.get(key));
+    const result=structuredClone(module.exports.reasons(a, task, {completed}));
+    if(!result.length&&!currentBasis(a,task))result.push({code:'changed',message:'缺少当前有效的检查依据，请重新检查；历史验收记录保留'});
+    return result;
   };
 }
 function preflight(a, input, { projectId = '', requireRevision = false } = {}) {
@@ -228,6 +230,7 @@ function markManualComplete(a, input) {
   require('./work-journal.cjs').beforeSave(a);
   const task=rows(a.data.tasks).find(t=>t.id===input.id);
   if(!task)throw Error('事项不存在');
+  require('./evidence-consumption.cjs').assertDelivery(a,jobOf(a,task),task);
   require('./project-lifecycle.cjs').assertTaskActive(a.data,task);
   a.ensureIdle?.({taskId:task.id});
   if(input.revision!==undefined&&input.revision!==revision(a,task))throw Object.assign(Error('事项或验收依据已发生变化'),{code:'STATE_STALE'});
@@ -306,4 +309,4 @@ function dispatch(a, action, input = {}) {
   if (action === 'acceptanceAccept') return accept(a, input);
   throw new Error('未知成果验收操作');
 }
-module.exports = { markManualComplete, acceptPolicy, acceptTask, recordCompletionCheck, reconcileJobCompletion, completionCandidate, completionDetails, completionBlockers, currentCompletionCheck, activeTasks, mode, finalDelivery, deliveryCurrent, presentationChecks, dispatch, snapshot, accept, acceptOne, preflight, commitTask, basis, completionBasis, revision, reasons };
+module.exports = { markManualComplete, acceptPolicy, acceptTask, recordCompletionCheck, reconcileJobCompletion, completionCandidate, completionDetails, completionBlockers, currentCompletionCheck, activeTasks, mode, finalDelivery, deliveryCurrent, currentBasis, presentationChecks, dispatch, snapshot, accept, acceptOne, preflight, commitTask, basis, completionBasis, revision, reasons };

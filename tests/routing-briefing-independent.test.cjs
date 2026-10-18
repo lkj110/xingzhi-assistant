@@ -6,7 +6,9 @@ const at=ms=>new Date(NOW+ms).toISOString();
 function fixture(){return {data:{projects:[{id:'p',name:'项目甲'},{id:'q',name:'项目乙'}],delegations:[{id:'j',projectId:'p',title:'委托甲',followups:[]}],tasks:[{id:'t',projectId:'p',agentJobId:'j',title:'事项甲',status:'completed',sourceIds:['s'],completedAt:at(-1000),verification:{passed:true,gaps:[]},steps:[{kind:'draft',done:true,artifactId:'v'},{kind:'external',tool:'write_file',done:true,artifactId:'v',evidence:'{"actionId":"new"}'}]}],sources:[{id:'s',projectId:'p',title:'材料甲',content:'PRIVATE_BODY',createdAt:at(-2000)}],artifacts:[{id:'v',taskId:'t',title:'文稿甲',content:'PRIVATE_DELIVERY',createdAt:at(-1200)}],agentActions:[{id:'old',jobId:'j',taskId:'t',artifactId:'v',tool:'write_file',status:'done',finishedAt:at(-3000),result:{verified:true}},{id:'new',jobId:'j',taskId:'t',artifactId:'v',tool:'write_file',status:'done',finishedAt:at(-1500),result:{verified:true}}],decisions:[]}};}
 
 test('Independent briefing audit: explicit action receipt takes precedence when an artifact is delivered twice',t=>{
-  t.mock.method(Date,'now',()=>NOW);const a=fixture(),r=snapshot(a);
+  t.mock.method(Date,'now',()=>NOW);const a=fixture();
+  a.data.tasks[0].verification.basis=require('../desktop/acceptance.cjs').basis(a,a.data.tasks[0]);
+  const r=snapshot(a);
   assert.equal(r.counts.deliveries,2);assert.equal(r.sections.deliveries.items.find(r=>r.id==='action:new').current,true);assert.equal(r.sections.deliveries.items.find(r=>r.id==='action:old').current,false);assert.equal(r.completionCounts.checked,1);
 });
 test('Independent briefing audit: an explicit missing or failed receipt cannot fall back to an old successful artifact',t=>{

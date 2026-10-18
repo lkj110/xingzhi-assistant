@@ -131,7 +131,7 @@ function assertDispatch(a,action,input={}){
   if(action==='deleteSource'){check(find('sources',input.id)?.projectId);return;}
   if(['advance','updateTask'].includes(action)||action==='taskAction'&&input.command!=='pause'){task(input.id);return;}
   if(['acceptanceAccept','operationsSchedule'].includes(action)){for(const item of rows(input.items))task(item.id);return;}
-  if(['agentRun','agentResume','agentFeedback','agentBudget','agentResolve','agentApprove','agentReject','agentLarkCreatePolicy','agentContract'].includes(action)){job(input.id);return;}
+  if(['agentRun','agentResume','agentFeedback','agentBudget','agentResolve','agentApprove','agentReject','agentLarkCreatePolicy','agentContract','agentRepairValidation'].includes(action)){job(input.id);return;}
   if(['ruleSave','ruleRun','ruleResume'].includes(action)){check(find('workRules',input.id)?.config?.projectId);check(input.projectId);return;}
   for(const [prefix,key] of [['connector','connectors'],['webConnection','webConnections'],['feedConnection','feedConnections'],['folder','folders']])if(action===prefix+'Save'||action===prefix+'Configure'||action===prefix+'Sync'||action===prefix+'Toggle'&&input.enabled){check(find(key,input.id)?.projectId);check(input.projectId);return;}
   if(action==='captureRetry'){check(find('captureQueue',input.id)?.projectId);return;}

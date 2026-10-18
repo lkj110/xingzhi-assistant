@@ -51,6 +51,7 @@ function validateFileRecord(a,record,{currentTask}={}) {
 async function prepare(a,job,tool,args) {
   require('./protocol-access.cjs').assertTool(a,job,'prepare_'+tool,args,{taskId:args.taskId});
   const task=owned(a,job,args.taskId);plan.assertReady(a,task);
+  require('./evidence-consumption.cjs').assertDelivery(a,job,task);
   if(task.steps.some(s=>!s.done&&s.outputRole==='primary'))throw Error('主稿修订尚未完成，不能交付旧版本');
   if(task.status==='paused')throw new Error('事项已暂停');
   const artifact=require('./deliverables.cjs').select(a,task,tool==='write_file'?args.artifactId:undefined);
@@ -202,6 +203,7 @@ async function executeLocked(a,job,record) {
   require('./project-lifecycle.cjs').assertJobActive(a.data,job);
   const task=owned(a,job,record.taskId);
   if(['running','uncertain'].includes(record.status))return reconcile(a,job,record);
+  require('./evidence-consumption.cjs').assertDelivery(a,job,task);
   plan.assertReady(a,task);
   if(mode(job,record.tool,record.taskId)==='off')throw new Error('此委托未允许该写入工具');
   if(record.tool==='write_file')validateFileRecord(a,record,{currentTask:task});
@@ -214,6 +216,7 @@ async function executeLocked(a,job,record) {
   let attempted=false;
   if(['lark_create','lark_update'].includes(record.tool)&&mode(job,record.tool,record.taskId)==='auto')record.authorization={kind:'task_policy',...require('./lark-create-policy.cjs').policy(job,record.taskId)};
   require('./execution-gate.cjs').assert(a,{job,task});
+  require('./evidence-consumption.cjs').assertDelivery(a,job,task);
   require('./protocol-access.cjs').assertTool(a,job,record.tool,record.args,{taskId:record.taskId,...(mode(job,record.tool,record.taskId)==='ask'?{action:record}:{})});
   require('./action-facts.cjs').assertWritable(a);
   record.status='running';record.startedAt=now();job.pendingActionId=record.id;require('./action-facts.cjs').intent(a,record);a.save();

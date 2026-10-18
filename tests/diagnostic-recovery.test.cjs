@@ -44,15 +44,17 @@ test('binding a historical main and supporting role survives a same-plan repeat 
  const f=fixture(t);artifact(f,'main');artifact(f,'aux');
  const input=args(f,{primaryArtifactId:'main',steps:f.task.steps.map((s,i)=>i?{...s}:{...s,outputRole:'supporting'}),resetSteps:['draft']});plan.planTask(f.a,f.job,input);
  assert.equal(outputs.primary(f.a,f.task).id,'main');assert.equal(f.task.steps[0].outputRole,'supporting');const version=f.task.planVersion;
- assert.throws(()=>plan.planTask(f.a,f.job,input),e=>e.code==='PLAN_ALREADY_RECONCILED');assert.equal(f.task.planVersion,version);
+ assert.equal(plan.planTask(f.a,f.job,input).planVersion,version);assert.equal(f.task.planVersion,version);
  assert.throws(()=>plan.planTask(f.a,f.job,{...input,primaryArtifactId:'foreign'}));assert.equal(outputs.primary(f.a,f.task).id,'main');assert.equal(f.task.planVersion,version);
 });
 test('legacy draft converted to supporting preserves its prior primary even before generation',t=>{
  const f=fixture(t);artifact(f,'main');plan.planTask(f.a,f.job,args(f,{steps:f.task.steps.map((s,i)=>i?{...s}:{...s,outputRole:'supporting'})}));assert.equal(outputs.primary(f.a,f.task).id,'main');
 });
 test('new content diagnosis permits exactly one reset; identical checks and timestamps cannot renew it',t=>{
- const f=fixture(t);artifact(f,'main');const reset=()=>plan.planTask(f.a,f.job,args(f,{resetSteps:['draft']}));reset();assert.throws(reset,e=>e.code==='PLAN_ALREADY_RECONCILED');
- f.task.contentVerification={passed:false,basis:'new-check',gaps:['需补消费者'],at:'first'};reset();f.task.contentVerification.at='second';assert.throws(reset,e=>e.code==='PLAN_ALREADY_RECONCILED');
+ const f=fixture(t);artifact(f,'main');const input=args(f,{resetSteps:['draft']}),reset=()=>plan.planTask(f.a,f.job,input),first=reset();assert.deepEqual(reset(),first);
+ assert.throws(()=>plan.planTask(f.a,f.job,{...input,reason:'另一条重复调整命令'}),e=>e.code==='PLAN_ALREADY_RECONCILED');
+ const check={passed:false,basis:'new-check',gaps:['需补消费者'],at:'first'};f.task.contentVerification=check;const second=reset();assert.equal(second.planVersion,first.planVersion+1);assert.equal(f.task.contentVerification,null);
+ f.task.contentVerification={...check,at:'second'};assert.deepEqual(reset(),second);
 });
 test('evidence or binding diagnoses route to planner before rewriting or generic frontier queries',t=>{
  const f=fixture(t);artifact(f,'main');f.task.contentVerification={passed:false,gaps:['缺消费者'],gapDetails:[{text:'缺消费者',kind:'evidence',artifactId:'main'}]};

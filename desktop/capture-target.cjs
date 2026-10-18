@@ -1,3 +1,4 @@
+const access=require('./protocol-access.cjs');
 const crypto=require('node:crypto');
 const provenance=require('./capture-provenance.cjs');
 const now=()=>new Date().toISOString();
@@ -15,12 +16,13 @@ function list(a){return (a.data.tasks||[]).filter(t=>eligible(a,t)).map(t=>({id:
 const stop=new Set(['这个','那个','我们','你们','需要','进行','工作','事项','内容','补充','整理','任务','信息','一个','相关','目前','现在','完成','结果','推进','the','and','for','with','this','that','task']);
 function tokens(text){return new Set([...new Intl.Segmenter('zh',{granularity:'word'}).segment(String(text).toLowerCase().slice(0,60000))].filter(x=>x.isWordLike).map(x=>x.segment).filter(x=>x.length>=2&&!stop.has(x)));}
 function identifiers(text){return [...new Set(String(text).match(/\b\d{6,}\b|\b[a-z][a-z0-9_]{2,}\.[a-z][a-z0-9_]{2,}\b|\b[a-f0-9]{8}-[a-f0-9-]{27,}\b/ig)||[])].map(x=>x.toLowerCase());}
-function suggest(a,input){
+function suggest(a,input){return access.derivedRead(a,()=>suggestOnce(a,input));}
+function suggestOnce(a,input){
  if(!input||typeof input.text!=='string'||input.text.length>500000)throw Error('推荐材料文字无效');
  const p=provenance.normalize(input.provenance),text=input.text.toLowerCase(),terms=tokens(text),ids=identifiers(text);
  const candidates=[];
  for(const task of a.data.tasks.filter(t=>eligible(a,t))){
-  const sources=a.data.sources.filter(s=>task.sourceIds?.includes(s.id)&&!task.supersededSourceIds?.includes(s.id)&&!s.deleted&&!s.projectExcluded);
+  const sources=a.data.sources.filter(s=>task.sourceIds?.includes(s.id)&&!task.supersededSourceIds?.includes(s.id)&&!s.deleted&&!s.projectExcluded&&access.canReadSnapshot(a,'source',s,{task}));
   const hay=[task.id,task.title,task.description,task.objective,task.criteria,...sources.map(s=>s.content?.slice(0,25000))].join('\n').toLowerCase();
   let score=0;const reasons=[];
   const knownIds=new Set(identifiers(hay));const matchedIds=ids.filter(id=>knownIds.has(id));if(matchedIds.length){score+=80;reasons.push(`相同标识：${matchedIds.slice(0,3).join('、')}`);}

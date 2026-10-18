@@ -7,7 +7,7 @@ import HelpPage, {QuickStartDialog} from './HelpPage';
 import {SpendControls} from './SpendControls';
 import ProviderEditor, {protocolLabel} from './ProviderForm';
 import {GenerationControls,RecentModelCalls} from './GenerationControls';
-import ScreenshotInput,{ScreenshotPreview,pasteImages} from './ScreenshotInput';
+import ScreenshotInput,{ScreenshotPreview,pasteImages,serializeCaptureFiles} from './ScreenshotInput';
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowDownToLine, ArrowRight, ArrowUpRight, Bell, BookOpen, Check, CheckCheck, ChevronRight, Circle, CircleCheck, Clock3, FileText, FolderOpen, Inbox, LayoutDashboard, List, LoaderCircle, MoreHorizontal, Pause, Play, Plus, Search, Settings2, ShieldCheck, Sparkles, Square, Trash2, Upload, WandSparkles, X, Zap, Bot, PanelLeft, RefreshCw, AlertCircle, Link2, SlidersHorizontal, Pencil, CalendarDays } from 'lucide-react';
 import { call, desktop, download } from './api';
@@ -126,8 +126,8 @@ function WorkspaceApp() {
   const guideOpen = !!data && (guideReplay || (!guideDismissed && (!data.runtime?.onboarding?.seenAt || (window.assistant?.quickCaptureSupported && data.runtime?.onboarding?.version < 2))));
   const timer = useRef(null);
   const notify = (message, error = false) => { setToast({ message, error }); clearTimeout(timer.current); timer.current = setTimeout(() => setToast(null), 6000); };
-  const sync=useRef(null);
-  if(!sync.current)sync.current=createWorkspaceSync({fetchState:revision=>call('stateView',{revision}),onState:setData,onError:setFailure});
+  const sync=useRef(null),refreshFailure=useRef(null);
+  if(!sync.current)sync.current=createWorkspaceSync({fetchState:revision=>call('stateView',{revision}),onState:setData,onError:message=>{refreshFailure.current=message;setFailure(message);}});
   const refresh = (force=false) => sync.current.refresh(force===true);
   useEffect(() => { refresh(); const visible=()=>{if(!document.hidden)refresh();}; const poll=setInterval(visible,1800);window.addEventListener('focus',visible); document.addEventListener('visibilitychange',visible); return () => { clearInterval(poll); clearTimeout(timer.current); window.removeEventListener('focus',visible); document.removeEventListener('visibilitychange',visible); }; }, []);
   useEffect(()=>{
@@ -136,7 +136,7 @@ function WorkspaceApp() {
     const receipt=data?.captureQueue?.find(row=>row.id===pendingIntake);
     if(receipt?.taskId){if(!modal)setSelected(receipt.taskId);setPendingIntake(null);}
   },[pendingIntake,data,page,modal]);
-  useEffect(()=>window.assistant?.onNavigate?.(target=>{if(target==='guide'){setGuideReplay(true);setModal(null);setSelected(null);}else if(['decisions:progress','decisions:review'].includes(target)){setDecisionFilter('group:'+target.split(':')[1]);setPage('decisions');setModal(null);setSelected(null);}else if(['decisions','attention','capture','help','settings','board'].includes(target)){if(target==='decisions')setDecisionFilter('all');setPage(target);setModal(null);setSelected(null);}}),[]);
+  useEffect(()=>window.assistant?.onNavigate?.(target=>{if(!window.assistant.navigationRoutes?.includes(target))return;if(target==='guide'){setGuideReplay(true);setModal(null);setSelected(null);}else if(target.startsWith('decisions:')){setDecisionFilter('group:'+target.split(':')[1]);setPage('decisions');setModal(null);setSelected(null);}else{if(target==='decisions')setDecisionFilter('all');setPage(target);setModal(null);setSelected(null);}}),[]);
   useEffect(()=>window.assistant?.onEngineStatus?.(status=>{if(status?.available===false)setFailure(status.message||'后台执行已停止，请重新启动应用');}),[]);
   useEffect(()=>{
     const collect=event=>{if(data&&!modal&&!selected&&!guideOpen&&!event.repeat&&!event.altKey&&(event.metaKey||event.ctrlKey)&&event.shiftKey&&event.key.toLowerCase()==='i'){event.preventDefault();if(window.assistant?.quickCaptureSupported)call('quickCaptureOpen').catch(e=>notify(e.message,true));else setModal({type:'source'});}};
@@ -145,8 +145,23 @@ function WorkspaceApp() {
   async function act(action, input = {}, message) {
     const reading=/(?:Snapshot|Preview|Search|Status|List|Read)$/i.test(action)||['readSource','projectReport','viewDetail'].includes(action);
     if(!reading)setPending(n => n + 1);
-    try { const result = await call(action, input); if (result?.settings && Array.isArray(result.tasks) && Array.isArray(result.sources) && Array.isArray(result.providers) && Array.isArray(result.delegations) || action==='acceptanceAccept') await refresh(true); if (message) notify(message); return result; }
-    catch (error) { notify(error.message, true); throw error; }
+    const trackedWrite=['settings','saveProvider','deleteProvider','updateTask','taskAction','intakeRoutingSave','intakeRoutingToggle','intakeRoutingDelete','memorySave','memoryToggle','memoryDelete'].includes(action);
+    let writeSucceeded=false,refreshAttempted=false;
+    try {
+      const result=await call(action,input);writeSucceeded=trackedWrite&&!reading;
+      if(result?.settings&&Array.isArray(result.tasks)&&Array.isArray(result.sources)&&Array.isArray(result.providers)&&Array.isArray(result.delegations)||action==='acceptanceAccept'){
+        refreshAttempted=true;await refresh(true);
+        if(refreshFailure.current)throw Object.assign(Error('界面刷新未完成：'+refreshFailure.current),{code:'STATE_REFRESH_FAILED'});
+      }
+      if(message)notify(message);return result;
+    } catch(error) {
+      if(writeSucceeded)error.committed=true;
+      if(error.committed===true){
+        if(!refreshAttempted){try{await refresh(true);}catch{}}
+        notify(`已保存，后续处理未完成，请核对当前结果。${error.message}`,true);
+      }else notify(error.message,true);
+      throw error;
+    }
     finally { if(!reading)setPending(n => n - 1); }
   }
   // Click handlers deliberately contain errors; the actionable explanation is shown in the toast.
@@ -282,7 +297,7 @@ function SourceForm({ data, initialProject, onClose, act, notify }) {
     if(busy)return;setError('');try{const rows=[...list];if(files.length+rows.length>10)throw new Error('每次最多 10 份文件');for(const file of rows){if(!/\.(txt|md|csv|json|pdf|docx|png|jpg|jpeg)$/i.test(file.name))throw new Error(`不支持 ${file.name}，Word 请使用 DOCX 格式`);if(file.size>10000000)throw new Error(`${file.name} 超过 10 MB`);}setFiles(previous=>[...previous,...rows]);}catch(e){setError(e.message);}
   }
   async function submit(event){event.preventDefault();if(busy)return;setBusy(true);setError('');try{
-    const items=[];for(const file of files){const base64=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result.split(',')[1]);reader.onerror=reject;reader.readAsDataURL(file);});items.push({title:file.name,base64});}
+    const items=await serializeCaptureFiles(files);
     const textItems=content.trim()?[{title:title.trim()||content.trim().split('\n')[0].slice(0,80),content,origin:'手动输入',projectId:projectId||null}]:[];
     const organize=event.nativeEvent.submitter?.value==='organize';const result=await act(data.operation?'captureEnqueue':'captureSave',{items,textItems,projectId,organize,autoRetry:organize&&autoRetry});const queued=(result.captureQueue||[]).some(r=>!(data.captureQueue||[]).some(old=>old.id===r.id));notify?.(queued?'材料已保存到收集队列，空闲后处理':organize&&!projectId?'材料已保存，正在整理本次新增内容':'材料已保存');onClose();
   }catch(e){setError(e.message);}finally{setBusy(false);}}

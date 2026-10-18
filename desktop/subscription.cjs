@@ -2,14 +2,14 @@ const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const {spawn} = require('node:child_process');
-const {normalizeModelError,modelError,transportError,cancelledError,httpError} = require('./model-errors.cjs');
+const {normalizeModelError,modelError,transportError,cancelledError,httpError,preflightError} = require('./model-errors.cjs');
 const policy = require('./model-policy.cjs');
 const protocol = require('./subscription-protocol.cjs');
 
 const builtin = '/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex';
 const maxInputChars=1048576; // Codex exec turn/start input limit, verified locally.
 function inputSizeError(actualChars,maxChars=maxInputChars){
- return Object.assign(modelError('MODEL_CONFIG',`本轮输入超过订阅 CLI 的 ${maxChars} 字符上限，请分批读取材料后继续；已有进度已保留。`,false),{diagnostic:{source:'codex_cli',kind:'input_too_large',actualChars,maxChars}});
+ return Object.assign(modelError('MODEL_CONFIG',`本轮输入超过订阅 CLI 的 ${maxChars} 字符上限，请分批读取材料后继续；已有进度已保留。`,false),{diagnostic:{source:'codex_cli',kind:'input_too_large',actualChars,maxChars,inputPolicyVersion:require('./model-input.cjs').POLICY_VERSION}});
 }
 function inputFailure(output){
  const match=String(output||'').match(/(?:^|\n)Error: turn\/start: turn\/start failed: Input exceeds the maximum length of (\d+) characters\.[^\n]*?"actual_chars"\s*:\s*(\d+)/);
@@ -30,7 +30,13 @@ function classifyFailure(error={}) {
   return modelError('MODEL_CLI','订阅模型未完成本次请求，已有进度已保留。',true);
 }
 function cliFailure(error={}) {
-  const result=classifyFailure(error);result.diagnostic={source:'codex_cli',kind:'turn_failed',fingerprint:require('node:crypto').createHash('sha256').update(JSON.stringify(error)).digest('hex').slice(0,16)};return result;
+  const classified=classifyFailure(error);
+  // CLI JSON is untrusted, including objects bearing our own error codes. Never
+  // retain its message, dispatch flags, retry/repair proofs or arbitrary fields.
+  const hints={MODEL_CANCELLED:'操作已停止',MODEL_AUTH:'订阅登录已失效，请在模型设置中重新检测登录后继续。',MODEL_CONFIG:'订阅模型配置无效，请检查模型与输入设置后继续。',MODEL_QUOTA:'订阅模型额度已用完，请等待额度恢复后继续；已有进度已保存。',MODEL_BLOCKED:'模型服务拦截了本次请求，已停止自动推进。',MODEL_TIMEOUT:'模型请求超时，请稍后重试或检查服务。',MODEL_NETWORK:'无法连接模型服务，请检查服务地址和网络。'};
+  const result=modelError(classified.code,hints[classified.code]||'订阅模型未完成本次请求，已有进度已保留。',classified.automaticRetry===true);
+  if(classified.code==='MODEL_HTTP'&&Number.isInteger(classified.httpStatus)&&classified.httpStatus>=400&&classified.httpStatus<=599)result.httpStatus=classified.httpStatus;
+  result.diagnostic={source:'codex_cli',kind:'turn_failed',fingerprint:require('node:crypto').createHash('sha256').update(JSON.stringify(error)).digest('hex').slice(0,16)};return result;
 }
 function incomplete(code,completed){return Object.assign(modelError('MODEL_CLI','订阅模型连接提前结束，已有进度已保留。',true),{diagnostic:{source:'codex_cli',kind:completed?'process_exit':'incomplete_stream',exitCode:Number.isInteger(code)?code:null}});}
 function executable() {
@@ -42,6 +48,21 @@ function environment() {
   const env = {};
   for (const key of ['PATH','HOME','TMPDIR','TMP','TEMP','LANG','LC_ALL','TZ','CODEX_HOME','HTTPS_PROXY','HTTP_PROXY','ALL_PROXY','NO_PROXY']) if (process.env[key]) env[key] = process.env[key];
   return env;
+}
+// File metadata and public configuration only: never open auth.json, keychains,
+// provider keys, or the CLI's login output to build a health identity.
+function identity() {
+  const hash=value=>require('node:crypto').createHash('sha256').update(JSON.stringify(value)).digest('hex');
+  let cli;
+  try {const bin=executable(),real=fs.realpathSync(bin),s=fs.statSync(real);cli={pathHash:hash(bin),realpathHash:hash(real),dev:s.dev,ino:s.ino,mtime:s.mtimeMs,ctime:s.ctimeMs,size:s.size,mode:s.mode};}
+  catch {cli=null;}
+  const env=environment(),home=env.CODEX_HOME||path.join(env.HOME||os.homedir(),'.codex');
+  const metadata=file=>{try{const s=fs.statSync(file);return {realpathHash:hash(fs.realpathSync(file)),dev:s.dev,ino:s.ino,mtime:s.mtimeMs,ctime:s.ctimeMs,size:s.size};}catch(error){return {code:['ENOENT','EACCES','EPERM'].includes(error.code)?error.code:'unavailable'};}};
+  // Config metadata invalidates even edits of preferences not parsed by status.
+  // Environment values (including credential-bearing proxy URLs) are hash-only.
+  // Model discovery cache is display data, not login or invocation identity.
+  const config=metadata(path.join(home,'config.toml'));
+  return {cliHash:cli?hash(cli):null,configurationHash:config.code&&config.code!=='ENOENT'?null:hash({env,config})};
 }
 function processCall(bin, args, {cwd, input, signal, timeoutMs = 15000, idleTimeoutMs = 0, onLine, onProgress} = {}) {
   return new Promise((resolve, reject) => {
@@ -81,6 +102,7 @@ async function status() {
   let bin;
   try { bin = executable(); } catch (error) { return {installed:false, loggedIn:false, message:error.message}; }
   const [version, login] = await Promise.all([processCall(bin,['--version']), processCall(bin,['login','status'])]);
+  if(version.code!==0)throw modelError('MODEL_CONFIG','无法确认 Codex CLI 版本，请重新安装或检测。',false);
   const loggedIn = login.code === 0 && /Logged in using ChatGPT/.test(login.output);
   let model = '', reasoning = 'medium';
   // Read public preferences only. Authentication is owned entirely by the official CLI.
@@ -97,24 +119,35 @@ async function status() {
   const economical=models.find(m=>m.id==='gpt-6-luna')?.id || models.find(m=>/luna|mini/.test(m.id))?.id || '';
   return {installed:true, loggedIn, models, economical, version:version.output.match(/codex-cli\s+[\w.+-]+/)?.[0] || 'Codex CLI', model, reasoning, message:loggedIn?'已使用 ChatGPT 登录，可使用订阅额度':'请在终端运行 codex login，选择 ChatGPT 登录后重新检测'};
 }
-async function chat(config, _key, messages, {signal, onUsage, onProgress, timeoutMs} = {}) {
-  const limits=policy.normalize(config.requestPolicy);
-  const input=protocol.instructions + '\nAPPLICATION MESSAGES:\n' + JSON.stringify(messages);
+function validateInput(messages){
+  const input=protocol.serialize(messages);
   const inputChars=input.length>maxInputChars?Array.from(input).length:input.length;
-  if(inputChars>maxInputChars){onUsage?.({inputTokens:0,outputTokens:0,cachedInputTokens:0});throw inputSizeError(inputChars);}
-  const bin = executable();
-  let login;
-  try{login=await processCall(bin,['login','status'],{signal});}
-  catch{throw signal?.aborted?cancelledError():modelError('MODEL_AUTH','无法确认 Codex 登录状态，请在模型设置中重新检测。',false);}
-  if (login.code !== 0 || !/Logged in using ChatGPT/.test(login.output)) throw modelError('MODEL_AUTH','Codex 尚未使用 ChatGPT 登录，请在模型设置中重新检测',false);
-  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-model-')));
+  if(inputChars>maxInputChars)throw inputSizeError(inputChars);
+  return input;
+}
+async function chat(config, _key, messages, {signal, onUsage, onProgress, timeoutMs} = {}) {
+  let input;try{input=validateInput(messages);}catch(e){onUsage?.({inputTokens:0,outputTokens:0,cachedInputTokens:0});throw e;}
+  let root,execEntered=false,stage='executable';
   try {
+    if(signal?.aborted)throw cancelledError();
+    const bin = executable();
+    stage='login_status';
+    const login=await processCall(bin,['login','status'],{signal});
+    if(signal?.aborted)throw cancelledError();
+    if (login.code !== 0 || !/Logged in using ChatGPT/.test(login.output)) throw modelError('MODEL_AUTH','Codex 尚未使用 ChatGPT 登录，请在模型设置中重新检测',false);
+    stage='setup';
+    const limits=policy.normalize(config.requestPolicy);
+    root=fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-model-'));
+    root=fs.realpathSync(root);
     const schema = path.join(root,'schema.json'), output = path.join(root,'response.json');
     fs.writeFileSync(schema, JSON.stringify({type:'object',properties:{response_json:{type:'string'}},required:['response_json'],additionalProperties:false}));
     const args = ['exec','--ignore-user-config','--ephemeral','--sandbox','read-only','--skip-git-repo-check','--color','never','--json','--model',config.model,
       ...protocol.configuration(),'-c',`model_reasoning_effort=${JSON.stringify(config.reasoning || 'medium')}`,
       '--output-schema',schema,'--output-last-message',output,'-'];
     let completed = false, usage, failure, streamError;
+    if(signal?.aborted)throw cancelledError();
+    // Set before processCall, including synchronous spawn/argument failures.
+    execEntered=true;
     const result = await processCall(bin,args,{cwd:root,signal,timeoutMs:timeoutMs ?? limits.totalMinutes*60000,idleTimeoutMs:limits.idleMinutes*60000,onProgress,
       input,
       onLine(line) {
@@ -134,10 +167,15 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, timeou
     if (!fs.existsSync(output) || fs.statSync(output).size > 2_000_000) throw modelError('MODEL_INVALID_RESPONSE','订阅模型没有返回有效结果',false);
     return require('./model-json.cjs').subscription(fs.readFileSync(output,'utf8'));
   } catch (error) {
+    if(!execEntered){
+      const failure=preflightError(signal?.aborted?cancelledError():error,stage);
+      onUsage?.({inputTokens:0,outputTokens:0,cachedInputTokens:0});
+      throw failure;
+    }
     const normalized = normalizeModelError(error);
     // Authentication, quotas and CLI failures require a deliberate retry.
     if (!signal?.aborted && !(require('./model-errors.cjs').fallbackEligible(normalized)||normalized.code==='MODEL_CLI'&&normalized.automaticRetry===true)) { normalized.modelFailure = true; normalized.automaticRetry = false; }
     throw normalized;
-  } finally { fs.rmSync(root,{recursive:true,force:true}); }
+  } finally { if(root)try{fs.rmSync(root,{recursive:true,force:true});}catch{/* Cleanup cannot change the proven dispatch boundary or hide cancellation. */} }
 }
-module.exports = {chat,status,processCall,cliFailure,incomplete,inputFailure,maxInputChars};
+module.exports = {chat,status,identity,processCall,cliFailure,incomplete,inputFailure,maxInputChars,validateInput};

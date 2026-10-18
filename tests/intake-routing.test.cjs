@@ -11,7 +11,7 @@ async function setup(t){
   await a.dispatch('projectSave',{name:'青禾'});const p=a.data.projects[0];await a.dispatch('projectSave',{name:'远山'});const q=a.data.projects[0];
   return {a,p,q,calls,dir};
 }
-async function rule(a,p,extra={}){await routing.dispatch(a,'intakeRoutingSave',{name:'青禾资料',projectId:p.id,field:'all',match:'any',keywords:['青禾'],enabled:true,...extra});return a.data.intakeRoutingRules.at(-1);}
+async function rule(a,p,extra={}){await routing.dispatch(a,'intakeRoutingSave',{requestId:require('node:crypto').randomUUID(),expectedRevision:(await a.dispatch('intakeRoutingSnapshot')).stateRevision,name:'青禾资料',projectId:p.id,field:'all',match:'any',keywords:['青禾'],enabled:true,...extra});return a.data.intakeRoutingRules.at(-1);}
 async function conflict(a,p,q){await rule(a,p);await rule(a,q,{name:'另一项目规则'});a.addSources([{title:'会议材料',content:'青禾发布日期已确定'}]);return a.data.sources[0];}
 async function projectJob(a,p){if(!a.data.providers.length)await a.dispatch('saveProvider',{inputPrice:0,outputPrice:0,name:'fixture',model:'fixture',baseUrl:'https://example.invalid/v1'});const j=agent.buildJob(a,{goal:'持续整理项目资料',projectId:p.id,fileMode:'off',githubMode:'off'});j.status='paused';a.data.delegations.push(j);p.jobId=j.id;return j;}
 
@@ -52,7 +52,7 @@ test('Preview considers other enabled rules, excludes original edited version an
 });
 test('Rule validation rejects normalized duplicates, empty/oversized/nonliteral patterns atomically',async t=>{
   const {a,p}=await setup(t);const base={name:'规则',projectId:p.id,field:'all',match:'any',keywords:['青禾']};
-  for(const patch of [{keywords:[]},{keywords:['Ａ','a']},{keywords:[' ']},{keywords:['a'.repeat(81)]},{keywords:Array.from({length:13},(_,i)=>String(i))},{keywords:[{}]},{field:'origin'},{match:'regex'},{projectId:'missing'},{enabled:'true'}])await assert.rejects(routing.dispatch(a,'intakeRoutingSave',{...base,...patch}));
+  for(const [patch,reason] of [[{keywords:[]},/1–12/],[{keywords:['Ａ','a']},/不能重复/],[{keywords:[' ']},/关键词须为/],[{keywords:['a'.repeat(81)]},/关键词须为/],[{keywords:Array.from({length:13},(_,i)=>String(i))},/1–12/],[{keywords:[{}]},/关键词须为/],[{field:'origin'},/匹配范围/],[{match:'regex'},/关键词匹配/],[{projectId:'missing'},/项目不存在/],[{enabled:'true'},/布尔值/]])await assert.rejects(routing.dispatch(a,'intakeRoutingSave',{requestId:require('node:crypto').randomUUID(),expectedRevision:(await a.dispatch('intakeRoutingSnapshot')).stateRevision,...base,...patch}),reason);
   assert.equal(a.data.intakeRoutingRules.length,0);
   for(const sample of [{},{title:'x'.repeat(301)},{content:'x'.repeat(500001)},{title:{}}])await assert.rejects(routing.dispatch(a,'intakeRoutingPreview',{sample}));
 });

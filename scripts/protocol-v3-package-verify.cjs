@@ -18,10 +18,11 @@ const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex'),manifes
  app=await electron.launch({executablePath:path.join(bundle,'Contents/MacOS/行知助手'),args:['--user-data-dir='+profile],timeout:30000});
  assert.deepEqual(await app.evaluate(({app})=>({path:app.getPath('userData'),version:app.getVersion(),packaged:app.isPackaged})),{path:profile,version:pkg.version,packaged:true});
  const page=await app.firstWindow();page.on('pageerror',e=>errors.push(e.message));
+ const call=(action,input={})=>page.evaluate(async({action,input})=>{const result=await window.assistant.call(action,input);if(result.error)throw Error(result.error);return result.data;},{action,input});
+ await page.waitForFunction(()=>!!window.assistant?.call);
+ const initial=await call('state');assert.equal(initial.storagePath,path.join(profile,'workspace'));
  await expect(page.getByRole('heading',{name:'欢迎使用行知助手',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'暂时跳过',exact:true}).click();
- const call=(action,input={})=>page.evaluate(async({action,input})=>{const result=await window.assistant.call(action,input);if(result.error)throw Error(result.error);return result.data;},{action,input});
- const initial=await call('state');assert.equal(initial.storagePath,path.join(profile,'workspace'));
  for(const key of ['tasks','delegations','sources','providers','folders','connectors'])assert.equal(initial[key].length,0,key);
  await call('import',{items:[{title:'安装包独立验证',content:'仅保存在临时测试目录，不推进实际事项。'}]});
  let state=await call('state');assert.equal(state.sources[0].content,'仅保存在临时测试目录，不推进实际事项。');assert.equal((state.modelCalls||[]).length,0);

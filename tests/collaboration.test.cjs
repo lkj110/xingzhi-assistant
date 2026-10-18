@@ -1,3 +1,4 @@
+const pinnedFixture=require('./helpers/lark-pinned-fixture.cjs');
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
@@ -23,10 +24,10 @@ async function setup(t){
     if(m[0].content.includes('动作格式'))return {tool:'ask',args:{question:'测试结束'}};
     return {passed:true,summary:'完成',gaps:[]};
   };
-  const a=new Assistant({dir,chat,connectorRequest:request});await a.dispatch('saveProvider',{inputPrice:0,outputPrice:0,name:'测试模型',model:'fixture',baseUrl:'https://example.invalid/v1'});await a.dispatch('projectSave',{name:'发布项目'});
+  const a=new Assistant({dir,chat,connectorRequest:request});await pinnedFixture.attach(t,a,request);await a.dispatch('saveProvider',{inputPrice:0,outputPrice:0,name:'测试模型',model:'fixture',baseUrl:'https://example.invalid/v1'});await a.dispatch('projectSave',{name:'发布项目'});
   const p=a.data.projects[0],j=agent.buildJob(a,{projectId:p.id,goal:'等待负责人确认日期，继续推进',fileMode:'off',allowWeb:false,maxCalls:40});a.data.delegations.push(j);p.jobId=j.id;
   const {taskId}=await agent.act(a,j,'plan_task',{key:'launch',title:'确认发布日期',criteria:'负责人确认周六发布',steps:[{key:'send',kind:'external',tool:'request_confirmation',title:'向负责人确认'}]});
-  await a.dispatch('connectorSave',{name:'发布会话',kind:'chat',target:'oc_test',projectId:p.id,enabled:false});const c=a.data.connectors[0];
+  await a.dispatch('connectorSave',{name:'发布会话',kind:'chat',target:'oc_test',projectId:p.id,enabled:false});const c=a.data.connectors[0];await pinnedFixture.bind(a,c);
   const config=more=>a.dispatch('communicationPolicy',{connectorId:c.id,mode:'ask',intervalMinutes:60,maxSends:3,expiresAt:new Date(Date.now()+86400000).toISOString(),...more});
   const args={taskId,connectorId:c.id,key:'date',body:'请确认是否周六发布。',expected:'负责人明确确认周六发布',respondentId:'ou_owner'};
   const send=more=>agent.act(a,j,'request_confirmation',{...args,...more});
@@ -34,7 +35,7 @@ async function setup(t){
   const wait=()=>agent.act(a,j,'wait',{key:'date',reason:'等待负责人确认',expected:args.expected,sourceIds:[],connectorIds:[c.id],respondentId:'ou_owner'});
   const importMessage=async m=>{env.messages.push(m);await connectors.sync(a,c.id);return a.data.sources[0];};
   const resolve=s=>agent.act(a,j,'resolve_wait',{key:'date',sourceId:s.id,evidence:'来源明确回答了日期'});
-  a.save();return {a,j,p,c,env,request,chat,config,args,send,wait,message,importMessage,resolve,task:a.task(taskId)};
+  a.save();return {a,j,p,c,env,request:a.connectorRequest,chat,config,args,send,wait,message,importMessage,resolve,task:a.task(taskId)};
 }
 test('Connector waits work before first message and unchanged checks consume no model calls',async t=>{
   const {a,j,c,wait}=await setup(t);await wait();assert.deepEqual(j.followups[0].watchKeys,[`connector:${c.id}`]);const used=j.callsUsed;
@@ -45,7 +46,7 @@ test('Feishu sender and timestamp normalization preserve machine-checkable metad
   assert.equal(lark.timestamp('1700000000'),lark.timestamp('1700000000000'));assert.equal(lark.messageText('{"text":"正文"}'),'正文');
 });
 test('New document versions resolve waits only after independent semantic verification',async t=>{
-  const {a,j,p,env}=await setup(t);await a.dispatch('connectorSave',{name:'计划',kind:'document',target:'https://test.feishu.cn/docx/Test',projectId:p.id,enabled:false});const c=a.data.connectors.at(-1);
+  const {a,j,p,env}=await setup(t);await a.dispatch('connectorSave',{name:'计划',kind:'document',target:'https://test.feishu.cn/docx/Test',projectId:p.id,enabled:false});const c=a.data.connectors.at(-1);await pinnedFixture.bind(a,c);
   await connectors.sync(a,c.id);const first=a.data.sources[0];await agent.act(a,j,'wait',{key:'document',reason:'等确认',expected:'确认周六发布',sourceIds:[first.id]});
   await assert.rejects(agent.act(a,j,'resolve_wait',{key:'document',sourceId:first.id,evidence:'旧证据'}),/新取得|历史消息/);
   env.document='确认周六发布';await connectors.sync(a,c.id);a.activeAgentJob=j;const used=j.callsUsed;await agent.act(a,j,'resolve_wait',{key:'document',sourceId:a.data.sources[0].id,evidence:'新文档确认'});a.activeAgentJob=null;
@@ -66,7 +67,7 @@ test('Vague replies and invented quotations remain waiting; a clear later reply 
   const clear=await importMessage(message('clear'));await resolve(clear);assert.equal(j.followups[0].status,'resolved');assert.equal(a.data.tasks.length,1);
 });
 test('Replies to a different connector cannot release the wait',async t=>{
-  const {a,j,p,wait,message,env,resolve}=await setup(t);await wait();await a.dispatch('connectorSave',{name:'其他群',kind:'chat',target:'oc_other',projectId:p.id,enabled:false});env.messages=[message('other')];await connectors.sync(a,a.data.connectors.at(-1).id);await assert.rejects(resolve(a.data.sources[0]),/新取得|历史消息/);assert.equal(j.followups[0].status,'waiting');
+  const {a,j,p,wait,message,env,resolve}=await setup(t);await wait();await a.dispatch('connectorSave',{name:'其他群',kind:'chat',target:'oc_other',projectId:p.id,enabled:false});await pinnedFixture.bind(a,a.data.connectors.at(-1));env.messages=[message('other')];await connectors.sync(a,a.data.connectors.at(-1).id);await assert.rejects(resolve(a.data.sources[0]),/新取得|历史消息/);assert.equal(j.followups[0].status,'waiting');
 });
 test('Same question is deduplicated and one answer reaches all associated tasks with a receipt',async t=>{
   const {a,j,task}=await setup(t);const second=await agent.act(a,j,'plan_task',{key:'next',title:'下游',criteria:'完成',steps:[{kind:'draft',title:'写计划'}]});

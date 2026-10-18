@@ -1,6 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {snapshot,exportReport,dispatch}=require('../desktop/briefing.cjs');
+const acceptance=require('../desktop/acceptance.cjs');
 const NOW=Date.now(),date=hours=>new Date(NOW+hours*3600000).toISOString();
 function fixture() {
   return {chat(){throw Error('must not call model');},save(){throw Error('must not save');},data:{
@@ -16,7 +17,8 @@ function fixture() {
 function deepFreeze(value){if(value&&typeof value==='object'){Object.freeze(value);Object.values(value).forEach(deepFreeze);}return value;}
 
 test('Briefing counts actual verified receipts separately from completed tasks without mutation or calls',()=>{
-  const a=fixture(),before=JSON.stringify(a.data);deepFreeze(a.data);
+  const a=fixture();a.data.tasks[0].verification.basis=acceptance.basis(a,a.data.tasks[0]);
+  const before=JSON.stringify(a.data);deepFreeze(a.data);
   const r=snapshot(a,{projectId:'p',range:'7d'});
   assert.equal(r.counts.deliveries,1);assert.equal(r.counts.completions,1);assert.equal(r.completionCounts.checked,1);assert.equal(r.counts.drafts,0);assert.equal(r.counts.materials,1);
   assert.equal(r.sections.deliveries.items[0].verified,true);assert.equal(r.sections.deliveries.items[0].current,true);assert.equal(r.modelCalls,0);assert.equal(r.networkRequests,0);assert.equal(JSON.stringify(a.data),before);
@@ -60,6 +62,7 @@ test('Unverified, running and uncertain writes never masquerade as verified exte
 });
 test('Completion classifications distinguish manual evidence from connector receipts and unsupported marks',()=>{
   const a=fixture();a.data.agentActions=[];a.data.tasks[0].steps=[{kind:'external',tool:'manual',done:true,evidence:'用户说明人工执行完成'}];
+  a.data.tasks[0].verification.basis=acceptance.basis(a,a.data.tasks[0]);
   let r=snapshot(a);assert.equal(r.completionCounts.manualEvidence,1);assert.equal(r.counts.deliveries,0);assert.match(r.sections.completions.items[0].detail,/人工提供/);
   a.data.tasks[0].steps[0].evidence='';r=snapshot(a);assert.equal(r.completionCounts.unverified,1);assert.equal(r.completionCounts.manualEvidence,0);
   a.data.tasks[0].steps=[];assert.equal(snapshot(a).completionCounts.unverified,1);
@@ -72,6 +75,7 @@ test('Source replacements, withdrawal, cancelled tasks and contradictory checks 
 });
 test('Current replacement source works when an old source is explicitly superseded',()=>{
   const a=fixture();a.data.sources.push({...a.data.sources[0],id:'new',previousSourceId:'s',version:2});Object.assign(a.data.tasks[0],{sourceIds:['s','new'],supersededSourceIds:['s']});
+  a.data.tasks[0].verification.basis=acceptance.basis(a,a.data.tasks[0]);
   const r=snapshot(a);assert.equal(r.completionCounts.checked,1);assert.equal(r.counts.materials,2);assert.equal(r.sections.materials.items.filter(s=>s.kind==='version').length,1);assert.ok(r.sections.materials.items.some(s=>s.detail.includes('已有更新版本')));
 });
 test('Current decisions and followups are not hidden by a short historical range and omit question bodies',()=>{

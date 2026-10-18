@@ -4,7 +4,10 @@ const {report} = require('../desktop/project-report.cjs');
 
 const at = '2026-01-01T00:00:00.000Z';
 function fixture() {
-  return {chat:() => {throw new Error('不得调用模型');},data:{projects:[{id:'p',name:'发布项目',background:'只在项目界面展示背景',createdAt:at},{id:'q',name:'另一项目'}],delegations:[{id:'j',projectId:'p',title:'推进发布',status:'watching',followups:[],sourceIds:['s'],taskIds:['t'],nextRunAt:'2027-01-01T00:00:00.000Z'}],sources:[{id:'s',projectId:'p',title:'确认材料',version:1,content:'材料正文默认不导出',origin:'/Users/test/private/evidence.md',createdAt:at}],tasks:[{id:'t',projectId:'p',agentJobId:'j',title:'发布稿',criteria:'正文含日期',status:'completed',sourceIds:['s'],verification:{passed:true,gaps:[]},steps:[{done:true,artifactId:'a',title:'完成文稿'}],createdAt:at}],artifacts:[{id:'a',taskId:'t',title:'发布文稿',content:'最新产出正文',createdAt:at}],agentActions:[{id:'w',jobId:'j',taskId:'t',artifactId:'a',tool:'write_file',title:'发布稿',status:'done',finishedAt:at,result:{verified:true,path:'/Users/test/private/report.md',latestPath:'/Users/test/private/latest.md'}}],decisions:[],workRules:[],connectors:[],providers:[{sealedKey:'DO_NOT_EXPORT_KEY'}],agentSettings:{githubToken:'DO_NOT_EXPORT_TOKEN'}}};
+  // Formatting fixtures explicitly authorize their synthetic snapshots; B2 security tests use the real store.
+  const assistant = {requireContextAccessPolicy:true,contextAccessCheck:()=>({allowed:true}),chat:() => {throw new Error('不得调用模型');},data:{projects:[{id:'p',name:'发布项目',background:'只在项目界面展示背景',createdAt:at},{id:'q',name:'另一项目'}],delegations:[{id:'j',projectId:'p',title:'推进发布',status:'watching',followups:[],sourceIds:['s'],taskIds:['t'],nextRunAt:'2027-01-01T00:00:00.000Z'}],sources:[{id:'s',projectId:'p',title:'确认材料',version:1,content:'材料正文默认不导出',origin:'/Users/test/private/evidence.md',createdAt:at}],tasks:[{id:'t',projectId:'p',agentJobId:'j',title:'发布稿',criteria:'正文含日期',status:'completed',sourceIds:['s'],verification:{passed:true,summary:'合成样例检查通过',gaps:[]},steps:[{kind:'draft',done:true,artifactId:'a',title:'完成文稿'}],createdAt:at}],artifacts:[{id:'a',taskId:'t',title:'发布文稿',content:'最新产出正文',createdAt:at}],agentActions:[{id:'w',jobId:'j',taskId:'t',artifactId:'a',tool:'write_file',title:'发布稿',status:'done',finishedAt:at,result:{verified:true,path:'/Users/test/private/report.md',latestPath:'/Users/test/private/latest.md'}}],decisions:[],workRules:[],connectors:[],providers:[{sealedKey:'DO_NOT_EXPORT_KEY'}],agentSettings:{githubToken:'DO_NOT_EXPORT_TOKEN'}}};
+  assistant.data.tasks[0].verification.basis=require('../desktop/acceptance.cjs').basis(assistant,assistant.data.tasks[0]);
+  return assistant;
 }
 
 test('Project report traces verified current deliverables with zero model calls and no mutation',() => {
@@ -37,7 +40,8 @@ test('Updated, withdrawn and excluded sources never become current evidence or c
   }
 });
 test('Explicit superseded source refs do not invalidate a task using the current replacement',() => {
-  const a=fixture();a.data.sources.unshift({...a.data.sources[0],id:'s2',previousSourceId:'s',version:2});Object.assign(a.data.tasks[0],{sourceIds:['s','s2'],supersededSourceIds:['s']});
+  const a=fixture();a.data.sources.unshift({...a.data.sources[0],id:'s2',previousSourceId:'s',version:2});Object.assign(a.data.tasks[0],{sourceIds:['s','s2'],supersededSourceIds:['s']});a.data.delegations[0].sourceIds.push('s2');
+  a.data.tasks[0].verification.basis=require('../desktop/acceptance.cjs').basis(a,a.data.tasks[0]);
   const r=report(a,{projectId:'p'});assert.equal(r.progress.completed,1);assert.equal(r.sources[0].id,'s2');assert.deepEqual(r.tasks[0].sourceRefs,['S1']);
 });
 test('Cancelled, paused, review, replan and incomplete verification never count as completed',() => {
@@ -74,7 +78,8 @@ test('Report validates project and body flag without silently widening scope',()
 test('Completion needs an existing owned artifact or explicit external execution evidence',() => {
   const a=fixture();a.data.artifacts=[];assert.equal(report(a,{projectId:'p'}).progress.completed,0);
   a.data.tasks[0].steps=[{kind:'external',done:true}];assert.equal(report(a,{projectId:'p'}).progress.completed,0);
-  a.data.tasks[0].steps[0].evidence='用户确认已经完成';assert.equal(report(a,{projectId:'p'}).progress.completed,1);
+  a.data.tasks[0].steps[0].evidence='用户确认已经完成';a.data.tasks[0].verification.basis=require('../desktop/acceptance.cjs').basis(a,a.data.tasks[0]);
+  const result=report(a,{projectId:'p'});assert.equal(result.progress.completed,0);assert.equal(result.progress.manualEvidence,1);assert.equal(result.tasks[0].currentCheckValid,true);
 });
 test('Next check reflects global pause, quota recovery, work window, suspension and metering errors',() => {
   const a=fixture(),old=Date.now;Date.now=()=>Date.parse('2026-10-01T08:00:00Z');
@@ -94,4 +99,35 @@ test('Project report public dispatch includes manually created project tasks wit
   const a=new Assistant({dir,chat:async()=>{throw new Error('不应调用模型');}});await a.dispatch('projectSave',{name:'真实入口'});const p=a.data.projects[0];
   await a.dispatch('createTask',{projectId:p.id,title:'独立项目事项',criteria:'标准'});const before=JSON.stringify(a.data);const r=await a.dispatch('projectReport',{projectId:p.id});
   assert.equal(r.progress.total,1);assert.equal(r.tasks[0].title,'独立项目事项');assert.equal((a.data.modelCalls || []).length,0);assert.equal(a.operation,null);assert.equal(JSON.stringify(a.data),before);
+});
+
+test('Report uses acceptance reasons for missing, conflicting and mismatched explicit receipts',()=>{
+  for(const mode of ['valid','missing','conflict','wrong_tool','unknown_job_action']){
+    const assistant=fixture(),task=assistant.data.tasks[0];
+    task.steps.push({kind:'external',done:true,tool:'write_file',evidence:JSON.stringify({actionId:'w'})});
+    if(mode==='missing')assistant.data.agentActions=[];
+    if(mode==='conflict')assistant.data.agentActions[0].deliveryConflict={reason:'Synthetic remote conflict'};
+    if(mode==='wrong_tool')assistant.data.agentActions[0].tool='github_update';
+    if(mode==='unknown_job_action')assistant.data.agentActions.push({id:'unknown',jobId:'j',status:'uncertain',tool:'write_file'});
+    task.verification.basis=require('../desktop/acceptance.cjs').basis(assistant,task);
+    const before=JSON.stringify(assistant.data),result=report(assistant,{projectId:'p'});
+    assert.equal(result.progress.completed,mode==='valid'?1:0,mode);assert.equal(JSON.stringify(assistant.data),before);
+    if(mode==='conflict'||mode==='missing')assert.equal(result.deliveries.length,0);
+  }
+});
+
+test('Report invokes the authoritative acceptance presentation check instead of a parallel validity verdict',context=>{
+  const assistant=fixture();let calls=0;
+  context.mock.method(require('../desktop/acceptance.cjs'),'presentationChecks',()=>task=>{calls++;assert.equal(task.id,'t');return [{code:'changed',message:'Synthetic authoritative invalidation'}];});
+  const result=report(assistant,{projectId:'p'});assert.equal(calls,1);assert.equal(result.progress.completed,0);assert.equal(result.tasks[0].completionKind,'unverified');
+});
+
+test('Current delivery never substitutes an old successful action for a missing or unknown explicit receipt',()=>{
+  for(const status of ['missing','uncertain','running']){
+    const assistant=fixture(),task=assistant.data.tasks[0];
+    task.steps.push({kind:'external',tool:'write_file',done:true,evidence:JSON.stringify({actionId:'new-receipt'})});
+    if(status!=='missing')assistant.data.agentActions.push({id:'new-receipt',taskId:'t',jobId:'j',artifactId:'a',tool:'write_file',status});
+    task.verification.basis=require('../desktop/acceptance.cjs').basis(assistant,task);
+    const result=report(assistant,{projectId:'p'});assert.equal(result.progress.completed,0);assert.equal(result.deliveries.length,0);assert.equal(result.excluded.deliveries,1);
+  }
 });

@@ -2,7 +2,7 @@ const evidence=require('./evidence-basis.cjs');
 const groups={
  read:['read_url','list_files','read_file','search_web','github_list','github_read','read_lark_document','read_output_state','capability_call','platform_inventory','read_platform','platform_query','read_work_state','list_sources','read_artifact','read_source','search_source'],
  check:['verify_content','complete'],
- local:['retire_output','plan_task','cancel_task','resolve_wait','resolve_question','advance_task','revise_task','wait','ask'],
+ local:['recover_platform_result','retire_output','plan_task','cancel_task','resolve_wait','resolve_question','advance_task','revise_task','wait','ask'],
  external:['lark_create','lark_update','write_file','github_create','github_update','github_comment','request_confirmation'],
  authorization:['request_access']
 };

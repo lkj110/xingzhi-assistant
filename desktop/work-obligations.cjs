@@ -10,7 +10,9 @@ function record(a,job,key,result){
  const s=state(job),reqs=requirements(a,job),req=reqs.find(r=>r.id===key)||reqs[0];
  if(!req)return [];
  const previous=s.gaps.filter(g=>g.requirementId===key&&g.requirementRevision===req.revision);
- if(result.passed===true||result.completed||result.awaitingReview){for(const g of previous)if(g.status!=='accepted_gap'){g.status='satisfied';g.resolvedAt=now();}return [];}
+ const covered=new Set(req.taskId?require('./relation-obligations.cjs').context(a,job,a.task(req.taskId)).filter(r=>r.status==='analyzed'&&r.lastReceipt?.checkBasis===result.basis).map(r=>r.id):[]);
+ const canClose=g=>!g.obligationId||covered.has(g.obligationId);
+ if(result.passed===true||result.completed||result.awaitingReview){for(const g of previous)if(g.status!=='accepted_gap'&&canClose(g)){g.status='satisfied';g.resolvedAt=now();}return [];}
  if(!Array.isArray(result.gaps))return [];
  const similar=require('./repair-progress.cjs').similar;
  const active=[];
@@ -26,10 +28,10 @@ function record(a,job,key,result){
   if(!g){g={id:require('node:crypto').randomUUID(),requirementId:key,requirementRevision:req.revision,taskId:req.taskId,text,status:'open',count:0,createdAt:now()};s.gaps.push(g);}
   if(g.status==='accepted_gap'){active.push(g);continue;}
   g.count=facts&&facts!==g.evidenceBasis?1:g.count+1;
-  Object.assign(g,{text,...(detail?.kind?{kind:detail.kind}:{}),...(artifact?{artifactId:artifact.id,artifactHash:evidence.hash(artifact.content),stepId:artifact.stepId}:{}),artifactRefs:detail?artifacts.map(r=>r.id):g.artifactRefs||[],evidenceBasis:facts,evidenceRefs:validIds.length?validIds:g.evidenceRefs||[],status:'open',lastAttempt:now()});active.push(g);
+  Object.assign(g,{text,...(detail?.obligationId?{obligationId:detail.obligationId,relationKind:detail.relationKind}:{}),...(detail?.kind?{kind:detail.kind}:{}),...(artifact?{artifactId:artifact.id,artifactHash:evidence.hash(artifact.content),stepId:artifact.stepId}:{}),artifactRefs:detail?artifacts.map(r=>r.id):g.artifactRefs||[],evidenceBasis:facts,evidenceRefs:validIds.length?validIds:g.evidenceRefs||[],status:'open',lastAttempt:now()});active.push(g);
  }
  // A fresh check explicitly reports which gaps remain. Keep resolved history.
- for(const g of previous)if(!active.includes(g)&&g.status==='open'){g.status='satisfied';g.resolvedAt=now();}
+ for(const g of previous)if(!active.includes(g)&&g.status==='open'&&canClose(g)){g.status='satisfied';g.resolvedAt=now();}
  return active;
 }
 function permissionBoundary(job,operation){
@@ -40,7 +42,6 @@ function permissionBoundary(job,operation){
  // Compatibility with the existing explicit user-contract choice. Never infer
  // acceptance from an error, source, draft or ordinary feedback. Denial reuse
  // itself relies on typed permission facts in the ledger, not this text path.
- if(job.executionContract?.revision&&/先保留缺口[，,、 ]*完成可访问部分/.test(job.executionContract.text||''))return {kind:'permission',policy:'document_and_continue',authority:'user_contract',revision:job.executionContract.revision};
  return null;
 }
 function context(a,job){const s=state(job),reqs=requirements(a,job),acceptedBoundary=permissionBoundary(job);return {requirements:reqs,...(acceptedBoundary?{acceptedBoundary}:{}),gaps:s.gaps.filter(g=>['open','accepted_gap'].includes(g.status)),closedGaps:s.gaps.filter(g=>g.status==='satisfied').map(g=>({id:g.id,text:g.text,resolvedAt:g.resolvedAt}))};}
@@ -49,12 +50,10 @@ function frontier(a,job){
  if(job.dataPlatform!=='sg-readonly')return [];
  const sources=a.data.sources.filter(s=>job.sourceIds.includes(s.id)&&require('./protocol-access.cjs').allowedObject(a,'source',s,job)),inventory=require('./data-platform.cjs').fullInventory(sources),nodes=new Map(inventory.nodes.map(n=>[n.id,n])),rows=[];
  const scope=require('./lineage-scope.cjs').resolve(job);
- if(scope.status==='ready')return require('./lineage-frontier.cjs').build(sources,scope,inventory.queries).map(row=>{
-  const query={op:row.direction,taskId:row.nodeId,depth:1};
-  const failure=!row.crossRegion&&require('./operation-ledger.cjs').activeFailure(job,query,a);
-  const status=row.crossRegion?(row.region==='unknown'?'scope_unresolved':'cross_region'):row.queried?'queried':failure?(failure.errorCode==='AUTH_REQUIRED'&&permissionBoundary(job,failure)?'accepted_boundary':'blocked'):'unexpanded';
-  return {...row,status,error:failure?.error,query,note:row.crossRegion?'不同或不明确区域的节点仅保留边界，不发起SG自动查询。':row.queried?'已取得该方向的查询快照；深度、分页或截断不代表完整。':undefined};
- });
+ if(scope.status==='ready'){
+  const frontier=require('./lineage-frontier.cjs'),ledger=require('./operation-ledger.cjs');
+  return frontier.project(job,frontier.build(sources,scope,inventory.queries),ledger.boundaryOptions(a,job));
+ }
  // Retain legacy inventory for inspection, but no deterministic traversal is
  // allowed without a complete current scope. The planner resolves ambiguity.
  for(const direction of ['upstream','downstream']){
@@ -62,7 +61,7 @@ function frontier(a,job){
   const discovered=new Set(inventory.queries.filter(q=>q.op===direction).flatMap(q=>[String(q.query.taskId),...(q.nodeIds||[]).map(String)]));
   for(const id of discovered){
    const node=nodes.get(id),done=visited.get(id),failure=require('./operation-ledger.cjs').activeFailure(job,{op:direction,taskId:id,depth:1},a);
-   rows.push({nodeId:id,direction,scopeProven:false,scopeStatus:scope.status,scopeReason:scope.reason,status:done?'queried':node?.crossRegion?'cross_region':failure?(failure.errorCode==='AUTH_REQUIRED'&&permissionBoundary(job,failure)?'accepted_boundary':'blocked'):'unexpanded',sourceId:done?.sourceId,error:failure?.error,query:{op:direction,taskId:id,depth:1},note:done?'已取得该方向的查询快照；分页或平台截断仍须按来源核对。':'历史目录不证明属于当前入口范围；由Agent核对范围后选择具体查询，不自动扩张。'});
+   rows.push({nodeId:id,direction,scopeProven:false,scopeStatus:scope.status,scopeReason:scope.reason,status:done?'queried':node?.crossRegion?'cross_region':failure?(require('./platform-boundaries.cjs').inspect(job,{op:direction,taskId:id,depth:1},require('./operation-ledger.cjs').boundaryOptions(a,job)).status==='accepted_boundary'?'accepted_boundary':'blocked'):'unexpanded',sourceId:done?.sourceId,error:failure?.error,query:{op:direction,taskId:id,depth:1},note:done?'已取得该方向的查询快照；分页或平台截断仍须按来源核对。':'历史目录不证明属于当前入口范围；由Agent核对范围后选择具体查询，不自动扩张。'});
   }
  }
  return rows;

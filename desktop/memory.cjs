@@ -51,24 +51,32 @@ function signature(a,projectId){return hash(context(a,projectId).items);}
 function enrich(state){
   return {memories:(state.memories||[]).map(m=>({...m,...validity(state,m),title:typeof m.title==='string'?m.title:'待修复的记忆',content:typeof m.content==='string'?m.content:'',sourceTitle:state.sources.find(s=>s.id===m.sourceId)?.title||''})),memoryLimits:{...limits},memoryUsage:[null,...state.projects.map(p=>p.id)].map(projectId=>{const c=context(state,projectId);return {projectId,included:c.items.length,omittedCount:c.omittedCount,warning:c.warning};})};
 }
-function affectedJobs(a){return (a.data.delegations||[]).filter(j=>j.status!=='completed'&&require('./project-lifecycle.cjs').isJobActive(a.data,j));}
+function affectedJobs(a){return (a.data.delegations||[]).filter(j=>!['completed','cancelled','deleted'].includes(j.status)&&!j.deletedAt&&require('./project-lifecycle.cjs').isJobActive(a.data,j));}
 function assertWritableJobs(a,jobs){
   if(jobs.some(j=>require('./projects.cjs').relatedActions(a,j).some(r=>['uncertain','running'].includes(r.status)))){const error=new Error('工作记忆涉及的委托有外部执行结果尚未确认，请先核对，再更新记忆与计划');error.requiresInput=true;throw error;}
 }
+function finished(task){return task.status==='completed'||!!task.acceptedAt||['accepted','completed','manual_completed'].includes(task.projectionPending?.type);}
 function invalidateJob(a,j){
   for(const r of require('./projects.cjs').relatedActions(a,j).filter(r=>r.status==='pending')){r.status='stale';delete r.approvedAt;}
   j.pendingActionId=null;
-  for(const id of j.taskIds||[]){const task=a.task(id);if(task.agentCancelled)continue;task.needsReplan='工作记忆已变化，请核对偏好或事实并调整受影响计划';a.requeue(task);}
-  j.feedback ||= [];j.feedback.push({at:stamp(),text:'用户确认的工作记忆已变化，请使用当前生效条目重新核对计划。历史记忆内容不再作为当前依据。',origin:'memory_change'});j.feedback=j.feedback.slice(-30);
-  j.completedAt=null;j.updatedAt=stamp();j.nextRunAt=stamp();j.resumeWatching=false;j.retryCheck=false;
-  j.summary='工作记忆已更新，等待核对计划';
-  if(!['paused','limited','running'].includes(j.status))j.status=(a.data.decisions||[]).some(d=>d.jobId===j.id&&d.status==='open')?'needs_input':'ready';
+  const tasks=(j.taskIds||[]).map(id=>a.data.tasks.find(t=>t.id===id&&t.agentJobId===j.id)).filter(Boolean);
+  const unfinished=tasks.filter(t=>!t.deletedAt&&!t.agentCancelled&&!['cancelled','deleted'].includes(t.status)&&!finished(t));
   j.memorySignature=signature(a,j.projectId);
+  // Acceptance is historical authority, not a context cache. Do not append a
+  // job-wide feedback item: it would also change accepted siblings' check basis.
+  if(tasks.length&&!unfinished.length)return;
+  for(const task of unfinished){task.needsReplan='工作记忆已变化，请核对偏好或事实并调整受影响计划';a.requeue(task);}
+  j.completedAt=null;j.updatedAt=stamp();j.resumeWatching=false;j.retryCheck=false;
+  j.summary='工作记忆已更新，等待核对计划';
+  if(!['paused','limited','running'].includes(j.status)&&!j.executionPaused){
+    j.status=(a.data.decisions||[]).some(d=>d.jobId===j.id&&d.status==='open')?'needs_input':'ready';
+    j.nextRunAt=stamp();
+  }
 }
 // Call before planning or approving work. An expiry/source change must invalidate
 // old approval even when no memory edit was made in this session.
 function reconcile(a,j){
-  if(!require('./project-lifecycle.cjs').isJobActive(a.data,j))return false;
+  if(!affectedJobs(a).includes(j))return false;
   const current=signature(a,j.projectId);
   if(!j.memorySignature){j.memorySignature=current;return false;}
   if(j.memorySignature===current)return false;
@@ -113,14 +121,14 @@ async function dispatch(a,action,input={}){
     proposed={...existing,enabled:input.enabled,version:existing.version+1,updatedAt:stamp()};
     if(input.enabled){const validityResult=validity(a.data,proposed);if(!validityResult.effective)throw new Error(`${validityResult.reason}；请编辑核对后保存`);}
   }
-  const original=a.data.memories,jobs=affectedJobs(a),before=new Map(jobs.map(j=>[j.id,signature(a,j.projectId)]));
-  const next=original.filter(m=>m!==existing);if(proposed)next.unshift(proposed);
-  let affected;
-  a.data.memories=next;
-  try{affected=jobs.filter(j=>before.get(j.id)!==signature(a,j.projectId));assertWritableJobs(a,affected);}
-  catch(error){a.data.memories=original;throw error;}
-  for(const j of affected)invalidateJob(a,j);
-  a.event(action==='memoryDelete'?'删除工作记忆':action==='memoryToggle'?(input.enabled?'启用工作记忆':'停用工作记忆'):'保存工作记忆',`${proposed?.title||existing.title} · ${affected.length} 个未完成委托将核对计划`);
-  a.save();return a.publicState();
+  return a.commitOrdinary(()=>{
+    const original=a.data.memories,jobs=affectedJobs(a),before=new Map(jobs.map(j=>[j.id,signature(a,j.projectId)]));
+    const next=original.filter(m=>m!==existing);if(proposed)next.unshift(proposed);
+    a.data.memories=next;
+    const affected=jobs.filter(j=>before.get(j.id)!==signature(a,j.projectId));
+    assertWritableJobs(a,affected);
+    for(const j of affected)invalidateJob(a,j);
+    a.event(action==='memoryDelete'?'删除工作记忆':action==='memoryToggle'?(input.enabled?'启用工作记忆':'停用工作记忆'):'保存工作记忆',`${proposed?.title||existing.title} · ${affected.length} 个未完成委托将核对计划`);
+  });
 }
 module.exports={initialize,dispatch,context,enrich,signature,reconcile,validity,limits};

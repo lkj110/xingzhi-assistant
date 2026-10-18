@@ -1,8 +1,11 @@
+const access=require('./protocol-access.cjs');
+const acceptance=require('./acceptance.cjs');
 const path = require('node:path');
 
 const taskLabels = {todo:'待推进',running:'正在推进',waiting:'等待反馈',review:'待验收',completed:'已完成',blocked:'需要关注',paused:'已暂停'};
 const jobLabels = {...taskLabels,ready:'待继续',watching:'持续跟进',approval:'待审批',needs_input:'需要补充',limited:'额度已用完',retry:'等待重试'};
 const tools = {write_file:'文件交付',github_create:'创建 Issue',github_update:'更新 Issue',github_comment:'追加评论',request_confirmation:'发送确认消息'};
+const completionLabels={checked:'已完成，当前检查有效',manual_evidence:'已完成，当前检查有效（含人工执行证据）',manual_completed:'人工确认完成，非当前检查通过',unverified:'已记录完成，当前检查待核对'};
 const limits = {rows:100,artifacts:50,body:12000,totalBody:120000};
 const iso = value => Number.isFinite(Date.parse(value)) ? new Date(value).toISOString() : null;
 const date = value => iso(value) || '未记录';
@@ -18,7 +21,7 @@ function publicLink(value) {
 function fileName(value) {return typeof value === 'string' ? path.win32.basename(path.basename(value)) : '';}
 function md(value) {return String(value || '').replace(/[\\`*_{}[\]<>#|]/g,'\\$&').replace(/\r?\n/g,' ');}
 function markdown(r) {
-  const lines = [`# ${md(r.project.name)} · 项目进展简报`, '', `生成时间：${r.generatedAt}；最近记录更新：${date(r.lastUpdatedAt)}`, '', '此简报依据本机保存的状态汇总，未调用模型、未重新查询外部服务。已核对交付指上次执行时读回成功，不代表外部内容此后未变化。', '', '## 进展', '', `- 已完成并通过检查：${r.progress.completed} / ${r.progress.total} 项`, `- 待判断：${r.totals.decisions}；等待反馈：${r.totals.followups}；已到期事项：${r.progress.overdueTasks}；外部结果待核对：${r.progress.uncertainWrites}`, `- 下一次自动检查：${date(r.nextCheckAt)}；${md(r.automatic.message)}`, `- 取消事项 ${r.progress.cancelled} 项不计入进度。暂停、待验收和需重做的事项不计为完成。`, '', '## 事项与完成标准', ''];
+  const lines = [`# ${md(r.project.name)} · 项目进展简报`, '', `生成时间：${r.generatedAt}；最近记录更新：${date(r.lastUpdatedAt)}`, '', '此简报依据本机保存的状态汇总，未调用模型、未重新查询外部服务。已核对交付指上次执行时读回成功，不代表外部内容此后未变化。', '', '## 进展', '', `- 已完成并通过检查：${r.progress.completed} / ${r.progress.total} 项（当前依据有效，不含人工执行证据）`, `- 历史已验收：${r.progress.historicalAccepted} 项；当前检查待核对：${r.progress.unverified} 项`, `- 当前检查有效但含人工执行证据：${r.progress.manualEvidence} 项；人工确认完成：${r.progress.manualCompleted} 项（不代表连接器读回核对）`, `- 待判断：${r.totals.decisions}；等待反馈：${r.totals.followups}；已到期事项：${r.progress.overdueTasks}；外部结果待核对：${r.progress.uncertainWrites}`, `- 下一次自动检查：${date(r.nextCheckAt)}；${md(r.automatic.message)}`, `- 取消事项 ${r.progress.cancelled} 项不计入进度。历史验收不等于当前检查通过；暂停、待验收和需重做的事项不计为当前通过。`, '', '## 事项与完成标准', ''];
   for (const t of r.tasks) lines.push(`- **${md(t.title)}**（${md(t.label)}，${t.ref}）`, `  - 完成标准：${md(t.criteria) || '未填写'}；截止：${date(t.dueAt)}`, `  - 下一步：${md(t.nextStep) || '等待验收或下一次推进'}${t.needsReplan ? `；需重做：${md(t.needsReplan)}` : ''}${t.staleSources ? '；引用材料已变化或无法使用' : ''}`, `  - 当前依据：${t.sourceRefs.join('、') || '未关联当前项目材料'}`);
   if (!r.tasks.length) lines.push('暂无事项。');
   lines.push('', '## 待判断与阻塞', '');
@@ -33,7 +36,7 @@ function markdown(r) {
   if (!r.sources.length) lines.push('暂无当前项目材料。');
   lines.push('', '## 当前产出', '');
   for (const a of r.artifacts) {
-    lines.push(`### ${a.ref} ${md(a.title)}`, '', `${a.accepted ? '事项已完成并通过检查' : '已有产出，事项尚未完成'}；生成于 ${date(a.at)}；关联 ${a.taskRef}；依据 ${a.sourceRefs.join('、') || '未关联当前材料'}。`, '');
+    lines.push(`### ${a.ref} ${md(a.title)}`, '', `${md(a.completionLabel)}${a.historicalAccepted ? '；保留历史验收记录' : ''}；生成于 ${date(a.at)}；关联 ${a.taskRef}；依据 ${a.sourceRefs.join('、') || '未关联当前材料'}。`, '');
     if (r.includeArtifactContent) lines.push('正文（引用块）：', '', ...(a.content || '').split('\n').map(line => `> ${line}`), '', ...(a.contentTruncated ? ['正文已截断，请在 App 中打开完整产出。', ''] : []));
   }
   if (!r.artifacts.length) lines.push('暂无当前产出。');
@@ -46,7 +49,8 @@ function markdown(r) {
   return lines.join('\n');
 }
 
-function report(a, input = {}) {
+function report(a,input={}){return access.derivedRead(a,()=>reportOnce(a,input));}
+function reportOnce(a, input = {}) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('项目简报参数无效');
   const projectId = input.projectId || input.id;
   const p = a.data.projects.find(p => p.id === projectId);
@@ -60,26 +64,51 @@ function report(a, input = {}) {
   const scopedTasks = data.tasks.filter(t => scopeOf(t) === p.id), taskIds = new Set(scopedTasks.map(t => t.id));
   const sourceRows = data.sources.filter(s => s.projectId === p.id);
   const replaced = new Set(sourceRows.filter(s => !s.projectExcluded).map(s => s.previousSourceId).filter(Boolean));
-  const currentSources = sourceRows.filter(s => !s.deleted && !s.projectExcluded && !replaced.has(s.id));
+  const currentSources = sourceRows.filter(s => !s.deleted && !s.projectExcluded && !replaced.has(s.id) && access.canReadSnapshot(a,'source',s,{projectId:p.id}));
   const sourceRefs = new Map(currentSources.map((s,i) => [s.id,`S${i+1}`]));
   const taskRefs = new Map(scopedTasks.map((t,i) => [t.id,`T${i+1}`]));
-  const unavailable = t => (t.sourceIds || []).filter(id => !(t.supersededSourceIds || []).includes(id) && !sourceRefs.has(id));
+  const unavailable = t => (t.sourceIds || []).filter(id => !(t.supersededSourceIds || []).includes(id) && (!sourceRefs.has(id)||!access.canReadSnapshot(a,'source',data.sources.find(s=>s.id===id),{task:t,projectId:p.id})));
   const sound = t => !t.agentCancelled && !t.needsReplan && !unavailable(t).length;
-  const completed = t => sound(t) && t.status === 'completed' && t.verification?.passed === true && !(t.verification?.gaps || []).some(Boolean) && !!t.steps?.length && t.steps.every(s => s.done && (s.kind === 'external' ? !!String(s.evidence || '').trim() : data.artifacts.some(v => v.id === s.artifactId && v.taskId === t.id && String(v.content || '').trim()))) && !data.agentActions.some(r => r.taskId === t.id && (['uncertain','running'].includes(r.status) || r.status === 'done' && r.result?.verified !== true && (currentStep(t,r.artifactId) || receiptStep(t,r))));
+  const checks=acceptance.presentationChecks(a);
+  const historicalAccepted=t=>!!t.acceptedAt||!!t.acceptanceHistory?.length;
+  const completionKind=t=>{
+    if(t.status!=='completed'||t.agentCancelled)return null;
+    if(t.completionMode==='manual')return 'manual_completed';
+    if(!sound(t)||checks(t,true).length)return 'unverified';
+    const artifactIds=[...new Set([...(t.steps||[]).map(step=>step.artifactId),t.primaryArtifactId].filter(Boolean))];
+    if(artifactIds.some(id=>!access.canReadSnapshot(a,'artifact',data.artifacts.find(value=>value.id===id&&value.taskId===t.id),{task:t,projectId:p.id})))return 'unverified';
+    if(data.agentActions.some(record=>record.taskId===t.id&&record.status==='done'&&(record.result?.verified!==true||record.deliveryConflict)&&(currentStep(t,record.artifactId)||receiptStep(t,record))))return 'unverified';
+    let manual=false;
+    for(const step of (t.steps||[]).filter(step=>step.kind==='external')){
+      let receipt;try{receipt=JSON.parse(step.evidence);}catch{}
+      if(!receipt?.actionId){if(step.tool&&step.tool!=='manual')return 'unverified';manual=true;}
+    }
+    return manual?'manual_evidence':'checked';
+  };
+  const completionKinds=new Map(scopedTasks.map(task=>[task.id,completionKind(task)]));
+  const completed=t=>completionKinds.get(t.id)==='checked';
+  const currentCheckValid=t=>['checked','manual_evidence'].includes(completionKinds.get(t.id));
+  const completionLabel=t=>t.agentCancelled?'已取消':completionLabels[completionKinds.get(t.id)]||taskLabels[t.status]||'状态待核对';
   const artifacts = data.artifacts.filter(r => taskIds.has(r.taskId));
   const taskMap = new Map(scopedTasks.map(t => [t.id,t]));
-  const currentArtifacts = artifacts.filter(r => sound(taskMap.get(r.taskId)) && currentStep(taskMap.get(r.taskId),r.id));
+  const currentArtifacts = artifacts.filter(r => sound(taskMap.get(r.taskId)) && currentStep(taskMap.get(r.taskId),r.id) && access.canReadSnapshot(a,'artifact',r,{task:taskMap.get(r.taskId),projectId:p.id}));
   const artifactRefs = new Map(currentArtifacts.map((r,i) => [r.id,`A${i+1}`]));
   const actions = data.agentActions.filter(r => (!r.projectId || r.projectId === p.id) && (!r.jobId || jobIds.has(r.jobId)) && (r.taskId ? taskIds.has(r.taskId) : jobIds.has(r.jobId)));
-  const currentWrite = r => r.artifactId ? artifactRefs.has(r.artifactId) && taskMap.get(r.taskId)?.id === data.artifacts.find(v => v.id === r.artifactId)?.taskId : r.tool === 'request_confirmation' && sound(taskMap.get(r.taskId) || {}) && receiptStep(taskMap.get(r.taskId) || {},r);
-  const delivered = actions.filter(r => r.status === 'done' && r.result?.verified === true && currentWrite(r));
+  const currentWrite = r => {
+    const task=taskMap.get(r.taskId);
+    if(r.deliveryConflict||actions.some(record=>['uncertain','running'].includes(record.status)&&(record.taskId===r.taskId||!record.taskId&&record.jobId&&record.jobId===r.jobId)))return false;
+    if(!r.artifactId)return r.tool==='request_confirmation'&&sound(task||{})&&receiptStep(task||{},r);
+    if(!artifactRefs.has(r.artifactId)||task?.id!==data.artifacts.find(value=>value.id===r.artifactId)?.taskId)return false;
+    return !(task.steps||[]).some(step=>step.kind==='external'&&step.tool===r.tool)||receiptStep(task,r);
+  };
+  const delivered = actions.filter(r => r.status === 'done' && r.result?.verified === true && !r.deliveryConflict && currentWrite(r));
   const uncertain = actions.filter(r => ['uncertain','running'].includes(r.status));
   const open = [...(data.decisions || []).filter(d => d.status === 'open' && jobIds.has(d.jobId) && (!d.projectId || d.projectId === p.id)),...actions.filter(r => r.status === 'pending').map(r => ({id:`action:${r.id}`,jobId:r.jobId,kind:'approval',question:`请确认${tools[r.tool] || '外部动作'}：${r.title || ''}`,taskIds:r.taskId ? [r.taskId] : [],updatedAt:r.createdAt}))];
   const waiting = jobs.flatMap(j => (j.followups || []).filter(f => f.status === 'waiting' && (!f.taskId || taskIds.has(f.taskId))).map(f => ({...f,jobId:j.id,paused:j.status === 'paused'})));
   const blockers = [
     ...uncertain.map(r => ({id:r.id,title:tools[r.tool] || '外部动作',reason:'执行结果尚未核对，不能按已交付处理',taskId:r.taskId,jobId:r.jobId,taskRef:taskRefs.get(r.taskId),kind:'uncertain'})),
     ...actions.filter(r => r.status === 'done' && r.result?.verified !== true && currentWrite(r)).map(r => ({id:r.id,title:tools[r.tool] || '外部动作',reason:'缺少读回核对证据',taskId:r.taskId,jobId:r.jobId,taskRef:taskRefs.get(r.taskId),kind:'unverified'})),
-    ...scopedTasks.filter(t => !t.agentCancelled && (['blocked','paused','review'].includes(t.status) || !taskLabels[t.status] || t.needsReplan || unavailable(t).length || t.status === 'completed' && !completed(t))).map(t => ({id:t.id,title:trim(t.title,300),taskId:t.id,taskRef:taskRefs.get(t.id),kind:'task',reason:trim(t.needsReplan || (unavailable(t).length ? '引用材料已变化、撤回或不属于当前项目' : t.status === 'completed' && !completed(t) ? '完成记录缺少有效检查或步骤证据' : taskLabels[t.status] || '事项状态无法识别，请核对'))})),
+    ...scopedTasks.filter(t => !t.agentCancelled && (['blocked','paused','review'].includes(t.status) || !taskLabels[t.status] || t.needsReplan || unavailable(t).length || completionKinds.get(t.id)==='unverified')).map(t => ({id:t.id,title:trim(t.title,300),taskId:t.id,taskRef:taskRefs.get(t.id),kind:'task',reason:trim(t.needsReplan || (unavailable(t).length ? '引用材料已变化、撤回或不属于当前项目' : completionKinds.get(t.id)==='unverified' ? '历史完成记录保留，当前检查待核对' : taskLabels[t.status] || '事项状态无法识别，请核对'))})),
     ...jobs.filter(j => ['blocked','needs_input','limited','paused','approval'].includes(j.status)).map(j => ({id:j.id,title:trim(j.title,300),jobId:j.id,kind:'job',reason:jobLabels[j.status]}))
   ];
   const activeTasks = scopedTasks.filter(t => !t.agentCancelled);
@@ -95,18 +124,18 @@ function report(a, input = {}) {
   }
   const r = {project:{id:p.id,name:trim(p.name,300)},generatedAt:new Date(now).toISOString(),includeArtifactContent:input.includeArtifactContent === true,modelCalls:0,nextCheckAt,scheduledCheckAt,automatic:{allowed:gate.automaticAllowed,reason:gate.reason,message:gate.message,nextAllowedAt:gate.nextAllowedAt},
     lastUpdatedAt:latest([p.updatedAt,p.createdAt,...scopedTasks.flatMap(t => [t.updatedAt,t.completedAt,t.createdAt]),...sourceRows.map(s => s.createdAt),...artifacts.map(v => v.createdAt),...actions.flatMap(v => [v.finishedAt,v.createdAt]),...open.map(v => v.updatedAt)]),
-    progress:{total:activeTasks.length,completed:activeTasks.filter(completed).length,cancelled:scopedTasks.length-activeTasks.length,paused:activeTasks.filter(t => t.status === 'paused').length,overdueTasks:activeTasks.filter(t => !completed(t) && Date.parse(t.dueAt) <= now).length,overdueFollowups:waiting.filter(f => Date.parse(f.deadlineAt) <= now).length,uncertainWrites:uncertain.length},
+    progress:{total:activeTasks.length,completed:activeTasks.filter(completed).length,historicalAccepted:activeTasks.filter(historicalAccepted).length,manualEvidence:activeTasks.filter(t=>completionKinds.get(t.id)==='manual_evidence').length,manualCompleted:activeTasks.filter(t=>completionKinds.get(t.id)==='manual_completed').length,unverified:activeTasks.filter(t=>completionKinds.get(t.id)==='unverified').length,cancelled:scopedTasks.length-activeTasks.length,paused:activeTasks.filter(t => t.status === 'paused').length,overdueTasks:activeTasks.filter(t => t.status!=='completed' && Date.parse(t.dueAt) <= now).length,overdueFollowups:waiting.filter(f => Date.parse(f.deadlineAt) <= now).length,uncertainWrites:uncertain.length},
     totals:{tasks:scopedTasks.length,sources:currentSources.length,artifacts:currentArtifacts.length,decisions:open.length,followups:waiting.length,deliveries:delivered.length,blockers:blockers.length},
     excluded:{sources:sourceRows.length-currentSources.length,artifacts:artifacts.length-currentArtifacts.length,deliveries:actions.filter(v => v.status === 'done' && !currentWrite(v)).length},
     sources:bound(currentSources,'材料').map(s => ({id:s.id,ref:sourceRefs.get(s.id),title:trim(s.title,300),version:s.version || 1,at:iso(s.createdAt),url:publicLink(s.url)})),
-    tasks:bound(scopedTasks,'事项').map(t => ({id:t.id,ref:taskRefs.get(t.id),title:trim(t.title,300),status:t.status,label:t.agentCancelled ? '已取消' : t.status === 'completed' && !completed(t) ? '完成状态待核对' : taskLabels[t.status] || '状态待核对',criteria:trim(t.criteria,2000),dueAt:iso(t.dueAt),nextStep:trim(t.steps?.find(s => !s.done)?.title,500),needsReplan:trim(t.needsReplan,500),staleSources:unavailable(t).length,sourceRefs:(t.sourceIds || []).filter(id => sourceRefs.has(id)).slice(0,100).map(id => sourceRefs.get(id)),completed:completed(t)})),
+    tasks:bound(scopedTasks,'事项').map(t => ({id:t.id,ref:taskRefs.get(t.id),title:trim(t.title,300),status:t.status,label:completionLabel(t),completionKind:completionKinds.get(t.id),historicalAccepted:historicalAccepted(t),currentCheckValid:currentCheckValid(t),criteria:trim(t.criteria,2000),dueAt:iso(t.dueAt),nextStep:trim(t.steps?.find(s => !s.done)?.title,500),needsReplan:trim(t.needsReplan,500),staleSources:unavailable(t).length,sourceRefs:(t.sourceIds || []).filter(id => sourceRefs.has(id)&&access.canReadSnapshot(a,'source',data.sources.find(s=>s.id===id),{task:t,projectId:p.id})).slice(0,100).map(id => sourceRefs.get(id)),completed:completed(t)})),
     decisions:bound(open,'待判断').map(d => ({id:d.id,jobId:d.jobId,kind:d.kind === 'timeout' ? '等待超时' : d.kind === 'approval' ? '外部动作待审批' : '需要判断',question:trim(d.question,2000),suggestion:trim(d.suggestion,1000),taskRefs:(d.taskIds || []).filter(id => taskRefs.has(id)).slice(0,100).map(id => taskRefs.get(id))})),
     blockers:bound(blockers,'阻塞'),
     followups:bound(waiting,'跟进').map(f => ({key:trim(f.key,200),jobId:f.jobId,taskId:f.taskId,taskRef:taskRefs.get(f.taskId),expected:trim(f.expected,2000),deadlineAt:iso(f.deadlineAt),checkAt:iso(f.checkAt),overdue:Date.parse(f.deadlineAt) <= now,paused:f.paused})),
     deliveries:bound(delivered,'交付').map(d => ({id:d.id,taskId:d.taskId,label:tools[d.tool] || '外部交付',title:trim(d.title,300),artifactRef:artifactRefs.get(d.artifactId),at:iso(d.finishedAt || d.completedAt || d.at),verified:true,...(d.tool === 'write_file' ? {filename:trim(fileName(d.result?.latestPath || d.result?.path),300)} : {url:publicLink(d.result?.url)}),...(d.tool === 'request_confirmation' ? {receiptId:trim(d.result?.messageId,100)} : {})})),
     artifacts:[],truncated:false,notices:[]};
   let remaining = limits.totalBody;
-  r.artifacts = bound(currentArtifacts,'产出',limits.artifacts).map(v => {const t = taskMap.get(v.taskId),content = String(v.content || ''),size = Math.min(limits.body,remaining),include = r.includeArtifactContent;const item = {id:v.id,ref:artifactRefs.get(v.id),taskId:v.taskId,taskRef:taskRefs.get(v.taskId),title:trim(v.title,300),at:iso(v.createdAt),characters:content.length,accepted:completed(t),sourceRefs:(t.sourceIds || []).filter(id => sourceRefs.has(id)).slice(0,100).map(id => sourceRefs.get(id))};if (include) {item.content = content.slice(0,size);item.contentTruncated = content.length > size;remaining -= item.content.length;if (item.contentTruncated) notices.add('产出正文每份最多 12,000 字符、合计最多 120,000 字符');}return item;});
+  r.artifacts = bound(currentArtifacts,'产出',limits.artifacts).map(v => {const t = taskMap.get(v.taskId),content = String(v.content || ''),size = Math.min(limits.body,remaining),include = r.includeArtifactContent;const item = {id:v.id,ref:artifactRefs.get(v.id),taskId:v.taskId,taskRef:taskRefs.get(v.taskId),title:trim(v.title,300),at:iso(v.createdAt),characters:content.length,accepted:completed(t),historicalAccepted:historicalAccepted(t),currentCheckValid:currentCheckValid(t),completionKind:completionKinds.get(t.id),completionLabel:completionLabel(t),sourceRefs:(t.sourceIds || []).filter(id => sourceRefs.has(id)&&access.canReadSnapshot(a,'source',data.sources.find(s=>s.id===id),{task:t,projectId:p.id})).slice(0,100).map(id => sourceRefs.get(id))};if (include) {item.content = content.slice(0,size);item.contentTruncated = content.length > size;remaining -= item.content.length;if (item.contentTruncated) notices.add('产出正文每份最多 12,000 字符、合计最多 120,000 字符');}return item;});
   r.notices = [...notices];r.truncated = notices.size > 0;r.markdown = markdown(r);
   return r;
 }

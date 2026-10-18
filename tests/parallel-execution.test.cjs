@@ -38,7 +38,7 @@ test('Pausing one job aborts only its request; answering another job is availabl
 test('A blocked budget cannot block unrelated work or inherit its budget',async t=>{
   const {a,calls}=await fixture(t),one=agent.buildJob(a,{goal:'budget',maxActions:1}),two=agent.buildJob(a,{goal:'normal',maxActions:1});a.data.delegations.push(one,two);
   a.activeAgentJob=one;const scope=require('../desktop/spend.cjs').scope(a);scope.spentUSD=100;a.activeAgentJob=null;
-  a.tick();await until(()=>calls.length===1);assert.equal(one.status,'limited');assert.equal(calls[0].context.goal,'normal');calls[0].gate.resolve();await a.runPromise;assert.equal(two.status,'needs_input');assert.equal(scope.spentUSD,100);
+  a.tick();await until(()=>calls.length===1);const state=require('../desktop/work-state.cjs').view(a,one);assert.equal(state.phase,'blocked');assert.equal(state.gate.reason,'budget');assert.equal(state.nextActions.length,0);assert.equal(a.data.agentRuns.filter(r=>r.jobId===one.id).length,0);assert.equal(calls[0].context.goal,'normal');calls[0].gate.resolve();await a.runPromise;assert.equal(two.status,'needs_input');assert.equal(scope.spentUSD,100);
 });
 test('Global pause drains current parallel batches and sleep restores every interrupted job except manual pauses',async t=>{
   const {a,calls}=await fixture(t),one=await start(a,'a'),two=await start(a,'b');await until(()=>calls.length===2);

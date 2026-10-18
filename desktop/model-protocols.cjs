@@ -21,6 +21,11 @@ function extraParameters(value) {
   }
   inspect(parsed);
   if (Object.keys(parsed).some(key => reserved.has(key))) throw configError('高级参数不能覆盖模型、消息、工具、输出格式或输出上限');
+  // The app consumes one result. Multiple candidates multiply the bill even
+  // when each candidate obeys the same output cap.
+  for (const key of ['n', 'best_of', 'candidateCount']) {
+    if (Object.hasOwn(parsed, key) && parsed[key] !== 1) throw configError(`高级参数 ${key} 仅支持数值 1；当前接入只处理一个候选结果`);
+  }
   return JSON.parse(JSON.stringify(parsed));
 }
 
@@ -42,6 +47,15 @@ function normalize(config = {}) {
   if (workspaceId && !/^[a-zA-Z0-9_-]{1,200}$/.test(workspaceId)) throw configError('Claude 工作空间 ID 格式无效');
   return {type, authMode, tokenParameter, maxOutputTokens, apiVersion, workspaceId, extraBody: extraParameters(config.extraBody)};
 }
+
+function budgetForOptions({type, maxOutputTokens}) {
+  if (type === 'codex') return {maxOutputTokens:null, outputTokens:Math.max(128000, maxOutputTokens || 0), mode:'estimate', enforced:false};
+  if (maxOutputTokens !== null) return {maxOutputTokens, outputTokens:maxOutputTokens, mode:'explicit', enforced:true};
+  if (type === 'anthropic') return {maxOutputTokens:8192, outputTokens:8192, mode:'protocol_default', enforced:true};
+  return {maxOutputTokens:null, outputTokens:128000, mode:'estimate', enforced:false};
+}
+// `enforced` means encoded in the request, not a provider billing guarantee.
+function outputBudget(config = {}) { return budgetForOptions(normalize(config)); }
 
 function baseURL(config) {
   let url;
@@ -90,11 +104,11 @@ function request(config, messages, json = true) {
   const options = normalize(config), type = options.type;
   if (!Array.isArray(messages) || messages.some(m => !m || !['system','developer','user','assistant'].includes(m.role) || typeof m.content !== 'string')) throw configError('当前模型接入仅接受文本对话消息');
   const useJSON = json && config.jsonMode !== false;
-  const max = options.maxOutputTokens;
+  const max = budgetForOptions(options).maxOutputTokens;
   const system = messages.filter(m => ['system','developer'].includes(m.role)).map(m => m.content).join('\n\n');
   const turns = messages.filter(m => !['system','developer'].includes(m.role));
   if (type === 'anthropic') return {
-    ...options.extraBody, model:config.model, stream:false, max_tokens:max || 8192,
+    ...options.extraBody, model:config.model, stream:false, max_tokens:max,
     system:[system, useJSON ? 'Return only a valid JSON object, without Markdown fences.' : ''].filter(Boolean).join('\n\n'),
     messages:turns.map(m => ({role:m.role,content:m.content}))
   };
@@ -201,4 +215,4 @@ function modelPage(config, data) {
   return {models,cursor};
 }
 
-module.exports = {types, normalize, endpoint, headers, request, usage, responseText, modelsURL, modelPage, baseURL};
+module.exports = {types, normalize, outputBudget, endpoint, headers, request, usage, responseText, modelsURL, modelPage, baseURL};

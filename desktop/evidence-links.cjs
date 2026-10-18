@@ -4,21 +4,51 @@ const purposes=new Set(['input','delivery_readback']);
 const states=new Set(['active','historical','withdrawn']);
 const principal=s=>s.principalScope??s.platformPrincipal??s.larkOpenId??null;
 const resource=s=>s.resourceKey||s.identity||s.url||s.remoteId||s.id;
-const revision=s=>String(s.revisionId??s.remoteRevision??s.version??hash(s.content));
+const cache=require('./projection-cache.cjs');
+const contentHash=s=>cache.memo(contentHash,[s.content],()=>hash(s.content));
+const revision=s=>String(s.revisionId??s.remoteRevision??s.version??contentHash(s));
 const withdrawn=s=>!s||!!(s.deleted||s.deletedAt||s.withdrawn||s.withdrawnAt||s.projectExcluded||s.contentDeleted);
 const withdrawalKey=(sourceId,purpose)=>hash({sourceId,purpose});
 const bindingWithdrawn=(task,b)=>task.withdrawnBindingIds?.includes(b.bindingId)||(task.contextWithdrawals||[]).some(w=>w.key===withdrawalKey(b.sourceId,b.purpose));
+// Equivalent to evidence-store.current, but build ancestry once for the whole
+// immutable source set instead of scanning every descendant for every source.
+function currentSource(data,source){
+ return cache.memo(currentSource,[data,data.sources],()=>{
+  const store=require('./evidence-store.cjs'),byId=new Map(),descendants=new Map(),result=new Map();
+  for(const s of data.sources)if(!byId.has(s.id))byId.set(s.id,s);
+  for(const s of data.sources){
+   if(s.projectExcluded)continue;
+   const seen=new Set([s.id]);let previousId=s.previousSourceId;
+   while(previousId&&!seen.has(previousId)){
+    seen.add(previousId);const previous=byId.get(previousId);
+    if(!store.sameScope(s,previous)||(s.resourceKey||s.identity)&&(previous.resourceKey||previous.identity)&&require('./evidence-basis.cjs').sourceKey(s)!==require('./evidence-basis.cjs').sourceKey(previous))break;
+    if(!descendants.has(previousId))descendants.set(previousId,[]);
+    descendants.get(previousId).push(s);previousId=previous.previousSourceId;
+   }
+  }
+  for(const s of data.sources){
+   const candidates=(descendants.get(s.id)||[]).filter(n=>store.sameScope(n,s));
+   const parents=new Set(candidates.map(n=>n.previousSourceId));
+   const heads=candidates.filter(n=>!parents.has(n.id));
+   result.set(s,heads.length===1?heads[0]:heads.length?null:s);
+  }
+  return result;
+ }).get(source)??(data.sources.includes(source)?null:require('./evidence-store.cjs').current(data,source));
+}
+const currentSourceId=(data,source)=>currentSource(data,source)?.id??null;
 function valid(a,job,id){const s=a.data.sources.find(s=>s.id===id);return s&&job.sourceIds.includes(id)&&!withdrawn(s)&&(s.projectId||null)===(job.projectId||null)&&(!(s.jobId||s.agentJobId)||(s.jobId||s.agentJobId)===job.id);}
 function isDelivery(s){return s?.purpose==='delivery_readback'||!!s?.deliveryActionId||typeof s?.identity==='string'&&s.identity.startsWith('lark-delivery:');}
 function binding(task,source,spec){
  const purpose=spec.purpose||'input',provenance=spec.provenance||{kind:'legacy_input'};
- return {bindingId:'binding:'+hash({taskId:task.id,sourceId:source.id,purpose,actionId:provenance.actionId||null,revisionId:spec.revisionId??revision(source)}),taskId:task.id,sourceId:source.id,resourceKey:spec.resourceKey||resource(source),revisionId:String(spec.revisionId??revision(source)),purpose,state:spec.state||'active',provenance:structuredClone(provenance),principalScope:spec.principalScope??principal(source),contentHash:hash(source.content),...(spec.artifactId?{artifactId:spec.artifactId}:{}),...(spec.target?{target:spec.target}:{}),createdAt:new Date().toISOString(),bindingRevision:1};
+ return {bindingId:'binding:'+hash({taskId:task.id,sourceId:source.id,purpose,actionId:provenance.actionId||null,revisionId:spec.revisionId??revision(source)}),taskId:task.id,sourceId:source.id,resourceKey:spec.resourceKey||resource(source),revisionId:String(spec.revisionId??revision(source)),purpose,state:spec.state||'active',provenance:structuredClone(provenance),principalScope:spec.principalScope??principal(source),contentHash:contentHash(source),...(spec.artifactId?{artifactId:spec.artifactId}:{}),...(spec.target?{target:spec.target}:{}),createdAt:new Date().toISOString(),bindingRevision:1};
 }
 // Read-only compatibility view. Typed records win over legacy projections, including tombstones.
-function bindings(a,task){
+function bindings(a,task){return cache.copy(bindings,[a,a.data,task],()=>computeBindings(a,task));}
+function computeBindings(a,task){
+ const byId=cache.memo(computeBindings,[a.data.sources],()=>{const map=new Map();for(const s of a.data.sources)if(!map.has(s.id))map.set(s.id,s);return map;});
  const rows=(task.contextBindings||[]).filter(b=>b.taskId===task.id).map(b=>({...b,...(bindingWithdrawn(task,b)?{state:'withdrawn'}:{})}));
  for(const id of task.sourceIds||[]){
-  const s=a.data.sources.find(s=>s.id===id);
+  const s=byId.get(id);
   if(rows.some(b=>b.sourceId===id)||isDelivery(s))continue;
   const b=binding(task,s||{id,content:undefined},{purpose:'input',state:withdrawn(s)?'withdrawn':task.supersededSourceIds?.includes(id)?'historical':'active'});
   if(bindingWithdrawn(task,b))b.state='withdrawn';rows.push(b);
@@ -216,6 +246,6 @@ function merge(task,args){
   if(remove.length&&(!args.reason||!String(args.reason).trim()))throw Error('移除证据必须说明原因');
   return [...new Set([...old,...requested])].filter(id=>!remove.includes(id));
 }
-module.exports={initialize,merge,bind,bindDelivery,repairDelivery,deliverySpec,historicalDelivery,migrateDelivery,setInputs,withdrawalEvents,withdrawSources,bindings,project,principal,resource,revision,withdrawn,isDelivery};
+module.exports={contentHash,currentSourceId,initialize,merge,bind,bindDelivery,repairDelivery,deliverySpec,historicalDelivery,migrateDelivery,setInputs,withdrawalEvents,withdrawSources,bindings,project,principal,resource,revision,withdrawn,isDelivery};
 // Loaded by core before work-journal replay; registration performs no I/O.
 require('./work-journal.cjs').registerProjector('context_bindings_withdrawn',projectWithdrawals);

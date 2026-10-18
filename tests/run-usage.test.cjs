@@ -11,7 +11,7 @@ test('Unknown, partial and unpriced usage is never presented as free',async()=>{
  assert.match(usageSummary({reportedCalls:2,totalTokens:500,estimatedUSD:1,unknownCalls:1,unpricedCalls:1}),/500 token · 已知折算 \$1.0000 · 1 次用量未知 · 1 次缺少单价/);
  assert.match(usageSummary(callUsage({status:'done',inputTokens:20,outputTokens:10})),/30 token · 费用待计价/);
  assert.equal(runUsageSummary({status:'done'}),'用量与费用未记录');
- assert.equal(runUsageSummary({status:'unchanged',modelCalls:0}),'0 token · 折算 $0.0000 · 未调用模型');
+ assert.equal(runUsageSummary({status:'unchanged',modelCalls:0,finishedAt:'2026-10-18T00:00:00.000Z'}),'0 token · 折算 $0.0000 · 未调用模型');
  assert.doesNotMatch(runUsageSummary({status:'running',usage:{reportedCalls:0,estimatedUSD:0}}),/\$0/);
  assert.match(usageSummary(callUsage({status:'error',inputTokens:5,outputTokens:1,estimatedUSD:.01})),/6 token · 折算 \$0.0100/);
 });

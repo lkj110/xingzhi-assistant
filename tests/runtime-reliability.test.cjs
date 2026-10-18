@@ -40,11 +40,13 @@ test('AUDIT-04 transient CLI error must expire within the same authorization and
 });
 test('AUDIT-05 accepted permission frontier must reopen after permission revision',async t=>{
  const f=await fixture(t);f.j.executionContract={revision:'scope1',text:'入口任务 IDs: 1\n完整上下游；先保留缺口，完成可访问部分'};
- agent.source(f.a,f.j,'graph','lineage',JSON.stringify({operation:'downstream',query:{op:'downstream',taskId:1,depth:1},data:{nodes:[{id:1,parentRelation:[]},{id:2,parentRelation:[{id:1}]}]}}),{platformSnapshot:true});
- const q={op:'downstream',taskId:2};ledger.state(f.j).operations[ledger.key(f.j,q)]={query:q,epoch:ledger.epoch(f.j),status:'failed',errorCode:'AUTH_REQUIRED',error:'无访问权限'};
+ const q={op:'downstream',taskId:2,projectId:7};f.a.platformRequest=async()=>{throw Object.assign(Error('无访问权限'),{code:'AUTH_REQUIRED'});};
+ await agent.act(f.a,f.j,'platform_query',{queries:[q]});
+ agent.source(f.a,f.j,'graph','lineage',JSON.stringify({operation:'downstream',query:{op:'downstream',taskId:1,projectId:7,depth:1},data:{nodes:[{id:1,projectId:7,parentRelation:[]},{id:2,projectId:7,parentRelation:[{id:1}]}]}}),{platformSnapshot:true,platformPrincipal:f.j.platformPrincipal});
+ f.j.executionContract.acceptedBoundaries=[{query:q,coverage:'direction'}];
  assert.equal(obligations.frontier(f.a,f.j).find(r=>r.nodeId==='2').status,'accepted_boundary');ledger.state(f.j).permissionRevision++;
  const row=obligations.frontier(f.a,f.j).find(r=>r.nodeId==='2');control.escape(f.a,f.j,Object.assign(Error('没有新证据'),{code:'NO_NEW_EVIDENCE'}));const escapeTool=ledger.state(f.j).forcedNext?.tool;
- f.a.platformRequest=async()=>({nodes:[{id:2}]});const directRetry=(await agent.act(f.a,f.j,'platform_query',{queries:[q]})).results[0];assert.equal(row.status,'unexpanded');assert.equal(escapeTool,'platform_query');assert.ok(directRetry.sourceId);
+ f.a.platformRequest=async()=>({nodes:[{id:2}]});const directRetry=(await agent.act(f.a,f.j,'platform_query',{queries:[q]})).results[0];assert.equal(row.status,'unexpanded');assert.equal(escapeTool,'advance_task');assert.ok(directRetry.sourceId);
 });
 test('AUDIT-06 alternating known platform reads still halt across saved restart',async t=>{
  const f=await fixture(t);f.a.platformRequest=async args=>({taskName:args.join(' ')});const q1={op:'task',taskId:1},q2={op:'task',taskId:2};await guarded(f,'platform_query',{queries:[q1,q2]});await guarded(f,'platform_query',{queries:[q1]});await guarded(f,'platform_query',{queries:[q2,q1]});f.a.save();
@@ -53,8 +55,8 @@ test('AUDIT-06 alternating known platform reads still halt across saved restart'
  const state=restored.data.delegations[0],source=state.sourceIds[0],ff={...f,a:restored,j:state};
  await guarded(ff,'read_source',{sourceId:source});await guarded(ff,'read_source',{sourceId:source});await assert.rejects(guarded(ff,'read_source',{sourceId:source}),e=>e.noProgress);
 });
-test('AUDIT-07 transient timeout does retry when the stored delay expires',async t=>{
- const f=await fixture(t);let n=0;f.a.platformRequest=async()=>{if(++n===1)throw Error('network timeout');return {owner:'alice'};};const args={queries:[{op:'task',taskId:4}]};
+test('AUDIT-07 typed transient timeout does retry when the stored delay expires',async t=>{
+ const f=await fixture(t);let n=0;f.a.platformRequest=async()=>{if(++n===1)throw Object.assign(Error('network timeout'),{code:'ETIMEDOUT'});return {owner:'alice'};};const args={queries:[{op:'task',taskId:4}]};
  const one=(await agent.act(f.a,f.j,'platform_query',args)).results[0];assert.equal(one.errorCode,'TRANSIENT');await agent.act(f.a,f.j,'platform_query',args);assert.equal(n,1);
  Object.values(ledger.state(f.j).operations)[0].retryAt='2020-01-01';assert.ok((await agent.act(f.a,f.j,'platform_query',args)).results[0].sourceId);assert.equal(n,2);
 });
@@ -141,16 +143,26 @@ test('Migrated capability calls reuse known exact parameters without merging unr
  const restored=new Assistant({dir:f.dir}),j=restored.data.delegations.find(j=>j.id===f.j.id);const next=await agent.act(restored,j,'capability_call',args);
  assert.equal(next.sourceId,first.sourceId);assert.equal(restored.data.sources.find(x=>x.id===unrelated.id).resourceKey,undefined);assert.equal(j.sourceIds.length,2);
 });
-test('Reopening preserves unknown reservations and marks interrupted operations retryable',async t=>{
+test('Reopening preserves unknown reservations and reconciles interrupted operations without resending',async t=>{
  const f=await fixture(t),q={op:'task',taskId:99};f.a.activeAgentJob=f.j;const ticket=spend.reserve(f.a,f.a.data.providers[0],[{role:'user',content:'pending'}]);f.a.activeAgentJob=null;
- ledger.state(f.j).operations[ledger.key(f.j,q)]={query:q,epoch:ledger.epoch(f.j),status:'running',startedAt:new Date().toISOString()};f.j.executionState.migrated='legacy';f.a.save();
+ f.a.platformRequest=async()=>{throw Object.assign(Error('controlled transport result unknown'),{code:'ABORTED',dispatchFailure:true});};
+ await assert.rejects(ledger.fetch(f.a,f.j,q),{code:'ABORTED',dispatchFailure:true});
+ const original=Object.values(f.j.executionState.operations)[0];assert.equal(original.requests.length,1);f.j.executionState.migrated='legacy';f.a.save();
  const restored=new Assistant({dir:f.dir}),j=restored.data.delegations[0],s=restored.spendLedger.scopes['job:'+j.id],op=Object.values(j.executionState.operations)[0];
- assert.equal(op.status,'interrupted');assert.equal(ledger.eligibility(j,op).action,'execute');assert.equal(s.heldUSD,ticket.reservedUSD);assert.equal(s.limitUSD,100);assert.equal(s.usage.unknownCalls,1);assert.equal(Object.keys(s.pending).length,0);
+ t.after(()=>load('deadline-scheduler').dispose(restored));require('./helpers/platform-fixture.cjs').install(restored);let requests=0;
+ restored.platformRequest=async()=>{requests++;throw Error('unknown original request must not be resent');};
+ assert.equal(op.status,'interrupted');assert.equal(ledger.eligibility(j,op).action,'reconcile');assert.equal(op.id,original.id);assert.deepEqual(op.requests,original.requests);
+ assert.equal(s.heldUSD,ticket.reservedUSD);assert.equal(s.limitUSD,100);assert.equal(s.usage.unknownCalls,1);assert.equal(Object.keys(s.pending).length,0);
+ const spendBefore=structuredClone(s),batch=await ledger.prepareBatch(restored,j);
+ for(const retry of [false,true])await assert.rejects(ledger.fetch(restored,j,q,{batch,retry}),{code:'OPERATION_RECONCILIATION_REQUIRED',stopBatch:true});
+ assert.equal(requests,0);assert.deepEqual(s,spendBefore);assert.equal(op.status,'interrupted');assert.equal(j.sourceIds.length,0);
 });
-test('Legacy unclassified failures expire after restart instead of becoming permanent restrictions',async t=>{
+test('Legacy unclassified failures require diagnosis after restart instead of blind retry',async t=>{
  const f=await fixture(t),q={op:'task',taskId:101};f.a.platformFixture.identity={username:'alice'};await ledger.prepareBatch(f.a,f.j);ledger.state(f.j).operations[ledger.key(f.j,q)]={query:q,epoch:ledger.epoch(f.j),principal:'alice',status:'failed',errorCode:'INVALID_PLATFORM_RESPONSE',error:'旧协议错误',completedAt:'2020-01-01'};f.j.executionState.migrated='legacy';f.a.save();
  const restored=new Assistant({dir:f.dir}),j=restored.data.delegations[0];let requests=0;restored.platformRequest=async args=>{if(args.includes('userinfo'))return {username:'alice'};requests++;return {owner:'alice'};};
- const r=await agent.act(restored,j,'platform_query',{queries:[q]});assert.ok(r.results[0].sourceId);assert.equal(requests,1);
+ const r=await agent.act(restored,j,'platform_query',{queries:[q]});assert.equal(r.results[0].errorCode,'INVALID_PLATFORM_RESPONSE');assert.equal(r.results[0].reused,true);assert.equal(requests,0);
+ const op=Object.values(j.executionState.operations)[0];assert.equal(ledger.eligibility(j,op).action,'diagnose');
+ assert.ok((await ledger.fetch(restored,j,q,{retry:true})).snapshot);assert.equal(requests,1);
 });
 test('Restoring an old backup retains the latest explicit user requirements and original spend',async t=>{
  const f=await fixture(t),recovery=load('recovery'),backup=recovery.create(f.a);
@@ -182,9 +194,13 @@ test('An unverified-account failure cannot block the frontier after the current 
  f.a.platformFixture.identity={username:'newly-verified-user'};await ledger.prepareBatch(f.a,f.j);assert.equal(ledger.lookup(f.a,f.j,q),null);assert.equal(obligations.frontier(f.a,f.j).find(r=>r.nodeId==='2').status,'unexpanded');
 });
 test('Typed platform failures keep retry-after timing and do not expose diagnostic credentials',async t=>{
- const f=await fixture(t);f.a.platformRequest=async()=>platform.parse(JSON.stringify({status:'error',error:{code:503,message:'Bearer PRIVATE_TOKEN',retry_after:120}}));const started=Date.now();
+ const f=await fixture(t);let calls=0;f.a.platformRequest=async()=>{calls++;return platform.parse(JSON.stringify({status:'error',error:{code:503,message:'Bearer PRIVATE_TOKEN',retry_after:120}}));};const started=Date.now();
  const r=(await agent.act(f.a,f.j,'platform_query',{queries:[{op:'task',taskId:7}]})).results[0],op=Object.values(ledger.state(f.j).operations)[0];
  assert.equal(r.errorCode,'TRANSIENT');assert.ok(Date.parse(op.retryAt)>=started+120000);assert.doesNotMatch(JSON.stringify(op),/PRIVATE_TOKEN/);assert.equal(ledger.eligibility(f.j,op,Date.parse(op.retryAt)-1).action,'wait_until');assert.equal(ledger.eligibility(f.j,op,Date.parse(op.retryAt)).action,'execute');
+ const before=structuredClone(f.a.spendLedger);const cached=(await agent.act(f.a,f.j,'platform_query',{queries:[{op:'task',taskId:7}]})).results[0];
+ assert.equal(cached.reused,true);assert.equal(calls,1);assert.deepEqual(f.a.spendLedger,before);
+ f.j.executionState.history=[1,2].map(n=>({...structuredClone(op),id:'controlled-prior-transient-'+n}));
+ assert.equal(ledger.eligibility(f.j,op,Date.parse(op.retryAt)).reason,'TRANSIENT_EXHAUSTED');
 });
 test('Missing platform resources request input repair instead of retrying the identical query forever',async t=>{
  const f=await fixture(t);let calls=0;f.a.platformRequest=async()=>{calls++;return platform.parse(JSON.stringify({status:'error',error:{code:1004,message:'Dorado API error: 任务不存在:7'}}));};

@@ -12,13 +12,41 @@ function validate(data){
   for(const j of data.delegations||[])if(!Array.isArray(j.taskIds)||!Array.isArray(j.sourceIds)||j.taskIds.some(id=>!data.tasks.some(t=>t.id===id)))throw new Error('备份委托引用不完整');
   return data;
 }
+const maxBackupBytes=200_000_000;
+function capacityFailure(workspaceBytes,backupBytes){return Object.assign(Error('候选工作空间或备份超过 200MB，本次本地结果未提交。'),{code:'LOCAL_RESULT_STORAGE',classificationBasis:'local_result_storage',diagnostics:{stage:'storage',reason:'storage_capacity',workspaceBytes,backupBytes,limitBytes:maxBackupBytes}});}
+function capacity(data,reason='before-restore',at=now()){
+ const count=require('./platform-storage-capacity.cjs').sizes;
+ const sizes=count(data),workspaceBytes=sizes.pretty;
+ const backupBytes=count({format:1,at,reason,checksum:'0'.repeat(64)}).compact+8+sizes.compact;
+ if(workspaceBytes>maxBackupBytes||backupBytes>maxBackupBytes)throw capacityFailure(workspaceBytes,backupBytes);
+ return {workspaceBytes,backupBytes,limitBytes:maxBackupBytes};
+}
+function storageSerialization(data,reason,at){
+ const sizes=capacity(data,reason,at),body=JSON.stringify(data),checksum=digest(body);
+ const prefix=JSON.stringify({format:1,at,reason,checksum}).slice(0,-1)+',"data":';
+ return {...sizes,text:prefix+body+'}'};
+}
+// candidate is the COMPLETE post-transaction workspace, including source,
+// ledger, ACL retention and acquisition receipt. It is never mutated or saved.
+function assertStorageCapacity(a,candidate=a.data){return capacity(candidate);}
+function validateArchives(data){
+ const storage=require('./platform-result.cjs');
+ for(const source of data.sources||[]){
+  if(!source.platformSnapshot&&!source.platformArchive)continue;
+  let snapshot;try{snapshot=JSON.parse(source.content);}catch{if(source.platformArchive)throw require('./platform-chunks.cjs').integrity('archive_invalid');continue;}
+  if(snapshot?.platformResult||source.platformArchive||snapshot?.platformArchive)storage.restore(snapshot,source);
+ }
+ return data;
+}
 function directory(a){const dir=path.join(a.dir,'backups');fs.mkdirSync(dir,{recursive:true,mode:0o700});return dir;}
 function filename(a,id){if(typeof id!=='string'||!/^backup-[\dT_-]+-[a-f0-9]{8}\.json$/.test(id))throw new Error('备份 ID 无效');return path.join(directory(a),id);}
-function read(a,id){const file=filename(a,id);const stat=fs.lstatSync(file);if(!stat.isFile()||stat.isSymbolicLink()||stat.size>200_000_000)throw new Error('备份文件无效或过大');const item=JSON.parse(fs.readFileSync(file,'utf8'));if(item.format!==1||digest(JSON.stringify(item.data))!==item.checksum)throw new Error('备份校验失败');validate(item.data);return item;}
+function read(a,id){const file=filename(a,id);const stat=fs.lstatSync(file);if(!stat.isFile()||stat.isSymbolicLink()||stat.size>maxBackupBytes)throw new Error('备份文件无效或过大');const item=JSON.parse(fs.readFileSync(file,'utf8'));if(item.format!==1||digest(JSON.stringify(item.data))!==item.checksum)throw new Error('备份校验失败');validate(item.data);validateArchives(item.data);assertStorageCapacity(a,item.data);return item;}
 function list(a){return fs.readdirSync(directory(a)).filter(n=>/^backup-.*\.json$/.test(n)).sort().reverse().map(id=>{try{const r=read(a,id);return {id,at:r.at,reason:r.reason,bytes:fs.statSync(filename(a,id)).size,tasks:r.data.tasks.length,sources:r.data.sources.length,projects:r.data.projects?.length||0};}catch{return {id,invalid:true};}});}
 function create(a,reason='manual'){
-  const data=structuredClone(a.data);validate(data);const at=now(),id=`backup-${at.replace(/[:.Z]/g,'-')}-${crypto.randomBytes(4).toString('hex')}.json`;
-  atomic(filename(a,id),JSON.stringify({format:1,at,reason,checksum:digest(JSON.stringify(data)),data}));
+  const at=now();capacity(a.data,reason,at);
+  const data=structuredClone(a.data);validate(data);const id=`backup-${at.replace(/[:.Z]/g,'-')}-${crypto.randomBytes(4).toString('hex')}.json`;
+  const serialized=storageSerialization(data,reason,at);validateArchives(data);
+  atomic(filename(a,id),serialized.text);
   a.lastBackupAt=Date.now();
   const rows=list(a);for(const r of rows.filter(r=>!r.invalid).slice(30))fs.unlinkSync(filename(a,r.id));return id;
 }
@@ -109,12 +137,19 @@ function reconcileAuthorities(a,data){
   for(const task of data.tasks||[])if(task.status==='completed'&&task.finalDelivery?.artifactId&&!data.artifacts.some(r=>r.id===task.finalDelivery.artifactId&&!r.deletedAt&&!r.deleted))task.recoveryReview={code:'ACCEPTED_DELIVERY_MISSING',message:'历史已验收，交付资料需核对'};
   return data;
 }
+function latestValidBackup(a){
+  for(const id of fs.readdirSync(directory(a)).filter(n=>/^backup-.*\.json$/.test(n)).sort().reverse()){
+    try{const item=read(a,id);return {id,at:item.at};}catch{}
+  }
+  return null;
+}
 function load(a,initial){
-  a.lastBackupAt=list(a).find(r=>!r.invalid)?.at; a.lastBackupAt=Date.parse(a.lastBackupAt||'')||0;
+  const latest=latestValidBackup(a);
+  a.lastBackupAt=Date.parse(latest?.at||'')||0;
   const exists=fs.existsSync(a.file);
-  if(!exists&&!list(a).some(r=>!r.invalid))return initial;
+  if(!exists&&!latest)return initial;
   try{if(!exists)throw new Error('workspace missing');return validate(JSON.parse(fs.readFileSync(a.file,'utf8')));}catch(error){
-    const latest=list(a).find(r=>!r.invalid);if(!latest)throw new Error('工作空间损坏且没有有效备份，原文件已保留。');
+    if(!latest)throw new Error('工作空间损坏且没有有效备份，原文件已保留。');
     const data=read(a,latest.id).data;
     if(exists)fs.copyFileSync(a.file,path.join(a.dir,`workspace-damaged-${Date.now()}.json`));
     a.recoveryFromBackup=true;loadLedger(a,data);reconcileAuthorities(a,data);
@@ -180,7 +215,7 @@ function restore(a,id){
   require('./requirements.cjs').retain(current,restored);
   restored.runtime={...restored.runtime,revision:current.runtime?.revision,commitId:current.runtime?.commitId,executionSchema:current.runtime?.executionSchema,executionMigration:current.runtime?.executionMigration};
   retainLifecycle(current,restored);reconcileAuthorities(a,restored);
-  pause(restored,current);validate(restored);a.data=restored;
+  pause(restored,current);validate(restored);validateArchives(restored);assertStorageCapacity(a,restored);a.data=restored;
   require('./evidence-store.cjs').reconcile(a);
   a.event('工作空间已恢复',`备份时间：${item.at}。后续记录保留供核对；自动推进已暂停。`,null,'warning');a.save();return a.publicState();
 }
@@ -191,4 +226,4 @@ async function dispatch(a,action,input){
   if(action==='backupRestore')return restore(a,input.id);
   throw new Error('未知备份操作');
 }
-module.exports={load,afterSave,list,create,restore,dispatch,validate,pause,mergeLedger,reconcileAuthorities,retainLifecycle};
+module.exports={assertStorageCapacity,maxBackupBytes,read,validateArchives,load,afterSave,list,create,restore,dispatch,validate,pause,mergeLedger,reconcileAuthorities,retainLifecycle};

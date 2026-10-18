@@ -22,7 +22,7 @@ async function backup(x, p) {
   const snap = fallback.snapshot(x.a); snap.roles.execute = {enabled: true, providerId: p.id};
   await x.a.dispatch('modelFallbackSave', snap);
 }
-const complex = {task: {title: 'SG synthetic workflow 上下游梳理', criteria: '核验六张表血缘并交接'}, currentStep: {title: '分析上下游'}};
+const complex = {task: {title: 'SG Remediation 上下游梳理', criteria: '核验六张表血缘并交接'}, currentStep: {title: '分析上下游'}};
 const simple = {task: {title: '整理会议纪要', criteria: '提取待办'}, currentStep: {title: '提取事项'}};
 
 test('Existing installations keep role models until routing is explicitly saved', async t => {

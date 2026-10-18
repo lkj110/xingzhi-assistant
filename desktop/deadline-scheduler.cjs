@@ -62,7 +62,13 @@ function eligibility(a,wake) {
   let gate={allowed:true};
   try{require('./execution-gate.cjs').assert(a,{job,task,automatic:true,readOnly:!!nextStep});if(!nextStep&&a.available){a.available('execute');a.available('verify');if(job)a.available('organize');}}catch(e){gate={allowed:false,reason:e.code||'execution_gate'};}
   if(job?.lastErrorAutomaticRetry===false)gate={allowed:false,reason:'manual_recovery'};
-  if(job?.status==='retry'&&job.nextRunAt&&Date.parse(job.nextRunAt)>Date.now())gate={allowed:false,reason:'retry_due'};
+  const candidate=job&&require('./continuation-control.cjs').peek(a,job,task,{automatic:true});
+  const identity=job&&require('./evidence-identity-preflight.cjs');
+  const identityBlock=candidate?.identity?candidate:job&&identity.action(a,job,candidate?.action);
+  if(identityBlock)gate={allowed:false,reason:identityBlock.reasonCode||identityBlock.reason};
+  const local=candidate?.eligible&&candidate.action&&candidate.action.tool!=='platform_query'&&candidate.action.tool!=='planner';
+  if(job?.status==='retry'&&job.nextRunAt&&Date.parse(job.nextRunAt)>Date.now()&&!local)gate={allowed:false,reason:'retry_due'};
+  if(nextStep&&job){const watchers=(job.watchers||[]).filter(w=>nextStep.watchKeys.includes(w.key));if(watchers.some(w=>identity.action(a,job,{tool:w.tool,args:w.args})))gate={allowed:false,reason:'IDENTITY_SOURCE_WAIT'};}
   if(job&&(job.projectId&&require('./chat-streams.cjs').hasPending(a,job.projectId)||(a.data.connectors||[]).some(c=>(c.jobId===job.id||job.projectId&&c.projectId===job.projectId||(job.connectorIds||[]).includes(c.id))&&c.cursor?.token)))gate={allowed:false,reason:'source_batch_pending'};
   const hasNextStep=view.hasNextStep||!!nextStep;
   return {task,job,view,gate,nextStep,hasNextStep,allowed:gate.allowed&&hasNextStep&&!view.terminal&&!view.paused&&!view.review&&!view.invalidScope&&!view.archived};
@@ -74,7 +80,7 @@ function pending(a,job){return rawPending(a,job).filter(w=>eligibility(a,w).allo
 function claimJob(a,job,operationId){
   const claims=[];
   for(const wake of rawPending(a,job)) {
-    const e=eligibility(a,wake);if(!e.task)continue;
+    const e=eligibility(a,wake);if(!e.task||!e.allowed)continue;
     const claimed=events.claim(a,wake.id,{epoch:epoch(a),gate:e.gate,hasNextStep:e.hasNextStep,operationId,nextStep:e.nextStep,lookupOperation:(id,w)=>lookup(a,id,w)});
     if(claimed)claims.push({...claimed,nextStep:e.nextStep});
   }

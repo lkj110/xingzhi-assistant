@@ -1,13 +1,13 @@
 import ActiveCollection from './ActiveCollection';
 import OfficeConnections from './OfficeConnections';
-import React,{useState,useRef} from 'react';
+import React,{useState,useRef,useEffect} from 'react';
 import {SendPolicy} from './DecisionsPage';
 import FolderConnections from './FolderConnections';
 import WebConnections from './WebConnections';
 import FeedConnections from './FeedConnections';
 import {Link2,Plus,RefreshCw,Pause,Play,Trash2,Check,AlertCircle} from 'lucide-react';
 const when=t=>t?new Date(t).toLocaleString('zh-CN'):'尚未同步';
-const health={healthy:'连接正常',auth:'需要登录',permission:'权限不足',missing_cli:'需要安装 CLI',merge:'等待核对外部动作',unchecked:'待检测',paused:'已暂停',interrupted:'上轮中断，等待续传',error:'读取失败',connection:'连接失败',cursor:'正在恢复断点'};
+const health={binding_required:'待绑定账号',binding_pending:'绑定待核对',identity_binding_unavailable:'读取组件不兼容',healthy:'连接正常',auth:'需要登录',permission:'权限不足',missing_cli:'需要安装 CLI',merge:'等待核对外部动作',unchecked:'待检测',paused:'已暂停',interrupted:'上轮中断，等待续传',error:'读取失败',connection:'连接失败',cursor:'正在恢复断点'};
 export default function ConnectionsPage({data,act,perform,openProjects,openRules}){
   const formRef=useRef(null);
   const [form,setForm]=useState({name:'',kind:'document',target:'',projectId:data.projects.find(p=>!p.archivedAt)?.id||'',intervalMinutes:15,lookbackDays:7,enabled:true});
@@ -25,15 +25,32 @@ export default function ConnectionsPage({data,act,perform,openProjects,openRules
         <label>归属项目<select required aria-label="连接归属项目" disabled={!!form.id} value={form.projectId} onChange={e=>setForm({...form,projectId:e.target.value})}><option value="">选择项目</option>{data.projects.map(p=><option key={p.id} value={p.id} disabled={!!p.archivedAt}>{p.name}{p.archivedAt?'（已归档）':''}</option>)}</select></label>
         <label>同步间隔<select aria-label="连接同步间隔" value={form.intervalMinutes} onChange={e=>setForm({...form,intervalMinutes:Number(e.target.value)})}>{[5,15,30,60,240,1440].map(n=><option key={n} value={n}>每 {n} 分钟</option>)}</select></label>
         {form.kind==='chat'&&<label>首次回看<select aria-label="首次回看" value={form.lookbackDays} onChange={e=>setForm({...form,lookbackDays:Number(e.target.value)})}>{[1,7,30].map(n=><option value={n} key={n}>过去 {n} 天</option>)}</select></label>}
-        <label className="connection-check"><input type="checkbox" checked={form.enabled} onChange={e=>setForm({...form,enabled:e.target.checked})}/>保存后自动同步</label>
+        <label className="connection-check"><input type="checkbox" checked={form.enabled} onChange={e=>setForm({...form,enabled:e.target.checked})}/>绑定账号后自动同步</label>
         {error&&<p className="test-error connection-wide">{error}</p>}
         <div className="connection-wide"><button className="button primary" disabled={!!data.operation}><Plus size={15}/>{form.id?'保存连接设置':'添加信息连接'}</button>{form.id&&<button type="button" className="button" onClick={()=>setForm({...form,id:undefined,name:'',target:''})}>取消编辑</button>}</div>
       </form>}
     </section>
-    <section className="settings-card"><header><div><h2>已连接的来源</h2><p>同步不调用模型；有变化时，由项目原有 Agent 继续处理。</p></div></header>
+    <section className="settings-card"><header><div><h2>已连接的来源</h2><p>同步不调用模型；保存设置后，须明确预览并绑定采集账号。</p></div></header>
       {!data.connectors.filter(c=>!c.provider||c.provider==='lark').length&&<p className="muted">还没有连接来源。</p>}
-      {data.connectors.filter(c=>!c.provider||c.provider==='lark').map(c=><article className="connection-item" key={c.id}><div className="connection-title"><h3>{c.name}</h3><span className="connection-tag">{c.enabled?'自动同步':'已暂停'} · {health[c.health]||'待检查'}</span></div><p>{data.projects.find(p=>p.id===c.projectId)?.name} · {c.kind==='document'?'文档':'会话'}</p><code>{c.target}</code><small>最近成功：{when(c.lastSuccessAt)} · 已导入 {c.imported||0} 份版本 · {c.cursor?.token?'正在继续分页':'断点已保存'}</small>{c.error&&<p className="test-error">{c.error}</p>}{!data.projects.find(p=>p.id===c.projectId)?.jobId&&<p className="muted">此项目尚未建立委托。材料会先保存；创建项目委托后开始自动拆解。</p>}<div className="connection-buttons"><button className="button small" disabled={!!data.operation} onClick={()=>{setForm({...c});formRef.current?.scrollIntoView({block:'center'});}}>编辑连接</button><button className="button small" disabled={!!data.operation} onClick={()=>perform('connectorSync',{id:c.id})}><RefreshCw size={13}/>立即同步／重试</button><button className="button small" disabled={!!data.operation} onClick={()=>perform('connectorToggle',{id:c.id,enabled:!c.enabled})}>{c.enabled?<Pause size={13}/>:<Play size={13}/>} {c.enabled?'暂停同步':'恢复同步'}</button><button className="icon-button" aria-label={`移除连接 ${c.name}`} disabled={!!data.operation} onClick={()=>{if(window.confirm(`移除「${c.name}」？已收集的材料会保留。`))perform('connectorDelete',{id:c.id});}}><Trash2 size={15}/></button></div>{c.kind==='chat'&&<SendPolicy connection={c} data={data} act={act}/>}</article>)}
+      {data.connectors.filter(c=>!c.provider||c.provider==='lark').map(c=><article className="connection-item" key={c.id}><div className="connection-title"><h3>{c.name}</h3><span className="connection-tag">{c.enabled?'自动同步':'已暂停'} · {health[c.health]||'待检查'}</span></div><p>{data.projects.find(p=>p.id===c.projectId)?.name} · {c.kind==='document'?'文档':'会话'}</p><code>{c.target}</code><small>最近成功：{when(c.lastSuccessAt)} · 已导入 {c.imported||0} 份版本 · {c.cursor?.token?'正在继续分页':'断点已保存'}</small>{c.error&&<p className="test-error">{c.error}</p>}<LarkBinding connection={c} data={data} act={act}/>{!data.projects.find(p=>p.id===c.projectId)?.jobId&&<p className="muted">此项目尚未建立委托。材料会先保存；创建项目委托后开始自动拆解。</p>}<div className="connection-buttons"><button className="button small" disabled={!!data.operation} onClick={()=>{setForm({...c});formRef.current?.scrollIntoView({block:'center'});}}>编辑连接</button><button className="button small" disabled={!!data.operation} onClick={()=>perform('connectorSync',{id:c.id})}><RefreshCw size={13}/>立即同步／重试</button><button className="button small" disabled={!!data.operation} onClick={()=>perform('connectorToggle',{id:c.id,enabled:!c.enabled})}>{c.enabled?<Pause size={13}/>:<Play size={13}/>} {c.enabled?'暂停同步':'恢复同步'}</button><button className="icon-button" aria-label={`移除连接 ${c.name}`} disabled={!!data.operation} onClick={()=>{if(window.confirm(`移除「${c.name}」？已收集的材料会保留。`))perform('connectorDelete',{id:c.id});}}><Trash2 size={15}/></button></div>{c.kind==='chat'&&<SendPolicy connection={c} data={data} act={act}/>}</article>)}
     </section></div>
     <aside className="settings-card connection-aside"><h3>从信息到结果</h3><ol><li>选择项目和来源</li><li>自动收集更新并保留出处</li><li>沿用原事项，调整受影响的计划</li><li>按项目授权推进、交付与跟进</li></ol><p>已暂停的项目保持暂停。登录失效或外部执行待核对时会保留断点，处理后点击重试。</p><h3>最近同步</h3>{data.connectorRuns.slice(0,8).map(r=><div className="connection-run" key={r.id}><strong>{data.connectors.find(c=>c.id===r.connectorId)?.name||'已移除的入口'}</strong><small>{when(r.startedAt)}</small><p>{{updated:'已归并新材料',unchanged:'没有变化',partial:'分页处理中',running:'正在同步',error:'需要处理',paused:'已暂停',interrupted:'上轮中断，等待续传'}[r.status]} · 新增 {r.added} 份</p></div>)}</aside>
   </div>;
+}
+
+function LarkBinding({connection:c,data,act}){
+ const [preview,setPreview]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[result,setResult]=useState(null),[enable,setEnable]=useState(c.enabled),confirmRef=useRef(null),previewRef=useRef(null),returnFocus=useRef(false);
+ const identity=c.larkBinding?.identity;
+ useEffect(()=>{if(busy)return;if(preview)confirmRef.current?.focus();else if(returnFocus.current){returnFocus.current=false;previewRef.current?.focus();}},[preview?.previewToken,busy]);
+ async function inspect(){setBusy(true);setError('');setResult(null);try{const value=await act('connectorIdentityPreview',{id:c.id});setEnable(c.enabled);setPreview(value);}catch(e){setError(e.message);}finally{setBusy(false);}}
+ async function confirm(){setBusy(true);setError('');try{const value=await act('connectorBindPrincipal',{id:c.id,previewToken:preview.previewToken,operationId:preview.operationId,enableAfterBind:enable});setResult(value);if(value.status==='bound'){returnFocus.current=true;setPreview(null);await act('state');}}catch(e){setError(e.message+'；请先核对原操作结果，再决定是否重新预览。');}finally{setBusy(false);}}
+ async function reconcile(){setBusy(true);setError('');try{setResult(await act('connectorBindingResult',{id:c.id,operationId:preview?.operationId||c.pendingLarkBinding?.operationId||c.larkBinding?.operationId}));await act('state');}catch(e){setError(e.message);}finally{setBusy(false);}}
+ const labels={bound:'账号已绑定；同步使用此账号，全局 CLI 切号不会更换它。',pending:'绑定尚未完成；若授权已记录，点击同步／重试核对并完成原操作，不会重复授权。',revoked:'原操作的权限已失效；普通保存和重试不会重新授权。',superseded:'此操作已被后续设置取代，未恢复自动同步。',unknown:'未找到完整回执；请核对当前状态后重新预览。'};
+ return <section className="connection-help" aria-label={`账号绑定 ${c.name}`}>
+  <p>{identity?`绑定账号：${identity.openId} · 租户：${identity.tenantId} · ${identity.brand} / ${identity.appId}`:'尚未绑定采集账号；旧材料和断点已保留。'}</p>
+  <small>当前支持 lark-cli 1.0.65。预览只核验身份，不读取正文或授权；确认后仅允许此来源采集及本地保留/读取。新账号使用新窗口，旧窗口保留。</small>
+  <div className="connection-buttons"><button ref={previewRef} type="button" className="button small" disabled={busy||!!data.operation} onClick={inspect}>{identity?'预览并重新绑定账号':'预览采集账号'}</button>{(preview||c.pendingLarkBinding)&&<button type="button" className="button small" disabled={busy} onClick={reconcile}>核对绑定结果</button>}</div>
+  {preview&&<div role="group" aria-label="确认采集账号"><p>确认绑定预览账号 {preview.identity.openId}，租户 {preview.identity.tenantId}，应用 {preview.identity.appId}（{preview.identity.brand}）。</p><p>来源：{preview.target}；项目：{data.projects.find(p=>p.id===preview.projectId)?.name}</p><label><input type="checkbox" checked={enable} disabled={busy} onChange={e=>setEnable(e.target.checked)}/>绑定完成后启用自动同步</label><div className="connection-buttons"><button ref={confirmRef} type="button" className="button primary" disabled={busy} onClick={confirm}>确认绑定此账号</button><button type="button" className="button" disabled={busy} onClick={()=>{returnFocus.current=true;setPreview(null);}}>取消绑定预览</button></div></div>}
+  {result&&<p role="status">{labels[result.status]||'请核对绑定状态'}</p>}{error&&<p className="test-error" role="alert">{error}</p>}
+ </section>;
 }

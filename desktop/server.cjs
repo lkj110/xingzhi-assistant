@@ -27,7 +27,7 @@ function startServer({ dir = process.env.ASSISTANT_DATA_DIR || path.join(__dirna
         for await (const part of req) { size += part.length; if (size > 36_000_000) throw new Error('请求内容超过 36 MB，请分批提交材料'); chunks.push(part); }
         const { action, input } = JSON.parse(Buffer.concat(chunks).toString('utf8'));
         return respond(res, 200, { data: await assistant.dispatch(action, input) });
-      } catch (error) { return respond(res, 400, { error: error.message }); }
+      } catch (error) { return respond(res, 400, { error: error.message, ...(error.code?{code:error.code}:{}), ...(typeof error.committed==='boolean'?{committed:error.committed}:{}) }); }
     }
     if (req.method !== 'GET') return respond(res, 405, { error: 'Method not allowed' });
     const root = path.resolve(__dirname, '../dist');

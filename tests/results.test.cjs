@@ -9,6 +9,7 @@ function ready(a,id='one'){
 }
 test('One current document and six historical versions remain unambiguous, even with identical titles',()=>{
   const a=setup(),task=ready(a);for(let i=0;i<6;i++)a.data.artifacts.push({id:'old-'+i,taskId:task.id,stepId:task.steps[0].id,title:'完整修订版',content:'旧正文',createdAt:'2026-10-13T00:00:00Z'});
+  task.verification.basis=acceptance.basis(a,task);
   const before=JSON.stringify(a.data),view=overview(a),g=view.groups[0];assert.equal(g.primaryId,'one-current');assert.equal(g.ready,true);assert.equal(g.current.length,1);assert.equal(g.history.length,6);assert.equal(view.counts.current,1);assert.equal(view.counts.history,6);assert.equal(g.verification.summary,task.verification.summary);assert.equal(JSON.stringify(a.data),before);assert.equal(view.modelCalls,0);assert.equal(view.networkRequests,0);
 });
 test('Revisions never promote the newest unreferenced draft or a failed step as the current result',()=>{
@@ -44,17 +45,17 @@ test('Duplicate references deduplicate and grouping keeps independent tasks and 
   const a=setup(),one=ready(a),two=ready(a,'two');one.steps.push({...one.steps[0]});two.projectId='p';a.data.projects.push({id:'p',name:'P'});const v=overview(a);assert.equal(v.counts.current,2);assert.equal(v.groups.find(g=>g.id==='one').projectId,null);assert.equal(v.groups.find(g=>g.id==='two').projectName,'P');assert.equal(v.groups.find(g=>g.id==='one').current.length,1);
 });
 
-test('Read-only presentation checks share results and invalidate on in-place changes',()=>{
+test('Read-only presentation checks revalidate without hashing unrelated workspace history',()=>{
   const a={data:{tasks:[],artifacts:[],sources:[]}};
   const t={id:'cache-task',status:'review',steps:[]};a.data.tasks.push(t);
   let calls=0;const original=acceptance.reasons;
   acceptance.reasons=(...args)=>{calls++;return original(...args);};
   try {
     const first=acceptance.presentationChecks(a)(t);first.length=0;
-    assert.ok(acceptance.presentationChecks(a)(t).length>0,'callers cannot mutate cached verdicts');
-    assert.equal(calls,1);
+    assert.ok(acceptance.presentationChecks(a)(t).length>0,'callers cannot mutate later verdicts');
+    assert.equal(calls,2);
     t.verification={passed:true,summary:'New verification',gaps:[]};
-    acceptance.presentationChecks(a)(t);assert.equal(calls,2);
-    acceptance.presentationChecks(a)(t,true);assert.equal(calls,3,'completion and review checks are distinct');
+    acceptance.presentationChecks(a)(t);assert.equal(calls,3);
+    acceptance.presentationChecks(a)(t,true);assert.equal(calls,4,'completion and review checks are distinct');
   } finally {acceptance.reasons=original;}
 });

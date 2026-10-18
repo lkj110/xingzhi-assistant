@@ -7,14 +7,33 @@ const excluded = new Set(['.git','node_modules','.venv','venv','vendor','dist','
 const lintPaths = ['_lint_common.py','sql_anti_pattern_linter.py','py_anti_pattern_linter.py'].map(name => `scripts/governance/lint/${name}`);
 const validPath = value => value && !path.isAbsolute(value) && !value.split(/[\\/]/).some(part => part === '..' || part === '.' || !part);
 const included = name => validPath(name) && !name.split('/').some(part => excluded.has(part)) && (name.endsWith('.md') || name === 'package.json' || lintPaths.includes(name));
+const sameIdentity=(before,after)=>['dev','ino','mode','nlink','size','mtimeNs','ctimeNs'].every(key=>before[key]===after[key]);
+const fileChanged=()=>Object.assign(Error('能力文件或父目录身份在读取期间变化，已拒绝读取'),{code:'CAPABILITY_FILE_CHANGED'});
 
 function readFile(root, relative) {
   if (!validPath(relative)) throw Error('能力文件路径无效');
   const target = path.join(root, relative);
-  if (!fs.realpathSync(target).startsWith(root + path.sep) || fs.lstatSync(target).isSymbolicLink()) throw Error('能力文件超出授权仓库');
-  const stat = fs.statSync(target);
-  if (!stat.isFile() || stat.size > 1000000) throw Error('能力文件不是普通文件或超过 1 MB');
-  return fs.readFileSync(target);
+  if (!fs.realpathSync(target).startsWith(root + path.sep) || fs.realpathSync(target) !== target) throw Error('能力文件超出授权仓库或含符号链接');
+  const directories=[root];let parent=root;
+  for(const segment of path.relative(root,path.dirname(target)).split(path.sep).filter(Boolean)){parent=path.join(parent,segment);directories.push(parent);}
+  const parents=directories.map(directory=>{
+    const stat=fs.lstatSync(directory,{bigint:true});
+    if(!stat.isDirectory()||stat.isSymbolicLink())throw fileChanged();
+    return {directory,stat};
+  });
+  const before=fs.lstatSync(target,{bigint:true});
+  if(!before.isFile()||before.nlink!==1n||before.size>1000000n)throw Error('能力文件不是独立普通文件或超过 1 MB');
+  const descriptor=fs.openSync(target,fs.constants.O_RDONLY|fs.constants.O_NOFOLLOW);
+  try{
+    const verify=()=>{
+      if(!sameIdentity(before,fs.fstatSync(descriptor,{bigint:true}))||!sameIdentity(before,fs.lstatSync(target,{bigint:true}))||parents.some(entry=>!sameIdentity(entry.stat,fs.lstatSync(entry.directory,{bigint:true}))))throw fileChanged();
+    };
+    verify();
+    const bytes=Buffer.alloc(Number(before.size)+1);let offset=0;
+    while(offset<bytes.length){const count=fs.readSync(descriptor,bytes,offset,bytes.length-offset,null);if(!count)break;offset+=count;}
+    verify();if(offset!==Number(before.size))throw fileChanged();
+    return bytes.subarray(0,offset);
+  }finally{fs.closeSync(descriptor);}
 }
 
 function rootOf(value) {

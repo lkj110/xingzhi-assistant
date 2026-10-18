@@ -78,7 +78,7 @@ function build(a,input={}) {
   const replaced = new Set(rows(data.sources).filter(s=>!s.projectExcluded && s.previousSourceId && scope(s.projectId)!==null && scope(s.projectId)===scope(sources.get(s.previousSourceId)?.projectId) && sources.has(s.previousSourceId)).map(s=>s.previousSourceId));
   function completion(task) {
     if (!task || task.status!=='completed' || task.agentCancelled || task.needsReplan || task.verification?.passed!==true || !Array.isArray(task.verification?.gaps) || task.verification.gaps.some(Boolean) || !Array.isArray(task.steps) || !task.steps.length || task.steps.some(step=>!object(step)||!['draft','analysis','external'].includes(step.kind)||step.done!==true)) return 'unverified';
-    if (task.verification.basis && task.verification.basis !== require('./acceptance.cjs').basis(a,task)) return 'unverified';
+    if (task.completionMode==='manual' || !require('./acceptance.cjs').currentBasis(a,task)) return 'unverified';
     const owner = taskScope(task);
     if (strings(task.sourceIds).filter(id=>!strings(task.supersededSourceIds).includes(id)).some(id=>{const s=sources.get(id);return !s||s.deleted||s.projectExcluded||replaced.has(id)||scope(s.projectId)!==owner;})) return 'unverified';
     let manual = false;

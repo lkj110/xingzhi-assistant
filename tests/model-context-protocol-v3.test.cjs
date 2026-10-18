@@ -22,6 +22,6 @@ test('oversized subscription input is rejected locally without unknown usage or 
 test('CLI input rejection is classified from a recognized stderr line without exposing raw output',()=>{
  const error=subscription.inputFailure('PRIVATE\nError: turn/start: turn/start failed: Input exceeds the maximum length of 1048576 characters. (code -32602), data: {"input_error_code":"input_too_large","max_chars":1048576,"actual_chars":1126243}\n');
  assert.equal(error.code,'MODEL_CONFIG');assert.equal(error.automaticRetry,false);assert.ok(!error.message.includes('PRIVATE'));
- assert.deepEqual(errors.diagnostic(error),{source:'codex_cli',kind:'input_too_large',maxChars:1048576,actualChars:1126243});
+ assert.deepEqual(errors.diagnostic(error),{source:'codex_cli',kind:'input_too_large',maxChars:1048576,actualChars:1126243,inputPolicyVersion:require('../desktop/model-input.cjs').POLICY_VERSION});
  assert.equal(subscription.inputFailure(JSON.stringify({type:'agent_message',text:'Error: turn/start: turn/start failed: Input exceeds the maximum length of 100 characters. "actual_chars":200'})),null);
 });

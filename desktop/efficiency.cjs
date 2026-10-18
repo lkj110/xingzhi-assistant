@@ -14,7 +14,7 @@ function compact(value){
 }
 async function call(a,provider,key,messages,options,invoke){
   const start=Date.now(),job=a.activeAgentJob,run=a.activeAgentRun,taskRun=a.activeSpendRun,price=options.spendTicket?.pricing||spend.pricing(provider);
-  const row={id:crypto.randomUUID(),at:new Date().toISOString(),jobId:job?.id||null,taskId:a.activeSpendTask?.id||null,runId:run?.id||taskRun?.id||null,spendScope:options.spendTicket?.scopeKey||null,pricing:price,role:options.role||'execute',stage:options.stage||'work',providerId:provider.id||null,requestId:options.requestId||null,attempt:options.attempt||1,fallbackFrom:options.fallbackFrom||null,model:provider.model,reasoning:provider.reasoning||null,inputChars:messages.reduce((n,m)=>n+String(m.content||'').length,0),status:'running'};
+  const row={...(provider.type==='codex'?{producerSchema:2}:{}),id:crypto.randomUUID(),at:new Date().toISOString(),jobId:job?.id||null,taskId:a.activeSpendTask?.id||null,runId:run?.id||taskRun?.id||null,spendScope:options.spendTicket?.scopeKey||null,spendTicketId:options.spendTicket?.id||null,pricing:price,role:options.role||'execute',stage:options.stage||'work',providerId:provider.id||null,requestId:options.requestId||null,attempt:options.attempt||1,fallbackFrom:options.fallbackFrom||null,model:provider.model,reasoning:provider.reasoning||null,inputChars:messages.reduce((n,m)=>n+String(m.content||'').length,0),status:'running'};
   a.data.modelCalls ||= [];a.data.modelCalls.unshift(row);a.data.modelCalls=a.data.modelCalls.slice(0,1000);
   row.taskRunId=taskRun?.id||null;row.providerName=provider.name||null;row.providerType=provider.type||null;
   if(options.routing)row.routing=pick(options.routing,['mode','tier','reason','primaryId']);
@@ -36,7 +36,8 @@ async function call(a,provider,key,messages,options,invoke){
   }
 }
 function action(a,job,step){
-  require('./work-efficiency.cjs').assertAllowed(a,job);
+  const task=a.data.tasks.find(t=>t.id===(step.args?.taskId||step.args?.existingTaskId));
+  require('./work-efficiency.cjs').assertAllowed(a,job,{task,stage:'dispatch',action:step});
   const signature=crypto.createHash('sha256').update(JSON.stringify({tool:step.tool,args:step.args})).digest('hex');
   const duplicate=job.lastActionSignature===signature;
   if(duplicate)job.repeatedActions=(job.repeatedActions||0)+1;
@@ -65,9 +66,11 @@ function resetProgress(job){delete job.progressGuard;delete job.lastActionSignat
 function checkProgress(a,job,step,before){
   // Persist diagnostics even when the efficiency guard yields this attempt.
   const repairError=require('./repair-progress.cjs').check(a,job,step,{deferThrow:true});
-  const work=require('./work-efficiency.cjs').observe(a,job,step);
+  const managed=step.continuation?.handled===true;
+  const work=managed?{allowed:job.status!=='blocked',phase:job.status==='blocked'?'awaiting_change':'working'}:require('./work-efficiency.cjs').observe(a,job,step);
   step.workEfficiency=work;
   if(!work.allowed)return work; // Yield to automatic strategy recovery, without a fee/decision dialog.
+  if(managed)return work; // Direct continuation owns its finite hop/cycle accounting.
   if(repairError)throw repairError;
   const ledger=require('./operation-ledger.cjs'),evidence=require('./evidence-basis.cjs'),state=ledger.state(job),after=progress(a,job);
   state.progressBasis=after;state.stalls ||= {};state.stallBases ||= {};

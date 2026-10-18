@@ -28,4 +28,5 @@ function hostToolError(item) {
     ...(['in_progress','completed','failed','pending'].includes(item.status)?{itemStatus:item.status}:{})};
   return error;
 }
-module.exports = {configuration,instructions,hostToolError,hostItemTypes};
+function serialize(messages){return instructions+'\nAPPLICATION MESSAGES:\n'+JSON.stringify(messages);}
+module.exports = {configuration,instructions,hostToolError,hostItemTypes,serialize};

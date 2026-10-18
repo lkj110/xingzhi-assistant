@@ -1,7 +1,7 @@
 // A cursor is consumed only in the same durable commit as its page.
 const basis=require('./evidence-basis.cjs');
 const stamp=()=>new Date().toISOString();
-function scope(c){return basis.hash({id:c.id,provider:c.provider,kind:c.kind,target:c.target,project:c.projectId,credential:c.sealedToken||null,revision:c.permissionRevision||0});}
+function scope(c){return basis.hash({id:c.id,provider:c.provider,kind:c.kind,target:c.target,project:c.projectId,credential:c.sealedToken||null,revision:c.permissionRevision||0,...(!c.provider||c.provider==='lark'?{binding:c.larkBinding||null}:{})});}
 function begin(c,range){
  const key=scope(c);
  if(c.syncWindow?.scope===key&&c.syncWindow.status==='blocked')throw Object.assign(Error('检测到分页循环，同步断点已保留。请点击同步重新扫描此窗口。'),{connectorCode:'cursor_cycle'});

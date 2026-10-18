@@ -4,7 +4,13 @@
 
 A local-first desktop assistant with multi-provider AI, task execution, source tracking, and human review. Built with Electron, React, and native macOS OCR helpers.
 
-[下载安装包](https://github.com/lkj110/xingzhi-assistant/releases/latest) · [使用说明](docs/USER_GUIDE.md) · [模型接入](docs/MODEL_PROVIDERS.md) · [贡献指南](CONTRIBUTING.md)
+[下载现有 0.40.0 安装包](https://github.com/lkj110/xingzhi-assistant/releases/latest) · [使用说明](docs/USER_GUIDE.md) · [模型接入](docs/MODEL_PROVIDERS.md) · [贡献指南](CONTRIBUTING.md)
+
+## 本次源码更新
+
+本次为 **0.42.4 源码更新**，不是新安装包发行。本次不创建新的 GitHub Release 或上传发行资产，现有 `latest` 安装包仍为 **0.40.0**，不能将该链接视作 0.42.4 下载。
+
+私有最终安装包与公开源码分别记录候选 commit、验证结果及交付身份，不互相代替。公共源码缺少私有历史合同/证据时，正式打包入口明确失败；公共 default 测试通过不授予正式发行资格。
 
 ## 能做什么
 
@@ -18,7 +24,7 @@ A local-first desktop assistant with multi-provider AI, task execution, source t
 
 ## 安装与首次使用
 
-当前公开版本为 **v0.40.0**。发布的 DMG / ZIP 面向 **Apple Silicon Mac，macOS 13+**；其他平台尚未验证。
+现有 `latest` 安装包及公开发行说明为 **v0.40.0**；本次 **0.42.4 源码更新没有创建新 GitHub Release/资产**。现有 DMG / ZIP 面向 **Apple Silicon Mac，macOS 13+**；其他平台尚未验证。
 
 1. 在 [Releases](https://github.com/lkj110/xingzhi-assistant/releases) 下载 DMG，将「行知助手.app」拖入 Applications。
 2. 打开「模型与设置」，选择服务商预设，填写自己的密钥与模型 ID，保存后测试连接。也可连接已启动的本地模型服务。
@@ -47,11 +53,13 @@ npm test                  # 单元与集成测试；合成数据，不调用真�
 npm run test:models       # 模型协议、路由和备用接续
 npm run test:models:desktop # 隔离 Electron 的多模型界面流程
 npm run test:desktop      # 全套隔离桌面场景
-npm run package:share     # 在 Apple Silicon Mac 生成 DMG / ZIP / SHA-256
-npm run test:share        # 挂载、解压并启动实际打包应用验证
+npm run package:share     # 受控发行入口；没有完整门禁证据时拒绝打包
+npm run test:share        # 仅用于已有实际包的验证，不替代发行门禁
 ```
 
 `test:*:subscription` 与订阅评估脚本是可选的真实模型测试，会消耗个人额度；默认测试和 CI 不运行它们。第三方办公服务、企业数据平台和专用能力仓库需要另行获得权限，不是开箱即用的公共服务。
+
+公共默认测试保留合成恢复、安全隔离和拒绝绕过覆盖，不包含私人安装回执或真实历史快照。缺失私人证据的历史入口明确以 `PRIVATE_HISTORY_UNAVAILABLE` 非零退出；公共测试通过不等于私有七组发行门禁通过。源码验证、私有最终包验证和公开上传分别结算；正式发行不能仅凭公共 default 通过，详见 [公共测试边界](docs/PUBLIC-TESTING.md)。
 
 ## 数据如何处理
 

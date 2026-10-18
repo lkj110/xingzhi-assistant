@@ -6,7 +6,7 @@ const hash=value=>crypto.createHash('sha256').update(typeof value==='string'?val
 const clone=value=>JSON.parse(JSON.stringify(value));
 function body(row){let previous=bodies.get(row);if(previous?.content===row.content)return previous;const content=String(row.content||'');previous={content,revision:hash(content),preview:content.slice(0,1000).replace(/\s+/g,' ').slice(0,130)};bodies.set(row,previous);return previous;}
 const omit=(row,keys)=>Object.fromEntries(Object.entries(row).filter(([key])=>!keys.includes(key)));
-function source(row){const b=body(row);return {...omit(row,['content','segments']),content:b.preview,preview:b.preview,segments:[],contentChars:b.content.length,bodyRevision:b.revision,detailDeferred:true};}
+function source(row){const b=body(row);return {...omit(row,['content','segments','platformArchive']),...(row.platformArchive?{platformArchiveOmitted:true}:{}),content:b.preview,preview:b.preview,segments:[],contentChars:b.content.length,bodyRevision:b.revision,detailDeferred:true};}
 function artifact(row){const b=body(row);return {...row,content:'',contentChars:b.content.length,bodyRevision:b.revision,detailDeferred:true};}
 function run(row){return {...row,steps:[],stepCount:row.steps?.length||0,detailDeferred:true};}
 function projection(data){
@@ -19,7 +19,7 @@ function projection(data){
   modelCalls:(data.modelCalls||[]).slice(0,8),
   projectChanges:(data.projectChanges||[]).map(row=>omit(row,['snapshot']))
  };
- return clone(value);
+ return require('./public-context.cjs').excludePlatformArchives(clone(value));
 }
 function stamp(a){
  const paths=require('./access-policy-store.cjs').locations(a);
@@ -80,5 +80,5 @@ function detail(a,input={}){
  }
  throw Error('不支持的详情类型');
 }
-function command(a,input){if(!input||typeof input.action!=='string'||['uiCommand','stateView','viewDetail'].includes(input.action))throw Error('界面操作无效');return request.run({summary:true},()=>a.dispatch(input.action,input.input||{}));}
-module.exports={projection,view,detail,command,summaryRequested:()=>request.getStore()?.summary===true,finalize,stamp};
+function command(a,input){if(!input||typeof input.action!=='string'||['uiCommand','stateView','viewDetail'].includes(input.action))throw Error('界面操作无效');return request.run({summary:true,assistant:a,action:input.action},()=>a.dispatch(input.action,input.input||{}));}
+module.exports={projection,view,detail,command,summaryRequested:()=>request.getStore()?.summary===true,trustedCommand:(a,action)=>request.getStore()?.assistant===a&&request.getStore()?.action===action,finalize,stamp};

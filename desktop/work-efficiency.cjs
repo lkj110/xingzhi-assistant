@@ -1,7 +1,7 @@
 // Parent integration (all arguments are App-owned, never model-supplied):
 // before(a, job) BEFORE planning/model/spend reservation; persist its returned state.
 // observe(a, job, step) AFTER each attempt, including failures, then save.
-// observeCall(a, job, {taskId, role, result}) counts each read_context response.
+// Legacy readAttempt/observeCall count attempts; new loops must use readResult.
 // next(a, job) uses the existing deterministic scheduler before asking a planner.
 // Programmatic pagination is owned by context-batch; it never renews this guard.
 // No API grants access, accepts work, increases a budget or creates a decision.
@@ -108,8 +108,14 @@ function migrateProgress(a,job,state,current){
  state.seen=unique([...seen.filter(f=>!f.startsWith('artifact:')),...baseline]).slice(0,LIMITS.maxFacts);state.progressVersion=1;
 }
 function sync(a,job,{credit=true}={}){
+ let state=job.executionState?.workEfficiency;
+ // The continuation owns this episode. Legacy intent hashing must not replace
+ // its saved attempt history when upgrading or publishing a repaired draft.
+ const validation=require('./repair-validation.cjs').active(job);
+ const sameValidation=validation&&validation.expectedWorkRevision===(job.workRevision??1)&&tasks(a,job).some(t=>t.id===validation.taskId&&(t.workRevision??1)===validation.expectedTaskRevision);
+ if(state&&(require('./continuation-control.cjs').engaged(a,job)||sameValidation))return {state,changed:false};
  const current=snapshot(a,job);require('./operation-ledger.cjs').state(job);
- let state=job.executionState.workEfficiency;
+ state=job.executionState.workEfficiency;
  if(state&&(job.deletedAt||!require('./work-state.cjs').gate(a,job).automaticAllowed))return {state,changed:false};
  if(!state||state.intent!==current.intent){
   const prior=state;state=job.executionState.workEfficiency={version:2,progressVersion:1,intent:current.intent,seen:unique([...current.facts,...priorDrafts(a,job)]).slice(0,LIMITS.maxFacts),attempts:0,phase:'working',tried:{},history:[],updatedAt:now(),reason:prior?'new_user_requirements':'baseline'};
@@ -141,7 +147,7 @@ function before(a,job){return status(sync(a,job).state);}
 function observe(a,job,step={}){
  const {state,changed}=sync(a,job,{credit:!['plan_task','revise_task','wait','ask','cancel_task','retire_output'].includes(step.tool)});
  if(['recovery_pending','awaiting_change'].includes(state.phase))return status(state);
- if(!changed)state.attempts++;
+ if(!changed)state.attempts=(Number.isSafeInteger(state.attempts)&&state.attempts>=0?state.attempts:0)+1;
  state.updatedAt=now();state.lastTool=step.tool||null;
  if(state.active){
   if(step.tool!=='model_read_context')delete state.active.inFlight;
@@ -161,8 +167,30 @@ function readAttempt(a,job,{taskId}={}){
  if(taskId&&!tasks(a,job).some(t=>t.id===taskId))throw Error('读取尝试超出委托范围');
  return observe(a,job,{tool:'model_read_context',args:{taskId}});
 }
+/** New read-loop API (App-owned input):
+ * readResult(a, job, {taskId?, rows: batch.rows, visibleContext: modelInput}).
+ * Call after generation-context.readBatch returns and persist afterwards.
+ * Never pass the model's read_context request as a result; cache hits are valid.
+ * Reading progress never calls sync with credit or clears global failure history.
+ */
+function readResult(a,job,{taskId,rows,visibleContext,deferExhaustion=false,check}={}){
+ if(taskId&&!tasks(a,job).some(t=>t.id===taskId))throw Error('读取结果超出委托范围');
+ if(!Array.isArray(rows)||!visibleContext||typeof visibleContext!=='object')throw new TypeError('readResult requires rows and visibleContext');
+ const state=job.executionState?.workEfficiency||sync(a,job,{credit:false}).state;
+ const reading=(state.reading ||= {}),local=(reading[taskId||'job'] ||= {});
+ const progress=protocol.recordReadResults(local,rows,visibleContext,check);
+ if(progress.exhausted&&!deferExhaustion)return {...request(a,job,{code:'CONTEXT_INVALID_REQUEST',message:'重复读取本次输入已可见资料或空检索/无效读取已达上限，需要改变读取范围或进入定向分析。',taskId}),reading:progress};
+ return {...status(state),reading:progress};
+}
 function observeCall(a,job,{taskId,result}={}){return result?.kind==='read_context'?readAttempt(a,job,{taskId}):before(a,job);}
-function assertAllowed(a,job){
+function assertAllowed(a,job,options={}){
+ // A closed execution gate is not a failed business strategy. Classify it
+ // before consulting legacy progress counters or yielding controller ownership.
+ require('./execution-gate.cjs').assert(a,{job,task:options.task});
+ if(require('./model-preflight-recovery.cjs').permits(a,job,options))return {allowed:true,phase:'working'};
+ if(require('./pending-check.cjs').permits(a,job,options))return {allowed:true,phase:'working'};
+ const owner=job.executionState?.continuation?.activeTaskId;
+ if((!options.task||owner===options.task.id)&&require('./continuation-control.cjs').ready(a,job,{taskId:options.task?.id,stage:options.stage})===true)return {allowed:true,phase:'working'};
  const result=before(a,job);
  if(!result.allowed)throw Object.assign(Error('正在自动纠偏：'+(job.executionState.workEfficiency.lastFailure?.message||'已保存资料，需要切换推进方式')),{code:result.code||'WORK_STRATEGY_WAIT',workEfficiency:true,noProgress:true,automaticRetry:false,requiresConfirmation:false});
  return result;
@@ -182,4 +210,4 @@ function initialize(a){
   if(old&&old.progressVersion!==1)migrateProgress(a,job,old,snapshot(a,job));
  }
 }
-module.exports={LIMITS,intent,snapshot,sync,request,before,observe,observeCall,readAttempt,view,inspect,assertAllowed,next,initialize};
+module.exports={LIMITS,intent,snapshot,sync,request,before,observe,observeCall,readAttempt,readResult,view,inspect,assertAllowed,next,initialize};

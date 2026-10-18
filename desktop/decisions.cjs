@@ -77,7 +77,7 @@ function ask(a,j,args){
   if(!Array.isArray(sourceIds)||sourceIds.some(id=>!j.sourceIds.includes(id)))throw new Error('问题依据必须来自本委托');
   const key=String(args.key||question).slice(0,2000),basis=signature(a,j);
   const existing=a.data.decisions.find(r=>r.jobId===j.id&&r.kind==='question'&&r.key===key&&r.status==='open');
-  const answered=a.data.decisions.find(r=>r.jobId===j.id&&r.key===key&&r.status==='answered'&&r.question===question&&r.answerBasis===basis);
+  const answered=a.data.decisions.find(r=>r.jobId===j.id&&r.key===key&&r.status==='answered'&&r.origin!=='execution_recovery'&&r.question===question&&r.answerBasis===basis);
   if(answered)return {alreadyAnswered:true,answer:answered.answer,taskIds:answered.taskIds};
   const row=existing||{id:crypto.randomUUID(),jobId:j.id,projectId:j.projectId,kind:'question',key,createdAt:now()};
   const decisionType=args.decisionType==='information'?'information':'choice',same=existing&&existing.question===question&&existing.decisionType===decisionType;

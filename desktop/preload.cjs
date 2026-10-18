@@ -1,10 +1,12 @@
 const { contextBridge, ipcRenderer } = require('electron');
+const navigationRoutes=Object.freeze(['attention','capture','settings','board','help','guide','decisions','decisions:progress','decisions:review']);
 contextBridge.exposeInMainWorld('assistant', {
   desktop: true,
+  navigationRoutes,
   quickCaptureSupported: process.argv.includes('--assistant-quick-capture-supported'),
   quickCaptureWindow: process.argv.includes('--assistant-quick-capture-window'),
   onNavigate: callback => {
-    const handler=(_event,page)=>{if(['attention','capture','settings','board'].includes(page))callback(page);};
+    const handler=(_event,page)=>{if(navigationRoutes.includes(page))callback(page);};
     ipcRenderer.on('assistant:navigate',handler);
     return ()=>ipcRenderer.removeListener('assistant:navigate',handler);
   },

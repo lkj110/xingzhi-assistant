@@ -211,14 +211,17 @@ test('V13 independent audit: scoped calendar and attention never expose another 
 
 function completedWork(t){const result=localWork(t);result.task.status='completed';result.task.completedAt=new Date().toISOString();result.task.verification.basis=acceptance.basis(result.a,result.task);return result;}
 const completedCards=a=>attention.snapshot(a,{category:'completion'}).items;
-test('V13 independent audit: unchanged completion polling and saves reuse the full-data validation result',t=>{
+test('V13 independent audit: completion polling revalidates current dependencies without mutating business state',t=>{
   const {a,task}=completedWork(t),reasons=acceptance.reasons;let calls=0;
   acceptance.reasons=(...args)=>{calls++;return reasons(...args);};t.after(()=>{acceptance.reasons=reasons;});
   const business=()=>{const data=structuredClone(a.data);delete data.runtime?.commitId;delete data.runtime?.revision;return data;};const before=business(),commitBefore=a.data.runtime.commitId,revisionBefore=a.data.runtime.revision;assert.equal(completedCards(a).length,1);assert.equal(calls,1);
-  completedCards(a);a.publicState();a.save();assert.equal(calls,1);assert.deepEqual(business(),before);assert.notEqual(a.data.runtime.commitId,commitBefore);assert.ok(a.data.runtime.revision>revisionBefore);
+  completedCards(a);assert.equal(calls,2,'a new presentation call revalidates its selected task');
+  a.publicState();assert.ok(calls>2,'public UI must not retain an earlier acceptance verdict');
+  a.save();assert.deepEqual(business(),before);assert.notEqual(a.data.runtime.commitId,commitBefore);assert.ok(a.data.runtime.revision>revisionBefore);
+  const afterSave=calls;
   task.updatedAt=new Date(Date.now()+1000).toISOString();
-  assert.equal(completedCards(a).length,1);assert.equal(calls,2,'even an in-place timestamp-only edit changes the full-data cache key');
-  completedCards(a);assert.equal(calls,2);
+  assert.equal(completedCards(a).length,1);assert.equal(calls,afterSave+1,'an in-place change is revalidated without relying on a whole-workspace hash');
+  completedCards(a);assert.equal(calls,afterSave+2,'unchanged UI reads also revalidate; pure inner projections own their synchronous cache');
 });
 
 test('V13 independent audit: every changed completion dependency invalidates a previously cached card',t=>{

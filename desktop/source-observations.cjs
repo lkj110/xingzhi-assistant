@@ -2,7 +2,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const {hash: digest, canonical} = require('./evidence-basis.cjs');
+const {hash: digest, canonical, sourceTitle} = require('./evidence-basis.cjs');
 const now = () => new Date().toISOString();
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 const rows = value => Array.isArray(value) ? value : [];
@@ -276,7 +276,7 @@ function observe(a, source, options = {}) {
     if(!options.eventId)throw Error('重新关联已关闭来源需要稳定用户事件 ID');
     id='observation-'+digest([id,'explicit_input',options.eventId]);old=a.data.sourceObservations.find(o=>o.observationId===id);
   }
-  const existing=rows(a.data.sources).find(s=>(s.projectId||null)===d.scope.projectId&&(!d.scope.jobId||d.scope.projectId||s.agentJobId===d.scope.jobId)&&resourceKey(s.resourceKey||s.url||s.remoteId||s.origin||s.identity)===d.resourceKey&&same(principal(s.principalScope),d.principalScope)&&typeof s.content==='string'&&hash(s.content)===d.contentHash&&(s.remoteRevision==null?null:String(s.remoteRevision))===d.remoteRevision&&!s.deleted&&!s.projectExcluded&&!rows(a.data.sources).some(n=>n.previousSourceId===s.id));
+  const existing=rows(a.data.sources).find(s=>(s.projectId||null)===d.scope.projectId&&(!d.scope.jobId||d.scope.projectId||s.agentJobId===d.scope.jobId)&&resourceKey(s.resourceKey||s.url||s.remoteId||s.origin||s.identity)===d.resourceKey&&same(principal(s.principalScope),d.principalScope)&&typeof s.content==='string'&&hash(s.content)===d.contentHash&&sourceTitle(s)===sourceTitle(source)&&!!s.deleted===!!source.deleted&&(s.remoteRevision==null?null:String(s.remoteRevision))===d.remoteRevision&&!s.deleted&&!s.projectExcluded&&!rows(a.data.sources).some(n=>n.previousSourceId===s.id));
   const o={...old,...d,observationId:id,sourceId:old?.sourceId||source.id||existing?.id||'source-'+digest(id),title:source.title||d.resourceKey,
     channels:[...new Set([...(old?.channels||[]),options.channel||'source'])].sort(),createdAt:old?.createdAt||now(),
     explicitInput:old?.explicitInput||options.explicitInput===true,trustedInput:old?.trustedInput||options.trustedInput===true,

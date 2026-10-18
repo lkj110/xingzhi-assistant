@@ -16,10 +16,19 @@ export function usageSummary(usage, {pending = false, noCalls = false} = {}) {
   return [tokens, cost, unknown ? `${unknown} 次用量未知` : '', unpriced ? `${unpriced} 次缺少单价` : '', pending ? '进行中' : ''].filter(Boolean).join(' · ');
 }
 
+export function provenZeroModelCalls(run) {
+  if (!run || run.modelCalls !== 0 || !run.finishedAt || !Number.isFinite(Date.parse(run.finishedAt)) || !['done','unchanged','error','failed','blocked','needs_input','paused','cancelled','stopped','limited','approval','ready','retry','completed','watching','finalizing'].includes(run.status)) return false;
+  if (run.startedAt && (!Number.isFinite(Date.parse(run.startedAt)) || Date.parse(run.startedAt) > Date.parse(run.finishedAt))) return false;
+  if (run.modelCallsDetail != null && (!Array.isArray(run.modelCallsDetail) || run.modelCallsDetail.length)) return false;
+  const counters = ['modelCallCount','modelCallsCount','reportedCalls','unknownCalls','unpricedCalls','inputTokens','outputTokens','cachedInputTokens','cacheWriteTokens','cacheWrite1hTokens','totalTokens','estimatedUSD','heldUSD','reservedUSD','unreservedCalls'];
+  const zero = row => !counters.some(key => row[key] != null && row[key] !== 0);
+  return zero(run) && (run.usage == null || typeof run.usage === 'object' && !Array.isArray(run.usage) && zero(run.usage));
+}
+
 export function runUsageSummary(run) {
   return usageSummary(run.usage, {
     pending: run.status === 'running' || (!run.finishedAt && !run.status),
-    noCalls: run.status === 'unchanged' && !(run.modelCalls > 0) && !(run.modelCallsDetail?.length),
+    noCalls: provenZeroModelCalls(run),
   });
 }
 

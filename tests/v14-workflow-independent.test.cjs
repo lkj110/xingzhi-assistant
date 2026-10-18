@@ -115,7 +115,10 @@ test('V14 cross audit: plan normalization preserves old/current provenance and i
   const args={key:'budget',title:'预算核对',criteria:'按当前预算',sourceIds:['old','current'],steps:[{key:'draft',title:'写说明',kind:'draft'}]};
   const planned=await agent.act(a,job,'plan_task',args),task=a.task(planned.taskId);
   assert.deepEqual(task.supersededSourceIds,['old']);task.status='completed';task.verification={passed:true,basis:require('../desktop/acceptance.cjs').basis(a,task)};
-  await agent.act(a,job,'plan_task',{...args,sourceIds:['current'],removeSourceIds:['old'],reason:'只保留当前资料引用'});
+  const revised={...args,sourceIds:['current'],removeSourceIds:['old'],reason:'只保留当前资料引用'};
+  await assert.rejects(agent.act(a,job,'plan_task',revised),{code:'EXECUTION_GATE_CLOSED'});
+  await a.dispatch('updateTask',{id:task.id,criteria:'用户重开：按当前预算复核引用'});
+  await agent.act(a,job,'plan_task',revised);
   assert.equal(task.verification,null);assert.equal(task.status,'todo');assert.deepEqual(task.supersededSourceIds,[]);assert.deepEqual(task.planHistory.at(-1).supersededSourceIds,['old']);
 });
 

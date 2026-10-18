@@ -1,5 +1,6 @@
 // Only stable error codes and safe explanations cross into the workspace/UI.
 const safeCodes=new Set(['MODEL_BLOCKED','MODEL_HTTP','MODEL_TIMEOUT','MODEL_NETWORK','MODEL_CANCELLED','MODEL_QUOTA','MODEL_AUTH','MODEL_CONFIG','MODEL_INVALID_RESPONSE','MODEL_CLI','MODEL_FAILED','MODEL_STORAGE']);
+const preflightCauseCodes=new Set([...safeCodes,'ENOENT','EACCES','EPERM','ENOSPC','EROFS','ENOTDIR','EMFILE','ENFILE','EIO','ETIMEDOUT']);
 const contextCodes=new Set(['CONTEXT_LINK_MISSING','CONTEXT_VERSION_CHANGED','CONTEXT_INVALID_REQUEST','CONTEXT_SCOPE_DENIED']);
 const internalCodes=new Set([...contextCodes,'EXTERNAL_EFFECT_UNCERTAIN','STORAGE_FAILURE']);
 const contextHints={
@@ -26,6 +27,16 @@ function transportError(code='MODEL_NETWORK') {
 }
 function persistenceError(){return Object.assign(modelError('MODEL_STORAGE','模型调用记录无法保存，已停止继续请求。请检查本地存储后重试。',false),{localPersistence:true});}
 function cancelledError(){return modelError('MODEL_CANCELLED','操作已停止',false);}
+// Versioned local preflight contract shared by the producer and recovery.
+function isPreflightDiagnostic(d){return !!d&&typeof d==='object'&&!Array.isArray(d)&&d.source==='codex_cli'&&d.kind==='model_preflight'&&d.phase==='preflight'&&d.modelDispatched===false&&d.producerSchema===2&&['executable','login_status','setup'].includes(d.stage)&&Object.keys(d).every(k=>['source','kind','phase','stage','modelDispatched','producerSchema','underlyingCode'].includes(k))&&(!Object.hasOwn(d,'underlyingCode')||preflightCauseCodes.has(d.underlyingCode));}
+// Only the local subscription boundary calls this, before entering exec.
+function preflightError(error,stage) {
+  const underlying=normalizeModelError(error),cancelled=underlying.code==='MODEL_CANCELLED';
+  const code=cancelled?'MODEL_CANCELLED':stage==='login_status'?'MODEL_AUTH':'MODEL_CONFIG';
+  const message=cancelled?'操作已停止':stage==='login_status'?'无法确认 Codex 登录状态，请在模型设置中重新检测。':'订阅模型本地准备失败，请检查 Codex 安装与本地存储后重新检测。';
+  const underlyingCode=preflightCauseCodes.has(error?.code)?error.code:safeErrorCode(underlying);
+  return Object.assign(modelError(code,message,false),{jsonRepairable:false,diagnostic:{source:'codex_cli',kind:'model_preflight',phase:'preflight',stage,modelDispatched:false,producerSchema:2,underlyingCode}});
+}
 function normalizeModelError(error) {
   if(internalCodes.has(error?.code))return error;
   if (['content_policy_violation', 'content_filter', 'safety_violation'].includes(error?.code)
@@ -44,5 +55,7 @@ function httpError(status, code) {
 }
 function fallbackEligible(error){return error?.modelFailure===true&&error.automaticRetry!==false&&(['MODEL_TIMEOUT','MODEL_NETWORK'].includes(error.code)||(error.code==='MODEL_HTTP'&&(error.httpStatus===408||error.httpStatus===429||(error.httpStatus>=500&&error.httpStatus<=599))));}
 function safeErrorCode(error){return safeCodes.has(error?.code)||internalCodes.has(error?.code)?error.code:'MODEL_FAILED';}
-function diagnostic(error){const d=error?.diagnostic;if(!d||d.source!=='codex_cli')return undefined;return {source:d.source,...(['turn_failed','process_exit','incomplete_stream','host_tool_attempt','input_too_large'].includes(d.kind)?{kind:d.kind}:{}),...(Number.isInteger(d.exitCode)?{exitCode:d.exitCode}:{}),...(/^[a-f0-9]{16}$/.test(d.fingerprint||'')?{fingerprint:d.fingerprint}:{}),...(d.kind==='host_tool_attempt'&&require('./subscription-protocol.cjs').hostItemTypes.has(d.itemType)?{itemType:d.itemType}:{}),...(d.kind==='host_tool_attempt'&&['in_progress','completed','failed','pending'].includes(d.itemStatus)?{itemStatus:d.itemStatus}:{}),...(d.kind==='input_too_large'&&Number.isSafeInteger(d.maxChars)&&Number.isSafeInteger(d.actualChars)?{maxChars:d.maxChars,actualChars:d.actualChars}:{})};}
-module.exports = {modelError, blockedError, normalizeModelError, httpError,transportError,cancelledError,persistenceError,fallbackEligible,safeErrorCode,diagnostic,contextError,contextResult,contextCodes,storageError};
+function diagnostic(error){const d=error?.diagnostic;if(!d||d.source!=='codex_cli')return undefined;
+ if(d.kind==='model_preflight')return isPreflightDiagnostic(d)?{source:d.source,kind:d.kind,phase:d.phase,stage:d.stage,modelDispatched:false,producerSchema:2,...(preflightCauseCodes.has(d.underlyingCode)?{underlyingCode:d.underlyingCode}:{})}:{source:d.source};
+ return {source:d.source,...(['turn_failed','process_exit','incomplete_stream','host_tool_attempt','input_too_large'].includes(d.kind)?{kind:d.kind}:{}),...(Number.isInteger(d.exitCode)?{exitCode:d.exitCode}:{}),...(/^[a-f0-9]{16}$/.test(d.fingerprint||'')?{fingerprint:d.fingerprint}:{}),...(d.kind==='host_tool_attempt'&&require('./subscription-protocol.cjs').hostItemTypes.has(d.itemType)?{itemType:d.itemType}:{}),...(d.kind==='host_tool_attempt'&&['in_progress','completed','failed','pending'].includes(d.itemStatus)?{itemStatus:d.itemStatus}:{}),...(d.kind==='input_too_large'&&Number.isSafeInteger(d.maxChars)&&Number.isSafeInteger(d.actualChars)?{maxChars:d.maxChars,actualChars:d.actualChars,...(/^bounded-input-[0-9]+$/.test(d.inputPolicyVersion||'')?{inputPolicyVersion:d.inputPolicyVersion}:{})}:{})};}
+module.exports = {modelError, blockedError, normalizeModelError, httpError,transportError,cancelledError,preflightError,isPreflightDiagnostic,persistenceError,fallbackEligible,safeErrorCode,diagnostic,contextError,contextResult,contextCodes,storageError};

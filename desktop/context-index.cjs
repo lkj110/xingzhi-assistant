@@ -1,5 +1,5 @@
 // Scope and policy filtering happen in task-context before this directory is built.
-const keys=['id','ref','version','type','title','purpose','state','ambiguous','taskId','characters','readTool','stepId'];
+const keys=['id','ref','version','type','title','purpose','state','ambiguous','taskId','characters','readTool','readView','stepId'];
 const pick=(row,names)=>Object.fromEntries(names.filter(k=>row[k]!==undefined).map(k=>[k,row[k]]));
 function catalog(rows){
  const seen=new Set();return (rows||[]).filter(row=>{

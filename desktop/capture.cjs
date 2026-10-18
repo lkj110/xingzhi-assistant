@@ -38,7 +38,9 @@ function validate(a,input,{importing=false}={}){
     const buffer=Buffer.from(item.base64,'base64');
     if(!buffer.length||buffer.length>limits.fileBytes||buffer.toString('base64')!==item.base64)throw new Error('单份文件须在 10 MB 以内且编码有效');
     bytes+=buffer.length;
-    return {title,base64:item.base64,...(item.provenance?{provenance:require('./capture-provenance.cjs').normalize(item.provenance)}:{})};
+    const fileProvenance=require('./capture-provenance.cjs').normalize(item.provenance);
+    const manualFields=!text.length&&input.provenance?.kind==='manual'?{...(provenance.url?{url:provenance.url}:{}),...(provenance.note?{note:provenance.note}:{})}:{};
+    return {title,base64:item.base64,provenance:fileProvenance||{kind:'file',...manualFields}};
   });
   const textItems=text.map(item=>{
     if(!item||typeof item!=='object')throw new Error('手动材料格式无效');
@@ -174,10 +176,9 @@ async function processRow(a,row){
     if(row.target?.kind==='task'){require('./capture-target.cjs').normalize(a,row.target);a.assertTaskChange(a.task(row.target.taskId));}
     if(!row.importedAt){
       const payload=readPayload(a,row),prepared=[];
-      for(const item of payload.items){a.controller.signal.throwIfAborted();prepared.push({...await documents.parse(item.title,Buffer.from(item.base64,'base64'),a.controller.signal),origin:`文件导入 · ${item.title}`,projectId:row.projectId,...(item.provenance?{provenance:item.provenance}:{})});}
-      prepared.push(...payload.textItems.map(item=>({...item,...(payload.provenance?{origin:require('./capture-provenance.cjs').label(payload.provenance)}:{}),projectId:row.projectId})));
+      for(const item of payload.items){a.controller.signal.throwIfAborted();prepared.push({...await documents.parse(item.title,Buffer.from(item.base64,'base64'),a.controller.signal),origin:`文件导入 · ${item.title}`,projectId:row.projectId,provenance:require('./capture-provenance.cjs').forFile(item.provenance,item.title,row.createdAt)});}
+      prepared.push(...payload.textItems.map(item=>({...item,...(payload.provenance?{origin:require('./capture-provenance.cjs').label(payload.provenance),provenance:{...payload.provenance,capturedAt:payload.provenance.capturedAt||row.createdAt}}:{}),projectId:row.projectId})));
       a.controller.signal.throwIfAborted();project(a,row.projectId);
-      for(const item of prepared){const base=item.provenance||payload.provenance;const kind=/\.(png|jpe?g)$/i.test(item.title)?'screenshot':base?.kind||'file';if(payload.provenance||payload.items.some(f=>f.title===item.title))item.provenance={...base,kind,...(payload.items.some(f=>f.title===item.title)?{fileName:item.title}:{}),capturedAt:base?.capturedAt||row.createdAt};}
       a.addSources(prepared,{captureId:row.id});
       if(!row.importedAt)throw new Error('收集导入未生成有效回执');
       removePayload(a,row);

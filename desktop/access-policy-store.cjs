@@ -429,12 +429,26 @@ function platformIdentityRequest(a,job){
   return {principalScope:LOCAL,resourceScope:{kind:'platform_identity',key:job.dataPlatform||'off',jobId:job.id},operation:'platform_identity'};
 }
 function checkPlatformIdentity(a,job){return check(a,platformIdentityRequest(a,job));}
+// Scheduling and execution consume this exact authority request, never a
+// workspace's self-reported account or the global policy sequence.
+function describePlatformIdentity(a,job){const request=platformIdentityRequest(a,job);return {request,proof:check(a,request)};}
+function identityAuthorityRecorded(a,context){
+  const current=snapshot(a);if(!current.ok)return false;
+  return current.store.events.some(e=>e.policyId===context.policyId&&e.grantRevision===context.grantRevision&&e.decision==='allow'&&stable(e.principalScope)===stable(context.principalScope)&&stable(e.resourceScope)===stable(context.resourceScope)&&e.operations.includes(context.operation));
+}
 function beginPlatformIdentity(a,job){
   const request=platformIdentityRequest(a,job),proof=assert(a,request),token=Object.freeze({});
   platformTokens.set(token,{dir:a.dir,jobId:job.id,platform:job.dataPlatform,request,sequence:proof.sequence,grantRevision:proof.grantRevision});return token;
 }
+function assertPlatformIdentityToken(a,job,token){
+  const proof=platformTokens.get(token);
+  if(!proof||proof.dir!==a.dir||proof.jobId!==job.id||proof.platform!==job.dataPlatform)throw failure('ACCESS_POLICY_UNKNOWN','平台身份未授权或授权范围已变化');
+  const current=check(a,proof.request);
+  if(!current.allowed||(proof.request.operation==='platform_identity'&&current.sequence!==proof.sequence)||current.grantRevision!==proof.grantRevision)throw failure('ACCESS_POLICY_CONFLICT','平台身份授权已变化，请重新核对');
+  return clone(proof);
+}
 function bindPlatformIdentity(a,job,identity,token){
-  const proof=platformTokens.get(token);platformTokens.delete(token);
+  let proof;try{proof=assertPlatformIdentityToken(a,job,token);}finally{platformTokens.delete(token);}
   const p=account('platform',identity);
   if(!p||!proof||proof.dir!==a.dir||proof.jobId!==job.id||proof.platform!==job.dataPlatform)throw failure('ACCESS_POLICY_UNKNOWN','平台身份未授权或授权范围已变化');
   const now=check(a,proof.request);
@@ -584,4 +598,26 @@ function reconcile(a) {
   }
   return a.data.runtime.accessPolicy;
 }
-module.exports = { capabilityPreviouslyBound, VERSION, LOCAL, PUBLIC, locations, initialize, inventory, check, assert, grant, revoke, checkTool, assertTool, requestsForTool, reconcile, collectLegacy, syncTrustedJob, grantLegacyDelta, retainCreated, checkPlatformIdentity, beginPlatformIdentity, bindPlatformIdentity, bindPlatformPrincipal, githubPrincipal, ruleScope, policyId, hash };
+module.exports = { capabilityPreviouslyBound, VERSION, LOCAL, PUBLIC, locations, initialize, inventory, check, assert, grant, revoke, checkTool, assertTool, requestsForTool, reconcile, collectLegacy, syncTrustedJob, grantLegacyDelta, retainCreated, describePlatformIdentity, identityAuthorityRecorded, checkPlatformIdentity, beginPlatformIdentity, bindPlatformIdentity, bindPlatformPrincipal, githubPrincipal, ruleScope, policyId, hash };
+module.exports.assertPlatformIdentityToken=assertPlatformIdentityToken;
+
+function authorityStamp(a){const current=snapshot(a);return current.ok?{status:'complete',workspaceHash:current.migration.workspaceHash,sequence:current.store.sequence,head:current.store.head}:{status:'unknown',reason:current.reason,code:current.code};}
+module.exports.authorityStamp=authorityStamp;
+
+// B2 binding is one authority batch. Recovery only inspects this operation's events.
+function larkBindingReceipt(a,operationId,specs){
+ const current=snapshot(a);if(!current.ok)return {committed:false,valid:false,code:current.code||'ACCESS_POLICY_UNKNOWN'};
+ const events=specs.map(spec=>{const normalized=specOf(spec);return current.store.events.find(e=>e.commitId===operationId&&e.decision==='allow'&&e.policyId===policyId(normalized)&&stable(e.operations)===stable(normalized.operations));});
+ if(events.some(e=>!e))return {committed:false,valid:false,code:'ACCESS_POLICY_UNKNOWN'};
+ const proofs=specs.map((spec,i)=>{const checks=spec.operations.map(operation=>check(a,{...spec,operation}));return {policyId:events[i].policyId,grantRevision:events[i].grantRevision,valid:checks.every(c=>c.allowed&&c.policyId===events[i].policyId&&c.grantRevision===events[i].grantRevision)};});
+ return {committed:true,valid:proofs.every(p=>p.valid),proofs,sequence:current.store.sequence};
+}
+function commitLarkBinding(a,{operationId,expectedSequence,previous=[],specs},options){
+ trustedOptions(options);string(operationId,'绑定操作');
+ if(!Array.isArray(specs)||specs.length!==2||specs[0].resourceScope.kind!=='connector'||specs[0].principalScope.provider!=='lark'||specs[1].resourceScope.kind!=='collection'||specs[1].resourceScope.key!=='connector:'+specs[0].resourceScope.key||stable(specs[1].principalScope)!==stable(LOCAL)||stable([...specs[1].operations].sort())!==stable(['local_read','local_retention'])||specs[0].operations.length!==1||!['collect_lark_document','collect_lark_messages'].includes(specs[0].operations[0]))throw failure('ACCESS_POLICY_INVALID_REQUEST','绑定授权范围无效');
+ const existing=larkBindingReceipt(a,operationId,specs);if(existing.committed)return existing;
+ if(previous.some(s=>!['connector','collection'].includes(s.resourceScope.kind)||!specs.some(n=>n.resourceScope.kind===s.resourceScope.kind&&n.resourceScope.key===s.resourceScope.key)))throw failure('ACCESS_POLICY_INVALID_REQUEST','旧绑定授权范围无效');
+ commitChanges(a,[...previous.map(spec=>({spec,decision:'revoked'})),...specs.map(spec=>({spec,decision:'allow'}))],{...options,commitId:operationId,expectedSequence});
+ return larkBindingReceipt(a,operationId,specs);
+}
+Object.assign(module.exports,{commitLarkBinding,larkBindingReceipt});

@@ -31,11 +31,11 @@ test('Restoring a pre-capture backup keeps material from both successful and fai
   const files=Array.from({length:7},(_,i)=>({title:`restore-${i}.txt`,base64:Buffer.from(`还原前材料 ${i}`).toString('base64')}));await capture(a,{items:files});await a.runPromise;const captured=a.data.sources.map(s=>({id:s.id,content:s.content,state:s.state}));
   await a.dispatch('backupRestore',{id:before});for(const saved of captured)assert.deepEqual({id:a.data.sources.find(s=>s.id===saved.id)?.id,content:a.data.sources.find(s=>s.id===saved.id)?.content,state:a.data.sources.find(s=>s.id===saved.id)?.state},saved);assert.equal(a.data.stewardship.paused,true);assert.equal(a.operation,null);
 });
-test('Undoing project capture retains the new material as excluded history and keeps the job paused',async t=>{
+test('Undoing project capture retains excluded canonical history, keeps the job paused, and denies full-text history search',async t=>{
   const a=await setup(t);await a.dispatch('projectSave',{name:'会议项目'});const p=a.data.projects[0],j=agent.buildJob(a,{goal:'跟进会议',projectId:p.id});j.status='paused';a.data.delegations.push(j);p.jobId=j.id;
   await capture(a,{projectId:p.id,textItems:[{title:'会议记录',content:'原计划周一',origin:'手动输入'}]});const first=a.data.sources[0];await capture(a,{projectId:p.id,textItems:[{title:'会议记录',content:'新计划周五',origin:'手动输入'}]});const added=a.data.sources[0],latest=a.data.projectChanges[0];
   await a.dispatch('projectUndo',{id:p.id,changeId:latest.id});assert.equal(a.data.sources.find(s=>s.id===added.id).content,'新计划周五');assert.equal(a.data.sources.find(s=>s.id===added.id).projectExcluded,true);assert.ok(j.sourceIds.includes(first.id));assert.ok(!j.sourceIds.includes(added.id));assert.equal(j.status,'paused');
-  const history=await a.dispatch('librarySearch',{query:'新计划周五',projectId:p.id,history:true});assert.ok(history.items.some(s=>s.id===added.id));
+  const history=await a.dispatch('librarySearch',{query:'新计划周五',projectId:p.id,history:true});assert.ok(!history.items.some(s=>s.id===added.id));
 });
 test('Saving a capture without organizer never requires the role or reprocesses unrelated sources',async t=>{
   const a=await setup(t,async()=>{throw new Error('不应调用');});a.data.settings.roles.organize='';await a.dispatch('import',{items:[{title:'旧材料',content:'保留旧材料'}]});

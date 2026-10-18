@@ -1,5 +1,5 @@
 // Keep the models actually invoked with the run, independently of recent-call retention.
-const fields=['id','at','providerId','providerName','providerType','model','reasoning','role','stage','status','requestId','attempt','fallbackFrom','errorCode','errorMessage','diagnostic','inputTokens','outputTokens','cachedInputTokens','cacheWriteTokens','cacheWrite1hTokens','totalTokens','usageReported','estimatedUSD','routing','pricing'];
+const fields=['id','at','taskId','runId','spendScope','spendTicketId','providerId','providerName','providerType','model','reasoning','role','stage','status','requestId','attempt','fallbackFrom','errorCode','errorMessage','diagnostic','producerSchema','inputTokens','outputTokens','cachedInputTokens','cacheWriteTokens','cacheWrite1hTokens','totalTokens','usageReported','estimatedUSD','routing','pricing'];
 const snapshot=row=>Object.fromEntries(fields.filter(k=>row[k]!==undefined).map(k=>[k,structuredClone(row[k])]));
 function initialize(a){
   const calls=a.data.modelCalls||[],agentRuns=a.data.agentRuns||[];

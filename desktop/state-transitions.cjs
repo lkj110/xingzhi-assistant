@@ -8,15 +8,15 @@ function snapshot(root){
 }
 function commit(a,mutate,{expectedRevision,expectedEntities=[],workEvents,commitReceipt,commitId,save=true}={}){
  if(mutate.constructor?.name==='AsyncFunction')throw Error('状态提交不得等待异步操作');
- if(expectedRevision!==undefined&&expectedRevision!==(a.data.runtime?.revision||0))throw Object.assign(Error('资料已变化，请刷新后重试'),{code:'STATE_STALE'});
- for(const expected of expectedEntities){const row=(a.data[expected.kind==='job'?'delegations':'tasks']||[]).find(r=>r.id===expected.id);if(!row||expected.workRevision!==undefined&&expected.workRevision!==(row.workRevision??1)||expected.eventId!==undefined&&expected.eventId!==(row.workEvent?.eventId||null))throw Object.assign(Error('当前工作修订已变化'),{code:'STATE_STALE'});}
+ if(expectedRevision!==undefined&&expectedRevision!==(a.data.runtime?.revision||0))throw Object.assign(Error('资料已变化，请刷新后重试'),{code:'STATE_STALE',committed:false});
+ for(const expected of expectedEntities){const row=(a.data[expected.kind==='job'?'delegations':'tasks']||[]).find(r=>r.id===expected.id);if(!row||expected.workRevision!==undefined&&expected.workRevision!==(row.workRevision??1)||expected.eventId!==undefined&&expected.eventId!==(row.workEvent?.eventId||null))throw Object.assign(Error('当前工作修订已变化'),{code:'STATE_STALE',committed:false});}
  const initial=a.data,undo=snapshot(initial),prior=a.data.runtime?.commitId;
  let receipt=commitReceipt;
  try{if(workEvents)receipt=require('./work-journal.cjs').append(a,workEvents,{commitId});const result=mutate(receipt);if(result?.then)throw Error('状态提交不得等待异步操作');if(save)a.save();return result;}
  catch(error){receipt ||= error.commitReceipt;let committed=error.committed===true||receipt?.committed===true;
   if(receipt?.committed)require('./work-journal.cjs').markPending(a,receipt,error);
   if(!committed&&a.file)try{const saved=JSON.parse(fs.readFileSync(a.file,'utf8'));committed=!!saved.runtime?.commitId&&saved.runtime.commitId!==prior&&saved.runtime.commitId===a.data.runtime?.commitId;}catch{}
-  if(!committed)a.data=undo();else error.committed=true;
+  if(!committed){a.data=undo();error.committed=false;}else error.committed=true;
   throw error;
  }
 }

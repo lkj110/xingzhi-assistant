@@ -82,6 +82,11 @@ function readInContext(a,scope,requests,options,operation,pageRows=[]){
  const cache=new Map(),cacheRows=new Map();
  for(const row of options.cacheRows||[]){if(!row.result?.ok)continue;const key=identity(row.result);if(!cacheRows.has(key))cacheRows.set(key,[]);cacheRows.get(key).push(row);}
  for(const [index,request] of requests.entries()){
+  if(request?.tool==='read_obligations'){
+   try{const result=require('./relation-context-page.cjs').page(a,operation,request);result.resumeRequest={...request,start:result.next,contextRevision:result.contextRevision,coverageVersion:result.coverageVersion};rows.push({request,result});if(result.next!==null)next.push({index,request:result.resumeRequest,reason:'coverage'});}
+   catch(e){if(!e.contextFailure)throw e;rows.push({request,result:contextResult(e)});}
+   continue;
+  }
   if(request?.tool==='list_sources'){
    try{
     const {tool,...args}=request;
@@ -94,13 +99,13 @@ function readInContext(a,scope,requests,options,operation,pageRows=[]){
    continue;
   }
   let cursor=request?.start??0,pages=[],error,reason,requiredChars,pin;
-  try{protocol.validateRequest(request);}catch(e){if(!e.contextFailure)throw e;rows.push({request,result:contextResult(e)});continue;}
+  try{protocol.validateRequest(request);}catch(e){if(!e.contextFailure)throw e;rows.push({request,result:{...contextResult(e),...(e.diagnostic?{diagnostic:e.diagnostic}:{})}});continue;}
   while(cursor!==null){
    a.controller?.signal.throwIfAborted();
    if(stats.pages>=maxPages||stats.characters>=maxChars){reason=stats.pages>=maxPages?'maxPages':'maxChars';break;}
    const pageRequest={...request,start:cursor,...(pin?{version:pin.version}:{})};
    let result;
-   try{result=checkedPage(operation,pageRequest,options.contextRevision,cache,stats,cacheRows);}catch(e){if(!e.contextFailure)throw e;result=contextResult(e);}
+   try{result=checkedPage(operation,pageRequest,options.contextRevision,cache,stats,cacheRows);}catch(e){if(!e.contextFailure)throw e;result={...contextResult(e),...(e.diagnostic?{diagnostic:e.diagnostic}:{})};}
    stats.pages++;
    if(!result.ok){error=result;break;}
    if(pin&&identity(result)!==pin.identity){error=contextResult(contextError('CONTEXT_VERSION_CHANGED'));break;}
@@ -117,6 +122,7 @@ function readInContext(a,scope,requests,options,operation,pageRows=[]){
    }
    const row={request:pageRequest,result:{...result,complete:result.next===null},at:new Date().toISOString()};
    row.bodyHash=bodyKey(row.result);
+   row.canonicalProof=hash({bodyHash:row.bodyHash,coverage:require('./check-reading.cjs').coverage(row.result)});
    if(result.sourceId)row.sourceHash=operation.sourceHash(result.sourceId);
    pages.push(row);pageRows.push(row);stats.characters+=bodySize(result);remember(cache,row);
    if(options.onRead)operation.boundary(()=>options.onRead(row));
@@ -134,6 +140,10 @@ function readInContext(a,scope,requests,options,operation,pageRows=[]){
  // but stale bodies are not returned as usable merged evidence.
  const invalidRefs=new Set(pageRows.filter(p=>!operation.validRead(p)).map(p=>p.result.ref));
  for(const row of rows)if(row.result.ok&&invalidRefs.has(row.result.ref))row.result={...contextResult(contextError('CONTEXT_VERSION_CHANGED')),complete:false};
+ for(const row of rows)if(row.result.ok&&row.request?.tool==='read_obligations'){
+  try{require('./relation-context-page.cjs').page(a,operation,{...row.request,coverageVersion:row.result.coverageVersion,contextRevision:row.result.contextRevision});}
+  catch(e){if(!e.contextFailure)throw e;row.result={...contextResult(e),complete:false};}
+ }
  a.controller?.signal.throwIfAborted();
  return output();
 }
@@ -144,7 +154,7 @@ function mergeReadRows(pageRows){
  for(const row of pageRows||[]){
   if(!row.result?.ok||row.result.directoryOnly||row.result.bodyOmitted||row.result.truncated||(!Array.isArray(row.result.segments)&&typeof row.result.content!=='string')){other.push(row);continue;}
   const r=row.result,q=row.request||{};
-  const key=hash([identity(r),q.tool,r.section,q.query?protocol.normalizeRequest(q).query:null]);
+  const key=hash([identity(r),q.tool,r.section,r.segmentIndex,q.index,q.query?protocol.normalizeRequest(q).query:null]);
   if(!groups.has(key))groups.set(key,[]);groups.get(key).push(row);
  }
  const merged=[];

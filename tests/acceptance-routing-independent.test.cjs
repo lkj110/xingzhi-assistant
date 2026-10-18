@@ -4,7 +4,7 @@ const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {Assistant}=require('../desktop/core.cjs');
 const routing=require('../desktop/intake-routing.cjs'),agent=require('../desktop/agent.cjs'),recovery=require('../desktop/recovery.cjs');
 async function setup(t){const dir=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-routing-audit-')));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));const calls=[];const a=new Assistant({dir,chat:async(p,k,m)=>{calls.push(m);return {tasks:[],summary:'已检查材料'};}});await a.dispatch('saveProvider',{inputPrice:0,outputPrice:0,name:'测试',model:'fixture',baseUrl:'https://example.invalid'});for(const name of ['P','Q'])await a.dispatch('projectSave',{name});const p=a.data.projects.find(p=>p.name==='P'),q=a.data.projects.find(p=>p.name==='Q');return {a,p,q,dir,calls};}
-async function rule(a,p){await a.dispatch('intakeRoutingSave',{name:`归类 ${p.name}`,projectId:p.id,keywords:['matched'],field:'title',match:'any',enabled:true});return a.data.intakeRoutingRules.at(-1);}
+async function rule(a,p){await a.dispatch('intakeRoutingSave',{requestId:require('node:crypto').randomUUID(),expectedRevision:(await a.dispatch('intakeRoutingSnapshot')).stateRevision,name:`归类 ${p.name}`,projectId:p.id,keywords:['matched'],field:'title',match:'any',enabled:true});return a.data.intakeRoutingRules.at(-1);}
 async function conflicted(a,p,q){await rule(a,p);await rule(a,q);a.addSources([{title:'matched.txt',content:'A source awaiting a destination.'}]);return a.data.sources[0];}
 function job(a,p=null){const j=agent.buildJob(a,{goal:'持续整理',projectId:p?.id,folderIds:[],fileMode:'off',githubMode:'off'});j.status='paused';a.data.delegations.push(j);if(p)p.jobId=j.id;return j;}
 

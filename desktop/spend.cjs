@@ -1,5 +1,6 @@
 // Per-work USD-equivalent accounting. This ledger is independent of rotating backups.
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const {outputBudget}=require('./model-protocols.cjs');
 const now=()=>new Date().toISOString(),uid=()=>crypto.randomUUID();
 const valid=v=>typeof v==='number'&&Number.isFinite(v)&&v>=0;
 const rates={
@@ -98,6 +99,7 @@ function scope(a,{evaluation=false}={}){
 function unsettled(s){return s.unreservedCalls??Math.max(0,s.usage.unknownCalls+s.usage.unpricedCalls-s.unknownAcknowledged);}
 function reserve(a,p,messages,options={}){
   if(a.spendError)throw failure(a.spendError,'storage');
+  const output=outputBudget(p);
   const s=scope(a,options);if(!s)return null;
   const price=pricing(p);
   const block=(kind,message)=>{s.blocked={kind,message,at:now()};s.revision=uid();persist(a);throw failure(message,kind);};
@@ -105,10 +107,11 @@ function reserve(a,p,messages,options={}){
   if(unsettled(s))block('unknown',`有 ${unsettled(s)} 次历史调用缺少用量或单价，且没有费用预留，请核对历史消耗后继续。`);
   // Conservative admission estimate, not a provider-side billing guarantee. Codex may internally compact.
   const inputTokens=Buffer.byteLength(JSON.stringify(messages),'utf8')+8192;
-  const reserveUSD=cost({inputTokens,outputTokens:128000,cachedInputTokens:0,cacheWriteTokens:0},{...price,input:Math.max(price.input*1.25,price.cached)});
+  const reserveUSD=cost({inputTokens,outputTokens:output.outputTokens,cachedInputTokens:0,cacheWriteTokens:0},{...price,input:Math.max(price.input*1.25,price.cached)});
   if(s.spentUSD+s.heldUSD>=s.limitUSD||s.spentUSD+s.heldUSD+reserveUSD>s.limitUSD)block('budget',`本次推进已计入 $${(s.spentUSD+s.heldUSD).toFixed(4)}，上限 $${s.limitUSD.toFixed(2)}；下一次请求预计预留 $${reserveUSD.toFixed(4)}，需要人工追加额度。`);
-  const id=uid();s.pending[id]={reservedUSD:reserveUSD,at:now()};s.heldUSD+=reserveUSD;s.revision=uid();delete s.blocked;persist(a);
-  return {scopeKey:s.key,id,reservedUSD:reserveUSD,pricing:price};
+  const outputMeta={outputTokens:output.outputTokens,outputLimitMode:output.mode};
+  const id=uid();s.pending[id]={reservedUSD:reserveUSD,at:now(),...outputMeta};s.heldUSD+=reserveUSD;s.revision=uid();delete s.blocked;persist(a);
+  return {scopeKey:s.key,id,reservedUSD:reserveUSD,pricing:price,...outputMeta};
 }
 function cancel(a,ticket){const s=a.spendLedger.scopes[ticket.scopeKey];if(s?.pending[ticket.id]){delete s.pending[ticket.id];s.heldUSD=Math.max(0,s.heldUSD-ticket.reservedUSD);s.revision=uid();persist(a);}}
 function settle(a,ticket,u,usd){

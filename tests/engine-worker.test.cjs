@@ -13,8 +13,16 @@ exports.create=({Assistant,options})=>{
  const denied=async()=>{throw Error('External calls prohibited in isolated worker tests');};
  class Fixture extends Assistant {
   tick(){}
-  save(){if(this.failSaves>0){this.failSaves--;throw Error('fixture disk full');}return super.save();}
+  save(){
+   if(this.failSaves>0){this.failSaves--;throw Error('fixture disk full');}
+   if(!this.boundaryFault)return super.save();
+   const after=this.boundaryFault==='after';this.boundaryFault=null;
+   const key=after?'readFileSync':'renameSync',original=fs[key],file=this.file,ledger=path.join(this.dir,'action-ledger.json');let fired=false;
+   fs[key]=function(target,...args){if(!fired&&(after?target===ledger:args[0]===file)){fired=true;throw Object.assign(Error('worker boundary fault'),{code:after?'EIO':'ENOSPC'});}return original.call(this,target,...args);};
+   try{return super.save();}finally{fs[key]=original;if(!fired)throw Error('worker fault did not fire');}
+  }
   async dispatch(action,input={}){
+   if(action==='fixtureBoundaryFault'){this.boundaryFault=input.stage;return {ok:true};}
    if(action==='fixtureProbe')return {threadId,file:this.file,executions:this.executions.size};
    if(action==='fixtureFailSave'){this.failSaves=input.count||1;return {ok:true};}
    if(action==='fixtureSave'){const end=Date.now()+(input.busyMs||0);while(Date.now()<end){}this.data.fixturePayload='x'.repeat(input.bytes||0);this.data.settings.profile=input.profile||'durable';this.save();return {saved:true};}
@@ -173,4 +181,17 @@ test('vault timeout erases the shared secret and late main servicing cannot revi
   serviceVault(racing,{isEncryptionAvailable:()=>true,encryptString(){Atomics.store(header,0,3);return Buffer.from('late-secret');}});
   assert.equal(Atomics.load(header,0),3);assert.ok(bytes.every(value=>value===0));
  }finally{await worker.terminate();}
+});
+
+test('B3 real Worker transports precommit/committed failures and stable routing request identity',async t=>{
+ const {engine,workspace}=await setup(t);
+ const call=(action,input)=>engine.dispatch('uiCommand',{action,input});
+ await call('createTask',{title:'worker paused'});let state=await engine.dispatch('state');const taskId=state.tasks[0].id;
+ await call('taskAction',{id:taskId,command:'pause'});await engine.dispatch('fixtureBoundaryFault',{stage:'before'});
+ await assert.rejects(call('taskAction',{id:taskId,command:'resume'}),e=>e.code==='ENOSPC'&&e.committed===false);
+ await call('settings',{profile:'unrelated'});assert.equal((await engine.dispatch('state')).tasks[0].status,'paused');assert.equal(JSON.parse(fs.readFileSync(path.join(workspace,'workspace.json'))).tasks[0].status,'paused');
+ await call('projectSave',{name:'worker project'});state=await engine.dispatch('state');
+ const input={name:'worker rule',projectId:state.projects[0].id,field:'all',match:'any',keywords:['worker'],enabled:true,requestId:crypto.randomUUID(),expectedRevision:(await call('intakeRoutingSnapshot')).stateRevision};
+ await engine.dispatch('fixtureBoundaryFault',{stage:'after'});await assert.rejects(call('intakeRoutingSave',input),e=>e.code==='EIO'&&e.committed===true);
+ assert.equal((await call('intakeRoutingSave',input)).reused,true);assert.equal((await engine.dispatch('state')).intakeRoutingRules.length,1);assert.equal(JSON.parse(fs.readFileSync(path.join(workspace,'workspace.json'))).intakeRoutingRules.length,1);
 });

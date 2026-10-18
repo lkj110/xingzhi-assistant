@@ -152,7 +152,7 @@ test('repeated internal errors retain successes and never request replacement us
  const {a,task}=fixture();a.call=async()=>({kind:'read_context',requests:[request('input'),{tool:'read_section',sourceId:'input',title:'wrong'}]});
  await assert.rejects(generation.call(a,task,'',{}),e=>e.code==='CONTEXT_INVALID_REQUEST'&&e.noProgress&&!e.modelFailure);assert.equal(task.generationReads.length,2);
  const restarted={...a,data:structuredClone(a.data)};let calls=0;restarted.call=async()=>{calls++;return {kind:'read_context',requests:[{tool:'read_section',sourceId:'input',title:'wrong'}]};};
- await assert.rejects(generation.call(restarted,restarted.data.tasks[0],'',{}),e=>e.noProgress);assert.equal(calls,1);
+ await assert.rejects(generation.call(restarted,restarted.data.tasks[0],'',{}),e=>e.noProgress);assert.equal(calls,0,'persisted local read exhaustion stops before another paid model call');
 });
 test('failed local persistence stops correction before the next paid request with a storage error',async()=>{
  const {a,task}=fixture();let calls=0;a.call=async()=>{calls++;return {kind:'read_context',requests:[request('input')]};};a.save=()=>{throw Error('disk unavailable');};
@@ -216,14 +216,21 @@ test('no-match search and last page do not claim complete source coverage',()=>{
 });
 
 const planner=require('../desktop/agent.cjs').model;
-function plannerFixture(){const f=fixture();f.a.available=()=>({id:'mock-provider'});return f;}
+function plannerFixture(){
+ const f=fixture(),saved=[];f.a.available=()=>({id:'mock-provider'});
+ f.a.save=function(){this.saveCount++;saved.push(structuredClone(this.data));};
+ return {...f,saved};
+}
 test('planner persists partial batches and corrections before another ordinary model request',async()=>{
- const {a,job,task}=plannerFixture();let calls=0;
+ const {a,job,task,saved}=plannerFixture();let calls=0;
  a.callModel=async(provider,key,messages,options)=>{
   assert.equal(provider.id,'mock-provider');assert.equal(options.stage,'planner');
   const c=JSON.parse(messages[1].content);
   if(++calls===1)return {kind:'read_context',requests:[request('input'),{tool:'read_artifact',artifactId:'draft'},{tool:'read_section',sourceId:'input',title:'第一节'},{tool:'read_section',sourceId:'input',title:'wrong'}]};
-  assert.equal(a.saveCount,1);assert.equal(job.contextReads.length,3);assert.equal(job.contextDiagnostics.length,1);
+  const durable=saved.at(-1).delegations.find(j=>j.id===job.id);
+  assert.equal(durable.contextReads.length,3);assert.equal(durable.contextDiagnostics.length,1);
+  assert.deepEqual(durable.contextReads,job.contextReads);assert.deepEqual(durable.contextDiagnostics,job.contextDiagnostics);
+  assert.equal(durable.executionState.workEfficiency.reading.job.ineffective,1);
   assert.deepEqual(c.contextReads.map(row=>row.result.ok),[true,true,true,false]);assert.equal(c.contextReads[3].result.recovery,'correct_request');
   // Usage, diagnostics and checkpoints are bookkeeping, never a new work basis.
   job.callsUsed=10;job.history.push({at:'later',tool:'read_context'});job.executionState.events.push({type:'observed'});
@@ -233,23 +240,45 @@ test('planner persists partial batches and corrections before another ordinary m
  assert.equal((await planner(a,job,'fixture',{})).tool,'plan_task');assert.equal(calls,2);
  assert.equal(job.contextDiagnostics[0].stage,'planner');assert.equal(job.contextDiagnostics[0].taskId,null);
 });
-test('planner correction ledger stops A/B/A across restart, without losing successful siblings',async()=>{
+test('planner mixed failed and duplicate reads exhaust one shared budget without losing successful siblings',async()=>{
  const {a,job}=plannerFixture();let n=0;
  a.callModel=async()=>++n<3?{kind:'read_context',requests:[request('input'),{tool:'read_section',sourceId:'input',title:n===1?'A':'B'}]}:{tool:'plan_task'};
- await planner(a,job,'fixture',{});assert.equal(job.contextReads.length,2);assert.equal(job.contextDiagnostics.length,2);
+ await assert.rejects(planner(a,job,'fixture',{}),e=>e.noProgress&&e.workEfficiency&&e.code==='WORK_STRATEGY_CHANGE'&&!e.modelFailure);
+ assert.equal(n,2);assert.equal(job.contextReads.length,2);assert.equal(job.contextDiagnostics.length,2);
+ const state=job.executionState.workEfficiency;
+ assert.equal(state.reading.job.ineffective,3);assert.equal(Object.keys(state.reading.job.coverage).length,1);
+ assert.equal(state.lastFailure.code,'CONTEXT_INVALID_REQUEST');
  const restarted={...a,data:structuredClone(a.data)};let calls=0;
+ restarted.callModel=async()=>{calls++;return {tool:'plan_task'};};
+ await assert.rejects(planner(restarted,restarted.data.delegations[0],'fixture',{}),e=>e.noProgress&&e.code==='WORK_STRATEGY_CHANGE');
+ assert.equal(calls,0,'restart cannot renew an exhausted read budget');
+});
+test('planner correction ledger stops A/B/A across restart while preserving distinct successful siblings',async()=>{
+ const {a,job}=plannerFixture();let n=0;
+ a.callModel=async()=>++n<3?{kind:'read_context',requests:[n===1?request('input'):{tool:'read_artifact',artifactId:'draft'},{tool:'read_section',sourceId:'input',title:n===1?'A':'B'}]}:{tool:'plan_task'};
+ await planner(a,job,'fixture',{});assert.equal(n,3);assert.equal(job.contextReads.length,2);assert.equal(job.contextDiagnostics.length,2);
+ assert.equal(job.executionState.workEfficiency.reading.job.ineffective,2);
+ const restarted={...a,data:structuredClone(a.data)},resumed=restarted.data.delegations[0];let calls=0;
  restarted.callModel=async()=>{calls++;return {kind:'read_context',requests:[{tool:'read_section',sourceId:'input',title:'A'}]};};
- await assert.rejects(planner(restarted,restarted.data.delegations[0],'fixture',{}),e=>e.noProgress&&e.code==='CONTEXT_INVALID_REQUEST'&&!e.modelFailure);
- assert.equal(calls,1);assert.equal(restarted.data.delegations[0].contextReads.length,2);
- assert.doesNotMatch(JSON.stringify(restarted.data.delegations[0].contextDiagnostics),/事实42|完整稿件/);
+ await assert.rejects(planner(restarted,resumed,'fixture',{}),e=>e.noProgress&&e.workEfficiency&&e.code==='WORK_STRATEGY_CHANGE'&&!e.modelFailure);
+ assert.equal(calls,1);assert.deepEqual(resumed.contextReads,job.contextReads);
+ assert.equal(resumed.executionState.workEfficiency.reading.job.ineffective,3);
+ assert.equal(resumed.executionState.workEfficiency.lastFailure.code,'CONTEXT_INVALID_REQUEST');
+ assert.doesNotMatch(JSON.stringify(resumed.contextDiagnostics),/事实42|完整稿件/);
 });
 test('planner successful-read limits survive restart and equivalent ID/ref aliases',async()=>{
  const {a,job}=plannerFixture();let calls=0;
  a.callModel=async()=>++calls<=2?{kind:'read_context',requests:[request('input')]}:{tool:'plan_task'};
  await planner(a,job,'fixture',{});
+ assert.equal(calls,3);assert.equal(job.executionState.workEfficiency.reading.job.ineffective,1);
  const restarted={...a,data:structuredClone(a.data)},catalog=context.buildContext(restarted,{kind:'job',jobId:job.id}),ref=catalog.readableCatalog.find(s=>s.id==='input').ref;
- restarted.callModel=async()=>({kind:'read_context',requests:[{tool:'read_source',ref,start:0,limit:6,history:false}]});
- await assert.rejects(planner(restarted,restarted.data.delegations[0],'fixture',{}),e=>e.noProgress&&e.code==='CONTEXT_INVALID_REQUEST');
+ let resumedCalls=0;restarted.callModel=async()=>{resumedCalls++;return {kind:'read_context',requests:[{tool:'read_source',ref,start:0,limit:6,history:false}]};};
+ const resumed=restarted.data.delegations[0];
+ await assert.rejects(planner(restarted,resumed,'fixture',{}),e=>e.noProgress&&e.workEfficiency&&e.code==='WORK_STRATEGY_CHANGE');
+ const reading=resumed.executionState.workEfficiency.reading.job;
+ assert.equal(resumedCalls,2);assert.equal(reading.ineffective,3);assert.equal(reading.batches,4);
+ assert.equal(Object.keys(reading.coverage).length,1,'ID/ref/default aliases do not create fresh coverage');
+ await assert.rejects(planner(restarted,resumed,'fixture',{}),e=>e.code==='WORK_STRATEGY_CHANGE');assert.equal(resumedCalls,2);
 });
 test('planner persistence failure stops before the next model call with a typed storage failure',async()=>{
  const {a,job}=plannerFixture();let calls=0;
@@ -277,13 +306,18 @@ test('planner guards already-read historical drafts across a model call and a re
  }
 });
 test('planner drains more than fifteen saved pages without a paid call per page',async()=>{
- const {a,job}=plannerFixture();a.data.sources[0].content=Array.from({length:18},(_,i)=>'段落'+i).join('\n\n');let calls=0;
+ const {a,job,saved}=plannerFixture();a.data.sources[0].content=Array.from({length:18},(_,i)=>'段落'+i).join('\n\n');let calls=0;
  a.callModel=async(_p,_k,messages)=>{
   if(++calls===1)return {kind:'read_context',requests:[{...request('input'),start:0,limit:1}]};
   const read=JSON.parse(messages[1].content).contextReads.find(r=>r.result.sourceId==='input').result;
-  assert.equal(read.next,null);assert.equal(read.segments.length,18);return {tool:'plan_task'};
+  assert.equal(read.next,null);assert.equal(read.segments.length,18);
+  const durable=saved.at(-1).delegations.find(j=>j.id===job.id);
+  assert.equal(durable.contextReads.length,18);assert.deepEqual(durable.contextReads,job.contextReads);
+  assert.equal(durable.executionState.workEfficiency.reading.job.batches,1);
+  assert.equal(durable.executionState.workEfficiency.reading.job.ineffective,0);
+  return {tool:'plan_task'};
  };
- assert.equal((await planner(a,job,'fixture',{})).tool,'plan_task');assert.equal(calls,2);assert.equal(a.saveCount,1);assert.equal(job.contextReads.length,18);
+ assert.equal((await planner(a,job,'fixture',{})).tool,'plan_task');assert.equal(calls,2);assert.equal(job.contextReads.length,18);
 });
 test('generation pins an initial historical revision and saved historical receipts',async()=>{
  for(const mode of ['revision','workingDraft','receipt']){
@@ -331,7 +365,7 @@ test('explicit plan removal journals a causal withdrawal only after complete val
  for(const bad of [{...args,reason:''},{...args,resetSteps:['unknown']},{...args,steps:[{key:'draft',title:'主稿',kind:'unknown'}]}])assert.throws(()=>plans.planTask(a,job,bad));
  assert.equal(JSON.stringify(a.data),before);assert.equal(journal.read(a).events.length,0);
  plans.planTask(a,job,args);const events=journal.read(a).events;
- assert.equal(events.filter(e=>e.type==='binding_withdrawn').length,1);assert.equal(events.at(-1).type,'context_bindings_withdrawn');assert.equal(new Set(events.map(e=>e.commitId)).size,1);assert.equal(events[0].actor,'agent');
+ assert.equal(events.length,1);assert.equal(events[0].type,'evidence_plan_committed');assert.equal(events[0].payload.withdrawals.length,1);assert.equal(events[0].payload.withdrawals[0].sourceId,'input');assert.equal(new Set(events.map(e=>e.commitId)).size,1);assert.equal(events[0].actor,'agent');
  assert.deepEqual(task.sourceIds,[]);assert.equal(task.planHistory.at(-1).sourceIds[0],'input');assert.equal(context.resolveRead(a,scope,request('input')).code,'CONTEXT_SCOPE_DENIED');
  assert.doesNotMatch(JSON.stringify(events),/事实42|完整稿件/);
 });
@@ -353,7 +387,7 @@ test('withdrawal journal failure precedes plan mutation; committed save failure 
  assert.throws(()=>plans.planTask(bad.a,bad.job,bad.args));assert.equal(JSON.stringify(bad.a.data),before);
  const {a,task,job,args,scope}=durableFixture(t),backup=structuredClone(a.data),save=a.save;
  a.save=()=>{throw Error('workspace save failed');};
- assert.throws(()=>plans.planTask(a,job,args),e=>e.committed&&e.projectionPending);assert.ok(task.projectionPending);assert.equal(journal.read(a).events.length,2);
+ assert.throws(()=>plans.planTask(a,job,args),e=>e.committed&&e.projectionPending);assert.ok(task.projectionPending);assert.equal(journal.read(a).events.length,1);
  a.data=backup;a.save=save;journal.replay(a,{force:true});assert.deepEqual(a.data.tasks[0].sourceIds,[]);assert.equal(context.resolveRead(a,scope,request('input')).code,'CONTEXT_SCOPE_DENIED');
  const count=journal.read(a).events.length;assert.equal(links.withdrawSources(a,a.data.tasks[0],['input'],{reason:'retry same withdrawal'}),null);assert.equal(journal.read(a).events.length,count);
 });

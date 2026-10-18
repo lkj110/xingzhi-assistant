@@ -5,6 +5,7 @@ const writeTools = ['lark_create', 'lark_update', 'write_file', 'github_create',
 const required = (v, label, max) => { if (typeof v !== 'string' || !v.trim() || v.length > max) throw new Error(`${label}必须是 1–${max} 字符的字符串，不能是数组或对象`); return v.trim(); };
 const shape = s => ({key:s.key,kind:s.kind,...(s.kind==='external'?{tool:s.tool}:{}),...(s.outputRole?{outputRole:s.outputRole}:{}),...(s.targetArtifactId?{targetArtifactId:s.targetArtifactId}:{})});
 const evidence=require('./evidence-basis.cjs');
+const continuation=require('./evidence-continuation.cjs');
 
 // These are preflight input errors, before any plan or journal write. Report
 // them together so the planner can correct its arguments without user input.
@@ -86,6 +87,7 @@ function planTask(a, job, args) {
   let task = a.data.tasks.find(t => t.agentJobId === job.id && t.agentKey === key);
   if(args.existingTaskId){const existing=a.task(args.existingTaskId);if(existing.agentJobId!==job.id)throw new Error('只能归并同一委托的已有事项');if(task&&task.id!==existing.id)throw new Error('事项标识与指定已有事项不一致');task=existing;}
   if(!task&&job.projectId){const matches=a.data.tasks.filter(t=>t.agentJobId===job.id&&!t.agentCancelled&&t.title.trim()===title);if(matches.length===1)task=matches[0];}
+  if(task){const committed=continuation.recover(a,job,task,args);if(committed)return committed;}
   require('./task-trash.cjs').assertTask(task);
   if(!task&&a.data.tasks.some(t=>t.deletedAt&&t.agentJobId===job.id&&t.title.trim()===title))throw Error('同名事项已由用户删除，不得自动重建');
   if(!task&&job.taskIds.some(id=>!a.task(id).deletedAt&&a.task(id).intake?.status==='pending'))throw Error('请先用 existingTaskId 整理已记录的事项，不要重复新建');
@@ -129,6 +131,11 @@ function planTask(a, job, args) {
   if(args.primaryArtifactId!==undefined){if(!task||typeof args.primaryArtifactId!=='string'||!args.primaryArtifactId)throw Error('主稿绑定必须指定已有事项的稿件 ID');outputs.bind(checkApp,checkTask,args.primaryArtifactId);}
   const preservePrimary=args.primaryArtifactId===undefined&&task&&!Object.hasOwn(task,'primaryArtifactId')&&previousPrimary&&proposed.some(s=>s.outputRole==='supporting'&&s.id===previousPrimary.stepId)?previousPrimary.id:null;
   if(preservePrimary)outputs.bind(checkApp,checkTask,preservePrimary);
+  const inputsChanged=!!task&&continuation.inputsChanged(a,job,task,checkTask);
+  const repairPrimary=task?(outputs.primary(checkApp,checkTask)||previousPrimary):null;
+  const repairCandidates=repairPrimary?proposed.filter(s=>s.kind!=='external'&&s.outputRole!=='supporting'&&(!s.targetArtifactId||s.targetArtifactId===repairPrimary.id)):[];
+  const primaryRepairStep=repairCandidates.find(s=>s.targetArtifactId===repairPrimary.id||s.id===repairPrimary.stepId)||repairCandidates.findLast(s=>s.kind==='draft')||repairCandidates.at(-1);
+  if(inputsChanged&&repairPrimary&&!primaryRepairStep)throw Object.assign(Error('新证据需要保留主稿修订文本步骤，请用 plan_task 补充后再交付'),{code:'PLAN_INPUT_INVALID',planInputInvalid:true});
   const bindingChanged=args.primaryArtifactId!==undefined&&args.primaryArtifactId!==task?.primaryArtifactId;
   const structural=!!task&&(JSON.stringify(task.steps.map(shape))!==JSON.stringify(proposed.map(shape))||JSON.stringify(dependsOn)!==JSON.stringify(task.dependsOn||[]));
   const resolution=require('./evidence-request.cjs').resolution(checkApp,job,task,checkTask,args,{structural,bindingChanged});
@@ -141,7 +148,7 @@ function planTask(a, job, args) {
     const resetDiagnostic=diagnostic?{basis:diagnostic.basis,gaps:diagnostic.gaps,details:diagnostic.gapDetails}:task.planResetDiagnostic||null;
     const resetBasis=evidence.hash({intent:evidence.intent(job,task),sources:evidence.taskSources(checkApp,checkTask),dependencies:dependsOn,diagnostic:resetDiagnostic,request:task.evidenceRequest?.basis||task.lastEvidenceResolution?.basis||null});
     if(reset.length&&task.planResetBasis===resetBasis)throw Object.assign(Error('同一依据已调整过计划，请执行未完成步骤；新的证据或具体检查缺口才能再次重做'),{code:'PLAN_ALREADY_RECONCILED',taskId:task.id});
-    const changed = structural || bindingChanged || resolution || reset.length || task.needsReplan || task.agentCancelled || criteria !== task.criteria || description !== task.description || objective !== task.objective || JSON.stringify(sourceIds) !== JSON.stringify(task.sourceIds) || JSON.stringify(supersededSourceIds) !== JSON.stringify(task.supersededSourceIds || []);
+    const changed = inputsChanged || structural || bindingChanged || resolution || reset.length || task.needsReplan || task.agentCancelled || criteria !== task.criteria || description !== task.description || objective !== task.objective || JSON.stringify(sourceIds) !== JSON.stringify(task.sourceIds) || JSON.stringify(supersededSourceIds) !== JSON.stringify(task.supersededSourceIds || []);
     if (changed) {
       const reason = required(args.reason, '修改计划时需要说明原因', 2000);
       const history = {at:stamp(),reason,version:task.planVersion || 1,steps:structuredClone(task.steps),dependsOn:task.dependsOn || [],title:task.title,criteria:task.criteria,primaryArtifactId:task.primaryArtifactId,sourceIds:[...task.sourceIds],supersededSourceIds:[...(task.supersededSourceIds||[])]};
@@ -149,8 +156,9 @@ function planTask(a, job, args) {
       let dirty = JSON.stringify(dependsOn) !== JSON.stringify(task.dependsOn || []);
       const next = proposed.map((s,i) => {
         const old = task.steps[i];
+        if (inputsChanged && s.kind!=='external') dirty = true;
         if (!old || JSON.stringify(shape(old)) !== JSON.stringify(shape(s)) || reset.includes(s.key)) dirty = true;
-        return !dirty ? {...old,title:s.title} : s;
+        return !dirty ? {...old,title:s.title} : {...s,...(old?.id===s.id&&old.artifactId?{artifactId:old.artifactId}:{}),...(s.kind!=='external'&&old?.id===s.id&&old.artifactId&&!s.targetArtifactId?{targetArtifactId:old.artifactId}:{}),...(previousPrimary?.stepId===s.id&&!s.outputRole?{outputRole:'primary'}:{}),...(inputsChanged&&s.id===primaryRepairStep?.id?{outputRole:'primary',targetArtifactId:repairPrimary.id}:{})};
       });
       update={reason,history,next,description,resetBasis,resetDiagnostic};
     }
@@ -159,7 +167,7 @@ function planTask(a, job, args) {
   // All validation is complete. Persist explicit withdrawals before any plan
   // projection so an older backup cannot resurrect the removed association.
   const workEvents=task&&args.removeSourceIds?.length?links.withdrawalEvents(a,task,args.removeSourceIds,{actor:'agent',reason:args.reason,command:'plan_task'}):[];
-  const apply=receipt=>{
+  const apply=(a,job,task,receipt,{deadline=true}={})=>{
     if(receipt)require('./work-journal.cjs').project(a,receipt);
     if(!task){
       task=a.createTask({...args,title,criteria,sourceIds});
@@ -173,18 +181,24 @@ function planTask(a, job, args) {
     }else{task.title=title;task.steps.forEach((s,i)=>{s.title=proposed[i].title;});}
     links.setInputs(a,task,sourceIds,supersededSourceIds);
     if(args.primaryArtifactId!==undefined)outputs.bind(a,task,args.primaryArtifactId);
-    else if(preservePrimary)outputs.bind(a,task,preservePrimary);
+    else if(preservePrimary||update&&previousPrimary)outputs.bind(a,task,preservePrimary||previousPrimary.id);
+    if(update){task.contentVerification=null;delete task.completionCheck;}
     if(resolution){task.lastEvidenceResolution=resolution;delete task.evidenceRequest;}
     if(['high','normal','low'].includes(args.priority))task.priority=args.priority;
     if(objective!==undefined)task.objective=objective;
     if(pendingIntake){task.intake.status='organized';task.intake.organizedAt=stamp();if(job.intakeTaskId===task.id)job.title=title;}
-    if(args.dueAt!==undefined){
+    if(deadline&&args.dueAt!==undefined){
       require('./deadline-events.cjs').setPolicy(a,{taskId:task.id,input:{dueAt}});
       require('./deadline-scheduler.cjs').reconcile(a,{jobId:job.id});
     }
     task.updatedAt=stamp();return structuredClone({taskId:task.id,status:task.status,planVersion:task.planVersion,steps:task.steps,dependsOn});
   };
-  return require('./state-transitions.cjs').commit(a,apply,workEvents.length?{workEvents}:{});
+  if(task)return continuation.commit(a,job,task,args,{
+    apply:(draft,draftJob,draftTask)=>apply(draft,draftJob,draftTask,null,{deadline:false}),
+    withdrawals:workEvents.filter(e=>e.type==='context_bindings_withdrawn').flatMap(e=>e.payload.bindings),
+    inputsChanged,dueAt,deadline:args.dueAt!==undefined,
+  });
+  return require('./state-transitions.cjs').commit(a,receipt=>apply(a,job,task,receipt),workEvents.length?{workEvents}:{});
 }
 function cancelTask(a, job, args) {
   require('./project-lifecycle.cjs').assertJobActive(a.data,job);

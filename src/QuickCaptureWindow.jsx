@@ -1,6 +1,6 @@
 import CaptureDestination from './CaptureDestination';
 import {IntakeCapabilities} from './CapabilitiesPage';
-import ScreenshotInput,{ScreenshotPreview,pasteImages} from './ScreenshotInput';
+import ScreenshotInput,{ScreenshotPreview,pasteImages,serializeCaptureFiles} from './ScreenshotInput';
 import React,{useEffect,useRef,useState} from 'react';
 import {Inbox,Upload,X,Trash2,ArrowUpRight,Keyboard,PanelTop,Plus,SlidersHorizontal,Play} from 'lucide-react';
 import {call} from './api';
@@ -28,6 +28,7 @@ export function QuickCaptureSettings({act=call}){
 export default function QuickCaptureWindow(){
  const [destination,setDestination]=useState('auto'),[targetTaskId,setTargetTaskId]=useState(''),[sourceContext,setSourceContext]=useState({kind:'manual',capturedAt:new Date().toISOString()}),[sourceUrl,setSourceUrl]=useState(''),[sourceNote,setSourceNote]=useState(''),[suggestion,setSuggestion]=useState(null),[suggesting,setSuggesting]=useState(false),[suggestError,setSuggestError]=useState('');
  const suggestionSequence=useRef(0);
+ const [sourceEdits,setSourceEdits]=useState({});
  const [selectionIntent,setSelectionIntent]=useState(null),expectationsRef=useRef(null),criteriaRef=useRef(null);
  const [goal,setGoal]=useState(''),[criteria,setCriteria]=useState(''),[capabilityIds,setCapabilityIds]=useState([]);
  const pendingIntent=useRef(null),loadedCapture=useRef(null),formRef=useRef(null),advanceButton=useRef(null),resumeAfterConfig=useRef(false);
@@ -35,7 +36,7 @@ export default function QuickCaptureWindow(){
  const [state,setState]=useState(null),[title,setTitle]=useState(''),[content,setContent]=useState(''),[projectId,setProjectId]=useState(''),[files,setFiles]=useState([]),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState(''),[receipt,setReceipt]=useState(null),[autoRetry,setAutoRetry]=useState(false);
  const input=useRef(null),draft=useRef(key()),submitted=useRef(null),receiptId=useRef(null),editing=useRef(false),receiptSignature=useRef(''),mode=useRef(null);
  function change(setter,value){resumeAfterConfig.current=false;draft.current=key();setter(value);setError('');setMessage('');}
- function clear(keepReceipt=false){resumeAfterConfig.current=false;draft.current=key();setDestination('auto');setTargetTaskId('');setSuggestion(null);setSourceContext({kind:'manual',capturedAt:new Date().toISOString()});setSourceUrl('');setSourceNote('');setTitle('');setProjectId('');setContent('');setFiles([]);setGoal('');setCriteria('');setCapabilityIds([]);setAutoRetry(false);setError('');setMessage('');submitted.current=keepReceipt===true?draft.current:null;if(input.current)input.current.value='';}
+ function clear(keepReceipt=false){resumeAfterConfig.current=false;draft.current=key();setDestination('auto');setTargetTaskId('');setSuggestion(null);setSourceContext({kind:'manual',capturedAt:new Date().toISOString()});setSourceUrl('');setSourceNote('');setSourceEdits({});setTitle('');setProjectId('');setContent('');setFiles([]);setGoal('');setCriteria('');setCapabilityIds([]);setAutoRetry(false);setError('');setMessage('');submitted.current=keepReceipt===true?draft.current:null;if(input.current)input.current.value='';}
  function updateReceipt(next){
   if(!next)return;setReceipt(next);const signature=JSON.stringify(next);if(receiptSignature.current===signature)return;receiptSignature.current=signature;
   if(submitted.current!==draft.current)return;
@@ -59,7 +60,7 @@ export default function QuickCaptureWindow(){
   if(!hasDraft&&pendingIntent.current?.id===captured.id){const intent=pendingIntent.current.intent;setDestination(intent==='new'?'new':intent==='supplement'?'task':'auto');setSelectionIntent(intent);}
   pendingIntent.current=null;
   if(captured.targetTaskId){setDestination('task');setTargetTaskId(captured.targetTaskId);}
-  if(captured.text&&!content||captured.image&&!content&&!files.length){setSourceContext(captured.provenance||{kind:captured.image?'screenshot':'selection',capturedAt:new Date().toISOString()});setSourceUrl(captured.provenance?.url||'');setSourceNote(captured.provenance?.note||'');}
+  if(captured.text&&!content||captured.image&&!content&&!files.length){setSourceContext(captured.provenance||{kind:captured.image?'screenshot':'selection',capturedAt:new Date().toISOString()});if(!sourceEdits.url)setSourceUrl(captured.provenance?.url||'');if(!sourceEdits.note)setSourceNote(captured.provenance?.note||'');}
   if(captured.text){const origin=[captured.provenance?.appName,captured.provenance?.windowTitle,captured.provenance?.url,captured.provenance?.capturedAt].filter(Boolean).join(' · ');setContent(old=>old?old+'\n\n【补充材料'+(origin?'｜'+origin:'')+'】\n'+captured.text:captured.text);}
   if(captured.image){const bytes=Uint8Array.from(atob(captured.image.base64),c=>c.charCodeAt(0));setFiles(old=>[...old,Object.assign(new File([bytes],captured.image.title,{type:'image/png'}),{captureProvenance:captured.provenance||{kind:'screenshot',capturedAt:new Date().toISOString()}})]);}
   try{setState(await call('quickCaptureConsume',{id:captured.id}));}catch(e){setError(e.message);}
@@ -75,13 +76,18 @@ export default function QuickCaptureWindow(){
  },[selectionIntent,state?.mini,content]);
  useEffect(()=>{call('quickCaptureDraft',{occupied:!!(title||content||files.length||goal||criteria||capabilityIds.length||projectId||sourceUrl||sourceNote||targetTaskId)}).catch(()=>{});},[title,content,files.length,goal,criteria,capabilityIds.length,projectId,sourceUrl,sourceNote,targetTaskId]);
  const provenance={...sourceContext,url:sourceUrl,note:sourceNote};
- async function fileItems(){const items=[];for(const file of files){const base64=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(',')[1]);reader.onerror=()=>reject(Error(`无法读取文件：${file.name}`));reader.readAsDataURL(file);});items.push({title:file.name,base64,...(file.captureProvenance?{provenance:file.captureProvenance}:{})});}return items;}
+ async function fileItems(){
+  const selected=[...files],fields={...(sourceEdits.url?{url:sourceUrl}:{}),...(sourceEdits.note?{note:sourceNote}:{})};
+  const items=await serializeCaptureFiles(selected);
+  if(!Object.keys(fields).length)return items;
+  return items.map(item=>item.provenance!==undefined&&item.provenance!==null&&(typeof item.provenance!=='object'||Array.isArray(item.provenance))?item:{...item,provenance:{...(item.provenance||{kind:'file'}),...fields}});
+ }
  useEffect(()=>{
   const sequence=++suggestionSequence.current;setSuggestion(null);setSuggestError('');
   if(state?.mini||(!content.trim()&&!files.length)){setSuggesting(false);return;}
   setSuggesting(true);const timer=setTimeout(async()=>{try{const items=await fileItems();const result=await call('quickCaptureSuggest',{text:content,items,provenance});if(sequence===suggestionSequence.current)setSuggestion(result);}catch(e){if(sequence===suggestionSequence.current)setSuggestError(e.message);}finally{if(sequence===suggestionSequence.current)setSuggesting(false);}},600);
   return()=>{clearTimeout(timer);suggestionSequence.current++;};
- },[content,files,sourceUrl,sourceContext,state?.mini]);
+ },[content,files,sourceUrl,sourceNote,sourceEdits,sourceContext,state?.mini]);
  const resolvedTarget=destination==='new'?{kind:'new'}:destination==='task'?(targetTaskId?{kind:'task',taskId:targetTaskId}:null):suggestion?.recommendation==='task'?{kind:'task',taskId:suggestion.taskId}:suggestion?.recommendation==='new'?{kind:'new'}:null;
  const supplement=resolvedTarget?.kind==='task',selectedTask=state?.tasks?.find(t=>t.id===resolvedTarget?.taskId);
  const capabilityScope=supplement?selectedTask?.capabilityScope:state?.projects?.find(p=>p.id===projectId)?.capabilityScope;
@@ -110,7 +116,7 @@ export default function QuickCaptureWindow(){
   {state?.busy&&<p className="quick-capture-info">工作台正在处理事项，本次材料会安全排队。</p>}
   <CaptureDestination disabled={busy||queued} mode={destination} onMode={value=>change(setDestination,value)} taskId={targetTaskId} onTask={value=>change(setTargetTaskId,value)} tasks={state?.tasks||[]} suggestion={suggestion} loading={suggesting} error={suggestError}/>
   {supplement&&<p className="quick-capture-info">将补充到「{selectedTask?.title||'所选事项'}」，保留原计划和来源，沿用原委托与累计额度。{selectedTask?.status==='paused'?'该事项已暂停，保存后需恢复才会继续。':''}</p>}
-  <details className="capture-options"><summary>信息来源 · {sourceContext.appName||({selection:'选中文字',screenshot:'截图',manual:'手动输入',paste:'粘贴',file:'导入文件'})[sourceContext.kind]}{sourceContext.windowTitle?` · ${sourceContext.windowTitle}`:''}</summary><p className="help-text">采集时间：{new Date(sourceContext.capturedAt).toLocaleString('zh-CN')}。能读取时自动记录来源应用、窗口与链接；无法读取的来源可手动补充。</p><label>来源链接<input aria-label="快速收集来源链接" value={sourceUrl} maxLength={2000} onChange={e=>change(setSourceUrl,e.target.value)} placeholder="可选，原文或消息链接"/></label><label>来源说明<input aria-label="快速收集来源说明" value={sourceNote} maxLength={500} onChange={e=>change(setSourceNote,e.target.value)} placeholder="例如：某会议、群聊或联系人"/></label></details>
+  <details className="capture-options"><summary>信息来源 · {sourceContext.appName||({selection:'选中文字',screenshot:'截图',manual:'手动输入',paste:'粘贴',file:'导入文件'})[sourceContext.kind]}{sourceContext.windowTitle?` · ${sourceContext.windowTitle}`:''}</summary><p className="help-text">采集时间：{new Date(sourceContext.capturedAt).toLocaleString('zh-CN')}。能读取时自动记录来源应用、窗口与链接；无法读取的来源可手动补充。</p><p className="help-text">手动修改的链接和说明用于本次所有材料；未修改的字段保留各文件自己的来源。</p><label>来源链接<input aria-label="快速收集来源链接" value={sourceUrl} maxLength={2000} onChange={e=>{setSourceEdits(previous=>({...previous,url:true}));change(setSourceUrl,e.target.value);}} placeholder="可选，原文或消息链接"/></label><label>来源说明<input aria-label="快速收集来源说明" value={sourceNote} maxLength={500} onChange={e=>{setSourceEdits(previous=>({...previous,note:true}));change(setSourceNote,e.target.value);}} placeholder="例如：某会议、群聊或联系人"/></label></details>
   <details className="capture-options"><summary>标题与所属项目（可选）</summary><label>所属项目<select aria-label="快速收集所属项目" disabled={busy||supplement} value={projectId} onChange={event=>change(setProjectId,event.target.value)}><option value="">按规则归类，未匹配保留独立</option>{state?.projects.map(project=><option key={project.id} value={project.id} disabled={project.archived}>{project.name}{project.archived?'（已归档）':''}</option>)}</select></label>
   <label>标题<input aria-label="快速收集标题" disabled={busy} maxLength={300} value={title} onChange={event=>change(setTitle,event.target.value)} placeholder="可选，留空使用正文首行"/></label>
   </details><label>文字材料<textarea aria-label="快速收集正文" autoFocus disabled={busy} rows={3} maxLength={200000} value={content} onChange={event=>change(setContent,event.target.value)} placeholder="主动粘贴文字、想法或待办要求"/></label>

@@ -1,7 +1,8 @@
 // Every declared read adapter must use the common observation protocol.
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {Assistant}=require('../desktop/core.cjs'),agent=require('../desktop/agent.cjs'),ledger=require('../desktop/operation-ledger.cjs'),registry=require('../desktop/tool-registry.cjs'),efficiency=require('../desktop/efficiency.cjs');
-async function fixture(t){
+const ui=(assistant,action,input)=>assistant.dispatch('uiCommand',{action,input});
+async function fixture(t,capabilityKind='repository'){
  const dir=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-protocol-'))),a=new Assistant({dir,chat:async()=>{throw Error('Unexpected model');},connectorRequest:async()=>{throw Error('Unexpected connector');}});
  require('./helpers/platform-fixture.cjs').install(a);
  t.after(async()=>{a.stop();await a.runPromise;fs.rmSync(dir,{recursive:true,force:true});});await a.dispatch('saveProvider',{name:'fixture',model:'fixture',baseUrl:'https://fixture.invalid',inputPrice:0,outputPrice:0});
@@ -16,13 +17,29 @@ async function fixture(t){
  t.mock.method(tools,'readWeb',async url=>({url,title:'网页',content:'owner Alice'}));t.mock.method(tools,'listFiles',()=>[{name:'a.md'}]);t.mock.method(tools,'readDocument',async()=>({title:'文件',content:'owner Alice'}));
  t.mock.method(tools,'github',async()=>[{number:1,title:'事项',body:'owner Alice',state:'open',html_url:'https://github.com/fixture/repo/issues/1'}]);t.mock.method(tools,'readIssue',async()=>({title:'事项',content:'owner Alice',number:1}));
  const sentinel={sourceId:source.id,unchanged:true,fixture:{shape:'must survive'}};t.mock.method(require('../desktop/access.cjs'),'read',async()=>sentinel);
- a.data.capabilities.push({id:'fixture-capability',kind:'repository',name:'能力',enabled:true,revision:'fixture-revision',allowedTools:['read_document'],tools:[{name:'read_document'}]});
- j.capabilityGrants=[{id:'fixture-capability',revision:'fixture-revision'}];
- require('../desktop/access-policy-store.cjs').syncTrustedJob(a,j,{trusted:true,actor:'user_command',command:'fixtureExplicitCapabilities'});
- t.mock.method(require('../desktop/capabilities.cjs'),'invoke',async()=>({capabilityId:'fixture-capability',capabilityName:'能力',tool:'read_document',result:{path:'README.md',content:'owner Alice',next:null,total:11},usedVersion:{contentRevision:'same',checkedAt:new Date().toISOString()},recordId:require('node:crypto').randomUUID()}));
- return {a,j,task,source,platformSource,artifact,sentinel};
+ let capabilityConfig;
+ if(capabilityKind==='mcp'){
+  const serverPath=path.join(dir,'read-document-mcp.cjs');
+  fs.writeFileSync(serverPath,`
+const {McpServer}=require(${JSON.stringify(require.resolve('@modelcontextprotocol/sdk/server/mcp.js'))});
+const {StdioServerTransport}=require(${JSON.stringify(require.resolve('@modelcontextprotocol/sdk/server/stdio.js'))});
+const {z}=require(${JSON.stringify(require.resolve('zod'))});
+const server=new McpServer({name:'protocol-fixture',version:'1'});
+server.registerTool('read_document',{description:'Read-only argument echo',inputSchema:{path:z.string(),note:z.string().optional(),start:z.number().int().nonnegative().optional()},annotations:{readOnlyHint:true}},async input=>({content:[{type:'text',text:JSON.stringify(input)}]}));
+server.connect(new StdioServerTransport());
+`);
+  capabilityConfig={kind:'mcp',name:'能力',command:process.execPath,args:[serverPath],cwd:dir,noModel:true};
+ }else{
+  const repositoryPath=path.join(dir,'capability-repository');fs.mkdirSync(repositoryPath);fs.writeFileSync(path.join(repositoryPath,'README.md'),'owner Alice');
+  capabilityConfig={kind:'repository',name:'能力',path:repositoryPath};
+ }
+ const preview=await ui(a,'capabilityInspect',capabilityConfig);
+ await ui(a,'capabilitySave',{token:preview.token,allowedTools:['read_document'],trusted:true});
+ const capability=a.data.capabilities[0];
+ await ui(a,'capabilityGrant',{jobId:j.id,capabilityIds:[capability.id]});
+ return {a,j,task,source,platformSource,artifact,sentinel,capability};
 }
-const tools={read_url:f=>({url:'https://fixture.invalid/article'}),list_files:f=>({folderId:'fixture'}),read_file:f=>({folderId:'fixture',name:'a.md'}),search_web:f=>({query:'Alice'}),github_list:f=>({}),github_read:f=>({number:1}),read_lark_document:f=>({url:'https://fixture.feishu.cn/docx/A'}),read_output_state:f=>({taskId:f.task.id}),capability_call:f=>({capabilityId:'fixture-capability',tool:'read_document',input:{path:'README.md'}}),platform_inventory:f=>({}),read_platform:f=>({sourceId:f.platformSource.id}),platform_query:f=>({queries:[{op:'task',taskId:1}]}),read_work_state:f=>({section:'frontier'}),list_sources:f=>({}),read_artifact:f=>({artifactId:f.artifact.id}),read_source:f=>({sourceId:f.source.id}),search_source:f=>({sourceId:f.source.id,query:'Alice'})};
+const tools={read_url:f=>({url:'https://fixture.invalid/article'}),list_files:f=>({folderId:'fixture'}),read_file:f=>({folderId:'fixture',name:'a.md'}),search_web:f=>({query:'Alice'}),github_list:f=>({}),github_read:f=>({number:1}),read_lark_document:f=>({url:'https://fixture.feishu.cn/docx/A'}),read_output_state:f=>({taskId:f.task.id}),capability_call:f=>({capabilityId:f.capability.id,tool:'read_document',input:{path:'README.md'}}),platform_inventory:f=>({}),read_platform:f=>({sourceId:f.platformSource.id}),platform_query:f=>({queries:[{op:'task',taskId:1}]}),read_work_state:f=>({section:'frontier'}),list_sources:f=>({}),read_artifact:f=>({artifactId:f.artifact.id}),read_source:f=>({sourceId:f.source.id}),search_source:f=>({sourceId:f.source.id,query:'Alice'})};
 test('All executable read adapters have an explicit shared protocol contract',()=>{
  assert.deepEqual(Object.values(registry.registry).filter(r=>r.effect==='read').map(r=>r.name).sort(),Object.keys(tools).sort());
  for(const [name,row]of Object.entries(registry.registry)){assert.equal(registry.get(name),row);assert.equal(row.scope,'delegation');assert.equal(row.adapter,1);assert.ok(Object.isFrozen(row));}
@@ -48,12 +65,12 @@ for(const [tool,minimal,expanded]of [
  ['capability_call',{capabilityId:'c',tool:'read_document',input:{path:'README.md'}},{capabilityId:'c',tool:'read_document',input:{path:'README.md',start:0}}],
 ])test(`Equivalent read defaults share one request identity: ${tool}`,()=>{const j={id:'j',sourceIds:[],taskIds:[]},a={data:{capabilities:[{id:'c',kind:'repository'}]}};assert.equal(registry.request(j,tool,minimal,a),registry.request(j,tool,expanded,a));});
 test('A same-named MCP read tool preserves declared fields and omitted defaults',async t=>{
- const f=await fixture(t),cap=f.a.data.capabilities.find(c=>c.id==='fixture-capability');cap.kind='mcp';
+ const f=await fixture(t,'mcp'),cap=f.capability;
  const minimal={capabilityId:cap.id,tool:'read_document',input:{path:'README.md',note:'server-defined value'}},explicit={...minimal,input:{...minimal.input,start:0}},before=structuredClone(minimal);
  const capabilities=require('../desktop/capabilities.cjs');assert.deepEqual(capabilities.normalizeArguments(f.a,minimal),before);assert.notEqual(registry.request(f.j,'capability_call',minimal,f.a),registry.request(f.j,'capability_call',explicit,f.a));
- let received;const invoke=capabilities.invoke;t.mock.method(capabilities,'invoke',async(a,j,args)=>{received=args;return invoke(a,j,args);});
- await agent.act(f.a,f.j,'capability_call',minimal);assert.deepEqual(received,minimal);assert.deepEqual(minimal,before);
- await agent.act(f.a,f.j,'capability_call',explicit);assert.deepEqual(received,explicit);
+ const received=result=>({capabilityId:result.capabilityId,tool:result.tool,input:JSON.parse(result.result.content[0].text)});
+ const first=await agent.act(f.a,f.j,'capability_call',minimal);assert.deepEqual(received(first),minimal);assert.deepEqual(minimal,before);
+ const second=await agent.act(f.a,f.j,'capability_call',explicit);assert.deepEqual(received(second),explicit);
 });
 test('An unrelated new read does not erase an existing stalled action counter',async t=>{
  const f=await fixture(t),args={sourceId:f.source.id},run=async(tool,input)=>{const before=efficiency.progress(f.a,f.j),step={tool,args:input,result:await agent.act(f.a,f.j,tool,input)};efficiency.checkProgress(f.a,f.j,step,before);};

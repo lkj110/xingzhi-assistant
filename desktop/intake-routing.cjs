@@ -54,7 +54,7 @@ function route(a,item){
 }
 function sourceRevision(source){return hash([source.id,source.projectId,source.state,source.routing,source.hash,source.title,source.content,source.origin,source.deleted,source.projectExcluded,source.updatedAt]);}
 function pending(a){return a.data.sources.filter(s=>s.routing?.status==='conflict'&&!s.projectId&&!s.deleted&&!s.projectExcluded&&!a.data.sources.some(n=>!n.projectExcluded&&n.previousSourceId===s.id)).map(s=>({id:s.id,title:s.title,createdAt:s.createdAt,state:s.state,routing:structuredClone(s.routing),revision:sourceRevision(s),canResolve:s.state==='new'&&!a.data.tasks.some(t=>t.sourceIds?.includes(s.id))}));}
-function snapshot(a){return {rules:(a.data.intakeRoutingRules||[]).map(rule=>({id:rule.id,name:typeof rule.name==='string'?rule.name:'待修复规则',projectId:rule.projectId,field:rule.field,match:rule.match,keywords:Array.isArray(rule.keywords)?rule.keywords.filter(k=>typeof k==='string'):[],enabled:rule.enabled===true,revision:rule.revision,disabledReason:rule.disabledReason,createdAt:rule.createdAt,updatedAt:rule.updatedAt,projectName:a.data.projects.find(p=>p.id===rule.projectId)?.name||'项目不可用',available:!!a.data.projects.some(p=>p.id===rule.projectId)})),pending:pending(a),recent:a.data.sources.filter(s=>s.routing&&s.routing.status!=='conflict').slice(0,12).map(s=>({id:s.id,title:s.title,projectId:s.projectId,projectName:s.projectId?a.data.projects.find(p=>p.id===s.projectId)?.name||'项目不可用':'独立材料',status:s.routing.status,matchedRules:(s.routing.matchedRules||[]).map(r=>({name:r.name,keywords:r.keywords})),at:s.routing.resolvedAt||s.routing.checkedAt})),modelCalls:0,networkRequests:0};}
+function snapshot(a){return {stateRevision:a.data.runtime?.revision||0,rules:(a.data.intakeRoutingRules||[]).map(rule=>({id:rule.id,creationRequestId:rule.creationRequestId,name:typeof rule.name==='string'?rule.name:'待修复规则',projectId:rule.projectId,field:rule.field,match:rule.match,keywords:Array.isArray(rule.keywords)?rule.keywords.filter(k=>typeof k==='string'):[],enabled:rule.enabled===true,revision:rule.revision,disabledReason:rule.disabledReason,createdAt:rule.createdAt,updatedAt:rule.updatedAt,projectName:a.data.projects.find(p=>p.id===rule.projectId)?.name||'项目不可用',available:!!a.data.projects.some(p=>p.id===rule.projectId)})),pending:pending(a),recent:a.data.sources.filter(s=>s.routing&&s.routing.status!=='conflict').slice(0,12).map(s=>({id:s.id,title:s.title,projectId:s.projectId,projectName:s.projectId?a.data.projects.find(p=>p.id===s.projectId)?.name||'项目不可用':'独立材料',status:s.routing.status,matchedRules:(s.routing.matchedRules||[]).map(r=>({name:r.name,keywords:r.keywords})),at:s.routing.resolvedAt||s.routing.checkedAt})),modelCalls:0,networkRequests:0};}
 function resolve(a,input){
   const source=a.data.sources.find(s=>s.id===input.id);
   if(!source||source.routing?.status!=='conflict'||source.projectId||source.deleted||source.projectExcluded||source.state!=='new'||a.data.sources.some(n=>!n.projectExcluded&&n.previousSourceId===source.id)||a.data.tasks.some(t=>t.sourceIds?.includes(source.id)))throw new Error('材料状态已变化，不能在此归类，请刷新后核对');
@@ -84,25 +84,42 @@ async function dispatch(a,action,input={}){
   }
   a.ensureIdle();
   if(action==='intakeRoutingResolve')return resolve(a,input);
-  if(action==='intakeRoutingSave'){
-    const c=config(a,input),existing=input.id?byId(a,input.id):null;
-    if(existing)assertRevision(existing,input.revision);
-    if(!existing&&(a.data.intakeRoutingRules||[]).length>=limits.rules)throw new Error('最多保存 100 条归类规则，请先移除不再需要的规则');
-    const row={...(existing||{}),...c,id:existing?.id||crypto.randomUUID(),revision:crypto.randomUUID(),createdAt:existing?.createdAt||now(),updatedAt:now()};delete row.disabledReason;
-    if(existing)Object.assign(existing,row);else{a.data.intakeRoutingRules ||= [];a.data.intakeRoutingRules.push(row);}
-    a.event('已保存自动归类规则',`${c.name}：${c.enabled?'已启用':'已暂停'}，仅影响后续导入的未分配材料。`);
-  }else if(action==='intakeRoutingToggle'){
-    const row=byId(a,input.id);assertRevision(row,input.revision);
-    if(typeof input.enabled!=='boolean')throw new Error('启用状态须为布尔值');
-    if(input.enabled)config(a,{...row,enabled:true});
-    row.enabled=input.enabled;row.revision=crypto.randomUUID();row.updatedAt=now();if(row.enabled)delete row.disabledReason;
-    a.event(row.enabled?'已启用自动归类规则':'已暂停自动归类规则',row.name);
-  }else if(action==='intakeRoutingDelete'){
-    const row=byId(a,input.id);assertRevision(row,input.revision);
-    a.data.intakeRoutingRules=a.data.intakeRoutingRules.filter(r=>r.id!==row.id);
-    a.event('已移除自动归类规则',`${row.name}：已归类的材料保持原归属。`);
-  }else throw new Error('未知自动归类操作');
-  a.save();return a.publicState();
+  if(!['intakeRoutingSave','intakeRoutingToggle','intakeRoutingDelete'].includes(action))throw new Error('未知自动归类操作');
+  let creation, replay;
+  if(action==='intakeRoutingSave'&&!input.id){
+    try{
+      if(typeof input.requestId!=='string'||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(input.requestId)||!Number.isSafeInteger(input.expectedRevision)||input.expectedRevision<0)throw Object.assign(Error('新增归类规则需要有效请求身份和状态版本'),{code:'INTAKE_REQUEST_INVALID'});
+      creation={creationRequestId:input.requestId,creationRequestHash:hash(config(a,input))};
+      replay=(a.data.intakeRoutingRules||[]).find(r=>r.creationRequestId===input.requestId);
+      if(replay&&replay.creationRequestHash!==creation.creationRequestHash)throw Object.assign(Error('同一请求身份不能用于另一条归类规则，请核对原结果'),{code:'INTAKE_REQUEST_CONFLICT'});
+    }catch(error){error.committed=false;throw error;}
+    if(replay){
+      try{return {...a.publicState(),routingRuleId:replay.id,reused:true};}
+      catch(error){error.committed=true;throw error;}
+    }
+  }
+  let savedId;
+  return a.commitOrdinary(()=>{
+    if(action==='intakeRoutingSave'){
+      const c=config(a,input),existing=input.id?byId(a,input.id):null;
+      if(existing)assertRevision(existing,input.revision);
+      if(!existing&&(a.data.intakeRoutingRules||[]).length>=limits.rules)throw new Error('最多保存 100 条归类规则，请先移除不再需要的规则');
+      const row={...(existing||{}),...c,...creation,id:existing?.id||crypto.randomUUID(),revision:crypto.randomUUID(),createdAt:existing?.createdAt||now(),updatedAt:now()};delete row.disabledReason;
+      savedId=row.id;
+      if(existing)Object.assign(existing,row);else{a.data.intakeRoutingRules ||= [];a.data.intakeRoutingRules.push(row);}
+      a.event('已保存自动归类规则',`${c.name}：${c.enabled?'已启用':'已暂停'}，仅影响后续导入的未分配材料。`);
+    }else if(action==='intakeRoutingToggle'){
+      const row=byId(a,input.id);assertRevision(row,input.revision);
+      if(typeof input.enabled!=='boolean')throw new Error('启用状态须为布尔值');
+      if(input.enabled)config(a,{...row,enabled:true});
+      row.enabled=input.enabled;row.revision=crypto.randomUUID();row.updatedAt=now();if(row.enabled)delete row.disabledReason;
+      a.event(row.enabled?'已启用自动归类规则':'已暂停自动归类规则',row.name);
+    }else{
+      const row=byId(a,input.id);assertRevision(row,input.revision);
+      a.data.intakeRoutingRules=a.data.intakeRoutingRules.filter(r=>r.id!==row.id);
+      a.event('已移除自动归类规则',`${row.name}：已归类的材料保持原归属。`);
+    }
+  },{expectedRevision:creation?input.expectedRevision:undefined,project:()=>({...a.publicState(),...(savedId?{routingRuleId:savedId,reused:false}:{})})});
 }
 function retain(current,restored){
   restored.intakeRoutingRules=structuredClone(current.intakeRoutingRules||[]).map(rule=>({...rule,enabled:false,revision:crypto.randomUUID()}));

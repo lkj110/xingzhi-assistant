@@ -84,6 +84,12 @@ function projectEvent(a, event) {
   const trashEvent = event.type === 'task_scope_changed' || ['deleted','restored'].includes(event.type) && payload.trash;
   // Load lazily so startup/backup replay has the same projector as the UI command.
   if (trashEvent) require('./task-trash.cjs').projectEvent(a,target,event);
+  if (event.type === 'evidence_preflight_reclassified_v1') require('./evidence-legacy-preflight.cjs');
+  if (event.type === 'evidence_plan_committed') require('./evidence-continuation.cjs');
+  if (event.type === 'repair_validation') require('./repair-validation.cjs');
+  if (event.type === 'continuation_evidence_handoff') require('./evidence-recovery.cjs');
+  if (event.type === 'continuation_check_restored') require('./pending-check.cjs');
+  if (event.type === 'execution_policy_prepared') require('./execution-policy.cjs');
   if (!target) {
     a.data.recoveryReviews ||= [];
     if (!a.data.recoveryReviews.some(row => row.eventId === event.eventId)) a.data.recoveryReviews.push({id:`work:${event.eventId}`,eventId:event.eventId,entityId:event.entityId,entityKind:event.entityKind,code:'WORK_ENTITY_MISSING',status:'open'});
@@ -106,7 +112,10 @@ function projectEvent(a, event) {
     delete target.finishAfterAcceptance; delete target.acceptanceCheckpoint;
     if (event.type === 'finalizing') { delete target.nextRunAt; target.completionReview = payload.reasons || []; }
     else { delete target.completionReview; target.lastAcceptedBatch = event.basisRefs; }
-  } else if (event.type === 'completion_checked') {target.completionCheck = payload.check;delete target.completionOperation;}
+  } else if (event.type === 'completion_checked') {
+    target.completionCheck = payload.check;delete target.completionOperation;
+    require('./continuation-control.cjs').noteGoalCheck(a,target,payload.check);
+  }
   else if (event.type === 'reopened') {
     for (const field of ['acceptedAt','acceptedBy','acceptedRevision','acceptedInputRevision','completedAt','completionCheck','completionMode','manualConfirmation','finalDelivery']) delete target[field];
     target.status = payload.status || (event.entityKind === 'job' ? 'ready' : 'todo'); target.verification = null;

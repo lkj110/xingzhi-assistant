@@ -107,17 +107,59 @@ function parseWorker(name,buffer,signal){
     if(signal?.aborted)abort();
   });
 }
+// Literal, case-insensitive OR matching, ranked by number of matched terms.
+// Regex-looking queries are not silently reinterpreted as alternation.
+function searchContract(query){
+ const terms=String(query).trim().toLowerCase().split(/\s+/).filter(Boolean).slice(0,10);
+ return {mode:'literal',match:'any',caseSensitive:false,terms,maxTerms:10,
+  ...(/[|\[\]{}()^$*+?\\]/.test(query)?{warning:'REGEX_NOT_SUPPORTED',instruction:'仅支持空白分隔的字面多词匹配（任一词命中）；正则符号按普通字符匹配。例如 insert from join。'}:{})};
+}
+// Internal authorized read: callers must validate current source ACL first.
+// Summary/catalog never calls this, so opening a workspace cannot inflate graphs.
+function readContent(source){
+ if(!source.platformSnapshot)return source.content;
+ let snapshot;try{snapshot=JSON.parse(source.content);}catch{if(source.platformArchive)throw require('./platform-chunks.cjs').integrity('archive_invalid');return source.content;}
+ if(!snapshot.platformResult&&!source.platformArchive&&!snapshot.platformArchive)return source.content;
+ const data=require('./data-platform.cjs').restorePlatformData(snapshot,source);
+ const {platformResult,platformArchive,...envelope}=snapshot;
+ return JSON.stringify({...envelope,data},null,2);
+}
+function archived(source){
+ if(!source.platformSnapshot)return false;
+ if(source.platformArchive)return true;
+ try{return !!JSON.parse(source.content).platformResult;}catch{return false;}
+}
+function platformSegments(content){
+ const segments=[];
+ for(let start=0;start<content.length;){
+  let end=Math.min(content.length,start+1600);
+  if(end<content.length&&/[\uD800-\uDBFF]/.test(content[end-1])&&/[\uDC00-\uDFFF]/.test(content[end]))end++;
+  const index=segments.length;
+  segments.push({id:`platform-${index+1}`,label:`平台原文片段 ${index+1}`,paragraph:1,text:content.slice(start,end)});
+  start=end;
+ }
+ return segments;
+}
 function excerpts(source,{query='',start=0,limit=6}={}) {
-  const segments=source.segments?.length?source.segments:paragraphs(source.content);
+  const segments=archived(source)?platformSegments(readContent(source)):source.segments?.length?source.segments:paragraphs(source.content);
   const terms=String(query).trim().toLowerCase().split(/\s+/).filter(Boolean).slice(0,10);
   let selected=segments.map((segment,index)=>({...segment,index}));
   if(terms.length)selected=selected.map(s=>({...s,score:terms.reduce((n,t)=>n+(s.text.toLowerCase().includes(t)?1:0),0)})).filter(s=>s.score).sort((a,b)=>b.score-a.score||a.index-b.index);
   const offset=Math.max(0,Number(start)||0),count=Math.max(1,Math.min(10,Number(limit)||6));
-  return {sourceId:source.id,title:source.title,totalSegments:segments.length,totalMatches:selected.length,start:offset,segments:selected.slice(offset,offset+count).map(s=>({...s,text:s.text.slice(0,8000),truncated:s.text.length>8000})),more:selected.length>offset+count};
+  return {...(query?{search:searchContract(query)}:{}),sourceId:source.id,title:source.title,totalSegments:segments.length,totalMatches:selected.length,start:offset,segments:selected.slice(offset,offset+count).map(s=>({...s,text:s.text.slice(0,8000),truncated:s.text.length>8000})),more:selected.length>offset+count};
 }
 function summary(source,max=7000) {
+  const isArchive=archived(source);
+  if(isArchive){let parsed;try{parsed=JSON.parse(source.content);}catch{throw require('./platform-chunks.cjs').integrity('archive_invalid');}if(parsed.platformArchive){const {platformArchive,...publicSnapshot}=parsed;source={...source,content:JSON.stringify(publicSnapshot)};}}
   return {id:source.id,title:source.title,origin:source.origin,provenance:source.provenance,createdAt:source.createdAt,format:source.format,webConnectionId:source.webConnectionId,feedConnectionId:source.feedConnectionId,feedEntryKey:source.feedEntryKey,folderId:source.folderId,connectorId:source.connectorId,senderId:source.senderId,remoteCreatedAt:source.remoteCreatedAt,remoteId:source.remoteId,deleted:source.deleted,warnings:source.warnings||[],characters:source.content.length,version:source.version||1,previousSourceId:source.previousSourceId||null,segments:source.segments?.length || paragraphs(source.content).length,
-    content:source.content.length>max?`${source.content.slice(0,max/2)}\n[中间内容省略，使用 search_source/read_source 获取]\n${source.content.slice(-max/2)}`:source.content,truncated:source.content.length>max};
+    content:source.content.length>max?`${source.content.slice(0,max/2)}\n[中间内容省略，使用 search_source/read_source 获取]\n${source.content.slice(-max/2)}`:source.content,truncated:isArchive||source.content.length>max,...(isArchive?{directoryOnly:true,readView:{stored:'archive_directory',read:'original_redacted_platform_data',incomplete:true},note:'仅为保存目录，全文须按来源权限用 read_source/search_source 分页；目录字符数不代表全文长度。'}:{})};
 }
 if(!isMainThread&&workerData?.kind==='assistant-document-parser') parseInWorker(workerData.name,Buffer.from(workerData.buffer)).then(result=>parentPort.postMessage({result}),error=>parentPort.postMessage({error:error.name==='PasswordException'?'PDF 已加密，请解密后导入':error.message}));
-module.exports={parse,paragraphs,excerpts,summary,extensions,imageExtensions,maxBytes,maxChars};
+function readSource(a,input){
+ // detail checks the current public access policy, but deliberately strips
+ // archives. Only after that check may this internal reader use the saved row.
+ require('./workspace-view.cjs').detail(a,{kind:'source',id:input.id});
+ const source=a.data.sources.find(s=>s.id===input.id);
+ return excerpts(source,input);
+}
+module.exports={readSource,readContent,platformSegments,searchContract,parse,paragraphs,excerpts,summary,extensions,imageExtensions,maxBytes,maxChars};

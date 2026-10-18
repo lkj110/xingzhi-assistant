@@ -157,3 +157,52 @@ test('An automatic memory change with an uncertain external write reports requir
   const {a,p1,save,job}=await setup(t);await save({});const j=job(p1.id);a.data.memories[0].enabled=false;j.pendingActionId='uncertain';a.data.agentActions.push({id:'uncertain',jobId:j.id,status:'uncertain'});
   assert.throws(()=>memory.reconcile(a,j),error=>error.requiresInput===true);assert.equal(j.callsUsed,0);assert.equal(a.data.agentActions[0].status,'uncertain');assert.equal(j.pendingActionId,'uncertain');
 });
+
+// B3: construct acceptance through the production command, with independent
+// synthetic evidence. Memory changes never author a new requirement revision.
+async function acceptedPair(t){
+ const f=await setup(t),{a,p1,job,task}=f,j=job(p1.id),accepted=await task(j);
+ const second=await agent.act(a,j,'plan_task',{key:'second',title:'未完成兄弟项',criteria:'另一项独立结果',steps:[{kind:'draft',title:'另写报告'}]});
+ const artifact={id:'b3-artifact',taskId:accepted.id,stepId:accepted.steps[0].id,title:'accepted proof',content:'fixed evidence',createdAt:new Date().toISOString()};
+ a.data.artifacts.push(artifact);require('../desktop/protocol-access.cjs').retain(a,'artifact',artifact,{task:accepted,command:'test_fixture'});
+ Object.assign(accepted.steps[0],{done:true,artifactId:artifact.id});accepted.status='review';
+ accepted.verification={passed:true,summary:'fixed independently checked evidence',gaps:[],basis:require('../desktop/acceptance.cjs').basis(a,accepted)};
+ await a.dispatch('taskAction',{id:accepted.id,command:'accept'});
+ t.after(()=>require('../desktop/deadline-scheduler.cjs').dispose(a));
+ return {...f,j,accepted,unfinished:a.task(second.taskId)};
+}
+function acceptanceProof(task){return structuredClone(Object.fromEntries(['status','acceptedAt','acceptedBy','acceptedRevision','completedAt','verification','workRevision','workEvent','acceptanceHistory','steps'].map(k=>[k,task[k]])));}
+test('B3 memory CRUD preserves accepted child and check basis while unfinished sibling replans',async t=>{
+ const {a,j,accepted,unfinished,save}=await acceptedPair(t),proof=acceptanceProof(accepted),basis=require('../desktop/acceptance.cjs').basis(a,accepted),journal=require('../desktop/work-journal.cjs');
+ const sequence=journal.read(a).events.length;
+ await save({});let m=a.data.memories[0];
+ for(const [action,patch]of [['memorySave',{content:'changed preference'}],['memoryToggle',{enabled:false}],['memoryToggle',{enabled:true}],['memoryDelete',{}]]){
+  await a.dispatch(action,{...m,...patch});m=a.data.memories[0];assert.deepEqual(acceptanceProof(accepted),proof);assert.equal(require('../desktop/acceptance.cjs').basis(a,accepted),basis);
+ }
+ assert.match(unfinished.needsReplan,/记忆/);assert.equal(unfinished.status,'todo');assert.equal(journal.read(a).events.slice(sequence).filter(e=>e.type==='reopened').length,0);
+ assert.equal(j.feedback.some(f=>f.origin==='memory_change'),false);
+ const cold=new Assistant({dir:a.dir,chat:async()=>{throw Error('No model');}});t.after(()=>require('../desktop/deadline-scheduler.cjs').dispose(cold));assert.deepEqual(acceptanceProof(cold.task(accepted.id)),proof);
+ await a.dispatch('updateTask',{id:accepted.id,criteria:'用户明确要求新结果'});assert.equal(accepted.workRevision,proof.workRevision+1);assert.ok(journal.read(a).events.slice(sequence).some(e=>e.type==='reopened'&&e.entityId===accepted.id));assert.ok(accepted.acceptanceHistory.length);
+});
+for(const change of ['expiry','source','missing','withdrawn'])test('B3 '+change+' reconciliation preserves accepted child',async t=>{
+ const {a,p1,j,accepted,unfinished,save,source}=await acceptedPair(t),proof=acceptanceProof(accepted),s=source(p1.id);
+ await save({projectId:p1.id,sourceId:s.id,expiresAt:new Date(Date.now()+60000).toISOString()});const m=a.data.memories[0];
+ if(change==='expiry')m.expiresAt='2000-01-01';if(change==='source')s.content='changed';if(change==='missing')a.data.sources=a.data.sources.filter(r=>r.id!==s.id);if(change==='withdrawn')s.withdrawn=true;
+ assert.equal(memory.reconcile(a,j),true);a.save();assert.deepEqual(acceptanceProof(accepted),proof);assert.match(unfinished.needsReplan,/记忆/);
+});
+test('B3 all accepted, paused, terminal and pending acceptance never implicitly reopen',async t=>{
+ const {a,j,accepted,unfinished,save}=await acceptedPair(t),proof=acceptanceProof(accepted);
+ unfinished.status='completed';j.status='watching';j.nextRunAt='2030-01-01T00:00:00.000Z';const next=j.nextRunAt;
+ await save({});assert.equal(j.status,'watching');assert.equal(j.nextRunAt,next);assert.equal(unfinished.status,'completed');
+ unfinished.status='paused';j.status='paused';await save({title:'pause'});assert.equal(j.status,'paused');assert.equal(unfinished.status,'paused');assert.deepEqual(acceptanceProof(accepted),proof);
+ unfinished.projectionPending={type:'accepted'};const paused=structuredClone(unfinished);await save({title:'pending acceptance'});assert.deepEqual(unfinished,paused);
+ for(const status of ['completed','cancelled','deleted']){j.status=status;const before=structuredClone(j);await save({title:status});assert.deepEqual(j,before);}
+});
+for(const after of [false,true])test('B3 memory '+(after?'committed':'uncommitted')+' failure retains acceptance and coherent state',async t=>{
+ const {a,accepted,save}=await acceptedPair(t),proof=acceptanceProof(accepted),before=structuredClone(a.data);
+ const key=after?'readFileSync':'renameSync',original=fs[key];let fired=false;
+ fs[key]=function(file,...args){if(!fired&&(after?file===path.join(a.dir,'action-ledger.json'):args[0]===a.file)){fired=true;throw Object.assign(Error('B3 memory disk failure'),{code:'EIO'});}return original.call(this,file,...args);};
+ try{await assert.rejects(save({}),e=>e.code==='EIO'&&e.committed===after);}finally{fs[key]=original;assert.ok(fired);}
+ assert.deepEqual(acceptanceProof(accepted),proof);if(!after)assert.deepEqual(a.data,before);else assert.equal(a.data.memories.length,1);
+ await a.dispatch('settings',{profile:'unrelated'});const cold=new Assistant({dir:a.dir});t.after(()=>require('../desktop/deadline-scheduler.cjs').dispose(cold));assert.equal(cold.data.memories.length,after?1:0);assert.deepEqual(acceptanceProof(cold.task(accepted.id)),proof);
+});

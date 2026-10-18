@@ -248,11 +248,12 @@ test('prefetched numbered sections expose incomplete budget boundaries instead o
  assert.ok(p.requestedSections.reduce((n,r)=>n+(r.content?.length||0),0)<=48000);
 });
 
-test('work-efficiency counts model read attempts, exposes suggestions, and yields to correction without model failure',async t=>{
+test('work-efficiency consumes validated duplicate results without resetting business attempts',async t=>{
  const f=fixture(t,{job:true});f.source('s',paragraphs(18));const work=require('../desktop/work-efficiency.cjs');
  work.assertAllowed(f.a,f.job);f.job.executionState.workEfficiency.attempts=work.LIMITS.stopAt-1;
  let calls=0;f.a.call=async(_role,_prompt,c)=>{calls++;assert.ok(c.workEfficiency);return {kind:'read_context',requests:[request('s')]};};
  await assert.rejects(generation.call(f.a,f.task,'',{}),e=>e.workEfficiency&&e.noProgress&&!e.modelFailure);
- assert.equal(calls,1);assert.notEqual(f.job.status,'paused');assert.equal(f.job.executionState.workEfficiency.phase,'recovery_pending');assert.equal(f.job.executionState.workEfficiency.attempts,work.LIMITS.stopAt);
- assert.equal(f.task.generationReads.length,3);assert.equal(f.reopen().data.delegations.find(j=>j.id===f.job.id).executionState.workEfficiency.phase,'recovery_pending');
+ assert.equal(calls,4);assert.notEqual(f.job.status,'paused');assert.equal(f.job.executionState.workEfficiency.phase,'recovery_pending');assert.equal(f.job.executionState.workEfficiency.attempts,work.LIMITS.stopAt-1);
+ assert.equal(f.job.executionState.workEfficiency.reading[f.task.id].ineffective,3);
+ assert.equal(f.task.generationReads.length,12);assert.equal(f.reopen().data.delegations.find(j=>j.id===f.job.id).executionState.workEfficiency.phase,'recovery_pending');
 });

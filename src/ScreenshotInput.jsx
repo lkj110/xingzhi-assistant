@@ -3,6 +3,15 @@ import {Camera,Clipboard} from 'lucide-react';
 import {call} from './api';
 import './screenshot-input.css';
 
+export async function serializeCaptureFiles(files){
+ const items=[];
+ for(const file of files){
+  const base64=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(',')[1]);reader.onerror=()=>reject(Error(`无法读取文件：${file.name}`));reader.readAsDataURL(file);});
+  items.push({title:file.name,base64,...(file.captureProvenance!==undefined?{provenance:file.captureProvenance}:{})});
+ }
+ return items;
+}
+
 export function pasteImages(event,addFiles,disabled){
  const items=[...(event.clipboardData?.items||[])].filter(item=>item.kind==='file'&&item.type.startsWith('image/'));
  if(!items.length)return;
