@@ -2,7 +2,7 @@
 // Shared build selection; verification additionally proves the complete path
 // set and bytes against the frozen source/dependency tree.
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict'),cp=require('node:child_process'),{pathToFileURL}=require('node:url');
-const ignore=[/^\/(?!(?:desktop|dist|node_modules)(?:\/|$)|package\.json$).+/,/(?:^|\/)\.DS_Store$/];
+const ignore=[/^\/(?!(?:desktop|dist|node_modules)(?:\/|$)|package\.json$).+/,/(?:^|\/)\.DS_Store$/,/(?:^|\/)node_modules\/\.package-lock\.json$/];
 const helpers=['selection-capture','image-ocr','pdf-ocr'].map(n=>'desktop/native/bin/'+n);
 const nativeDependencies=['node_modules/@napi-rs/canvas-darwin-arm64/skia.darwin-arm64.node'];
 const nativeFiles=[...helpers,...nativeDependencies];

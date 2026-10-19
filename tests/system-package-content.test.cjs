@@ -2,6 +2,41 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),crypto=require('node:crypto'),asar=require('@electron/asar');
 const policy=require('../scripts/package-content-policy.cjs');
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+test('BIN-01: build selection excludes npm hidden locks without removing runtime files or licenses', async t => {
+ const root = fs.mkdtempSync(path.join(os.tmpdir(), 'package-metadata-'));
+ t.after(() => fs.rmSync(root, {recursive: true, force: true}));
+ for (const name of ['desktop', 'dist', 'node_modules/prod/node_modules/nested']) fs.mkdirSync(path.join(root, name), {recursive: true});
+ const files = {
+  'package.json': JSON.stringify({name: 'fixture', version: '1.0.0', dependencies: {prod: '1.0.0'}}),
+  'node_modules/prod/package.json': JSON.stringify({name: 'prod', version: '1.0.0', dependencies: {nested: '1.0.0'}}),
+  'node_modules/prod/node_modules/nested/package.json': JSON.stringify({name: 'nested', version: '1.0.0'}),
+  'node_modules/.package-lock.json': '{"resolved":"https://private.example.invalid/dependency"}',
+  'node_modules/prod/node_modules/.package-lock.json': '{"resolved":"https://private.example.invalid/nested"}',
+  'node_modules/prod/index.js': 'module.exports = 1;',
+  'node_modules/prod/LICENSE': 'License text',
+  'node_modules/prod/node_modules/nested/index.js': 'module.exports = 2;',
+  'node_modules/prod/.package-lock.json.txt': 'not an npm hidden lock',
+  'desktop/core.cjs': 'runtime',
+  'dist/app.js': 'renderer'
+ };
+ for (const [name, content] of Object.entries(files)) fs.writeFileSync(path.join(root, name), content);
+ const expected = await policy.expectedFiles(root);
+ const excluded = ['node_modules/.package-lock.json', 'node_modules/prod/node_modules/.package-lock.json'];
+ assert.deepEqual([...expected.keys()].sort(), Object.keys(files).filter(name => !excluded.includes(name)).sort());
+ for (const name of Object.keys(files).filter(name => name !== 'package.json' && !excluded.includes(name))) assert.equal(expected.get(name).sha256, sha(files[name]));
+});
+test('BIN-01: archive verification rejects reintroduced dependency installer metadata', async t => {
+ const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'package-metadata-archive-'));
+ t.after(() => fs.rmSync(dir, {recursive: true, force: true}));
+ const root = path.join(dir, 'source');
+ fs.mkdirSync(path.join(root, 'node_modules'), {recursive: true});
+ fs.mkdirSync(path.join(root, 'desktop'));
+ fs.writeFileSync(path.join(root, 'desktop/core.cjs'), 'runtime');
+ fs.writeFileSync(path.join(root, 'node_modules/.package-lock.json'), '{"privateInstallerMetadata":true}');
+ const archive = path.join(dir, 'app.asar');
+ await asar.createPackage(root, archive);
+ assert.throws(() => policy.verifyArchive(asar, archive, new Map([['desktop/core.cjs', {sha256: sha('runtime')}]])), /Complete package file set/);
+});
 test('RG-03: complete ASAR correspondence rejects changed dependencies and extra executable files',async t=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'package-content-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
  const expected=new Map([['desktop/core.cjs',{sha256:sha('core')}],['dist/app.js',{sha256:sha('renderer')}],['node_modules/runtime/index.js',{sha256:sha('dependency')}] ]);
