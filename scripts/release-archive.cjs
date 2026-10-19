@@ -335,10 +335,10 @@ async function inspectArchives(ctx, tx, root, n) {
   if (n.dmg) {
     const dmg = path.join(root, n.dmg), mount = path.join(tx.stage, 'mount');
     fs.mkdirSync(mount);
-    await tx.run('/usr/bin/hdiutil', ['verify', dmg]);
+    await tx.run('/usr/bin/hdiutil', ['verify', '-nocache', dmg]);
     let attached = false;
     try {
-      const plist = await tx.run('/usr/bin/hdiutil', ['attach', '-readonly', '-nobrowse', '-noautoopen', '-mountpoint', mount, '-plist', dmg]);
+      const plist = await tx.run('/usr/bin/hdiutil', ['attach', '-readonly', '-noverify', '-nobrowse', '-noautoopen', '-mountpoint', mount, '-plist', dmg]);
       attached = true;
       const info = JSON.parse(await tx.run('/usr/bin/plutil', ['-convert', 'json', '-o', '-', '--', '-'], {input: plist}));
       need(info['system-entities']?.some(e => e['mount-point'] === mount), 'ARCHIVE_DMG', 'DMG did not attach at the isolated mountpoint');

@@ -245,6 +245,9 @@ test('DMG protocol verifies, mounts readonly, compares full payload and detaches
   assert.equal(result.passed, true);
   const calls = api.calls.filter(c => c.file === '/usr/bin/hdiutil').map(c => c.args);
   assert.deepEqual(calls.map(args => args[0]), ['create', 'verify', 'attach', 'detach']);
+  assert.ok(calls[1].includes('-nocache'));
+  assert.ok(calls[2].includes('-noverify'));
+  assert.equal(calls[1].at(-1), calls[2].at(-1));
   assert.ok(calls[2].includes('-readonly')); assert.ok(calls[2].includes('-mountpoint'));
 });
 
@@ -391,9 +394,65 @@ test('direct archive/verify APIs reject legacy freeze although legacy gate.check
 });
 
 test('actual tiny ZIP/DMG transport round-trip; synthetic app signature remains only a protocol fixture', mac, async t => {
-  const f = await fixture(t), api = adapter();
+  const f = await fixture(t);
+  let experienceCalls = 0;
+  const api = adapter({experience: async ({bundle}) => {
+    experienceCalls++;
+    assert.notEqual(bundle, f.bundle);
+    assert.deepEqual(gate.tree(bundle, {symlinks: true}), gate.tree(f.bundle, {symlinks: true}));
+    return {passed: true, scope: 'share-experience', protocolFixture: true};
+  }});
   const result = await api.archive({...f.options, out: f.out});
   assert.equal(result.scope, 'archive-integrity');
   assert.equal(read(path.join(f.out, 'manifest.json')).experience, 'not_verified');
   assert.deepEqual(api.calls.filter(c => c.file === '/usr/bin/hdiutil').map(c => c.args[0]), ['create', 'verify', 'attach', 'detach']);
+  const state = () => fs.readdirSync(f.out).sort().map(name => {
+    const file = path.join(f.out, name), stat = fs.lstatSync(file, {bigint: true});
+    return {name, sha256: gate.fileHash(file), ino: stat.ino, dev: stat.dev, mode: stat.mode, size: stat.size, mtime: stat.mtimeNs, ctime: stat.ctimeNs};
+  });
+  const before = state();
+  const verified = await api.verify({...f.options, archiveDir: f.out, out: path.join(f.root, 'verified-dmg')});
+  assert.equal(verified.passed, true);
+  assert.equal(experienceCalls, 1);
+  assert.deepEqual(state(), before);
+  const checks = api.calls.filter(call => call.file === '/usr/bin/hdiutil').map(call => call.args);
+  assert.deepEqual(checks.map(args => args[0]), ['create', 'verify', 'attach', 'detach', 'verify', 'attach', 'detach']);
+  for (const index of [1, 4]) {
+    assert.ok(checks[index].includes('-nocache'));
+    assert.ok(checks[index + 1].includes('-noverify'));
+    assert.ok(checks[index + 1].includes('-readonly'));
+    assert.equal(checks[index].at(-1), checks[index + 1].at(-1));
+  }
+});
+
+test('DMG checksum rejection prevents attach and successful publication', mac, async t => {
+  const fixtureState = await fixture(t);
+  const api = adapter({dmg: true, hook(tool, args) {
+    if (tool === '/usr/bin/hdiutil' && args[0] === 'verify') throw Error('checksum rejected');
+  }});
+  await rejected(api.archive({...fixtureState.options, out: fixtureState.out}), /ARCHIVE_COMMAND/);
+  assert.equal(api.calls.some(call => call.file === '/usr/bin/hdiutil' && call.args[0] === 'attach'), false);
+  assert.equal(fs.existsSync(fixtureState.out), false);
+});
+
+test('DMG input write-and-restore during full verification remains rejected', mac, async t => {
+  const fixtureState = await fixture(t);
+  await adapter().archive({...fixtureState.options, out: fixtureState.out});
+  let restored = false, experienceCalls = 0;
+  const api = adapter({hook(tool, args) {
+    if (!restored && tool === '/usr/bin/hdiutil' && args[0] === 'verify') {
+      restored = true;
+      const file = args.at(-1), content = fs.readFileSync(file);
+      fs.appendFileSync(file, 'changed');
+      fs.writeFileSync(file, content);
+    }
+  }, experience: async () => {
+    experienceCalls++;
+    return {passed: true, scope: 'share-experience', protocolFixture: true};
+  }});
+  const output = path.join(fixtureState.root, 'verify-dmg-restored');
+  await rejected(api.verify({...fixtureState.options, archiveDir: fixtureState.out, out: output}), /ARCHIVE_INPUT_CHANGED/);
+  assert.equal(restored, true);
+  assert.equal(experienceCalls, 0);
+  assert.equal(fs.existsSync(output), false);
 });
