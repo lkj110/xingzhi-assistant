@@ -4,13 +4,13 @@
 
 A local-first desktop assistant with multi-provider AI, task execution, source tracking, and human review. Built with Electron, React, and native macOS OCR helpers.
 
-[下载现有 0.40.0 安装包](https://github.com/lkj110/xingzhi-assistant/releases/latest) · [使用说明](docs/USER_GUIDE.md) · [模型接入](docs/MODEL_PROVIDERS.md) · [贡献指南](CONTRIBUTING.md)
+[下载 v0.42.4 安装包](https://github.com/lkj110/xingzhi-assistant/releases/tag/v0.42.4) · [使用说明](docs/USER_GUIDE.md) · [模型接入](docs/MODEL_PROVIDERS.md) · [贡献指南](CONTRIBUTING.md)
 
-## 本次源码更新
+## 当前版本
 
-本次为 **0.42.4 源码更新**，不是新安装包发行。本次不创建新的 GitHub Release 或上传发行资产，现有 `latest` 安装包仍为 **0.40.0**，不能将该链接视作 0.42.4 下载。
+**v0.42.4** 提供 macOS Apple Silicon 的 DMG、ZIP 和 SHA-256 校验文件。旧版本发布继续保留；更新不会替你恢复已暂停的自动托管。
 
-私有最终安装包与公开源码分别记录候选 commit、验证结果及交付身份，不互相代替。公共源码缺少私有历史合同/证据时，正式打包入口明确失败；公共 default 测试通过不授予正式发行资格。
+发行包使用独立冻结并验证的依赖树，与公共源码锁文件存在部分版本差异，不宣称逐字节可复现。公开源码和安装包的验证范围分别说明，见 [本版发布说明](https://github.com/lkj110/xingzhi-assistant/releases/tag/v0.42.4)。公共源码缺少私有历史合同/证据时，正式打包入口明确失败；公共 default 测试通过不授予正式发行资格。
 
 ## 能做什么
 
@@ -24,7 +24,7 @@ A local-first desktop assistant with multi-provider AI, task execution, source t
 
 ## 安装与首次使用
 
-现有 `latest` 安装包及公开发行说明为 **v0.40.0**；本次 **0.42.4 源码更新没有创建新 GitHub Release/资产**。现有 DMG / ZIP 面向 **Apple Silicon Mac，macOS 13+**；其他平台尚未验证。
+当前 DMG / ZIP 为 **v0.42.4**，面向 **Apple Silicon Mac，macOS 13+**；其他平台尚未验证。升级前暂停自动托管，等待当前请求保存后退出旧版，并备份工作空间。
 
 1. 在 [Releases](https://github.com/lkj110/xingzhi-assistant/releases) 下载 DMG，将「行知助手.app」拖入 Applications。
 2. 打开「模型与设置」，选择服务商预设，填写自己的密钥与模型 ID，保存后测试连接。也可连接已启动的本地模型服务。
@@ -80,7 +80,7 @@ npm run test:share        # 仅用于已有实际包的验证，不替代发行�
 
 ## 项目状态与贡献
 
-这是持续开发中的个人开源项目。欢迎报告可复现问题、改进文档、增加模型适配与测试。请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。已有验证范围和限制见 [v0.40.0 发布说明](docs/RELEASE-V0.40.0.md)。
+这是持续开发中的个人开源项目。欢迎报告可复现问题、改进文档、增加模型适配与测试。请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。当前验证范围和限制见 [v0.42.4 发布说明](https://github.com/lkj110/xingzhi-assistant/releases/tag/v0.42.4)；[v0.40.0 说明](docs/RELEASE-V0.40.0.md) 仅作为历史记录。
 
 ## 许可证
 
