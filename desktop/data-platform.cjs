@@ -2,7 +2,7 @@
 const fs=require('node:fs');
 const os=require('node:os');
 const path=require('node:path');
-const {spawn}=require('node:child_process');
+const {spawn}=process.platform==='win32'?require('./windows-process.cjs'):require('node:child_process');
 const boundaries=require('./platform-boundaries.cjs');
 const platformResult=require('./platform-result.cjs');
 const crypto=require('node:crypto');
@@ -40,6 +40,7 @@ function command(query){
   return [...base,'coral','hive','table',op,'--region','sg','--db-name',name(query.database),'--table-name',name(query.table),...(op==='lineage'?['--direction','BOTH']:[])];
 }
 function executable(){
+  if(process.platform==='win32'){const host=require('./host-process.cjs'),bin=host.executable('bytedcli')||host.npmScript('bytedcli');if(bin)return bin;throw Error('未找到 Windows bytedcli，请安装并添加到 PATH');}
   const homes=[path.join(os.homedir(),'.local/bin'),'/opt/homebrew/bin','/usr/local/bin'];
   const nvm=path.join(os.homedir(),'.nvm/versions/node');
   try{homes.push(...fs.readdirSync(nvm).sort((a,b)=>b.localeCompare(a,undefined,{numeric:true})).map(v=>path.join(nvm,v,'bin')));}catch{}
@@ -52,14 +53,16 @@ function execute(args,{signal}={}){
   const bin=executable();
   return new Promise((resolve,reject)=>{
     signal?.throwIfAborted();
-    const env={PATH:[path.dirname(bin),process.env.PATH||'/usr/bin:/bin'].join(path.delimiter)};
+    const env=require('./host-process.cjs').environment();env.PATH=[path.dirname(bin),env.PATH||''].join(path.delimiter);
     for(const key of ['HOME','TMPDIR','LANG','LC_ALL','HTTPS_PROXY','HTTP_PROXY','ALL_PROXY','NO_PROXY'])if(process.env[key])env[key]=process.env[key];
-    const child=spawn(bin,args,{shell:false,env,cwd:os.tmpdir(),stdio:['ignore','pipe','pipe'],detached:true});
+    const nodeScript=process.platform==='win32'&&/\.[cm]?js$/i.test(bin),program=nodeScript?require('./host-process.cjs').executable('node'):bin;
+    if(!program)return reject(Error('运行 npm 版 bytedcli 需要安装 Node.js 并添加到 PATH'));
+    const child=spawn(program,nodeScript?[bin,...args]:args,{shell:false,env,cwd:os.tmpdir(),stdio:['ignore','pipe','pipe'],detached:process.platform!=='win32',windowsHide:true});
     // Buffer first, decode once: UTF-8 characters may cross pipe chunks.
     const output=[],stderrChunks=[],stdoutHash=crypto.createHash('sha256'),stderrHash=crypto.createHash('sha256');
     const maxBytes=args[3]==='coral'&&args[4]==='hive'&&args[5]==='table'&&args[6]==='lineage'?platformResult.limits.lineageBytes:platformResult.limits.ordinaryBytes;
     let bytes=0,stderrBytes=0,stderrRetained=0,failure,hardKill;
-    const kill=()=>{try{process.kill(-child.pid,'SIGTERM');}catch{}hardKill||=setTimeout(()=>{try{process.kill(-child.pid,'SIGKILL');}catch{}},1000);};
+    const kill=()=>{require('./host-process.cjs').terminate(child);hardKill||=setTimeout(()=>require('./host-process.cjs').terminate(child,'SIGKILL'),1000);};
     const abort=()=>{failure=new Error('数据平台查询已停止');kill();};
     signal?.addEventListener('abort',abort,{once:true});
     const timer=setTimeout(()=>{failure=Object.assign(new Error('数据平台查询未在 120 秒内返回'),{code:'TRANSIENT',classificationBasis:'transport_timeout'});kill();},120000);

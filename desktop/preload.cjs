@@ -2,6 +2,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 const navigationRoutes=Object.freeze(['attention','capture','settings','board','help','guide','decisions','decisions:progress','decisions:review']);
 contextBridge.exposeInMainWorld('assistant', {
   desktop: true,
+  platform: process.platform,
   navigationRoutes,
   quickCaptureSupported: process.argv.includes('--assistant-quick-capture-supported'),
   quickCaptureWindow: process.argv.includes('--assistant-quick-capture-window'),

@@ -58,7 +58,7 @@ test('P1-02: manual mode retains global pause/window semantics; task pause alway
 test('P1-02/P1-05: live same-job/shared-project executions beat preparation and unresolved effects; only authenticated self is excluded',t=>{
  const f=fixture(t);f.job.projectId='p';f.a.data.projects.push({id:'p'});f.A.projectId='p';
  const c=new AbortController(),row={key:'job:'+f.job.id,jobId:f.job.id,projectId:'p',context:{controller:c}};f.a.executions.set(row.key,row);
- f.job.outputFolder='/original';f.a.data.agentActions.push({id:'u',jobId:f.job.id,taskId:f.A.id,status:'uncertain',tool:'write_file',target:'/original/target'});const access=require('../desktop/access-policy-store.cjs');for(const r of access.requestsForTool(f.a,f.job,'prepare_write_file',{}, {taskId:f.A.id}))access.grant(f.a,{principalScope:r.principalScope,resourceScope:r.resourceScope,operations:[r.operation]},{trusted:true,actor:'user_command',command:'policy-test-read-grant'});
+ f.job.outputFolder=path.resolve(os.tmpdir(),'original');f.a.data.agentActions.push({id:'u',jobId:f.job.id,taskId:f.A.id,status:'uncertain',tool:'write_file',target:path.resolve(os.tmpdir(),'original','target')});const access=require('../desktop/access-policy-store.cjs');for(const r of access.requestsForTool(f.a,f.job,'prepare_write_file',{}, {taskId:f.A.id}))access.grant(f.a,{principalScope:r.principalScope,resourceScope:r.resourceScope,operations:[r.operation]},{trusted:true,actor:'user_command',command:'policy-test-read-grant'});
  const before=JSON.stringify(f.a.data);assert.equal(policy.inspect(f.a,f.job).phase,'running');assert.equal(policy.inspect(f.a,f.job,{currentExecutionId:row.key}).phase,'running');assert.equal(policy.prepare(f.a,f.job).changed,false);assert.equal(JSON.stringify(f.a.data),before);
  f.a.controller=c;assert.equal(policy.inspect(f.a,f.job,{currentExecutionId:row.key}).mode,'reconcile_existing');
  f.a.executions.clear();f.a.executions.set('other',{key:'other',jobId:'other',projectId:'p',context:{controller:new AbortController()}});assert.equal(policy.inspect(f.a,f.job).reasonCode,'EXECUTION_CONFLICT');f.a.executions.clear();
@@ -103,7 +103,7 @@ test('P1-02: revision race and append failure never publish an owner; committed 
 });
 
 test('P1-05: all four action classes preserve original identity; only reconcile may bypass budget',t=>{
- const f=fixture(t);f.job.outputFolder='/original';const action={id:'original-operation',jobId:f.job.id,taskId:f.A.id,tool:'write_file',status:'pending',target:'/original/target',version:'original-version'};f.job.fileMode='ask';f.a.data.agentActions.push(action);f.job.pendingActionId=action.id;
+ const f=fixture(t);f.job.outputFolder=path.resolve(os.tmpdir(),'original');const action={id:'original-operation',jobId:f.job.id,taskId:f.A.id,tool:'write_file',status:'pending',target:path.resolve(os.tmpdir(),'original','target'),version:'original-version'};f.job.fileMode='ask';f.a.data.agentActions.push(action);f.job.pendingActionId=action.id;
  assert.equal(policy.inspect(f.a,f.job).mode,'await_approval');action.approvedAt='approved';const access=require('../desktop/access-policy-store.cjs');for(const r of access.requestsForTool(f.a,f.job,'prepare_write_file',{}, {taskId:f.A.id}))access.grant(f.a,{principalScope:r.principalScope,resourceScope:r.resourceScope,operations:[r.operation]},{trusted:true,actor:'user_command',command:'policy-test-read-grant'});require('../desktop/protocol-access.cjs').authorizeAction(f.a,action);
  assert.equal(policy.inspect(f.a,f.job).mode,'execute_approved_existing');f.job.limitReason='budget';assert.equal(policy.inspect(f.a,f.job).eligible,false);
  for(const status of ['uncertain','running']){action.status=status;const p=policy.inspect(f.a,f.job);assert.equal(p.mode,'reconcile_existing');assert.equal(p.eligible,true);assert.equal(p.action.actionId,action.id);assert.equal(p.action.target,action.target);assert.equal(p.action.version,action.version);}
@@ -176,8 +176,8 @@ test('P1-05: original automatic reconciliation continues result verification wit
 });
 
 test('D02/P1-05: exact pending revocation blocks dispatch; receipt read retains only its separate original grant',async t=>{
- const f=fixture(t),access=require('../desktop/access-policy-store.cjs');f.job.outputFolder='/original';f.job.fileMode='ask';
- const action={id:'original-approved',jobId:f.job.id,taskId:f.A.id,tool:'write_file',target:'/original/target',version:'original-version',content:'原稿',status:'pending',approvedAt:'approved'};f.a.data.agentActions.push(action);f.job.pendingActionId=action.id;
+ const f=fixture(t),access=require('../desktop/access-policy-store.cjs');f.job.outputFolder=path.resolve(os.tmpdir(),'original');f.job.fileMode='ask';
+ const action={id:'original-approved',jobId:f.job.id,taskId:f.A.id,tool:'write_file',target:path.resolve(os.tmpdir(),'original','target'),version:'original-version',content:'原稿',status:'pending',approvedAt:'approved'};f.a.data.agentActions.push(action);f.job.pendingActionId=action.id;
  const read=access.requestsForTool(f.a,f.job,'prepare_write_file',{}, {taskId:f.A.id})[0];access.grant(f.a,{principalScope:read.principalScope,resourceScope:read.resourceScope,operations:[read.operation]},{trusted:true,actor:'user_command',command:'policy-test-read-grant'});require('../desktop/protocol-access.cjs').authorizeAction(f.a,action);
  assert.equal(policy.inspect(f.a,f.job).eligible,true);
  const write=access.requestsForTool(f.a,f.job,action.tool,{}, {taskId:f.A.id,action})[0];access.revoke(f.a,{principalScope:write.principalScope,resourceScope:write.resourceScope,operations:[write.operation]},{trusted:true,actor:'user_command',command:'policy-test-revoke'});
@@ -189,7 +189,7 @@ test('D02/P1-05: exact pending revocation blocks dispatch; receipt read retains 
 test('P1-04/P1-05: an ineligible task-scoped original action never hijacks independent B at run admission',async t=>{
  for(const status of ['pending','uncertain']){
   const f=fixture(t,{two:true});f.B.steps.push({id:'delivery-B',kind:'external',tool:'write_file',done:false});
-  const action={id:'original-A',jobId:f.job.id,taskId:f.A.id,tool:'write_file',target:'/original/target',version:'original-version',status,approvedAt:'approved'};f.a.data.agentActions.push(action);f.job.pendingActionId=action.id;
+  const action={id:'original-A',jobId:f.job.id,taskId:f.A.id,tool:'write_file',target:path.resolve(os.tmpdir(),'original','target'),version:'original-version',status,approvedAt:'approved'};f.a.data.agentActions.push(action);f.job.pendingActionId=action.id;
   const original=structuredClone(action);assert.equal(policy.inspect(f.a,f.job).eligible,true);assert.deepEqual(policy.inspect(f.a,f.job).taskIds,[f.B.id]);
   f.a.chat=async(_p,_k,_m,o)=>{o.onUsage({inputTokens:1,outputTokens:1});if(o.stage==='planner')return {tool:'advance_task',args:{taskId:f.B.id}};assert.equal(o.stage,'task_work');return {kind:'artifact',title:'B',content:'独立 B 的实际正文'};};
   const execute=t.mock.method(require('../desktop/agent-writes.cjs'),'execute',()=>{throw Error('A must remain untouched');});
@@ -199,7 +199,7 @@ test('P1-04/P1-05: an ineligible task-scoped original action never hijacks indep
 });
 
 for(const status of ['uncertain','pending'])for(const tool of [undefined,null,42,'','   '])test('legacy external action '+status+' with invalid tool '+JSON.stringify(tool)+' remains blocked without mutation',t=>{
- const f=fixture(t,{two:true});const r={id:'legacy',jobId:f.job.id,taskId:f.A.id,status,tool,approvedAt:new Date().toISOString(),target:'/original'};f.a.data.agentActions.push(r);f.a.save();
+ const f=fixture(t,{two:true});const r={id:'legacy',jobId:f.job.id,taskId:f.A.id,status,tool,approvedAt:new Date().toISOString(),target:path.resolve(os.tmpdir(),'original')};f.a.data.agentActions.push(r);f.a.save();
  const before=JSON.stringify(f.a.data),disk=files(f),guard=facts.actionGuard(f.a,f.job,r,{readOnly:status==='uncertain'});assert.equal(guard.code,'ACTION_IDENTITY_INCOMPLETE');
  const p=cont.actionInspect(f.a,f.job);assert.equal(p.eligible,false);assert.equal(p.reason,'ACTION_IDENTITY_INCOMPLETE');
  assert.doesNotThrow(()=>f.a.publicState());const selected=policy.inspect(f.a,f.job);assert.equal(selected.eligible,true);assert.deepEqual(selected.taskIds,[f.B.id]);

@@ -1,7 +1,7 @@
 const crypto = require('node:crypto');
 const uid = () => crypto.randomUUID();
 const stamp = () => new Date().toISOString();
-const writeTools = ['lark_create', 'lark_update', 'write_file', 'github_create', 'github_update', 'github_comment', 'request_confirmation', 'manual'];
+const writeTools = [...require('./agent-local.cjs').actions,'lark_create', 'lark_update', 'write_file', 'github_create', 'github_update', 'github_comment', 'request_confirmation', 'manual'];
 const required = (v, label, max) => { if (typeof v !== 'string' || !v.trim() || v.length > max) throw new Error(`${label}必须是 1–${max} 字符的字符串，不能是数组或对象`); return v.trim(); };
 const shape = s => ({key:s.key,kind:s.kind,...(s.kind==='external'?{tool:s.tool}:{}),...(s.outputRole?{outputRole:s.outputRole}:{}),...(s.targetArtifactId?{targetArtifactId:s.targetArtifactId}:{})});
 const evidence=require('./evidence-basis.cjs');

@@ -121,7 +121,7 @@ test('already assigned, removed, symlinked, and replaced authorized directories 
   await assert.rejects(preview({folderIds: ['missing']}), /移除/);
   const p = await preview({folderIds: [f.id]}); fs.renameSync(f.path, path.join(dir, 'old-input')); fs.mkdirSync(f.path);
   await assert.rejects(setup.dispatch(a, 'projectSetupCreate', {...input, folderIds: [f.id], revision: p.revision, requestId: crypto.randomUUID()}), /已变化/);
-  fs.rmdirSync(f.path); fs.symlinkSync(path.join(dir, 'old-input'), f.path);
+  fs.rmdirSync(f.path); {if(!require('./helpers/symlink.cjs').link(t,path.join(dir, 'old-input'), f.path))return;}
   await assert.rejects(preview({folderIds: [f.id]}), /路径变化/); assert.equal(a.data.projects.length, 0);
 });
 

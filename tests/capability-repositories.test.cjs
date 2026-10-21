@@ -6,7 +6,7 @@ function repo(a,name,body='version one'){const root=path.join(a.dir,name);fs.mkd
 async function mount(a,input,allowedTools){const p=await ui(a,'capabilityInspect',{kind:'repository',...input});await ui(a,'capabilitySave',{token:p.token,allowedTools:allowedTools||p.tools.map(t=>t.name),trusted:true});return a.data.capabilities[0];}
 function job(a,ids){const j=agent.buildJob(a,{goal:'Use selected repository skills',capabilityIds:ids});a.data.delegations.push(j);return j;}
 const read=(a,j,c,p='SKILL.md')=>agent.act(a,j,'capability_call',{capabilityId:c.id,tool:'read_document',input:{path:p}});
-function git(root,...args){return execFileSync('/usr/bin/git',['-C',root,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();}
+function git(root,...args){return execFileSync(require('../desktop/host-process.cjs').executable('git')||'git',['-C',root,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();}
 function commit(root,message){git(root,'add','.');git(root,'-c','user.name=Fixture','-c','user.email=fixture@example.invalid','commit','-m',message);return git(root,'rev-parse','HEAD');}
 
 test('multiple same-named repositories remain independent; content updates keep grants and historical provenance',async t=>{
@@ -38,11 +38,11 @@ test('repository registry grows past ten while each job explicitly chooses its t
 
 test('local updates do not add execution tools and symlink documents cannot escape repository',async t=>{
  const a=await fixture(t),root=repo(a,'skills'),c=await mount(a,{path:root}),j=job(a,[c.id]);
- const external=path.join(a.dir,'private.md');fs.writeFileSync(external,'private');fs.symlinkSync(external,path.join(root,'outside.md'));
+ const external=path.join(a.dir,'private.md');fs.writeFileSync(external,'private');{if(!require('./helpers/symlink.cjs').link(t,external,path.join(root,'outside.md')))return;}
  fs.writeFileSync(path.join(root,'evil.py'),'raise Exception("should never run")');
  await ui(a,'capabilityRefresh',{id:c.id});assert.deepEqual(c.tools.map(t=>t.name),['list_skills','read_document']);assert.ok(!c.documents.some(d=>d.path==='outside.md'));
  await assert.rejects(read(a,j,c,'outside.md'),/登记/);await assert.rejects(read(a,j,c,'../private.md'),/登记/);
- fs.rmSync(path.join(root,'SKILL.md'));fs.symlinkSync(external,path.join(root,'SKILL.md'));await assert.rejects(read(a,j,c),/未找到/);assert.equal(a.data.capabilityRuns[0].status,'failed');assert.equal(a.data.capabilityRuns[0].usedVersion,undefined);
+ fs.rmSync(path.join(root,'SKILL.md'));{if(!require('./helpers/symlink.cjs').link(t,external,path.join(root,'SKILL.md')))return;}await assert.rejects(read(a,j,c),/未找到/);assert.equal(a.data.capabilityRuns[0].status,'failed');assert.equal(a.data.capabilityRuns[0].usedVersion,undefined);
 });
 
 test('git remote refresh reads newest commit without touching dirty checkout and fails closed when remote is missing',async t=>{

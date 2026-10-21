@@ -1,0 +1,18 @@
+import React,{useEffect,useState} from 'react';
+import LocalExternal from './LocalExternal';
+import RegistrationGuide from './RegistrationGuide';
+import LocalMedia from './LocalMedia';
+import './local-tools.css';
+export default function LocalTools({data,act}){
+ const [status,setStatus]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[language,setLanguage]=useState('python'),[code,setCode]=useState(''),[confirmed,setConfirmed]=useState(false),[mail,setMail]=useState({to:'',subject:'',body:''}),[draft,setDraft]=useState(null);
+ async function call(action,input){setBusy(true);setError('');try{return await act(action,input);}catch(e){setError(e.message);return null;}finally{setBusy(false);}}
+ useEffect(()=>{act('localToolsStatus').then(setStatus).catch(e=>setError(e.message));},[]);
+ return <section className="settings-card local-tools" aria-label="Windows 本机工具"><header><div><h2>本机工具与接入检查</h2><p>配置专用资料目录、交付目录和本机资料 MCP。</p></div><button className="button" disabled={busy} onClick={async()=>{const s=await call('localToolsStatus');if(s)setStatus(s);}}>重新检测</button></header>
+ {status&&<><p>{Object.entries(status.runtimes).map(([name,p])=>`${name}：${p?'已找到':'未安装'}`).join(' · ')} · 飞书 CLI：{status.lark?'已安装':'未安装'}</p><p>交付目录：<code>{status.outputFolder||'未配置'}</code></p><p>资料目录：{status.folderConfigured?'已配置':'未配置'} · MCP：{status.mcpConfigured?'已配置':'未配置'} · GitHub：{status.githubConfigured?'已配置':'待配置'}</p><p>{Object.entries(status.connectors).map(([name,rows])=>`${name}：${rows.length?`${rows.length} 个来源`:'待账号与来源'}`).join(' · ')}</p><button className="button primary" disabled={busy||!!data.operation} onClick={async()=>{const s=await call('localToolsSetup');if(s)setStatus(s);}}>配置本机资料、交付与 MCP</button><p className="help-text">资料目录为 {status.materials}。将资料放入此目录后收集；委托使用 MCP 时，在扩展能力中勾选“本机资料 MCP”。</p></>}
+ <details><summary>运行 Python / JavaScript</summary><p>手动运行此处的代码，结果写入交付目录的独立运行文件夹。代码以当前用户权限执行；请核对代码。最多运行 60 秒，支持全局停止。</p><label>语言<select aria-label="本机代码语言" value={language} onChange={e=>{setLanguage(e.target.value);setConfirmed(false);}}><option value="python">Python</option><option value="javascript">JavaScript / Node</option></select></label><label>代码<textarea aria-label="本机执行代码" rows={8} value={code} onChange={e=>{setCode(e.target.value);setConfirmed(false);}}/></label><label className="check-label"><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)}/>我已核对并执行本次代码</label><button className="button primary" disabled={busy||!!data.operation||!confirmed||!code.trim()} onClick={async()=>{await call('localToolsRun',{language,code,confirmed});setConfirmed(false);}}>运行代码</button>{(data.localToolRuns||[]).slice(0,5).map(r=><article key={r.id}><strong>{r.language} · {r.status}</strong><p><code>{r.outputFolder}</code></p><pre>{r.stdout||r.stderr||r.error||'运行中…'}</pre></article>)}</details>
+ <details><summary>创建可用邮件客户端打开的草稿</summary><label>收件人<input aria-label="本机邮件收件人" value={mail.to} onChange={e=>setMail({...mail,to:e.target.value})}/></label><label>主题<input aria-label="本机邮件主题" value={mail.subject} onChange={e=>setMail({...mail,subject:e.target.value})}/></label><label>正文<textarea aria-label="本机邮件正文" rows={5} value={mail.body} onChange={e=>setMail({...mail,body:e.target.value})}/></label><button className="button" disabled={busy} onClick={async()=>setDraft(await call('localToolsMailDraft',mail))}>保存 .eml 草稿</button>{draft&&<p>草稿已保存，尚未发送：<code>{draft.path}</code></p>}</details>
+ <LocalExternal data={data} act={act}/>
+ <LocalMedia data={data} act={act}/>
+ <RegistrationGuide act={act}/>
+ {error&&<p className="form-error" role="alert">{error}</p>}</section>;
+}

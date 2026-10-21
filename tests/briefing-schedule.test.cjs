@@ -61,7 +61,7 @@ test('Conflicting existing files and symlinks remain untouched; discard allows a
  const {a,output,dir}=fixture(t),open=fs.openSync;let once=true;
  fs.openSync=(file,...args)=>{if(String(file).startsWith(output+path.sep)&&args[0]==='wx'&&once){once=false;fs.writeFileSync(file,'manual content');}return open(file,...args);};try{m.run(a);}finally{fs.openSync=open;}
  const r=a.data.briefingSchedule.runs[0];assert.equal(r.status,'failed');assert.equal(fs.readFileSync(path.join(output,r.filename),'utf8'),'manual content');assert.throws(()=>m.run(a),/核对/);
- const target=path.join(dir,'secret');fs.writeFileSync(target,'untouched');fs.unlinkSync(path.join(output,r.filename));fs.symlinkSync(target,path.join(output,r.filename));m.run(a,{retryId:r.id});assert.equal(r.status,'failed');assert.equal(fs.readFileSync(target,'utf8'),'untouched');
+ const target=path.join(dir,'secret');fs.writeFileSync(target,'untouched');fs.unlinkSync(path.join(output,r.filename));{if(!require('./helpers/symlink.cjs').link(t,target,path.join(output,r.filename)))return;}m.run(a,{retryId:r.id});assert.equal(r.status,'failed');assert.equal(fs.readFileSync(target,'utf8'),'untouched');
  await a.dispatch('briefingScheduleDiscard',{revision:a.data.briefingSchedule.revision,id:r.id});assert.equal(r.status,'abandoned');assert.equal(r.content,undefined);m.run(a);assert.equal(fs.readdirSync(output).length,2);
 });
 test('Restoring old work retains later report receipts and current folder but pauses the plan',async t=>{

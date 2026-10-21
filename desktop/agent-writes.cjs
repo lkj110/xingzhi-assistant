@@ -6,11 +6,11 @@ const plan=require('./agent-plan.cjs');
 const delivery=require('./delivery-format.cjs');
 const uid=()=>crypto.randomUUID(), now=()=>new Date().toISOString();
 const hash=v=>crypto.createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
-const actions=['lark_create','lark_update','write_file','github_create','github_update','github_comment'];
+const actions=[...require('./agent-local.cjs').actions,'lark_create','lark_update','write_file','github_create','github_update','github_comment'];
 const version=task=>hash({primaryArtifactId:task.primaryArtifactId,title:task.title,description:task.description,criteria:task.criteria,sources:task.sourceIds,notes:task.notes,steps:task.steps,dependsOn:task.dependsOn,needsReplan:task.needsReplan});
 function owned(a,job,id){const t=a.task(id);require('./task-trash.cjs').assertTask(t);if(t.agentJobId!==job.id)throw new Error('事项不属于当前委托');return t;}
 function latest(a,task){return require('./deliverables.cjs').select(a,task);}
-function mode(job,tool,taskId){return ({lark_create:require('./lark-create-policy.cjs').mode(job,taskId),lark_update:!job.larkCreateGrant?'off':require('./lark-create-policy.cjs').policy(job,taskId)?.allowUpdate?'auto':'ask',write_file:job.fileMode,github_create:job.githubMode,github_update:job.githubUpdateMode,github_comment:job.githubCommentMode})[tool]||'off';}
+function mode(job,tool,taskId){if(require('./agent-local.cjs').actions.includes(tool))return require('./agent-local.cjs').mode(job,tool);return ({lark_create:require('./lark-create-policy.cjs').mode(job,taskId),lark_update:!job.larkCreateGrant?'off':require('./lark-create-policy.cjs').policy(job,taskId)?.allowUpdate?'auto':'ask',write_file:job.fileMode,github_create:job.githubMode,github_update:job.githubUpdateMode,github_comment:job.githubCommentMode})[tool]||'off';}
 function linkedIssue(a,job,task,number) {
   const n=number || task.githubIssue?.number || a.data.agentActions.findLast(r=>r.taskId===task.id&&r.tool==='github_create'&&r.status==='done')?.result?.number;
   if(!Number.isInteger(n)||n<1)throw new Error('请先读取并关联要更新的 Issue');
@@ -49,6 +49,7 @@ function validateFileRecord(a,record,{currentTask}={}) {
   return format;
 }
 async function prepare(a,job,tool,args) {
+  if(require('./agent-local.cjs').actions.includes(tool))return require('./agent-local.cjs').prepare(a,job,tool,args);
   require('./protocol-access.cjs').assertTool(a,job,'prepare_'+tool,args,{taskId:args.taskId});
   const task=owned(a,job,args.taskId);plan.assertReady(a,task);
   require('./evidence-consumption.cjs').assertDelivery(a,job,task);
@@ -119,6 +120,7 @@ async function prepare(a,job,tool,args) {
   if(old)old.status='stale';a.data.agentActions.push(record);a.save();return record;
 }
 function evidence(a,task,record) {
+  if(require('./agent-local.cjs').actions.includes(record.tool))return require('./agent-local.cjs').evidence(a,task,record);
   const step=task.steps.find(s=>!s.done);
   if(step?.kind==='external'&&step.tool===record.tool&&latest(a,task).id===record.artifactId) {
     step.done=true;step.evidence=JSON.stringify({actionId:record.id,...record.result});a.requeue(task);a.save();
@@ -196,6 +198,7 @@ function saveLarkReadback(a,job,record,result){
   return saved;
 }
 async function execute(a,job,record) {
+  if(require('./agent-local.cjs').actions.includes(record.tool))return require('./agent-local.cjs').execute(a,job,record);
   const key=record.tool==='write_file'?'file:'+path.join(path.dirname(record.target),record.latestName||path.basename(record.target)).normalize('NFC').toLowerCase():record.tool.startsWith('github_')?'github:'+record.target.toLowerCase()+':'+(record.number||record.key):record.tool==='lark_update'?'lark:'+record.baseline.url:'action:'+record.id;
   return require('./execution.cjs').withWrite(a,key,()=>executeLocked(a,job,record));
 }
@@ -286,6 +289,7 @@ async function executeLocked(a,job,record) {
   } catch(error){if(record.effectStatus==='applied'&&record.status==='done'){error.committed=true;throw error;}const rejected=['lark_create','lark_update'].includes(record.tool)&&!record.result?.created&&!record.result?.updateAcknowledged&&['auth','permission','missing_cli'].includes(error.connectorCode);record.status=!rejected&&(attempted||error.requiresInput)?'uncertain':'failed';record.error=error.message;if(record.status!=='uncertain'&&job.pendingActionId===record.id)job.pendingActionId=null;a.save();throw error;}
 }
 async function verifyDelivery(a,job,task) {
+  for(const r of a.data.agentActions.filter(r=>r.jobId===job.id&&r.taskId===task.id&&r.status==='done'&&require('./agent-local.cjs').actions.includes(r.tool)))require('./agent-local.cjs').verify(r);
   const records=a.data.agentActions.filter(r=>r.taskId===task.id&&r.jobId===job.id&&r.status==='done');
   if(job.outputFolder&&job.fileMode!=='off'&&task.steps.some(s=>s.kind!=='external')) {
     assertOutputFolder(job.outputFolder);

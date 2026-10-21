@@ -5,7 +5,7 @@ test('packaged ASAR engine and nested parser execute in Electron Node mode witho
  const root=path.resolve(__dirname,'..'),dir=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'assistant-asar-test-')));
  t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
  fs.mkdirSync(path.join(dir,'source'));fs.cpSync(path.join(root,'desktop'),path.join(dir,'source/desktop'),{recursive:true});
- fs.copyFileSync(path.join(root,'package.json'),path.join(dir,'source/package.json'));fs.symlinkSync(path.join(root,'node_modules'),path.join(dir,'node_modules'),'dir');
+ fs.copyFileSync(path.join(root,'package.json'),path.join(dir,'source/package.json'));{if(!require('./helpers/symlink.cjs').link(t,path.join(root,'node_modules'),path.join(dir,'node_modules'),'dir'))return;}
  await require('@electron/asar').createPackage(path.join(dir,'source'),path.join(dir,'app.asar'));
  fs.writeFileSync(path.join(dir,'fixture.cjs'),`exports.create=({Assistant,options})=>{const deny=async()=>{throw Error('External requests prohibited');};return new Assistant({...options,chat:deny,agentRequest:deny,connectorRequest:deny,officeRequest:deny,webRequest:deny,feedRequest:deny});};`);
  fs.writeFileSync(path.join(dir,'check.cjs'),`

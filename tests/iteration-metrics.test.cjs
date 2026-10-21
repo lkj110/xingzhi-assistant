@@ -261,7 +261,7 @@ for (const damage of ['bytes', 'tail', 'middle', 'head', 'pending', 'metadata', 
     if (damage === 'head') json(path.join(f.dir, 'HEAD.json'), {sequence: 3, hash: '0'.repeat(64)});
     if (damage === 'pending') put(path.join(f.dir, 'HEAD.json.interrupted.pending'), 'partial');
     if (damage === 'metadata') json(path.join(f.dir, 'meta.json'), {format: 'iteration-metrics/v1', iterationId: 'rewritten'});
-    if (damage === 'event-symlink') { fs.renameSync(first, path.join(f.root, 'elsewhere')); fs.symlinkSync(path.join(f.root, 'elsewhere'), first); }
+    if (damage === 'event-symlink') { fs.renameSync(first, path.join(f.root, 'elsewhere')); {if(!require('./helpers/symlink.cjs').link(t,path.join(f.root, 'elsewhere'), first))return;} }
     assert.throws(f.report); assert.throws(() => f.record(f.result('three', 'C', 'passed', 3)));
   });
 }
@@ -271,7 +271,7 @@ test('lock contention never steals locks, and linked ledger directories are refu
   for (const action of [f.report, () => f.record(f.result('x', 'C')), () => metrics.init(f.init)])
     assert.throws(action, errorCode('METRICS_LOCKED'));
   assert.equal(fs.readFileSync(lock, 'utf8'), 'external writer'); fs.unlinkSync(lock);
-  const alias = path.join(f.root, 'alias'); fs.symlinkSync(f.dir, alias, 'dir');
+  const alias = path.join(f.root, 'alias'); {if(!require('./helpers/symlink.cjs').link(t,f.dir, alias, 'dir'))return;}
   assert.throws(() => metrics.report({dir: alias}), errorCode('METRICS_STORAGE'));
   assert.equal(f.report().eventCount, 1);
 });
@@ -488,7 +488,7 @@ test('MET04: missed failed runs can be imported by UUID after active advances, w
   put(path.join(f.gateDir, '.running'), 'peer runner');
   assert.throws(() => f.api.importRun(historicalArgs), errorCode('METRICS_GATE_BUSY'));
   fs.unlinkSync(path.join(f.gateDir, '.running'));
-  const linkedId = crypto.randomUUID(); fs.symlinkSync(path.dirname(firstFile), path.join(f.gateDir, 'runs', 'fullSuite', linkedId), 'dir');
+  const linkedId = crypto.randomUUID(); {if(!require('./helpers/symlink.cjs').link(t,path.dirname(firstFile), path.join(f.gateDir, 'runs', 'fullSuite', linkedId), 'dir'))return;}
   assert.throws(() => f.api.importRun({...f.args, runId: linkedId}), errorCode('METRICS_STORAGE'));
   fs.unlinkSync(path.join(f.gateDir, 'runs', 'fullSuite', linkedId));
   const envelope = read(firstFile); envelope.hmac = '0'.repeat(64); json(firstFile, envelope);

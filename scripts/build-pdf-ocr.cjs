@@ -1,5 +1,6 @@
 const fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process'),crypto=require('node:crypto');
-if(process.platform!=='darwin')throw new Error('本地PDF 识别组件须在 macOS 构建');
+if(process.platform==='win32'){console.log('PDF OCR uses Windows.Data.Pdf and Windows.Media.Ocr.');process.exit(0);}
+if(process.platform!=='darwin')throw new Error('本地 PDF 识别组件支持 macOS 和 Windows');
 const root=path.resolve(__dirname,'..'),dir=path.join(root,'desktop/native/bin'),source=path.join(root,'desktop/native/PDFOCR.swift');
 const requested=process.argv.find(arg=>arg.startsWith('--arch='))?.slice(7)||process.arch;
 if(!['arm64','x64'].includes(requested))throw new Error('识别组件仅支持 --arch=arm64 或 --arch=x64');

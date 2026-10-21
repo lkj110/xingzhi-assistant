@@ -38,7 +38,7 @@ function target(a,task,check){
 function snapshot(a,task){
  const job=a.data.delegations?.find(j=>j.id===task.agentJobId);
  const artifacts=outputs.current(a,task).map(r=>({artifactId:r.id,stepId:r.stepId,hash:evidence.hash(r.content)}));
- const receipts=(a.data.agentActions||[]).filter(r=>r.taskId===task.id&&r.status==='done'&&artifacts.some(v=>v.artifactId===r.artifactId)).map(r=>({actionId:r.id,artifactId:r.artifactId,tool:r.tool,sourceId:r.result?.sourceId||null,hash:evidence.hash(r.result)}));
+ const receipts=(a.data.agentActions||[]).filter(r=>r.taskId===task.id&&r.status==='done'&&(artifacts.some(v=>v.artifactId===r.artifactId)||require('./agent-local.cjs').current(a,task,r))).map(r=>({actionId:r.id,artifactId:r.artifactId,tool:r.tool,sourceId:r.result?.sourceId||null,hash:evidence.hash(r.result)}));
  const value={intent:evidence.intent(job,task),artifacts,receipts,sourcesHash:evidence.hash(evidence.taskSources(a,task)),...(task.primaryArtifactId?{primaryArtifactId:task.primaryArtifactId}:{})};
  return {id:evidence.hash(value),...value};
 }
@@ -105,6 +105,7 @@ function assertRevision(a,task,step,original){
 }
 const verificationInstruction='检查仅针对 verificationSnapshot 固定的要求、稿件版本和回执。辅助核验说明是生成时点的记录，不要求它预言随后发生的保存、发布或检查结果；历史内部状态变化本身不能作为业务缺口。当前交付事实以应用回执为准，verified=true 仅证明工具动作成功，contentVerified=false 不能当成正文一致性已核实。对每项文稿缺口在 gapDetails 填入当前 artifactId 和 stepId，以及 kind=text（可直接改文）、evidence（须查询新事实）、binding（主稿或修订对象错误）、delivery（交付缺口）。分别指出应修订的稿件，不将辅助说明的问题归给主稿。用户目标及最新补充优先于 Agent 自拟的步骤和检查口径，不得把内部修复指令当成新增交付要求。';
 function deliveryContext(a,task,record,protocol){
+ if(require('./agent-local.cjs').actions.includes(record.tool))return require('./agent-local.cjs').deliveryContext(a,task,record);
  const artifact=outputs.current(a,task).find(r=>r.id===record.artifactId);
  const beingRevised=task.steps.some(s=>!s.done&&s.targetArtifactId===record.artifactId);
  const row=[...protocol.readableCatalog,...protocol.historyCatalog].find(r=>r.id===record.result?.sourceId);

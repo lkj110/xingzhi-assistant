@@ -9,7 +9,7 @@ function compact(value){
     tasks:value.tasks.map(t=>({...pick(t,['id','title','description','criteria','priority','status','steps','dependsOn','sourceIds','supersededSourceIds','needsReplan','agentCancelled','planVersion','agentKey','githubIssue','waitingOn','nextCheckAt','verification','contentVerification','evidenceRequest','primaryArtifactId','lastError','acceptedAt','acceptedBy']),notes:t.notes.slice(-3),artifactHistory:t.artifactHistory,artifacts:t.artifacts.map(r=>({id:r.id,title:r.title,stepId:r.stepId,role:r.role,current:r.current,preview:summary(r.content,1200),characters:r.characters||r.content.length,readTool:'read_artifact'}))})),
     sources:value.sources.map(s=>({...s,content:summary(s.content,s.current?1500:350),truncated:s.truncated||s.content.length>(s.current?1500:350)})),
     recentActions:value.recentActions.slice(-5).map((r,i,rows)=>({...pick(r,['tool','at','error','trigger']),result:i===rows.length-1?r.result:{summary:summary(JSON.stringify(r.result||{}),700)}})),
-    completedWrites:value.completedWrites.map(r=>({...r,result:pick(r.result||{},['path','latestPath','url','number','sha256','contentHash','verified','reused'])}))};
+    completedWrites:value.completedWrites.map(r=>({...r,result:pick(r.result||{},['path','latestPath','file','outputFolder','files','status','message','url','number','sha256','contentHash','verified','reused'])}))};
   return JSON.stringify(result).length < JSON.stringify(value).length ? result : value;
 }
 async function call(a,provider,key,messages,options,invoke){

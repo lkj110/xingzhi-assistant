@@ -17,7 +17,7 @@ function create({clipboard, nativeImage, platform=process.platform, run=execFile
   return async function screenshot(action, window) {
     if (action === 'screenshotClipboard') return imagePayload(clipboard.readImage());
     if (action !== 'screenshotRegion') throw Error('未知截图操作');
-    if (platform !== 'darwin') throw Error('框选截图当前支持 macOS；其他系统可粘贴截图');
+    if (!['darwin','win32'].includes(platform)) throw Error('框选截图支持 Windows 和 macOS；其他系统可粘贴截图');
     if (capturing) throw Error('请先完成或取消当前截图');
     capturing=true;
     let directory, wasVisible=false;
@@ -27,7 +27,9 @@ function create({clipboard, nativeImage, platform=process.platform, run=execFile
       const file=path.join(directory,'selection.png');
       wasVisible=!!window&&!window.isDestroyed()&&window.isVisible();
       if (wasVisible) window.hide();
-      const result=await new Promise(resolve=>run('/usr/sbin/screencapture',['-i','-s','-x','-t','png',file],{timeout:120000,maxBuffer:4096},error=>resolve(error)));
+      const command=platform==='win32'?require('./windows-native.cjs').nativePath('bin/windows-capture.exe'):'/usr/sbin/screencapture';
+      const args=platform==='win32'?['--screenshot',file]:['-i','-s','-x','-t','png',file];
+      const result=await new Promise(resolve=>run(command,args,{timeout:120000,maxBuffer:4096,windowsHide:true},error=>resolve(error)));
       if (result?.killed) throw Error('截图等待超时，请重新框选');
       if (!fs.existsSync(file)) {
         if (result) throw Error('截图未完成；可重试或在系统设置中允许行知助手录制屏幕，也可使用系统截图后粘贴');

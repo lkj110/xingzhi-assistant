@@ -3,7 +3,7 @@ const path=require('node:path');
 const crypto=require('node:crypto');
 const now=()=>new Date().toISOString();
 const digest=text=>crypto.createHash('sha256').update(text).digest('hex');
-function atomic(file,text){const temp=file+'.'+crypto.randomUUID()+'.tmp';try{const fd=fs.openSync(temp,'wx',0o600);try{fs.writeFileSync(fd,text);fs.fsyncSync(fd);}finally{fs.closeSync(fd);}fs.renameSync(temp,file);const dir=fs.openSync(path.dirname(file),'r');try{fs.fsyncSync(dir);}finally{fs.closeSync(dir);}}finally{if(fs.existsSync(temp))fs.unlinkSync(temp);}}
+function atomic(file,text){const temp=file+'.'+crypto.randomUUID()+'.tmp';try{const fd=fs.openSync(temp,'wx',0o600);try{fs.writeFileSync(fd,text);fs.fsyncSync(fd);}finally{fs.closeSync(fd);}fs.renameSync(temp,file);require('./filesystem-platform.cjs').syncDirectory(path.dirname(file));}finally{if(fs.existsSync(temp))fs.unlinkSync(temp);}}
 const terminal=row=>row?.status==='completed'||row?.status==='archived'||!!row?.deletedAt;
 function validate(data){
   if(!data||data.version!==1||!data.settings||!['tasks','sources','providers','artifacts','events'].every(k=>Array.isArray(data[k])))throw new Error('工作空间或备份格式无效');
@@ -51,6 +51,7 @@ function create(a,reason='manual'){
   const rows=list(a);for(const r of rows.filter(r=>!r.invalid).slice(30))fs.unlinkSync(filename(a,r.id));return id;
 }
 function pause(data,current=data){
+  require('./local-tools.cjs').recover(data);
   const pauseIntent=new Map((current.delegations||[]).map(j=>[j.id,{status:j.status,rulePausedState:j.rulePausedState,projectRuleRecoveryHold:j.projectRuleRecoveryHold}]));
   require('./model-fallback.cjs').revoke(data,'restore');
   require('./model-routing.cjs').revoke(data,'restore');

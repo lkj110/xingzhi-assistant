@@ -41,5 +41,5 @@ test('ENG-CHECK: rename must authorize both removed and added paths',async t=>{
  });
 });
 test('ENG-CHECK: reviewer document direct and parent symlinks reject before freeze',async t=>{
- for(const parent of [false,true])await t.test(String(parent),t=>{const f=fixture(t),outside=path.join(path.dirname(f.source),'outside');fs.mkdirSync(outside);const target=path.join(outside,'review.md');fs.writeFileSync(target,'Fixture independent approval');const link=path.join(path.dirname(f.source),'review-link');fs.symlinkSync(parent?outside:target,link);const r=JSON.parse(fs.readFileSync(f.designReview));r.reviewDocument.path=parent?path.join(link,'review.md'):link;f.write(f.designReview,r);assert.equal(failed(f.run(),'LINKED_REVIEW_INPUT'),true);});
+ for(const parent of [false,true])await t.test(String(parent),t=>{const f=fixture(t),outside=path.join(path.dirname(f.source),'outside');fs.mkdirSync(outside);const target=path.join(outside,'review.md');fs.writeFileSync(target,'Fixture independent approval');const link=path.join(path.dirname(f.source),'review-link');{if(!require('./helpers/symlink.cjs').link(t,parent?outside:target,link))return;}const r=JSON.parse(fs.readFileSync(f.designReview));r.reviewDocument.path=parent?path.join(link,'review.md'):link;f.write(f.designReview,r);assert.equal(failed(f.run(),'LINKED_REVIEW_INPUT'),true);});
 });

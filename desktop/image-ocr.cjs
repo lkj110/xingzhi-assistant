@@ -3,8 +3,9 @@ const childProcess=require('node:child_process');
 
 const limits=Object.freeze({bytes:10_000_000,pixels:25_000_000,edge:10000,recognitionEdge:4096,timeoutMs:25000,outputBytes:2_000_000,characters:500_000});
 const messages={
-  OCR_UNSUPPORTED:'图片文字识别目前仅支持 macOS 13 及以上系统',
-  OCR_UNAVAILABLE:'本地图片识别组件不可用，请重新安装完整的 Mac App',
+  OCR_UNSUPPORTED:'图片文字识别需要 Windows 10/11 或 macOS 13 及以上系统',
+  OCR_UNAVAILABLE:'本地图片识别组件不可用，请重新安装完整应用',
+  OCR_LANGUAGE:'Windows 未安装可用的 OCR 语言包，请在系统语言设置中添加中文或英文文字识别组件',
   OCR_FORMAT:'仅支持 PNG、JPG、JPEG 图片，请转换格式后导入',
   OCR_INVALID:'图片损坏或无法完整读取，请重新导出 PNG 或 JPEG 图片',
   OCR_LIMIT:'图片须在 10 MB、单边 10000 像素和 2500 万总像素以内',
@@ -16,8 +17,8 @@ const messages={
 };
 function failure(code){const safeCode=Object.hasOwn(messages,code)?code:'OCR_FAILED';const error=new Error(messages[safeCode]);error.code=safeCode;error.automaticRetry=false;if(safeCode==='OCR_CANCELLED')error.name='AbortError';return error;}
 function binaryPath(directory=__dirname){return path.join(directory,'native','bin','image-ocr').replace(/([\\/])app\.asar([\\/])/,'$1app.asar.unpacked$2');}
-function validateResult(result){
-  if(!result||result.version!==1||result.engine!=='apple-vision'||!['png','jpeg'].includes(result.format)||!Number.isSafeInteger(result.width)||!Number.isSafeInteger(result.height)||result.width<1||result.height<1||result.width>limits.edge||result.height>limits.edge||result.width*result.height>limits.pixels||!Array.isArray(result.lines)||result.lines.length>10000)throw failure('OCR_OUTPUT');
+function validateResult(result,engine='apple-vision'){
+  if(!result||result.version!==1||result.engine!==engine||!['png','jpeg'].includes(result.format)||!Number.isSafeInteger(result.width)||!Number.isSafeInteger(result.height)||result.width<1||result.height<1||result.width>limits.edge||result.height>limits.edge||result.width*result.height>limits.pixels||!Array.isArray(result.lines)||result.lines.length>10000)throw failure('OCR_OUTPUT');
   let characters=0;
   const lines=result.lines.map(line=>{
     const box=line?.box;
@@ -32,7 +33,7 @@ function validateResult(result){
 // The injected options are for isolated process tests; the app always uses these fixed defaults.
 function recognize(buffer,signal,{platform=process.platform,spawnImpl=childProcess.spawn,timeoutMs=limits.timeoutMs}={}){
   if(signal?.aborted)return Promise.reject(failure('OCR_CANCELLED'));
-  if(platform!=='darwin')return Promise.reject(failure('OCR_UNSUPPORTED'));
+  if(!['darwin','win32'].includes(platform))return Promise.reject(failure('OCR_UNSUPPORTED'));
   if(process.platform==='darwin'&&Number(require('node:os').release().split('.')[0])<22)return Promise.reject(failure('OCR_UNSUPPORTED'));
   if(!Buffer.isBuffer(buffer)||!buffer.length||buffer.length>limits.bytes)return Promise.reject(failure('OCR_LIMIT'));
   const png=buffer.length>=8&&buffer.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]));
@@ -43,7 +44,7 @@ function recognize(buffer,signal,{platform=process.platform,spawnImpl=childProce
     const settle=(error,result)=>{if(finished)return;finished=true;clearTimeout(timer);signal?.removeEventListener('abort',abort);error?reject(error):resolve(result);};
     const stop=code=>{if(finished||stopped)return;stopped=failure(code);child?.kill('SIGKILL');};
     const abort=()=>stop('OCR_CANCELLED');
-    try {child=spawnImpl(binaryPath(),[],{stdio:['pipe','pipe','ignore'],shell:false,windowsHide:true});}
+    try {const command=platform==='win32'?require('./windows-native.cjs').ocrCommand('image'):{file:binaryPath(),args:[]};child=spawnImpl(command.file,command.args,{stdio:['pipe','pipe','ignore'],shell:false,windowsHide:true});}
     catch{return settle(failure('OCR_UNAVAILABLE'));}
     child.on('error',()=>{if(!finished)settle(stopped||failure('OCR_UNAVAILABLE'));});
     child.stdout.on('data',chunk=>{if(stopped||finished)return;size+=chunk.length;if(size>limits.outputBytes){chunks=[];return stop('OCR_OUTPUT');}chunks.push(chunk);});
@@ -54,7 +55,7 @@ function recognize(buffer,signal,{platform=process.platform,spawnImpl=childProce
       let value;try{value=JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{return settle(failure('OCR_FAILED'));}
       if(value?.error)return settle(failure(value.error));
       if(code!==0)return settle(failure('OCR_FAILED'));
-      try{settle(null,validateResult(value));}catch(error){settle(error);}
+      try{settle(null,validateResult(value,platform==='win32'?'windows-ocr':'apple-vision'));}catch(error){settle(error);}
     });
     timer=setTimeout(()=>stop('OCR_TIMEOUT'),Math.min(limits.timeoutMs,Math.max(1,timeoutMs)));
     signal?.addEventListener('abort',abort,{once:true});

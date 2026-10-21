@@ -52,6 +52,6 @@ export default function AttentionPage({data,act,onNavigate,openTask,openJob,open
       {!loading&&!error&&!items.length&&<div className="attention-empty"><Bell size={28}/><h3>当前筛选下没有关注记录</h3><p>待处理工作会根据最新状态自动进入关注中心。已解决的问题会自动移出。</p></div>}
     </section>
     {result?.pageCount>1&&<nav className="attention-pagination" aria-label="关注列表分页"><button className="button small" disabled={busy||result.page<=1} onClick={()=>setPage(result.page-1)}>上一页</button><span>第 {result.page} / {result.pageCount} 页 · {result.from}–{result.to} 条</span><button className="button small" disabled={busy||result.page>=result.pageCount} onClick={()=>setPage(result.page+1)}>下一页</button></nav>}
-    <section className="attention-help"><h3>提醒如何工作</h3><ul><li>已知晓只关闭本阶段、相同条件的截止风险决定；权限、费用和验收问题仍需处理。</li><li>标记已读和稍后提醒只管理阅读状态，不批准外部动作、不回答问题，也不完成事项。</li><li>稍后提醒期间，若问题内容或紧急程度变化，会提前重新成为未读。到期提醒依赖 App 运行和电脑处于唤醒状态。</li><li>同一内容的系统通知会合并并去重。窗口在前台时，可以直接在这里查看；系统通知的展示受 macOS 设置影响。</li><li>完成进展保留最近 7 天且当前依据完整的本机记录；本页不重新联网核对外部结果。</li><li>重启保留已读和稍后提醒记录；截止风险的处理与执行唤醒分别保存，恢复备份时与当前工作记录核对。</li></ul></section>
+    <section className="attention-help"><h3>提醒如何工作</h3><ul><li>已知晓只关闭本阶段、相同条件的截止风险决定；权限、费用和验收问题仍需处理。</li><li>标记已读和稍后提醒只管理阅读状态，不批准外部动作、不回答问题，也不完成事项。</li><li>稍后提醒期间，若问题内容或紧急程度变化，会提前重新成为未读。到期提醒依赖 App 运行和电脑处于唤醒状态。</li><li>同一内容的系统通知会合并并去重。窗口在前台时，可以直接在这里查看；系统通知的展示受系统通知设置影响。</li><li>完成进展保留最近 7 天且当前依据完整的本机记录；本页不重新联网核对外部结果。</li><li>重启保留已读和稍后提醒记录；截止风险的处理与执行唤醒分别保存，恢复备份时与当前工作记录核对。</li></ul></section>
   </div>;
 }

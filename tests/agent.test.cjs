@@ -85,7 +85,7 @@ test('Permissions reject unscoped files, unknown tasks and arbitrary tools; cred
   const {a,folder}=await setup(t,[response('ask',{question:'测试停靠'})]);await a.dispatch('agentSettings',{githubRepo:'acme/work',githubToken:'GITHUB_SYNTHETIC_SECRET',searchKey:'SEARCH_SYNTHETIC_SECRET'});const job=await create(a,{allowWeb:false});
   await assert.rejects(agent.act(a,job,'read_file',{folderId:'missing',name:'会议.md'}),/授权/);
   await assert.rejects(agent.act(a,job,'read_file',{folderId:'folder',name:'../vault.key'}));
-  fs.symlinkSync(a.file,path.join(folder,'link.md'));await assert.rejects(agent.act(a,job,'read_file',{folderId:'folder',name:'link.md'}));
+  {if(!require('./helpers/symlink.cjs').link(t,a.file,path.join(folder,'link.md')))return;}await assert.rejects(agent.act(a,job,'read_file',{folderId:'folder',name:'link.md'}));
   await assert.rejects(agent.act(a,job,'read_url',{url:'https://example.com'}),/权限/);
   await assert.rejects(agent.act(a,job,'shell',{command:'true'}),/不可用/);
   const exported=JSON.stringify(await a.dispatch('export'));assert.equal(exported.includes('SYNTHETIC_SECRET'),false);assert.equal(exported.includes(a.data.agentSettings.githubToken),false);assert.equal(a.publicState().agentSettings.hasGithubToken,true);

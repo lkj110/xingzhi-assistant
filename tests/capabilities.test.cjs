@@ -10,3 +10,18 @@ test('disable and re-enable invalidate existing authorization, explicit re-grant
 test('MCP performs actual stdio handshake, validates allowlist, and executes authorized tool',async t=>{const a=await fixture(t),config={kind:'mcp',name:'fixture',command:process.execPath,args:[path.join(__dirname,'fixtures/capability-mcp.cjs')],cwd:path.resolve(__dirname,'..'),noModel:true};const p=await ui(a,'capabilityInspect',config);assert.equal(p.tools.length,2);await assert.rejects(ui(a,'capabilitySave',{token:p.token,allowedTools:['unsafe_fixture'],trusted:true}),/只读/);await assert.rejects(ui(a,'capabilitySave',{token:p.token,allowedTools:['summarize_fixture']}),/信任/);await ui(a,'capabilitySave',{token:p.token,allowedTools:['summarize_fixture'],trusted:true});const c=a.data.capabilities[0],j=agent.buildJob(a,{goal:'MCP test',capabilityIds:[c.id]});const r=await cap.invoke(a,j,{capabilityId:c.id,tool:'summarize_fixture',input:{text:'hello'}});assert.equal(r.result.content[0].text,'fixture:hello');await assert.rejects(cap.invoke(a,j,{capabilityId:c.id,tool:'unsafe_fixture'}),/授权范围/);});
 test('MCP commands require explicit executable, directory and no-model declaration',async()=>{for(const config of [{},{kind:'mcp',noModel:false},{kind:'mcp',noModel:true,command:'node',cwd:os.tmpdir()}])await assert.rejects(cap.inspect(config));});
 test('save requires current preview and can grant a subset only',async t=>{const a=await fixture(t);await assert.rejects(ui(a,'capabilitySave',{token:'old',allowedTools:['x']}),/检查/);const c=await mount(a,{kind:'dw',path:dwFixture(a)},['list_skills']);const j=agent.buildJob(a,{goal:'test',capabilityIds:[c.id]});await assert.rejects(cap.invoke(a,j,{capabilityId:c.id,tool:'sql_review',input:{sql:'select 1'}}),/范围/);});
+test('Windows Python cancellation drains descendants before removing the execution snapshot',{skip:process.platform!=='win32'},async t=>{
+ const a=await fixture(t),root=dwFixture(a),record=path.join(a.dir,'started.json');
+ fs.writeFileSync(path.join(root,'scripts/governance/lint/sql_anti_pattern_linter.py'),
+  `import os,sys,json,time,subprocess\nchild=subprocess.Popen([sys.executable,"-c","import time; time.sleep(30)"],stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,creationflags=subprocess.DETACHED_PROCESS)\nwith open(${JSON.stringify(record)},"w",encoding="utf-8") as f: json.dump([os.getpid(),child.pid],f)\ntime.sleep(30)\n`);
+ const c=await mount(a,{kind:'dw',path:root}),j=agent.buildJob(a,{goal:'cancel review',capabilityIds:[c.id]});
+ const controller=new AbortController();a.controller=controller;
+ const pending=cap.invoke(a,j,{capabilityId:c.id,tool:'sql_review',input:{sql:'select 1'}});
+ const rejected=assert.rejects(pending,/能力调用已取消/);
+ const deadline=Date.now()+5000;while(!fs.existsSync(record)&&Date.now()<deadline)await new Promise(r=>setTimeout(r,20));
+ controller.abort();await rejected;a.controller=null;
+ assert.ok(fs.existsSync(record),'Python was running before cancellation');
+ for(const pid of JSON.parse(fs.readFileSync(record)))assert.throws(()=>process.kill(pid,0),{code:'ESRCH'});
+ const runs=path.join(a.dir,'capability-cache',c.executionTrust.scriptsDigest);
+ assert.deepEqual(fs.readdirSync(runs),[],'temporary working directory removed after process tree exit');
+});

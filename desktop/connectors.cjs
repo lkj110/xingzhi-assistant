@@ -174,8 +174,11 @@ async function dispatch(a,action,input){
     if(office.kind(config)!=='lark'){
       if(input.token!==undefined&&(typeof input.token!=='string'||input.token.length>16000||/[\r\n]/.test(input.token)))throw Error('访问令牌格式无效');
       if(input.token?.trim())sealedToken=await a.vault.seal(input.token.trim());
-      if(!sealedToken&&config.provider!=='json')throw Error('请填写访问令牌');
+      if(!sealedToken&&config.provider!=='json'&&config.authMode!=='oauth')throw Error('请填写访问令牌');
     }
+    if(existing&&['includeReplies','includeAttachments','expandChildren','notionTargetType'].some(k=>config[k]!==undefined&&config[k]!==existing[k])){row.cursor=null;row.lastSuccessAt=null;}
+    if(existing&&config.authMode==='oauth'&&(config.oauthClientId!==row.oauthClientId||config.oauthTenant!==row.oauthTenant||!!config.allowSend!==!!row.allowSend)){delete row.sealedOAuth;delete row.oauthExpiresAt;}
+    if(input.authMode==='token'){delete row.authMode;delete row.sealedOAuth;delete row.oauthExpiresAt;delete row.oauthClientId;delete row.oauthTenant;}
     Object.assign(row,...(sealedToken?[{sealedToken}]:[]),config,{enabled:input.enabled===true,health:row.health||'unchecked',nextRunAt:input.enabled===true?now():null});
     if(!existing)a.data.connectors.push(row);
     row.controlRevision=(row.controlRevision||0)+1;internal(a).previews.delete(row.id);

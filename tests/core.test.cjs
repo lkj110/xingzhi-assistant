@@ -105,7 +105,7 @@ test('independent tasks advance together, respect opt-in acceptance, and invalid
 });
 
 test('folders only ingest allowed regular files; same content is deduplicated and changes preserve history', t=>{
-  const a=workspace(t);const dir=path.join(a.dir,'materials');fs.mkdirSync(dir);fs.writeFileSync(path.join(dir,'note.md'),'第一次内容');fs.writeFileSync(path.join(dir,'secret.env'),'IGNORE');fs.symlinkSync(path.join(dir,'secret.env'),path.join(dir,'link.txt'));
+  const a=workspace(t);const dir=path.join(a.dir,'materials');fs.mkdirSync(dir);fs.writeFileSync(path.join(dir,'note.md'),'第一次内容');fs.writeFileSync(path.join(dir,'secret.env'),'IGNORE');{if(!require('./helpers/symlink.cjs').link(t,path.join(dir,'secret.env'),path.join(dir,'link.txt')))return;}
   a.data.folders.push({id:'folder',path:fs.realpathSync(dir)});syncFolders(a);syncFolders(a);assert.equal(a.data.sources.length,1);
   fs.writeFileSync(path.join(dir,'note.md'),'更新后的内容');syncFolders(a);assert.equal(a.data.sources.length,2);assert.equal(a.data.sources[1].content,'第一次内容');
 });

@@ -7,10 +7,10 @@ const history=require('./offline-test-support.cjs');
 const audit=()=>({networkAttempts:0,modelAttempts:0,subprocessAttempts:0,outsideWriteAttempts:0});
 const zero=value=>assert.deepEqual(value,audit());
 function memoryStorage() {
-  const root = '/__consumption_performance_memory__', entries = new Map(), fds = new Map(), undo = [];
+  const root = path.resolve(require('node:os').tmpdir(),'__consumption_performance_memory__').replace(/\\/g,'/'), entries = new Map(), fds = new Map(), undo = [];
   let seq = 1, nextFd = 1000000;
-  const inside = f => typeof f !== 'number' && String(f).startsWith(root + '/');
-  const key = f => typeof f === 'number' ? fds.get(f) : path.resolve(String(f));
+  const inside = f => typeof f !== 'number' && String(f).replace(/\\/g,'/').startsWith(root + '/');
+  const key = f => typeof f === 'number' ? fds.get(f) : path.resolve(String(f)).replace(/\\/g,'/');
   const err = (code, f) => Object.assign(Error(code + ': ' + f), {code});
   const set = (f, data, directory=false) => entries.set(key(f), {data:Buffer.from(data),directory,seq:seq++});
   const get = f => {const v=entries.get(key(f));if(!v)throw err('ENOENT',f);return v;};

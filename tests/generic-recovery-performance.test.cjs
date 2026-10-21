@@ -71,5 +71,5 @@ test('synthetic capture rejects corruption, inconsistent metadata and symlinks w
  assert.throws(()=>probe.verifySyntheticSnapshot(snapshot,capture),{code:'SYNTHETIC_CAPTURE_IDENTITY_REQUIRED'});
  fs.writeFileSync(path.join(snapshot,'notes.txt'),'corrupt');assert.throws(()=>probe.verifySyntheticSnapshot(snapshot,capture,expected),{code:'CAPTURE_HASH_MISMATCH'});
  fs.writeFileSync(capture,JSON.stringify({...record,consistent:false}));assert.throws(()=>probe.verifySyntheticSnapshot(snapshot,capture,expected),{code:'INVALID_CAPTURE_RECORD'});
- fs.writeFileSync(capture,JSON.stringify(record));fs.symlinkSync(path.join(snapshot,'workspace.json'),path.join(snapshot,'unexpected-link'));assert.throws(()=>probe.verifySyntheticSnapshot(snapshot,capture,expected),{code:'SNAPSHOT_NONREGULAR_ENTRY'});
+ fs.writeFileSync(capture,JSON.stringify(record));{if(!require('./helpers/symlink.cjs').link(t,path.join(snapshot,'workspace.json'),path.join(snapshot,'unexpected-link')))return;}assert.throws(()=>probe.verifySyntheticSnapshot(snapshot,capture,expected),{code:'SNAPSHOT_NONREGULAR_ENTRY'});
 });

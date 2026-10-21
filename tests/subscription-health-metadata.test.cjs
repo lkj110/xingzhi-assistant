@@ -19,7 +19,7 @@ test('actual CLI file/config/env identity changes without reading tokens or conf
  f.env.LANG='new-language';next=f.module.identity();assert.notEqual(next.configurationHash,previous.configurationHash);previous=next;
  fs.appendFileSync(f.cache,' ');next=f.module.identity();assert.deepEqual(next,previous);previous=next;
  const replacement=f.bin+'-replacement';fs.copyFileSync(f.bin,replacement);fs.renameSync(replacement,f.bin);next=f.module.identity();assert.notEqual(next.cliHash,previous.cliHash);previous=next;
- fs.renameSync(f.bin,replacement);fs.symlinkSync(replacement,f.bin);next=f.module.identity();assert.notEqual(next.cliHash,previous.cliHash);
+ fs.renameSync(f.bin,replacement);{if(!require('./helpers/symlink.cjs').link(t,replacement,f.bin))return;}next=f.module.identity();assert.notEqual(next.cliHash,previous.cliHash);
  assert.deepEqual(f.reads,[]);assert.deepEqual(f.calls,[]);
  assert.ok(f.accesses.every(v=>v.file!==f.cache));
 });

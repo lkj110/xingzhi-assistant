@@ -11,7 +11,7 @@ function initialize(a){
 function assertTool(a,job,tool,args={},options={}){
  // Lightweight in-memory protocol fixtures have no persisted policy store.
  if(!a.dir)return;
- if(!remoteTools.has(tool)&&!tool.startsWith('prepare_')&&!['model','model_request','write_file','lark_create','lark_update','github_create','github_update','github_comment','request_confirmation','read_message'].includes(tool))return;
+ if(!remoteTools.has(tool)&&!tool.startsWith('prepare_')&&![...require('./agent-local.cjs').actions,'model','model_request','write_file','lark_create','lark_update','github_create','github_update','github_comment','request_confirmation','read_message'].includes(tool))return;
  return policies.assertTool(a,job,tool==='list_files'?'list_folder':tool,args,options);
 }
 function allowedObject(a,type,row,job,task){

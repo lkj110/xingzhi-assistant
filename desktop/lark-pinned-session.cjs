@@ -1,7 +1,7 @@
 // Lark CLI 1.0.65: pin config selection without copying credentials or changing HOME.
 // This is a local adapter contract, not protection against a malicious OS user.
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),crypto=require('node:crypto');
-const {spawn}=require('node:child_process');
+const {spawn}=process.platform==='win32'?require('./windows-process.cjs'):require('node:child_process');
 const capabilities=new WeakMap(),sessions=new WeakMap();
 const unavailable=()=>Object.assign(new Error('当前飞书读取组件无法固定请求账号，请检查受支持的 CLI 后重试。'),{code:'ACCESS_IDENTITY_BINDING_UNAVAILABLE',connectorCode:'identity_binding_unavailable'});
 const cleanupFailure=()=>Object.assign(new Error('飞书临时会话清理失败，本轮已停止，请检查本地存储。'),{code:'ACCESS_IDENTITY_SESSION_CLEANUP_FAILED',connectorCode:'identity_binding_unavailable'});
@@ -34,20 +34,20 @@ function version(info,signal){
   // keeps capability probing out of the ambient account's secret resolution.
   let dir,cwd;
   try{
-   dir=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'xingzhi-lark-version-'));fs.chmodSync(dir,0o700);
+   dir=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'xingzhi-lark-version-'));protect(dir,0o700);
    fs.writeFileSync(path.join(dir,'config.json'),JSON.stringify({apps:[]}),{flag:'wx',mode:0o600});
    cwd=path.join(dir,'scratch');fs.mkdirSync(cwd,{mode:0o700});
   }catch{
    if(dir)try{fs.rmSync(dir,{recursive:true,force:true});}catch{return reject(cleanupFailure());}
    return reject(unavailable());
   }
-  const env={};for(const key of ['HOME','PATH','TMPDIR','LANG','LC_ALL','HTTPS_PROXY','HTTP_PROXY','ALL_PROXY','NO_PROXY'])if(process.env[key])env[key]=process.env[key];
+  const env=require('./host-process.cjs').environment(['HTTPS_PROXY','HTTP_PROXY','ALL_PROXY','NO_PROXY']);
   env.LARKSUITE_CLI_NO_UPDATE_NOTIFIER='1';env.LARKSUITE_CLI_NO_SKILLS_NOTIFIER='1';
   env.LARKSUITE_CLI_CONFIG_DIR=dir;
   const child=spawn(info.file,['--version'],{env,cwd,detached:true,stdio:['ignore','pipe','pipe']});
   let output='',error,killTimer;
-  const kill=()=>{try{process.kill(-child.pid,'SIGTERM');}catch{}killTimer ||= setTimeout(()=>{try{process.kill(-child.pid,'SIGKILL');}catch{}},1000);};
-  const groupAlive=()=>{if(!Number.isSafeInteger(child.pid))return false;try{process.kill(-child.pid,0);return true;}catch(e){return e.code!=='ESRCH';}};
+  const kill=()=>{if(process.platform==='win32'){child.kill();return;}try{process.kill(-child.pid,'SIGTERM');}catch{}killTimer ||= setTimeout(()=>{try{process.kill(-child.pid,'SIGKILL');}catch{}},1000);};
+  const groupAlive=()=>{if(process.platform==='win32')return !require('./windows-process.cjs').confirmed(child);if(!Number.isSafeInteger(child.pid))return false;try{process.kill(-child.pid,0);return true;}catch(e){return e.code!=='ESRCH';}};
   const abort=()=>{error=signal.reason||unavailable();kill();};
   signal?.addEventListener('abort',abort,{once:true});
   const timer=setTimeout(()=>{error=unavailable();kill();},10000);
@@ -82,10 +82,11 @@ function identity(value){
   typeof value.openId!=='string'||!/^ou_[A-Za-z0-9_-]{1,120}$/.test(value.openId)||!['feishu','lark'].includes(value.brand))throw unavailable();
  return {appId:value.appId,openId:value.openId,brand:value.brand};
 }
+function protect(file,mode){if(process.platform==='win32')require('./windows-process.cjs').secure(file);else fs.chmodSync(file,mode);}
 function location(file,type,mode){
  const s=fs.lstatSync(file);
- if(s.isSymbolicLink()||!(type==='directory'?s.isDirectory():s.isFile())||(s.mode&0o777)!==mode||fs.realpathSync(file)!==file)throw unavailable();
- return {dev:s.dev,ino:s.ino};
+ if(s.isSymbolicLink()||!(type==='directory'?s.isDirectory():s.isFile())||process.platform!=='win32'&&(s.mode&0o777)!==mode||fs.realpathSync(file)!==file)throw unavailable();
+ return {dev:s.dev,ino:s.ino,...(process.platform==='win32'?{acl:require('./windows-process.cjs').check([file])[0]}:{})};
 }
 function sameLocation(file,type,mode,expected){if(JSON.stringify(location(file,type,mode))!==JSON.stringify(expected))throw unavailable();}
 function create(handle,metadata,{signal}={}){
@@ -94,9 +95,9 @@ function create(handle,metadata,{signal}={}){
  const config=JSON.stringify({strictMode:'user',currentApp:appId,apps:[{appId,brand,defaultAs:'user',appSecret:{source:'keychain',id:'appsecret:'+appId},users:[{userOpenId:openId}]}]});
  let dir;
  try{
-  dir=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'xingzhi-lark-session-'));fs.chmodSync(dir,0o700);
+  dir=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'xingzhi-lark-session-'));protect(dir,0o700);
   const file=path.join(dir,'config.json'),cwd=path.join(dir,'scratch');
-  fs.writeFileSync(file,config,{flag:'wx',mode:0o600});fs.chmodSync(file,0o600);fs.mkdirSync(cwd,{mode:0o700});fs.chmodSync(cwd,0o700);
+  fs.writeFileSync(file,config,{flag:'wx',mode:0o600});protect(file,0o600);fs.mkdirSync(cwd,{mode:0o700});protect(cwd,0o700);
   const session=Object.freeze({});sessions.set(session,{info,dir,file,cwd,dirLocation:location(dir,'directory',0o700),fileLocation:location(file,'file',0o600),cwdLocation:location(cwd,'directory',0o700),configHash:hash(config),closed:false});return session;
  }catch{
   if(dir)try{fs.rmSync(dir,{recursive:true,force:true});}catch{throw cleanupFailure();}

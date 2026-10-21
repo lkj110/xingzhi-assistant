@@ -10,7 +10,7 @@ function prepare(a){
  if(fs.existsSync(a.file)){
   const folder=path.join(a.dir,'protocol-migrations');fs.mkdirSync(folder,{recursive:true,mode:0o700});
   const target=path.join(folder,'before-execution-v3.json');
-  if(!fs.existsSync(target)){const fd=fs.openSync(target,'wx',0o600);try{fs.writeFileSync(fd,fs.readFileSync(a.file));fs.fsyncSync(fd);}finally{fs.closeSync(fd);}const parent=fs.openSync(folder,'r');try{fs.fsyncSync(parent);}finally{fs.closeSync(parent);}}
+  if(!fs.existsSync(target)){const fd=fs.openSync(target,'wx',0o600);try{fs.writeFileSync(fd,fs.readFileSync(a.file));fs.fsyncSync(fd);}finally{fs.closeSync(fd);}require('./filesystem-platform.cjs').syncDirectory(folder);}
  }
 }
 function complete(a){

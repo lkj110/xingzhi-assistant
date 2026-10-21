@@ -42,8 +42,8 @@ test('Changed output authorization or plan makes a prepared named write invalid'
   const {a,j,task,output,prepare}=await setup(t);const r=await prepare('scope.md');const changed=path.join(a.dir,'changed');fs.mkdirSync(changed);j.outputFolder=changed;await assert.rejects(writes.execute(a,j,r),/授权范围/);assert.deepEqual(fs.readdirSync(output),[]);assert.deepEqual(fs.readdirSync(changed),[]);j.outputFolder=output;task.criteria='改变要求';await assert.rejects(writes.execute(a,j,r),/失效/);
 });
 test('Symlinks never redirect named writes outside the selected directory',async t=>{
-  const {a,j,output,prepare}=await setup(t),outside=path.join(a.dir,'outside.md');fs.writeFileSync(outside,'保留');fs.symlinkSync(outside,path.join(output,'link.md'));await assert.rejects(prepare('link.md'),e=>e.conflict);
-  const r=await prepare('after.md');fs.symlinkSync(outside,path.join(output,'after.md'));await assert.rejects(writes.execute(a,j,r),e=>e.conflict);assert.equal(fs.readFileSync(outside,'utf8'),'保留');
+  const {a,j,output,prepare}=await setup(t),outside=path.join(a.dir,'outside.md');fs.writeFileSync(outside,'保留');{if(!require('./helpers/symlink.cjs').link(t,outside,path.join(output,'link.md')))return;}await assert.rejects(prepare('link.md'),e=>e.conflict);
+  const r=await prepare('after.md');{if(!require('./helpers/symlink.cjs').link(t,outside,path.join(output,'after.md')))return;}await assert.rejects(writes.execute(a,j,r),e=>e.conflict);assert.equal(fs.readFileSync(outside,'utf8'),'保留');
 });
 test('Uncertain named delivery is reconciled read-only and a missing file is never recreated',async t=>{
   const {a,j,task,output,prepare}=await setup(t);const r=await prepare('proof.md');await writes.execute(a,j,r);r.status='uncertain';await writes.execute(a,j,r);assert.equal(r.status,'done');fs.unlinkSync(path.join(output,'proof.md'));r.status='uncertain';await assert.rejects(writes.execute(a,j,r),e=>e.requiresInput);assert.equal(r.status,'uncertain');assert.equal(fs.existsSync(path.join(output,'proof.md')),false);assert.equal(task.steps[1].done,true);

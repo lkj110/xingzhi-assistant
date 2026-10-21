@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const {spawn} = require('node:child_process');
+const {spawn} = process.platform==='win32'?require('./windows-process.cjs'):require('node:child_process');
 const pinned=require('./lark-pinned-session.cjs');
 const requestReceipts=new WeakMap(),pageReceipts=new WeakMap(),unsafeSessions=new WeakSet();
 const identityArgs=['api','GET','/open-apis/authen/v1/user_info','--as','user','--format','json'];
@@ -9,6 +9,12 @@ const identityError=(code='ACCESS_PRINCIPAL_UNKNOWN')=>Object.assign(Error('飞�
 const bindingError=()=>Object.assign(Error('飞书请求缺少有效固定会话'),{code:'ACCESS_IDENTITY_BINDING_UNAVAILABLE',connectorCode:'identity_binding_unavailable'});
 
 function executable() {
+  if(process.platform==='win32'){
+    const host=require('./host-process.cjs'),dirs=host.directories();
+    const file=host.executable('lark-cli',{dirs,candidates:dirs.flatMap(dir=>[path.join(dir,'lark-cli.exe'),path.join(dir,'node_modules','@larksuite','cli','bin','lark-cli.exe')])});
+    if(file)return file;
+    throw Object.assign(Error('未找到飞书 Windows CLI。请安装 @larksuite/cli 并完成登录。'),{connectorCode:'missing_cli'});
+  }
   const dirs = [...String(process.env.PATH || '').split(path.delimiter).filter(p=>path.isAbsolute(p)), '/opt/homebrew/bin', '/usr/local/bin', path.join(os.homedir(), '.local/bin')];
   const nvm = path.join(os.homedir(), '.nvm/versions/node');
   try { for (const name of fs.readdirSync(nvm).filter(n=>/^v\d+\.\d+\.\d+$/.test(n)).sort((a,b)=>b.localeCompare(a,undefined,{numeric:true})).slice(0,10)) dirs.push(path.join(nvm,name,'bin')); } catch {}
@@ -31,7 +37,7 @@ function request(args,{signal,timeoutMs=60000,input,cliCapability,pinnedSession}
   const bin=transport?.executablePath||executable();
   return new Promise((resolve,reject)=>{
     signal?.throwIfAborted();
-    const env={};for(const key of ['HOME','PATH','TMPDIR','LANG','LC_ALL','HTTPS_PROXY','HTTP_PROXY','ALL_PROXY','NO_PROXY'])if(process.env[key])env[key]=process.env[key];
+    const env=require('./host-process.cjs').environment(['HTTPS_PROXY','HTTP_PROXY','ALL_PROXY','NO_PROXY']);
     env.PATH=path.dirname(bin)+path.delimiter+(env.PATH||'/usr/bin:/bin');
     env.LARKSUITE_CLI_NO_UPDATE_NOTIFIER='1';env.LARKSUITE_CLI_NO_SKILLS_NOTIFIER='1';
     if(pinnedSession)env.LARKSUITE_CLI_CONFIG_DIR=transport.configDir;
@@ -40,14 +46,14 @@ function request(args,{signal,timeoutMs=60000,input,cliCapability,pinnedSession}
     const child=spawn(bin,args,{env,stdio:[input===undefined?'ignore':'pipe','pipe','pipe'],detached:true,cwd:transport?.cwd||os.tmpdir()});
     if(input!==undefined){child.stdin.on('error',()=>{});child.stdin.end(input);}
     let chunks=[],bytes=0,error,killTimer,diagnostic='';
-    const kill=()=>{try{process.kill(-child.pid,'SIGTERM');}catch{}killTimer ||= setTimeout(()=>{try{process.kill(-child.pid,'SIGKILL');}catch{}},1000);};
+    const kill=()=>{if(process.platform==='win32'){child.kill();return;}try{process.kill(-child.pid,'SIGTERM');}catch{}killTimer ||= setTimeout(()=>{try{process.kill(-child.pid,'SIGKILL');}catch{}},1000);};
     const abort=()=>{error=signal.reason||new Error('飞书同步已停止');kill();};signal?.addEventListener('abort',abort,{once:true});
     const timer=setTimeout(()=>{error=Object.assign(new Error('飞书请求等待超时，已保留进度，可重新检查。'),{connectorCode:'connection'});kill();},timeoutMs);
     child.stdout.on('data',b=>{bytes+=b.length;if(bytes>4_000_000){error=new Error('飞书响应超过 4 MB，请缩小来源范围');kill();}else chunks.push(b);});
     child.stderr.on('data',chunk=>{diagnostic=(diagnostic+chunk.toString()).slice(-64000);}); // Used only for classification; never returned or persisted.
     child.on('error',()=>{error=new Error('无法启动飞书 CLI，请检查安装');});
     child.on('close',async code=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);
-      try{await drainGroup(child.pid);}catch(e){if(pinnedSession)unsafeSessions.add(pinnedSession);error=e;}finally{clearTimeout(killTimer);}
+      try{await drainGroup(child);}catch(e){if(pinnedSession)unsafeSessions.add(pinnedSession);error=e;}finally{clearTimeout(killTimer);}
       if(error)return reject(error);
       let value;try{value=JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{try{value=JSON.parse(diagnostic);}catch{return reject(failure({error:{message:diagnostic.slice(0,4000)}}));}}
       if(code!==0||value.ok===false)return reject(failure(value));
@@ -142,9 +148,15 @@ async function pinnedPage(connection,window,{identity,assertCurrent,signal,run=r
 function assertPinnedPage(result,identity,assertCurrent){const receipt=pageReceipts.get(result);if(!receipt||receipt.identity!==JSON.stringify(identity)||receipt.assertCurrent!==assertCurrent)throw bindingError();assertCurrent();}
 Object.assign(module.exports,{identityPreview,confirmIdentity,pinnedPage,assertPinnedPage});
 
-async function drainGroup(pid){
+async function drainGroup(child){
+ const pid=child.pid;
  if(!pid)return;
  const unknown=()=>Object.assign(Error('飞书子进程尚未确认退出，临时会话已保留，本页未提交'),{code:'SESSION_CLEANUP_FAILED',connectorCode:'identity_binding_unavailable'});
+ if(process.platform==='win32'){
+  const deadline=Date.now()+5000;
+  while(!require('./windows-process.cjs').confirmed(child)){if(Date.now()>=deadline)throw unknown();await new Promise(resolve=>setTimeout(resolve,20));}
+  return;
+ }
  const probe=()=>{try{process.kill(-pid,0);return 'alive';}catch(error){return error.code==='ESRCH'?'gone':'unknown';}};
  const start=Date.now();let termAt=null,killed=false;
  while(true){

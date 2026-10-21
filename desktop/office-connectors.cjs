@@ -25,23 +25,25 @@ function prepare(input){
   }
   for(const [key,min,max,def] of [['intervalMinutes',5,1440,15],['lookbackDays',1,30,7]]){if(input[key]!==undefined&&(!Number.isInteger(input[key])||input[key]<min||input[key]>max))throw Error(`${key} 须为 ${min}–${max} 的整数`);}
   if(typeof input.enabled!=='boolean')throw Error('请选择是否自动同步');
-  return {provider:input.provider,kind:'office',target,intervalMinutes:input.intervalMinutes??15,lookbackDays:input.lookbackDays??7};
+  const options={};for(const key of ['includeReplies','includeAttachments','expandChildren','allowSend'])if(input[key]!==undefined){if(typeof input[key]!=='boolean')throw Error('扩展读取选项无效');options[key]=input[key];}
+  if(input.notionTargetType!==undefined){if(!['page','database'].includes(input.notionTargetType))throw Error('Notion 来源类型无效');options.notionTargetType=input.notionTargetType;}
+  return {provider:input.provider,kind:'office',target,intervalMinutes:input.intervalMinutes??15,lookbackDays:input.lookbackDays??7,...options,...require('./office-oauth.cjs').config(input)};
 }
-function sanitize(state){state.connectors=(state.connectors||[]).map(({sealedToken,...c})=>({...c,...(kind(c)!=='lark'?{hasToken:!!sealedToken}:{})}));}
+function sanitize(state){state.connectors=(state.connectors||[]).map(({sealedToken,sealedOAuth,...c})=>({...c,...(kind(c)!=='lark'?{hasToken:!!sealedToken||!!sealedOAuth}:{})}));}
 function sameEndpoint(value,base){
   let u;try{u=new URL(value);}catch{throw fail('分页地址无效，原断点已保留');}
   const expected=new URL(base);
   if(u.origin!==expected.origin||u.pathname!==expected.pathname||u.username||u.password||u.hash)throw fail('分页地址超出已授权来源，原断点已保留');
   return u.href;
 }
-async function json(a,c,url,signal,headers={}){
-  let secret='';try{secret=c.sealedToken?await a.vault.open(c.sealedToken):'';}catch{throw fail('无法读取连接凭据，请重新保存访问令牌','auth');}
+async function json(a,c,url,signal,headers={},request={}){
+  let secret='';try{secret=c.authMode==='oauth'?await require('./office-oauth.cjs').accessToken(a,c,signal):c.sealedToken?await a.vault.open(c.sealedToken):'';}catch{throw fail('无法读取连接凭据，请重新登录或保存访问令牌','auth');}
   if(!secret&&kind(c)!=='json')throw fail('请配置访问令牌','auth');
   let r;
-  try{r=await a.officeRequest(url,{signal,allowedOrigin:new URL(url).origin,headers:{Accept:'application/json',...headers,...(secret?{Authorization:`Bearer ${secret}`}:{})}});}
+  try{r=await a.officeRequest(url,{...request,allowHttpErrors:true,signal,allowedOrigin:new URL(url).origin,headers:{Accept:'application/json',...headers,...(secret?{Authorization:`Bearer ${secret}`}:{})}});}
   catch{if(signal?.aborted)throw fail('同步已停止');throw fail('无法连接信息来源，请检查网络后重试','connection');}
   signal?.throwIfAborted();
-  if(!r||typeof r.body!=='string'||Buffer.byteLength(r.body)>2_000_000)throw fail('信息源响应无效或超过 2 MB');
+  if(!r||typeof r.body!=='string'||Buffer.byteLength(r.body)>(request.maxBytes||2_000_000))throw fail('信息源响应无效或超过读取上限');
   if(r.url&&new URL(r.url).origin!==new URL(url).origin)throw fail('信息源响应超出已授权站点');
   if(r.status===401)throw fail('访问令牌已失效，请更新凭据后重试','auth');
   if(r.status===403||r.status===404)throw fail('来源不存在或无读取权限，请检查授权范围和来源地址','permission');
@@ -124,6 +126,10 @@ async function bridge(a,c,w,signal){
   return pageResult(items,r.hasMore,r.nextCursor);
 }
 async function page(a,c,window,signal){
+  const h={json,pageResult,notionId,rich,htmlText,sameEndpoint};
+  if(kind(c)==='slack'&&(c.includeReplies||c.includeAttachments))return require('./office-expanded.cjs').slack(a,c,window,signal,h);
+  if(kind(c)==='notion'&&(c.expandChildren||c.includeAttachments||c.notionTargetType==='database'))return require('./office-expanded.cjs').notion(a,c,signal,h);
+  if(kind(c)==='outlook'&&c.includeAttachments)return require('./office-expanded.cjs').outlook(a,c,window,signal,h);
   if(kind(c)==='slack')return slack(a,c,window,signal);
   if(kind(c)==='notion')return notion(a,c,signal);
   if(kind(c)==='outlook')return outlook(a,c,window,signal);

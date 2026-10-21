@@ -37,9 +37,12 @@ server.connect(new StdioServerTransport());
  await ui(a,'capabilitySave',{token:preview.token,allowedTools:['read_document'],trusted:true});
  const capability=a.data.capabilities[0];
  await ui(a,'capabilityGrant',{jobId:j.id,capabilityIds:[capability.id]});
+ const outputFolder=path.join(dir,'delivery'),resultFolder=path.join(outputFolder,'Agent-fixture');fs.mkdirSync(resultFolder,{recursive:true});fs.writeFileSync(path.join(resultFolder,'result.txt'),'owner Alice');j.outputFolder=outputFolder;
+ a.data.agentActions.push({id:'local-result',jobId:j.id,taskId,tool:'run_code',status:'done',outputFolder:resultFolder,result:{files:require('../desktop/agent-local.cjs').inventory(resultFolder),stdout:'owner Alice'}});
  return {a,j,task,source,platformSource,artifact,sentinel,capability};
 }
 const tools={read_url:f=>({url:'https://fixture.invalid/article'}),list_files:f=>({folderId:'fixture'}),read_file:f=>({folderId:'fixture',name:'a.md'}),search_web:f=>({query:'Alice'}),github_list:f=>({}),github_read:f=>({number:1}),read_lark_document:f=>({url:'https://fixture.feishu.cn/docx/A'}),read_output_state:f=>({taskId:f.task.id}),capability_call:f=>({capabilityId:f.capability.id,tool:'read_document',input:{path:'README.md'}}),platform_inventory:f=>({}),read_platform:f=>({sourceId:f.platformSource.id}),platform_query:f=>({queries:[{op:'task',taskId:1}]}),read_work_state:f=>({section:'frontier'}),list_sources:f=>({}),read_artifact:f=>({artifactId:f.artifact.id}),read_source:f=>({sourceId:f.source.id}),search_source:f=>({sourceId:f.source.id,query:'Alice'})};
+tools.read_local_result=f=>({taskId:f.task.id,actionId:'local-result',filename:'result.txt'});
 test('All executable read adapters have an explicit shared protocol contract',()=>{
  assert.deepEqual(Object.values(registry.registry).filter(r=>r.effect==='read').map(r=>r.name).sort(),Object.keys(tools).sort());
  for(const [name,row]of Object.entries(registry.registry)){assert.equal(registry.get(name),row);assert.equal(row.scope,'delegation');assert.equal(row.adapter,1);assert.ok(Object.isFrozen(row));}
@@ -56,6 +59,8 @@ for(const [name,argsFor]of Object.entries(tools))test(`Read protocol: ${name} re
  if(name==='read_output_state'){assert.equal(result.source,'app_workspace');assert.equal(result.externalAuthorizationRequired,false);assert.ok(result.readAt);assert.ok(Array.isArray(result.tasks));}
 });
 for(const [tool,minimal,expanded]of [
+ ['read_local_result',{taskId:'t',actionId:'a',filename:'result.txt'},{taskId:'t',actionId:'a',filename:'result.txt',start:0}],
+ ['read_local_result',{taskId:'t',actionId:'a'},{taskId:'t',actionId:'a',start:100,note:'ignored'}],
  ['read_source',{sourceId:'s'},{sourceId:'s',start:0,limit:6}],
  ['search_source',{sourceId:'s',query:'owner'},{sourceId:'s',query:'owner',start:0,limit:6}],
  ['read_artifact',{artifactId:'a'},{artifactId:'a',start:0}],

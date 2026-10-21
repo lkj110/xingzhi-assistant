@@ -216,7 +216,7 @@ function readJSON(file) {
   try { return JSON.parse(fs.readFileSync(file, 'utf8')); }
   catch (error) { fail('METRICS_CORRUPT', `invalid JSON at ${file}: ${error.message}`); }
 }
-function syncDir(dir) { const fd = fs.openSync(dir, 'r'); try { fs.fsyncSync(fd); } finally { fs.closeSync(fd); } }
+function syncDir(dir) { require('../desktop/filesystem-platform.cjs').syncDirectory(dir); }
 function writeExclusive(file, value) {
   const fd = fs.openSync(file, 'wx', 0o600);
   try { fs.writeFileSync(fd, canonical(value) + '\n'); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }

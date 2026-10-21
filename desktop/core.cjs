@@ -101,6 +101,7 @@ class Assistant {
       settings: { roles: { organize: '', execute: '', verify: '' }, automatic: false, autoExtract: true, autoComplete: false, intervalMinutes: 15, maxActions: 3, profile: '', lastCycleAt: null }
     };
     this.data = recovery.load(this, initial);
+    require('./local-tools.cjs').recover(this.data);
     require('./state-migration.cjs').prepare(this);
     this.data.settings = { ...initial.settings, compactContext: true, ...this.data.settings };
     this.data.folders ||= [];
@@ -709,6 +710,12 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
   }
 
   async dispatch(action, input = {}) {
+    if(action==='agentLocalPreview')return require('./agent-local.cjs').preview(this,input);
+    if(action==='agentLocalSettings')return require('./agent-local.cjs').configure(this,input);
+    if(typeof action==='string'&&/^local(Mail|Deploy)/.test(action))return require('./local-external.cjs').dispatch(this,action,input);
+    if(typeof action==='string'&&action.startsWith('localTools'))return require('./local-tools.cjs').dispatch(this,action,input);
+    if(typeof action==='string'&&action.startsWith('localMedia'))return require('./local-media.cjs').dispatch(this,action,input);
+    if(typeof action==='string'&&action.startsWith('officeOAuth'))return require('./office-oauth.cjs').dispatch(this,action,input);
     if(action==='stateView')return require('./workspace-view.cjs').view(this,input);
     if(action==='viewDetail')return require('./workspace-view.cjs').detail(this,input);
     if(action==='uiCommand')return require('./workspace-view.cjs').command(this,input);

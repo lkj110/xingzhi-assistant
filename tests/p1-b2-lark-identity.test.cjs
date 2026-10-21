@@ -2,10 +2,10 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {Assistant}=require('../desktop/core.cjs'),connectors=require('../desktop/connectors.cjs'),policy=require('../desktop/access-policy-store.cjs'),lark=require('../desktop/lark-connector.cjs');
 async function fixture(t,kind='chat'){
- const root=fs.mkdtempSync(path.join(os.tmpdir(),'b2-lark-')),bin=path.join(root,'lark-cli'),stateFile=path.join(root,'remote.json'),trace=path.join(root,'trace.jsonl');
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'b2-lark-')),bin=path.join(root,process.platform==='win32'?'lark-cli.exe':'lark-cli'),stateFile=path.join(root,'remote.json'),trace=path.join(root,'trace.jsonl');
  const state={ambient:'A',bodies:0,users:{A:{appId:'cli_app',brand:'feishu',openId:'ou_A',tenantId:'tenant_A'},B:{appId:'cli_app',brand:'feishu',openId:'ou_B',tenantId:'tenant_B'}},pages:2};
  fs.writeFileSync(stateFile,JSON.stringify(state));
- fs.writeFileSync(bin,`#!${process.execPath}\n`+String.raw`
+ require('./helpers/native-cli.cjs').write(bin,String.raw`
 const fs=require('node:fs'),path=require('node:path');const args=process.argv.slice(2),root=__dirname;
 if(args[0]==='--version'){console.log('lark-cli version 1.0.65');process.exit(0);}
 const file=path.join(root,'remote.json'),s=JSON.parse(fs.readFileSync(file)),out=x=>console.log(JSON.stringify(x));
@@ -27,7 +27,7 @@ s.bodies++;if(s.aba)s.ambient='A';save();if(s.failAt===s.bodies){out({ok:false,e
 if(args[0]==='docs'){out({ok:true,identity:'user',data:{document:{content:who+' document body',revision_id:1}}});process.exit(0);}
 const token=args.includes('--page-token')?args[args.indexOf('--page-token')+1]:null,index=token?Number(token.split(':')[1]):0;
 out({ok:true,identity:'user',data:{messages:[{message_id:'om_'+who+'_'+index,content:{text:who+' body '+index},msg_type:'text',create_time:'1760000000000',sender:{id:'ou_sender'}}],has_more:index+1<s.pages,page_token:who+':'+(index+1)}});
-`,{mode:0o700});
+`);
  const prior=process.env.PATH;process.env.PATH=root+path.delimiter+prior;
  let a=new Assistant({dir:path.join(root,'workspace'),chat:async()=>{throw Error('No model');}});
  t.after(async()=>{if(a.runPromise)await a.runPromise;process.env.PATH=prior;fs.rmSync(root,{recursive:true,force:true});});
@@ -87,7 +87,7 @@ for(const kind of ['chat','document'])test('I01/I09 actual spawn keeps fixed A a
 test('I01/I02 partial cursor survives restart, global B does not consume A token',async t=>{const f=await fixture(t);await bind(f);f.change({failAt:2});await connectors.sync(f.a,f.c.id);assert.equal(f.c.cursor.token,'A:1');assert.equal(f.a.data.sources.length,1);f.change({ambient:'B',failAt:null});f.restart();await connectors.sync(f.a,f.c.id);assert.equal(f.c.health,'healthy',f.c.error);assert.equal(f.a.data.sources.length,2);assert.deepEqual(bodies(f).filter(e=>e.token).map(e=>[e.who,e.token]),[['A','A:1'],['A','A:1']]);});
 test('I05 explicit rebind archives A cursor and starts B without cross identity version links',async t=>{const f=await fixture(t);await bind(f);f.change({failAt:2});await connectors.sync(f.a,f.c.id);f.change({ambient:'B',failAt:null});await bind(f);assert.equal(f.c.cursor,null);assert.ok(f.c.larkBindingHistory.some(h=>h.cursor?.token==='A:1'));await connectors.sync(f.a,f.c.id);assert.equal(f.c.health,'healthy',f.c.error);assert.ok(f.a.data.sources.filter(s=>s.larkIdentity.openId==='ou_B').every(s=>!s.previousSourceId));assert.ok(bodies(f).filter(e=>e.who==='B').every(e=>!e.token||e.token.startsWith('B:')));});
 test('I06 revoked local read after body drops page before observation and does not issue after GET',async t=>{const f=await fixture(t);await bind(f);let revoked=false;f.a.connectorRequest=async(args,options)=>{const raw=await lark.request(args,options);if(args[0]==='im'&&!revoked){revoked=true;const spec=require('../desktop/collection-permissions.cjs').spec('connector',f.c);policy.revoke(f.a,{...spec,operations:['local_read']},{trusted:true,actor:'user_command',command:'revoke'});}return raw;};const before=f.events().length;await connectors.sync(f.a,f.c.id);assert.equal(f.a.data.sources.length,0);assert.equal(f.a.data.sourceObservations.length,0);assert.equal(f.c.cursor,null);assert.equal(f.events().slice(before).filter(e=>e.args[0]==='api').length,1);assert.equal(f.c.health,'permission');});
-test('I10 unreviewed native causes zero content; restored native permits normal authorized sync',async t=>{const f=await fixture(t);await bind(f);const original=fs.readFileSync(f.bin,'utf8');fs.writeFileSync(f.bin,original.replace('version 1.0.65','version 1.0.66'));await connectors.sync(f.a,f.c.id);assert.equal(bodies(f).length,0);assert.equal(f.c.health,'identity_binding_unavailable');fs.writeFileSync(f.bin,original);await connectors.sync(f.a,f.c.id);assert.equal(f.c.health,'healthy',f.c.error);});
+test('I10 unreviewed native causes zero content; restored native permits normal authorized sync',async t=>{const f=await fixture(t);await bind(f);const target=process.platform==='win32'?f.bin+'.cjs':f.bin,original=fs.readFileSync(target,'utf8');fs.writeFileSync(target,original.replace('version 1.0.65','version 1.0.66'));await connectors.sync(f.a,f.c.id);assert.equal(bodies(f).length,0);assert.equal(f.c.health,'identity_binding_unavailable');fs.writeFileSync(target,original);await connectors.sync(f.a,f.c.id);assert.equal(f.c.health,'healthy',f.c.error);});
 test('I11 same preview concurrent confirmation grants once and result query cannot undo later disable',async t=>{const f=await fixture(t),p=await f.a.dispatch('connectorIdentityPreview',{id:f.c.id}),input={id:f.c.id,previewToken:p.previewToken,operationId:p.operationId,enableAfterBind:true};const [a,b]=await Promise.all([f.a.dispatch('connectorBindPrincipal',input),f.a.dispatch('connectorBindPrincipal',input)]);assert.deepEqual(a,b);assert.equal(policy.inventory(f.a).sequence,3);assert.equal(f.c.larkBindingHistory.length,1);await assert.rejects(f.a.dispatch('connectorBindPrincipal',{...input,enableAfterBind:false}));await f.a.dispatch('connectorToggle',{id:f.c.id,enabled:false});const result=await f.a.dispatch('connectorBindingResult',{id:f.c.id,operationId:p.operationId});assert.equal(result.status,'bound');assert.equal(result.enabled,false);assert.equal(policy.inventory(f.a).sequence,3);});
 for(const patch of [{missingTenant:true},{wrongTenant:'other_tenant'},{wrongOpenId:'ou_B'},{revoked:'A'}])test('I12 fixed identity unknown/changed cannot dispatch '+JSON.stringify(patch),async t=>{const f=await fixture(t);await bind(f);f.change(patch);await connectors.sync(f.a,f.c.id);assert.equal(bodies(f).length,0);assert.equal(f.a.data.sources.length,0);assert.equal(f.c.cursor,null);});
 for(const phase of ['pending','authority','projection'])test('I07 binding save boundary '+phase+' preserves authority and reconciles after restart',async t=>{
@@ -117,15 +117,16 @@ for(const mode of ['close','abort','abort-transient-probe'])test('I13 actual sam
  const running=connectors.sync(f.a,f.c.id);await waitFor(()=>fs.existsSync(path.join(f.root,'child-ready'))&&fs.existsSync(path.join(f.root,'group.json')));
  const group=JSON.parse(fs.readFileSync(path.join(f.root,'group.json')));
  assert.ok(Number.isSafeInteger(group.pid)&&group.pid>0);assert.ok(Number.isSafeInteger(group.child)&&group.child>0);assert.equal(Number(fs.readFileSync(path.join(f.root,'child-ready'),'utf8')),group.child);assert.ok(path.isAbsolute(group.configDir));assert.ok(fs.lstatSync(group.configDir).isDirectory(),'private config must exist before cancellation');
- const originalKill=process.kill;let interruptedProbes=0;
- if(mode==='abort-transient-probe')process.kill=(pid,signal)=>{
+ const originalKill=process.kill,windowsProcess=require('../desktop/windows-process.cjs'),originalConfirmed=windowsProcess.confirmed;let interruptedProbes=0;
+ if(mode==='abort-transient-probe'&&process.platform==='win32')windowsProcess.confirmed=child=>{const value=originalConfirmed(child);if(value&&interruptedProbes===0){interruptedProbes++;return false;}return value;};
+ else if(mode==='abort-transient-probe')process.kill=(pid,signal)=>{
   try{return originalKill(pid,signal);}catch(error){
    if(pid===-group.pid&&signal===0&&error.code==='ESRCH'&&interruptedProbes===0){interruptedProbes++;throw Object.assign(Error('transient exit observation'),{code:'EPERM'});}
    throw error;
   }
  };
- try{if(mode!=='close')controller.abort(new DOMException('fixture abort','AbortError'));await running;}finally{process.kill=originalKill;}
- assert.throws(()=>process.kill(-group.pid,0),{code:'ESRCH'});if(mode==='abort-transient-probe')assert.equal(interruptedProbes,1,'the transient probe must actually occur');
+ try{if(mode!=='close')controller.abort(new DOMException('fixture abort','AbortError'));await running;}finally{process.kill=originalKill;windowsProcess.confirmed=originalConfirmed;}
+ assert.throws(()=>process.kill(process.platform==='win32'?group.pid:-group.pid,0),{code:'ESRCH'});assert.throws(()=>process.kill(group.child,0),{code:'ESRCH'});if(mode==='abort-transient-probe')assert.equal(interruptedProbes,1,'the transient probe must actually occur');
  const observationError=path.join(f.root,'child-observation-error');
  try{const diagnostic=fs.readFileSync(observationError,'utf8');assert.fail('child config observation failed: '+diagnostic);}catch(error){if(error.code!=='ENOENT')throw error;}
  assert.throws(()=>fs.lstatSync(path.join(f.root,'premature-cleanup')),{code:'ENOENT'},'private config must never disappear while the child is alive');assert.throws(()=>fs.lstatSync(group.configDir),{code:'ENOENT'},'private config must be absent after confirmed group exit, not inaccessible');
@@ -133,11 +134,12 @@ for(const mode of ['close','abort','abort-transient-probe'])test('I13 actual sam
  if(mode!=='close')assert.equal(f.c.cursor,null);else assert.equal(f.c.health,'healthy',f.c.error);
 });
 test('I13 unknown process-group exit retains session and refuses body submission',async t=>{
- const f=await fixture(t);await bind(f);const kill=process.kill;
+ const f=await fixture(t);await bind(f);const kill=process.kill,windowsProcess=require('../desktop/windows-process.cjs'),confirmed=windowsProcess.confirmed;
  f.a.connectorRequest=async(args,options)=>{
   if(args[0]!=='im')return lark.request(args,options);
-  process.kill=(pid,signal)=>{if(pid<0&&signal===0)throw Object.assign(Error('synthetic exit status unavailable'),{code:'EPERM'});return kill(pid,signal);};
-  try{return await lark.request(args,options);}finally{process.kill=kill;}
+  if(process.platform==='win32')windowsProcess.confirmed=()=>false;
+  else process.kill=(pid,signal)=>{if(pid<0&&signal===0)throw Object.assign(Error('synthetic exit status unavailable'),{code:'EPERM'});return kill(pid,signal);};
+  try{return await lark.request(args,options);}finally{process.kill=kill;windowsProcess.confirmed=confirmed;}
  };
  await connectors.sync(f.a,f.c.id);assert.equal(f.c.health,'identity_binding_unavailable');
  assert.equal(f.a.data.sources.length,0);assert.equal(f.a.data.sourceObservations.length,0);assert.equal(f.c.cursor,null);

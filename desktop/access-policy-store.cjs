@@ -18,7 +18,7 @@ function locations(a) {
   return { store: path.join(a.dir, 'access-policy.json'), migration: path.join(a.dir, 'authorization-migration.json'), original: path.join(a.dir, 'protocol-migrations', 'before-authorization-v3.json'), lock: path.join(a.dir, 'access-policy.lock') };
 }
 function failure(code, message) { return Object.assign(Error(message), { code }); }
-function syncDirectory(dir) { const fd = fs.openSync(dir, 'r'); try { fs.fsyncSync(fd); } finally { fs.closeSync(fd); } }
+const {syncDirectory}=require('./filesystem-platform.cjs');
 function atomic(file, value) {
   const temp = file + '.' + crypto.randomUUID() + '.tmp';
   let renamed = false;
@@ -172,6 +172,7 @@ function collectLegacy(data, { collections = false } = {}) {
     const lp = account('lark', j.larkCreateGrant);
     if (j.larkCreateGrant) add(lp, { kind: 'lark_destination', key: j.larkCreateGrant.target, ...scope }, ['prepare_lark_create', 'prepare_lark_update'], base + ':larkCreateGrant',true,j.larkCreateGrant);
     for (const p of j.larkCreatePolicies || []) if (p.mode === 'auto') add(account('lark', p), { kind: 'lark_destination', key: p.target, ...scope, taskId: p.taskId }, ['lark_create', ...(p.allowUpdate ? ['lark_update'] : [])], base + ':larkCreatePolicies',true,p);
+    for(const tool of require('./agent-local.cjs').actions){const mode=require('./agent-local.cjs').mode(j,tool);if(j.outputFolder&&mode!=='off')add(LOCAL,{kind:'output',key:j.outputFolder,...scope},['prepare_'+tool,...(mode==='auto'?[tool]:[])],base+':localTools:'+tool);}
     if (j.outputFolder && j.fileMode !== 'off') add(LOCAL, { kind: 'output', key: j.outputFolder, ...scope }, ['prepare_write_file', ...(j.fileMode === 'auto' ? ['write_file'] : [])], base + ':fileMode');
     if (j.githubRepo) {
       const gp = githubPrincipal(data);
@@ -532,11 +533,12 @@ function requestsForTool(a, job, tool, args = {}, options = {}) {
   }
   if (options.action) {
     const r = options.action;
-    const p=tool.startsWith('github_')?githubPrincipal(a.data):options.principalScope||r.principalScope||(tool==='write_file'?LOCAL:account('lark',{openId:r.larkOpenId,tenantId:r.tenantId}));
+      const p=require('./agent-local.cjs').actions.includes(tool)?LOCAL:tool.startsWith('github_')?githubPrincipal(a.data):options.principalScope||r.principalScope||(tool==='write_file'?LOCAL:account('lark',{openId:r.larkOpenId,tenantId:r.tenantId}));
     return [request(p, { kind: 'action', key: r.target, actionId: r.id, revision: r.version, artifactId: r.artifactId, contentHash: hash(r.content || '') })];
   }
   const raw = tool.replace(/^prepare_/, '');
-  if (raw === 'write_file') return [request(LOCAL, { kind: 'output', key: job?.outputFolder })];
+  if(require('./agent-local.cjs').actions.includes(raw))return [request(LOCAL,{kind:'output',key:job?.outputFolder})];
+    if (raw === 'write_file') return [request(LOCAL, { kind: 'output', key: job?.outputFolder })];
   if (raw.startsWith('github_')) return [request(githubPrincipal(a.data), { kind: 'repository', key: job?.githubRepo })];
   if (['lark_create', 'lark_update'].includes(raw)) return [request(options.principalScope || account('lark', job?.larkCreateGrant), { kind: 'lark_destination', key: job?.larkCreateGrant?.target })];
   return [request(LOCAL, { kind: 'execution', key: 'app' })];
@@ -584,7 +586,15 @@ function reconcile(a) {
     j.dataPlatform = platform?.resourceScope.key || identity?.resourceScope.key || 'off';
     if(platform)j.platformPrincipal=platform.principalScope.tenantId?{username:platform.principalScope.subject,tenantId:platform.principalScope.tenantId}:platform.principalScope.subject;
     else delete j.platformPrincipal;
-    const output = events.findLast(e => e.resourceScope.kind === 'output' && ['write_file','prepare_write_file'].some(op => permitted(e, op)));
+    const local=require('./agent-local.cjs');
+    j.localTools=local.settings();
+    for(const [tool,[field]] of Object.entries(local.definitions)){
+      const all=events.filter(e=>e.resourceScope.kind==='output'&&e.operations.some(op=>op===tool||op==='prepare_'+tool));
+      const mode=all.some(e=>permitted(e,tool))?'auto':all.some(e=>permitted(e,'prepare_'+tool))?'ask':'off';
+      if(j.localTools[field]==='off'||mode==='auto')j.localTools[field]=mode;
+    }
+    const outputOperations=new Set(['write_file','prepare_write_file',...local.actions.flatMap(tool=>[tool,'prepare_'+tool])]);
+    const output = events.findLast(e => e.resourceScope.kind === 'output' && e.operations.some(op=>outputOperations.has(op)&&permitted(e,op)));
     j.outputFolder = output?.resourceScope.key || '';
     const repository = events.findLast(e => e.resourceScope.kind === 'repository' && permitted(e, 'github_read'));
     j.githubRepo = repository?.resourceScope.key || '';

@@ -47,7 +47,7 @@ function atomic(file, value) {
     const fd = fs.openSync(tmp, 'wx', 0o600);
     try { fs.writeFileSync(fd, JSON.stringify(value)); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
     fs.renameSync(tmp, file); renamed = true;
-    const fdDir = fs.openSync(path.dirname(file), 'r'); try { fs.fsyncSync(fdDir); } finally { fs.closeSync(fdDir); }
+    require('./filesystem-platform.cjs').syncDirectory(path.dirname(file));
   } catch (error) { if (renamed) error.committed = true; throw error; }
   finally { if (!renamed) try { fs.unlinkSync(tmp); } catch {} }
 }

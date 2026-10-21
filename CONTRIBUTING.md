@@ -5,11 +5,13 @@
 ## 本地开发
 
 1. Fork 本仓库，从 `main` 创建功能分支。
-2. 准备 macOS、Node.js 24+、Xcode Command Line Tools，执行 `npm ci`。
+2. 准备 Node.js 24+。macOS 需要 Xcode Command Line Tools；Windows 10/11 x64 使用系统 .NET Framework 4.8 和 OCR 组件。执行 `npm ci`。
 3. 执行 `npm start` 启动完整应用；`npm run dev` 只启动前端开发服务。
 4. 根据改动运行相应测试。提交前执行 `npm test` 和 `npm run build`；涉及界面或 IPC 时运行相关隔离桌面场景。
 
 桌面测试使用临时 profile，避免连接真实工作空间。具体约定见 [桌面回归测试](docs/DESKTOP-REGRESSION.md)。不要在默认测试或 CI 调用收费模型、真实聊天连接或生产数据平台。
+
+Windows 适配验证运行 `npm run test:windows` 和 `npm run windows:package`；完整上游测试中仍有 Unix/macOS 专用夹具，不能将其未通过或未运行的部分记作 Windows 通过。参阅 [Windows 说明](docs/WINDOWS.md)。
 
 ## 提交改动
 

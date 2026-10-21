@@ -5,14 +5,15 @@ const SCREENSHOT_KEY='CommandOrControl+Shift+2';
 function create({assistant:a,adapter,globalShortcut,systemPreferences,capture,openCapture,canShow,dismissSelection,platform=process.platform,run=spawn,now=Date.now,copyTimeout=4000}){
  let child=null,error='',owned=false,trusted=false,starting=false,disposed=false,epoch=0;
  let candidate=null,cancelCopy=null;
- const helper=path.join(__dirname,'native/bin/selection-capture').replace('app.asar/','app.asar.unpacked/');
+ const helper=platform==='win32'?require('./windows-native.cjs').nativePath('bin/windows-capture.exe'):path.join(__dirname,'native/bin/selection-capture').replace('app.asar/','app.asar.unpacked/');
+ const accessible=()=>platform==='win32'||platform==='darwin'&&systemPreferences.isTrustedAccessibilityClient(false);
  let captureDiagnostic={stage:'waiting',events:0,selections:0,reads:0,lastRead:'waiting'};
  const dismissReasons=new Set(['selection_cleared','scroll','keyboard','app_changed']);
  const stages=new Set(['gesture_received','selection_changed','focus_unavailable','selection_unavailable','selection_empty','selection_read','read_started','own_app','focus_changed','copy_candidate']);
  const config=()=>adapter?adapter.preference():require('./quick-capture.cjs').preference(a.data);
  function stop(){epoch++;candidate=null;cancelCopy?.();if(child){child.kill();child=null;}starting=false;}
  function resolve(token){
-  if(disposed||!config().selectionEnabled||!trusted||!systemPreferences.isTrustedAccessibilityClient(false))return Promise.reject(Error('选区读取已关闭或辅助功能授权已失效'));
+  if(disposed||!config().selectionEnabled||!trusted||!accessible())return Promise.reject(Error('选区读取已关闭或辅助功能授权已失效'));
   if(cancelCopy)return Promise.reject(Error('正在读取选区，请稍候'));
   if(!candidate||candidate.token!==token||now()-candidate.at>45000)return Promise.reject(Error('选区已过期，请回到原应用重新选择'));
   const target=candidate;candidate=null;
@@ -22,7 +23,7 @@ function create({assistant:a,adapter,globalShortcut,systemPreferences,capture,op
    const timer=setTimeout(()=>finish(Error('读取选区超时，请重新选择；也可复制后粘贴到小窗')),copyTimeout);
    cancelCopy=()=>finish(Error('选区读取已取消'));
    try{
-    copy=run(helper,['--copy-selection'],{stdio:['pipe','pipe','ignore']});
+    copy=run(helper,['--copy-selection'],{stdio:['pipe','pipe','ignore'],windowsHide:true});
     copy.on('error',()=>finish(Error('无法启动选区兼容组件')));
     copy.on('close',()=>finish(Error('未读取到选区，请重新选择；也可复制后粘贴到小窗')));
     copy.stdout.on('data',bytes=>{
@@ -34,17 +35,17 @@ function create({assistant:a,adapter,globalShortcut,systemPreferences,capture,op
      }
     });
     copy.stdin.on('error',()=>finish(Error('选区读取已中断')));
-    copy.stdin.end(JSON.stringify({pid:target.pid,bundleId:target.bundleId,windowTitle:target.windowTitle}));
+    copy.stdin.end(JSON.stringify({pid:target.pid,bundleId:target.bundleId,windowTitle:target.windowTitle,...(Number.isSafeInteger(target.windowHandle)?{windowHandle:target.windowHandle}:{})})+'\n');
    }catch{finish(Error('无法启动选区兼容组件'));}
   });
  }
- function status(){return {captureDiagnostic:{...captureDiagnostic},selectionEnabled:config().selectionEnabled===true,screenshotEnabled:config().screenshotEnabled===true,screenshotRegistered:owned,selectionRunning:!!child&&trusted,screenPermission:platform==='darwin'?(systemPreferences.getMediaAccessStatus?.('screen')||'unknown'):'unsupported',accessibilityTrusted:platform==='darwin'&&systemPreferences.isTrustedAccessibilityClient(false),captureError:error|| (config().selectionEnabled&&platform==='darwin'&&!systemPreferences.isTrustedAccessibilityClient(false)?'选区弹窗已开启，等待辅助功能授权':''),screenshotKey:platform==='darwin'?'⌘ ⇧ 2':'Ctrl + Shift + 2'};}
+ function status(){return {captureDiagnostic:{...captureDiagnostic},selectionEnabled:config().selectionEnabled===true,screenshotEnabled:config().screenshotEnabled===true,screenshotRegistered:owned,selectionRunning:!!child&&trusted,platform,screenPermission:platform==='win32'?'granted':platform==='darwin'?(systemPreferences.getMediaAccessStatus?.('screen')||'unknown'):'unsupported',accessibilityTrusted:accessible(),captureError:error|| (config().selectionEnabled&&platform==='darwin'&&!systemPreferences.isTrustedAccessibilityClient(false)?'选区弹窗已开启，等待辅助功能授权':''),screenshotKey:platform==='darwin'?'⌘ ⇧ 2':'Ctrl + Shift + 2'};}
  async function screenshot(){try{const result=await capture();if(!result.cancelled)openCapture({image:result,origin:'框选截图',provenance:{kind:'screenshot',capturedAt:new Date().toISOString()}},false);}catch(e){error=e.message;}}
  function start(){
   if(child||starting||disposed)return;starting=true;const current=++epoch;trusted=false;
   let buffer='';
   try {
-   child=run(helper,[],{stdio:['ignore','pipe','ignore']});
+   child=run(helper,platform==='win32'?['--selection',String(process.pid)]:[],{stdio:['ignore','pipe','ignore'],windowsHide:true});
    child.on('error',()=>{if(epoch===current){error='无法启动选中文字收集组件';child=null;starting=false;}});
    child.stdout.on('data',bytes=>{
     if(epoch!==current)return;
@@ -72,7 +73,7 @@ function create({assistant:a,adapter,globalShortcut,systemPreferences,capture,op
       if(directSelection)captureDiagnostic.selections++;
       if(!canShow()){captureDiagnostic.stage='draft_occupied';continue;}
       if(cancelCopy)continue;
-      candidate=copyCandidate?{token:randomUUID(),at:now(),pid:item.pid,bundleId:item.bundleId,windowTitle:item.windowTitle}:null;
+      candidate=copyCandidate?{token:randomUUID(),at:now(),pid:item.pid,bundleId:item.bundleId,windowTitle:item.windowTitle,...(Number.isSafeInteger(item.windowHandle)?{windowHandle:item.windowHandle}:{})}:null;
       try{const provenance={kind:'selection',capturedAt:new Date().toISOString(),...Object.fromEntries(['appName','bundleId','windowTitle'].map(k=>[k,k==='appName'?item.app:item[k]]).filter(([,v])=>typeof v==='string'))};if(typeof item.url==='string'){try{provenance.url=require('./capture-provenance.cjs').normalize({url:item.url}).url;}catch{}}openCapture({...copyCandidate?{requiresCopy:true,nativeToken:candidate.token}:{text:item.text},origin:item.app||'选中文字',provenance},true);captureDiagnostic.stage='popup_shown';error='';}
       catch(e){captureDiagnostic.stage='popup_failed';error=`选区已读取，但无法显示记录弹窗：${e.message}`;}
      }
@@ -84,12 +85,12 @@ function create({assistant:a,adapter,globalShortcut,systemPreferences,capture,op
  }
  function reconcile(){
   if(disposed)return status();
-  if(config().selectionEnabled&&platform==='darwin'&&systemPreferences.isTrustedAccessibilityClient(false))start();else if(child)stop();
+  if(config().selectionEnabled&&accessible())start();else if(child)stop();
   if(config().screenshotEnabled&&!owned){owned=globalShortcut.register(SCREENSHOT_KEY,screenshot);if(!owned)error='截图快捷键被占用，可在小窗内点击框选截图';}
   if(!config().screenshotEnabled&&owned){globalShortcut.unregister(SCREENSHOT_KEY);owned=false;}
   return status();
  }
- function configure(input){for(const key of ['selectionEnabled','screenshotEnabled'])if(input[key]!==undefined&&typeof input[key]!=='boolean')throw Error('快速捕获开关格式无效');if(platform!=='darwin'&&input.selectionEnabled)throw Error('选中文字自动弹窗暂支持 macOS');if(adapter)return adapter.configure(Object.fromEntries(['selectionEnabled','screenshotEnabled'].filter(k=>input[k]!==undefined).map(k=>[k,input[k]]))).then(()=>{if(disposed)return status();if(input.selectionEnabled)systemPreferences.isTrustedAccessibilityClient(true);error='';return reconcile();});const previous={...config()};a.data.runtime.quickCapture={...previous,...Object.fromEntries(['selectionEnabled','screenshotEnabled'].filter(k=>input[k]!==undefined).map(k=>[k,input[k]]))};try{a.save();}catch(e){a.data.runtime.quickCapture=previous;throw e;}if(input.selectionEnabled)systemPreferences.isTrustedAccessibilityClient(true);error='';return reconcile();}
+ function configure(input){for(const key of ['selectionEnabled','screenshotEnabled'])if(input[key]!==undefined&&typeof input[key]!=='boolean')throw Error('快速捕获开关格式无效');if(!['darwin','win32'].includes(platform)&&input.selectionEnabled)throw Error('选中文字自动弹窗支持 Windows 和 macOS');if(adapter)return adapter.configure(Object.fromEntries(['selectionEnabled','screenshotEnabled'].filter(k=>input[k]!==undefined).map(k=>[k,input[k]]))).then(()=>{if(disposed)return status();if(input.selectionEnabled&&platform==='darwin')systemPreferences.isTrustedAccessibilityClient(true);error='';return reconcile();});const previous={...config()};a.data.runtime.quickCapture={...previous,...Object.fromEntries(['selectionEnabled','screenshotEnabled'].filter(k=>input[k]!==undefined).map(k=>[k,input[k]]))};try{a.save();}catch(e){a.data.runtime.quickCapture=previous;throw e;}if(input.selectionEnabled&&platform==='darwin')systemPreferences.isTrustedAccessibilityClient(true);error='';return reconcile();}
  function dispose(){disposed=true;stop();if(owned)globalShortcut.unregister(SCREENSHOT_KEY);owned=false;}
  return {status,reconcile,configure,screenshot,dispose,resolve};
 }

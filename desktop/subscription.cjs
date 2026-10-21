@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
-const {spawn} = require('node:child_process');
+const {spawn} = process.platform==='win32'?require('./windows-process.cjs'):require('node:child_process');
 const {normalizeModelError,modelError,transportError,cancelledError,httpError,preflightError} = require('./model-errors.cjs');
 const policy = require('./model-policy.cjs');
 const protocol = require('./subscription-protocol.cjs');
@@ -40,14 +40,13 @@ function cliFailure(error={}) {
 }
 function incomplete(code,completed){return Object.assign(modelError('MODEL_CLI','订阅模型连接提前结束，已有进度已保留。',true),{diagnostic:{source:'codex_cli',kind:completed?'process_exit':'incomplete_stream',exitCode:Number.isInteger(code)?code:null}});}
 function executable() {
-  const candidates = [builtin, ...String(process.env.PATH || '').split(path.delimiter).filter(Boolean).map(p => path.join(p, 'codex'))];
+  const dirs=process.platform==='win32'?require('./host-process.cjs').directories():String(process.env.PATH||'').split(path.delimiter).filter(Boolean),target=process.arch==='arm64'?'aarch64-pc-windows-msvc':'x86_64-pc-windows-msvc';
+  const candidates=process.platform==='win32'?[...dirs.map(p=>path.join(p,'codex.exe')),...dirs.flatMap(p=>['codex','codex-win32-'+process.arch].map(pkg=>path.join(p,'node_modules','@openai',pkg,'vendor',target,'codex','codex.exe'))),...require('./codex-desktop.cjs').candidates()]:[builtin,...dirs.map(p=>path.join(p,'codex'))];
   for (const file of candidates) try { if (fs.statSync(file).isFile()) { fs.accessSync(file, fs.constants.X_OK); return file; } } catch {}
   throw modelError('MODEL_CONFIG','未找到 Codex CLI。请安装并用 ChatGPT 账号登录 Codex，再点击检测。',false);
 }
 function environment() {
-  const env = {};
-  for (const key of ['PATH','HOME','TMPDIR','TMP','TEMP','LANG','LC_ALL','TZ','CODEX_HOME','HTTPS_PROXY','HTTP_PROXY','ALL_PROXY','NO_PROXY']) if (process.env[key]) env[key] = process.env[key];
-  return env;
+  const env={};for(const key of ['PATH','HOME','USERPROFILE','APPDATA','LOCALAPPDATA','SystemRoot','SYSTEMROOT','WINDIR','ComSpec','PATHEXT','TMPDIR','TMP','TEMP','LANG','LC_ALL','TZ','CODEX_HOME','HTTPS_PROXY','HTTP_PROXY','ALL_PROXY','NO_PROXY'])if(process.env[key])env[key]=process.env[key];return env;
 }
 // File metadata and public configuration only: never open auth.json, keychains,
 // provider keys, or the CLI's login output to build a health identity.
@@ -67,9 +66,10 @@ function identity() {
 function processCall(bin, args, {cwd, input, signal, timeoutMs = 15000, idleTimeoutMs = 0, onLine, onProgress} = {}) {
   return new Promise((resolve, reject) => {
     signal?.throwIfAborted();
-    const child = spawn(bin, args, {cwd, env:environment(), stdio:['pipe','pipe','pipe'], detached:true});
+    const child = spawn(bin, args, {cwd, env:environment(), stdio:['pipe','pipe','pipe'], detached:process.platform!=='win32',windowsHide:true});
     let output = '', pending = '', bytes = 0, failure, hardKill, idleTimer;
-    const kill = () => { try { process.kill(-child.pid, 'SIGTERM'); } catch {} hardKill ||= setTimeout(() => { try { process.kill(-child.pid, 'SIGKILL'); } catch {} }, 1500); };
+    const terminate=signal=>{if(process.platform==='win32')require('./host-process.cjs').terminate(child,signal);else try{process.kill(-child.pid,signal);}catch{}};
+    const kill = () => {terminate('SIGTERM');hardKill ||= setTimeout(()=>terminate('SIGKILL'),1500);};
     const abort = () => { failure = cancelledError(); kill(); };
     signal?.addEventListener('abort', abort, {once:true});
     const timer = timeoutMs > 0 ? setTimeout(() => { failure = policy.timeoutError('total'); kill(); }, timeoutMs) : null;
@@ -178,4 +178,4 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, timeou
     throw normalized;
   } finally { if(root)try{fs.rmSync(root,{recursive:true,force:true});}catch{/* Cleanup cannot change the proven dispatch boundary or hide cancellation. */} }
 }
-module.exports = {chat,status,identity,processCall,cliFailure,incomplete,inputFailure,maxInputChars,validateInput};
+module.exports = {chat,status,identity,processCall,cliFailure,incomplete,inputFailure,maxInputChars,validateInput,executable};

@@ -3,7 +3,7 @@ const observations=require('./source-observations.cjs');
 const now=()=>new Date().toISOString();
 const uid=()=>crypto.randomUUID();
 const required=(value,label,max)=>{if(typeof value!=='string'||!value.trim()||value.length>max)throw new Error(`${label}须为 1–${max} 字符`);return value.trim();};
-const permissionKeys=['capabilityGrants','dataPlatform','folderIds','urls','allowWeb','outputFolder','githubRepo','fileMode','githubMode','githubUpdateMode','githubCommentMode','commentIntervalMinutes','maxComments','autoAccept'];
+const permissionKeys=['localTools','capabilityGrants','dataPlatform','folderIds','urls','allowWeb','outputFolder','githubRepo','fileMode','githubMode','githubUpdateMode','githubCommentMode','commentIntervalMinutes','maxComments','autoAccept'];
 const mutableKeys=['goal','sourceIds','taskIds','feedback','watchers','summary','completedAt','followups'];
 function initialize(a){a.data.projects ||= [];a.data.projectChanges ||= [];}
 function byId(a,id){const project=a.data.projects.find(p=>p.id===id);if(!project)throw new Error('项目不存在');return project;}
@@ -61,7 +61,7 @@ function ingest(a,project,{note='',checkpoint=true,explicitSourceIds=[]}={}){
   a.event('项目已归并新信息',`${project.name}：${additions.length} 份材料${note?'，含补充要求':''}`);
 }
 function compatible(existing,proposed){
-  return permissionKeys.every(key=>key==='dataPlatform'?(existing[key]||'off')===(proposed[key]||'off'):JSON.stringify(Array.isArray(existing[key])?[...existing[key]].sort():existing[key])===JSON.stringify(Array.isArray(proposed[key])?[...proposed[key]].sort():proposed[key]));
+  return permissionKeys.every(key=>key==='localTools'?JSON.stringify(require('./agent-local.cjs').settings(existing.localTools))===JSON.stringify(require('./agent-local.cjs').settings(proposed.localTools)):key==='dataPlatform'?(existing[key]||'off')===(proposed[key]||'off'):JSON.stringify(Array.isArray(existing[key])?[...existing[key]].sort():existing[key])===JSON.stringify(Array.isArray(proposed[key])?[...proposed[key]].sort():proposed[key]));
 }
 function createDelegation(a,input){
   const project=byId(a,input.projectId),agent=require('./agent.cjs');

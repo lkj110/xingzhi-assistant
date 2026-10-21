@@ -24,7 +24,8 @@ function webURL(value) {
 }
 
 // Pin a checked DNS address to the actual socket; revalidate every redirect.
-async function publicRequest(value, { method = 'GET', headers = {}, body, signal, redirects = 0, allowedOrigin } = {}) {
+async function publicRequest(value, { method = 'GET', headers = {}, body, signal, redirects = 0, allowedOrigin, responseType='text', maxBytes=2_000_000, allowHttpErrors=false } = {}) {
+  if(!['text','buffer'].includes(responseType)||!Number.isSafeInteger(maxBytes)||maxBytes<1||maxBytes>15_000_000)throw Error('网络读取限制无效');
   const url = webURL(value);
   if (allowedOrigin && url.origin !== allowedOrigin) throw new Error('网页重定向超出已授权站点，请为新的站点单独建立订阅');
   const hostname = url.hostname.replace(/^\[|\]$/g, '');
@@ -45,18 +46,18 @@ async function publicRequest(value, { method = 'GET', headers = {}, body, signal
     const chosen = addresses[0];
     const req = transport.request(url, { method, signal:requestSignal, headers:{'User-Agent':'Xingzhi-Assistant/0.4', 'Accept-Encoding':'identity', ...headers}, lookup:(_host,options,callback) => options.all ? callback(null,[chosen]) : callback(null,chosen.address,chosen.family) }, res => {
       const chunks=[]; let size=0;
-      res.on('data', chunk => { size += chunk.length; if (size > 2_000_000) { res.destroy(new Error('工具响应超过 2 MB，请缩小读取范围')); } else chunks.push(chunk); });
+      res.on('data', chunk => { size += chunk.length; if (size > maxBytes) { res.destroy(new Error('工具响应超过读取上限，请缩小读取范围')); } else chunks.push(chunk); });
       res.on('error',reject);
-      res.on('end',()=>resolve({status:res.statusCode,headers:res.headers,body:Buffer.concat(chunks).toString('utf8'),url:url.href}));
+      res.on('end',()=>{const bytes=Buffer.concat(chunks);resolve({status:res.statusCode,headers:res.headers,body:responseType==='buffer'?bytes:bytes.toString('utf8'),url:url.href});});
     });
     req.on('error', error => reject(Object.assign(new Error(requestSignal.aborted ? '工具请求已停止或超时' : '工具网络连接失败'), {retryable:!signal?.aborted})));
     if (body) req.write(body); req.end();
   });
   if ([301,302,303,307,308].includes(response.status)) {
     if (redirects >= 4 || headers.Authorization || method !== 'GET' || !response.headers.location) throw new Error('工具请求重定向被拒绝');
-    return publicRequest(new URL(response.headers.location,url).href,{signal:requestSignal,redirects:redirects+1,allowedOrigin});
+    return publicRequest(new URL(response.headers.location,url).href,{signal:requestSignal,redirects:redirects+1,allowedOrigin,responseType,maxBytes,allowHttpErrors});
   }
-  if (response.status < 200 || response.status >= 300) throw Object.assign(new Error(`工具请求失败（HTTP ${response.status}）`), {retryable:[429,500,502,503,504].includes(response.status)});
+  if (!allowHttpErrors&&(response.status < 200 || response.status >= 300)) throw Object.assign(new Error(`工具请求失败（HTTP ${response.status}）`), {retryable:[429,500,502,503,504].includes(response.status)});
   return response;
 }
 

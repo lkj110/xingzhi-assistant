@@ -1,0 +1,7 @@
+import React,{useState} from 'react';
+const names={run_code:'代码执行',mail_draft:'邮件草稿',generate_image:'图片',synthesize_speech:'语音',send_mail:'Outlook 发信',github_deploy:'GitHub 工作流'};
+export default function AgentLocalResults({data,job,act}){
+ const [preview,setPreview]=useState(null),[error,setError]=useState('');const rows=data.agentActions.filter(r=>r.jobId===job.id&&names[r.tool]).slice(-10).reverse();
+ if(!rows.length)return null;
+ return <section aria-label="Agent 新增工具结果"><h3>工具产出与回执</h3>{rows.map(r=><article key={r.id}><strong>{names[r.tool]} · {r.status==='done'?'已执行':r.status==='pending'?'待批准':r.status==='uncertain'?'待核对':r.status}</strong><p>{r.result?.message||r.error||r.outputFolder||r.target}</p>{r.result?.stdout&&<pre style={{whiteSpace:'pre-wrap',maxHeight:180,overflow:'auto'}}>{r.result.stdout.slice(0,4000)}</pre>}{r.result?.files?.map(f=><p key={f.path} style={{overflowWrap:'anywhere'}}>{f.path} · {f.bytes} 字节</p>)}{r.status==='done'&&['generate_image','synthesize_speech'].includes(r.tool)&&<button className="button" onClick={async()=>{setError('');try{setPreview(await act('agentLocalPreview',{id:r.id}));}catch(e){setError(e.message);}}}>预览{names[r.tool]}</button>}</article>)}{preview&&(preview.kind==='image'?<img src={preview.url} alt="Agent 生成的图片" style={{maxWidth:'100%',maxHeight:480}}/>:<audio controls src={preview.url}/>)}{error&&<p role="alert">{error}</p>}</section>;
+}

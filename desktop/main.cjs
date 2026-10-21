@@ -5,6 +5,7 @@ const { createNativeBridge } = require('./native-bridge.cjs');
 const quickCaptureModule = require('./quick-capture.cjs');
 
 app.setName('行知助手');
+if(process.platform==='win32')require('./windows-shell.cjs').configure(app);
 if (process.env.ASSISTANT_TEST_DATA_DIR && !app.isPackaged) app.setPath('userData', process.env.ASSISTANT_TEST_DATA_DIR);
 let window, engine, tray, pendingBadges, timer, quickCapture, selectionCapture, quitting = false, shutdownComplete = false;
 const ownsInstanceLock=app.requestSingleInstanceLock();
@@ -15,7 +16,7 @@ function createWindow() {
   window = new BrowserWindow({
     width: 1440, height: 960, minWidth: 1000, minHeight: 700,
     title: '行知 · 个人工作助手', backgroundColor: '#f8faf9',
-    titleBarStyle: 'hiddenInset', trafficLightPosition: { x: 20, y: 20 },
+    ...(process.platform==='darwin'?{titleBarStyle:'hiddenInset',trafficLightPosition:{x:20,y:20}}:{titleBarStyle:'default',icon:path.join(__dirname,'assets/icon.png')}),
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, additionalArguments: [quickCaptureModule.FLAG] }
   });
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
@@ -26,6 +27,10 @@ function createWindow() {
 }
 app.whenReady().then(async () => {
   if(!ownsInstanceLock||quitting)return;
+  // Explicit portable/test profiles do not register a global Start Menu entry.
+  if(process.platform==='win32'&&app.isPackaged&&!app.commandLine.hasSwitch('user-data-dir')){
+    try{require('./windows-shell.cjs').shortcut({app,shell});}catch(error){console.error(error.message);}
+  }
   const dir = path.join(app.getPath('userData'), 'workspace');
   const native=createNativeBridge({app,dialog,shell,Notification,net,getWindow:()=>window,onAttention:()=>{showWindow();window?.webContents.send('assistant:navigate','attention');}});
   const inlineFixture=!app.isPackaged&&process.env.ASSISTANT_DESKTOP_FIXTURE&&process.env.ASSISTANT_ENGINE_WORKER!=='1';
@@ -48,6 +53,12 @@ app.whenReady().then(async () => {
       // uiCommand is retained for all engine work, including desktop commands
       // whose business half (validation/save) runs in the worker.
       const nativeAction=action==='uiCommand'?input?.action:action,nativeInput=action==='uiCommand'?input?.input:input;
+      if(nativeAction==='registrationOpen'){
+        if(action!=='uiCommand')throw Error('请从注册指南打开官方入口');
+        const guide=require('./registration-guides.json').find(g=>g.id===nativeInput?.id);
+        if(!guide)throw Error('未知平台注册入口');
+        await shell.openExternal(guide.url);return {data:{opened:true}};
+      }
       if(['agentStorageMethodResume','agentStorageMethodResumePreview'].includes(nativeAction)&&action!=='uiCommand')throw Object.assign(Error('技术恢复必须通过可信界面操作'),{code:'TRUSTED_UI_COMMAND_REQUIRED'});
       if(nativeAction==='screenshotRegion'||nativeAction==='screenshotClipboard')return {data:await screenshot(nativeAction,window)};
       if(nativeAction==='quickCaptureDetectionStatus')return {data:selectionCapture.reconcile()};
@@ -75,8 +86,8 @@ app.whenReady().then(async () => {
     { label: '帮助', submenu: [{ label: '使用说明', click: () => { showWindow();window.webContents.send('assistant:navigate','help'); } }, { label: '快速上手', click: () => { showWindow();window.webContents.send('assistant:navigate','guide'); } }] }
   ]));
   const icon = nativeImage.createFromPath(path.join(__dirname, 'assets/tray.png')).resize({ width: 22, height: 22 });
-  icon.setTemplateImage(true); tray = new Tray(icon); tray.setToolTip('行知助手 · 本地工作台');
-  pendingBadges=require('./pending-badges.cjs').create({app,tray,Menu,getCounts:()=>engine.mirror?.pending,showMain:showWindow,openPending:category=>{showWindow();window?.webContents.send('assistant:navigate',category==='all'?'decisions':'decisions:'+category);},openCapture:()=>quickCapture.open(),pause:()=>control('stop'),quit:()=>app.quit()});
+  if(process.platform==='darwin')icon.setTemplateImage(true); tray = new Tray(icon); tray.setToolTip('行知助手 · 本地工作台');
+  pendingBadges=require('./pending-badges.cjs').create({app,tray,Menu,nativeImage,getWindow:()=>window,getCounts:()=>engine.mirror?.pending,showMain:showWindow,openPending:category=>{showWindow();window?.webContents.send('assistant:navigate',category==='all'?'decisions':'decisions:'+category);},openCapture:()=>quickCapture.open(),pause:()=>control('stop'),quit:()=>app.quit()});
   pendingBadges.refresh();
   tray.on('click', showWindow);
   timer = setInterval(() => {

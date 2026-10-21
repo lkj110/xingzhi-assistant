@@ -28,13 +28,13 @@ test('Named file ownership and normalized collisions are enforced across delegat
 });
 test('Replacing an authorized directory with a symlink cannot create, reconcile or verify named files outside it',async t=>{
   const {a,j,task,output,prepare}=await setup(t);const r=await prepare('proof.md');await writes.execute(a,j,r);
-  const outside=path.join(a.dir,'outside');fs.cpSync(output,outside,{recursive:true});const original=output+'-original';fs.renameSync(output,original);fs.symlinkSync(outside,output);
+  const outside=path.join(a.dir,'outside');fs.cpSync(output,outside,{recursive:true});const original=output+'-original';fs.renameSync(output,original);{if(!require('./helpers/symlink.cjs').link(t,outside,output))return;}
   await assert.rejects(prepare('other.md'),/符号链接替换/);r.status='uncertain';await assert.rejects(writes.execute(a,j,r),error=>error.requiresInput===true&&/符号链接替换/.test(error.message));assert.equal(r.status,'uncertain');
   // A stale success flag also cannot make goal verification accept files reached through an alias.
   r.status='done';await assert.rejects(writes.verifyDelivery(a,j,task),/符号链接替换/);assert.deepEqual(fs.readdirSync(outside).sort(),fs.readdirSync(original).sort());
 });
 test('Dangling file and directory symlinks never create files at their targets',async t=>{
-  const {a,j,output,prepare}=await setup(t),missing=path.join(a.dir,'missing-target.md');fs.symlinkSync(missing,path.join(output,'dangling.md'));
+  const {a,j,output,prepare}=await setup(t),missing=path.join(a.dir,'missing-target.md');{if(!require('./helpers/symlink.cjs').link(t,missing,path.join(output,'dangling.md')))return;}
   const r=await prepare('dangling.md');await assert.rejects(writes.execute(a,j,r));assert.equal(fs.existsSync(missing),false);assert.ok(fs.lstatSync(path.join(output,'dangling.md')).isSymbolicLink());
-  fs.renameSync(output,output+'-original');fs.symlinkSync(path.join(a.dir,'absent-directory'),output);r.status='uncertain';await assert.rejects(writes.execute(a,j,r),error=>error.requiresInput===true);assert.equal(r.status,'uncertain');assert.equal(fs.existsSync(path.join(a.dir,'absent-directory')),false);
+  fs.renameSync(output,output+'-original');{if(!require('./helpers/symlink.cjs').link(t,path.join(a.dir,'absent-directory'),output))return;}r.status='uncertain';await assert.rejects(writes.execute(a,j,r),error=>error.requiresInput===true);assert.equal(r.status,'uncertain');assert.equal(fs.existsSync(path.join(a.dir,'absent-directory')),false);
 });

@@ -1,0 +1,16 @@
+.local-tools p { margin: 10px 0; line-height: 1.65; overflow-wrap: anywhere; }
+.local-tools > details { border-top: 1px solid #e0e8e3; margin-top: 18px; padding-top: 16px; }
+.local-tools summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
+.local-tools details[open] > summary { margin-bottom: 12px; }
+.local-tools details details { background: #f7faf8; border-radius: 8px; margin: 12px 0; padding: 12px 16px; }
+.local-tools label { display: flex; flex-direction: column; gap: 7px; margin: 14px 0; max-width: 820px; font-size: 13px; }
+.local-tools label.check-label { flex-direction: row; align-items: center; }
+.local-tools input:not([type=checkbox]), .local-tools textarea, .local-tools select { width: 100%; min-height: 38px; box-sizing: border-box; }
+.local-tools textarea { padding: 10px; line-height: 1.6; resize: vertical; }
+.local-tools button { margin: 4px 8px 4px 0; }
+.local-tools article { margin-top: 12px; padding: 12px; border: 1px solid #e0e8e3; border-radius: 8px; }
+.local-tools pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f5f8f6; padding: 12px; border-radius: 6px; max-height: 280px; overflow: auto; }
+.local-tools img { display: block; max-height: 480px; object-fit: contain; margin: 16px 0; border-radius: 8px; }
+.local-tools audio { display: block; width: min(100%, 600px); margin: 16px 0; }
+.local-tools li { margin: 9px 0; line-height: 1.7; }
+.local-tools code { overflow-wrap: anywhere; }

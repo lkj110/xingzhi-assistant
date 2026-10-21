@@ -6,7 +6,7 @@ function atomic(file,value){
  const temp=file+'.'+crypto.randomUUID()+'.tmp';let renamed=false;
  try{
   const fd=fs.openSync(temp,'wx',0o600);try{fs.writeFileSync(fd,JSON.stringify(value));fs.fsyncSync(fd);}finally{fs.closeSync(fd);}
-  fs.renameSync(temp,file);renamed=true;const dir=fs.openSync(path.dirname(file),'r');try{fs.fsyncSync(dir);}finally{fs.closeSync(dir);}
+  fs.renameSync(temp,file);renamed=true;require('./filesystem-platform.cjs').syncDirectory(path.dirname(file));
  }catch(error){if(renamed)error.committed=true;throw error;}finally{if(!renamed)try{fs.unlinkSync(temp);}catch{}}
 }
 function load(a){

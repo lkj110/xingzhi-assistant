@@ -40,8 +40,7 @@ function atomicWrite(a, log, receipt) {
     const fd = fs.openSync(temporary, 'wx', 0o600);
     try { fs.writeFileSync(fd, JSON.stringify(log)); fs.fsyncSync(fd); } finally { fs.closeSync(fd); }
     fs.renameSync(temporary, target); renamed = true;
-    const directory = fs.openSync(path.dirname(target), 'r');
-    try { fs.fsyncSync(directory); } finally { fs.closeSync(directory); }
+    require('./filesystem-platform.cjs').syncDirectory(path.dirname(target));
   } catch (error) {
     // After rename the outcome may already survive a crash. Never undo facts or
     // repeat an acceptance merely because the directory fsync reported failure.

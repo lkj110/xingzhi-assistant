@@ -308,6 +308,7 @@ function finish(a,job,operation,sourceId){
 function snapshot(job){return Object.values(state(job).operations).map(o=>({operationId:o.id||o.key,query:o.query,requestedQuery:o.requestedQuery,actualQuery:o.actualQuery,receipt:o.receipt,status:o.status,sourceId:o.sourceId,errorCode:o.errorCode,error:o.error,completedAt:o.completedAt,retryAt:o.retryAt,decision:eligibility(job,o)}));}
 function normalize(tool,args={}){
  const value=require('./tool-registry.cjs').parameters(tool,args);delete value.reason;
+ if(tool==='read_local_result'){if(value.filename)value.start=value.start??0;else{delete value.filename;delete value.start;}}
  if(tool==='platform_query')return {tool,queries:(value.queries||[]).map(q=>{try{return platform.command(q);}catch(e){if(!['UNSUPPORTED_ENTITY','UNSUPPORTED_CAPABILITY'].includes(e.code))throw e;return {unsupported:boundaries.canonicalQuery(q)};}}).sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b)))};
  if(['read_source','search_source','read_artifact','read_platform','list_sources','read_work_state','platform_inventory'].includes(tool)){
   value.start=Number(value.start||0);if(tool==='read_source'||tool==='search_source')value.limit=Number(value.limit||6);

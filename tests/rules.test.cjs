@@ -44,7 +44,7 @@ test('Baseline opt-out and repeated unchanged checks do not create work or call 
   fs.writeFileSync(path.join(input,'新纪要.md'),'星桥：周六确认。');assert.equal((await check(r)).status,'created');assert.equal(a.data.delegations[0].sourceIds.length,1);
 });
 test('Filename and content filters use full text, skip symlinks, and detect changes beyond 30,000 characters',async t=>{
-  const {a,save,check,input}=await setup(t);fs.writeFileSync(path.join(input,'长纪要.md'),'x'.repeat(40000)+'目标');fs.symlinkSync(path.join(input,'长纪要.md'),path.join(input,'链接纪要.md'));
+  const {a,save,check,input}=await setup(t);fs.writeFileSync(path.join(input,'长纪要.md'),'x'.repeat(40000)+'目标');{if(!require('./helpers/symlink.cjs').link(t,path.join(input,'长纪要.md'),path.join(input,'链接纪要.md')))return;}
   const r=await save({keyword:'目标',filename:'纪要',includeExisting:false});await check(r);assert.equal(Object.keys(r.fingerprints).length,1);
   fs.writeFileSync(path.join(input,'长纪要.md'),'x'.repeat(40000)+'目标更新');assert.equal((await check(r)).status,'created');assert.equal(a.data.delegations.length,1);
   assert.equal((await check(r)).status,'unchanged');

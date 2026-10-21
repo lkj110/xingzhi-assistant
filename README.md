@@ -1,5 +1,7 @@
 # 行知助手 · Xingzhi Assistant
 
+Windows 10/11 x64 适配源码（修订 4）：从源码运行 `npm ci`、`npm start`，或运行 `npm run windows:package` 构建并验证免安装 EXE。新增 Agent 自动执行代码、生成邮件草稿、图片和离线语音，以及经确认的 Outlook 发信和 GitHub 工作流调用。功能、系统组件及限制见 [Windows 使用说明](docs/WINDOWS.md)，本次上传的验证结果见 [修订 4 状态](docs/WINDOWS_R4_STATUS.md)。下述 macOS 发行说明仍适用于原发布版本；Windows 修订 4 已在 Windows 11 x64 完成上述验收，构建未签名，其他系统环境的限制见验证记录。
+
 一个开源的本地桌面工作助手：**收集材料 → 整理目标与步骤 → 推进事项 → 检查结果 → 验收归档**。
 
 A local-first desktop assistant with multi-provider AI, task execution, source tracking, and human review. Built with Electron, React, and native macOS OCR helpers.

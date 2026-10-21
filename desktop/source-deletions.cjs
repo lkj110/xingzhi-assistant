@@ -31,7 +31,7 @@ function record(a,sourceId,{trusted=false}={}){
       const fd=fs.openSync(temporary,'wx',0o600);
       try{fs.writeFileSync(fd,JSON.stringify({version:1,events,checksum:hash(events)}));fs.fsyncSync(fd);}finally{fs.closeSync(fd);}
       fs.renameSync(temporary,file(a));committed=true;
-      const directory=fs.openSync(a.dir,'r');try{fs.fsyncSync(directory);}finally{fs.closeSync(directory);}
+      require('./filesystem-platform.cjs').syncDirectory(a.dir);
     }catch(error){if(committed){project(a,events);error.committed=true;}throw error;}
     finally{if(!committed)try{fs.unlinkSync(temporary);}catch{}}
   }

@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),crypto=require('node:crypto');
 const children=require('node:child_process'),spawn=children.spawn;
 let pythonCalls=0;
-children.spawn=function(command,args,options){if(command.endsWith('/python3'))pythonCalls++;return spawn(command,args,options);};
+children.spawn=function(command,args,options){if(/(?:^|[\\/])python(?:3)?(?:\.exe)?$/.test(command)||args?.some(arg=>/(?:^|[\\/])python(?:3)?\.exe$/.test(arg)))pythonCalls++;return spawn(command,args,options);};
 const {Assistant}=require('../desktop/core.cjs'),capabilities=require('../desktop/capabilities.cjs'),agent=require('../desktop/agent.cjs');
 const paths=require('../desktop/capability-repositories.cjs').lintPaths;
 const digest=value=>crypto.createHash('sha256').update(typeof value==='string'?value:JSON.stringify(value)).digest('hex');
@@ -155,21 +155,21 @@ test('source and cached snapshot symlinks, hardlinks, and content tampering fail
  const {assistant,root,marker}=await fixture(context),capability=await mount(assistant,root),delegation=job(assistant,capability),before=pythonCalls;
  const source=path.join(root,paths[1]),original=fs.readFileSync(source),outside=path.join(assistant.dir,'outside.py');fs.writeFileSync(outside,original);
  for(const kind of ['symlink','hardlink']){
-  fs.rmSync(source);if(kind==='symlink')fs.symlinkSync(outside,source);else fs.linkSync(outside,source);
+  fs.rmSync(source);if(kind==='symlink'){if(!require('./helpers/symlink.cjs').link(context,outside,source))return;}else fs.linkSync(outside,source);
   await assert.rejects(review(assistant,delegation,capability),/链接|普通文件/);fs.rmSync(source);fs.writeFileSync(source,original);
  }
- const cacheRoot=path.join(assistant.dir,'capability-cache'),outsideCache=path.join(assistant.dir,'outside-cache');fs.mkdirSync(outsideCache);fs.symlinkSync(outsideCache,cacheRoot);
+ const cacheRoot=path.join(assistant.dir,'capability-cache'),outsideCache=path.join(assistant.dir,'outside-cache');fs.mkdirSync(outsideCache);{if(!require('./helpers/symlink.cjs').link(context,outsideCache,cacheRoot))return;}
  await assert.rejects(review(assistant,delegation,capability),/缓存目录/);assert.deepEqual(fs.readdirSync(outsideCache),[]);fs.unlinkSync(cacheRoot);
- const cache=path.join(cacheRoot,capability.executionTrust.scriptsDigest),alternate=path.join(assistant.dir,'alternate');fs.mkdirSync(path.dirname(cache),{recursive:true});fs.mkdirSync(alternate);fs.symlinkSync(alternate,cache);
+ const cache=path.join(cacheRoot,capability.executionTrust.scriptsDigest),alternate=path.join(assistant.dir,'alternate');fs.mkdirSync(path.dirname(cache),{recursive:true});fs.mkdirSync(alternate);{if(!require('./helpers/symlink.cjs').link(context,alternate,cache))return;}
  await assert.rejects(review(assistant,delegation,capability),/缓存目录/);fs.unlinkSync(cache);
  const write=fs.writeFileSync;
  try{
   for(const kind of ['tamper','symlink','hardlink']){
    fs.writeFileSync=function(target,bytes,options){
     const result=write(target,bytes,options);
-    if(typeof target==='string'&&target.includes('/capability-cache/')&&target.endsWith('/sql_anti_pattern_linter.py')){
+    if(typeof target==='string'&&target.split(path.sep).includes('capability-cache')&&path.basename(target)==='sql_anti_pattern_linter.py'){
      if(kind==='tamper')write(target,'print("tampered")');
-     else{fs.unlinkSync(target);if(kind==='symlink')fs.symlinkSync(outside,target);else fs.linkSync(outside,target);}
+     else{fs.unlinkSync(target);if(kind==='symlink'){if(!require('./helpers/symlink.cjs').link(context,outside,target))return;}else fs.linkSync(outside,target);}
     }
     return result;
    };
@@ -202,7 +202,7 @@ test('policy revocation while Python runs is rechecked even if capability revisi
  fs.writeFileSync(release,'continue');await rejection;assert.equal(capability.revision,revision);assert.equal(assistant.data.capabilityRuns[0].status,'failed');
 });
 
-function git(root,...args){return children.execFileSync('/usr/bin/git',['-c','core.hooksPath=/dev/null','-C',root,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();}
+function git(root,...args){return children.execFileSync(require('../desktop/host-process.cjs').executable('git'),['-c','core.hooksPath=/dev/null','-C',root,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();}
 function commit(root,message){git(root,'add','.');git(root,'-c','user.name=Fixture','-c','user.email=fixture@example.invalid','commit','-m',message);return git(root,'rev-parse','HEAD');}
 
 test('remote latest documentation is separate from pinned scripts; explicit latest runs new isolated snapshot',async context=>{
@@ -324,7 +324,7 @@ test('IR03 read-time parent restore and same-path replacement reject changed ide
   let descriptorForTarget,changed=false;
   fs.openSync=function(filename,...args){const descriptor=open.call(this,filename,...args);if(filename===target)descriptorForTarget=descriptor;return descriptor;};
   fs.readSync=function(descriptor,...args){const count=readSync.call(this,descriptor,...args);if(descriptor===descriptorForTarget&&!changed){changed=true;if(attack==='parent-restore'){fs.renameSync(folder,held);fs.renameSync(held,folder);}else{fs.renameSync(target,path.join(assistant.dir,'old-file'));fs.writeFileSync(target,'replacement guidance');}}return count;};
-  try{assert.throws(()=>repositories.readFile(root,'guide/SKILL.md'),{code:'CAPABILITY_FILE_CHANGED'});}finally{fs.openSync=open;fs.readSync=readSync;}
+  try{assert.throws(()=>repositories.readFile(root,'guide/SKILL.md'),error=>error.code==='CAPABILITY_FILE_CHANGED'||process.platform==='win32'&&attack==='parent-restore'&&error.code==='EPERM');}finally{fs.openSync=open;fs.readSync=readSync;}
   assert.equal(repositories.readFile(root,'guide/SKILL.md').toString(),attack==='parent-restore'?'ordinary guidance':'replacement guidance');
  }
 });

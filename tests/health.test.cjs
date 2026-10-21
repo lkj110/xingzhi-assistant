@@ -60,7 +60,7 @@ test('Output folder existence never claims the folder can be written or delivery
   const a=setup(t);job(a,{outputFolder:a.dir});const r=health.snapshot(a);assert.ok(codes(r).includes('output_write_unverified'));assert.equal(r.findings.find(f=>f.code==='output_write_unverified').severity,'unknown');assert.ok(!JSON.stringify(r).includes(a.dir));
 });
 test('Missing and symlink-replaced output directories are detected without following content',t=>{
-  const a=setup(t),real=path.join(a.dir,'out'),link=path.join(a.dir,'link');fs.mkdirSync(real);fs.symlinkSync(real,link);const j=job(a,{outputFolder:link});assert.ok(codes(health.snapshot(a)).includes('output_folder'));j.outputFolder=path.join(a.dir,'missing');assert.ok(codes(health.snapshot(a)).includes('output_folder'));j.outputFolder=real;assert.ok(!codes(health.snapshot(a)).includes('output_folder'));
+  const a=setup(t),real=path.join(a.dir,'out'),link=path.join(a.dir,'link');fs.mkdirSync(real);{if(!require('./helpers/symlink.cjs').link(t,real,link))return;}const j=job(a,{outputFolder:link});assert.ok(codes(health.snapshot(a)).includes('output_folder'));j.outputFolder=path.join(a.dir,'missing');assert.ok(codes(health.snapshot(a)).includes('output_folder'));j.outputFolder=real;assert.ok(!codes(health.snapshot(a)).includes('output_folder'));
 });
 test('Undelivered file steps with missing output permission are actionable',t=>{
   const a=setup(t);job(a,{fileMode:'off'});task(a,{agentJobId:'job',projectId:'p',steps:[{id:'step',kind:'external',tool:'write_file',done:false}]});const r=health.snapshot(a);assert.ok(codes(r).includes('output_folder'));assert.ok(codes(r).includes('file_permission'));

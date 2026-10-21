@@ -62,7 +62,9 @@
     "test:models:desktop": "npm run build && node scripts/model-providers-desktop-smoke.cjs",
     "release": "node scripts/release.cjs",
     "engineering:check": "node scripts/engineering-check.cjs",
-    "iteration:metrics": "node scripts/iteration-metrics.cjs"
+    "iteration:metrics": "node scripts/iteration-metrics.cjs",
+    "test:windows": "node scripts/windows-tests.cjs",
+    "windows:package": "node scripts/windows-package.cjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.1",

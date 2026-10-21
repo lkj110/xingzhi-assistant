@@ -6,7 +6,7 @@ function counts(data){
   const nodes=cards(data),review=nodes.filter(card=>card.category==='review').length;
   return {total:nodes.length,progress:nodes.length-review,review};
 }
-function create({app,tray,Menu,assistant,getCounts,openPending,showMain,openCapture,pause,quit,platform=process.platform}){
+function create({app,tray,Menu,assistant,getCounts,openPending,showMain,openCapture,pause,quit,platform=process.platform,getWindow,nativeImage}){
   let last=null,scheduled=null,disposed=false;
   function refresh(){
     if(disposed)return;
@@ -24,6 +24,9 @@ function create({app,tray,Menu,assistant,getCounts,openPending,showMain,openCapt
       tray.setTitle(title,{fontType:'monospacedDigit'});
       app.dock?.setBadge(badge);
       app.dock?.setMenu(Menu.buildFromTemplate(entries()));
+    }
+    if(platform==='win32'&&getWindow&&nativeImage){
+      getWindow()?.setOverlayIcon(require('./windows-badge.cjs').image(nativeImage,next.total),label);
     }
     tray.setToolTip(next.total?`行知助手 · ${next.total} 项需要你处理（推进待介入 ${next.progress} · 待验收 ${next.review}）`:'行知助手 · 暂无待处理事项');
     tray.setContextMenu(Menu.buildFromTemplate([

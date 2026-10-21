@@ -72,11 +72,11 @@ function inventory(root, dw = false) {
 // Never runs a checkout, repository hook, package installer or shell command.
 function git(cwd, args, {signal, input, maxBytes = 2000000} = {}) {
   return new Promise((resolve,reject) => {
-    const child = spawn('/usr/bin/git', ['--no-optional-locks','-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-c','protocol.ext.allow=never','-C',cwd,...args], {
-      env:{...process.env,GIT_TERMINAL_PROMPT:'0',GIT_SSH_COMMAND:'ssh -oBatchMode=yes'}, detached:true, stdio:['pipe','pipe','pipe'],
+    const child = spawn(require('./host-process.cjs').executable('git')||'git', ['--no-optional-locks','-c',`core.hooksPath=${process.platform==='win32'?'NUL':'/dev/null'}`,'-c','core.fsmonitor=false','-c','protocol.ext.allow=never','-C',cwd,...args], {
+      env:{...process.env,GIT_TERMINAL_PROMPT:'0',GIT_SSH_COMMAND:'ssh -oBatchMode=yes'}, detached:process.platform!=='win32',windowsHide:true, stdio:['pipe','pipe','pipe'],
     });
     let chunks = [], bytes = 0, ended = false;
-    const kill = () => { try {process.kill(-child.pid,'SIGKILL');} catch {child.kill('SIGKILL');} };
+    const kill = () => require('./host-process.cjs').terminate(child,'SIGKILL');
     const finish = (error, value) => {if(ended)return;ended=true;clearTimeout(timer);signal?.removeEventListener('abort',abort);error?reject(error):resolve(value);};
     const abort = () => {kill();finish(Error('仓库更新已取消'));};
     const timer = setTimeout(() => {kill();finish(Error('仓库检查或更新超过 60 秒；请检查网络与 Git 登录后重试'));},60000);
@@ -113,7 +113,7 @@ async function remoteTarget(root, input, signal) {
   if (!branch || branch.startsWith('-') || branch.length > 300) throw Error('远端分支无效');
   await gitText(root,['check-ref-format',`refs/heads/${branch}`],{signal});
   const url = await gitText(root,['remote','get-url',remote],{signal});
-  if (!/^(?:https:\/\/|ssh:\/\/|file:\/\/|\/|[\w.-]+@[\w.-]+:)/.test(url) || /[\r\n]/.test(url)) throw Error('仅支持 HTTPS、SSH 或本地 Git 远端地址');
+  if ((!path.isAbsolute(url)&&!/^(?:https:\/\/|ssh:\/\/|file:\/\/|[\w.-]+@[\w.-]+:)/.test(url)) || /[\r\n]/.test(url)) throw Error('仅支持 HTTPS、SSH 或本地 Git 远端地址');
   if (/^https:\/\//.test(url) && (new URL(url).username || new URL(url).password)) throw Error('远端地址不可包含凭据，请改用系统 Git 凭据管理');
   return {remote,branch,url};
 }

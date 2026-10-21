@@ -34,7 +34,7 @@ test('OpenAI compatible response flows through parsing, format repair and real u
 test('subscription CLI reports usage before parsing and removes its transient response after failure',async t=>{
  const vm=require('node:vm'),{EventEmitter}=require('node:events'),createRequire=require('node:module').createRequire;
  const filename=path.resolve(__dirname,'../desktop/subscription.cjs'),realRequire=createRequire(filename),roots=[];let response='{"broken":',usage;
- const fakeFS={...fs,statSync:p=>p==='/fixture/codex'?{isFile:()=>true}:fs.statSync(p),accessSync:p=>p==='/fixture/codex'?undefined:fs.accessSync(p),mkdtempSync:p=>{const root=fs.mkdtempSync(p);roots.push(root);return root;}};
+ const fakeFS={...fs,statSync:p=>String(p).replaceAll('\\','/')==='/fixture/codex'?{isFile:()=>true}:fs.statSync(p),accessSync:p=>String(p).replaceAll('\\','/')==='/fixture/codex'?undefined:fs.accessSync(p),mkdtempSync:p=>{const root=fs.mkdtempSync(p);roots.push(root);return root;}};
  const spawn=(_bin,args)=>{const child=new EventEmitter();child.pid=12345;child.stdout=new EventEmitter();child.stderr=new EventEmitter();child.stdin=new EventEmitter();child.stdin.end=()=>queueMicrotask(()=>{
    if(args[0]==='login')child.stdout.emit('data',Buffer.from('Logged in using ChatGPT'));
    else{fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({response_json:response}));child.stdout.emit('data',Buffer.from(JSON.stringify({type:'turn.completed',usage:{input_tokens:10,output_tokens:5,cached_input_tokens:2}})+'\n'));}

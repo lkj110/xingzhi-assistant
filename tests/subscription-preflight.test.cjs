@@ -20,14 +20,14 @@ function fixture(t,{login='ok',exec='failed',setupFailure=false,missing=false,sp
   else {fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({response_json:'{"ok":true}'}));console.log(JSON.stringify({type:'turn.completed',usage:{input_tokens:11,output_tokens:7}}));}
  }`);
  const filename=path.resolve(__dirname,'../desktop/subscription.cjs'),realRequire=createRequire(filename),children=[],launched=[];
- const fakeFS={...fs,statSync(file){if(String(file).endsWith('/codex')){if(file!==bin||missing)throw Object.assign(Error('PRIVATE_PATH'),{code:'ENOENT'});}return fs.statSync(file);},accessSync(file){if(file===bin)return;return fs.accessSync(file);},writeFileSync(file,...args){if(setupFailure&&String(file).endsWith('/schema.json'))throw Object.assign(Error('PRIVATE_SECRET'),{code:'ENOSPC'});return fs.writeFileSync(file,...args);},rmSync(file,...args){fs.rmSync(file,...args);if(cleanupFailure)throw Error('PRIVATE_CLEANUP');}};
- const context={module:{exports:{}},process:{env:{PATH:dir,HOME:dir},kill:process.kill.bind(process)},Buffer,setTimeout:(fn,ms)=>setTimeout(fn,ms===15000&&login==='wait'?120:ms),clearTimeout,require:n=>n==='node:fs'?fakeFS:n==='node:child_process'?{spawn:(file,args,opts)=>{
+ const fakeFS={...fs,statSync(file){if(path.basename(String(file))==='codex'){if(file!==bin||missing)throw Object.assign(Error('PRIVATE_PATH'),{code:'ENOENT'});}return fs.statSync(file);},accessSync(file){if(file===bin)return;return fs.accessSync(file);},writeFileSync(file,...args){if(setupFailure&&path.basename(String(file))==='schema.json')throw Object.assign(Error('PRIVATE_SECRET'),{code:'ENOSPC'});return fs.writeFileSync(file,...args);},rmSync(file,...args){fs.rmSync(file,...args);if(cleanupFailure)throw Error('PRIVATE_CLEANUP');}};
+ const context={module:{exports:{}},process:{env:{PATH:dir,HOME:dir},kill:(pid,signal)=>process.kill(process.platform==='win32'?Math.abs(pid):pid,signal)},Buffer,setTimeout:(fn,ms)=>setTimeout(fn,ms===15000&&login==='wait'?120:ms),clearTimeout,require:n=>n==='node:fs'?fakeFS:n==='node:child_process'?{spawn:(file,args,opts)=>{
    assert.equal(file,bin);launched.push(args[0]);
    if(spawnFailure&&args[0]==='exec')throw Object.assign(Error('PRIVATE_SPAWN'),{code:'ETIMEDOUT'});
    const child=spawn(process.execPath,[bin,...args],opts);children.push(child);return child;
  }}:realRequire(n)};
  vm.runInNewContext(fs.readFileSync(filename,'utf8'),context);
- t.after(()=>{for(const child of children)try{process.kill(-child.pid,'SIGKILL');}catch{}});
+ t.after(()=>{for(const child of children)try{process.kill(process.platform==='win32'?child.pid:-child.pid,'SIGKILL');}catch{}});
  const usage=[];
  return {module:context.module.exports,dir,bin,launched,usage,entered:()=>fs.existsSync(marker)?fs.readFileSync(marker,'utf8').trim().split('\n'):[],call:(options={})=>context.module.exports.chat({model:'controlled',requestPolicy:{retries:1}},'',[],{onUsage:u=>usage.push(u),...options})};
 }

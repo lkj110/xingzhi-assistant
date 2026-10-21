@@ -5,14 +5,15 @@ const deny=()=>{throw Error('final-platform fixture: real I/O forbidden');};
 require('node:net').Socket.prototype.connect=deny;global.fetch=deny;
 // Exercise the production process collector without executing any binary.
 let scenario;const kills=[];
-require('node:child_process').spawn=(bin,args,options)=>{
- assert.ok(bin.endsWith('/bytedcli'));assert.equal(options.shell,false);
+(process.platform==='win32'?require('../desktop/windows-process.cjs'):require('node:child_process')).spawn=(bin,args,options)=>{
+ assert.ok(/(?:^|[\\/])bytedcli(?:\.exe)?$/.test(bin));assert.equal(options.shell,false);
  const child=new EventEmitter();child.pid=987654321;child.stdout=new PassThrough();child.stderr=new PassThrough();
  process.nextTick(()=>scenario(child,args));return child;
 };
 const stat=fs.statSync,access=fs.accessSync;
-fs.statSync=(file,...rest)=>String(file).endsWith('/bytedcli')?{isFile:()=>true}:stat(file,...rest);
-fs.accessSync=(file,...rest)=>String(file).endsWith('/bytedcli')?undefined:access(file,...rest);
+fs.statSync=(file,...rest)=>/(?:^|[\\/])bytedcli(?:\.exe)?$/.test(String(file))?{isFile:()=>true}:stat(file,...rest);
+fs.accessSync=(file,...rest)=>/(?:^|[\\/])bytedcli(?:\.exe)?$/.test(String(file))?undefined:access(file,...rest);
+if(process.platform==='win32')require('../desktop/host-process.cjs').terminate=(child,signal='SIGTERM')=>kills.push(signal);
 process.kill=(pid,signal)=>{assert.equal(pid,-987654321);kills.push(signal);};
 const platform=require('../desktop/data-platform.cjs'),storage=require('../desktop/platform-result.cjs');
 const lineage=platform.command({op:'table_lineage',database:'db',table:'out'}),ordinary=platform.command({op:'task',taskId:1});

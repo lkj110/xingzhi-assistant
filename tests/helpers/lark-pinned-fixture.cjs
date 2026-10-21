@@ -12,7 +12,7 @@ async function attach(t,a,bodyRequest,{openId='ou_self'}={}){
   catch(e){res.end(JSON.stringify({ok:false,error:{type:e.connectorCode||'network',message:e.message}}));}
  });
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));const port=server.address().port;
- fs.writeFileSync(path.join(dir,'lark-cli'),`#!${process.execPath}\n`+`
+ require('./native-cli.cjs').write(path.join(dir,'lark-cli'),`
 const fs=require('fs'),path=require('path'),http=require('http'),args=process.argv.slice(2),out=v=>console.log(JSON.stringify(v));
 if(args[0]==='--version'){console.log('lark-cli version 1.0.65');process.exit(0);}
 if(args[0]==='auth'){out({appId:'cli_fixture',brand:'feishu',identities:{user:{openId:${JSON.stringify(openId)}}}});process.exit(0);}
@@ -20,7 +20,7 @@ const key=process.env.LARKSUITE_CLI_CONFIG_DIR,config=JSON.parse(fs.readFileSync
 if(app.appId!=='cli_fixture'||app.users[0].userOpenId!==${JSON.stringify(openId)})throw Error('wrong fixture identity');
 if(args[0]==='api'){out({ok:true,identity:'user',data:{open_id:app.users[0].userOpenId,tenant_key:'tenant_fixture'}});process.exit(0);}
 const r=http.request({hostname:'127.0.0.1',port:${port},path:'/',method:'POST'},res=>{let text='';res.on('data',b=>text+=b);res.on('end',()=>{console.log(text);process.exit(JSON.parse(text).ok===false?1:0);});});r.on('error',()=>process.exit(2));r.end(JSON.stringify({args,key}));
-`,{mode:0o700});
+`);
  const request=async(args,options={})=>{
   if(!options.pinnedSession&&!options.cliCapability)return bodyRequest(args,options);
   const key=options.pinnedSession?pin.inspect(options.pinnedSession).configDir:null;
