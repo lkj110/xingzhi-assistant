@@ -454,6 +454,7 @@ function recordReadResults(state,rows,visibleContext,check){
  for(const row of rows){
   const r=row?.result;
   if(r?.ok!==true){failed++;continue;}
+  if(r.computedEvidence){const kind=require('./tool-evidence.cjs').progress(state,r.computedEvidence,visibleContext);if(kind==='fresh')fresh++;else if(kind==='restored')restored++;else if(kind==='duplicate')duplicate++;else failed++;continue;}
   if(r.directoryOnly){
    if(Array.isArray(r.items)&&r.section){
     const key=hash({taskId:r.taskId,obligationId:r.obligationId,section:r.section,path:r.path,items:r.items,contextRevision:r.contextRevision,coverageVersion:r.coverageVersion});

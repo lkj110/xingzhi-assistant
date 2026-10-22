@@ -44,6 +44,9 @@ function policyBasis(a,task){
 function prepare(a,task,context,options={}){
  const checkpoint=task.verificationCheckpoint,signature=basis(a,task);
  const full={context,signature,policyBasis:policyBasis(a,task),mode:'full',reusedChunks:0,checkedChunks:current(a,task).reduce((n,r)=>n+chunks(r.content).length,0)};
+ // A new independent evidence audit must see the complete current text. Reuse
+ // editorial fragments only once an unchanged, locally validated audit exists.
+ if(require('./grounding.cjs').enabled(a)&&!require('./grounding.cjs').reusable(a,task))return full;
  if(options.allowExact===true&&typeof options.verifierKey==='string'&&options.verifierKey.trim()){
   full.verifierKey=options.verifierKey;full.exactBasis=exactBasis(a,task,options.verifierKey);
   const hit=exactResult(a,task,full);

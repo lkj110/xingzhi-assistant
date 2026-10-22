@@ -165,6 +165,8 @@ async function github(assistant,repo,route,{method='GET',body,signal,job,permiss
       if(action.jobId!==scope.id||action.target!==repo||action.tool!==operation||(operation!=='github_create'&&route!==`issues/${action.number}${operation==='github_comment'?'/comments':''}`))throw Object.assign(Error('GitHub 动作目标超出具体审批的授权范围'),{code:'ACCESS_POLICY_REVOKED'});
       const marker=`<!-- xingzhi:${action.key} -->`,expected=operation==='github_create'?{title:action.title,body:`${action.content}\n\n${marker}`}:operation==='github_comment'?{body:`${action.content}\n\n${marker}`}:action.desired;
       if(policy.hash(body)!==policy.hash(expected))throw Object.assign(Error('GitHub 请求正文与已授权动作不一致'),{code:'ACCESS_POLICY_REVOKED'});
+      const grounding=require('./grounding.cjs');
+      if(grounding.enabled(assistant))grounding.assertAction(assistant,assistant.data.tasks.find(t=>t.id===action.taskId),action);
     }
     require('./protocol-access.cjs').assertTool(assistant,scope,operation,{}, {principalScope:principal,...(action&&method!=='GET'?{action,taskId:action.taskId}:{})});
   }

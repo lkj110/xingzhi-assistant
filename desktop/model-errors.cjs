@@ -48,6 +48,7 @@ function normalizeModelError(error) {
   return modelError('MODEL_FAILED','模型请求失败，请检查模型服务后重试。',error?.automaticRetry!==false);
 }
 function httpError(status, code) {
+  if(['context_length_exceeded','context_window_exceeded','input_too_long'].includes(code))return Object.assign(modelError('MODEL_CONFIG','本次输入超过模型上下文上限，请缩小可恢复材料后继续。',false),{contextOverflow:true});
   if (['content_policy_violation', 'content_filter', 'safety_violation'].includes(code)) return blockedError();
   if(['insufficient_quota','quota_exceeded','billing_hard_limit_reached','usage_limit_reached'].includes(code))return modelError('MODEL_QUOTA','模型服务额度已用完，请检查订阅或账户额度后重试。',false);
   const hint = {400:'请求参数无效，请检查模型配置',401:'密钥无效或已过期',403:'无权使用此模型',404:'地址或模型名称不存在',429:'请求频率过高'}[status] || '服务返回错误';

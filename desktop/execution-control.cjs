@@ -23,7 +23,7 @@ function peek(a,job,{taskId,automatic=a.automaticExecution!==false}={}) {
   if(['work','repair'].includes(phase))return {tool:'planner',args:{taskId:task.id},reason:'选择当前文本步骤所需的动作与参数'};
   if(phase==='verify')return {tool:'advance_task',args:{taskId:task.id},reason:'直接完成当前版本的步骤或结果检查',controlled:true};
   if(phase==='deliver'&&primary){
-   if(task.contentVerification?.basis!==contentBasis(a,job,task))return {tool:'verify_content',args:{taskId:task.id},reason:'交付前核对当前主稿',controlled:true};
+   if(task.contentVerification?.basis!==contentBasis(a,job,task)||require('./grounding.cjs').enabled(a)&&!require('./grounding.cjs').reusable(a,task)&&task.contentVerification?.passed!==false)return {tool:'verify_content',args:{taskId:task.id},reason:'交付前核对当前主稿',controlled:true};
    if(task.contentVerification.passed===false){const target=require('./revision-protocol.cjs').target(a,task,task.contentVerification);if(target&&!job.executionState?.recoveries?.['content:'+task.contentVerification.basis])return {tool:'revise_task',args:{taskId:task.id,artifactId:target.id,note:'按当前内容检查缺口修订，保持用户范围：\n'+task.contentVerification.gaps.join('\n')},recoveryBasis:task.contentVerification.basis,controlled:true};return {tool:'planner',args:{taskId:task.id},reason:'核对当前明确内容缺口'};}
    return {tool:'planner',args:{taskId:task.id},reason:'为当前已核验交付补齐工具参数，沿用原目标'};
   }
@@ -67,6 +67,7 @@ async function verifyContent(a,job,task){
   require('./state-transitions.cjs').commit(a,()=>{
    if(contentBasis(a,job,task)!==before)throw Object.assign(Error('提交内容检查前依据变化，需要重新核对'),{code:'PLAN_RECONCILE_REQUIRED',taskId:task.id});
    if(consumption.draftOnly(a,task)&&(!consumption.coverage(a,job,task)||consumption.view(a,job,task)?.remaining>0))throw Object.assign(Error('检查期间证据覆盖或事实纳入已变化，增量草稿保持待补证'),{code:'EVIDENCE_REQUIRED',taskId:task.id});
+   if(result.grounding)task.grounding=result.grounding;
    task.contentVerification={...result,basis:before,snapshot:context.verificationSnapshot,at:now()};require('./continuation-control.cjs').noteCheck(a,job,task,task.contentVerification,{phase:'content'});require('./relation-obligations.cjs').record(job,coverage.receipts);
    if(result.passed&&consumption.draftOnly(a,task)){
     const artifact=require('./deliverables.cjs').primary(a,task);artifact.draftOnly=false;
