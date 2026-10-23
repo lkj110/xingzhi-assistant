@@ -2,12 +2,13 @@ const protocols = require('./model-protocols.cjs');
 const policy = require('./model-policy.cjs');
 const {modelError, transportError, httpError} = require('./model-errors.cjs');
 
-async function readJSON(url, init, watch) {
+async function readJSON(url, init, watch, observe) {
   const failure = () => watch.signal.aborted ? watch.signal.reason : transportError();
   let response;
   try { response = await fetch(url, {...init, redirect:'error', signal:watch.signal}); }
   catch { throw failure(); }
   watch.touch();
+  observe?.(response,null);
   if (!response.body) throw modelError('MODEL_INVALID_RESPONSE','模型服务返回空响应',false);
   const reader = response.body.getReader(), chunks = [];
   const limit = response.ok ? 2_000_000 : 64000;
@@ -24,23 +25,25 @@ async function readJSON(url, init, watch) {
   } finally { reader.releaseLock(); }
   let data;
   if (!exceeded) { try { data = JSON.parse(Buffer.concat(chunks).toString('utf8')); } catch {} }
+  if(data)observe?.(response,data);
   if (!response.ok) throw httpError(response.status, data?.error?.code || data?.error?.type || data?.error?.status);
   if (exceeded) throw modelError('MODEL_INVALID_RESPONSE','模型响应过大',false);
   if (!data || typeof data !== 'object' || Array.isArray(data)) throw modelError('MODEL_INVALID_RESPONSE','模型服务返回的响应格式无效',false);
   return data;
 }
 
-async function chat(config, key, messages, {signal,json=true,onUsage,onProgress} = {}) {
+async function chat(config, key, messages, {signal,json=true,onUsage,onProgress,onReceipt} = {}) {
   const url = protocols.endpoint(config), body = protocols.request(config,messages,json);
   const limits = policy.normalize(config.requestPolicy);
   const watch = policy.watch({signal,idleMs:limits.idleMinutes*60000,totalMs:limits.totalMinutes*60000,onProgress});
+  const receipt=require('./model-receipt.cjs').create('http',JSON.stringify(body));
   try {
-    const data = await readJSON(url,{method:'POST',headers:protocols.headers(config,key),body:JSON.stringify(body)},watch);
+    const data = await readJSON(url,{method:'POST',headers:protocols.headers(config,key),body:JSON.stringify(body)},watch,(response,data)=>receipt.event('http_response',{httpStatus:response.status,requestId:response.headers?.get('x-request-id')||response.headers?.get('request-id'),usage:data?protocols.usage(config,data):null}));
     const usage = protocols.usage(config,data);
     if (usage) onUsage?.(usage);
     const text = protocols.responseText(config,data);
     return json ? require('./model-json.cjs').parse(text) : text;
-  } finally { watch.close(); }
+  } finally {watch.close();const record=receipt.snapshot();if(record.usageStatus==='reported'&&record.events.some(e=>e.httpStatus>=400))onUsage?.(record.usage);onReceipt?.(record);}
 }
 
 async function listModels(config, key, {signal} = {}) {

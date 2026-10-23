@@ -22,7 +22,7 @@ async function call(a,provider,key,messages,options,invoke){
   if(options.routing)row.routing=pick(options.routing,['mode','tier','reason','primaryId']);
   const syncModels=require('./run-models.cjs').start(row,[run,taskRun]);
   let usage;
-  try{try{a.save();}catch{throw persistenceError();}const result=await invoke(provider,key,messages,{...options,onProgress:value=>{row.lastActivityAt=value.lastActivityAt;options.onProgress?.(value);},onUsage:value=>{usage=spend.usage(value);options.onUsage?.(value);}});row.status='done';return result;}
+  try{try{a.save();}catch{throw persistenceError();}const result=await invoke(provider,key,messages,{...options,onProgress:value=>{row.lastActivityAt=value.lastActivityAt;options.onProgress?.(value);},onReceipt:value=>{row.transportReceipt=structuredClone(value);syncModels();try{a.save();}catch{throw persistenceError();}options.onReceipt?.(value);},onUsage:value=>{usage=spend.usage(value);options.onUsage?.(value);}});row.status='done';return result;}
   catch(error){const normalized=error.localPersistence?error:normalizeModelError(error);row.status=options.signal?.aborted||normalized.code==='MODEL_CANCELLED'?'stopped':'error';row.errorCode=safeErrorCode(normalized);row.errorMessage=normalized.message;row.diagnostic=require('./model-errors.cjs').diagnostic(normalized);normalized.recoveryContext={stage:row.stage,taskId:row.taskId,model:row.model,requestId:row.requestId};if(['idle','total'].includes(normalized.timeoutKind))row.timeoutKind=normalized.timeoutKind;throw normalized;}
   finally{
     row.durationMs=Date.now()-start;

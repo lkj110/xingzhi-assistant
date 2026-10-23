@@ -3,9 +3,9 @@
 // separate verifier call. No generator self-attestation can authorize delivery.
 const {hash}=require('./evidence-basis.cjs');
 const protocol=require('./task-context.cjs');
-const VERSION=5;
+const VERSION=6;
 const COMPACT_FORMAT='compact-v5';
-const INPUT_PROTOCOL='verify-input-v5';
+const INPUT_PROTOCOL='verify-input-v6';
 // Capture once when this worker loads the module, not when status is queried.
 const IMPLEMENTATION_HASH=require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync(__filename)).digest('hex');
 const rows=v=>Array.isArray(v)?v:[];
@@ -39,7 +39,7 @@ function snapshot(a,task){
   // Descriptions/criteria produced by extraction or planning are requirements,
   // never independent facts. Only the trusted UI command captures user input.
   const userInputs=rows(task.groundingUserInputs).filter(r=>r.origin==='user'&&task[r.field]===r.text).map(r=>({id:'user:'+r.field,text:r.text}));
-  const basis=hash({version:VERSION,titles:require('./verification-titles.cjs').identity(a,task),checks:['C','D'].map(part=>[part,require('./context-optimizations.cjs').enabled(a,part)]),taskTitle:task.title,requirements:requirementsList,userInputs,artifacts:artifacts.map(r=>[r.id,r.title,hash(r.content)]),
+  const basis=hash({version:VERSION,titles:require('./verification-titles.cjs').identity(a,task),checks:['A1','B','C','D','A2'].map(part=>[part,require('./context-optimizations.cjs').enabled(a,part)]),taskTitle:task.title,requirements:requirementsList,userInputs,artifacts:artifacts.map(r=>[r.id,r.title,hash(r.content)]),
    inputs:c.inputBasis,permissions:c.readableCatalog.filter(r=>r.purpose==='input'||artifacts.some(a=>a.id===r.id)).map(r=>[r.id,r.version,r.policyRevision]),memory:require('./memory.cjs').signature(a,task.projectId),tools:require('./tool-evidence.cjs').current(a,task).map(r=>[r.id,r.contentHash]),
    dependencies:rows(task.dependsOn).map(id=>{const t=a.data.tasks.find(t=>t.id===id);return t?[id,...currentArtifacts(a,t).map(r=>[r.id,hash(r.content)])]:[id,'missing'];})});
   return {basis,titles:require('./verification-titles.cjs').identity(a,task),requirements:requirementsList,artifacts,sources,userInputs,readableArtifactIds:c.readableCatalog.filter(r=>r.type==='artifact').map(r=>r.id)};
@@ -105,7 +105,8 @@ function validate(a,task,response,{seen=new Set(),phase='result'}={}){
  const s=snapshot(a,task),cached=reusable(a,task,s),freshReview=['groundingReview','unsupportedClaims','conflicts','consistencyIssues'].some(key=>Object.hasOwn(response,key));
  if(cached&&!freshReview&&!(phase!=='content'&&cached.requirements.some(r=>r.status==='deferred')))return {...cached,reused:true,reportHash:undefined};
  let supplied=response.groundingReview;const issues=[],claims=[],checked=[],classificationIssues=[];let classificationOnly=true;
- const issue=(m,classification)=>{if(!issues.includes(m))issues.push(m);if(classification)classificationIssues.push(classification);else classificationOnly=false;};
+ const issue=(m,classification)=>{if(!issues.includes(m))issues.push(m);if(classification){if(!classificationIssues.some(r=>r.claimId===classification.claimId))classificationIssues.push(classification);}else classificationOnly=false;};
+ const missingQualification=c=>({code:'QUALIFICATION_MISSING',claimId:c.id,artifactId:c.artifactId,field:c.field,text:c.text});
  // Some providers place these explicit review fields at the envelope root.
  // Accept that location only; never invent absent checks or hide disagreements.
  if(supplied&&typeof supplied==='object'&&!Array.isArray(supplied)){
@@ -162,7 +163,7 @@ function validate(a,task,response,{seen=new Set(),phase='result'}={}){
    if(!['fact','inference','unknown','proposal'].includes(c.kind)||(!text(c.reason)&&!compact)||c.supported!==true)issue('关键结论未获支持：'+c.id);
    const qualification=c.qualification===undefined?null:require('./claim-qualification.cjs').validate(c,artifact,task,seen,s.titles.actionTitles);
    if(c.qualification!==undefined&&!qualification)issue('限定语作用域与当前字段、位置或实际输入不符：'+c.id);
-   if(['inference','unknown','proposal'].includes(c.kind)&&!qualification&&!UNKNOWN_MARKER.test(c.text||'')&&!scopedQualification(c.kind,text(c.text))&&!/(推断|推测|可能|预计|假设|建议|拟|待核实|待确认|未知|无法确认|无法确定|尚未|未核实|不确定|assum|infer|may|might|suggest|unknown|unverified|propos)/i.test(c.text||''))issue('推断、建议或未知未在正文标明（结论片段或绑定限定范围无效）：'+c.id,c.kind==='inference'?{code:'INFERENCE_MARKER_MISSING',claimId:c.id,artifactId:c.artifactId,field:c.field,text:c.text}:null);
+   if(['inference','unknown','proposal'].includes(c.kind)&&!qualification&&!UNKNOWN_MARKER.test(c.text||'')&&!scopedQualification(c.kind,text(c.text))&&!/(推断|推测|可能|预计|假设|建议|拟|待核实|待确认|未知|无法确认|无法确定|尚未|未核实|不确定|assum|infer|may|might|suggest|unknown|unverified|propos)/i.test(c.text||''))issue('推断、建议或未知未在正文标明（结论片段或绑定限定范围无效）：'+c.id,missingQualification(c));
    if(compact){
     if(c.citations!==undefined||!Array.isArray(c.citationIds)||c.citationIds.length>8||c.citationIds.some(id=>typeof id!=='string')||new Set(c.citationIds).size!==c.citationIds.length)issue('关键结论须使用不重复的共享引用编号，不能混用引用格式：'+c.id);
     for(const id of rows(c.citationIds).slice(0,8)){const quote=citationMap.get(id);if(!quote)issue('共享引用不存在或无效：'+c.id+'/'+id);else citations.push(quote);}
@@ -205,7 +206,10 @@ function validate(a,task,response,{seen=new Set(),phase='result'}={}){
   // This informational channel requires an actual unknown disclosure. The
   // older general marker check also accepts proposals/inferences, which must
   // not turn a suggested or possible choice into a disclosed-unknown exception.
-  if(linked.some(c=>!c||c.kind!=='unknown'||!c.qualification&&!UNKNOWN_MARKER.test(c.text)&&!scopedQualification('unknown',c.text)))issue('来源分歧须在对应结论中明确未知，不能替代事实、推断或建议的阻断检查');
+  for(const c of linked){
+   if(!c||c.kind!=='unknown')issue('来源分歧须在对应结论中明确未知，不能替代事实、推断或建议的阻断检查');
+   else if(!c.qualification&&!UNKNOWN_MARKER.test(c.text)&&!scopedQualification('unknown',c.text))issue('来源分歧的未知限定作用域尚未绑定：'+c.id,missingQualification(c));
+  }
   const linkedRequirements=conflict.requirementIds.map(id=>checked.find(r=>r.id===id));
   // Every requirement is independently checked above. Auxiliary, fully checked
   // claims (for example a title) need not point back to a requirement, while at
@@ -282,7 +286,7 @@ function captureUserInput(task,field,value){
  if(text(value))task.groundingUserInputs.push({field,text:value,origin:'user'});
 }
 const consistencyInstruction='\n独立一致性检查：每次实质修改都完整核对当前全文，逐一比较同对象的数值、单位/分母、时间、责任主体、术语定义、范围、执行状态，以及摘要/正文、结论/例外。合法不同适用范围不算矛盾。consistencyIssues 必须返回数组；通过为 []，矛盾为 [{claimIds:["现有结论ID"],anchors:[{artifactId,quote:"当前正文逐字片段"},{artifactId,quote:"另一处逐字片段"}],reason:"具体冲突"}]。两锚点均关联所列结论、须不同；唯一逐字片段由应用定位，重复片段才须精确start，不猜字符偏移；无法完整判断就明确缺口，不能把局部通过当整稿通过。';
-const componentFiles=['input-budget','evidence-search','evidence-encoder','evidence-preparation','verification-titles','claim-qualification','grounding-classification','tool-evidence','memory'];
+const componentFiles=['context-optimizations','model-receipt','input-budget','evidence-search','evidence-encoder','evidence-preparation','verification-titles','claim-qualification','grounding-classification','tool-evidence','memory'];
 const componentHashes=Object.fromEntries(componentFiles.map(name=>[name,require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync(require.resolve('./'+name+'.cjs'))).digest('hex')]));
-const status=a=>({enabled:enabled(a),version:VERSION,implementationHash:IMPLEMENTATION_HASH,format:COMPACT_FORMAT,inputProtocol:INPUT_PROTOCOL,inputComponents:{attribution:require('./input-attribution.cjs').IMPLEMENTATION_HASH,receipts:require('./receipt-input.cjs').IMPLEMENTATION_HASH,...componentHashes},optimizations:Object.fromEntries(['A','B','C','D'].map(p=>[p,require('./context-optimizations.cjs').enabled(a,p)])),encoder:require('./evidence-encoder.cjs').status(),features:['disclosed-source-conflicts','shared-citations','receipt-input-v1','input-attribution-v1','model-budget-v1','hybrid-evidence-v1','deterministic-evidence-v1','cross-section-consistency-v1']});
+const status=a=>({enabled:enabled(a),version:VERSION,implementationHash:IMPLEMENTATION_HASH,format:COMPACT_FORMAT,inputProtocol:INPUT_PROTOCOL,inputComponents:{attribution:require('./input-attribution.cjs').IMPLEMENTATION_HASH,receipts:require('./receipt-input.cjs').IMPLEMENTATION_HASH,...componentHashes},optimizations:Object.fromEntries(['A1','B','C','D','A2'].map(p=>[p,require('./context-optimizations.cjs').enabled(a,p)])),encoder:require('./evidence-encoder.cjs').status(),features:['disclosed-source-conflicts','shared-citations','receipt-input-v2','input-attribution-v2','model-budget-v2','hybrid-evidence-v2','deterministic-evidence-v1','cross-section-consistency-v1']});
 module.exports={VERSION,INPUT_PROTOCOL,enabled,status,requirements,snapshot,reusable,context,observe,covered,sourceCovered,finish,validate,assertDelivery,assertPayload,assertAction,captureUserInput,instruction,reviewInstruction,consistencyInstruction};

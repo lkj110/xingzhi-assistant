@@ -179,7 +179,7 @@ async function call(a,task,system,initial,role='execute'){
   if(job){work.assertAllowed(a,job,guardOptions);context={...context,workEfficiency:work.inspect(job)};}
   if(finalizeRequest)context={...context,checkFinalization:{phase:checkPhase,reason:finalizeRequest.reason,diagnostics:(task.contextDiagnostics||[]).slice(-4).map(({code,tool,objectId,strategy})=>({code,tool,objectId,strategy}))}};
   const modelInput=require('./model-input.cjs').prepare(context,{stage:role==='verify'?'task_verify':'task_work'});
-  const transportInput=grounding.enabled(a)?require('./receipt-input.cjs').project(modelInput):modelInput;
+  const transportInput=grounding.enabled(a)?require('./receipt-input.cjs').project(modelInput,{toolReferences:require('./context-optimizations.cjs').enabled(a,'A2')}):modelInput;
   let suppliedInput=modelInput;
   const onSupplied=prepared=>{suppliedInput=prepared.payloads[0]?.value||modelInput;if(role==='verify'&&grounding.enabled(a))require('./input-budget.cjs').commit(seen,prepared);};
   if(finalizeRequest){
@@ -233,7 +233,7 @@ async function call(a,task,system,initial,role='execute'){
    // authorize a quote omitted from the actual second input.
    seen.clear();delete seen.sources;delete seen.userInputs;delete seen.toolEvidence;delete seen.claimFields;delete seen.modelIdentity;
    let retried;
-   try{retried=await a.call(role,systemPrompt(task,system,role,{compactVerification:true})+classification.instruction,require('./receipt-input.cjs').project(retryInput),{onSupplied,boundedFinalization:classificationPermit});}
+   try{retried=await a.call(role,systemPrompt(task,system,role,{compactVerification:true})+classification.instruction,require('./receipt-input.cjs').project(retryInput,{toolReferences:require('./context-optimizations.cjs').enabled(a,'A2')}),{onSupplied,boundedFinalization:classificationPermit});}
    catch(error){classificationRecord.status='failed';classificationRecord.finishedAt=new Date().toISOString();classificationRecord.errorCode=error.code||'UNKNOWN';save(a);throw error;}
    a.controller?.signal.throwIfAborted();assertUsed(a,scope,snapshot,used,role);
    require('./relation-context-page.cjs').assertCurrent(a,scope,coverageReads);

@@ -2,7 +2,7 @@
 // Diagnostics only: never fed back into prompts or used for admission/acceptance.
 // Provider usage is measured. Category tokens are a byte-weighted allocation,
 // not tokenizer counts; opaque provider framing cannot be attributed separately.
-const VERSION='input-attribution-v1';
+const VERSION='input-attribution-v2';
 const IMPLEMENTATION_HASH=require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync(__filename)).digest('hex');
 const categories=['systemInstructions','requirements','draft','evidenceBodies','evidenceMetadata','toolReceipts','navigation','other'];
 const bodies=new Set(['content','text','originalContent']);
@@ -14,8 +14,8 @@ function category(path){
   if(bodies.has(key))return 'evidenceBodies';
   return ['contextReads','deliveryEvidence'].includes(top)?'toolReceipts':'evidenceMetadata';
  }
- if(['recentActions','completedWrites','toolResults'].includes(top))return 'toolReceipts';
- if(['readableCatalog','sourceCatalog','historyCatalog','currentArtifact','catalogIndex','catalogNote','inputBudget','bodyReferenceNote','receiptReferenceNote'].includes(top))return 'navigation';
+ if(['recentActions','completedWrites','toolResults','toolEvidence'].includes(top))return 'toolReceipts';
+ if(['readableCatalog','sourceCatalog','historyCatalog','currentArtifact','catalogIndex','catalogNote','inputBudget','bodyReferenceNote','receiptReferenceNote','toolEvidenceReferenceNote'].includes(top))return 'navigation';
  return 'other';
 }
 function measure(messages){

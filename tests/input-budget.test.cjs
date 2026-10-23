@@ -47,6 +47,17 @@ test('switching models clears previously observed evidence',()=>{
 test('strict off preserves original requests and diagnostics are not added',()=>{
  const m=messages({currentTime:'t',sources:[]});const p=budget.prepare({data:{settings:{}}},provider,m);assert.equal(p.messages,m);assert.equal(p.diagnostic,null);
 });
+test('A1 budgets independently of A2 layout and A2 cannot outlive its safety dependency',()=>{
+ const value={currentTime:'now',task:{id:'t'},groundingChecklist:{requirements:['完整条件']},sources:[]},onlyBudget={...state,contextOptimizationOverrides:{A2:false}},off={...state,contextOptimizationOverrides:{A1:false,A2:true}};
+ const p=budget.prepare(onlyBudget,provider,messages(value));assert.equal(p.diagnostic.layoutEnabled,false);assert.equal(p.diagnostic.prefixKey,null);assert.equal(p.messages[1].content,JSON.stringify(value));
+ assert.throws(()=>budget.prepare(onlyBudget,{...provider,contextCapability:profile(8192)},messages({groundingChecklist:{requirements:['不能删'.repeat(5000)]}})),/输入预算/);
+ assert.equal(require('../desktop/context-optimizations.cjs').enabled(off,'A2'),false);assert.equal(budget.prepare(off,provider,messages(value)).diagnostic,null);
+});
+test('projection preserves draft safety by withholding full-visibility proof when any section is missing',()=>{
+ const body='摘要：预算100元。\n\n'+('中间正文。'.repeat(8000))+'\n\n例外：海外预算另计。',v={groundingChecklist:{requirements:['保留海外例外']},sourceCatalog:[],artifacts:[{id:'draft',title:'报告',content:body}]};
+ let p;try{p=budget.prepare(state,{...provider,contextCapability:profile(8192)},messages(v));}catch(e){assert.equal(e.code,'MODEL_CONFIG');return;}
+ const seen=new Set();budget.commit(seen,p);assert.equal(grounding.covered(body,seen),false);assert.ok(parsed(p).groundingChecklist.requirements.includes('保留海外例外'));
+});
 test('local budget rejection has no model attempt, charge or seen callback',async t=>{
  let calls=0,commits=0;const a=await setup(t,async()=>{calls++;return {};});const p=a.available('execute');p.contextCapability=profile(8192);p.maxOutputTokens=1024;
  await assert.rejects(a.call('execute','规则',{groundingChecklist:{requirements:['不可删'.repeat(20000)]}},{onSupplied:()=>commits++}),/输入预算/);

@@ -34,9 +34,20 @@ for(const mode of ['delete','shorten','artifact','read','retryFull'])test('reche
  const f=await fixture(t,{second:r=>{if(mode==='delete')r.groundingReview.claims=[];if(mode==='shorten')r.groundingReview.claims[0].text='蓝箱存放12件';if(mode==='artifact')r.groundingReview.claims[0].artifactId='foreign';if(mode==='read')return {kind:'read_context',requests:[]};if(mode==='retryFull')r.retryFull=true;return r;}});
  const result=await f.run();assert.equal(result.passed,false);assert.notEqual(result.retryFull,true);assert.equal(f.calls.length,3);assert.ok(result.gaps.some(x=>x.includes('分类复核未保留')));
 });
-for(const mode of ['quote','unsupported-spoof','conflict','unknown','proposal','overall-fail'])test('other defects cannot trigger classification retry: '+mode,async t=>{
+for(const mode of ['quote','unsupported-spoof','conflict','overall-fail'])test('other defects cannot trigger classification retry: '+mode,async t=>{
  const f=await fixture(t,{first:r=>{if(mode==='quote')r.groundingReview.citations[0].quote='不存在的原文';if(mode==='unsupported-spoof')r.groundingReview.unsupportedClaims=['推断、建议或未知未在正文标明：c1'];if(mode==='conflict')r.groundingReview.conflicts=['范围矛盾'];if(['unknown','proposal'].includes(mode))r.groundingReview.claims[0].kind=mode;if(mode==='overall-fail')r.passed=false;return r;}});
  const result=await f.run();assert.equal(result.passed,false);assert.equal(f.calls.length,2);assert.equal(Object.keys(f.task.contextFinalizations||{}).length,0);
+});
+for(const kind of ['unknown','proposal'])test(kind+' scope can be bound by the sole full verifier recheck',async t=>{
+ const content=kind==='unknown'?'答案：不能选定唯一周期\n确定性：unknown\n依据：资料没有唯一周期。':'答案：先开展桌面演练\n确定性：proposal\n依据：仅为未来方案。',target=content.split('\n')[0];
+ const patch=(r,bound)=>{const c=r.groundingReview.claims[0];c.kind=kind;c.text=target;c.field='content';c.start=0;c.citationIds=[];if(bound)c.qualification={field:'content',quote:content};return r;};
+ const f=await fixture(t,{content,first:r=>patch(r,false),second:r=>patch(r,true)}),result=await f.run();
+ assert.equal(result.passed,true,result.summary);assert.equal(f.calls.length,3);assert.equal(result.grounding.claims[0].kind,kind);assert.equal(Object.values(f.task.contextFinalizations).length,1);
+ await assert.rejects(f.run(),/有界结论/);assert.equal(f.calls.length,3);
+});
+for(const kind of ['unknown','proposal'])test(kind+' mixed factual defect cannot spend the scope repair allowance',async t=>{
+ const f=await fixture(t,{first:r=>{r.groundingReview.claims[0].kind=kind;r.groundingReview.unsupportedClaims=['仍有未经支持的肯定断言'];return r;}});
+ assert.equal((await f.run()).passed,false);assert.equal(f.calls.length,2);assert.equal(Object.keys(f.task.contextFinalizations||{}).length,0);
 });
 test('JSON repairable failure in recheck gets no automatic third verifier transport',async t=>{
  const f=await fixture(t,{second:()=>{throw Object.assign(Error('malformed output'),{code:'MODEL_INVALID_RESPONSE',modelFailure:true,jsonRepairable:true,automaticRetry:true,responseText:'{'});}});

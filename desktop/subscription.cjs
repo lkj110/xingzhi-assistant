@@ -127,9 +127,10 @@ function validateInput(messages){
   if(inputChars>maxInputChars)throw inputSizeError(inputChars);
   return input;
 }
-async function chat(config, _key, messages, {signal, onUsage, onProgress, timeoutMs} = {}) {
+async function chat(config, _key, messages, {signal, onUsage, onProgress, onReceipt, timeoutMs} = {}) {
   let input;try{input=validateInput(messages);}catch(e){onUsage?.({inputTokens:0,outputTokens:0,cachedInputTokens:0});throw e;}
   let root,execEntered=false,stage='executable';
+  const receipt=require('./model-receipt.cjs').create('codex_cli',input);
   try {
     if(signal?.aborted)throw cancelledError();
     const bin = executable();
@@ -146,7 +147,7 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, timeou
     const args = ['exec','--ignore-user-config','--ephemeral','--sandbox','read-only','--skip-git-repo-check','--color','never','--json','--model',config.model,
       ...protocol.configuration(),'-c',`model_reasoning_effort=${JSON.stringify(config.reasoning || 'medium')}`,
       '--output-schema',schema,'--output-last-message',output,'-'];
-    let completed = false, usage, failure, streamError;
+    let completed = false, failure, streamError;
     if(signal?.aborted)throw cancelledError();
     // Set before processCall, including synchronous spawn/argument failures.
     execEntered=true;
@@ -154,16 +155,18 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, timeou
       input,
       onLine(line) {
         let event; try { event = JSON.parse(line); } catch { return; }
-        if (event.type === 'turn.completed') { completed = true; usage = event.usage;
-    if (Number.isFinite(usage?.input_tokens) && Number.isFinite(usage?.output_tokens)) onUsage?.({inputTokens:usage.input_tokens,outputTokens:usage.output_tokens,...(Number.isFinite(usage.cached_input_tokens)?{cachedInputTokens:usage.cached_input_tokens}:{})});
-        }
+        const usage=event.usage;
+        receipt.event(event.type,{requestId:event.request_id,threadId:event.thread_id,errorCode:['error','turn.failed'].includes(event.type)?cliFailure(event.error||event).code:undefined,
+          ...(['turn.completed','turn.failed'].includes(event.type)&&usage!=null?{usage:{inputTokens:usage.input_tokens,outputTokens:usage.output_tokens,...(Object.hasOwn(usage,'cached_input_tokens')?{cachedInputTokens:usage.cached_input_tokens}:{})}}:{})});
+        if (event.type === 'turn.completed') completed = true;
         if (event.type === 'error') streamError=cliFailure(event.error||event);
         if (event.type === 'turn.failed') failure=event.error&&Object.keys(event.error).length?cliFailure(event.error):streamError||cliFailure();
         const boundaryError = protocol.hostToolError(event.item);
         if (boundaryError) throw boundaryError;
       }});
+    receipt.event('process_exit',{exitCode:result.code});
     const rejectedInput=inputFailure(result.output);
-    if(rejectedInput){onUsage?.({inputTokens:0,outputTokens:0,cachedInputTokens:0});throw rejectedInput;}
+    if(rejectedInput){receipt.event('error',{errorCode:rejectedInput.code,usage:{inputTokens:0,outputTokens:0,cachedInputTokens:0}});throw rejectedInput;}
     if (failure) throw failure;
     if (result.code !== 0 || !completed) throw streamError||incomplete(result.code,completed);
     if (!fs.existsSync(output) || fs.statSync(output).size > 2_000_000) throw modelError('MODEL_INVALID_RESPONSE','订阅模型没有返回有效结果',false);
@@ -178,6 +181,9 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, timeou
     // Authentication, quotas and CLI failures require a deliberate retry.
     if (!signal?.aborted && !(require('./model-errors.cjs').fallbackEligible(normalized)||normalized.code==='MODEL_CLI'&&normalized.automaticRetry===true)) { normalized.modelFailure = true; normalized.automaticRetry = false; }
     throw normalized;
-  } finally { if(root)try{fs.rmSync(root,{recursive:true,force:true});}catch{/* Cleanup cannot change the proven dispatch boundary or hide cancellation. */} }
+  } finally {
+    try{if(execEntered){const record=receipt.snapshot();if(record.usageStatus==='reported')onUsage?.(record.usage);onReceipt?.(record);}}
+    finally{if(root)try{fs.rmSync(root,{recursive:true,force:true});}catch{/* Cleanup cannot change the proven dispatch boundary or hide cancellation. */}}
+  }
 }
 module.exports = {chat,status,identity,processCall,cliFailure,incomplete,inputFailure,maxInputChars,validateInput,executable};

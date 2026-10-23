@@ -25,6 +25,11 @@ test('noncanonical JSON, tool messages and multimodal input are measured without
  const input=[{role:'user',content:'{ "a": 1 }'},{role:'tool',content:'失败：权限不足'},{role:'user',content:[{type:'text',text:'字段'}]}],before=structuredClone(input);
  assert.ok(attribution.measure(input).categories.toolReceipts.utf8Bytes>0);assert.deepEqual(input,before);
 });
+test('canonical tool evidence and alias notes have explicit cost categories',()=>{
+ const input=[{role:'user',content:JSON.stringify({toolEvidence:[{id:'receipt',output:{value:'PRIVATE_VALUE'},contentHash:'hash'}],toolEvidenceReferenceNote:'PRIVATE_NOTE'})}],report=attribution.measure(input);
+ assert.equal(report.version,'input-attribution-v2');assert.ok(report.categories.toolReceipts.utf8Bytes>0);assert.ok(report.categories.navigation.utf8Bytes>0);
+ assert.equal(report.visibleUtf8Bytes,Buffer.byteLength(input[0].content));assert.equal(report.categories.other.utf8Bytes,3);assert.ok(!JSON.stringify(report).includes('PRIVATE'));
+});
 test('production call persists attribution for successful and failed attempts without adding it to messages',async()=>{
  for(const fail of [false,true]){
   const run={id:'run'},a={data:{modelCalls:[]},activeSpendRun:run,save(){}};

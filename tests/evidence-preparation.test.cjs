@@ -19,3 +19,19 @@ test('query splitting never truncates an overlong condition or silently claims f
 test('aborted encoder request cannot keep an otherwise idle process alive',()=>{const script='require('+JSON.stringify(require.resolve('../desktop/evidence-encoder.cjs'))+').encode(["cancelled"],AbortSignal.timeout(1)).catch(()=>process.stdout.write("cancelled"))';const result=require('node:child_process').spawnSync(process.execPath,['-e',script],{timeout:10000,encoding:'utf8'});assert.equal(result.error,undefined);assert.equal(result.status,0);assert.equal(result.stdout,'cancelled');});
 test('planning work counts toward deadline and cannot reach encoder after expiry',async t=>{const f=await setup(t),context=generation.prepare(f.a,f.task,f.a.context(f.task));let now=0;t.mock.method(performance,'now',()=>now+=10000);t.mock.method(require('../desktop/evidence-encoder.cjs'),'encode',()=>{throw Error('must not encode');});const result=await preparation.prepare(f.a,f.task,context,{phase:'execute',readBatch:generation.readBatch,save:()=>{},gate:()=>{}});assert.equal(result.diagnostic.status,'time_limit');assert.deepEqual(result.searches,[]);});
 test('oversized sources remain explicitly deferred to ordinary paged readers',async t=>{const f=await setup(t);f.source.content='x'.repeat(preparation.MAX_PLAN_CHARS+1);const p=preparation.plan(f.a,f.task,generation.prepare(f.a,f.task,f.a.context(f.task)),'execute');assert.equal(p.deferredSources,1);assert.deepEqual(p.sourceIds,[]);});
+test('automatic preparation covers both authorized conflicting sources and retains lexical degradation',async t=>{
+ const f=await setup(t),padding=('食堂记录与本题无关。\n\n').repeat(900);
+ f.source.content=padding+'# 现场办公\n\n涉密岗位必须现场工作。';f.a.addSources([{title:'同级现行规定',content:padding+'# 现场办公\n\n涉密岗位允许在家工作。'}]);
+ const other=f.a.data.sources.find(s=>s.title==='同级现行规定');f.task.sourceIds.push(other.id);require('../desktop/protocol-access.cjs').retain(f.a,'source',other,{task:f.task});
+ t.mock.method(require('../desktop/evidence-encoder.cjs'),'encode',async()=>{throw Error('controlled encoder unavailable');});
+ await f.run();const c=modelInput.materialize(f.calls[0]),groups=c.hybridSearch.flatMap(s=>s.groups);
+ assert.equal(f.calls.length,1);assert.ok(c.hybridSearch.every(s=>s.degraded&&s.mode==='lexical_fallback'));assert.ok(groups.some(g=>g.sourceId===other.id&&g.state==='provided_complete'));assert.ok(groups.some(g=>g.sourceId===f.source.id&&g.state==='provided_complete'));
+ assert.match(JSON.stringify(c.contextReads),/必须现场/);assert.match(JSON.stringify(c.contextReads),/允许在家/);
+});
+test('projection of a remote exception revokes complete-group status without repeating search',async t=>{
+ const f=await setup(t);await f.run();const c=modelInput.materialize(f.calls[0]);assert.ok(c.hybridSearch.flatMap(s=>s.groups).some(g=>g.state==='provided_complete'));
+ for(const field of ['generationEvidence','requestedSections','retrievedEvidence'])c[field]=[];
+ c.contextReads=c.contextReads.filter(r=>!String(r.result?.content||'').includes('涉密岗位必须到公司'));
+ const recomputed=require('../desktop/evidence-search.cjs').suppliedGroups(c).hybridSearch.flatMap(s=>s.groups);
+ assert.ok(recomputed.some(g=>g.state==='partial'&&g.readRequests.length));assert.equal(f.calls.length,1);
+});

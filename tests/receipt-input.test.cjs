@@ -35,3 +35,16 @@ test('body references remain resolvable even when a repeated receipt is itself a
  const before=input.materialize(wire),after=input.materialize(receipt.project(wire));
  assert.equal(after.contextReads[0].result.content,before.contextReads[0].result.content);assert.equal(after.generationEvidence[1].content,before.generationEvidence[1].content);
 });
+function computed(){return {id:'tool:current',version:'deterministic-evidence-v1',operation:'sum',parameters:{unit:'kg'},inputs:Array.from({length:8},(_,i)=>({sourceId:'source-'+i,version,policyRevision:1,start:i,end:i+1,value:'1',inputHash:version})),output:{value:'8',unit:'kg'},resultText:'{"value":"8","unit":"kg"}',contentHash:version,progressKey:version,observedAt:'2028-01-01T00:00:00Z',validUntil:null};}
+test('A2 removes duplicate tool receipts while restoring exact operands, result and freshness',()=>{
+ const r=computed(),raw={toolEvidence:[r],contextReads:[{request:{tool:'compute_evidence',operation:'sum'},result:{ok:true,computedEvidence:structuredClone(r),complete:true}}]},packed=receipt.project(raw,{toolReferences:true}),restored=input.materialize(packed);
+ assert.ok(Buffer.byteLength(JSON.stringify(packed))<Buffer.byteLength(JSON.stringify(raw)));assert.equal(packed.contextReads[0].result.computedEvidence.toolEvidenceRef,'toolEvidence[0]');assert.deepEqual(restored.contextReads[0].result,raw.contextReads[0].result);assert.deepEqual(restored.toolEvidence,raw.toolEvidence);assert.deepEqual(receipt.project(raw),raw);
+});
+for(const delta of [{contentHash:'old'},{version:'old'},{id:'other'},{validUntil:'2028-02-01'},{output:{value:'9',unit:'kg'}}])test('A2 never aliases a changed tool receipt '+JSON.stringify(delta),()=>{
+ const r=computed(),raw={toolEvidence:[r],contextReads:[{result:{ok:true,computedEvidence:{...r,...delta},complete:true}}]};assert.equal(receipt.project(raw,{toolReferences:true}).contextReads[0].result.computedEvidence.toolEvidenceRef,undefined);
+});
+test('tool reference expansion rejects missing, circular and foreign receipt targets',()=>{
+ for(const [ref,patch] of [['toolEvidence[9]',{}],['task',{}],['toolEvidence[0]',{contentHash:'wrong'}],['toolEvidence[0]',{id:'other'}]]){
+  const r=computed(),raw={toolEvidence:[r],contextReads:[{result:{computedEvidence:{id:r.id,version:r.version,contentHash:r.contentHash,toolEvidenceRef:ref,...patch}}}]};assert.equal(input.materialize(raw).contextReads[0].result.computedEvidence.output,undefined);
+ }
+});

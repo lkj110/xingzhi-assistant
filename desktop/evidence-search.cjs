@@ -1,6 +1,6 @@
 'use strict';
 const protocol=require('./task-context.cjs'),{hash}=require('./evidence-basis.cjs'),{contextError,contextResult}=require('./model-errors.cjs');
-const VERSION='hybrid-evidence-v1',cache=new Map();
+const VERSION='hybrid-evidence-v2',cache=new Map();
 // Only request validation belongs to local correction; reader, authorization,
 // version and lifecycle failures must escape the wrapper unchanged.
 const parameterErrors=new WeakSet();
@@ -76,7 +76,12 @@ async function search(a,task,request,{signal=a.controller?.signal,sourceIds}={})
   // Limits are explicit; pagination remains available through the original reader.
   if(d.chunks.length>4096){d.chunks=d.chunks.slice(0,4096);d.warnings.push('本次索引覆盖前 4096 个文本窗；其余须按原目录读取');}
   let found=cache.get(d.key);
-  if(found)cacheHits++;else try{found={scope,vectors:await require('./evidence-encoder.cjs').encode(d.chunks.map(c=>c.text),signal)};cache.set(d.key,found);while(cache.size>24)cache.delete(cache.keys().next().value);}catch(e){signal?.throwIfAborted();degraded=true;}
+  if(found)cacheHits++;else try{
+   // Reuse computation only within this authorized source/version. Every
+   // original window and position still participates in ranking and grouping.
+   const texts=[...new Set(d.chunks.map(c=>c.text))],encoded=await require('./evidence-encoder.cjs').encode(texts,signal),byText=new Map(texts.map((text,i)=>[text,encoded[i]]));
+   found={scope,vectors:d.chunks.map(c=>byText.get(c.text))};cache.set(d.key,found);while(cache.size>24)cache.delete(cache.keys().next().value);
+  }catch(e){signal?.throwIfAborted();degraded=true;}
   d.chunks.forEach((c,i)=>chunks.push({...c,vector:found?.vectors[i]}));
  }
  let vector;try{if(chunks.length&&!degraded)vector=(await require('./evidence-encoder.cjs').encode([request.query],signal))[0];}catch(e){signal?.throwIfAborted();degraded=true;}
