@@ -166,10 +166,10 @@ async function call(a,task,system,initial,role='execute'){
   const characters=prefetched.reduce((n,r)=>n+(r.result.content?.length||0)+(r.result.segments||[]).reduce((s,v)=>s+(v.text?.length||0),0),0);
   const prepared=await require('./evidence-preparation.cjs').prepare(a,task,context,{phase:checkPhase,remainingChars:48000-characters,readBatch,save:()=>save(a),gate});
   if(prepared){used.push(...prepared.used);context={...context,contextReads:[...(context.contextReads||[]),...prepared.rows],hybridSearch:prepared.searches.map(({requests,...r})=>r),evidencePreparation:prepared.diagnostic};
-   if(prepared.searches.length){task.evidenceSearch={degraded:prepared.searches.some(r=>r.degraded),mode:prepared.searches.some(r=>r.degraded)?'lexical_fallback':'local_hybrid',diagnostic:prepared.searches.map(r=>r.diagnostic),at:new Date().toISOString()};save(a);}
+   if(prepared.searches.length){task.evidenceSearch=require('./evidence-search.cjs').summary(prepared.searches);save(a);}
   }
  }
- const localReading=job?null:((task.contextReadsLedger ||= {}).reading ||= {});
+ const localReading=job?null:((task.contextReadsLedger ||= {}).reading ||= {});let planRepairUsed=false;
  while(true){
   a.controller?.signal.throwIfAborted();
   gate();
@@ -195,7 +195,16 @@ async function call(a,task,system,initial,role='execute'){
   let result=await a.call(role,systemPrompt(task,system,role,{compactVerification:grounding.enabled(a)})+(finalize?'\n本轮改为形成检查结论，不再返回 read_context。根据当前已见正文和证据返回 passed、summary、gaps、gapDetails。证据不足则 passed:false，指出具体无法核实的要求、已有依据和缺口；不得猜测或降低标准。'+(checkPhase==='content'?'当前只检查内容，尚未执行的交付留给下一阶段。':'当前是结果检查，必须核对实际交付回执和回读，不能以内容通过代替交付成功。'):''),transportInput,{boundedFinalization,onSupplied});
   if(result.tool==='read_context'||result.kind==='read_context')result={...result,kind:'read_context',requests:result.requests??result.args?.requests};
   if(hybrid&&role!=='verify'&&result.evidencePlan!==undefined){
-   const updates=require('./evidence-search.cjs').plan(a,task,result.evidencePlan),plan=(context.evidencePlan||[]).map(r=>updates.find(u=>u.requirementId===r.requirementId)||r);context={...context,evidencePlan:plan};
+   const plans=require('./evidence-plan.cjs');let updates;
+   try{updates=plans.plan(a,task,result.evidencePlan);}catch(error){
+    if(!plans.repairable(error)||planRepairUsed||JSON.stringify(result.evidencePlan).length>24000)throw error;
+    planRepairUsed=true;gate();assertUsed(a,scope,snapshot,used,role);
+    const repaired=await a.call(role,systemPrompt(task,system,role,{compactVerification:grounding.enabled(a)})+plans.repairInstruction,require('./model-input.cjs').prepare({...context,evidencePlanRepair:{field:error.planField,message:error.message,plan:result.evidencePlan}},{stage:'task_work'}));
+    a.controller?.signal.throwIfAborted();gate();assertUsed(a,scope,snapshot,used,role);
+    if(!repaired||!Array.isArray(repaired.evidencePlan)||!plans.retainsReads(result.evidencePlan,repaired.evidencePlan,grounding.requirements(a,task).map(r=>r.id)))throw error;
+    updates=plans.plan(a,task,repaired.evidencePlan);result={...result,evidencePlan:repaired.evidencePlan};
+   }
+   const plan=(context.evidencePlan||[]).map(r=>updates.find(u=>u.requirementId===r.requirementId)||r);context={...context,evidencePlan:plan};
    task.evidencePlan=plan;save(a);
    const pending=plan.flatMap(r=>r.readRequests);
    if(pending.length&&result.kind!=='read_context')result={kind:'read_context',requests:pending.slice(0,4)};
@@ -247,7 +256,7 @@ async function call(a,task,system,initial,role='execute'){
   const batch=computed?await require('./tool-evidence.cjs').readRequests(a,task,result.requests,readNext):await readNext(result.requests),results=batch.rows;
   if(hybrid&&role!=='verify'&&context.evidencePlan){task.evidencePlan=require('./evidence-search.cjs').consumePlan(context.evidencePlan,batch);context={...context,evidencePlan:task.evidencePlan};}
   if(batch.toolEvidence?.length)context={...context,toolEvidence:require('./tool-evidence.cjs').current(a,task).map(require('./tool-evidence.cjs').project)};
-  if(batch.searches?.length){context={...context,hybridSearch:batch.searches.map(({requests,...r})=>r)};task.evidenceSearch={degraded:batch.searches.some(r=>r.degraded),mode:batch.searches.some(r=>r.degraded)?'lexical_fallback':'local_hybrid',diagnostic:batch.searches.map(r=>r.diagnostic),at:new Date().toISOString()};}
+  if(batch.searches?.length){context={...context,hybridSearch:batch.searches.map(({requests,...r})=>r)};task.evidenceSearch=require('./evidence-search.cjs').summary(batch.searches);}
   coverageReads.push(...results.filter(r=>r.request?.tool==='read_obligations'&&r.result?.ok));
   used.push(...batch.used);
   // readBatch has persisted validated pages from the completed request. A

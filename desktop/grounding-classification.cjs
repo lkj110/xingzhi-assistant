@@ -5,6 +5,7 @@ const instruction='\n这是一次有界分类复核。groundingClassificationRev
 function request(result,checked){
  if(result?.passed!==true||typeof result.summary!=='string'||!result.summary.trim()||!Array.isArray(result.gaps)||result.gaps.length||checked?.grounding?.reused||checked?.grounding?.passed!==false)return null;
  const report=checked.grounding,issues=report.classificationIssues;
+ if(report.classificationOnly===false)return null;
  if(!Array.isArray(issues)||!issues.length||issues.length>8)return null;
  const claims=[];
  for(const issue of issues){

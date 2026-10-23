@@ -2,7 +2,7 @@
 // One bounded local retrieval before the existing transport. Persisted attempts
 // avoid repeated indexing; only actual transport projection proves visibility.
 const protocol=require('./task-context.cjs'),{hash}=require('./evidence-basis.cjs');
-const VERSION='evidence-preparation-v2',MAX_CHARS=48000,MAX_MS=30000,MAX_SOURCES=8,MAX_PLAN_CHARS=262144;
+const VERSION='evidence-preparation-v3',MAX_CHARS=48000,MAX_MS=30000,MAX_SOURCES=8,MAX_PLAN_CHARS=262144;
 function queries(task,context){
  const latest=(task.notes||[]).filter(r=>['revise','feedback'].includes(r.kind)).at(-1)?.text;
  const values=[latest,task.objective||task.description,task.criteria,context.currentStep?.title],parts=[],seen=new Set();let deferred=0;
@@ -52,7 +52,7 @@ async function prepare(a,task,context,{phase,remainingChars=MAX_CHARS,readBatch,
  const result={rows:[],used:[],searches:[],diagnostic:{reused:false,deferredUnits:p.deferredUnits,deferredSources:p.deferredSources}};let remaining=Math.max(0,Math.min(MAX_CHARS,remainingChars));
  try{
   for(const query of p.queries){if(remaining<=0){record.status='budget_exhausted';break;}check();
-   const batch=await require('./evidence-search.cjs').readRequests(a,task,[{tool:'search_evidence',query,limit:2}],readBatch,{maxChars:remaining,signal,sourceIds:p.sourceIds});
+   const batch=await require('./evidence-search.cjs').readRequests(a,task,[{tool:'search_evidence',query,limit:2}],readBatch,{maxChars:remaining,signal,sourceIds:p.sourceIds,budgetMs:Math.max(0,Math.min(20000,MAX_MS-(performance.now()-started)-1000))});
    check();protocol.withContext(a,protocol.taskScope(task),op=>op.assertCurrent(p.snapshot));
    result.rows.push(...batch.rows);result.used.push(...batch.used);result.searches.push(...batch.searches);remaining-=batch.stats.characters;
    record.searches=structuredClone(result.searches);save();

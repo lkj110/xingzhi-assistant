@@ -13,11 +13,29 @@ test('equal windows reuse only encoding while both original positions and condit
  f.source.content='# 一\n\n'+repeated+'\n\n只限境内。\n\n'+('无关填充。\n\n'.repeat(40))+'# 二\n\n'+repeated+'\n\n海外除外。';
  t.mock.method(require('../desktop/evidence-encoder.cjs'),'encode',async texts=>{calls.push([...texts]);return texts.map(text=>text===repeated?[1,0]:[0,1]);});
  const r=await search.search(f.a,f.task,{tool:'search_evidence',query:repeated,limit:2});
- assert.equal(r.version,'hybrid-evidence-v2');assert.equal(calls.length,2);assert.equal(calls[0].filter(x=>x===repeated).length,1);assert.equal(calls[0].filter(x=>x==='无关填充。').length,1);
+ assert.equal(r.version,'hybrid-evidence-v3');assert.ok(calls.every(c=>c.length<=4));const indexed=calls.slice(1).flat();assert.equal(indexed.filter(x=>x===repeated).length,1);assert.equal(indexed.filter(x=>x==='无关填充。').length,1);
  assert.equal(r.groups.length,2);assert.notEqual(r.groups[0].hit,r.groups[1].hit);assert.ok(r.groups.every(g=>g.sourceId===f.source.id));
  const batch=await search.readRequests(f.a,f.task,[{tool:'search_evidence',query:repeated,limit:2}],generation.readBatch),bodies=batch.rows.map(row=>row.result.content).join('\n');assert.match(bodies,/只限境内/);assert.match(bodies,/海外除外/);assert.ok(batch.searches[0].groups.every(g=>g.state==='read_pending_model_visibility'));
 });
 test('evidence groups retain far footnotes and table headers',()=>{const segments=[{text:'name,value,unit'},{text:'irrelevant'},{text:'unrelated'},{text:'A,12,kg [脚注7]'},{text:'more'},{text:'[脚注7] 仅供测试',footnoteId:'7'}];assert.deepEqual(search.structure(segments,3).members,[0,2,3,4,5]);});
+test('unique long documents index bounded batches incrementally without repeating completed windows',async t=>{
+ const f=setup(t),calls=[];f.source.content=Array.from({length:41},(_,i)=>`唯一记录${i}，仅供测试；适用对象分组${i}。`).join('\n\n');
+ t.mock.method(require('../desktop/evidence-encoder.cjs'),'encode',async texts=>{calls.push([...texts]);return texts.map(()=>[1,0]);});
+ const request={tool:'search_evidence',query:'适用对象',limit:1},first=await search.search(f.a,f.task,request);
+ assert.equal(first.mode,'partial_hybrid');assert.equal(first.diagnostic.encodedWindows,16);assert.equal(first.diagnostic.totalWindows,41);assert.match(first.note,/尚未覆盖/);
+ const second=await search.search(f.a,f.task,request),third=await search.search(f.a,f.task,request);
+ assert.equal(second.diagnostic.indexedWindows,32);assert.equal(third.diagnostic.indexedWindows,41);assert.equal(third.partial,false);assert.equal(third.diagnostic.encodedWindows,9);
+ const encoded=calls.flat().filter(x=>x!==request.query);assert.equal(encoded.length,41);assert.equal(new Set(encoded).size,41);assert.ok(calls.every(c=>c.length<=4));
+ f.source.content+='\n\n版本修订。';const changed=await search.search(f.a,f.task,request);assert.equal(changed.diagnostic.cacheHits,0);assert.equal(changed.diagnostic.indexedWindows,16);
+});
+test('local indexing deadline preserves committed batches and still returns permission-checked lexical reads',async t=>{
+ const f=setup(t);f.source.content=Array.from({length:25},(_,i)=>`办公规定${i}。`).join('\n\n');let calls=0;
+ t.mock.method(require('../desktop/evidence-encoder.cjs'),'encode',async(texts,signal)=>{calls++;if(calls===3)await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,500);signal.addEventListener('abort',()=>{clearTimeout(timer);reject(signal.reason);},{once:true});});return texts.map(()=>[1,0]);});
+ const request={tool:'search_evidence',query:'办公规定',limit:1},first=await search.search(f.a,f.task,request,{budgetMs:30});
+ assert.equal(first.degraded,true);assert.equal(first.diagnostic.indexedWindows,4);assert.ok(first.requests.length);assert.ok(first.diagnostic.ms<500);
+ const second=await search.search(f.a,f.task,request);assert.equal(second.diagnostic.cacheHits,1);assert.equal(second.diagnostic.indexedWindows,20);
+ const controller=new AbortController();controller.abort();await assert.rejects(search.search(f.a,f.task,request,{signal:controller.signal}),{name:'AbortError'});
+});
 test('long paragraphs and DOCX table parts retain the complete original group',()=>{const paragraph=Array.from({length:5},(_,i)=>({paragraph:1,text:i?'正文':'仅限境内正式员工'}));assert.deepEqual(search.structure(paragraph,3).members,[0,1,2,3,4]);const table=Array.from({length:4},(_,i)=>({groupId:'table1',partOffset:i*6000,structure:'table',headerRows:[0],text:i?'12\t数值':'金额（万元）\t类别'}));assert.deepEqual(search.structure(table,3).members,[0,1,2,3]);});
 test('references in expanded conditions follow a bounded transitive closure',()=>{const rows=Array.from({length:9},(_,i)=>({paragraph:i<5?1:i,text:i===0?'适用范围见[脚注7]':'中间文本'}));rows[8]={text:'[脚注7] 仅正式员工，另见[^extra]',footnoteId:'7'};rows.push({text:'[^extra]: 境外除外'});const group=search.structure(rows,3);assert.ok(group.members.includes(8));assert.ok(group.members.includes(9));assert.equal(group.structureComplete,true);rows.pop();const missing=search.structure(rows,3);assert.equal(missing.structureComplete,false);assert.deepEqual(missing.unresolvedReferences,['note:extra']);});
 test('section references include body and nested conditions until the next peer heading',()=>{const rows=['参见2.1','引言','无关','## 2.1 适用范围','仅限境内正式员工，境外无资格','### 2.1.1 附加要求','另见[^limit]','## 2.2 其他','无关正文','[^limit]: 须工作满一年'].map(text=>({text}));const g=search.structure(rows,0);for(const i of [3,4,5,6,9])assert.ok(g.members.includes(i));assert.ok(!g.members.includes(8));assert.equal(g.structureComplete,true);});

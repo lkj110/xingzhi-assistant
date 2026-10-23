@@ -614,6 +614,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
         if(grounding.enabled(this)&&verification.grounding)task.grounding=verification.grounding;
         checkCache.remember(this,task,verification,prepared);
         task.verification = { basisVersion:2,mode:prepared.mode,reusedChunks:prepared.reusedChunks,checkedChunks:prepared.checkedChunks,...(prepared.mode==='exact'?{avoidedModelCalls:1}:{}), passed: verification.passed, summary: short(verification.summary, 5000), gaps: verification.gaps.map(s => short(s, 1000)).slice(0, 20), gapDetails:verification.gapDetails,relationCoverage:verification.relationCoverage,snapshot:fullContext.verificationSnapshot,at: now(), basis:acceptance.basis(this,task) };
+        if(verification.suggestions?.length)task.verification.suggestions=verification.suggestions;
         task.status = verification.passed ? 'review' : 'blocked';
         if(linkedJob)require('./continuation-control.cjs').noteCheck(this,linkedJob,task,task.verification,{phase:'result'});
         task.lastError = verification.passed ? '' : `结果检查未通过：${verification.summary}`;

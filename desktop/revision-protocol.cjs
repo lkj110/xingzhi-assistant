@@ -103,7 +103,7 @@ function assertRevision(a,task,step,original){
  const current=source(a,task,step);
  if(!current||current.artifact.id!==original.artifact.id||evidence.hash(current.artifact.content)!==original.hash)throw require('./model-errors.cjs').contextError('CONTEXT_VERSION_CHANGED',{message:'修订原稿或权限在生成期间变化，候选修改未应用。'});
 }
-const verificationInstruction='检查仅针对 verificationSnapshot 固定的要求、稿件版本和回执。辅助核验说明是生成时点的记录，不要求它预言随后发生的保存、发布或检查结果；历史内部状态变化本身不能作为业务缺口。当前交付事实以应用回执为准，verified=true 仅证明工具动作成功，contentVerified=false 不能当成正文一致性已核实。对每项文稿缺口在 gapDetails 填入当前 artifactId 和 stepId，以及 kind=text（可直接改文）、evidence（须查询新事实）、binding（主稿或修订对象错误）、delivery（交付缺口）。分别指出应修订的稿件，不将辅助说明的问题归给主稿。用户目标及最新补充优先于 Agent 自拟的步骤和检查口径，不得把内部修复指令当成新增交付要求。';
+const verificationInstruction='检查仅针对 verificationSnapshot 固定的要求、稿件版本和回执。辅助核验说明是生成时点的记录，不要求它预言随后发生的保存、发布或检查结果；历史内部状态变化本身不能作为业务缺口。当前交付事实以应用回执为准，verified=true 仅证明工具动作成功，contentVerified=false 不能当成正文一致性已核实。对每项文稿缺口在 gapDetails 填入当前 artifactId 和 stepId，以及 kind=text（可直接改文）、evidence（须查询新事实）、binding（主稿或修订对象错误）、delivery（交付缺口）。分别指出应修订的稿件，不将辅助说明的问题归给主稿。用户目标及最新补充优先于 Agent 自拟的步骤和检查口径，不得把内部修复指令当成新增交付要求。gaps和要求的gap仅用于未满足已确认要求、事实无支持或实质矛盾；未被要求的版式、冗余或真实内部回执编号展示只放可选suggestions字符串数组，不因此置passed:false。用户明确要求的格式仍须检查，错误版本标题、假回执或无依据完成断言仍必须阻断。';
 function deliveryContext(a,task,record,protocol){
  if(require('./agent-local.cjs').actions.includes(record.tool))return require('./agent-local.cjs').deliveryContext(a,task,record);
  const artifact=outputs.current(a,task).find(r=>r.id===record.artifactId);

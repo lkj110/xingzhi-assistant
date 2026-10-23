@@ -3,9 +3,9 @@
 // separate verifier call. No generator self-attestation can authorize delivery.
 const {hash}=require('./evidence-basis.cjs');
 const protocol=require('./task-context.cjs');
-const VERSION=6;
+const VERSION=7;
 const COMPACT_FORMAT='compact-v5';
-const INPUT_PROTOCOL='verify-input-v6';
+const INPUT_PROTOCOL='verify-input-v7';
 // Capture once when this worker loads the module, not when status is queried.
 const IMPLEMENTATION_HASH=require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync(__filename)).digest('hex');
 const rows=v=>Array.isArray(v)?v:[];
@@ -161,7 +161,8 @@ function validate(a,task,response,{seen=new Set(),phase='result'}={}){
    if(c.start!==undefined&&(!Number.isSafeInteger(c.start)||c.start<0||typeof claimBody!=='string'||claimBody.slice(c.start,c.start+(c.text?.length||0))!==c.text))issue('关键结论位置与当前字段不符：'+c.id);
    if(!artifact||!text(c.text)||c.text.length>3000||(c.field!==undefined?!claimBody?.includes(c.text):![artifact.content,artifact.title,task.title].some(v=>v?.includes(c.text))))issue('关键结论不是当前稿件原文：'+c.id);
    if(!['fact','inference','unknown','proposal'].includes(c.kind)||(!text(c.reason)&&!compact)||c.supported!==true)issue('关键结论未获支持：'+c.id);
-   const qualification=c.qualification===undefined?null:require('./claim-qualification.cjs').validate(c,artifact,task,seen,s.titles.actionTitles);
+   const qualifiers=require('./claim-qualification.cjs');
+   const qualification=c.qualification===undefined?qualifiers.implicit(c,artifact,task,seen,s.titles.actionTitles):qualifiers.validate(c,artifact,task,seen,s.titles.actionTitles);
    if(c.qualification!==undefined&&!qualification)issue('限定语作用域与当前字段、位置或实际输入不符：'+c.id);
    if(['inference','unknown','proposal'].includes(c.kind)&&!qualification&&!UNKNOWN_MARKER.test(c.text||'')&&!scopedQualification(c.kind,text(c.text))&&!/(推断|推测|可能|预计|假设|建议|拟|待核实|待确认|未知|无法确认|无法确定|尚未|未核实|不确定|assum|infer|may|might|suggest|unknown|unverified|propos)/i.test(c.text||''))issue('推断、建议或未知未在正文标明（结论片段或绑定限定范围无效）：'+c.id,missingQualification(c));
    if(compact){
@@ -240,14 +241,15 @@ function validate(a,task,response,{seen=new Set(),phase='result'}={}){
    consistencyIssues.push({claimIds:entry.claimIds,anchors,reason:entry.reason});issue('跨章节矛盾：'+entry.reason);
   }
  }
- return {version:VERSION,basis:s.basis,phase,passed:issues.length===0,requirements:checked,claims,sourceConflicts,consistencyIssues,issues,classificationIssues:classificationOnly?classificationIssues:[],at:new Date().toISOString(),reused:false};
+ return {version:VERSION,basis:s.basis,phase,passed:issues.length===0,requirements:checked,claims,sourceConflicts,consistencyIssues,issues,classificationIssues,classificationOnly,at:new Date().toISOString(),reused:false};
 }
 function finish(a,task,result,options){
  if(!enabled(a))return result;
  const report=validate(a,task,result,options);
  if(result.passed!==true||!text(result.summary)||!Array.isArray(result.gaps)||result.gaps.some(g=>typeof g!=='string'||text(g))){report.passed=false;report.issues=[...new Set([...report.issues,'独立检查尚未通过全部完成标准'])];}
  delete report.reportHash;report.reportHash=hash({...report,reportHash:undefined});
- const {groundingReview,...rest}=result;
+ const {groundingReview,suggestions,...rest}=result;
+ if(Array.isArray(suggestions))rest.suggestions=suggestions.filter(s=>typeof s==='string'&&s.trim()).slice(0,12).map(s=>s.slice(0,500));
  return {...rest,grounding:report,...(!report.passed?{passed:false,summary:'证据核验未通过：'+report.issues.slice(0,3).join('；'),gaps:[...new Set([...rows(result.gaps),...report.issues])]}:{})};
 }
 function assertDelivery(a,task){
@@ -286,7 +288,7 @@ function captureUserInput(task,field,value){
  if(text(value))task.groundingUserInputs.push({field,text:value,origin:'user'});
 }
 const consistencyInstruction='\n独立一致性检查：每次实质修改都完整核对当前全文，逐一比较同对象的数值、单位/分母、时间、责任主体、术语定义、范围、执行状态，以及摘要/正文、结论/例外。合法不同适用范围不算矛盾。consistencyIssues 必须返回数组；通过为 []，矛盾为 [{claimIds:["现有结论ID"],anchors:[{artifactId,quote:"当前正文逐字片段"},{artifactId,quote:"另一处逐字片段"}],reason:"具体冲突"}]。两锚点均关联所列结论、须不同；唯一逐字片段由应用定位，重复片段才须精确start，不猜字符偏移；无法完整判断就明确缺口，不能把局部通过当整稿通过。';
-const componentFiles=['context-optimizations','model-receipt','input-budget','evidence-search','evidence-encoder','evidence-preparation','verification-titles','claim-qualification','grounding-classification','tool-evidence','memory'];
+const componentFiles=['context-optimizations','model-receipt','input-budget','evidence-search','evidence-plan','evidence-encoder','evidence-preparation','verification-titles','claim-qualification','grounding-classification','tool-evidence','memory'];
 const componentHashes=Object.fromEntries(componentFiles.map(name=>[name,require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync(require.resolve('./'+name+'.cjs'))).digest('hex')]));
 const status=a=>({enabled:enabled(a),version:VERSION,implementationHash:IMPLEMENTATION_HASH,format:COMPACT_FORMAT,inputProtocol:INPUT_PROTOCOL,inputComponents:{attribution:require('./input-attribution.cjs').IMPLEMENTATION_HASH,receipts:require('./receipt-input.cjs').IMPLEMENTATION_HASH,...componentHashes},optimizations:Object.fromEntries(['A1','B','C','D','A2'].map(p=>[p,require('./context-optimizations.cjs').enabled(a,p)])),encoder:require('./evidence-encoder.cjs').status(),features:['disclosed-source-conflicts','shared-citations','receipt-input-v2','input-attribution-v2','model-budget-v2','hybrid-evidence-v2','deterministic-evidence-v1','cross-section-consistency-v1']});
 module.exports={VERSION,INPUT_PROTOCOL,enabled,status,requirements,snapshot,reusable,context,observe,covered,sourceCovered,finish,validate,assertDelivery,assertPayload,assertAction,captureUserInput,instruction,reviewInstruction,consistencyInstruction};

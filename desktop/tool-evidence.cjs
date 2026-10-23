@@ -1,6 +1,6 @@
 'use strict';
 const protocol=require('./task-context.cjs'),{hash}=require('./evidence-basis.cjs'),{contextError,contextResult}=require('./model-errors.cjs');
-const VERSION='deterministic-evidence-v1';
+const VERSION='deterministic-evidence-v2';
 const liveObservations=new WeakMap();
 // Only this module's parameter errors are correctable. A context/access/lifecycle
 // failure from a reader or callback must retain its hard-failure semantics.
@@ -64,9 +64,10 @@ function evaluate(a,task,request){
   const observation=require('./revision-protocol.cjs').deliveryContext(a,task,record,protocol.buildContext(a,protocol.taskScope(task),'verify'));
   const result=observation.result||{};
   const local=require('./agent-local.cjs').actions.includes(record.tool),live=liveObservations.get(a)?.get(record.id);
-  const files=record.tool==='write_file'?require('./agent-writes.cjs').readRecordedFile(a,a.data.delegations.find(j=>j.id===task.agentJobId),task,record):null;
+  const files=record.tool==='write_file'?require('./agent-writes.cjs').observeRecordedFile(a,a.data.delegations.find(j=>j.id===task.agentJobId),task,record):null;
   const fresh=local||!!files||live&&Date.now()-live.at<60000&&live.recordHash===hash(record),observedHash=files?hash(files):local?hash(observation):fresh?live.actualHash:null;
-  return {inputs:[],basis:hash([record,observation,!!fresh,observedHash]),output:{status:observation.current===true&&record.status==='done'?(result.status==='accepted'?'accepted_only':result.verified===true&&fresh?'readback_verified':'unknown'):'unknown',actionId:record.id,tool:record.tool,readbackHash:observedHash,note:'仅证明该观察时点的回执/回读，受理不证明收件或部署完成；没有新鲜回读时状态未知'},dynamic:true};
+  const matched=files?.every(f=>f.exists&&f.contentMatches),fileStatus=files?.some(f=>!f.exists)?'file_missing':matched?'readback_verified':'content_mismatch';
+  return {inputs:[],basis:hash([record,observation,!!fresh,observedHash]),output:{status:observation.current===true&&record.status==='done'?(files?fileStatus:result.status==='accepted'?'accepted_only':result.verified===true&&fresh?'readback_verified':'unknown'):'unknown',actionId:record.id,tool:record.tool,readbackHash:observedHash,...(files?{readbackHashKind:'file_comparison_observation',comparison:matched?'matches_recorded_content':fileStatus==='file_missing'?'file_missing':'differs_from_recorded_content',files}:{}),note:files?'App 本次只读回查：存在的文件已逐字比较完整正文，缺失文件明确标记。files 给出原/现正文哈希、一致性和有界摘录，观察时间见 observedAt。仅证明该时点的本地观察，不证明对外发送、送达或收件。':'仅证明该观察时点的回执/回读，受理不证明收件或部署完成；没有新鲜回读时状态未知'},dynamic:true};
  }
  if(!Array.isArray(request.inputs)||request.inputs.length<1||request.inputs.length>128||request.actionId!==undefined)fail('求证输入数量须为 1–128');
  return protocol.withContext(a,protocol.taskScope(task),op=>{const inputs=request.inputs.map(r=>input(a,task,op,r));return {inputs:inputs.map(({value,...r})=>r),basis:hash(inputs),output:calculate(request.operation,request.args||{},inputs),dynamic:false};});
@@ -94,7 +95,7 @@ async function refreshStatus(a,task,request){
  if(!['write_file','github_create','github_update','github_comment','lark_create','lark_update'].includes(record.tool))return;
  require('./execution-gate.cjs').assert(a,{task,job,readOnly:true});
  const before=protocol.buildContext(a,protocol.taskScope(task),'verify');
- const actual=await require('./agent-writes.cjs').readRecordedDelivery(a,job,task,record);
+ const writes=require('./agent-writes.cjs'),actual=record.tool==='write_file'?writes.observeRecordedFile(a,job,task,record):await writes.readRecordedDelivery(a,job,task,record);
  require('./execution-gate.cjs').assert(a,{task,job,readOnly:true});protocol.assertCurrent(a,protocol.taskScope(task),before,{delivery:true});
  if(!a.data.agentActions.includes(record)||record.status!=='done')throw contextError('CONTEXT_VERSION_CHANGED');
  observations.set(record.id,{recordHash:hash(record),actualHash:hash(actual),at:Date.now()});

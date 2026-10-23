@@ -52,5 +52,21 @@ function validate(claim,artifact,task,seen,actionTitles=[]){
  if(cursor<scope.end)return null;
  return {field:claim.field,artifactId:artifact.id,...(action?{actionId:action.actionId}:{}),claimStart:target.start,claimEnd:target.end,start:scope.start,end:scope.end,quote:q.quote};
 }
+// Recognize complete epistemic-limit clauses, not a keyword anywhere in a
+// paragraph. This supplies an exact visible binding, never semantic support.
+function explicitUnknown(text){
+ if(typeof text!=='string'||text.length>600)return false;
+ const body='[^，。！？；,.;!?\\r\\n\\u2028\\u2029]',clause=body+'+',end='[。！？.!?]?';
+ return [
+  `^(?:(?:现有|已有|当前|本轮)的?)?(?:资料|记录|证据)(?:中)?(?:尚)?未(?:进一步)?(?:说明|提供|给出|记载|证实|表明)${clause}${end}$`,
+  `^(?:目前|现阶段|据此|仍)?(?:不能|无法|不足以)(?:认定|证明|确认|断定)${clause}${end}$`,
+  `^${clause}未在(?:(?:现有|当前|本轮)(?:的)?)?(?:资料|记录|证据)中(?:提供|说明|给出|记载)(?:，(?:不据此|不能据此)(?:确认|认定)(?:已完成|已执行|已经完成))?${end}$`,
+  `^(?:上述|该|本次|这些)${body}{0,60}(?:范围|安排|时间|状态|清单)(?:仅)?(?:是|为)(?:计划|拟定|预定|待办)${body}*，不(?:表示|代表|证明)${clause}${end}$`
+ ].some(pattern=>new RegExp(pattern,'u').test(text));
+}
+function implicit(claim,artifact,task,seen,actionTitles=[]){
+ if(claim.kind!=='unknown'||claim.qualification!==undefined||!explicitUnknown(claim.text))return null;
+ return validate({...claim,qualification:{field:claim.field,quote:claim.text,start:claim.start}},artifact,task,seen,actionTitles);
+}
 const instruction='非 fact 结论必须在正文明确限定：text自身完整表达限定，或提供qualification:{field:"同一字段",quote:"包含完整结论及限定语的当前稿逐字作用域",start:可选}。限定在相邻行、规范性要求或不常见表达时必须显式绑定，不能只在reason解释；text自身表达限制时quote可等于text。确定性标签用于限定结论，无独立业务断言时不另造claim。claim用field:"content|artifactTitle|taskTitle|actionTitle"（actionTitle另带actionId）；正文范围限同一普通段落或连续结构记录，不跨空段、标题、列表项或重复字段；标题范围须是完整标题。重复text用claim.start定位，重复quote用qualification.start。独立判断该范围确实限定该条完整结论，不能借另一对象的未知，不能把混合肯定断言藏进unknown/inference；不成立则supported:false并指出缺口。原文锚点只证明位置，不能证明语义成立。';
-module.exports={observe,validate,sameRecord,instruction};
+module.exports={observe,validate,implicit,explicitUnknown,sameRecord,instruction};

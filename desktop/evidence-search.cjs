@@ -1,6 +1,6 @@
 'use strict';
 const protocol=require('./task-context.cjs'),{hash}=require('./evidence-basis.cjs'),{contextError,contextResult}=require('./model-errors.cjs');
-const VERSION='hybrid-evidence-v2',cache=new Map();
+const VERSION='hybrid-evidence-v3',cache=new Map(),BATCH_SIZE=4,MAX_NEW_WINDOWS=16;
 // Only request validation belongs to local correction; reader, authorization,
 // version and lifecycle failures must escape the wrapper unchanged.
 const parameterErrors=new WeakSet();
@@ -63,31 +63,45 @@ function authorized(a,task,request,sourceIds){return protocol.withContext(a,prot
   return {source:s,segments:op.sourceSegments(s.id).map((r,index)=>({...r,index})),warnings:op.source(s.id)?.warnings||[]};
  });return {snapshot,docs};
 });}
-async function search(a,task,request,{signal=a.controller?.signal,sourceIds}={}){
+async function search(a,task,request,{signal=a.controller?.signal,sourceIds,budgetMs=20000}={}){
  if(!request||typeof request!=='object'||Array.isArray(request)||request.tool!=='search_evidence'||Object.keys(request).some(k=>!['tool','query','limit','sourceId','ref'].includes(k))||typeof request.query!=='string'||!request.query.trim()||request.query.length>300||request.limit!==undefined&&(!Number.isInteger(request.limit)||request.limit<1||request.limit>3)||['sourceId','ref'].some(k=>request[k]!==undefined&&(typeof request[k]!=='string'||!request[k])))invalidRequest();
  signal?.throwIfAborted();
  const start=performance.now(),{snapshot,docs}=authorized(a,task,request,sourceIds),scope=hash([a.dir,task.id]),chunks=[];
  const activeKeys=new Set(docs.map(d=>hash([scope,d.source.id,d.source.version,d.source.policyRevision,VERSION])));
  for(const [k,v] of cache)if(v.scope===scope&&!activeKeys.has(k))cache.delete(k);
- let degraded=false,cacheHits=0;
+ let degraded=false,cacheHits=0,encodedWindows=0,vector;
+ const pending=[],assertCurrent=()=>{signal?.throwIfAborted();protocol.withContext(a,protocol.taskScope(task),op=>op.assertCurrent(snapshot));};
  for(const d of docs){
   d.key=hash([scope,d.source.id,d.source.version,d.source.policyRevision,VERSION]);
   d.chunks=d.segments.flatMap(s=>{const out=[];for(let p=0;p<s.text.length;p+=320)out.push({sourceId:d.source.id,index:s.index,text:s.text.slice(p,p+384)});return out;});
   // Limits are explicit; pagination remains available through the original reader.
   if(d.chunks.length>4096){d.chunks=d.chunks.slice(0,4096);d.warnings.push('本次索引覆盖前 4096 个文本窗；其余须按原目录读取');}
-  let found=cache.get(d.key);
-  if(found)cacheHits++;else try{
-   // Reuse computation only within this authorized source/version. Every
-   // original window and position still participates in ranking and grouping.
-   const texts=[...new Set(d.chunks.map(c=>c.text))],encoded=await require('./evidence-encoder.cjs').encode(texts,signal),byText=new Map(texts.map((text,i)=>[text,encoded[i]]));
-   found={scope,vectors:d.chunks.map(c=>byText.get(c.text))};cache.set(d.key,found);while(cache.size>24)cache.delete(cache.keys().next().value);
-  }catch(e){signal?.throwIfAborted();degraded=true;}
-  d.chunks.forEach((c,i)=>chunks.push({...c,vector:found?.vectors[i]}));
+  d.cached=cache.get(d.key)||{scope,byText:new Map()};if(d.cached.byText.size)cacheHits++;
+  for(const text of new Set(d.chunks.map(c=>c.text)))if(!d.cached.byText.has(text))pending.push({d,text,score:lexical(request.query,text)});
  }
- let vector;try{if(chunks.length&&!degraded)vector=(await require('./evidence-encoder.cjs').encode([request.query],signal))[0];}catch(e){signal?.throwIfAborted();degraded=true;}
+ // Commit only complete small batches. A local deadline keeps completed work
+ // for the next query; cancellation and authority changes still escape.
+ const ms=Math.max(0,Math.min(20000,Number.isFinite(budgetMs)?budgetMs:20000)),timeout=ms?AbortSignal.timeout(Math.ceil(ms)):null;
+ const inferenceSignal=timeout?(signal?AbortSignal.any([signal,timeout]):timeout):signal;
+ pending.sort((a,b)=>b.score-a.score);
+ try{
+  if(ms&&docs.some(d=>d.chunks.length)){
+   vector=(await require('./evidence-encoder.cjs').encode([request.query],inferenceSignal))[0];assertCurrent();
+   for(let offset=0;offset<Math.min(MAX_NEW_WINDOWS,pending.length);offset+=BATCH_SIZE){
+    inferenceSignal?.throwIfAborted();const batch=pending.slice(offset,Math.min(offset+BATCH_SIZE,MAX_NEW_WINDOWS));
+    const encoded=await require('./evidence-encoder.cjs').encode(batch.map(r=>r.text),inferenceSignal);assertCurrent();inferenceSignal?.throwIfAborted();
+    for(let i=0;i<batch.length;i++){const {d,text}=batch[i];d.cached.byText.set(text,encoded[i]);cache.set(d.key,d.cached);encodedWindows++;}
+    while(cache.size>24)cache.delete(cache.keys().next().value);
+   }
+  }
+ }catch(error){assertCurrent();degraded=true;}
+ let indexedWindows=0,totalWindows=0;
+ for(const d of docs){const unique=[...new Set(d.chunks.map(c=>c.text))];totalWindows+=unique.length;indexedWindows+=unique.filter(text=>d.cached.byText.has(text)).length;
+  d.chunks.forEach(c=>chunks.push({...c,vector:d.cached.byText.get(c.text)}));}
+ const partial=indexedWindows<totalWindows;
  // Reacquire permissions after every asynchronous inference; no cached titles or counts escape first.
  signal?.throwIfAborted();protocol.withContext(a,protocol.taskScope(task),op=>op.assertCurrent(snapshot));
- const best=new Map();for(const c of chunks){const lex=lexical(request.query,c.text),cos=vector&&c.vector?vector.reduce((n,v,i)=>n+v*c.vector[i],0):0,score=degraded?lex:0.65*cos+0.35*lex;if(score<0.08)continue;const k=c.sourceId+':'+c.index;if(!best.has(k)||best.get(k).score<score)best.set(k,{...c,score});}
+ const best=new Map();for(const c of chunks){const lex=lexical(request.query,c.text),cos=vector&&c.vector?vector.reduce((n,v,i)=>n+v*c.vector[i],0):0,score=vector&&c.vector?0.65*cos+0.35*lex:lex;if(score<0.08)continue;const k=c.sourceId+':'+c.index;if(!best.has(k)||best.get(k).score<score)best.set(k,{...c,score});}
  const ranked=[...best.values()].sort((a,b)=>b.score-a.score),groups=[],requests=[],selected=new Set();
  while(ranked.length&&groups.length<(request.limit||2)){
   ranked.sort((a,b)=>(b.score-(selected.has(b.sourceId)?0.08:0))-(a.score-(selected.has(a.sourceId)?0.08:0)));
@@ -96,12 +110,12 @@ async function search(a,task,request,{signal=a.controller?.signal,sourceIds}={})
   const group={id:'group:'+hash([d.key,c.index,expanded.members]).slice(0,16),sourceId:c.sourceId,version:d.source.version,hit:c.index,...expanded,memberSizes:expanded.members.map(index=>({index,characters:d.segments[index].text.length})),warnings:[...d.warnings,...expanded.warnings],state:'located_not_read'};
   groups.push(group);for(const index of group.members)if(!requests.some(r=>r.sourceId===c.sourceId&&r.index===index))requests.push({tool:'read_segment',sourceId:c.sourceId,version:d.source.version,index});
  }
- return {version:VERSION,mode:degraded?'lexical_fallback':'local_hybrid',degraded,groups,requests,diagnostic:{cacheHits,ms:Math.round(performance.now()-start),encoder:require('./evidence-encoder.cjs').status()},note:'命中不代表已读；无命中不证明不存在。组内所有范围实际提供后方可作依据。'};
+ return {version:VERSION,mode:!vector?'lexical_fallback':partial?'partial_hybrid':'local_hybrid',degraded,partial,groups,requests,diagnostic:{cacheHits,encodedWindows,indexedWindows,totalWindows,ms:Math.round(performance.now()-start),encoder:require('./evidence-encoder.cjs').status()},note:'命中不代表已读；无命中不证明不存在。组内所有范围实际提供后方可作依据。'+(partial?'语义索引尚未覆盖全部文本窗，其余仅按关键词定位，必要时须分页读原文。':'')};
 }
-async function readRequests(a,task,requests,readBatch,{maxChars=48000,signal=a.controller?.signal,sourceIds}={}){
+async function readRequests(a,task,requests,readBatch,{maxChars=48000,signal=a.controller?.signal,sourceIds,budgetMs}={}){
  if(!Array.isArray(requests)||requests.length<1||requests.length>4)return readBatch(a,task,requests);
  const normal=[],searches=[],failed=[];for(const r of requests){if(r?.tool==='search_evidence'){
-  try{const found={...await search(a,task,r,{signal,sourceIds}),request:structuredClone(r)};searches.push(found);normal.push(...found.requests);}
+  try{const found={...await search(a,task,r,{signal,sourceIds,budgetMs}),request:structuredClone(r)};searches.push(found);normal.push(...found.requests);}
   catch(error){if(!parameterErrors.has(error))throw error;failed.push({request:structuredClone(r),result:contextResult(error)});}
  }else normal.push(r);}
  const combined={rows:[],pageRows:[],used:[],next:[],complete:true,stats:{characters:0},searches};let remaining=Math.max(0,Math.min(48000,maxChars));
@@ -113,13 +127,9 @@ async function readRequests(a,task,requests,readBatch,{maxChars=48000,signal=a.c
 }
 const instruction='\n可用 search_evidence 做本地语义＋关键词检索：read_context.requests:[{tool:"search_evidence",query:"待证问题",limit:2}]，limit 为 1–3，可选 sourceId/ref。App 补读标题/相邻条件/脚注；hybridSearch.groups 中 partial 必须按 readRequests 续读。命中不等于已读，无结果不等于不存在。生成的同轮结果可附 evidencePlan:[{requirementId,question,evidenceIds:[],readRequests:[],gap:""}]；只用当前要求 ID，未读/未找到/已读分开，未知或创作要求说明适当出口。未完成 readRequests 会先执行，保留依据缺口。';
 function plan(a,task,value){
- if(value===undefined)return null;const ids=new Set(require('./grounding.cjs').requirements(a,task).map(r=>r.id));
- if(!Array.isArray(value)||value.length>80)throw contextError('CONTEXT_INVALID_REQUEST',{message:'取证计划格式无效'});
- const seen=new Set();return value.map(r=>{
-  if(!ids.has(r?.requirementId)||seen.has(r.requirementId)||typeof r.question!=='string'||r.question.length>300||typeof r.gap!=='string'||r.gap.length>500||!Array.isArray(r.readRequests)||r.readRequests.length>4||!Array.isArray(r.evidenceIds)||r.evidenceIds.length>16)throw contextError('CONTEXT_INVALID_REQUEST',{message:'取证计划须使用当前要求并保留有界读取请求/缺口'});
-  seen.add(r.requirementId);return {requirementId:r.requirementId,question:r.question,evidenceIds:r.evidenceIds.filter(id=>(task.generationReads||[]).some(row=>protocol.validRead(a,protocol.taskScope(task),row)&&[row.result.ref,row.result.sourceId].includes(id))),readRequests:r.readRequests,gap:r.gap,state:r.readRequests.length?'unread':r.gap?'gap':'read_not_verified'};
- });
+ return require('./evidence-plan.cjs').plan(a,task,value);
 }
+function summary(searches){const modes=[...new Set(searches.map(r=>r.mode))];return {degraded:searches.some(r=>r.degraded),partial:searches.some(r=>r.partial),mode:modes.length===1?modes[0]:'mixed',diagnostic:searches.map(r=>r.diagnostic),at:new Date().toISOString()};}
 function suppliedGroups(value){
  if(!Array.isArray(value.hybridSearch))return value;
  const result=structuredClone(value),full=require('./model-input.cjs').materialize(value),rows=[...(full.generationEvidence||[]),...(full.requestedSections||[]),...(full.contextReads||[]).map(r=>r.result)];
@@ -151,4 +161,4 @@ function consumePlan(plan,batch){
   return {...item,readRequests:pending,gap:failure||(completed&&item.gap==='待定位'?'':item.gap),state:pending.length?'unread':failure?'gap':completed?'read_not_verified':item.state};
  });
 }
-module.exports={VERSION,search,readRequests,structure,lexical,instruction,plan,suppliedGroups,consumePlan};
+module.exports={VERSION,search,readRequests,structure,lexical,instruction,plan,summary,suppliedGroups,consumePlan};
