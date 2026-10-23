@@ -162,6 +162,13 @@ async function call(a,task,system,initial,role='execute'){
  },{purpose:role});
  let reminded=false,finalize=null,boundedFinalization,finalizeRequest=force?{reason:force.reason,repairCommandId:force.repairCommandId}:null;const coverageReads=[];
  const prefetched=preparedReads.get(context)||[];used.push(...prefetched);remember(a,task,prefetched);if(prefetched.length)save(a);
+ if(hybrid&&!force){
+  const characters=prefetched.reduce((n,r)=>n+(r.result.content?.length||0)+(r.result.segments||[]).reduce((s,v)=>s+(v.text?.length||0),0),0);
+  const prepared=await require('./evidence-preparation.cjs').prepare(a,task,context,{phase:checkPhase,remainingChars:48000-characters,readBatch,save:()=>save(a),gate});
+  if(prepared){used.push(...prepared.used);context={...context,contextReads:[...(context.contextReads||[]),...prepared.rows],hybridSearch:prepared.searches.map(({requests,...r})=>r),evidencePreparation:prepared.diagnostic};
+   if(prepared.searches.length){task.evidenceSearch={degraded:prepared.searches.some(r=>r.degraded),mode:prepared.searches.some(r=>r.degraded)?'lexical_fallback':'local_hybrid',diagnostic:prepared.searches.map(r=>r.diagnostic),at:new Date().toISOString()};save(a);}
+  }
+ }
  const localReading=job?null:((task.contextReadsLedger ||= {}).reading ||= {});
  while(true){
   a.controller?.signal.throwIfAborted();
@@ -209,7 +216,31 @@ async function call(a,task,system,initial,role='execute'){
    if(!finalize&&result.kind==='need_input'&&!reminded&&(context.revision||context.workingDraft||context.sourceCatalog.length)&&/读取|启用.*工具|原稿|原文|文稿正文|准确片段|上下文片段/.test(result.question||'')){
     reminded=true;context={...context,contextRecovery:{question:result.question,instruction:'所需原文或已保存文稿可在本次上下文和 sourceCatalog 中读取。直接使用已提供正文，缺少部分通过 read_context 请求；不要让用户重复提交。'}};continue;
    }
-   return role==='verify'&&result.retryFull!==true?grounding.finish(a,task,result,{seen,phase:checkPhase}):result;
+   if(role!=='verify'||result.retryFull===true)return result;
+   const checked=grounding.finish(a,task,result,{seen,phase:checkPhase});
+   const classification=require('./grounding-classification.cjs');
+   const recheck=!finalize&&grounding.enabled(a)?classification.request(result,checked):null;
+   if(!recheck)return checked;
+   gate();assertUsed(a,scope,snapshot,used,role);
+   const retryInput=require('./model-input.cjs').prepare({...context,groundingClassificationReview:recheck},{stage:'task_verify'});
+   require('./spend.cjs').check(a.modelBudgetOwner||a,{evaluation:!!a.modelBudgetOwner});
+   const current=finalizations.identity(a,task,context,snapshot,checkPhase);
+   if(current.semanticCheckId!==checkIdentity.semanticCheckId)throw contextError('CONTEXT_VERSION_CHANGED');
+   const classificationRecord=finalizations.reserve(task,checkIdentity,{reason:'grounding_classification',initialGrounding:checked.grounding,targets:recheck.claims});save(a);
+   gate();assertUsed(a,scope,snapshot,used,role);
+   const classificationPermit=finalizations.transportPermit(a,task,classificationRecord);
+   // This is a fresh independent check: prior transport visibility cannot
+   // authorize a quote omitted from the actual second input.
+   seen.clear();delete seen.sources;delete seen.userInputs;delete seen.toolEvidence;delete seen.claimFields;delete seen.modelIdentity;
+   let retried;
+   try{retried=await a.call(role,systemPrompt(task,system,role,{compactVerification:true})+classification.instruction,require('./receipt-input.cjs').project(retryInput),{onSupplied,boundedFinalization:classificationPermit});}
+   catch(error){classificationRecord.status='failed';classificationRecord.finishedAt=new Date().toISOString();classificationRecord.errorCode=error.code||'UNKNOWN';save(a);throw error;}
+   a.controller?.signal.throwIfAborted();assertUsed(a,scope,snapshot,used,role);
+   require('./relation-context-page.cjs').assertCurrent(a,scope,coverageReads);
+   // No loop or further read is granted even if the second result is invalid.
+   const final=grounding.finish(a,task,classification.retain(retried,recheck),{seen,phase:checkPhase});
+   classificationRecord.status=final.passed?'returned':'failed';classificationRecord.finishedAt=new Date().toISOString();classificationRecord.finalReportHash=final.grounding?.reportHash;save(a);
+   return final;
   }
   let exhausted,strong;
   const readNext=requests=>hybrid?require('./evidence-search.cjs').readRequests(a,task,requests,readBatch):readBatch(a,task,requests);

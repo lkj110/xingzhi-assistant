@@ -8,22 +8,23 @@ function status(){return {...state};}
 function encode(texts,signal){
  signal?.throwIfAborted();
  if(!worker){
-  worker=new Worker('require(require("node:worker_threads").workerData.entry)',{eval:true,workerData:{kind:'evidence-encoder',entry:__filename},resourceLimits:{maxOldGenerationSizeMb:512}});worker.unref();
-  worker.on('message',m=>{const p=pending.get(m.id);if(!p)return;pending.delete(m.id);p.cleanup();state={...state,...m.status};m.error?p.reject(Error(m.error)):p.resolve(m.vectors);if(!pending.size)worker?.unref();});
-  const failed=()=>{for(const p of pending.values()){p.cleanup();p.reject(Error('本地向量编码器不可用'));}pending.clear();state.ready=false;worker=undefined;};
-  worker.on('error',failed);worker.on('exit',failed);
+  const owner=worker=new Worker('require(require("node:worker_threads").workerData.entry)',{eval:true,workerData:{kind:'evidence-encoder',entry:__filename},resourceLimits:{maxOldGenerationSizeMb:512}});owner.unref();
+  owner.on('message',m=>{const p=pending.get(m.id);if(!p||p.owner!==owner)return;pending.delete(m.id);p.cleanup();state={...state,...m.status};m.error?p.reject(Error(m.error)):p.resolve(m.vectors);if(![...pending.values()].some(p=>p.owner===owner))owner.unref();});
+  const failed=()=>{for(const [id,p] of pending)if(p.owner===owner){pending.delete(id);p.cleanup();p.reject(Error('本地向量编码器不可用'));}if(worker===owner){state.ready=false;worker=undefined;}owner.unref();};
+  owner.on('error',failed);owner.on('exit',failed);
  }
  return new Promise((resolve,reject)=>{
-  const id=++sequence,abort=()=>{pending.delete(id);cleanup();reject(signal.reason||Error('已停止'));},timer=setTimeout(()=>{pending.delete(id);cleanup();reject(Error('本地向量索引超时'));},180000);
+  const owner=worker,id=++sequence,release=()=>{pending.delete(id);cleanup();owner.postMessage({cancel:id});if(![...pending.values()].some(p=>p.owner===owner)){if(worker===owner){worker=undefined;state.ready=false;}owner.unref();void owner.terminate();}},abort=()=>{release();reject(signal.reason||Error('已停止'));},timer=setTimeout(()=>{release();reject(Error('本地向量索引超时'));},180000);
   const cleanup=()=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);};
-  pending.set(id,{resolve,reject,cleanup});signal?.addEventListener('abort',abort,{once:true});worker.ref();worker.postMessage({id,texts});
+  pending.set(id,{resolve,reject,cleanup,owner});signal?.addEventListener('abort',abort,{once:true});owner.ref();owner.postMessage({id,texts});
  });
 }
 if(!isMainThread&&workerData?.kind==='evidence-encoder'){
- let extractor,chain=Promise.resolve();
+ let extractor,chain=Promise.resolve();const jobs=new Map();
  async function run(m){
   const start=performance.now();
   try{
+   if(m.cancelled)return;
    if(!extractor){
     const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json')));
     if(manifest.runtime!=='@huggingface/transformers@3.8.1')throw Error('本地编码器版本不匹配');
@@ -39,10 +40,10 @@ if(!isMainThread&&workerData?.kind==='evidence-encoder'){
     extractor=await pipeline('feature-extraction','evidence-encoder',{dtype:'q8',device:'auto',local_files_only:true});
     state={...state,manifestHash:hash(manifest),model:manifest.model,revision:manifest.revision,backend:'wasm-cpu',ready:true};
    }
-   const vectors=[];for(let i=0;i<m.texts.length;i+=16){const output=await extractor(m.texts.slice(i,i+16),{pooling:'mean',normalize:true,truncation:true,max_length:256});vectors.push(...output.tolist());}
+   const vectors=[];for(let i=0;i<m.texts.length;i+=16){await new Promise(resolve=>setImmediate(resolve));if(m.cancelled)return;const output=await extractor(m.texts.slice(i,i+16),{pooling:'mean',normalize:true,truncation:true,max_length:256});if(m.cancelled)return;vectors.push(...output.tolist());}
    parentPort.postMessage({id:m.id,vectors,status:{...state,lastMs:Math.round(performance.now()-start),rss:process.memoryUsage().rss}});
-  }catch(e){parentPort.postMessage({id:m.id,error:e.message,status:{...state,ready:false}});}
+  }catch(e){if(!m.cancelled)parentPort.postMessage({id:m.id,error:e.message,status:{...state,ready:false}});}finally{jobs.delete(m.id);}
  }
- parentPort.on('message',m=>{chain=chain.then(()=>run(m));});
+ parentPort.on('message',m=>{if(m.cancel!==undefined){const job=jobs.get(m.cancel);if(job){job.cancelled=true;job.texts=[];}return;}jobs.set(m.id,m);chain=chain.then(()=>run(m));});
 }
 module.exports={VERSION,encode,status};

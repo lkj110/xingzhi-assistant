@@ -55,17 +55,18 @@ function structure(segments,index){
  if(table<0&&(/\|/.test(body)||target.structure==='table'&&!target.groupId))warnings.push('表头未定位，不能确认字段口径');
  return {members:[...members].sort((a,b)=>a-b),warnings,unresolvedReferences:[...unresolved],structureComplete:unresolved.size===0&&iterations<=16};
 }
-function authorized(a,task,request){return protocol.withContext(a,protocol.taskScope(task),op=>{
- const snapshot=op.context(),sources=snapshot.readableCatalog.filter(s=>s.type==='source'&&s.purpose==='input'&&!s.ambiguous&&(!request.sourceId||s.id===request.sourceId)&&(!request.ref||s.ref===request.ref));
+function authorized(a,task,request,sourceIds){return protocol.withContext(a,protocol.taskScope(task),op=>{
+ const snapshot=op.context(),sources=snapshot.readableCatalog.filter(s=>s.type==='source'&&s.purpose==='input'&&!s.ambiguous&&(!sourceIds||sourceIds.includes(s.id))&&(!request.sourceId||s.id===request.sourceId)&&(!request.ref||s.ref===request.ref));
  if((request.sourceId||request.ref)&&!sources.length)throw contextError('CONTEXT_SCOPE_DENIED');
  const docs=sources.map(s=>{
   const proof=op.resolveRead({tool:'read_source',sourceId:s.id,limit:1,version:s.version});if(!proof.ok)throw contextError(proof.code,proof);
   return {source:s,segments:op.sourceSegments(s.id).map((r,index)=>({...r,index})),warnings:op.source(s.id)?.warnings||[]};
  });return {snapshot,docs};
 });}
-async function search(a,task,request){
+async function search(a,task,request,{signal=a.controller?.signal,sourceIds}={}){
  if(!request||typeof request!=='object'||Array.isArray(request)||request.tool!=='search_evidence'||Object.keys(request).some(k=>!['tool','query','limit','sourceId','ref'].includes(k))||typeof request.query!=='string'||!request.query.trim()||request.query.length>300||request.limit!==undefined&&(!Number.isInteger(request.limit)||request.limit<1||request.limit>3)||['sourceId','ref'].some(k=>request[k]!==undefined&&(typeof request[k]!=='string'||!request[k])))invalidRequest();
- const start=performance.now(),{snapshot,docs}=authorized(a,task,request),scope=hash([a.dir,task.id]),chunks=[];
+ signal?.throwIfAborted();
+ const start=performance.now(),{snapshot,docs}=authorized(a,task,request,sourceIds),scope=hash([a.dir,task.id]),chunks=[];
  const activeKeys=new Set(docs.map(d=>hash([scope,d.source.id,d.source.version,d.source.policyRevision,VERSION])));
  for(const [k,v] of cache)if(v.scope===scope&&!activeKeys.has(k))cache.delete(k);
  let degraded=false,cacheHits=0;
@@ -75,12 +76,12 @@ async function search(a,task,request){
   // Limits are explicit; pagination remains available through the original reader.
   if(d.chunks.length>4096){d.chunks=d.chunks.slice(0,4096);d.warnings.push('本次索引覆盖前 4096 个文本窗；其余须按原目录读取');}
   let found=cache.get(d.key);
-  if(found)cacheHits++;else try{found={scope,vectors:await require('./evidence-encoder.cjs').encode(d.chunks.map(c=>c.text),a.controller?.signal)};cache.set(d.key,found);while(cache.size>24)cache.delete(cache.keys().next().value);}catch(e){a.controller?.signal.throwIfAborted();degraded=true;}
+  if(found)cacheHits++;else try{found={scope,vectors:await require('./evidence-encoder.cjs').encode(d.chunks.map(c=>c.text),signal)};cache.set(d.key,found);while(cache.size>24)cache.delete(cache.keys().next().value);}catch(e){signal?.throwIfAborted();degraded=true;}
   d.chunks.forEach((c,i)=>chunks.push({...c,vector:found?.vectors[i]}));
  }
- let vector;try{if(chunks.length&&!degraded)vector=(await require('./evidence-encoder.cjs').encode([request.query],a.controller?.signal))[0];}catch(e){a.controller?.signal.throwIfAborted();degraded=true;}
+ let vector;try{if(chunks.length&&!degraded)vector=(await require('./evidence-encoder.cjs').encode([request.query],signal))[0];}catch(e){signal?.throwIfAborted();degraded=true;}
  // Reacquire permissions after every asynchronous inference; no cached titles or counts escape first.
- protocol.withContext(a,protocol.taskScope(task),op=>op.assertCurrent(snapshot));
+ signal?.throwIfAborted();protocol.withContext(a,protocol.taskScope(task),op=>op.assertCurrent(snapshot));
  const best=new Map();for(const c of chunks){const lex=lexical(request.query,c.text),cos=vector&&c.vector?vector.reduce((n,v,i)=>n+v*c.vector[i],0):0,score=degraded?lex:0.65*cos+0.35*lex;if(score<0.08)continue;const k=c.sourceId+':'+c.index;if(!best.has(k)||best.get(k).score<score)best.set(k,{...c,score});}
  const ranked=[...best.values()].sort((a,b)=>b.score-a.score),groups=[],requests=[],selected=new Set();
  while(ranked.length&&groups.length<(request.limit||2)){
@@ -92,14 +93,14 @@ async function search(a,task,request){
  }
  return {version:VERSION,mode:degraded?'lexical_fallback':'local_hybrid',degraded,groups,requests,diagnostic:{cacheHits,ms:Math.round(performance.now()-start),encoder:require('./evidence-encoder.cjs').status()},note:'命中不代表已读；无命中不证明不存在。组内所有范围实际提供后方可作依据。'};
 }
-async function readRequests(a,task,requests,readBatch){
+async function readRequests(a,task,requests,readBatch,{maxChars=48000,signal=a.controller?.signal,sourceIds}={}){
  if(!Array.isArray(requests)||requests.length<1||requests.length>4)return readBatch(a,task,requests);
  const normal=[],searches=[],failed=[];for(const r of requests){if(r?.tool==='search_evidence'){
-  try{const found={...await search(a,task,r),request:structuredClone(r)};searches.push(found);normal.push(...found.requests);}
+  try{const found={...await search(a,task,r,{signal,sourceIds}),request:structuredClone(r)};searches.push(found);normal.push(...found.requests);}
   catch(error){if(!parameterErrors.has(error))throw error;failed.push({request:structuredClone(r),result:contextResult(error)});}
  }else normal.push(r);}
- const combined={rows:[],pageRows:[],used:[],next:[],complete:true,stats:{characters:0},searches};let remaining=48000;
- for(let i=0;i<normal.length;i+=4){if(remaining<=0)break;const batch=readBatch(a,task,normal.slice(i,i+4),{maxChars:remaining});for(const key of ['rows','pageRows','used'])combined[key].push(...batch[key]);combined.next.push(...(batch.next||[]).map(n=>({...n,index:n.index+i})));remaining-=batch.stats.characters;combined.stats.characters+=batch.stats.characters;combined.complete&&=batch.complete;}
+ const combined={rows:[],pageRows:[],used:[],next:[],complete:true,stats:{characters:0},searches};let remaining=Math.max(0,Math.min(48000,maxChars));
+ for(let i=0;i<normal.length;i+=4){signal?.throwIfAborted();if(remaining<=0)break;const batch=readBatch(a,task,normal.slice(i,i+4),{maxChars:remaining});for(const key of ['rows','pageRows','used'])combined[key].push(...batch[key]);combined.next.push(...(batch.next||[]).map(n=>({...n,index:n.index+i})));remaining-=batch.stats.characters;combined.stats.characters+=batch.stats.characters;combined.complete&&=batch.complete;}
  for(const found of searches)for(const group of found.groups){group.state=group.members.every(index=>combined.rows.some(r=>r.result.ok&&r.result.complete&&r.result.sourceId===group.sourceId&&r.result.segmentIndex===index))?'read_pending_model_visibility':'partial';group.readRequests=found.requests.filter(r=>group.members.includes(r.index)&&r.sourceId===group.sourceId&&!combined.rows.some(row=>row.result.ok&&row.result.complete&&row.request.index===r.index&&row.request.sourceId===r.sourceId));}
  combined.rows.push(...failed);if(failed.length)combined.complete=false;
  if(!combined.rows.length){combined.rows.push({request:{tool:'list_sources',query:'',limit:1},result:{ok:true,directoryOnly:true,items:[],complete:true}});}

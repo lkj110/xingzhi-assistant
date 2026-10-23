@@ -13,6 +13,7 @@ for(const [object,key] of [[globalThis,'fetch'],[require('node:http'),'request']
 after(()=>restore.forEach(fn=>fn()));
 const conclusion={passed:false,summary:'原稿保留，证据仍缺具体映射',gaps:['缺具体映射'],gapDetails:[{text:'缺具体映射'}]};
 const initial={verificationPhase:'content'};
+for(const when of ['transport','commit'])test('real content-check rejects changed payload title at '+when,async t=>{const f=fixture(t),action={id:'mail',jobId:f.job.id,taskId:f.task.id,tool:'mail_draft',status:'pending',args:{subject:'核定报告',body:f.artifact.content}};f.a.data.agentActions.push(action);f.a.chat=async(_p,_k,_m,options)=>{options.onUsage({inputTokens:10,outputTokens:5});if(when==='transport')action.args.subject='全部完成';return conclusion;};if(when==='commit'){const transitions=require('../desktop/state-transitions.cjs'),original=transitions.commit;t.mock.method(transitions,'commit',(a,fn)=>{action.args.subject='全部完成';return original(a,fn);});}await assert.rejects(control.verifyContent(f.a,f.job,f.task),e=>e.code==='PLAN_RECONCILE_REQUIRED');assert.equal(f.task.contentVerification,undefined);});
 const bounded=messages=>messages[0].content.includes('本轮改为形成检查结论');
 function dispose(a){require('../desktop/access.cjs').cancel(a);require('../desktop/deadline-scheduler.cjs').dispose(a);}
 function fixture(t){

@@ -47,7 +47,7 @@ function next(a,job,options={}) {
  if(decision.action?.tool==='planner'){const task=tasks(a,job).find(t=>t.id===decision.taskIds[0]);if(task&&!task.needsReplan&&!require('./recovery-diagnostics.cjs').planning(a,job,task)&&stage(a,task)==='work')return {tool:'advance_task',args:{taskId:task.id},controlled:true};}
  return p.claim(a,job,options);
 }
-function contentBasis(a,job,task){return evidence.hash({intent:evidence.intent(job,task),criteria:task.criteria,sources:evidence.taskSources(a,task),...(task.primaryArtifactId?{primaryArtifactId:task.primaryArtifactId}:{}),artifacts:require('./deliverables.cjs').current(a,task).map(r=>({stepId:r.stepId,hash:evidence.hash(r.content)}))});}
+function contentBasis(a,job,task){return evidence.hash({titles:require('./verification-titles.cjs').identity(a,task),intent:evidence.intent(job,task),criteria:task.criteria,sources:evidence.taskSources(a,task),...(task.primaryArtifactId?{primaryArtifactId:task.primaryArtifactId}:{}),artifacts:require('./deliverables.cjs').current(a,task).map(r=>({stepId:r.stepId,hash:evidence.hash(r.content)}))});}
 function contentRequest(a,job,task,{prefetch=false}={}){
  // Claim selection happens inside generation.call. Defer eager numbered-section
  // reads until that selection proves this is an ordinary, rather than forced, check.
@@ -107,6 +107,11 @@ function error(error,taskId){
 }
 function recover(a,job,step,err){
  error(err,step.args?.taskId);
+ if(err.code==='GROUNDING_REQUIRED'){
+  const task=tasks(a,job).find(t=>t.id===(err.taskId||step.args?.taskId)),related=require('./projects.cjs').relatedActions(a,job);
+  if(!task||related.some(r=>['running','uncertain'].includes(r.status))||!related.some(r=>r.jobId===job.id&&r.taskId===task.id&&r.status==='pending'&&r.effectStatus!=='applied'&&require('./verification-titles.cjs').actionReview(a,task,r)==='required'))return false;
+  ledger.state(job).recovery={code:err.code,taskId:task.id,message:err.message,at:now(),allowedTools:['verify_content']};return true;
+ }
  if(!['PLAN_RECONCILE_REQUIRED','PLAN_ALREADY_RECONCILED','VERIFICATION_REQUIRED','CONTENT_REPAIR_REQUIRED','REVISION_TARGET_REQUIRED','EVIDENCE_REQUIRED','EXTERNAL_TOOL_REQUIRED'].includes(err.code))return false;
  if(step.tool==='complete'&&err.code==='VERIFICATION_REQUIRED')ledger.state(job).completionRequested={workRevision:job.workRevision??1,tasks:evidence.hash(tasks(a,job).map(t=>[t.id,t.workRevision??1]).sort())};
  ledger.state(job).recovery={code:err.code,taskId:err.taskId||step.args?.taskId,message:err.message,at:now(),allowedTools:err.code==='PLAN_ALREADY_RECONCILED'?['advance_task']:err.code==='EXTERNAL_TOOL_REQUIRED'?[a.task(err.taskId||step.args.taskId).steps.find(s=>!s.done)?.tool].filter(Boolean):['PLAN_RECONCILE_REQUIRED','EVIDENCE_REQUIRED'].includes(err.code)?['plan_task','platform_query','capability_call','read_source','search_source','read_output_state']:['CONTENT_REPAIR_REQUIRED','REVISION_TARGET_REQUIRED','EVIDENCE_REQUIRED','EXTERNAL_TOOL_REQUIRED'].includes(err.code)?['revise_task']:err.code==='EXTERNAL_TOOL_REQUIRED'?[a.task(err.taskId).steps.find(s=>!s.done)?.tool].filter(Boolean):['advance_task']};

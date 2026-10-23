@@ -30,7 +30,7 @@ function inspectPure(a,job,opts={}) {
  const live=facts.conflict(a,job,opts);
  if(live)return result(live.jobId===job.id?'running':'blocked',live.jobId===job.id?'EXECUTION_RUNNING':'EXECUTION_CONFLICT');
  const existing=continuation.actionInspect(a,job,{automatic,...opts});let externalBlock=null;
- if(existing){
+ if(existing&&existing.kind!=='check_content'){
   const r=existing.action,mode=existing.kind==='reconcile'?'reconcile_existing':existing.kind==='approved'?'execute_approved_existing':'await_approval';
   if(r&&existing.kind==='reconcile'&&!r.jobId&&facts.tasks(a,job).some(t=>t.id===r.taskId)&&job.pendingActionId!==r.id)return result('prepare_pending','EXTERNAL_ATTENTION',{commands:[{command:'external_attention',taskId:r.taskId,proof:{actionId:r.id,status:r.status}}]});
   const task=facts.tasks(a,job).find(t=>t.id===r?.taskId),g=facts.gate(a,job,task,{now:at,automatic,readOnly:existing.kind==='reconcile'});
@@ -76,6 +76,14 @@ function inspectPure(a,job,opts={}) {
  if(input.eligible(a,job))return result('prepare_pending','INPUT_RECOVERY_PREPARATION',{commands:[{command:'input_recovery',proof:{policyVersion:input.POLICY_VERSION,runId:input.candidate(a,job).run.id}}]});
  if(job.lastErrorAutomaticRetry===false){const entry=preflightBlocks.entries().next().value;return entry?result('blocked',entry[1].code,{reason:entry[1].message,taskIds:[entry[0]]}):result('blocked',job.lastErrorCode||'MANUAL_RECOVERY_REQUIRED',{reason:job.lastError||'当前错误需要明确恢复条件'});}
  const legacy=job.executionState?.workEfficiency;if(job.status==='blocked'&&legacy?.phase==='working'&&legacy.lastFailure&&!legacy.progressVersion&&!legacy.lastProgressAt&&!legacy.active&&!job.executionState?.continuation)return result('blocked',legacy.lastFailure.code||'UNPROVEN_RECOVERY',{reason:legacy.lastFailure.message});
+ // A prepared payload is new input to the ordinary paid checker. It cannot
+ // bypass due times, failed-call recovery, pending checks or explicit no-retry.
+ if(existing?.kind==='check_content'){
+  const r=existing.action,task=facts.tasks(a,job).find(t=>t.id===r.taskId),g=facts.gate(a,job,task,{now:at,automatic}),config=facts.modelGuard(a,job,task,{role:'verify'}),action={tool:'verify_content',args:{taskId:r.taskId},reason:'核对已准备动作的实际标题与当前文稿'};
+  const blocked=existing.eligible&&g.automaticAllowed&&!config?identity.action(a,job,action,{now:at}):null,eligible=existing.eligible&&g.automaticAllowed&&!config&&!blocked;
+  const review=result(eligible?'ready':'blocked',g.automaticAllowed?config?.code||blocked?.reasonCode||existing.reason:g.reason,{eligible,mode:'verify_prepared_existing',taskIds:[r.taskId],owner:{kind:'prepared_action',actionId:r.id,taskId:r.taskId},action,basisRefs:{...base.basisRefs,actionId:r.id,version:r.version},...(blocked?{identity:blocked.identity}:{} )});
+  if(eligible)return review;externalBlock=review;
+ }
  const choices=[];
  for(const task of facts.tasks(a,job)){
   const g=facts.gate(a,job,task,{now:at,automatic}),blockers=facts.dispatchBlockers(a,job,task,{automatic});

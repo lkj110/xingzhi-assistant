@@ -20,7 +20,7 @@ function fixture(t,{artifact=true,source=sourceText,content=draftText,enabled=tr
 const transport=(f,reads)=>input.prepare({...grounding.context(f.a,f.task,{},'verify'),artifacts:[f.draft],contextReads:reads},{stage:'task_verify'});
 function response(f,{quote=sourceText,text=draftText,sourceId=f.source.id,start=0}={}){
  const s=grounding.snapshot(f.a,f.task),artifact=s.artifacts[0];
- return {passed:true,summary:'已依据原文独立核对时间及范围。',gaps:[],groundingReview:{consistencyIssues:[],format:'compact-v4',scannedArtifactIds:[artifact.id],citations:[{id:'e1',sourceId,quote,start}],requirements:s.requirements.map(r=>({id:r.id,status:'satisfied',claimIds:['c1']})),claims:[{id:'c1',artifactId:artifact.id,text,kind:'fact',supported:true,citationIds:['e1']}],unsupportedClaims:[],conflicts:[]}};
+ return {passed:true,summary:'已依据原文独立核对时间及范围。',gaps:[],groundingReview:{consistencyIssues:[],format:'compact-v5',scannedArtifactIds:[artifact.id],citations:[{id:'e1',sourceId,quote,start}],requirements:s.requirements.map(r=>({id:r.id,status:'satisfied',claimIds:['c1']})),claims:[{id:'c1',artifactId:artifact.id,text,kind:'fact',supported:true,citationIds:['e1']}],unsupportedClaims:[],conflicts:[]}};
 }
 const read=(id,version,content,start=0)=>({request:{tool:'read_segment',sourceId:id,index:0,start,version},result:{ok:true,sourceId:id,version,content,start,canonical:{origin:0},complete:false,next:start+content.length,coverage:{complete:false,providedComplete:false,reachesEnd:false}}});
 const finish=(f,result,wire)=>{const seen=new Set();grounding.observe(seen,wire);return grounding.finish(f.a,f.task,result,{seen});};
@@ -54,7 +54,7 @@ test('real advance keeps requirements, user facts, current draft and source iden
  for(const check of checks){
   assert.deepEqual(check.payload.groundingChecklist.requirements,requirements);
   assert.deepEqual(check.payload.groundingReviewRequest.userInputs,userInputs);
-  assert.equal(check.payload.groundingReviewRequest.deliveryTitle,f.task.title);
+  assert.equal(check.payload.groundingReviewRequest.taskTitle,f.task.title);
   const materialized=input.materialize(check.payload),artifact=materialized.artifacts.find(r=>r.id===f.task.primaryArtifactId);
   assert.equal(artifact.content,draftText);assert.equal(artifact.title,'灰度说明');
   assert.ok(check.payload.sourceCatalog.some(s=>s.id===f.source.id));
@@ -138,5 +138,5 @@ test('observing text in a compact input does not authorize a source withdrawn fr
 test('runtime reports input policy identity without persisting diagnostic metadata into task facts',t=>{
  const f=fixture(t),before=JSON.stringify(f.a.data),status=grounding.status(f.a);
  assert.equal(status.inputProtocol,grounding.INPUT_PROTOCOL);assert.ok(status.inputProtocol);
- assert.equal(status.version,4);assert.equal(status.format,'compact-v4');assert.equal(JSON.stringify(f.a.data),before);
+ assert.equal(status.version,5);assert.equal(status.format,'compact-v5');assert.equal(JSON.stringify(f.a.data),before);
 });

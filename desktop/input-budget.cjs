@@ -70,7 +70,7 @@ function prepare(a,provider,messages,{stage='task_work',shrink=false}={}){
  return {messages:next,payloads:values,identity,diagnostic};
 }
 function commit(seen,prepared){
- if(seen.modelIdentity&&seen.modelIdentity!==prepared.identity){seen.clear();delete seen.sources;delete seen.userInputs;delete seen.toolEvidence;}
+ if(seen.modelIdentity&&seen.modelIdentity!==prepared.identity){seen.clear();delete seen.sources;delete seen.userInputs;delete seen.toolEvidence;delete seen.claimFields;}
  seen.modelIdentity=prepared.identity;
  for(const {value} of prepared.payloads)require('./grounding.cjs').observe(seen,value);
 }

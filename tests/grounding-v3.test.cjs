@@ -23,7 +23,7 @@ function fixture(t,{singleSource=false,content=JSON.stringify({answer:'无法确
 function report(f){
  const s=grounding.snapshot(f.a,f.task),last=f.sources[f.sources.length-1];
  return {passed:true,summary:'逐项核对后，稿件按要求保留未知并披露来源分歧。',gaps:[],groundingReview:{consistencyIssues:[],
-  format:'compact-v4',scannedArtifactIds:[f.draft.id],
+  format:'compact-v5',scannedArtifactIds:[f.draft.id],
   citations:[{id:'e1',sourceId:f.sources[0].id,quote:quoteA,start:0},{id:'e2',sourceId:last.id,quote:quoteB,start:last.content.indexOf(quoteB)}],
   requirements:s.requirements.map(r=>({id:r.id,status:'satisfied',claimIds:['u1','f1']})),
   claims:[{id:'u1',artifactId:f.draft.id,text:'无法确定',kind:'unknown',supported:true,citationIds:['e1','e2']},
@@ -275,7 +275,7 @@ test('compact deferred requirement needs a concrete reason even during a valid c
 
 test('runtime grounding status is read-only and identifies the loaded implementation independently of enablement',t=>{
  const f=fixture(t),before=JSON.stringify(f.a.data),status=grounding.status(f.a);
- assert.equal(status.enabled,true);assert.equal(status.version,grounding.VERSION);assert.equal(status.format,'compact-v4');
+ assert.equal(status.enabled,true);assert.equal(status.version,grounding.VERSION);assert.equal(status.format,'compact-v5');
  assert.match(status.implementationHash,/^[a-f0-9]{64}$/);
  assert.equal(status.implementationHash,require('node:crypto').createHash('sha256').update(fs.readFileSync(require.resolve('../desktop/grounding.cjs'))).digest('hex'));
  assert.ok(status.features.includes('disclosed-source-conflicts'));assert.ok(status.features.includes('shared-citations'));

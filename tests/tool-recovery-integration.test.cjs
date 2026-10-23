@@ -17,7 +17,7 @@ function report(f,c){
  const s=grounding.snapshot(f.a,f.task),artifact=s.artifacts[0],receipt=c.toolEvidence.find(r=>r.operation==='ratio');
  assert.equal(c.groundingReviewRequest.reused,false);assert.equal(receipt.output.value,'0.50');
  assert.equal(c.artifacts.find(r=>r.id===artifact.id).content,resultText);
- return {passed:true,summary:'完整独立核对了比率、原文范围及标题正文一致性',gaps:[],groundingReview:{format:'compact-v4',scannedArtifactIds:[artifact.id],consistencyIssues:[],
+ return {passed:true,summary:'完整独立核对了比率、原文范围及标题正文一致性',gaps:[],groundingReview:{format:'compact-v5',scannedArtifactIds:[artifact.id],consistencyIssues:[],
   citations:[{id:'e-ratio',sourceId:receipt.id,quote:receipt.resultText},{id:'e-scope',sourceId:f.source.id,quote:'仅计已验收记录。',start:sourceText.indexOf('仅计已验收记录。')}],
   requirements:s.requirements.map(r=>({id:r.id,status:'satisfied',claimIds:['c-ratio','c-scope']})),
   claims:[{id:'c-ratio',artifactId:artifact.id,text:'比率为 0.50。',kind:'fact',supported:true,citationIds:['e-ratio']},{id:'c-scope',artifactId:artifact.id,text:'仅计已验收记录。',kind:'fact',supported:true,citationIds:['e-scope']}],unsupportedClaims:[],conflicts:[]}};
