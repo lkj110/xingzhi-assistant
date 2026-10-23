@@ -4,11 +4,11 @@ import {RequestPolicyFields} from './GenerationControls';
 import catalog from '../desktop/model-catalog.json';
 
 export const protocolLabel = type => catalog.protocols.find(p => p.id === type)?.label || 'OpenAI 兼容接口';
-const defaults = {name:'',type:'codex',baseUrl:'',model:'',key:'',reasoning:'medium',jsonMode:true,inputPrice:'',outputPrice:'',authMode:'auto',maxOutputTokens:'',tokenParameter:'max_tokens',apiVersion:'',workspaceId:'',extraBody:'',requestPolicy:{idleMinutes:15,totalMinutes:0,retries:1}};
+const defaults = {name:'',type:'codex',baseUrl:'',model:'',key:'',reasoning:'medium',jsonMode:true,inputPrice:'',outputPrice:'',authMode:'auto',maxOutputTokens:'',contextWindowTokens:'',tokenParameter:'max_tokens',apiVersion:'',workspaceId:'',extraBody:'',requestPolicy:{idleMinutes:15,totalMinutes:0,retries:1}};
 const groups = [...new Set(catalog.presets.map(p => p.group))];
 
 export default function ProviderForm({provider,onClose,onSaved,act,Modal}) {
-  const [form,setForm] = useState(() => ({...defaults,...provider,key:'',extraBody:provider?.extraBody && Object.keys(provider.extraBody).length ? JSON.stringify(provider.extraBody,null,2) : ''}));
+  const [form,setForm] = useState(() => ({...defaults,...provider,key:'',contextWindowTokens:provider?.contextCapability?.contextWindow??'',extraBody:provider?.extraBody && Object.keys(provider.extraBody).length ? JSON.stringify(provider.extraBody,null,2) : ''}));
   const [presetId,setPresetId] = useState(() => provider ? catalog.presets.find(p => p.type === provider.type && p.baseUrl === provider.baseUrl)?.id || '' : 'codex');
   const [status,setStatus] = useState(null), [error,setError] = useState(''), [busy,setBusy] = useState(false), [detecting,setDetecting] = useState(false);
   const [listing,setListing] = useState(false), [modelList,setModelList] = useState(null), [listError,setListError] = useState('');
@@ -16,7 +16,7 @@ export default function ProviderForm({provider,onClose,onSaved,act,Modal}) {
   const protocol = catalog.protocols.find(p => p.id === form.type);
   const resetList = () => { setModelList(null); setListError(''); };
   const set = (key,value) => {
-    setForm(f => ({...f,[key]:value}));
+    setForm(f => ({...f,[key]:value,...(['model','baseUrl','type'].includes(key)&&f[key]!==value?{contextWindowTokens:''}:{})}));
     if (['baseUrl','key','authMode','apiVersion','workspaceId','clearKey'].includes(key)) resetList();
   };
   async function detect() {
@@ -39,7 +39,7 @@ export default function ProviderForm({provider,onClose,onSaved,act,Modal}) {
   function chooseType(type) {
     const next = catalog.protocols.find(p => p.id === type);
     setPresetId(''); resetList(); setError('');
-    setForm(f => ({...f,type,baseUrl:next.baseUrl,model:'',key:'',clearKey:!!provider?.hasKey,authMode:'auto',apiVersion:'',workspaceId:'',extraBody:'',maxOutputTokens:'',tokenParameter:'max_tokens'}));
+    setForm(f => ({...f,type,baseUrl:next.baseUrl,model:'',key:'',clearKey:!!provider?.hasKey,authMode:'auto',apiVersion:'',workspaceId:'',extraBody:'',maxOutputTokens:'',contextWindowTokens:'',tokenParameter:'max_tokens'}));
     if (type === 'codex') detect();
   }
   async function listModels() {
@@ -92,6 +92,7 @@ export default function ProviderForm({provider,onClose,onSaved,act,Modal}) {
                 <option value="auto">按接口自动选择</option><option value="bearer">Authorization: Bearer</option><option value="x-api-key">x-api-key（Claude）</option><option value="x-goog-api-key">x-goog-api-key（Gemini）</option><option value="api-key">api-key（Azure）</option><option value="none">无需鉴权</option>
               </select></label>
               <label>最大输出 token<input aria-label="最大输出 token" type="number" min="16" max="1000000" step="1" value={form.maxOutputTokens ?? ''} onChange={e => set('maxOutputTokens',e.target.value)} placeholder={form.type === 'anthropic' ? '默认 8192' : '留空使用服务商默认值'}/><small>包含部分模型的推理消耗，不能超过模型上限。被截断的结果不会作为完整产出。</small></label>
+              <label>模型上下文窗口 token<input aria-label="模型上下文窗口 token" type="number" min="1024" max="10000000" step="1" value={form.contextWindowTokens??''} onChange={e=>set('contextWindowTokens',e.target.value)} placeholder="未知时留空"/><small>仅填写服务商确认的窗口。输入预算会预留输出与包装余量；未确认时保留字符保护并标明估算。</small></label>
               {['openai','azure'].includes(form.type) && <label>输出上限参数<select aria-label="输出上限参数" value={form.tokenParameter} onChange={e => set('tokenParameter',e.target.value)}><option value="max_tokens">max_tokens（多数兼容服务）</option><option value="max_completion_tokens">max_completion_tokens（部分推理模型）</option></select></label>}
               {['anthropic','azure'].includes(form.type) && <label>API 版本<input aria-label="API 版本" value={form.apiVersion} onChange={e => set('apiVersion',e.target.value)} placeholder={form.type === 'anthropic' ? '默认 2023-06-01' : '旧版必填；/openai/v1 可留空'}/></label>}
               {form.type === 'anthropic' && <label>Claude 工作空间 ID<input aria-label="Claude 工作空间 ID" value={form.workspaceId} onChange={e => set('workspaceId',e.target.value)} placeholder="仅跨工作空间密钥需要填写"/></label>}

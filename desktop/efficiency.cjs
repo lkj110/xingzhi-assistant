@@ -17,15 +17,18 @@ async function call(a,provider,key,messages,options,invoke){
   const row={...(provider.type==='codex'?{producerSchema:2}:{}),id:crypto.randomUUID(),at:new Date().toISOString(),jobId:job?.id||null,taskId:a.activeSpendTask?.id||null,runId:run?.id||taskRun?.id||null,spendScope:options.spendTicket?.scopeKey||null,spendTicketId:options.spendTicket?.id||null,pricing:price,role:options.role||'execute',stage:options.stage||'work',providerId:provider.id||null,requestId:options.requestId||null,attempt:options.attempt||1,fallbackFrom:options.fallbackFrom||null,model:provider.model,reasoning:provider.reasoning||null,inputChars:messages.reduce((n,m)=>n+String(m.content||'').length,0),status:'running'};
   a.data.modelCalls ||= [];a.data.modelCalls.unshift(row);a.data.modelCalls=a.data.modelCalls.slice(0,1000);
   row.taskRunId=taskRun?.id||null;row.providerName=provider.name||null;row.providerType=provider.type||null;
+  row.inputAttribution=require('./input-attribution.cjs').measure(messages);
+  if(options.inputBudget)row.inputAttribution.budget=structuredClone(options.inputBudget);
   if(options.routing)row.routing=pick(options.routing,['mode','tier','reason','primaryId']);
   const syncModels=require('./run-models.cjs').start(row,[run,taskRun]);
   let usage;
-  try{try{a.save();}catch{throw persistenceError();}const result=await invoke(provider,key,messages,{...options,onProgress:value=>{row.lastActivityAt=value.lastActivityAt;options.onProgress?.(value);},onUsage:value=>{usage=spend.usage(value);options.onUsage?.(value);}});row.status='done';return result;}
+  try{try{a.save();}catch{throw persistenceError();}const result=await invoke(provider,key,messages,{...options,onProgress:value=>{row.lastActivityAt=value.lastActivityAt;options.onProgress?.(value);},onReceipt:value=>{row.transportReceipt=structuredClone(value);syncModels();try{a.save();}catch{throw persistenceError();}options.onReceipt?.(value);},onUsage:value=>{usage=spend.usage(value);options.onUsage?.(value);}});row.status='done';return result;}
   catch(error){const normalized=error.localPersistence?error:normalizeModelError(error);row.status=options.signal?.aborted||normalized.code==='MODEL_CANCELLED'?'stopped':'error';row.errorCode=safeErrorCode(normalized);row.errorMessage=normalized.message;row.diagnostic=require('./model-errors.cjs').diagnostic(normalized);normalized.recoveryContext={stage:row.stage,taskId:row.taskId,model:row.model,requestId:row.requestId};if(['idle','total'].includes(normalized.timeoutKind))row.timeoutKind=normalized.timeoutKind;throw normalized;}
   finally{
     row.durationMs=Date.now()-start;
     if(usage)Object.assign(row,usage);
     row.estimatedUSD=spend.cost(usage,price);row.usageReported=!!usage;
+    row.inputAttribution=require('./input-attribution.cjs').settle(row.inputAttribution,usage);
     row.reservedUSD=!usage?options.spendTicket?.reservedUSD||0:0;
     syncModels();
     if(job)spend.addUsage(job.usage ||= spend.emptyUsage(),usage,row.estimatedUSD);

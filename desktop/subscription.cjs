@@ -20,7 +20,7 @@ function classifyFailure(error={}) {
   const normalized=normalizeModelError(error);
   if(normalized.code!=='MODEL_FAILED')return normalized;
   const code=String(error?.code||''),message=String(error?.message||'');
-  if(['context_length_exceeded','context_window_exceeded'].includes(code)||/exceeds? (?:the )?(?:model.s? )?context (?:window|length)|maximum context length/i.test(message))return modelError('MODEL_CONFIG','本次材料超过模型上下文上限，请缩小本轮引用材料后继续；已有资料已保存。',false);
+  if(['context_length_exceeded','context_window_exceeded'].includes(code)||/exceeds? (?:the )?(?:model.s? )?context (?:window|length)|maximum context length/i.test(message))return Object.assign(modelError('MODEL_CONFIG','本次材料超过模型上下文上限，请缩小本轮引用材料后继续；已有资料已保存。',false),{contextOverflow:true});
   if(['insufficient_quota','usage_limit_reached','quota_exceeded'].includes(code)||/you.ve hit your usage limit|usage limit reached/i.test(message))return modelError('MODEL_QUOTA','订阅模型额度已用完，请等待额度恢复后继续；已有进度已保存。',false);
   if(['invalid_api_key','token_expired','authentication_error'].includes(code))return modelError('MODEL_AUTH','订阅登录已失效，请在模型设置中重新检测登录后继续。',false);
   if(['model_not_found','unsupported_model'].includes(code))return modelError('MODEL_CONFIG','当前订阅无法使用这个模型，请重新检测并选择可用模型。',false);
@@ -35,6 +35,8 @@ function cliFailure(error={}) {
   // retain its message, dispatch flags, retry/repair proofs or arbitrary fields.
   const hints={MODEL_CANCELLED:'操作已停止',MODEL_AUTH:'订阅登录已失效，请在模型设置中重新检测登录后继续。',MODEL_CONFIG:'订阅模型配置无效，请检查模型与输入设置后继续。',MODEL_QUOTA:'订阅模型额度已用完，请等待额度恢复后继续；已有进度已保存。',MODEL_BLOCKED:'模型服务拦截了本次请求，已停止自动推进。',MODEL_TIMEOUT:'模型请求超时，请稍后重试或检查服务。',MODEL_NETWORK:'无法连接模型服务，请检查服务地址和网络。'};
   const result=modelError(classified.code,hints[classified.code]||'订阅模型未完成本次请求，已有进度已保留。',classified.automaticRetry===true);
+  // Derive this flag from the documented CLI failure, never its arbitrary fields.
+  if(['context_length_exceeded','context_window_exceeded'].includes(String(error?.code||''))||/exceeds? (?:the )?(?:model.s? )?context (?:window|length)|maximum context length/i.test(String(error?.message||'')))result.contextOverflow=true;
   if(classified.code==='MODEL_HTTP'&&Number.isInteger(classified.httpStatus)&&classified.httpStatus>=400&&classified.httpStatus<=599)result.httpStatus=classified.httpStatus;
   result.diagnostic={source:'codex_cli',kind:'turn_failed',fingerprint:require('node:crypto').createHash('sha256').update(JSON.stringify(error)).digest('hex').slice(0,16)};return result;
 }
@@ -125,9 +127,10 @@ function validateInput(messages){
   if(inputChars>maxInputChars)throw inputSizeError(inputChars);
   return input;
 }
-async function chat(config, _key, messages, {signal, onUsage, onProgress, timeoutMs} = {}) {
+async function chat(config, _key, messages, {signal, onUsage, onProgress, onReceipt, timeoutMs} = {}) {
   let input;try{input=validateInput(messages);}catch(e){onUsage?.({inputTokens:0,outputTokens:0,cachedInputTokens:0});throw e;}
   let root,execEntered=false,stage='executable';
+  const receipt=require('./model-receipt.cjs').create('codex_cli',input);
   try {
     if(signal?.aborted)throw cancelledError();
     const bin = executable();
@@ -144,7 +147,7 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, timeou
     const args = ['exec','--ignore-user-config','--ephemeral','--sandbox','read-only','--skip-git-repo-check','--color','never','--json','--model',config.model,
       ...protocol.configuration(),'-c',`model_reasoning_effort=${JSON.stringify(config.reasoning || 'medium')}`,
       '--output-schema',schema,'--output-last-message',output,'-'];
-    let completed = false, usage, failure, streamError;
+    let completed = false, failure, streamError;
     if(signal?.aborted)throw cancelledError();
     // Set before processCall, including synchronous spawn/argument failures.
     execEntered=true;
@@ -152,16 +155,18 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, timeou
       input,
       onLine(line) {
         let event; try { event = JSON.parse(line); } catch { return; }
-        if (event.type === 'turn.completed') { completed = true; usage = event.usage;
-    if (Number.isFinite(usage?.input_tokens) && Number.isFinite(usage?.output_tokens)) onUsage?.({inputTokens:usage.input_tokens,outputTokens:usage.output_tokens,...(Number.isFinite(usage.cached_input_tokens)?{cachedInputTokens:usage.cached_input_tokens}:{})});
-        }
+        const usage=event.usage;
+        receipt.event(event.type,{requestId:event.request_id,threadId:event.thread_id,errorCode:['error','turn.failed'].includes(event.type)?cliFailure(event.error||event).code:undefined,
+          ...(['turn.completed','turn.failed'].includes(event.type)&&usage!=null?{usage:{inputTokens:usage.input_tokens,outputTokens:usage.output_tokens,...(Object.hasOwn(usage,'cached_input_tokens')?{cachedInputTokens:usage.cached_input_tokens}:{})}}:{})});
+        if (event.type === 'turn.completed') completed = true;
         if (event.type === 'error') streamError=cliFailure(event.error||event);
         if (event.type === 'turn.failed') failure=event.error&&Object.keys(event.error).length?cliFailure(event.error):streamError||cliFailure();
         const boundaryError = protocol.hostToolError(event.item);
         if (boundaryError) throw boundaryError;
       }});
+    receipt.event('process_exit',{exitCode:result.code});
     const rejectedInput=inputFailure(result.output);
-    if(rejectedInput){onUsage?.({inputTokens:0,outputTokens:0,cachedInputTokens:0});throw rejectedInput;}
+    if(rejectedInput){receipt.event('error',{errorCode:rejectedInput.code,usage:{inputTokens:0,outputTokens:0,cachedInputTokens:0}});throw rejectedInput;}
     if (failure) throw failure;
     if (result.code !== 0 || !completed) throw streamError||incomplete(result.code,completed);
     if (!fs.existsSync(output) || fs.statSync(output).size > 2_000_000) throw modelError('MODEL_INVALID_RESPONSE','订阅模型没有返回有效结果',false);
@@ -176,6 +181,9 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, timeou
     // Authentication, quotas and CLI failures require a deliberate retry.
     if (!signal?.aborted && !(require('./model-errors.cjs').fallbackEligible(normalized)||normalized.code==='MODEL_CLI'&&normalized.automaticRetry===true)) { normalized.modelFailure = true; normalized.automaticRetry = false; }
     throw normalized;
-  } finally { if(root)try{fs.rmSync(root,{recursive:true,force:true});}catch{/* Cleanup cannot change the proven dispatch boundary or hide cancellation. */} }
+  } finally {
+    try{if(execEntered){const record=receipt.snapshot();if(record.usageStatus==='reported')onUsage?.(record.usage);onReceipt?.(record);}}
+    finally{if(root)try{fs.rmSync(root,{recursive:true,force:true});}catch{/* Cleanup cannot change the proven dispatch boundary or hide cancellation. */}}
+  }
 }
 module.exports = {chat,status,identity,processCall,cliFailure,incomplete,inputFailure,maxInputChars,validateInput,executable};

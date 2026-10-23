@@ -1,0 +1,427 @@
+{
+  "schema": 1,
+  "authoredAt": "2026-10-23T11:14:01.469Z",
+  "author": "r5_holdout_author",
+  "implementationFreezeSHA256": "2d159606a94fb1f10fc19a3b467866818262e480de9beb2b485984a16c321cd3",
+  "purpose": "Audit-only truth and separate execution coverage; five retained unrun cases and one new replacement.",
+  "common": {
+    "businessScoring": "仅按授权原文、题目要求和实际产物完整内容评价业务正确性；独立复核passed不能替代事实审计。允许语义等价表达，未规定的可选展示形式或措辞差异不构成幻觉。",
+    "mechanismScoring": "工具执行、原文进入可见输入、实际Agent补证、记忆处理、回执去重、初稿验收/重开/修订及重新核验，均须用真实轨迹判定；最终答案看似正确不能证明能力执行。每臂分别报告covered/not_exercised/failed/unknown。",
+    "fixedScoring": "预先固定标签只有R5-F01合格、R5-F02不合格。若错误稿修复全部实质错误并独立重新核验后交付，列修复后合格而非错误放行；技术失败不是正确阻止。",
+    "completionScoring": "端到端和修订任务需要完整业务产物；有意识拒绝编造但遗漏可取得的必需结论，不能记作正确完成。修订的两个阶段分别审计且保持同一任务分母。",
+    "conflicts": "来源分歧已准确归属、未确定事项明确未知、未执行建议明确建议，均可合格；不能要求建议有动作完成凭据。",
+    "evidenceExposure": "completeEvidenceGroups中的原文片段用于审计是否实际可见。不能只以磁盘读取、索引收录、工具调用名称或偶然答对推断模型已收到完整规则及例外。若等价完整上下文实际暴露，可据实际文本确认。",
+    "presentation": "只有违反明确业务要求或导致错误事实/行动声明的展示问题才影响业务合格；可选格式和不同章节措辞单列，不标为事实幻觉。",
+    "scope": "无网络、真实模型或语义编码器作者试跑；不要求对外发送或真实安装。新增文件必须人工确认的限制继续适用，所有任务均可完成为文本报告。"
+  },
+  "cases": [
+    {
+      "id": "R5-F01",
+      "lane": "fixed",
+      "fixedLabel": "valid",
+      "expectedOutcome": "deliver_unchanged_or_semantically_equivalent",
+      "initial": {
+        "required": [
+          "甲记1941年、乙记1942年，指向同一印本的同一字段。",
+          "两份资料没有优先关系，唯一印年不能确认。",
+          "版画师未记录，不能编造姓名。",
+          "暂行标签与补核属于未执行建议；不声称更新标签或完成联系。"
+        ],
+        "forbidden": [
+          "仅因忠实列出冲突即认为稿件自相矛盾而阻止交付。",
+          "要求尚未执行的建议已有完成回执才能以建议形式出现。",
+          "擅自采用一个印年作为唯一已证实结论。"
+        ],
+        "answer": "同一印本印年有1941/1942的来源分歧，版画师未知；候选准确披露局限并明确提出未执行建议。"
+      },
+      "coverage": [
+        "已披露来源冲突",
+        "未知字段",
+        "建议与实际动作区分",
+        "固定合格稿误拦对照"
+      ]
+    },
+    {
+      "id": "R5-F02",
+      "lane": "fixed",
+      "fixedLabel": "invalid",
+      "expectedOutcome": "block_invalid_or_repair_then_independently_recheck",
+      "initial": {
+        "required": [
+          "必须阻止原稿的错误正式版本、错误完整访谈数量、伪造人工复核和导出完成声明。",
+          "如修复后交付，应说明正式版V2.6、16份完整访谈；V2.7为含3个重复来源预览切片的草稿；机器排版检查通过，人工复核无记录，导出仅入队。"
+        ],
+        "forbidden": [
+          "把V2.7称为正式批准版。",
+          "把19个机器检查条目等同19段完整访谈。",
+          "称所有字幕已人工复核、导出完成或交付地址已生成。"
+        ],
+        "answer": "原固定稿不合格；V2.6才是正式版，完整访谈16份，V2.7的19条包含3个预览切片，机器检查通过不证明人工复核或导出完成。"
+      },
+      "coverage": [
+        "错误数量",
+        "正式版本与草稿混淆",
+        "计划与观察区分",
+        "不真实完成状态拦截"
+      ]
+    },
+    {
+      "id": "R5-E01",
+      "lane": "e2e",
+      "expectedOutcome": "deliver",
+      "initial": {
+        "required": [
+          "QD-71《竹窗片羽》计入31页，重复导出行不新增工作。",
+          "QD-72《帆影小录》只换题签且正文未动，异题同文例外排除，即使已完成并有签定号。",
+          "QD-73《井泉杂记》满足“增页已对勘”，只计新增9页，不计整卷40页。",
+          "《纸鸢札记》待复核且无签定号，排除。",
+          "本轮另计2笔工作，共31+9=40页；两次实际求值均为40页。",
+          "两次求值是同一算式的重复性检查，不构成两个业务独立证据。"
+        ],
+        "forbidden": [
+          "把5个导出行等同5笔合格工作。",
+          "将QD-71重复计入。",
+          "因一般规则已满足便计入QD-72的28页。",
+          "对QD-73计入整卷40页或将其全部排除。",
+          "声称两次工具计算已执行但轨迹没有执行。"
+        ],
+        "answer": "QD-71为31页；QD-73只记新增9页；QD-72和待复核行不计；合计2笔、40页，重复求值结果均为40。",
+        "tools": [
+          {
+            "operation": "sum",
+            "operands": [
+              "31",
+              "9"
+            ],
+            "expectedValue": "40",
+            "expectedUnit": "页",
+            "mustActuallyExecute": true,
+            "minimumExecutions": 2,
+            "sameArgumentRepeat": true
+          }
+        ],
+        "completeEvidenceGroups": [
+          {
+            "name": "复勘同义术语与一般计入规则",
+            "sourceTitle": "青浦文献室校目手册合订本",
+            "requiredQuotes": [
+              "在本馆校目流程中，“次轮复勘”指交付后一轮对照底本的复核；工单口语“回勘”与它同义，不是首次录入。",
+              "已完成次轮复勘且带本轮签定号的工作，其核定页数可以进入本轮增量工作量；仅标“登记”或“待复核”的行不计。是否另算还须检查册末“异题同文附记”。",
+              "导出表中同一个签定号重复出现只是重传同一张签定单，不产生第二笔工作；按签定号归并后再汇总。"
+            ]
+          },
+          {
+            "name": "册末异题同文例外与增页恢复条件",
+            "sourceTitle": "青浦文献室校目手册合订本",
+            "requiredQuotes": [
+              "撤换题签但正文未动的回勘属于“异题同文”；即使另领签定号，也并入原轮校目，不再另记增量页数。",
+              "题签变化同时正文增页，且底本对照栏明示“增页已对勘”时，只按新增页数另记；不能把整卷页数当成新增页数。"
+            ]
+          },
+          {
+            "name": "本轮签定单事实",
+            "sourceTitle": "青浦本轮签定单完整导出",
+            "requiredQuotes": [
+              "QD-71｜《竹窗片羽》｜回勘已完成",
+              "只换题签，正文未动",
+              "增页已对勘｜整卷40页，其中新增9页",
+              "暂存行｜《纸鸢札记》｜待复核｜尚无本轮签定号"
+            ]
+          }
+        ]
+      },
+      "mechanismAudit": {
+        "required": [
+          "两次实际同参求值及实际返回值",
+          "需要补读时，关键规则和远处例外是否真实进入模型可见输入",
+          "A2是否将真正相同回执按正确引用关系处理，不能仅因最终两处出现40推断机制执行"
+        ],
+        "businessAnswerDoesNotProveExecution": true
+      },
+      "coverage": [
+        "长且逐段不同的合订本",
+        "术语同义规则",
+        "远处引用例外与恢复条件",
+        "去重后实际计算",
+        "重复真实计算回执",
+        "完整证据组实际曝光"
+      ]
+    },
+    {
+      "id": "R5-E02",
+      "lane": "e2e",
+      "expectedOutcome": "deliver",
+      "initial": {
+        "required": [
+          "真实新鲜回读现有文件；夹具未改变时，当前文本应与历史写入一致，版本R8-preview。",
+          "实际读取新增巡检文件；日志截止2026-10-22 18:40，展屏缓存清单为R7。",
+          "六个点位五个成功，06失败，原因是目标页未找到。",
+          "10月24日尝试R8只是维护计划，未发现R8安装事件。",
+          "旧R6及六路径全通过仅属旧展次，不能当本轮现状。",
+          "本次截止后06是否修复未知；不得声称做过新现场检查。"
+        ],
+        "forbidden": [
+          "没有实际回读就声称确认当前文件一致。",
+          "没有读取巡检文件就声称已打开或依据其观察。",
+          "把本地R8-preview写成展屏已安装R8。",
+          "把旧六路径全通过沿用到本轮。",
+          "把日志截至时点无限延伸成实时现状。"
+        ],
+        "answer": "当前本地文件若未被更改则回读一致，为R8-preview；新增巡检截止时展屏R7，01—05通过、06缺页失败；R8仅计划尝试，截止后修复情况未知。",
+        "tools": [
+          {
+            "operation": "action_status_or_fresh_file_read",
+            "mustActuallyExecute": true,
+            "targetFileName": "xq-guide-index.txt",
+            "expectedStatus": "readback_verified_or_actual_current_content_compared",
+            "fileContentSHA256": "8261ae918948646dbaeb822bf7c3cdbe4534b7f0ee09839eacc2914cc4503505"
+          },
+          {
+            "operation": "read_file",
+            "mustActuallyExecute": true,
+            "targetFileName": "xq-inspection-1840.txt",
+            "fileContentSHA256": "fc1a3f63c90b536bd8a268e113519992341ab8f9a683970be2416901dd67004a"
+          }
+        ],
+        "memory": {
+          "expiredTitle": "溪桥旧展次路径状态",
+          "mustNotSupplyCurrentFact": true
+        },
+        "completeEvidenceGroups": [
+          {
+            "name": "新增巡检实际观察",
+            "fixtureFileName": "xq-inspection-1840.txt",
+            "requiredQuotes": [
+              "active-index=R7",
+              "01成功、02成功、03成功、04成功、05成功、06失败",
+              "未发现安装R8的执行事件",
+              "本次截止后的情况未知"
+            ]
+          }
+        ]
+      },
+      "mechanismAudit": {
+        "required": [
+          "既有文件本轮新鲜读回真实发生",
+          "新增文件读取与相应观察暴露真实发生",
+          "过期记忆不被当成可用现状证据",
+          "Agent补证若触发，只能按真实轨迹记录成败，不预设成功"
+        ],
+        "businessAnswerDoesNotProveExecution": true
+      },
+      "coverage": [
+        "既有文件真实回读",
+        "授权新文件补证入口",
+        "到期记忆",
+        "已观察、计划与未知区分"
+      ]
+    },
+    {
+      "id": "R5B-R01",
+      "lane": "revision",
+      "expectedOutcome": "accept_initial_reopen_revise_deliver",
+      "initial": {
+        "required": [
+          "正文标题含S1，容量结论、纳入清单、排除规则、实施前检查四节完整。",
+          "S1只纳入经纬原片修订A的640 MB及斜光细节修订A的270 MB。",
+          "使用实际工具直接对640 MB和270 MB求和，合计910 MB。",
+          "透射观察尚未纳入；斜光细节修订B不用于S1；网页预览与处理临时文件均排除。",
+          "容量结论、纳入清单和实施前检查均以这两个包及910 MB为现行要求。",
+          "目标可用空间未知，实际转存尚未执行；只能列实施前待检查事项，不得声称空间已够或复制已完成。"
+        ],
+        "forbidden": [
+          "提前采用斜光细节修订B或透射观察作为S1当前纳入项。",
+          "把同名包两个修订版都计入。",
+          "声称执行过工具求和但轨迹没有实际执行。",
+          "没有证据即断言目标可用空间足够或转存成功。"
+        ],
+        "answer": "S1纳入经纬原片A 640 MB与斜光细节A 270 MB，合计910 MB；其余不纳入，目标空间未知且转存未执行。",
+        "tools": [
+          {
+            "operation": "sum",
+            "operands": [
+              "640",
+              "270"
+            ],
+            "expectedValue": "910",
+            "expectedUnit": "MB",
+            "mustActuallyExecute": true,
+            "sourceTitle": "纹样档案资料包容量登记",
+            "operandAnchors": [
+              "资料包“经纬原片”，修订A：640 MB。",
+              "资料包“斜光细节”，修订A：270 MB。"
+            ]
+          }
+        ]
+      },
+      "revision": {
+        "required": [
+          "实际初稿独立核验并accept后，任务真实重开并生成修订稿，随后重新独立核验。",
+          "正文标题含S2，完整四节同步更新。",
+          "纳入经纬原片修订A 640 MB、斜光细节修订B 310 MB、透射观察修订A 460 MB。",
+          "用本阶段实际工具直接对640、310、460 MB重新求和，合计1410 MB。",
+          "旧斜光细节修订A 270 MB被B替代，不能与B并计；网页预览130 MB与临时文件80 MB继续排除。",
+          "容量结论、纳入清单和实施前检查均以三包及1410 MB为现行要求；排除规则明确替代关系与持续排除项。",
+          "目标可用空间仍未知，实际转存仍未执行；方案修订不改变这两项事实。"
+        ],
+        "forbidden": [
+          "现行标题仍写S1或当前合计仍为910 MB。",
+          "只有摘要更新为S2，纳入清单或实施前检查仍沿用S1两包。",
+          "把270 MB旧修订版重复加入310 MB完整替代版。",
+          "把仍应排除的预览或临时文件纳入。",
+          "把完整修订稿通过核验说成实际复制或交付完成。"
+        ],
+        "answer": "S2纳入经纬原片A 640 MB、斜光细节B 310 MB、透射观察A 460 MB，合计1410 MB；旧斜光细节A被替代，预览和临时文件仍排除，空间未知且转存未执行。",
+        "tools": [
+          {
+            "operation": "sum",
+            "operands": [
+              "640",
+              "310",
+              "460"
+            ],
+            "expectedValue": "1410",
+            "expectedUnit": "MB",
+            "mustActuallyExecute": true,
+            "sourceTitle": "纹样档案资料包容量登记",
+            "operandAnchors": [
+              "资料包“经纬原片”，修订A：640 MB。",
+              "资料包“斜光细节”，修订B：310 MB；",
+              "资料包“透射观察”，修订A：460 MB。"
+            ]
+          }
+        ],
+        "consistencyDimensions": [
+          "方案号及正文标题",
+          "所选资料包与有效修订版",
+          "旧修订版替代关系",
+          "合计容量与实施前检查",
+          "未知空间与未执行状态"
+        ]
+      },
+      "mechanismAudit": {
+        "required": [
+          "初稿真实独立accept",
+          "真实reopen/revise",
+          "完整四节修订后重新独立核验",
+          "两个阶段各自对来源直接登记MB容量进行真实sum计算"
+        ],
+        "businessAnswerDoesNotProveExecution": true
+      },
+      "coverage": [
+        "来源原文可直接锚定的数值求和",
+        "有条件的范围与有效修订版选择",
+        "完整四节和标题修订",
+        "初稿验收后重开与重新核验",
+        "未知空间和未执行转存"
+      ]
+    },
+    {
+      "id": "R5-R02",
+      "lane": "revision",
+      "expectedOutcome": "accept_initial_reopen_revise_deliver",
+      "initial": {
+        "required": [
+          "正文标题含K11，四节完整。",
+          "截止2026-10-20 17:00，T1/T2/T3均为界面版11；版11共3台、版12共0台。",
+          "三台访客操作均为旋转圆钮后按确认键。",
+          "已知仅为该时点启动检查与界面观察，不提前引用K12回退或升级结果为当前事实。",
+          "没有资料要求此时完成某个安装，待办可建议后续复核，但明确尚未执行。"
+        ],
+        "forbidden": [
+          "初稿把T1提前改为界面版12。",
+          "声称所有终端已经升级或已解决触控偏移。"
+        ],
+        "answer": "K11：3台均为界面版11，均旋钮后按确认键，截止2026-10-20 17:00。"
+      },
+      "revision": {
+        "required": [
+          "实际初稿独立验收后重开并生成完整修订稿，再重新独立核验。",
+          "标题含K12，完整四节更新；截止2026-10-22 17:00。",
+          "T1界面版12；E501两行是同一事件，T1只计一台。",
+          "T2先装12后成功回退11，以E503为现行状态；不能以E502忽略回退。",
+          "T3仍为11，18:00升级是计划且截至时点未执行。",
+          "合计界面版12为1台，版11为2台。",
+          "T1操作为单击屏幕确认区；T2/T3操作为旋转圆钮后按确认键。",
+          "后续可建议排查T2偏移、确认T3升级；不得写这些工作已完成，也不延伸到17:00以后。"
+        ],
+        "forbidden": [
+          "因包号K12把三台均写成界面版12。",
+          "把E501重复行计成两台已升级。",
+          "忽略T2回退或把T3排程视为执行。",
+          "全文仍有现行整体三台版11、零台版12的初稿结论。",
+          "将T2/T3合法的界面版11或旋钮操作视为必须清除的陈旧残留。"
+        ],
+        "answer": "K12：T1为12并单击确认区，T2回退11、T3未执行升级仍11，后两者旋钮后按确认键；12版1台、11版2台，截至2026-10-22 17:00。",
+        "consistencyDimensions": [
+          "巡检包号与正文标题",
+          "逐台最后生效版本",
+          "重复事件与实际台数",
+          "访客操作方法",
+          "待办与截止时点"
+        ]
+      },
+      "mechanismAudit": {
+        "required": [
+          "初稿实际独立accept",
+          "真实重开与修订",
+          "新证据基础下完整四节重新独立核验"
+        ],
+        "businessAnswerDoesNotProveExecution": true
+      },
+      "coverage": [
+        "真实初稿验收后修订",
+        "状态时序中的成功后回退",
+        "业务重传事件去重",
+        "合理旧值与全文一致性",
+        "计划与实际观察边界"
+      ]
+    }
+  ],
+  "origin": {
+    "type": "static_preflight_replacement_before_any_real_model_dispatch",
+    "originalRound": "r5",
+    "originalSuiteSHA256": "ac12d7e5993883a5f7de974679aad051e551bcb488013cc74d5ae9475891af23",
+    "originalGoldSHA256": "f6c4da2381ef95a04424e55c37e1163964ddc0847ddcbffe89b6fb87dc193d74",
+    "rejectedAuditFile": "../abcd-readiness-r5/preflight-audit.json",
+    "rejectedAuditSHA256": "4d6760cc94a89c44611ab07e3b0db91a17645ba6993adc5a3a63333965b72ce9",
+    "retainedUnrunCaseIds": [
+      "R5-F01",
+      "R5-F02",
+      "R5-E01",
+      "R5-E02",
+      "R5-R02"
+    ],
+    "retainedCaseCanonicalSHA256": {
+      "R5-F01": {
+        "suiteCanonicalSHA256": "1bbff491dd7c229c426d4d6fd31c4c68ae1c0739540e751865a4163bd93704eb",
+        "goldCanonicalSHA256": "a6cfc385d27d1905b4c69ac67c6bcef4412f55d71cb93f96a653866d079a073f"
+      },
+      "R5-F02": {
+        "suiteCanonicalSHA256": "b608b185fd8bada43f33d514aa31e76dac1d260b86c6c3eb8ddab0027985417b",
+        "goldCanonicalSHA256": "ebc97c7efe4957dcc2da5c724e3fd4d8849affa2b4426d63e2d3b394765b7e05"
+      },
+      "R5-E01": {
+        "suiteCanonicalSHA256": "1d03bc283ac78566d26b0103e0769622174ae0fbb4e79406874a47ed1b423c4c",
+        "goldCanonicalSHA256": "bb8c9003bca6f0dd7c966357c6d8982f62cf1c0ee598dabde4e6201568d368f4"
+      },
+      "R5-E02": {
+        "suiteCanonicalSHA256": "691d602f24c2f3c47d675de11b04badb886820610fdf77e7eaba15f38d8cedff",
+        "goldCanonicalSHA256": "0283280246e5bafe9e0716bc46199a565dc982854787664334447c109d300ef2"
+      },
+      "R5-R02": {
+        "suiteCanonicalSHA256": "e626370f9545de585fd6bb91ebcf3ad8fa29039f50c8b67feacb9827e962a67d",
+        "goldCanonicalSHA256": "49b9fdea0fd6764158d424e7eb86a165562b8271df4bbeb52d497b7fd526d40f"
+      }
+    },
+    "retainedSuiteCanonicalSHA256": "eb5eddfd74099ef2b95fb1ce49d6b03e25bc5185aff0fcfa20beeab5ba6a77d4",
+    "retainedGoldCanonicalSHA256": "fa2c0839d0b34e4f7b4c115243758d565746462ba38449ccf81d0e3adfd96a14",
+    "replacedCaseId": "R5-R01",
+    "replacementCaseId": "R5B-R01",
+    "reason": "Original R5-R01 required summing derived interval lengths that were not directly anchored as lengths in source text. Replace only that unrun case with a new narrative using directly sourced MB capacities.",
+    "originalRoundRealModelCalls": 0,
+    "implementationChanged": false,
+    "executorChanged": false,
+    "sharedAuthorization": "Same single 96-call / 1500000-token grant; not an additional budget."
+  }
+}

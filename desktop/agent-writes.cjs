@@ -56,6 +56,8 @@ async function prepare(a,job,tool,args) {
   if(task.steps.some(s=>!s.done&&s.outputRole==='primary'))throw Error('主稿修订尚未完成，不能交付旧版本');
   if(task.status==='paused')throw new Error('事项已暂停');
   const artifact=require('./deliverables.cjs').select(a,task,tool==='write_file'?args.artifactId:undefined);
+  await require('./tool-evidence.cjs').refreshForDelivery(a,task);
+  require('./grounding.cjs').assertDelivery(a,task);
   const supporting=require('./deliverables.cjs').role(a,task,artifact)==='supporting';
   if(supporting&&!args.filename)throw Error('保存辅助报告必须指定独立文件名');
   if(tool==='write_file'&&!job.outputFolder)throw new Error('此委托尚未选择产出文件夹');
@@ -73,6 +75,7 @@ async function prepare(a,job,tool,args) {
   if(tool==='github_comment') {
     if(typeof args.body!=='string'||!args.body.trim()||args.body.length>10000)throw new Error('评论内容需要 1–10000 字符');
     body=args.body.trim();
+    require('./grounding.cjs').assertPayload(a,task,body,artifact.id);
   }
   if(tool==='github_update') {
     if(args.state!==undefined&&!['open','closed'].includes(args.state))throw new Error('Issue 状态无效');
@@ -219,6 +222,9 @@ async function executeLocked(a,job,record) {
   let attempted=false;
   if(['lark_create','lark_update'].includes(record.tool)&&mode(job,record.tool,record.taskId)==='auto')record.authorization={kind:'task_policy',...require('./lark-create-policy.cjs').policy(job,record.taskId)};
   require('./execution-gate.cjs').assert(a,{job,task});
+  await require('./tool-evidence.cjs').refreshForDelivery(a,task);
+  require('./grounding.cjs').assertDelivery(a,task);
+  require('./grounding.cjs').assertAction(a,task,record);
   require('./evidence-consumption.cjs').assertDelivery(a,job,task);
   require('./protocol-access.cjs').assertTool(a,job,record.tool,record.args,{taskId:record.taskId,...(mode(job,record.tool,record.taskId)==='ask'?{action:record}:{})});
   require('./action-facts.cjs').assertWritable(a);
@@ -322,4 +328,34 @@ async function verifyDelivery(a,job,task) {
     verifyComment(actual,record,Number.isSafeInteger(id)&&id>0?id:undefined);
   }
 }
-module.exports={actions,version,latest,mode,prepare,execute,evidence,verifyDelivery};
+function readRecordedFile(a,job,task,record){
+ if(record.taskId!==task.id||record.jobId!==job.id||record.tool!=='write_file'||record.status!=='done'||job.fileMode==='off')throw Error('文件回读不在当前授权范围');
+ assertOutputFolder(job.outputFolder);validateFileRecord(a,record,{currentTask:task});
+ const paths=[record.result?.path,record.result?.latestPath].filter(Boolean);if(!paths.length)throw Error('文件回执缺少实际路径');
+ return paths.map(file=>{if(path.dirname(file)!==job.outputFolder||fs.realpathSync(file)!==path.resolve(file)||fs.lstatSync(file).isSymbolicLink())throw Error('文件回读路径超出当前交付目录');const content=tools.readOutput(file);if(content!==record.content)throw Error('交付文件已改变');return {path:file,hash:hash(content)};});
+}
+function observeRecordedFile(a,job,task,record){
+ if(!job||record.taskId!==task.id||record.jobId!==job.id||record.tool!=='write_file'||record.status!=='done'||job.fileMode==='off')throw Error('文件回读不在当前授权范围');
+ assertOutputFolder(job.outputFolder);validateFileRecord(a,record,{currentTask:task});
+ const paths=[...new Set([record.result?.path,record.result?.latestPath].filter(Boolean))];if(!paths.length)throw Error('文件回执缺少实际路径');
+ return paths.map(file=>{
+  if(path.dirname(file)!==job.outputFolder||path.resolve(file)!==file)throw Error('文件回读路径超出当前交付目录');
+  const base={fileName:path.basename(file),expectedHash:hash(record.content)};
+  try{
+   if(fs.lstatSync(file).isSymbolicLink()||fs.realpathSync(file)!==path.resolve(file))throw Error('文件回读路径超出当前交付目录');
+   const content=tools.readOutput(file);
+   return {...base,exists:true,currentHash:hash(content),contentMatches:content===record.content,characters:content.length,excerpt:content.slice(0,1200),excerptComplete:content.length<=1200};
+  }catch(error){if(error.code!=='ENOENT')throw error;return {...base,exists:false,currentHash:null,contentMatches:false,characters:null,excerpt:'',excerptComplete:false};}
+ });
+}
+async function readRecordedDelivery(a,job,task,record){
+ if(record.taskId!==task.id||record.jobId!==job.id||record.status!=='done')throw Error('动作不在当前事项范围或尚未完成');
+ if(record.tool==='write_file')return readRecordedFile(a,job,task,record);
+ if(['lark_create','lark_update'].includes(record.tool)){await require('./lark-publish.cjs').checkGrant(a,job,record);return require('./lark-publish.cjs').readback(a,record);}
+ if(record.target!==job.githubRepo)throw Error('原 GitHub 目标已不在当前授权范围');
+ const signal=a.controller?.signal;
+ if(['github_create','github_update'].includes(record.tool)){const number=record.number||record.result?.number;if(!Number.isSafeInteger(number)||number<1)throw Error('缺少实际 Issue 编号');const actual=await tools.github(a,job.githubRepo,`issues/${number}`,{signal,permissionScope:job});verifyIssue(actual,record,number);return actual;}
+ if(record.tool==='github_comment'){const id=record.result?.commentId;if(!Number.isSafeInteger(id)||id<1)throw Error('缺少实际评论编号');const actual=await tools.github(a,job.githubRepo,`issues/comments/${id}`,{signal,permissionScope:job});verifyComment(actual,record,id);return actual;}
+ throw Error('此动作没有可用的新鲜只读回读');
+}
+module.exports={actions,version,latest,mode,prepare,execute,evidence,verifyDelivery,readRecordedDelivery,readRecordedFile,observeRecordedFile};

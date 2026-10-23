@@ -37,6 +37,7 @@ function sanitizeOnce(a,state){
   if(!value||typeof value!=='object')return;
   const refs=[value.id,value.sourceId,value.artifactId,value.args?.sourceId,value.args?.artifactId,value.result?.sourceId,value.result?.artifactId];
   const blocked=inherited||refs.some(id=>id&&denied.has(id));
+  if(value.version==='deterministic-evidence-v1'&&(value.inputs||[]).some(r=>denied.has(r.sourceId))){delete value.output;delete value.resultText;delete value.request;value.accessPolicyQuarantined=true;}
   const prior=value.priorActionId&&a.data.agentActions.find(row=>row.id===value.priorActionId);
   const baselineBlocked=!!(value.baseline&&(denied.has(value.baseline.sourceId)||denied.has(prior?.result?.sourceId)));
   for(const [key,child]of Object.entries(value)){

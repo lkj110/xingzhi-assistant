@@ -9,7 +9,7 @@ const required = (value,label,max) => {
   return value.trim();
 };
 
-function initialize(a){a.data.memories ||= [];}
+function initialize(a){a.data.memories ||= [];for(const m of a.data.memories)if(m.kind==='fact'&&!m.provenance){m.provenance={kind:m.sourceId?'source':'unknown',sourceId:m.sourceId||null,verifiedAt:null};m.provenanceMigration={version:1,at:stamp(),previousConfirmation:m.confirmedBy||null,note:'保留旧值；旧确认标记不证明原始用户陈述'};}}
 function dataOf(value){return value.data || value;}
 function fingerprint(source){return hash([source.content,source.version||1,source.projectId||null]);}
 function sourceReason(state,record){
@@ -24,23 +24,26 @@ function sourceReason(state,record){
   if(record.sourceFingerprint!==fingerprint(source))return '引用来源内容已变化，请核对后重新保存';
   return '';
 }
-function validity(state,record,at=Date.now()){
+function validity(state,record,at=Date.now(),strictFacts=state.settings?.evidenceGrounding===true){
   if(record.enabled!==true)return {effective:false,reason:'已停用'};
   if(record.confirmedBy!=='user')return {effective:false,reason:'尚未由用户确认'};
   if(!Number.isSafeInteger(record.version)||record.version<1||!['preference','fact','term'].includes(record.kind)||typeof record.title!=='string'||!record.title.trim()||record.title.length>limits.maxTitle||typeof record.content!=='string'||!record.content.trim()||record.content.length>limits.maxContent)return {effective:false,reason:'记忆内容无效，请编辑后重新保存'};
   if(record.projectId&&!state.projects.some(p=>p.id===record.projectId))return {effective:false,reason:'归属项目已不存在'};
   if(record.expiresAt&&(!Number.isFinite(Date.parse(record.expiresAt))||Date.parse(record.expiresAt)<=at))return {effective:false,reason:'已过期'};
   const reason=sourceReason(state,record);
-  return {effective:!reason,reason:reason||'当前生效'};
+  const strict=strictFacts&&record.kind==='fact';
+  const provenance=record.sourceId?'source':record.provenance?.kind==='user_statement'&&record.provenance.originalInput===record.content&&record.provenance.inputHash===hash(record.provenance.originalInput)?'user_statement':'unknown';
+  if(strict&&provenance==='unknown')return {effective:false,reason:'来源不明，待核实；旧确认标记不是原始陈述',provenanceStatus:'unknown'};
+  return {effective:!reason,reason:reason||'当前生效',...(record.kind==='fact'?{provenanceStatus:provenance}: {})};
 }
 function context(a,projectId=null){
-  const state=dataOf(a),at=Date.now();
-  const candidates=(state.memories||[]).filter(m=>(!m.projectId||m.projectId===projectId)&&validity(state,m,at).effective)
+  const state=dataOf(a),at=Date.now(),strictFacts=state.settings?.evidenceGrounding===true&&a.contextOptimizationOverrides?.C!==false;
+  const candidates=(state.memories||[]).filter(m=>(!m.projectId||m.projectId===projectId)&&validity(state,m,at,strictFacts).effective)
     .sort((x,y)=>Number(!!y.projectId)-Number(!!x.projectId)||String(y.updatedAt).localeCompare(String(x.updatedAt))||x.id.localeCompare(y.id));
   const result={items:[],omittedCount:candidates.length,warning:'',principle};
   const warning=n=>n?`另有 ${n} 条有效记忆未纳入本次上下文（总长度上限 ${limits.maxContext} 字符）。请在工作记忆中缩减或停用不相关条目。`:'';
   for(const m of candidates){
-    const item={id:m.id,version:m.version,kind:m.kind,title:m.title,content:m.content,scope:m.projectId?'project':'global',projectId:m.projectId||null,sourceId:m.sourceId||null,sourceVersion:m.sourceVersion||null,expiresAt:m.expiresAt||null,confirmedBy:'user'};
+    const item={id:m.id,version:m.version,kind:m.kind,title:m.title,content:m.content,scope:m.projectId?'project':'global',projectId:m.projectId||null,sourceId:m.sourceId||null,sourceVersion:m.sourceVersion||null,expiresAt:m.expiresAt||null,confirmedBy:'user',...(m.kind==='fact'?{provenanceStatus:validity(state,m,at).provenanceStatus||'unknown',verifiedAt:m.provenance?.verifiedAt||null,note:m.sourceId?'回到当前授权来源核实；记忆摘要不是独立证据':'仅证明用户曾作此陈述，不证明客观事实'}:{})};
     const next={...result,items:[...result.items,item],omittedCount:result.omittedCount-1,warning:warning(result.omittedCount-1)};
     if(JSON.stringify(next).length<=limits.maxContext)Object.assign(result,next);
   }
@@ -96,6 +99,7 @@ function validateInput(a,input,existing){
     const reason=sourceReason(a.data,record);if(reason)throw new Error(reason);
   }
   if(record.originDecisionId&&!a.data.decisions?.some(d=>d.id===record.originDecisionId&&d.status==='answered'&&d.kind==='question'))throw new Error('引用的用户决定已不存在或尚未回答');
+  if(kind==='fact')record.provenance=record.sourceId?{kind:'source',sourceId:record.sourceId,sourceFingerprint:record.sourceFingerprint,verifiedAt:null}:require('./workspace-view.cjs').trustedCommand(a,'memorySave')?{kind:'user_statement',originalInput:record.content,inputHash:hash(record.content),capturedBy:'memorySave',verifiedAt:stamp()}:{kind:'unknown',verifiedAt:null};
   return record;
 }
 function draftDecision(a,input){

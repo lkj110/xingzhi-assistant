@@ -232,6 +232,8 @@ function context(a,job,{full=false}={}) {
     sources:job.sourceIds.filter(id=>readableIds.has(id)).slice(-40).map(id=>{const s=a.data.sources.find(s=>s.id===id);return s&&!s.deleted&&!s.projectExcluded?{...documents.summary(s),current:!a.data.sources.some(next=>job.sourceIds.includes(next.id)&&next.previousSourceId===id)&&(!s.identity||!!s.capabilityId||!!s.platformSnapshot||!!s.connectorId||!!s.folderId||!!s.webConnectionId||!!s.feedConnectionId||job.watchers.some(w=>w.sourceId===id))}:null;}).filter(Boolean),
     recentActions:job.history.slice(-8).map(r=>{const safe=readableHistory(r.result||{},allReadable),serialized=JSON.stringify(safe);return {...r,result:serialized.length>16000?{preview:serialized.slice(0,8000),tail:serialized.slice(-8000),truncated:true}:safe};}),completedWrites:a.data.agentActions.filter(r=>r.jobId===job.id&&r.status==='done').map(r=>({tool:r.tool,taskId:r.taskId,artifactId:r.artifactId,result:readableHistory(r.result,allReadable),...(r.result?.sourceId&&job.taskIds.some(id=>require('./deliverables.cjs').primary(a,a.task(id))?.id===r.artifactId)?{readback:documents.summary(a.data.sources.find(s=>s.id===r.result.sourceId&&allReadable.has(s.id)&&!s.deleted&&!s.projectExcluded)||{content:'回读材料不可用'},30000)}:{})}))};
   value.executionControl=control.context(a,job);value.workEfficiency=require('./work-efficiency.cjs').inspect(job);value.sourceCatalog=readable.readableCatalog;value.historyCatalog=readable.historyCatalog;
+  // Detailed quote receipts belong to the independent checker and local UI.
+  for(const task of value.tasks){delete task.grounding;delete task.groundingUserInputs;if(task.contentVerification){const {grounding,...check}=task.contentVerification;task.contentVerification=check;}}
   return !full && a.data.settings.compactContext!==false ? efficiency.compact(value) : value;
 }
 async function checkSources(a,job) {
@@ -385,6 +387,7 @@ async function executeAction(a,job,tool,args) {
     const record=await writes.prepare(a,job,tool,args);
     if(record.status==='done'){writes.evidence(a,ownedTask(a,job,record.taskId),record);return {...record.result,reused:true,artifactId:record.artifactId};}
     if(mode==='ask'&&!record.approvedAt){job.status='approval';job.pendingActionId=record.id;job.summary='具体动作已准备好，等待你的确认';a.event('Agent 等待确认',record.title,record.taskId);return {waitingForApproval:true,actionId:record.id};}
+    if(require('./verification-titles.cjs').actionReview(a,task,record)){job.pendingActionId=record.id;a.save();return {prepared:true,actionId:record.id,verificationRequired:true};}
     return writes.execute(a,job,record);
   }
   if(tool==='wait')return followup.wait(a,job,args);
@@ -441,7 +444,7 @@ async function run(a,id,{check=false,operationId,deadlineClaims=[],userRequested
     if(check){const changed=await checkSources(a,job);const memoryChanged=memory.reconcile(a,job);const due=followup.due(a,job);if(due.notify){record.status='needs_input';return;}if(!changed&&!memoryChanged&&!initialMemoryChanged&&!due.wake&&!job.finishAfterAcceptance){job.status='watching';job.failures=0;followup.schedule(job);record.status='unchanged';return;}}
     if(job.pendingActionId&&admission.mode==='execute_approved_existing') {
       const action=a.data.agentActions.find(r=>r.id===job.pendingActionId);
-      if(action&&(action.approvedAt||['lark_create','lark_update'].includes(action.tool)&&writes.mode(job,action.tool,action.taskId)==='auto')&&['pending','running','uncertain'].includes(action.status)) {const result=await (action.tool==='request_confirmation'?communications:writes).execute(a,job,action);job.history.push({tool:action.tool,result,at:now()});job.pendingActionId=null;}
+      if(action&&existing?.kind==='approved'&&existing.eligible&&existing.action?.id===action.id&&['pending','running','uncertain'].includes(action.status)) {const result=await (action.tool==='request_confirmation'?communications:writes).execute(a,job,action);job.history.push({tool:action.tool,result,at:now()});job.pendingActionId=null;}
       else if(action&&['stale','failed','done'].includes(action.status))job.pendingActionId=null;
       else {job.status='approval';return;}
     }
@@ -470,7 +473,14 @@ async function run(a,id,{check=false,operationId,deadlineClaims=[],userRequested
       require('./dispatch-lifecycle.cjs').prepare(a,job,record,step,()=>{continuationControl.started(a,job,step);if(!step.continuation?.handled)strategy.started(a,job,step);});
       const strategyOwner=!step.continuation?.handled&&job.executionState?.workEfficiency?.active;
       const strategyFlight=step.strategyRecovery?.id===strategyOwner?.id?strategyOwner?.inFlight:null;
-      try {require('./dispatch-lifecycle.cjs').guard(a,job);const result=await act(a,job,response.tool,response.args);step.result=structuredClone(result);continuationControl.settled(a,job,step);if(!step.continuation?.handled)strategy.settled(a,job,step);job.history.push({tool:response.tool,args:structuredClone(response.args),result:structuredClone(result),at:now()});}
+      try {require('./dispatch-lifecycle.cjs').guard(a,job);let result;
+        if(claimed?.policyMode==='execute_approved_existing'){
+          const action=a.data.agentActions.find(r=>r.id===claimed.actionId&&r.jobId===job.id&&r.taskId===claimed.args.taskId&&r.tool===claimed.tool);
+          if(!action)throw Object.assign(Error('原待执行动作已变化'),{code:'POLICY_ADMISSION_CHANGED'});
+          result=await (action.tool==='request_confirmation'?communications:writes).execute(a,job,action);
+          if(action.status==='done'&&job.pendingActionId===action.id)job.pendingActionId=null;
+        }else result=await act(a,job,response.tool,response.args);
+        step.result=structuredClone(result);continuationControl.settled(a,job,step);if(!step.continuation?.handled)strategy.settled(a,job,step);job.history.push({tool:response.tool,args:structuredClone(response.args),result:structuredClone(result),at:now()});}
       catch(error) {
         require('./dispatch-lifecycle.cjs').failed(a,job,error);
         if(error.gateClosed){step.gateClosed=true;step.error=error.message;step.errorCode=error.code;const task=a.data.tasks.find(t=>t.id===(step.args?.taskId||step.args?.existingTaskId));if(task)require('./pending-check.cjs').interrupt(a,job,task,error);throw error;}

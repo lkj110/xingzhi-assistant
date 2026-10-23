@@ -1,0 +1,535 @@
+{
+  "schema": 1,
+  "createdAt": "2026-10-23T11:50:33.964Z",
+  "auditor": "Independent model-agent audit; not a human audit or perfect blind study",
+  "blindSeal": {
+    "path": "audit-results.json",
+    "sha256": "cfb7b9b401443e30081c55ba34478f3dc25ba5d7c3e95c435b5898b08e234e85",
+    "labelsUnchanged": true,
+    "unblindingOrder": "Initial 12 phase labels sealed before reading key, report, usage, traces, snapshots or implementation."
+  },
+  "scope": {
+    "paidOrNetworkCalls": 0,
+    "productionCodeChanged": false,
+    "frozenEvaluationInputsChanged": false,
+    "existingResultsChanged": false,
+    "newAuditFileOnly": true
+  },
+  "summaryArithmetic": {
+    "verdict": "verified",
+    "checks": 71,
+    "arms": {
+      "baseline": {
+        "calls": 25,
+        "knownUsageCalls": 25,
+        "allCallStatuses": [
+          "completed"
+        ],
+        "inputTokens": 457054,
+        "outputTokens": 9578,
+        "cachedInputTokens": 128384,
+        "totalTokens": 466632,
+        "actualPhaseRecords": 6,
+        "actualRevisionPhaseRecords": 0,
+        "fullCorrectOutcomes": {
+          "events": 1,
+          "denominator": 6,
+          "rate": 0.16666666666666666
+        },
+        "fixedFalseBlock": {
+          "events": 1,
+          "denominator": 1,
+          "rate": 1
+        },
+        "wrongRelease": {
+          "events": 0,
+          "denominator": 1,
+          "rate": 0
+        },
+        "dynamicFalseBlock": {
+          "events": 1,
+          "denominator": 1,
+          "rate": 1
+        },
+        "hallucinationFinalDelivered": {
+          "events": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "hallucinationAllDeliveredPhases": {
+          "events": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "generatedPersistedDraftHallucination": {
+          "events": 0,
+          "denominator": 1,
+          "rate": 0
+        },
+        "rawObservedE2ECompletion": {
+          "events": 0,
+          "denominator": 2,
+          "rate": 0
+        },
+        "rawObservedRevisionCompletion": {
+          "events": 0,
+          "denominator": 2,
+          "rate": 0
+        }
+      },
+      "candidate": {
+        "calls": 25,
+        "knownUsageCalls": 25,
+        "allCallStatuses": [
+          "completed"
+        ],
+        "inputTokens": 466424,
+        "outputTokens": 22061,
+        "cachedInputTokens": 105728,
+        "totalTokens": 488485,
+        "actualPhaseRecords": 6,
+        "actualRevisionPhaseRecords": 0,
+        "fullCorrectOutcomes": {
+          "events": 2,
+          "denominator": 6,
+          "rate": 0.3333333333333333
+        },
+        "fixedFalseBlock": {
+          "events": 0,
+          "denominator": 1,
+          "rate": 0
+        },
+        "wrongRelease": {
+          "events": 0,
+          "denominator": 1,
+          "rate": 0
+        },
+        "dynamicFalseBlock": {
+          "events": 0,
+          "denominator": 2,
+          "rate": 0
+        },
+        "hallucinationFinalDelivered": {
+          "events": 0,
+          "denominator": 1,
+          "rate": 0
+        },
+        "hallucinationAllDeliveredPhases": {
+          "events": 0,
+          "denominator": 3,
+          "rate": 0
+        },
+        "generatedPersistedDraftHallucination": {
+          "events": 0,
+          "denominator": 2,
+          "rate": 0
+        },
+        "rawObservedE2ECompletion": {
+          "events": 0,
+          "denominator": 2,
+          "rate": 0
+        },
+        "rawObservedRevisionCompletion": {
+          "events": 0,
+          "denominator": 2,
+          "rate": 0
+        }
+      }
+    },
+    "totalCalls": 50,
+    "totalTokens": 955117,
+    "deltaTokens": 21853,
+    "deltaPercent": 4.683133604210599,
+    "withinCaps": true,
+    "cacheAccounting": "Cached tokens are included in inputTokens, never added again."
+  },
+  "stageCompleteness": {
+    "branchesAttempted": 12,
+    "phaseRecords": 12,
+    "initialRecords": 12,
+    "revisionRecords": 0,
+    "interpretation": "report.status completed means all scheduled branches ended; it does not mean the workflows completed. Revision 0/2 per arm is only observed completion, not an estimate of revision correctness."
+  },
+  "fixtureAcceptFailure": {
+    "cases": [
+      "R5B-R01/candidate",
+      "R5-R02/candidate"
+    ],
+    "code": "COMPLETION_REQUIRED",
+    "facts": [
+      "Both initial drafts meet business requirements and task verification.passed is true; both tasks remain review.",
+      "Snapshots show delegations.completionCheck absent. Harness fixtures install a real delegation for each task.",
+      "continue.advance runs the delegation only when task.evidenceRequest exists. Passing initial drafts have no evidenceRequest, so it returns after direct task advance.",
+      "run.cjs immediately invokes taskAction accept for revision lanes. acceptance.finalAcceptanceReasons requires current delegation completionCheck; hence accept rejects before reopen/revision."
+    ],
+    "adjudication": "These two interruptions are fixture/API lifecycle coverage defects, not model false blocks or observed product revision failures. Initial business quality remains countable; both later revision phases are unevaluated. Correct behavior after a repaired runner is unobserved.",
+    "anchors": [
+      "work/abcd-readiness-r5b/fixtures.cjs:18",
+      "work/abcd-readiness-r5b/continue.cjs:6",
+      "work/abcd-readiness-r5b/run.cjs:67",
+      "work/abcd-readiness-r5/candidate/desktop/acceptance.cjs:113",
+      "work/abcd-readiness-r5/candidate/desktop/acceptance.cjs:119",
+      "work/abcd-readiness-r5/candidate/desktop/acceptance.cjs:208"
+    ]
+  },
+  "e01RepeatedCalculation": {
+    "case": "R5-E01/candidate",
+    "requestedSumEvaluations": 2,
+    "successfulVisibleRequestResults": 2,
+    "distinctReceiptIds": 1,
+    "receiptId": "tool:007910aae3060dcab9f5167e",
+    "observedAt": "2026-10-23T11:23:24.382Z",
+    "result": "31 + 9 = 40 页",
+    "runtimeAndCodeInference": "The response requests two identical sums, and the next worker input contextReads[13] and [14] records ok:true results. readRequests iterates both; second execute validates prior using valid -> evaluate -> calculate before returning prior. Thus an additional arithmetic re-evaluation occurs by this executed code path, but no separate execution event/identity is recorded or projected. Other validation paths can re-evaluate too, so exact total arithmetic evaluations is not measured.",
+    "modelObservation": "Both successful contextReads alias the same toolEvidence[0], same receipt ID/hash and observedAt. No count or distinct event proves the second actual evaluation to the worker; the worker explicitly declines to invent that proof, then planner requests run_code which is off.",
+    "adjudication": "Business selection and arithmetic are correct but complete business report/double-execution proof/workflow did not finish. Not a factual hallucination, false block, or evidence that the product can never finish.",
+    "nextFix": "Keep stable result identity for reuse, but expose separately identifiable requested execution events and their results. Test repeated-calculation requests and planner continuation end to end; additional instructions alone do not create observability.",
+    "anchors": [
+      "audit-supplement.json / a6cea6a0-439c-4aac-bf74-c497d88f9af4 / executionInputs ordinal 3 / contextReads[13..14]",
+      "work/abcd-readiness-r5/candidate/desktop/tool-evidence.cjs:75",
+      "work/abcd-readiness-r5/candidate/desktop/tool-evidence.cjs:81",
+      "work/abcd-readiness-r5/candidate/desktop/tool-evidence.cjs:108"
+    ]
+  },
+  "e02Coverage": {
+    "helperIssue": "Gold completeEvidenceGroups supplies fixtureFileName, while frozen groupObservation matches sourceMap.title===group.sourceTitle. The helper therefore finds no source IDs and its 0 is structurally forced. Do not use that helper output alone as evidence that no tool read occurred.",
+    "independentRule": "Match actual imported inspection source ID from successful read_file result; count the four exact gold quotes only in source-bound content/segments of actual input payloads. Planner and worker inputs are counted separately; a disk read or planner view does not establish worker exposure.",
+    "arms": [
+      {
+        "arm": "baseline",
+        "successfulInspectionReadFileResults": 1,
+        "inspectionSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+        "eachInspectionReadHasAllFourQuotes": true,
+        "inspectionReadTimes": [
+          "2026-10-23T11:28:19.594Z"
+        ],
+        "readLocalResultErrors": [
+          {
+            "at": "2026-10-23T11:28:07.190Z",
+            "error": "执行结果不属于本事项"
+          },
+          {
+            "at": "2026-10-23T11:28:57.349Z",
+            "error": "执行结果不属于本事项"
+          },
+          {
+            "at": "2026-10-23T11:30:19.954Z",
+            "error": "执行结果不属于本事项"
+          }
+        ],
+        "localIndexReadFileAttempts": [
+          {
+            "at": "2026-10-23T11:30:03.216Z",
+            "result": {
+              "observationId": "observation-8c1529dfead2506b705df1dcd565c4c23f7ec6b53f7149caa8bafa746d7e6893",
+              "classification": "pending",
+              "businessChanged": false,
+              "summary": "同一资源的外部动作结果尚未核对，等待原动作回执"
+            },
+            "error": null
+          }
+        ],
+        "localIndexObservation": "readDocument performs actual byte read before watch returns pending. Returned result exposes no current body, hash comparison, or successful readback receipt to the model.",
+        "workerInputs": 2,
+        "workerInputsWithCompleteGroup": 0,
+        "plannerInputsWithCompleteGroup": 5,
+        "sourceBoundExposureByInput": [
+          {
+            "ordinalAmongExecute": 1,
+            "planner": false,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 2,
+            "planner": false,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 3,
+            "planner": true,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 4,
+            "planner": true,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 5,
+            "planner": true,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 6,
+            "planner": true,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 4,
+            "bodyPaths": [
+              "$.recentActions.2.result"
+            ]
+          },
+          {
+            "ordinalAmongExecute": 7,
+            "planner": true,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 8,
+            "planner": true,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 9,
+            "planner": true,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 4,
+            "bodyPaths": [
+              "$.contextReads.2.result"
+            ]
+          },
+          {
+            "ordinalAmongExecute": 10,
+            "planner": true,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 4,
+            "bodyPaths": [
+              "$.contextReads.2.result"
+            ]
+          },
+          {
+            "ordinalAmongExecute": 11,
+            "planner": true,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 4,
+            "bodyPaths": [
+              "$.contextReads.2.result"
+            ]
+          },
+          {
+            "ordinalAmongExecute": 12,
+            "planner": true,
+            "boundSourceId": "5a345f46-8298-461d-92c4-232e434ee084",
+            "visibleQuotes": 4,
+            "bodyPaths": [
+              "$.contextReads.2.result"
+            ]
+          }
+        ],
+        "postRunFileHashes": {
+          "xq-inspection-1840.txt": {
+            "sha256": "fc1a3f63c90b536bd8a268e113519992341ab8f9a683970be2416901dd67004a",
+            "matchesExpectedFixture": true,
+            "scope": "post-run offline audit only; not a new historical model-visible receipt"
+          },
+          "xq-guide-index.txt": {
+            "sha256": "8261ae918948646dbaeb822bf7c3cdbe4534b7f0ee09839eacc2914cc4503505",
+            "matchesExpectedFixture": true,
+            "scope": "post-run offline audit only; not a new historical model-visible receipt"
+          }
+        },
+        "outcome": "No persisted report, no independent verification, no completed handoff; missing draft is not a correct block or a hallucinated delivery."
+      },
+      {
+        "arm": "candidate",
+        "successfulInspectionReadFileResults": 2,
+        "inspectionSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+        "eachInspectionReadHasAllFourQuotes": true,
+        "inspectionReadTimes": [
+          "2026-10-23T11:25:13.889Z",
+          "2026-10-23T11:26:20.919Z"
+        ],
+        "readLocalResultErrors": [
+          {
+            "at": "2026-10-23T11:24:59.467Z",
+            "error": "执行结果不属于本事项"
+          },
+          {
+            "at": "2026-10-23T11:26:05.657Z",
+            "error": "执行结果不属于本事项"
+          },
+          {
+            "at": "2026-10-23T11:27:10.342Z",
+            "error": "执行结果不属于本事项"
+          }
+        ],
+        "localIndexReadFileAttempts": [],
+        "localIndexObservation": "No fresh index read_file or action_status in recorded trajectory; read_output_state exposes workspace metadata, not current file observation.",
+        "workerInputs": 1,
+        "workerInputsWithCompleteGroup": 0,
+        "plannerInputsWithCompleteGroup": 4,
+        "sourceBoundExposureByInput": [
+          {
+            "ordinalAmongExecute": 1,
+            "planner": false,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 2,
+            "planner": true,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 3,
+            "planner": true,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 4,
+            "planner": true,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 5,
+            "planner": true,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 4,
+            "bodyPaths": [
+              "$.recentActions.2.result"
+            ]
+          },
+          {
+            "ordinalAmongExecute": 6,
+            "planner": true,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 7,
+            "planner": true,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 4,
+            "bodyPaths": [
+              "$.recentActions.2.result"
+            ]
+          },
+          {
+            "ordinalAmongExecute": 8,
+            "planner": true,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 9,
+            "planner": true,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 4,
+            "bodyPaths": [
+              "$.recentActions.2.result"
+            ]
+          },
+          {
+            "ordinalAmongExecute": 10,
+            "planner": true,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 0,
+            "bodyPaths": []
+          },
+          {
+            "ordinalAmongExecute": 11,
+            "planner": true,
+            "boundSourceId": "5f938ab4-13b7-4cdc-9d4d-138e4b341de6",
+            "visibleQuotes": 4,
+            "bodyPaths": [
+              "$.recentActions.2.result"
+            ]
+          }
+        ],
+        "postRunFileHashes": {
+          "xq-inspection-1840.txt": {
+            "sha256": "fc1a3f63c90b536bd8a268e113519992341ab8f9a683970be2416901dd67004a",
+            "matchesExpectedFixture": true,
+            "scope": "post-run offline audit only; not a new historical model-visible receipt"
+          },
+          "xq-guide-index.txt": {
+            "sha256": "8261ae918948646dbaeb822bf7c3cdbe4534b7f0ee09839eacc2914cc4503505",
+            "matchesExpectedFixture": true,
+            "scope": "post-run offline audit only; not a new historical model-visible receipt"
+          }
+        },
+        "outcome": "No persisted report, no independent verification, no completed handoff; missing draft is not a correct block or a hallucinated delivery."
+      }
+    ],
+    "toolMismatch": "agent-local.read requires done actions listed in definitions (run_code, mail_draft, generate_image, synthesize_speech, send_mail, github_deploy). write_file is not in that list. Historical write_file therefore fails read_local_result with 执行结果不属于本事项 although it belongs to this task. The prompt name/description is broader than this implemented scope.",
+    "scopeNotes": "Old write_file done and read_output_state current metadata do not prove a new local file comparison or external installation. Post-run hash matching is an auditor observation and does not retroactively satisfy the evaluated workflow.",
+    "anchors": [
+      "work/abcd-readiness-r5b/coverage-observations.cjs:11",
+      "work/abcd-readiness-r5/candidate/desktop/agent-local.cjs:5",
+      "work/abcd-readiness-r5/candidate/desktop/agent-local.cjs:125",
+      "work/abcd-baseline/desktop/agent-tools.cjs:102",
+      "work/abcd-baseline/desktop/agent.cjs:149",
+      "work/abcd-baseline/desktop/agent.cjs:354"
+    ]
+  },
+  "qualifiedButNotFullWorkflowDelivered": [
+    {
+      "caseId": "R5-F01",
+      "arm": "baseline",
+      "reason": "Fixed business-qualified draft false block",
+      "includedInFixedFalseBlock": true
+    },
+    {
+      "caseId": "R5-R02",
+      "arm": "baseline",
+      "reason": "Business-qualified generated initial draft false block",
+      "includedInFixedFalseBlock": false,
+      "includedInDynamicFalseBlock": true
+    },
+    {
+      "caseId": "R5B-R01",
+      "arm": "candidate",
+      "reason": "Business-qualified initial draft verified and available, but harness skips required delegation completion check before accept; revision not reached",
+      "includedInFixedFalseBlock": false,
+      "includedInDynamicFalseBlock": false
+    },
+    {
+      "caseId": "R5-R02",
+      "arm": "candidate",
+      "reason": "Business-qualified initial draft verified and available, but harness skips required delegation completion check before accept; revision not reached",
+      "includedInFixedFalseBlock": false,
+      "includedInDynamicFalseBlock": false
+    }
+  ],
+  "protocolRejectedDrafts": [],
+  "substantiveObservedIssues": [
+    "Baseline false blocks one valid fixed conflict/unknown draft and one valid dynamic K11 draft. Candidate removes those observed blocks in this small sample.",
+    "E01 repeated execution result identities do not expose distinct execution events; candidate hands off to disabled run_code and produces no final draft.",
+    "E02 both arms fail to complete current-index observation and worker continuation despite successful inspection reads. Wrong read_local_result use and pending source observation consume planner rounds."
+  ],
+  "requiredReportingQualifications": [
+    "Baseline final-delivered hallucination rate is undefined (0/0), not 0%. Candidate is 0/1 full-final and 0/3 all delivered initial phases. Fixed valid draft is included in delivery denominators; generated persisted drafts separately are B0/1 and C0/2.",
+    "Fixed false block 1/1 -> 0/1, dynamic false block 1/1 -> 0/2 and wrong release 0/1 in both are descriptive observations from tiny denominators, not population safety/noninferiority claims.",
+    "Raw token increase +4.683% is correct; differing successful output composition and fixture lifecycle failures prevent interpreting it as matched-success token efficiency.",
+    "Revision 0/2 must explicitly disclose 0 actual revision phases and the candidate acceptance fixture defect. This blocks readiness assurance, not proof that A-D revision logic is faulty.",
+    "Do not attribute E02 helper zero to absence of reads; independent audit confirms planner source exposure and absent worker exposure.",
+    "All 50 calls report usage and are within the approved 96 calls / 1.5 million tokens; unused quota is not permission to silently run new revised experiments."
+  ],
+  "recommendationOrder": [
+    "Repair/evaluate fixture lifecycle and fixture source matching offline; preserve R5b seal and labels.",
+    "Add event-level computation observability and address read tool selection, pending observation resolution, source binding and worker resume in product paths with offline end-to-end regressions.",
+    "Use a separately approved fresh readiness comparison after these issues are resolved; defer formal noninferiority claims and acceptance budget until the full workflow is actually exercised."
+  ]
+}

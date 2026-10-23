@@ -35,10 +35,11 @@ function artifactBasis(a,task){return artifactState(a,task).map(row=>{const copy
 function basis(a, task, {legacy=false}={}) {
   const job = jobOf(a, task), project = rows(a.data.projects).find(project => project.id === projectOf(a, task));
   return hash({
+    ...(legacy?{}:{titles:require('./verification-titles.cjs').identity(a,task)}),
     task: { id: task.id, primaryArtifactId:legacy?undefined:task.primaryArtifactId, workRevision:legacy?undefined:(task.workRevision ?? 1),requirementRevision:legacy?undefined:task.requirementRevision,withdrawnRequirementIds:legacy?undefined:task.withdrawnRequirementIds,withdrawnBindingIds:legacy?undefined:task.withdrawnBindingIds, title: legacy?task.title:undefined, description: task.description, criteria: task.criteria, sourceIds: legacy?task.sourceIds:undefined, supersededSourceIds: legacy?task.supersededSourceIds:undefined, steps: legacy?task.steps:rows(task.steps).map(evidence.step), notes: legacy?task.notes:evidence.notes(task.notes), dependsOn: task.dependsOn, needsReplan: task.needsReplan, agentCancelled: task.agentCancelled },
     sources: legacy?activeSources(a, task).map(({ state, processedAt, ...source }) => source):evidence.taskSources(a,task),
     artifacts: legacy?artifactState(a,task):artifactBasis(a,task),
-    deliveries: actionsOf(a, task).filter(action => action.taskId === task.id).map(({ id, tool, status, artifactId, content, result, deliveryConflict }) => ({ id, tool, status, artifactId, content, result, ...(!legacy&&deliveryConflict?{deliveryConflict}:{}) })),
+    deliveries: actionsOf(a, task).filter(action => action.taskId === task.id).map(({ id, tool, status, artifactId, title, desired, content, result, deliveryConflict }) => ({ id, tool, status, artifactId, content, result, ...(!legacy?{title,desired}:{}), ...(!legacy&&deliveryConflict?{deliveryConflict}:{}) })),
     dependencies: rows(task.dependsOn).map(id => { const dependency = rows(a.data.tasks).find(task => task.id === id); return dependency ? { id, title: dependency.title, criteria: dependency.criteria, status: ['review','completed'].includes(dependency.status)?'checked':dependency.status, cancelled: dependency.agentCancelled, needsReplan: dependency.needsReplan, verification: verificationRef(dependency), steps: dependency.steps, artifacts: legacy?artifactState(a,dependency):artifactBasis(a,dependency) } : { id, missing: true }; }),
     job: job ? { id: job.id, requirementRevision:legacy?undefined:job.requirementRevision, goal: job.goal, executionContract:job.executionContract, feedback: legacy?job.feedback:evidence.feedback(job.feedback).filter(f=>!f.taskId||f.taskId===task.id), sourceIds: legacy?job.sourceIds:undefined, outputFolder: job.outputFolder, fileMode: legacy?job.fileMode:undefined, followups: rows(job.followups).filter(followup => (!followup.taskId || followup.taskId === task.id)&&relevantBatch(job,followup)).map(followupRef) } : null,
     project: project ? { id: project.id, name: project.name, background: project.background } : null
@@ -132,6 +133,7 @@ function reasons(a, task, { completed = false, seen = new Set() } = {}) {
   if (task.needsReplan) add('replan', '来源或计划已变化，请先重新推进和检查');
   if (require('./evidence-consumption.cjs').draftOnly(a,task)) add('draft_evidence', '当前为增量草稿：须补齐全部类型证据并通过当前稿内容检查，才能交付或验收');
   const verification = task.verification;
+  if(require('./grounding.cjs').enabled(a)&&artifactState(a,task).length){try{require('./grounding.cjs').assertDelivery(a,task);}catch{add('grounding','当前稿件缺少有效的独立证据核验，请重新检查');}}
   if (verification?.passed !== true || !nonempty(verification.summary) || rows(verification.gaps).some(nonempty)) add('verification', '请先完成执行与结果检查');
   if (!rows(task.steps).length || !rows(task.steps).every(step => object(step) && ['analysis','draft','external'].includes(step.kind) && step.done === true)) add('steps', '执行步骤尚未全部完成');
   for (const step of rows(task.steps).filter(step => object(step) && step.done)) {

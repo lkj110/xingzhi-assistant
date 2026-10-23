@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "candidateCommit": "bb2ab900703b4200ea5d1bc9542c5c9c22c1f8cb",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "startedAt": "2026-10-23T11:17:08.857Z",
+  "finishedAt": "2026-10-23T11:37:57.476Z",
+  "limits": {
+    "calls": 96,
+    "tokens": 1500000,
+    "callsPerBranchPerPhase": 12,
+    "concurrency": 1
+  },
+  "sourceHashes": {
+    "implementation-freeze.json": "2d159606a94fb1f10fc19a3b467866818262e480de9beb2b485984a16c321cd3",
+    "evaluation-seal.json": "55d3ab12f63a87da3694d6c1a1b196894c3f58bf22ddabce3b4101738a5bf18e",
+    "holdout-seal.json": "b3a63d7db8778629362bd0a295d49e064ee7b03a820d3c4cb6707c7d95c6e1d5",
+    "ledger.json": "08d93119bd34f0d91e65b992287b113057daab9887c11f458fa73e8d04cfcdc3",
+    "result/report.json": "c0470acfc60c8839a3fc314ac23869c7573ffe38542af7aa0629b6923f64b82d",
+    "result/audit-results.json": "cfb7b9b401443e30081c55ba34478f3dc25ba5d7c3e95c435b5898b08e234e85",
+    "root-cause-audit.json": "9fa87d2dc42993503c65ca8d94f9be422f827310f34d612e956dee4dda57607b",
+    "result/independent-process-audit.json": "b91b7c624121cfa813dd984429cc7f983dfe93dab34d8213066e5d453a17441a"
+  },
+  "publication": "Sanitized research record, not a runnable replacement for the sealed local experiment. Code is available at candidateCommit. Relative references in diagnostic reports point into the original frozen workspace; full private traces and account configuration are not published.",
+  "evaluationInterpretation": "The original measured metrics remain unchanged. Independent post-run audits qualify invalid revision coverage and the untriggered fixture contract conflict. No offline mocked outcome is counted as real success.",
+  "mainEvaluationStarted": false,
+  "installedApplicationReplaced": false
+}
