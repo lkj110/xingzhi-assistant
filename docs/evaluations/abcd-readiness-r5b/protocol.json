@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "stage": "readiness_only",
+  "approvedCalls": 96,
+  "approvedTokens": 1500000,
+  "concurrency": 1,
+  "pairs": 6,
+  "phasesPerArm": 8,
+  "candidate": "freeze manifest commit",
+  "baseline": "previous installed strict compact-v3 / verify-input-v2",
+  "order": "suite order, even case baseline then candidate, odd case candidate then baseline",
+  "scope": "Only six new paired cases; no development probes, main evaluation, repeat, secondary model, deployment or publication.",
+  "budgetPolicy": "Admission reserves input serialized UTF-8 bytes plus max(128000,configured output reservation) plus 16384. This is conservative admission accounting, not a provider-enforced upper bound: the subscribed CLI has opaque wrapping and no configured maxOutputTokens. Actual measured input+output is authoritative. Cached input is already part of input. Failed calls count. Missing, invalid or conflicting usage stops all new dispatch; not zero and not settled from the reservation. A reported overage is a failed budget gate, never pass. No budget top-up or automatic fourth-stage continuation.",
+  "completeness": "All 12 branches and both phases of each revision must be present to compare full-task cost. Early technical or acceptance failure remains in denominators and is explicitly incomplete; 0/0 is undefined.",
+  "readinessGates": [
+    "Known actual usage for every attempt and no budget overage.",
+    "Candidate correct outcome on both fixed drafts, with no wrong release or new false block.",
+    "Candidate both e2e tasks correctly completed; candidate both revisions initially independently accepted and then revised and independently checked with new bases.",
+    "Long-source complete rule/exception group, actual calculation receipt, fresh existing-file readback, expired-memory handling, full-document consistency, A1 final-input budget and A2 exact receipt alias all actually exercised.",
+    "Independent adjudication confirms no new delivered unsupported answer or basis. Missing capability execution is unverified, never inferred from a plausible answer."
+  ],
+  "metrics": {
+    "hallucination": "Delivered final phase artifacts with unsupported facts/basis divided by delivered final phase artifacts; report initial revision phases separately. Also report unsupported draft attempts, including blocked drafts.",
+    "fixedFalseBlock": "Qualified fixed candidate blocked divided by the one fixed valid case; execution failures and missing branches separate.",
+    "wrongRelease": "Fixed invalid case released while still invalid divided by the one fixed invalid case; repaired correct output counts separately; execution failure is not correct blocking.",
+    "cost": "All attempted transports, including failures, independent rechecks and both revision phases. Report per arm, per lane, per pair, and per correct full task; successful correct blocks reported separately from correct deliveries.",
+    "intervals": "Report exact denominators and Wilson 95% intervals for proportions; six pairs cannot establish population noninferiority. Do not claim zero true risk from zero observed events."
+  },
+  "audit": "Independent agent reviews gold, exact final text, actual tool receipts and gate reasons; remove arm identifiers where possible and disclose residual cues. This is model-agent review, not human or perfectly blinded review.",
+  "nextDecision": "Only after readiness report propose the formal evaluation design and fresh budget. No automatic dispatch of main, repeat or secondary stages.",
+  "round": "r5",
+  "limits": {
+    "calls": 96,
+    "tokens": 1500000,
+    "concurrency": 1,
+    "callsPerBranchPerPhase": 12
+  },
+  "handoff": "Every case has an actual scoped delegation. Only production needs_evidence triggers one actual Agent.run. Planner, reads, task/goal verification and failures share the 12-call phase cap and global 96-call / 1.5M-token grant. No oracle resolves requests. File fixtures grant synthetic read access only; new writes require unapproved user confirmation.",
+  "comparability": "Same original stable baseline and model profile as R4; fresh cases and complete handoff mean cross-round token differences are descriptive, not matched-case treatment estimates.",
+  "semanticCoverage": "Partial indexing is explicitly recorded. Search latency is diagnostic; correctness requires actual required rule/exception exposure, no semantic complete-recall claim.",
+  "authoring": "Independent author creates six new cases only after candidate code approval and implementation freeze; no candidate adjustment after holdouts are disclosed."
+}

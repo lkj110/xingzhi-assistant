@@ -1,0 +1,121 @@
+{
+  "at": "2026-10-23T11:44:33.817Z",
+  "kind": "offline_controlled_diagnostic_not_a_new_evaluation",
+  "revisionRows": [
+    {
+      "caseId": "R5B-R01",
+      "fixtureNormalization": {
+        "savedBasis": "1a2080b8b43d446e2d45810ce8decdb7a380515ceda3cadd65a6cf96933c135d",
+        "cloneBasis": "1a2080b8b43d446e2d45810ce8decdb7a380515ceda3cadd65a6cf96933c135d",
+        "note": "Control fixture reinstates the copied delegation capability grant in its isolated temporary store and pins the task verification to this reconstructed in-memory state. This isolates the whole-delegation gate and is not a replayed semantic acceptance or a new model evaluation."
+      },
+      "before": {
+        "taskStatus": "review",
+        "taskReasons": [],
+        "jobStatus": "ready",
+        "completionCheck": null,
+        "candidate": {
+          "ready": true,
+          "basis": "5b5bd7152246147d20a8dca8d01ebff86c0da8d177a57c422fe8de3a6fc84c8d",
+          "blockers": [],
+          "checked": false,
+          "taskIds": [
+            "bb1b6854-70c7-4199-b5f5-4b9713a66ae7"
+          ]
+        },
+        "agentRuns": 0
+      },
+      "acceptError": {
+        "code": "COMPLETION_REQUIRED",
+        "message": "请先完成当前版本的委托整体检查",
+        "reasons": [
+          {
+            "code": "completion_check",
+            "message": "请先完成当前版本的委托整体检查"
+          }
+        ]
+      },
+      "offlineProductionContinuation": {
+        "mockVerifyCalls": 1,
+        "steps": [
+          "complete"
+        ],
+        "taskStatus": "completed",
+        "jobStatus": "completed",
+        "currentCompletionCheck": true
+      }
+    },
+    {
+      "caseId": "R5-R02",
+      "fixtureNormalization": {
+        "savedBasis": "9e8962966658979354f3fb0f88157f984d536d72f076c7bf18fb64d7b18a9b3e",
+        "cloneBasis": "9e8962966658979354f3fb0f88157f984d536d72f076c7bf18fb64d7b18a9b3e",
+        "note": "Control fixture reinstates the copied delegation capability grant in its isolated temporary store and pins the task verification to this reconstructed in-memory state. This isolates the whole-delegation gate and is not a replayed semantic acceptance or a new model evaluation."
+      },
+      "before": {
+        "taskStatus": "review",
+        "taskReasons": [],
+        "jobStatus": "ready",
+        "completionCheck": null,
+        "candidate": {
+          "ready": true,
+          "basis": "99b53c692dd8752d6dd032eebfeb8d745f9ae69a2faca3eec3bd77d586bb47a9",
+          "blockers": [],
+          "checked": false,
+          "taskIds": [
+            "5c86f8ab-aae6-4b78-82b7-b8bf835ee51c"
+          ]
+        },
+        "agentRuns": 0
+      },
+      "acceptError": {
+        "code": "COMPLETION_REQUIRED",
+        "message": "请先完成当前版本的委托整体检查",
+        "reasons": [
+          {
+            "code": "completion_check",
+            "message": "请先完成当前版本的委托整体检查"
+          }
+        ]
+      },
+      "offlineProductionContinuation": {
+        "mockVerifyCalls": 1,
+        "steps": [
+          "complete"
+        ],
+        "taskStatus": "completed",
+        "jobStatus": "completed",
+        "currentCompletionCheck": true
+      }
+    }
+  ],
+  "handoff": {
+    "caseId": "R5-E02",
+    "recordOwnershipMatches": true,
+    "recordTool": "write_file",
+    "acceptedLocalResultTools": [
+      "run_code",
+      "mail_draft",
+      "generate_image",
+      "synthesize_speech",
+      "send_mail",
+      "github_deploy"
+    ],
+    "wrongToolError": "执行结果不属于本事项",
+    "correctReadback": {
+      "contentMatches": true,
+      "exists": true,
+      "fileName": "xq-guide-index.txt"
+    },
+    "mockCalls": 0,
+    "futureDeliveryConstraint": {
+      "outputFolderPresent": true,
+      "fileMode": "ask",
+      "code": "agent-writes.verifyDelivery and acceptance.deliveryCurrent require a write_file for a newly generated primary report whenever outputFolder is set; fixture enables it solely to observe the historical file, despite task prohibition on writing."
+    }
+  },
+  "providerEvaluationCalls": 0,
+  "networkCalls": 0,
+  "encoderCalls": 0,
+  "filesChanged": "Only this diagnostic and its output; frozen source/trace files unchanged"
+}

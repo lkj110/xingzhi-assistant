@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "originalSHA256": "13115fc17e3b77fedd7f54fe4f1da8a69cedd1a3a45d89d7a91f318c74f52fcc",
+  "reviewedAt": "2026-10-23T10:51:19.768Z",
+  "implementationBaseCommit": "719f14a65ae0398b5763c74a7205acd947c770d5",
+  "approvedBeforeRun": true,
+  "openP0toP2BeforeRun": 0,
+  "approvalScope": "The four changed mechanisms and the sealed six-pair synthetic-local readiness runner. This is not a claim of full repository regression success, formal main acceptance, or deployed-product acceptance.",
+  "reviewMethod": "Independent subagent read all current production diffs and added files, relevant lifecycle/authorization/verification callers, R5 execution and result scripts, then repaired confirmed issues and ran offline tests. No real model or external network calls.",
+  "findings": [
+    {
+      "id": "R5-CR01",
+      "priority": "P2",
+      "status": "fixed",
+      "problem": "Implicit unknown grammar could absorb an affirmative second clause separated by ASCII punctuation or Unicode line boundaries.",
+      "fix": "Constrain all implicit clause bodies to the same Chinese/ASCII punctuation and line-boundary contract; exact actual-visible binding and independent semantic support remain required.",
+      "files": [
+        "desktop/claim-qualification.cjs",
+        "tests/claim-qualification.test.cjs"
+      ]
+    },
+    {
+      "id": "R5-CR02",
+      "priority": "P2",
+      "status": "fixed",
+      "problem": "Freeze checked only an approval boolean, so reviewed code or harness changes could be frozen without proving they were the approved bytes.",
+      "fix": "Review captures all desktop/resources/package bytes and R5 CJS/protocol bytes; prepare verifies exact file sets and hashes before copying. The evaluation seal also binds review and post-run scripts.",
+      "files": [
+        "review-integrity.cjs",
+        "prepare.cjs",
+        "seal.cjs",
+        "harness.test.cjs"
+      ]
+    },
+    {
+      "id": "R5-CR03",
+      "priority": "P2",
+      "status": "fixed",
+      "problem": "Copied result tooling used an R4-specific expired-memory ID and could attribute later phase, planner, metadata repair or instruction text to a worker evidence exposure; audit packet omitted actual delivery title and handoff.",
+      "fix": "Detect expired-memory fixtures from the fresh suite, select the same phase worker excluding planner/metadata repair, require source-bound body text for quote exposure, and export actual delivery title/handoff plus all execution inputs for independent audit.",
+      "files": [
+        "coverage-observations.cjs",
+        "analyze-coverage.cjs",
+        "export-audit.cjs",
+        "export-audit-supplement.cjs",
+        "harness.test.cjs"
+      ]
+    },
+    {
+      "id": "R5-CR04",
+      "priority": "P2",
+      "status": "fixed",
+      "problem": "Unknown usage totals and absent paired arms could be summarized as zero through empty reductions or null arithmetic.",
+      "fix": "Report exact totals and differences as null when usage is unknown or a paired branch is absent; retain explicitly named known-token subtotals and failed usage gate. Unknown usage makes token-limit confirmation undefined.",
+      "files": [
+        "summarize-results.cjs",
+        "integrity.cjs",
+        "harness.test.cjs"
+      ]
+    },
+    {
+      "id": "R5-CR05",
+      "priority": "P2",
+      "status": "fixed",
+      "problem": "A missing-file negative observation still narrated that the original file was successfully opened and fully compared.",
+      "fix": "Observation note now distinguishes existing files that were fully compared from files explicitly observed missing; status/hash/comparison remain actual observations.",
+      "files": [
+        "desktop/tool-evidence.cjs"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "file": "reviewer-regression.log",
+      "executedBy": "reviewer",
+      "tests": 118,
+      "passed": 118,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "qualifiers, plan recovery, readback, search, preparation, tool recovery and actual strict Agent handoff"
+    },
+    {
+      "file": "reviewer-readback.log",
+      "executedBy": "reviewer",
+      "tests": 19,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "after negative-observation narrative correction; readback and all deterministic tool operations"
+    },
+    {
+      "file": "reviewer-harness.log",
+      "executedBy": "reviewer",
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "caps, unknown usage, review freeze integrity, fresh-case coverage, result accounting, both-arm actual Agent handoff"
+    },
+    {
+      "file": "regression-tests.log",
+      "executedBy": "root; inspected by reviewer",
+      "tests": 1055,
+      "passed": 1052,
+      "failed": 2,
+      "skipped": 1,
+      "scope": "52-file wider regression before protocol expectation followup; not all green"
+    },
+    {
+      "file": "regression-followup.log",
+      "executedBy": "root; inspected by reviewer",
+      "tests": 28,
+      "passed": 27,
+      "failed": 1,
+      "skipped": 0,
+      "scope": "protocol-version assertion fixed; original remote Lark stale verification fixture remains"
+    },
+    {
+      "file": "build.log",
+      "executedBy": "root; inspected by reviewer",
+      "status": "passed",
+      "scope": "Vite build; existing bundle-size warning"
+    }
+  ],
+  "postRunLimitation": "The pre-run review missed the no-handoff delegation completion path and a read-only fixture/output delivery conflict. See root-cause-audit.json. Pre-run approval does not establish runtime acceptance."
+}

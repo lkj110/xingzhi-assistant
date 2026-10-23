@@ -1,5 +1,25 @@
 # Context and evidence optimization acceptance status
 
+## Latest: R5b readiness, 2026-10-23
+
+The four reviewed repairs in `bb2ab900703b4200ea5d1bc9542c5c9c22c1f8cb`
+were tested on six fresh paired cases. All 12 branches were attempted, using
+50 calls and 955,117 tokens within the approved 96-call / 1,500,000-token limit.
+Candidate tokens were 488,485 versus 466,632 for the baseline (+4.68%).
+The candidate correctly passed the valid fixed draft and blocked the invalid
+one; the baseline blocked both. End-to-end tasks did not finish. Candidate
+revision drafts passed task verification, but the runner skipped delegation
+completion verification before acceptance, so no revision phase ran. These
+revision failures cannot be attributed to model quality or product revision
+capability. Raw completion rates are retained with this limitation.
+
+**Readiness did not pass.** No formal main evaluation or installed-app upgrade
+was started. See the [full R5b report](CONTEXT_ABCD_R5B.md) for denominators,
+independent audit, known regression failures, and the next repair order.
+The results below describe earlier snapshots, not the latest candidate.
+
+## Earlier development snapshot
+
 This development snapshot includes strict grounding, input attribution, A–D
 context improvements, and the reviewed repairs found by the first held-out run.
 It is **not an accepted release**. Existing installations are not upgraded by
