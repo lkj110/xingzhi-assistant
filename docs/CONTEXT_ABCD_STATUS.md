@@ -1,6 +1,14 @@
 # Context and evidence optimization acceptance status
 
-## Latest: R5b readiness, 2026-10-23
+## Latest development: R6 lifecycle and evidence handoff, 2026-10-26
+
+The evaluation lifecycle and evidence handoff repairs passed independent review
+after three categories of findings were fixed. The reviewer ran 186/186 checks;
+the final expanded regression passed 380/380. No new real-model calls or
+installed-app upgrade were made. See [R6 repairs and proposed budget](CONTEXT_ABCD_R6.md).
+A–D remains unaccepted; the latest real-model evidence is still R5b below.
+
+## Latest real-model result: R5b readiness, 2026-10-23
 
 The four reviewed repairs in `bb2ab900703b4200ea5d1bc9542c5c9c22c1f8cb`
 were tested on six fresh paired cases. All 12 branches were attempted, using

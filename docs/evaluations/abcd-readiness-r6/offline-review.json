@@ -1,0 +1,147 @@
+{
+  "schema": "abcd-readiness-offline-review/v1",
+  "round": "R6",
+  "date": "2026-10-26",
+  "parentCommit": "34f9f3104abbc04fb699d66b54efa967032399f9",
+  "reviewer": "independent subagent r6_independent_review",
+  "reviewStatus": "approved",
+  "unresolvedP0toP2": 0,
+  "findings": [
+    {
+      "priority": "P1",
+      "issue": "Historical file observations lacked canonical scope checks",
+      "resolution": "Use readScopes and current object permission, with withdrawn and cross-scope regressions"
+    },
+    {
+      "priority": "P2",
+      "issue": "Resume replay could fail after a lost response or collide with a later request",
+      "resolution": "Request identity plus durable command replay, including legacy identities and same-basis later requests"
+    },
+    {
+      "priority": "P1",
+      "issue": "Completed transport calls and stale reports could count as completed verification",
+      "resolution": "Require current intact task and goal reports; separate technical errors; isolate shared-ledger call attribution"
+    }
+  ],
+  "realModelCalls": 0,
+  "realModelTokens": 0,
+  "qualityMetrics": null,
+  "installedAppChanged": false,
+  "priorSealedExperimentsChanged": false,
+  "protocol": {
+    "grounding": 8,
+    "format": "compact-v5",
+    "input": "verify-input-v8"
+  },
+  "checks": [
+    {
+      "set": "initial-core",
+      "tests": 326,
+      "pass": 326,
+      "fail": 0,
+      "skipped": 0,
+      "localLogName": "readiness-r6-offline.log",
+      "localLogSha256": "dbf4c71ca4483135a001a7e1e060ec734d171e212821ac52b06b867371d7f51b"
+    },
+    {
+      "set": "initial-integration",
+      "tests": 238,
+      "pass": 236,
+      "fail": 1,
+      "skipped": 1,
+      "localLogName": "readiness-r6-integration.log",
+      "localLogSha256": "794aa79ed4b205410550f49cdb9967ab48634b67ea54ed66ce8d78b32255290f"
+    },
+    {
+      "set": "python-environment-recheck",
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "localLogName": "readiness-r6-python-recheck.log",
+      "localLogSha256": "8ea18d86fa075a21f81cf5cdcd127f3fa92b06e5c7cffb2ef2f7d4c77dabfdda"
+    },
+    {
+      "set": "independent-review-final",
+      "tests": 186,
+      "pass": 186,
+      "fail": 0,
+      "skipped": 0,
+      "localLogName": "readiness-r6-independent-review.log",
+      "localLogSha256": "69a68f71b1c6540f2a28f4296d5e7fd257d9c36ba3787da81c5e516dda6b44f3"
+    },
+    {
+      "set": "primary-agent-final-expanded",
+      "tests": 380,
+      "pass": 380,
+      "fail": 0,
+      "skipped": 0,
+      "localLogName": "readiness-r6-final-regression.log",
+      "localLogSha256": "e2f233d3b13fa226985e293ce033592b4911f9554b12d49ee282b0cee96fd973"
+    },
+    {
+      "set": "independent-baseline-strict-compatibility",
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "skipped": 0,
+      "localLogName": "readiness-r6-baseline-strict.log",
+      "localLogSha256": "23446a5222b505a9defd21395354e4c289a9a3c9c96f8949a80547cfbcd0b291"
+    }
+  ],
+  "build": {
+    "selectionCapture": "passed",
+    "imageOCR": "passed",
+    "pdfOCR": "passed",
+    "viteProduction": "passed",
+    "warning": "existing large bundle warning"
+  },
+  "limitations": [
+    "Test sets overlap; counts must not be added.",
+    "Initial Python PATH failure passed after adding the existing runtime directory to the test subprocess PATH.",
+    "One earlier integration symlink fixture was skipped because Windows link privileges were unavailable.",
+    "No full-repository certification, macOS packaging, external service integration, or new live-model evaluation."
+  ],
+  "reviewedImplementationFiles": {
+    "algorithm": "sha256",
+    "normalization": "UTF-8 bytes with CRLF normalized to LF, matching repository text convention",
+    "files": {
+      "desktop/agent-local.cjs": "acab9b276d0d75745076d897b6a887ab73a1a3467061de674f2ead7c37a29199",
+      "desktop/agent-writes.cjs": "dc082f573c7b6be411bdf93c8a294b1c051ca9d059260882910cd8f6e925730e",
+      "desktop/agent.cjs": "94a8aea7d1d7c54ae92d107052d410a63a061c8c721b6335e9e494c3046e4378",
+      "desktop/evidence-handoff.cjs": "c9d0ec3a2881d4309a2d04424b5a861f1d219822765cc14efeb31d45f386211e",
+      "desktop/evidence-request.cjs": "da5fac0056a90ab9e42df1e4ec1690ae6d3439e6ce2e40e3672085b137526d8a",
+      "desktop/generation-context.cjs": "10cdd8c83224f52b091d10dee85cfe9cf53e7c48426f4783cf819a93cb23bb1b",
+      "desktop/grounding.cjs": "2efbb27f2a30f2ccb2822d97d2401044d682d522c28dfe5f054e320e220ff2bb",
+      "desktop/tool-evidence.cjs": "0cce3d2c7220acec48f0f7affc3f27c061d5f18d8cd5a6437d9fb8779daf5dfd",
+      "desktop/tool-execution-events.cjs": "4c1df10248ac2fbaf789e6267dc2cd006ff21b5c68bf7023b629c1707ff8ec69",
+      "desktop/tool-registry.cjs": "4fcc421f44c461155dbdca0945b0be61870b114f33a7bed686a5e7ff76b68ca4",
+      "scripts/readiness/evaluate.cjs": "7fdf40c69897545dcb2ba0d2bc2f33c197dab957b4cbcc79d7d2805fbcd34238",
+      "scripts/readiness/fixtures.cjs": "71e74e7c4065b1ff8dd196bdfa936c75b54234dea068db6832932831fc4ffeb2",
+      "scripts/readiness/lifecycle.cjs": "885050b1056a02bf9c4369809b74a8ba53b99b751f7b1996678851035d46ed3c",
+      "tests/evidence-handoff-routing.test.cjs": "6b3fdbc16949d790ca403c812e2eff6fc9043285b821550ea1332f14a6e2783b",
+      "tests/grounding-consistency.test.cjs": "1d8c57b02899c7556fd84ff97b56816c3cf66befdca5d8adb7e9ba73393fb440",
+      "tests/grounding-input-compaction.test.cjs": "55bf9f0100f0bd6b046713945689728947db76f997f18b92c81cb47f26c02314",
+      "tests/readiness-evaluator.test.cjs": "cf9980b84187b59a38b49c8b63c6ef2a745ca58410c08088a4ebe8f96e351c2d",
+      "tests/readiness-lifecycle.test.cjs": "e6272df9d776da5484cf720ad37f52ca967fb95282ae440b5449fdf790f46bc2",
+      "tests/tool-execution-events.test.cjs": "d022b31fe1e9d8a10dc0784ce4ce7c1c72533fe04d2ad0aeed5db71d2e356812",
+      "tests/readiness-baseline-strict.test.cjs": "09c7845ddbd37691b43a5b4d8f9aeb6bc1722a8942eec8da55753508532f1ff4"
+    }
+  },
+  "proposedNextRound": {
+    "approved": false,
+    "pairs": 6,
+    "branches": 12,
+    "lanes": {
+      "fixed": 2,
+      "e2e": 2,
+      "revision": 2
+    },
+    "limits": {
+      "calls": 96,
+      "inputPlusOutputTokens": 2000000,
+      "concurrency": 1,
+      "callsPerBranchPerPhase": 12
+    }
+  }
+}

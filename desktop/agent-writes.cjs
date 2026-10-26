@@ -335,11 +335,20 @@ function readRecordedFile(a,job,task,record){
  return paths.map(file=>{if(path.dirname(file)!==job.outputFolder||fs.realpathSync(file)!==path.resolve(file)||fs.lstatSync(file).isSymbolicLink())throw Error('文件回读路径超出当前交付目录');const content=tools.readOutput(file);if(content!==record.content)throw Error('交付文件已改变');return {path:file,hash:hash(content)};});
 }
 function observeRecordedFile(a,job,task,record){
- if(!job||record.taskId!==task.id||record.jobId!==job.id||record.tool!=='write_file'||record.status!=='done'||job.fileMode==='off')throw Error('文件回读不在当前授权范围');
- assertOutputFolder(job.outputFolder);validateFileRecord(a,record,{currentTask:task});
+ if(!job||record.taskId!==task.id||record.jobId!==job.id||record.tool!=='write_file'||record.status!=='done')throw Error('文件回读不在当前授权范围');
+ require('./execution-gate.cjs').assert(a,{job,task,readOnly:true});
+ const artifacts=a.data.artifacts.filter(r=>r.id===record.artifactId);
+ const access=require('./protocol-access.cjs');
+ if(artifacts.length!==1||!access.readScopes(a,'artifact',artifacts[0],{task}).length||!access.allowedObject(a,'artifact',artifacts[0],job,task))throw Error('历史文件稿件不在当前可读范围');
+ // Historical observations compare the recorded version, independently of
+ // which artifact is now the primary delivery. Delivery gates stay strict.
+ validateFileRecord(a,record);
  const paths=[...new Set([record.result?.path,record.result?.latestPath].filter(Boolean))];if(!paths.length)throw Error('文件回执缺少实际路径');
  return paths.map(file=>{
-  if(path.dirname(file)!==job.outputFolder||path.resolve(file)!==file)throw Error('文件回读路径超出当前交付目录');
+  if(path.resolve(file)!==file)throw Error('文件回读路径超出当前授权目录');
+  const folder=(a.data.folders||[]).find(f=>(job.folderIds||[]).includes(f.id)&&f.path===path.dirname(file));
+  if(folder){assertOutputFolder(folder.path);require('./protocol-access.cjs').assertTool(a,job,'read_file',{folderId:folder.id,name:path.basename(file)},{taskId:task.id});}
+  else {if(job.fileMode==='off'||path.dirname(file)!==job.outputFolder)throw Error('文件回读不在当前授权目录');assertOutputFolder(job.outputFolder);}
   const base={fileName:path.basename(file),expectedHash:hash(record.content)};
   try{
    if(fs.lstatSync(file).isSymbolicLink()||fs.realpathSync(file)!==path.resolve(file))throw Error('文件回读路径超出当前交付目录');

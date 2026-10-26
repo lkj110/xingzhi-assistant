@@ -123,7 +123,8 @@ function configure(a,input){
  if(a.dir)require('./access-policy-store.cjs').syncTrustedJob(a,job,{trusted:true,actor:'user_command',command:'agentLocalSettings'});a.save();return {id:job.id,localTools:job.localTools};
 }
 function read(a,job,input){
- const task=owned(a,job,input.taskId),r=a.data.agentActions.find(r=>r.id===input.actionId&&r.jobId===job.id&&r.taskId===task.id&&r.status==='done'&&actions.includes(r.tool));if(!r)throw Error('执行结果不属于本事项');
+ const task=owned(a,job,input.taskId),r=a.data.agentActions.find(r=>r.id===input.actionId&&r.jobId===job.id&&r.taskId===task.id&&r.status==='done');if(!r)throw Error('执行结果不属于本事项');
+ if(!actions.includes(r.tool))throw Object.assign(Error('此回执不是代码/媒体工具产出；文件写入请经 Agent 的 read_local_result 或 compute_evidence action_status 进行只读观察'),{code:'READBACK_TOOL_MISMATCH'});
  if(!job.outputFolder||path.dirname(r.outputFolder)!==job.outputFolder)throw Error('原交付目录不在当前委托范围');verify(r);
  if(!input.filename)return {actionId:r.id,...r.result};
  const file=r.result.files.find(f=>path.relative(r.outputFolder,f.path)===input.filename);if(!file)throw Error('文件不在本次已核对的产出列表');

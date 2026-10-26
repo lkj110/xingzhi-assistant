@@ -13,27 +13,31 @@ function normalize(a,task,result,basis){
  const evidence=require('./evidence-basis.cjs'),inputFacts=evidence.taskSources(a,task).map(v=>evidence.hash(v));
  const job=a.data.delegations.find(j=>j.id===task.agentJobId);
  const recoveryRequest=job?require('./relation-obligations.cjs').requestProof(a,job,task,result):null;
- return {kind:result.kind,summary:result.summary.trim(),gaps:gaps.map(g=>g.trim()),requirements:requirements.map(r=>r.trim()),...(result.artifactId?{artifactId:result.artifactId}:{}),at:new Date().toISOString(),basis,inputFacts,...(recoveryRequest?{recoveryRequest}:{})};
+ return {id:require('node:crypto').randomUUID(),kind:result.kind,summary:result.summary.trim(),gaps:gaps.map(g=>g.trim()),requirements:requirements.map(r=>r.trim()),...(result.artifactId?{artifactId:result.artifactId}:{}),at:new Date().toISOString(),basis,inputFacts,toolExecutionIds:(task.toolExecutions||[]).map(e=>e.id),...(recoveryRequest?{recoveryRequest}:{})};
 }
 function resolution(a,job,task,next,args,{structural=false,bindingChanged=false}={}){
  const requested=args.evidenceResolution;
  if(requested===undefined)return null;
  const current=task?.evidenceRequest,evidence=require('./evidence-basis.cjs');
  if(!current||requested?.basis!==current.basis||!text(requested.reason,2000))throw Error('补证接续需要当前 evidenceRequest.basis 和具体说明');
- const ids=requested.sourceIds||[],keys=requested.operationKeys||[];
+ const ids=requested.sourceIds||[],keys=requested.operationKeys||[],toolIds=requested.toolEvidenceIds||[];
+ if(!Array.isArray(toolIds)||toolIds.length>20||new Set(toolIds).size!==toolIds.length||toolIds.some(id=>typeof id!=='string'))throw Error('求证回执 ID 无效');
+ const tools=require('./tool-evidence.cjs'),receipts=tools.current(a,task),events=require('./tool-execution-events.cjs');
+ const toolProofs=toolIds.map(id=>{const r=receipts.find(r=>r.id===id);const event=r&&events.rows(task,r).findLast(e=>!(current.toolExecutionIds||[]).includes(e.id)&&Date.parse(e.at)>=Date.parse(current.at));if(!event)throw Error('求证回执无效、已过期或并非本轮实际执行');return {receiptId:id,eventId:event.id,hash:event.hash};});
  if(!Array.isArray(ids)||!Array.isArray(keys)||ids.length>20||keys.length>20||ids.some(id=>typeof id!=='string'||!next.sourceIds.includes(id))||keys.some(k=>typeof k!=='string'))throw Error('补证回执必须引用已关联的来源或真实操作 key');
  const relations=require('./relation-obligations.cjs'),sources=relations.sourceRows(a,job,next,ids);
  if(sources.length!==new Set(ids).size)throw Error('补证来源不可读取或当前绑定已失效');
  const sourceChanged=Array.isArray(current.inputFacts)&&sources.some(s=>!current.inputFacts.includes(evidence.hash(evidence.version(s,next,job))));
  const operations=keys.map(k=>job.executionState?.operations?.[k]);
  if(operations.some(o=>!o||!['done','failed'].includes(o.status)||!require('./operation-ledger.cjs').valid(job,o,a)||!(Date.parse(o.completedAt)>=Date.parse(current.at))))throw Error('补证操作回执无效、已过期或早于请求');
- if(!sourceChanged&&!operations.length&&!(current.kind==='needs_replan'&&(structural||bindingChanged)))throw Error('补证尚无新依据；请先取得并关联证据，或修正明确的计划/主稿绑定');
+ if(!sourceChanged&&!operations.length&&!toolProofs.length&&!(current.kind==='needs_replan'&&(structural||bindingChanged)))throw Error('补证尚无新依据；请先取得并关联证据，或修正明确的计划/主稿绑定');
  // Diagnostic resolutions still route back to the planner. Only a typed new
  // fact for the original explicit gap is eligible for recovery accounting.
  // The existing atomic plan event persists this proof with request removal.
  const recoveryProof=relations.resolutionProof(a,job,task,next,current,ids);
- return {basis:current.basis,reason:requested.reason,sourceIds:ids,operationKeys:keys,at:new Date().toISOString(),...(recoveryProof?{recoveryProof}:{})};
+ return {requestId:identity(current),basis:current.basis,reason:requested.reason,sourceIds:ids,operationKeys:keys,...(toolProofs.length?{toolProofs}:{}),at:new Date().toISOString(),...(recoveryProof?{recoveryProof}:{})};
 }
-function view(request){if(!request)return request;const {inputFacts,inputSourceBasis,recoveryRequest,recoveryProof,...result}=request;return result;}
+function identity(request){return request?.id||require('./evidence-basis.cjs').hash(request);}
+function view(request){if(!request)return request;const {id,inputFacts,inputSourceBasis,toolExecutionIds,recoveryRequest,recoveryProof,...result}=request;return result;}
 const prompt='\n对于 Agent 委托，若缺少必须由平台/网页/扩展能力取得的新证据，返回 {"kind":"needs_evidence","summary":"下一步需要取得什么","gaps":["具体证据缺口"],"requirements":["对应要求ID"],"artifactId":"需要补证的已有稿件ID（可省略）"}；若当前步骤或主稿绑定与业务目标不符，返回 kind=needs_replan、summary、gaps。App 会交回上层 Agent 选择已授权工具。此返回不授予权限、不执行外部动作、不生成代替结果的缺证报告，也不要求用户代查。已有资料仍先read_context；真正需要用户决定、授权或提供无法自动取得的信息才need_input。';
-module.exports={kinds,normalize,resolution,view,prompt};
+module.exports={kinds,normalize,resolution,view,identity,prompt};

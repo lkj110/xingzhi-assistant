@@ -3,9 +3,9 @@
 // separate verifier call. No generator self-attestation can authorize delivery.
 const {hash}=require('./evidence-basis.cjs');
 const protocol=require('./task-context.cjs');
-const VERSION=7;
+const VERSION=8;
 const COMPACT_FORMAT='compact-v5';
-const INPUT_PROTOCOL='verify-input-v7';
+const INPUT_PROTOCOL='verify-input-v8';
 // Capture once when this worker loads the module, not when status is queried.
 const IMPLEMENTATION_HASH=require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync(__filename)).digest('hex');
 const rows=v=>Array.isArray(v)?v:[];
@@ -40,7 +40,7 @@ function snapshot(a,task){
   // never independent facts. Only the trusted UI command captures user input.
   const userInputs=rows(task.groundingUserInputs).filter(r=>r.origin==='user'&&task[r.field]===r.text).map(r=>({id:'user:'+r.field,text:r.text}));
   const basis=hash({version:VERSION,titles:require('./verification-titles.cjs').identity(a,task),checks:['A1','B','C','D','A2'].map(part=>[part,require('./context-optimizations.cjs').enabled(a,part)]),taskTitle:task.title,requirements:requirementsList,userInputs,artifacts:artifacts.map(r=>[r.id,r.title,hash(r.content)]),
-   inputs:c.inputBasis,permissions:c.readableCatalog.filter(r=>r.purpose==='input'||artifacts.some(a=>a.id===r.id)).map(r=>[r.id,r.version,r.policyRevision]),memory:require('./memory.cjs').signature(a,task.projectId),tools:require('./tool-evidence.cjs').current(a,task).map(r=>[r.id,r.contentHash]),
+   inputs:c.inputBasis,permissions:c.readableCatalog.filter(r=>r.purpose==='input'||artifacts.some(a=>a.id===r.id)).map(r=>[r.id,r.version,r.policyRevision]),memory:require('./memory.cjs').signature(a,task.projectId),tools:require('./tool-evidence.cjs').current(a,task).map(r=>[r.id,r.contentHash,require('./tool-execution-events.cjs').project(task,r).basis]),
    dependencies:rows(task.dependsOn).map(id=>{const t=a.data.tasks.find(t=>t.id===id);return t?[id,...currentArtifacts(a,t).map(r=>[r.id,hash(r.content)])]:[id,'missing'];})});
   return {basis,titles:require('./verification-titles.cjs').identity(a,task),requirements:requirementsList,artifacts,sources,userInputs,readableArtifactIds:c.readableCatalog.filter(r=>r.type==='artifact').map(r=>r.id)};
  });
@@ -130,7 +130,7 @@ function validate(a,task,response,{seen=new Set(),phase='result'}={}){
  protocol.withContext(a,protocol.taskScope(task),op=>{
   const validateCitation=(quote,label)=>{
    const tool=toolMap.get(quote?.sourceId);
-   if(tool){const body=tool.resultText,start=quote.start??body.indexOf(quote.quote);if(!text(quote.quote)||!Number.isSafeInteger(start)||start<0||body.slice(start,start+quote.quote.length)!==quote.quote||quote.start===undefined&&body.indexOf(quote.quote,start+1)>=0||seen.toolEvidence?.get(tool.id)?.hash!==tool.contentHash||seen.toolEvidence?.get(tool.id)?.text!==body){issue('工具依据未实际提供、过期或引用不匹配：'+label);return null;}return {sourceId:tool.id,title:'可重放工具结果 · '+tool.request.operation,version:tool.contentHash,start,end:start+quote.quote.length,quote:quote.quote,evidenceType:'tool',observedAt:tool.observedAt,validUntil:tool.validUntil};}
+   if(tool){const supplied=seen.toolEvidence?.get(tool.id),body=supplied?.text||'',currentText=require('./tool-evidence.cjs').project(tool,task).resultText,start=quote.start??body.indexOf(quote.quote);if(![tool.resultText,currentText].includes(body)||!text(quote.quote)||!Number.isSafeInteger(start)||start<0||body.slice(start,start+quote.quote.length)!==quote.quote||quote.start===undefined&&body.indexOf(quote.quote,start+1)>=0||seen.toolEvidence?.get(tool.id)?.hash!==tool.contentHash||seen.toolEvidence?.get(tool.id)?.text!==body){issue('工具依据未实际提供、过期或引用不匹配：'+label);return null;}return {sourceId:tool.id,title:'可重放工具结果 · '+tool.request.operation,version:tool.contentHash,start,end:start+quote.quote.length,quote:quote.quote,evidenceType:'tool',observedAt:tool.observedAt,validUntil:tool.validUntil};}
    const source=sourceMap.get(quote?.sourceId);let body=userMap.get(quote?.sourceId);
    if(source)try{body=op.snapshot().readContent(source.id);}catch{issue('原文不可读取或完整性校验失败：'+source.title);return null;}
    if(typeof body!=='string'||!text(quote?.quote)||quote.quote.length>1200){issue('引用缺失、超限或不属于当前授权输入：'+label);return null;}
@@ -288,7 +288,7 @@ function captureUserInput(task,field,value){
  if(text(value))task.groundingUserInputs.push({field,text:value,origin:'user'});
 }
 const consistencyInstruction='\n独立一致性检查：每次实质修改都完整核对当前全文，逐一比较同对象的数值、单位/分母、时间、责任主体、术语定义、范围、执行状态，以及摘要/正文、结论/例外。合法不同适用范围不算矛盾。consistencyIssues 必须返回数组；通过为 []，矛盾为 [{claimIds:["现有结论ID"],anchors:[{artifactId,quote:"当前正文逐字片段"},{artifactId,quote:"另一处逐字片段"}],reason:"具体冲突"}]。两锚点均关联所列结论、须不同；唯一逐字片段由应用定位，重复片段才须精确start，不猜字符偏移；无法完整判断就明确缺口，不能把局部通过当整稿通过。';
-const componentFiles=['context-optimizations','model-receipt','input-budget','evidence-search','evidence-plan','evidence-encoder','evidence-preparation','verification-titles','claim-qualification','grounding-classification','tool-evidence','memory'];
+const componentFiles=['context-optimizations','model-receipt','input-budget','evidence-search','evidence-plan','evidence-encoder','evidence-preparation','verification-titles','claim-qualification','grounding-classification','tool-evidence','tool-execution-events','evidence-handoff','memory'];
 const componentHashes=Object.fromEntries(componentFiles.map(name=>[name,require('node:crypto').createHash('sha256').update(require('node:fs').readFileSync(require.resolve('./'+name+'.cjs'))).digest('hex')]));
 const status=a=>({enabled:enabled(a),version:VERSION,implementationHash:IMPLEMENTATION_HASH,format:COMPACT_FORMAT,inputProtocol:INPUT_PROTOCOL,inputComponents:{attribution:require('./input-attribution.cjs').IMPLEMENTATION_HASH,receipts:require('./receipt-input.cjs').IMPLEMENTATION_HASH,...componentHashes},optimizations:Object.fromEntries(['A1','B','C','D','A2'].map(p=>[p,require('./context-optimizations.cjs').enabled(a,p)])),encoder:require('./evidence-encoder.cjs').status(),features:['disclosed-source-conflicts','shared-citations','receipt-input-v2','input-attribution-v2','model-budget-v2','hybrid-evidence-v2','deterministic-evidence-v1','cross-section-consistency-v1']});
 module.exports={VERSION,INPUT_PROTOCOL,enabled,status,requirements,snapshot,reusable,context,observe,covered,sourceCovered,finish,validate,assertDelivery,assertPayload,assertAction,captureUserInput,instruction,reviewInstruction,consistencyInstruction};

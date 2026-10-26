@@ -127,7 +127,7 @@ async function call(a,task,system,initial,role='execute'){
   initial={...initial,evidencePlan:task.evidencePlan};save(a);
  }}
  const computed=require('./context-optimizations.cjs').enabled(a,'C');
- if(computed){system+=require('./tool-evidence.cjs').instruction;initial={...initial,toolEvidence:require('./tool-evidence.cjs').current(a,task).map(require('./tool-evidence.cjs').project)};}
+ if(computed){system+=require('./tool-evidence.cjs').instruction;initial={...initial,toolEvidence:require('./tool-evidence.cjs').current(a,task).map(r=>require('./tool-evidence.cjs').project(r,task))};}
  const job=a.data.delegations.find(j=>j.id===task.agentJobId),scope=protocol.taskScope(task);
  const checkPhase=role==='verify'?(initial.verificationPhase==='content'?'content':'result'):role;
  const gate=()=>require('./execution-gate.cjs').assert(a,{job,task,readOnly:true});
@@ -255,7 +255,7 @@ async function call(a,task,system,initial,role='execute'){
   const readNext=requests=>hybrid?require('./evidence-search.cjs').readRequests(a,task,requests,readBatch):readBatch(a,task,requests);
   const batch=computed?await require('./tool-evidence.cjs').readRequests(a,task,result.requests,readNext):await readNext(result.requests),results=batch.rows;
   if(hybrid&&role!=='verify'&&context.evidencePlan){task.evidencePlan=require('./evidence-search.cjs').consumePlan(context.evidencePlan,batch);context={...context,evidencePlan:task.evidencePlan};}
-  if(batch.toolEvidence?.length)context={...context,toolEvidence:require('./tool-evidence.cjs').current(a,task).map(require('./tool-evidence.cjs').project)};
+  if(batch.toolEvidence?.length)context={...context,toolEvidence:require('./tool-evidence.cjs').current(a,task).map(r=>require('./tool-evidence.cjs').project(r,task))};
   if(batch.searches?.length){context={...context,hybridSearch:batch.searches.map(({requests,...r})=>r)};task.evidenceSearch=require('./evidence-search.cjs').summary(batch.searches);}
   coverageReads.push(...results.filter(r=>r.request?.tool==='read_obligations'&&r.result?.ok));
   used.push(...batch.used);
