@@ -2,18 +2,18 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const {Assistant}=require('../desktop/core.cjs'),grounding=require('../desktop/grounding.cjs'),generation=require('../desktop/generation-context.cjs'),modelInput=require('../desktop/model-input.cjs');
 const sourceText='仓库记录：蓝箱存放12件，绿箱存放18件。两箱分别登记，不合并统计。',draftText='蓝箱存放12件，按蓝箱单独登记的数量报告。';
-async function fixture(t,{first,second,content=draftText,hook}={}){
+async function fixture(t,{first,second,content=draftText,hook,sourceContent=sourceText}={}){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-classification-'));t.after(()=>{assert.ok(path.resolve(dir).startsWith(path.resolve(os.tmpdir())+path.sep));fs.rmSync(dir,{recursive:true,force:true,maxRetries:5,retryDelay:50});});
  const calls=[];let a,task,source,draft;
- const response=(kind='inference')=>({passed:true,summary:'独立核对当前要求、正文及来源。',gaps:[],groundingReview:{format:'compact-v5',scannedArtifactIds:[draft.id],citations:[{id:'e1',sourceId:source.id,quote:sourceText}],requirements:grounding.requirements(a,task).map(r=>({id:r.id,status:'satisfied',claimIds:['c1']})),claims:[{id:'c1',artifactId:draft.id,text:content,kind,supported:true,citationIds:['e1']}],unsupportedClaims:[],conflicts:[],consistencyIssues:[]}});
- a=new Assistant({dir,chat:async(_p,_k,messages)=>{
-  const payload=modelInput.materialize(JSON.parse(messages[1].content));calls.push({payload,system:messages[0].content});
+ const response=(kind='inference')=>({passed:true,summary:'独立核对当前要求、正文及来源。',gaps:[],groundingReview:{format:'compact-v5',scannedArtifactIds:[draft.id],citations:[{id:'e1',sourceId:source.id,quote:sourceContent}],requirements:grounding.requirements(a,task).map(r=>({id:r.id,status:'satisfied',claimIds:['c1']})),claims:[{id:'c1',artifactId:draft.id,text:content,kind,supported:true,citationIds:['e1']}],unsupportedClaims:[],conflicts:[],consistencyIssues:[]}});
+ a=new Assistant({dir,chat:async(_p,_k,messages,options)=>{
+  const payload=modelInput.materialize(JSON.parse(messages[1].content));calls.push({payload,system:messages[0].content,options});
   if(calls.length===1)return {kind:'read_context',requests:[{tool:'read_source',sourceId:source.id}]};
   const result=response(payload.groundingClassificationReview?'fact':'inference');
   hook?.({a,task,source,draft,calls,payload});
   return (payload.groundingClassificationReview?second:first)?.(result,{a,task,source,draft,calls,payload})||result;
  }});
- a.data.settings.evidenceGrounding=true;a.addSources([{title:'分箱登记',content:sourceText}]);source=a.data.sources[0];
+ a.data.settings.evidenceGrounding=true;a.addSources([{title:'分箱登记',content:sourceContent}]);source=a.data.sources[0];
  task=a.createTask({title:'箱内件数查询',description:'根据原文报告蓝箱登记件数。',criteria:'数量和箱名准确，保留来源与范围。',sourceIds:[source.id],generationMode:'single',steps:[{title:'查询结果',kind:'draft'}]});
  draft={id:'classification-draft',taskId:task.id,stepId:task.steps[0].id,title:'蓝箱登记',content};a.data.artifacts.push(draft);require('../desktop/protocol-access.cjs').retain(a,'artifact',draft,{task});task.steps[0].done=true;task.steps[0].artifactId=draft.id;require('../desktop/deliverables.cjs').record(a,task,task.steps[0],draft,{});
  await a.dispatch('saveProvider',{name:'offline',baseUrl:'http://127.0.0.1:1/v1',model:'mock',key:'offline-only',inputPrice:0,outputPrice:0});a.save();
@@ -22,10 +22,33 @@ async function fixture(t,{first,second,content=draftText,hook}={}){
 test('one independent classification correction preserves complete target and source',async t=>{
  const f=await fixture(t);const result=await f.run();assert.equal(result.passed,true,result.summary);assert.equal(f.calls.length,3);
  const retry=f.calls[2].payload;assert.equal(retry.groundingClassificationReview.claims[0].text,draftText);assert.ok(f.calls[2].system.includes('不预设应该通过'));assert.ok(JSON.stringify(retry).includes(sourceText));
+ assert.ok(f.calls.every(c=>c.options.responseContract===require('../desktop/verification-output.cjs').ID),'read loop and bounded classification carry the explicit strict contract');
  const record=Object.values(f.task.contextFinalizations)[0];assert.equal(record.reason,'grounding_classification');assert.equal(record.initialGrounding.passed,false);assert.equal(record.status,'returned');assert.ok(record.transport.requestId);
  await assert.rejects(f.run(),/有界结论/);assert.equal(f.calls.length,3);
  const restarted=new Assistant({dir:f.dir,chat:async()=>{throw Error('Unexpected transport after restart');}}),task=restarted.data.tasks.find(x=>x.id===f.task.id);
  await assert.rejects(generation.call(restarted,task,'独立核验。',restarted.context(task,{verification:true}),'verify'),/有界结论/);
+});
+
+test('direct entailment with all premises needs no literal inference marker or extra call',async t=>{
+ const sourceContent='同一值守员必须在甲室09:00至09:30全程在场，并在乙室09:10至09:40全程在场。两室独立且不能同时覆盖。',content='上述时间要求存在重叠，同一值守员无法同时满足两室全程在场要求。';
+ const f=await fixture(t,{sourceContent,content,first:r=>{r.groundingReview.claims[0].kind='fact';return r;}}),result=await f.run();
+ assert.equal(result.passed,true,result.summary);assert.equal(f.calls.length,2);assert.equal(result.grounding.claims[0].citations[0].quote,sourceContent);
+ assert.ok(f.calls[1].system.includes(require('../desktop/claim-semantics.cjs').instruction));
+ f.task.grounding=result.grounding;assert.equal((await f.run()).passed,true);assert.equal(f.calls.at(-1).options.responseContract,undefined,'cached protocol stays legacy');
+});
+test('same-paragraph premise and applicable limit can bind inference without keyword matching',async t=>{
+ const content='在两库库存记录均完整的条件下，现有数据支持蓝箱需要更少货位；尚无现场堆放尺寸，不能确定实际货位数。';
+ const f=await fixture(t,{content,first:r=>{const c=r.groundingReview.claims[0];c.field='content';c.text='现有数据支持蓝箱需要更少货位';c.qualification={field:'content',quote:content};return r;}}),result=await f.run();
+ assert.equal(result.passed,true,result.summary);assert.equal(f.calls.length,2);assert.equal(result.grounding.claims[0].qualification.quote,content);
+});
+test('model refusal over marker, hidden assumption or execution claim cannot be locally converted into pass',async t=>{
+ for(const reason of ['已读前提支持结论，但没有额外写推断二字','两室是否由同一人负责未说明','排期不证明已经通知观众']){
+  const f=await fixture(t,{first:r=>{r.passed=false;r.gaps=[reason];r.groundingReview.claims[0].supported=false;r.groundingReview.claims[0].reason=reason;return r;}}),result=await f.run();
+  assert.equal(result.passed,false);assert.equal(f.calls.length,2);assert.ok(result.gaps.includes(reason));assert.equal(Object.keys(f.task.contextFinalizations||{}).length,0);
+ }
+});
+test('nonstrict verification does not opt into compact report transport',async t=>{
+ const f=await fixture(t);f.a.data.settings.evidenceGrounding=false;await f.run();assert.ok(f.calls.every(c=>c.options.responseContract===undefined));
 });
 test('genuine unmarked inference remains blocked after sole recheck',async t=>{
  const f=await fixture(t,{content:'蓝箱数量较少，因此运输过程更安全。',second:r=>{r.groundingReview.claims[0].kind='inference';return r;}});const result=await f.run();assert.equal(result.passed,false);assert.equal(f.calls.length,3);assert.ok(result.grounding.issues.some(x=>x.includes('未在正文标明')));

@@ -65,35 +65,41 @@ function identity() {
   const config=metadata(path.join(home,'config.toml'));
   return {cliHash:cli?hash(cli):null,configurationHash:config.code&&config.code!=='ENOENT'?null:hash({env,config})};
 }
-function processCall(bin, args, {cwd, input, signal, timeoutMs = 15000, idleTimeoutMs = 0, onLine, onProgress} = {}) {
+function processCall(bin, args, {cwd, input, signal, timeoutMs = 15000, idleTimeoutMs = 0, onLine, onProgress, onClose} = {}) {
   return new Promise((resolve, reject) => {
-    signal?.throwIfAborted();
-    const child = spawn(bin, args, {cwd, env:environment(), stdio:['pipe','pipe','pipe'], detached:process.platform!=='win32',windowsHide:true});
-    let output = '', pending = '', bytes = 0, failure, hardKill, idleTimer;
+    const clock=()=>require('node:perf_hooks').performance.now(),started=clock();let lastActivity=started,stderrBytes=0,terminationRequested=false;
+    let output = '', pending = '', bytes = 0, failure, hardKill, idleTimer,child;
+    const closed=(state,exitCode,exitSignal)=>onClose?.({state,exitCode,signal:exitSignal,durationMs:Math.max(0,Math.round(clock()-started)),idleMs:Math.max(0,Math.round(clock()-lastActivity)),stdoutBytes:bytes,stderrBytes,terminationRequested,errorCode:failure?.code,timeoutKind:failure?.timeoutKind});
+    try{signal?.throwIfAborted();child=spawn(bin,args,{cwd,env:environment(),stdio:['pipe','pipe','pipe'],detached:process.platform!=='win32',windowsHide:true});}
+    catch(error){failure=error;closed(signal?.aborted?'not_started':'spawn_failed');reject(error);return;}
+    const decoder=new (require('node:string_decoder').StringDecoder)('utf8');
     const terminate=signal=>{if(process.platform==='win32')require('./host-process.cjs').terminate(child,signal);else try{process.kill(-child.pid,signal);}catch{}};
-    const kill = () => {terminate('SIGTERM');hardKill ||= setTimeout(()=>terminate('SIGKILL'),1500);};
-    const abort = () => { failure = cancelledError(); kill(); };
+    const kill = () => {if(!terminationRequested){terminationRequested=true;hardKill=setTimeout(()=>terminate('SIGKILL'),1500);terminate('SIGTERM');}};
+    const abort = () => { failure ||= cancelledError(); kill(); };
     signal?.addEventListener('abort', abort, {once:true});
-    const timer = timeoutMs > 0 ? setTimeout(() => { failure = policy.timeoutError('total'); kill(); }, timeoutMs) : null;
+    const timer = timeoutMs > 0 ? setTimeout(() => { failure ||= policy.timeoutError('total'); kill(); }, timeoutMs) : null;
     const activity = () => {
       clearTimeout(idleTimer);
-      if (idleTimeoutMs > 0) idleTimer = setTimeout(() => { failure = policy.timeoutError('idle'); kill(); }, idleTimeoutMs);
+      lastActivity=clock();
+      if (idleTimeoutMs > 0) idleTimer = setTimeout(() => { failure ||= policy.timeoutError('idle'); kill(); }, idleTimeoutMs);
       onProgress?.({lastActivityAt:new Date().toISOString()});
     };
     activity();
     child.stdout.on('data', chunk => {
       activity();
       bytes += chunk.length;
-      if (bytes > 4_000_000) { failure = modelError('MODEL_INVALID_RESPONSE','Codex 响应超过大小上限',false); kill(); return; }
-      output = (output + chunk.toString()).slice(-16000);
-      pending += chunk.toString(); let end;
+      if (bytes > 4_000_000) { failure ||= modelError('MODEL_INVALID_RESPONSE','Codex 响应超过大小上限',false); kill(); return; }
+      const decoded=decoder.write(chunk);output = (output + decoded).slice(-16000);
+      pending += decoded; let end;
       while ((end = pending.indexOf('\n')) >= 0) { const line = pending.slice(0,end); pending = pending.slice(end+1); try { onLine?.(line); } catch (error) { failure ||= error; kill(); } }
     });
-    child.stderr.on('data', chunk => { activity(); output = (output + chunk.toString()).slice(-16000); });
-    child.on('error', () => { failure = modelError('MODEL_CONFIG','无法启动 Codex CLI，请重新安装或检测',false); });
-    child.on('close', code => {
+    child.stderr.on('data', chunk => { activity();stderrBytes+=chunk.length; output = (output + chunk.toString()).slice(-16000); });
+    child.on('error', () => { failure ||= modelError('MODEL_CONFIG','无法启动 Codex CLI，请重新安装或检测',false); });
+    child.on('close', (code,exitSignal) => {
       clearTimeout(timer); clearTimeout(idleTimer); clearTimeout(hardKill); signal?.removeEventListener('abort', abort);
+      pending+=decoder.end();
       if (pending) try { onLine?.(pending); } catch (error) { failure ||= error; }
+      try{closed('closed',code,exitSignal);}catch(error){reject(error);return;}
       if (failure) reject(failure); else resolve({code, output});
     });
     child.stdin.on('error', () => {}); child.stdin.end(input || '');
@@ -127,7 +133,7 @@ function validateInput(messages){
   if(inputChars>maxInputChars)throw inputSizeError(inputChars);
   return input;
 }
-async function chat(config, _key, messages, {signal, onUsage, onProgress, onReceipt, timeoutMs} = {}) {
+async function chat(config, _key, messages, {signal, onUsage, onProgress, onReceipt, timeoutMs, responseContract} = {}) {
   let input;try{input=validateInput(messages);}catch(e){onUsage?.({inputTokens:0,outputTokens:0,cachedInputTokens:0});throw e;}
   let root,execEntered=false,stage='executable';
   const receipt=require('./model-receipt.cjs').create('codex_cli',input);
@@ -143,7 +149,8 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, onRece
     root=fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-model-'));
     root=fs.realpathSync(root);
     const schema = path.join(root,'schema.json'), output = path.join(root,'response.json');
-    fs.writeFileSync(schema, JSON.stringify({type:'object',properties:{response_json:{type:'string'}},required:['response_json'],additionalProperties:false}));
+    const contract=require('./verification-output.cjs'),structured=contract.selected({responseContract});
+    fs.writeFileSync(schema, structured?contract.serialized:JSON.stringify({type:'object',properties:{response_json:{type:'string'}},required:['response_json'],additionalProperties:false}));
     const args = ['exec','--ignore-user-config','--ephemeral','--sandbox','read-only','--skip-git-repo-check','--color','never','--json','--model',config.model,
       ...protocol.configuration(),'-c',`model_reasoning_effort=${JSON.stringify(config.reasoning || 'medium')}`,
       '--output-schema',schema,'--output-last-message',output,'-'];
@@ -152,11 +159,11 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, onRece
     // Set before processCall, including synchronous spawn/argument failures.
     execEntered=true;
     const result = await processCall(bin,args,{cwd:root,signal,timeoutMs:timeoutMs ?? limits.totalMinutes*60000,idleTimeoutMs:limits.idleMinutes*60000,onProgress,
-      input,
+      input,onClose:value=>receipt.process(value),
       onLine(line) {
         let event; try { event = JSON.parse(line); } catch { return; }
         const usage=event.usage;
-        receipt.event(event.type,{requestId:event.request_id,threadId:event.thread_id,errorCode:['error','turn.failed'].includes(event.type)?cliFailure(event.error||event).code:undefined,
+        if(['thread.started','turn.started','turn.completed','turn.failed','error'].includes(event.type))receipt.event(event.type,{requestId:event.request_id,threadId:event.thread_id,errorCode:['error','turn.failed'].includes(event.type)?cliFailure(event.error||event).code:undefined,
           ...(['turn.completed','turn.failed'].includes(event.type)&&usage!=null?{usage:{inputTokens:usage.input_tokens,outputTokens:usage.output_tokens,...(Object.hasOwn(usage,'cached_input_tokens')?{cachedInputTokens:usage.cached_input_tokens}:{})}}:{})});
         if (event.type === 'turn.completed') completed = true;
         if (event.type === 'error') streamError=cliFailure(event.error||event);
@@ -164,13 +171,13 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, onRece
         const boundaryError = protocol.hostToolError(event.item);
         if (boundaryError) throw boundaryError;
       }});
-    receipt.event('process_exit',{exitCode:result.code});
     const rejectedInput=inputFailure(result.output);
     if(rejectedInput){receipt.event('error',{errorCode:rejectedInput.code,usage:{inputTokens:0,outputTokens:0,cachedInputTokens:0}});throw rejectedInput;}
     if (failure) throw failure;
     if (result.code !== 0 || !completed) throw streamError||incomplete(result.code,completed);
     if (!fs.existsSync(output) || fs.statSync(output).size > 2_000_000) throw modelError('MODEL_INVALID_RESPONSE','订阅模型没有返回有效结果',false);
-    return require('./model-json.cjs').subscription(fs.readFileSync(output,'utf8'));
+    const raw=fs.readFileSync(output,'utf8');
+    return structured?contract.decode(raw):require('./model-json.cjs').subscription(raw);
   } catch (error) {
     if(!execEntered){
       const failure=preflightError(signal?.aborted?cancelledError():error,stage);

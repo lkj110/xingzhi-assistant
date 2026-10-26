@@ -19,11 +19,13 @@ test('Waiting resets on activity, total deadline does not reset, and timers clea
   const unlimited=policy.watch();t.mock.timers.tick(100000000);assert.equal(unlimited.signal.aborted,false);unlimited.close();
 });
 test('Codex subprocess activity extends idle window without a total deadline',async()=>{
-  let updates=0;const r=await processCall(process.execPath,['-e','let i=0;const t=setInterval(()=>{console.log(++i);if(i===6){clearInterval(t);}},50)'],{timeoutMs:0,idleTimeoutMs:200,onProgress:()=>updates++});assert.equal(r.code,0);assert.ok(updates>=7);
+  // Allow real Windows process startup under concurrent suites. Keep emitting
+  // longer than the idle window so this still checks reset, not just startup.
+  let updates=0,receipt;const r=await processCall(process.execPath,['-e','let i=0;const t=setInterval(()=>{console.log(++i);if(i===6){clearInterval(t);}},300)'],{timeoutMs:0,idleTimeoutMs:1500,onProgress:()=>updates++,onClose:v=>receipt=v});assert.equal(r.code,0);assert.ok(updates>=7);assert.ok(receipt.durationMs>1500);
 });
 test('Codex subprocess distinguishes idle timeout from explicit total deadline',async()=>{
   await assert.rejects(processCall(process.execPath,['-e','setTimeout(()=>{},10000)'],{timeoutMs:0,idleTimeoutMs:100}),e=>e.code==='MODEL_TIMEOUT'&&e.timeoutKind==='idle');
-  await assert.rejects(processCall(process.execPath,['-e','setInterval(()=>console.log("active"),30)'],{timeoutMs:220,idleTimeoutMs:150}),e=>e.timeoutKind==='total');
+  let receipt;await assert.rejects(processCall(process.execPath,['-e','setInterval(()=>console.log("active"),30)'],{timeoutMs:4000,idleTimeoutMs:1500,onClose:v=>receipt=v}),e=>e.timeoutKind==='total');assert.ok(receipt.stdoutBytes>0,'process must actually emit before total deadline');
 });
 test('Unlimited API wait still responds to user cancellation',async t=>{
   const previous=global.fetch;t.after(()=>{global.fetch=previous;});

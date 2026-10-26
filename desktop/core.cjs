@@ -275,9 +275,9 @@ class Assistant {
       { role: 'user', content: JSON.stringify(payload) }
     ];
   }
-  async call(role, prompt, payload, {boundedFinalization,onSupplied} = {}) {
+  async call(role, prompt, payload, {boundedFinalization,onSupplied,responseContract} = {}) {
     const provider = this.available(role);
-    const result = await this.callModel(provider, undefined, this.modelMessages(prompt,payload), { signal: this.controller?.signal, role, stage: role==='verify'?'task_verify':'task_work', routingContext: payload, boundedFinalization,onSupplied });
+    const result = await this.callModel(provider, undefined, this.modelMessages(prompt,payload), { signal: this.controller?.signal, role, stage: role==='verify'?'task_verify':'task_work', routingContext: payload, boundedFinalization,onSupplied,responseContract });
     this.controller?.signal.throwIfAborted();
     return result;
   }
@@ -301,7 +301,8 @@ class Assistant {
       assertActive();
       if(requestOptions.role==='execute')require('./evidence-consumption.cjs').modelGuard(this);
       if(authorization!==revision())throw modelError('MODEL_CONFIG','模型配置已变化，请重新推进。',false);
-      const preparedInput=require('./input-budget.cjs').prepare(this,p,requestMessages,{stage,shrink});
+      const transportSchema=require('./verification-output.cjs').overhead(p,requestOptions);
+      const preparedInput=require('./input-budget.cjs').prepare(this,p,requestMessages,{stage,shrink,transportSchema});
       requestMessages=preparedInput.messages;
       lastPreparedBudget=preparedInput.diagnostic;
       // Includes the real system/profile and both JSON serialization layers.
@@ -313,7 +314,7 @@ class Assistant {
       const priorCalls=chargedJob?.callsUsed,priorRuleUsage=chargedRule?clone(chargedRule.usage):null;
       agent.chargeCall(this,{persist:false});
       let spendTicket;
-      try{spendTicket=spend.reserve(owner,p,requestMessages,{evaluation:owner!==this});stewardship.reserve(owner);}catch(error){
+      try{spendTicket=spend.reserve(owner,p,requestMessages,{evaluation:owner!==this,extraInputBytes:transportSchema?.utf8Bytes||0});stewardship.reserve(owner);}catch(error){
         if(spendTicket)spend.cancel(owner,spendTicket);
         if(chargedJob)chargedJob.callsUsed=priorCalls;
         if(chargedRule)chargedRule.usage=priorRuleUsage;
@@ -321,7 +322,7 @@ class Assistant {
       }
       // A persistence failure is never a reason to send this context to another model.
       try{owner.save();if(owner!==this)this.save();}catch{throw persistenceError();}
-      const meta={...requestOptions,stage,spendTicket,requestId,attempt:number,inputBudget:preparedInput.diagnostic,...(selection.routing?{routing:selection.routing}:{}),...(from?{fallbackFrom:from}:{})};
+      const meta={...requestOptions,stage,spendTicket,requestId,attempt:number,inputBudget:preparedInput.diagnostic,transportSchema,...(selection.routing?{routing:selection.routing}:{}),...(from?{fallbackFrom:from}:{})};
       if(owner!==this){const result=await efficiency.call(owner,p,k,requestMessages,{...meta,stage:'evaluation'},(p,k,m,o)=>efficiency.call(this,p,k,m,{...o,spendTicket:null},this.chat));assertActive(true);onSupplied?.(preparedInput);return result;}
       const consumption=require('./evidence-consumption.cjs');consumption.beforeModel(this,meta);
       try{const result=await efficiency.call(this,p,k,requestMessages,meta,this.chat);consumption.afterModel(this,meta);assertActive(true);onSupplied?.(preparedInput);return result;}catch(error){consumption.afterModel(this,meta,error);throw error;}

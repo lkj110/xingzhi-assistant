@@ -24,7 +24,7 @@ test('Execution receives the goal, configured destination and matching waits; re
   job.followups.push({key:'client',taskId:task.id,status:'resolved',expected:'客户回复',evidence:'已收到客户回复',sourceId:'reply'}, {key:'other',taskId:'different-task',status:'waiting'});
   task.planHistory.push({steps:[{evidence:'OLD_RECEIPT_INTERNAL'}]});
   await a.dispatch('advance',{id:task.id});await a.runPromise;
-  assert.equal(inputs[0].delegation.output.folder,output);assert.equal(inputs[0].delegation.goal,job.goal);assert.equal(inputs[0].delegation.feedback[0].text,'客户确认仍需跟进');
+  assert.equal(inputs[0].delegation.output.folder,output);assert.equal(inputs[0].delegation.goal,job.goal);assert.deepEqual(inputs[0].delegation.userDirectives.map(r=>r.text),['客户确认仍需跟进']);
   assert.deepEqual(inputs[0].delegation.followups.map(f=>f.key),['client']);assert.equal(inputs[0].deliveryEvidence,undefined);assert.ok(!JSON.stringify(inputs[0]).includes('OLD_RECEIPT_INTERNAL'));
   const saved=await agent.act(a,job,'write_file',{taskId:task.id});
   await a.dispatch('advance',{id:task.id});await a.runPromise;

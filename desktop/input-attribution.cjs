@@ -18,7 +18,7 @@ function category(path){
  if(['readableCatalog','sourceCatalog','historyCatalog','currentArtifact','catalogIndex','catalogNote','inputBudget','bodyReferenceNote','receiptReferenceNote','toolEvidenceReferenceNote'].includes(top))return 'navigation';
  return 'other';
 }
-function measure(messages){
+function measure(messages,transportSchema){
  const totals=Object.fromEntries(categories.map(key=>[key,{serializedChars:0,utf8Bytes:0}]));
  const add=(key,text)=>{totals[key].serializedChars+=text.length;totals[key].utf8Bytes+=Buffer.byteLength(text,'utf8');};
  const visit=(value,path=[])=>{
@@ -37,8 +37,9 @@ function measure(messages){
    if(value&&typeof value==='object'&&JSON.stringify(value)===content)visit(value);else add('other',content);
   }else add(message.role==='tool'?'toolReceipts':'other',content);
  }
+ if(transportSchema){totals.systemInstructions.serializedChars+=transportSchema.chars;totals.systemInstructions.utf8Bytes+=transportSchema.utf8Bytes;}
  const visibleChars=Object.values(totals).reduce((n,r)=>n+r.serializedChars,0),visibleUtf8Bytes=Object.values(totals).reduce((n,r)=>n+r.utf8Bytes,0);
- return {version:VERSION,visibleChars,visibleUtf8Bytes,categories:totals,usageReported:false,observedUsage:null,allocationMethod:'reported-input-proportional-to-visible-utf8-bytes',limitation:'Category tokens are estimates; tokenizer, provider framing and cached-token placement are not observable. Actual totals are in observedUsage.'};
+ return {version:VERSION,visibleChars,visibleUtf8Bytes,categories:totals,...(transportSchema?{transportSchema:{...transportSchema}}:{}),usageReported:false,observedUsage:null,allocationMethod:'reported-input-proportional-to-visible-utf8-bytes',limitation:'Category tokens are estimates; tokenizer, provider framing and cached-token placement are not observable. Actual totals are in observedUsage.'};
 }
 function settle(measured,usage){
  const valid=usage&&['inputTokens','outputTokens','cachedInputTokens'].every(k=>Number.isFinite(usage[k])&&usage[k]>=0)&&usage.cachedInputTokens<=usage.inputTokens;

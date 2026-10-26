@@ -19,11 +19,13 @@ function reference(kind,value){
  return {kind,hash:hash(value),...(plain?{id:value}:{})};
 }
 function create(source,input){
+ const started=require('node:perf_hooks').performance.now();
  const state={version:1,source,attemptId:crypto.randomUUID(),inputHash:hash(input),eventCount:0,events:[],references:[],usageStatus:'unknown',usage:null};
  return {
   event(type,{requestId,threadId,exitCode,httpStatus,errorCode,usage:reported}={}){
    if(!types.has(type))return;
-   const event={sequence:++state.eventCount,type};
+   const event={sequence:++state.eventCount,type,elapsedMs:Math.max(0,Math.round(require('node:perf_hooks').performance.now()-started))};
+   if(['thread.started','turn.started','turn.completed','turn.failed'].includes(type))state.lastProtocolEvent=type;
    if(Number.isInteger(exitCode))event.exitCode=exitCode;
    if(Number.isInteger(httpStatus)&&httpStatus>=100&&httpStatus<=599)event.httpStatus=httpStatus;
    if(require('./model-errors.cjs').safeErrorCode({code:errorCode})===errorCode)event.errorCode=errorCode;
@@ -39,6 +41,17 @@ function create(source,input){
    if(state.events.length<64)state.events.push(event);else state.events[63]=event;
   },
   snapshot(){return structuredClone(state);},
+  // Local process facts, never fields supplied by CLI event JSON. No output text.
+  process(value){
+   const result={};
+   for(const key of ['durationMs','idleMs','stdoutBytes','stderrBytes'])if(integer(value?.[key]))result[key]=value[key];
+   if(['closed','spawn_failed','not_started'].includes(value?.state))result.state=value.state;
+   if(['idle','total'].includes(value?.timeoutKind))result.timeoutKind=value.timeoutKind;
+   if(['SIGTERM','SIGKILL','SIGINT'].includes(value?.signal))result.signal=value.signal;
+   if(typeof value?.terminationRequested==='boolean')result.terminationRequested=value.terminationRequested;
+   state.process=result;
+   this.event('process_exit',{exitCode:value?.exitCode,errorCode:value?.errorCode});
+  },
  };
 }
 module.exports={create,usage};

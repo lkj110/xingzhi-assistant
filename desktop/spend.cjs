@@ -106,7 +106,7 @@ function reserve(a,p,messages,options={}){
   if(!price)block('pricing',`模型 ${p.model} 尚未配置单价，请到模型设置填写输入、缓存输入和输出单价后继续。`);
   if(unsettled(s))block('unknown',`有 ${unsettled(s)} 次历史调用缺少用量或单价，且没有费用预留，请核对历史消耗后继续。`);
   // Conservative admission estimate, not a provider-side billing guarantee. Codex may internally compact.
-  const inputTokens=Buffer.byteLength(JSON.stringify(messages),'utf8')+8192;
+  const inputTokens=Buffer.byteLength(JSON.stringify(messages),'utf8')+8192+(options.extraInputBytes||0);
   const reserveUSD=cost({inputTokens,outputTokens:output.outputTokens,cachedInputTokens:0,cacheWriteTokens:0},{...price,input:Math.max(price.input*1.25,price.cached)});
   if(s.spentUSD+s.heldUSD>=s.limitUSD||s.spentUSD+s.heldUSD+reserveUSD>s.limitUSD)block('budget',`本次推进已计入 $${(s.spentUSD+s.heldUSD).toFixed(4)}，上限 $${s.limitUSD.toFixed(2)}；下一次请求预计预留 $${reserveUSD.toFixed(4)}，需要人工追加额度。`);
   const outputMeta={outputTokens:output.outputTokens,outputLimitMode:output.mode};

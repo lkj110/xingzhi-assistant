@@ -2,7 +2,9 @@
 // A task name is navigation/intent; the primary draft is the local deliverable.
 // Payload titles follow each writer's contract, never the UI action label.
 const rows=value=>Array.isArray(value)?value:[];
-const taskTitleTools=new Set(['github_create','github_update','lark_create','lark_update']);
+// Lark overwrite updates only the body. Its record.title is a UI label, not a
+// transmitted document title, and preparing it must not stale a content check.
+const taskTitleTools=new Set(['github_create','github_update','lark_create']);
 function actionTitles(a,task,artifacts,primary){
  const ids=new Set(artifacts.map(r=>r.id)),version=require('./agent-writes.cjs').version(task);
  return rows(a.data.agentActions).filter(r=>r?.taskId===task.id&&(!task.agentJobId||r.jobId===task.agentJobId)&&r.presentationStatus!=='historical'&&['pending','running','uncertain','done'].includes(r.status)&&(!r.artifactId||ids.has(r.artifactId))&&(!r.version||r.status==='done'&&r.presentationStatus==='current'||r.version===version)&&(!r.stepId||rows(task.steps).some(s=>s?.id===r.stepId&&s.tool===r.tool))).flatMap(r=>{
@@ -17,7 +19,7 @@ function identity(a,task){
  const deliverables=require('./deliverables.cjs'),primary=deliverables.primary(a,task),artifacts=Array.isArray(task.steps)&&task.steps.every(s=>s&&typeof s==='object')?deliverables.current(a,task):[];
  return {taskTitle:task.title||'',primaryArtifactId:primary?.id||null,primaryArtifactTitle:primary?.title||null,
   artifactTitles:artifacts.map(r=>({artifactId:r.id,title:r.title||'',role:primary?.id===r.id?'primary':'supporting'})),
-  externalTitleBindings:rows(task.steps).filter(s=>s?.kind==='external'&&['github_create','lark_create','lark_update'].includes(s.tool)).map(s=>({stepId:s.id,tool:s.tool,artifactId:primary?.id||null,title:task.title||'',titleSource:'taskTitle'})),
+  externalTitleBindings:rows(task.steps).filter(s=>s?.kind==='external'&&['github_create','lark_create'].includes(s.tool)).map(s=>({stepId:s.id,tool:s.tool,artifactId:primary?.id||null,title:task.title||'',titleSource:'taskTitle'})),
   actionTitles:actionTitles(a,task,artifacts,primary)};
 }
 function request(a,task){

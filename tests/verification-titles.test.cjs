@@ -10,3 +10,16 @@ for(const tool of ['send_mail','mail_draft','github_update'])test('actual payloa
 test('untitled channels and state-only update never invent a title',t=>{const {a,task}=setup(t);for(const tool of ['send_mail','mail_draft','github_comment','github_deploy','run_code','write_file','github_update']){task.steps.push({id:tool,kind:'external',tool});if(!['send_mail','mail_draft'].includes(tool))a.data.agentActions.push({id:tool,taskId:task.id,artifactId:task.primaryArtifactId,tool,status:'pending',title:'UI label',desired:{state:'closed'}});}assert.deepEqual(titles.request(a,task).externalTitleBindings,[]);assert.deepEqual(titles.request(a,task).actionTitles,[]);});
 test('historical drafts, stale actions and old mail bodies do not contaminate current titles',t=>{const {a,task}=setup(t);a.data.agentActions.push({id:'old',taskId:task.id,artifactId:'old-draft',tool:'github_create',status:'done',title:'old title'},{id:'stale',taskId:task.id,artifactId:task.primaryArtifactId,tool:'github_create',status:'stale',title:'stale title'},{id:'mail',taskId:task.id,tool:'send_mail',status:'done',args:{subject:'old',body:'old body'}});assert.deepEqual(titles.request(a,task).actionTitles,[]);});
 test('historical same-artifact effects and other jobs never supply current titles',t=>{const {a,task}=setup(t);task.agentJobId='current-job';a.data.agentActions.push({id:'old',taskId:task.id,jobId:'current-job',artifactId:task.primaryArtifactId,tool:'github_create',status:'done',presentationStatus:'historical',title:'old title'},{id:'foreign',taskId:task.id,jobId:'other-job',artifactId:task.primaryArtifactId,tool:'github_create',status:'pending',title:'foreign title'},{id:'old-version',taskId:task.id,jobId:'current-job',artifactId:task.primaryArtifactId,tool:'github_create',status:'done',version:'old',title:'old version'});assert.deepEqual(titles.request(a,task).actionTitles,[]);});
+
+test('Lark body overwrite label cannot stale checks; actual task/draft changes still do',t=>{
+ const {a,task}=setup(t),job={id:'lark-job',taskIds:[task.id],sourceIds:[],feedback:[],goal:'按记录制作简报'};a.data.delegations.push(job);task.agentJobId=job.id;
+ task.steps.push({id:'overwrite',kind:'external',tool:'lark_update',title:'覆盖正文'});
+ const basis=()=>[require('../desktop/execution-control.cjs').contentBasis(a,job,task),ground.snapshot(a,task).basis],before=basis();
+ assert.deepEqual(titles.identity(a,task).externalTitleBindings,[]);
+ const record={id:'update',jobId:job.id,taskId:task.id,artifactId:task.primaryArtifactId,stepId:'overwrite',tool:'lark_update',status:'pending',title:task.title};a.data.agentActions.push(record);
+ assert.deepEqual(basis(),before);assert.deepEqual(titles.identity(a,task).actionTitles,[]);
+ record.title='仅改变本地动作标签';assert.deepEqual(basis(),before);
+ for(const mutate of [()=>task.title+='新要求',()=>a.data.artifacts[0].title+='新版本',()=>a.data.artifacts[0].content+='新增断言']){const old=basis();mutate();const changed=basis();assert.notEqual(changed[0],old[0]);assert.notEqual(changed[1],old[1]);}
+ task.steps.push({id:'create',kind:'external',tool:'lark_create',title:'创建文档'});assert.equal(titles.identity(a,task).externalTitleBindings[0].tool,'lark_create');
+ a.data.agentActions.push({...record,id:'new',stepId:'create',tool:'lark_create',title:'实际发送标题'});assert.equal(titles.identity(a,task).actionTitles[0].title,'实际发送标题');
+});

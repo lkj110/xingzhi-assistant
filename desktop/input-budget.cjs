@@ -33,8 +33,8 @@ function serialize(provider,messages){
  if(provider.type==='codex')return require('./subscription.cjs').validateInput(messages);
  return JSON.stringify(require('./model-protocols.cjs').request(provider,messages,true));
 }
-function measure(provider,messages,profile){
- const serialized=serialize(provider,messages),bytes=Buffer.byteLength(serialized,'utf8');
+function measure(provider,messages,profile,transportSchema){
+ const serialized=serialize(provider,messages),bytes=Buffer.byteLength(serialized,'utf8')+(transportSchema?.utf8Bytes||0);
  // This is deliberately a conservative byte estimate, NOT exact tokenizer use.
  // CLI wrappers and server-provided instructions are outside this observation.
  const output=require('./model-protocols.cjs').outputBudget(provider);
@@ -42,7 +42,7 @@ function measure(provider,messages,profile){
  const reserve=output.enforced?output.outputTokens:provider.maxOutputTokens||profile.maxOutputTokens||Math.min(output.outputTokens,profile.contextWindow?Math.floor(profile.contextWindow/4):output.outputTokens);
  const margin=profile.contextWindow?Math.max(provider.type==='codex'?16384:1024,Math.ceil(profile.contextWindow*.05)):null;
  const available=profile.contextWindow===null?null:profile.contextWindow-reserve-margin;
- return {estimatedInputTokens:bytes,visibleRequestBytes:bytes,outputReserve:reserve,wrapperReserve:margin,availableInputTokens:available,mode:'conservative-utf8-estimate',opaqueWrapper:provider.type==='codex',fits:available===null?serialized.length<=require('./model-input.cjs').DEFAULT_MAX:available>0&&bytes<=available};
+ return {estimatedInputTokens:bytes,visibleRequestBytes:bytes,...(transportSchema?{transportSchema}:{}),outputReserve:reserve,wrapperReserve:margin,availableInputTokens:available,mode:'conservative-utf8-estimate',opaqueWrapper:provider.type==='codex',fits:available===null?serialized.length+(transportSchema?.chars||0)<=require('./model-input.cjs').DEFAULT_MAX:available>0&&bytes<=available};
 }
 function projected(value,level,stage,toolReferences){
  if(!Array.isArray(value.sourceCatalog)&&!Array.isArray(value.readableCatalog)&&!value.groundingChecklist)return value;
@@ -50,22 +50,22 @@ function projected(value,level,stage,toolReferences){
  const result=require('./model-context.cjs').project(view.bounded(input.navigation(value,level),{maxChars:level>1?16000:48000}),{stage});
  return require('./receipt-input.cjs').project(result,{toolReferences});
 }
-function prepare(a,provider,messages,{stage='task_work',shrink=false}={}){
+function prepare(a,provider,messages,{stage='task_work',shrink=false,transportSchema}={}){
  if(!require('./context-optimizations.cjs').enabled(a,'A1')){if(require('./context-optimizations.cjs').enabled(a,'B')){messages=messages.map(m=>({...m}));for(const {index,value} of payloads(messages))messages[index].content=JSON.stringify(require('./evidence-search.cjs').suppliedGroups(value));}return {messages,diagnostic:null,payloads:payloads(messages),identity:digest([provider.id,provider.type,provider.baseUrl,provider.model,'A1-off'])};}
  const layoutEnabled=require('./context-optimizations.cjs').enabled(a,'A2');
  const profile=capability(provider),original=payloads(messages);
- const previous=shrink===true?prepare(a,provider,messages,{stage}).diagnostic:shrink||null;
+ const previous=shrink===true?prepare(a,provider,messages,{stage,transportSchema}).diagnostic:shrink||null;
  let next=messages.map(m=>({...m})),metrics,level=previous?previous.projectionLevel+1:0;
  for(;level<=3;level++){
   next=messages.map(m=>({...m}));
   for(const {index,value} of original){let v=level?projected(value,level,stage,layoutEnabled):value;if(require('./context-optimizations.cjs').enabled(a,'B'))v=require('./evidence-search.cjs').suppliedGroups(v);next[index].content=JSON.stringify(layoutEnabled?layout(v):v);}
-  try{metrics=measure(provider,next,profile);}catch(e){if(e.diagnostic?.kind==='input_too_large'&&level<3)continue;throw e;}
+  try{metrics=measure(provider,next,profile,transportSchema);}catch(e){if(e.diagnostic?.kind==='input_too_large'&&level<3)continue;throw e;}
   if(metrics.fits&&(!previous||metrics.visibleRequestBytes<previous.visibleRequestBytes&&digest(next)!==previous.inputHash))break;
  }
  if(level>3||!metrics.fits)throw Object.assign(modelError('MODEL_CONFIG','完整要求或不可省略内容超过当前模型输入预算；已保留原稿，请拆分要求或选择更大窗口。',false),{diagnostic:{kind:'input_budget_exceeded',profile,estimatedInputTokens:metrics?.estimatedInputTokens}});
  const values=payloads(next),scope=values.map(({value:v})=>[v.contextRevision,v.inputBasis,v.task?.id,v.groundingChecklist?.requirements]);
  const {checkedAt,...capabilityBasis}=profile;
- const identity=digest([provider.id,provider.type,provider.baseUrl,provider.model,capabilityBasis,VERSION,layoutEnabled]);
+ const identity=digest([provider.id,provider.type,provider.baseUrl,provider.model,capabilityBasis,VERSION,layoutEnabled,transportSchema?.sha256]);
  const stable=values.map(({value:v})=>Object.fromEntries(prefix.filter(k=>Object.hasOwn(v,k)).map(k=>[k,v[k]])));
  const diagnostic={version:VERSION,layoutEnabled,profile,...metrics,projectionLevel:level,inputHash:digest(next),modelIdentity:identity,prefixKey:layoutEnabled?digest([identity,scope,stable]):null,stablePrefixBytes:layoutEnabled?Buffer.byteLength(JSON.stringify(stable),'utf8'):0,unknownCapability:profile.contextWindow===null};
  return {messages:next,payloads:values,identity,diagnostic};

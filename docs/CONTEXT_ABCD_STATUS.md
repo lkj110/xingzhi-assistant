@@ -25,7 +25,17 @@ whole-goal checks were not reached. A–D remains unaccepted; no main evaluation
 installed-app replacement occurred. See the [R7 report and next repair
 priorities](CONTEXT_ABCD_R7_LIVE.md).
 
-## Latest offline stage: R7 four repairs, 2026-10-26
+## Latest offline stage: R8 transport and verifier contract, 2026-10-26
+
+R8 retains local process termination metadata even on timeout, introduces a typed
+subscription output schema only for fresh strict task verification, and clarifies
+direct entailment versus assumption-dependent inference. Schema overhead is
+counted in admission, reservations and input attribution. Raw rejections and all
+evidence/delivery gates remain blocking. See the [R8 changes, offline review and
+new six-pair budget proposal](CONTEXT_ABCD_R8.md). No live model calls or installed
+app replacement occurred in this stage; A–D remains unaccepted.
+
+## Previous offline stage: R7 four repairs, 2026-10-26
 
 Historical observations now retain their explicit past observation scope while
 current-state receipts still expire. Revision instructions distinguish metadata

@@ -122,6 +122,7 @@ async function call(a,task,system,initial,role='execute'){
   if(role==='verify'&&!initial.groundingReviewRequest?.reused&&require('./context-optimizations.cjs').enabled(a,'D'))system+=grounding.consistencyInstruction;
  }
  const hybrid=require('./context-optimizations.cjs').enabled(a,'B');
+ const responseContract=role==='verify'&&grounding.enabled(a)&&!initial.groundingReviewRequest?.reused?require('./verification-output.cjs').ID:undefined;
  if(hybrid){system+=require('./evidence-search.cjs').instruction;if(role!=='verify'){
   task.evidencePlan=grounding.requirements(a,task).map(r=>({requirementId:r.id,evidenceIds:[],readRequests:[],gap:'待定位',state:'unread'}));
   initial={...initial,evidencePlan:task.evidencePlan};save(a);
@@ -192,7 +193,7 @@ async function call(a,task,system,initial,role='execute'){
    gate();assertUsed(a,scope,snapshot,used,role);
    boundedFinalization=finalizations.transportPermit(a,task,finalize);
   }
-  let result=await a.call(role,systemPrompt(task,system,role,{compactVerification:grounding.enabled(a)})+(finalize?'\n本轮改为形成检查结论，不再返回 read_context。根据当前已见正文和证据返回 passed、summary、gaps、gapDetails。证据不足则 passed:false，指出具体无法核实的要求、已有依据和缺口；不得猜测或降低标准。'+(checkPhase==='content'?'当前只检查内容，尚未执行的交付留给下一阶段。':'当前是结果检查，必须核对实际交付回执和回读，不能以内容通过代替交付成功。'):''),transportInput,{boundedFinalization,onSupplied});
+  let result=await a.call(role,systemPrompt(task,system,role,{compactVerification:grounding.enabled(a)})+(finalize?'\n本轮改为形成检查结论，不再返回 read_context。根据当前已见正文和证据返回 passed、summary、gaps、gapDetails。证据不足则 passed:false，指出具体无法核实的要求、已有依据和缺口；不得猜测或降低标准。'+(checkPhase==='content'?'当前只检查内容，尚未执行的交付留给下一阶段。':'当前是结果检查，必须核对实际交付回执和回读，不能以内容通过代替交付成功。'):''),transportInput,{boundedFinalization,onSupplied,responseContract});
   if(result.tool==='read_context'||result.kind==='read_context')result={...result,kind:'read_context',requests:result.requests??result.args?.requests};
   if(hybrid&&role!=='verify'&&result.evidencePlan!==undefined){
    const plans=require('./evidence-plan.cjs');let updates;
@@ -242,7 +243,7 @@ async function call(a,task,system,initial,role='execute'){
    // authorize a quote omitted from the actual second input.
    seen.clear();delete seen.sources;delete seen.userInputs;delete seen.toolEvidence;delete seen.claimFields;delete seen.modelIdentity;
    let retried;
-   try{retried=await a.call(role,systemPrompt(task,system,role,{compactVerification:true})+classification.instruction,require('./receipt-input.cjs').project(retryInput,{toolReferences:require('./context-optimizations.cjs').enabled(a,'A2')}),{onSupplied,boundedFinalization:classificationPermit});}
+   try{retried=await a.call(role,systemPrompt(task,system,role,{compactVerification:true})+classification.instruction,require('./receipt-input.cjs').project(retryInput,{toolReferences:require('./context-optimizations.cjs').enabled(a,'A2')}),{onSupplied,boundedFinalization:classificationPermit,responseContract});}
    catch(error){classificationRecord.status='failed';classificationRecord.finishedAt=new Date().toISOString();classificationRecord.errorCode=error.code||'UNKNOWN';save(a);throw error;}
    a.controller?.signal.throwIfAborted();assertUsed(a,scope,snapshot,used,role);
    require('./relation-context-page.cjs').assertCurrent(a,scope,coverageReads);

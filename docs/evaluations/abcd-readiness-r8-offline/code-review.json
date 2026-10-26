@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-26",
+  "kind": "offline_code_review",
+  "reviewer": "/root/r8_code_audit",
+  "recordedBy": "primary agent from independent review messages",
+  "decision": "no_remaining_reproducible_blocker",
+  "liveModelCalls": 0,
+  "installedAppReplaced": false,
+  "findings": [
+    {
+      "problem": "Typed list_sources schema omitted existing ref, type and taskId arguments",
+      "resolution": "Added explicit nullable fields and navigation roundtrip regression cases",
+      "status": "fixed_and_reviewed"
+    },
+    {
+      "problem": "Lark body overwrite was incorrectly treated as transmitting record.title, invalidating a just-passed content basis",
+      "baseline": "Reproduced on parent commit 2a76025a278d1f8bbe70f48afe7601189fd9ac6e; both original cold-restart upgrade assertions failed",
+      "resolution": "Removed only lark_update internal labels from transmitted-title projection and assertion; exact payload, task/draft titles and real create/GitHub/mail titles remain checked",
+      "status": "fixed_and_reviewed"
+    },
+    {
+      "problem": "Windows 8.3 config directory and expanded process cwd failed a literal-prefix test despite the same fixed account and directory",
+      "baseline": "Reproduced both original assertions on parent commit with the same native helper source",
+      "resolution": "Test records native-canonical relative path while the child is alive and requires exactly scratch; independent HOME, identity, ownership and cleanup assertions retained; no product security code changed",
+      "status": "fixed_and_reviewed"
+    }
+  ],
+  "independentChecks": [
+    {
+      "name": "initial related offline regression",
+      "passed": 118,
+      "failed": 0
+    },
+    {
+      "name": "transport/schema repeat after navigation fix",
+      "passed": 12,
+      "failed": 0,
+      "overlapsEarlierChecks": true
+    },
+    {
+      "name": "final titles, Lark races, timeout and model regression",
+      "passed": 55,
+      "failed": 0
+    },
+    {
+      "name": "schema byte overhead reaches reservation, admission and attribution without replacing reported usage",
+      "passed": true
+    },
+    {
+      "name": "original two cold-restart upgrade assertions with only the proposed title-identity correction",
+      "passed": 2,
+      "failed": 0
+    },
+    {
+      "name": "private response non-enumerable retention boundaries and transport/schema repeat",
+      "passed": 12,
+      "failed": 0,
+      "overlapsEarlierChecks": true
+    }
+  ],
+  "limits": [
+    "Counts from separate runs must not be summed as unique tests",
+    "Offline stubs do not establish real model classification quality or server acceptance of the schema",
+    "A-D real-model acceptance remains incomplete",
+    "No frozen R6/R7 experiment was modified"
+  ]
+}
