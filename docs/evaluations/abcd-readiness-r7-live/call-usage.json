@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "note": "Actual measured input+output. Cached input is included in input. Failed attempts count. No raw prompts, account profile or subscription receipt identifiers published.",
+  "calls": [
+    {
+      "index": 1,
+      "caseId": "R7-F01",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 16397,
+        "outputTokens": 1560,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 48137
+    },
+    {
+      "index": 2,
+      "caseId": "R7-F01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "failed",
+      "code": "MODEL_INVALID_RESPONSE",
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17070,
+        "outputTokens": 1682,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 70227
+    },
+    {
+      "index": 3,
+      "caseId": "R7-F01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "json_repair",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 18484,
+        "outputTokens": 1348,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 26063
+    },
+    {
+      "index": 4,
+      "caseId": "R7-F02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17472,
+        "outputTokens": 2357,
+        "cachedInputTokens": 17280
+      },
+      "durationMs": 56396
+    },
+    {
+      "index": 5,
+      "caseId": "R7-F02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 16878,
+        "outputTokens": 2368,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 55789
+    },
+    {
+      "index": 6,
+      "caseId": "R7-E01",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "failed",
+      "code": "MODEL_TIMEOUT",
+      "usageStatus": "unknown",
+      "usage": null,
+      "durationMs": 122659
+    }
+  ]
+}

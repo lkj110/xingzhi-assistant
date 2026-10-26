@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "sealedAt": "2026-10-26T08:51:01.604Z",
+  "reviewer": "Independent result reviewer /root/r7_result_audit",
+  "reviewMode": "limited_blind_before_arm_and_cost_unblinding",
+  "auditResultsSHA256": "dff9ca80bf875d9e180740914735ec3321986cc77428d19ca93fe42a161aef8c",
+  "auditPacketSHA256": "4afb8b166aaf04fc408815e31155d8217f672984637095a316c979754c1466e7",
+  "auditSupplementSHA256": "20c1a3b9f7d876c58c292dd643792647dff3fe6eaff5c200d6902558abfe28c0",
+  "observedItems": 5,
+  "readBeforeSeal": [
+    "protocol.json and permitted implementation structure definitions",
+    "analysis/summarize.cjs",
+    "analysis/audit-statistics-tests.cjs",
+    "result/audit-packet.json",
+    "result/audit-supplement.json"
+  ],
+  "notReadBeforeSeal": [
+    "result/audit-key.json",
+    "result/report.json",
+    "ledger.json",
+    "result/metrics.json",
+    "run.log",
+    "suite.json",
+    "gold.json"
+  ],
+  "unobservedPhasesAdjudicated": false
+}

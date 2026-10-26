@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-26T08:47:00.413Z",
+  "sealUnchanged": true,
+  "implementationsUnchanged": true,
+  "historicalR6Unchanged": true,
+  "attemptsReconciled": true,
+  "calls": 6,
+  "knownUsageCalls": 5,
+  "unknownUsageCalls": 1,
+  "totalKnownTokens": 95616,
+  "withinCallLimit": true,
+  "withinTokenLimit": null,
+  "halt": "EVAL_USAGE_UNKNOWN"
+}

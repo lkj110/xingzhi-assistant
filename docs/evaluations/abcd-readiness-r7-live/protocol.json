@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "stage": "readiness_only",
+  "approvedCalls": 96,
+  "approvedTokens": 2000000,
+  "concurrency": 1,
+  "pairs": 6,
+  "phasesPerArm": 8,
+  "candidate": "62a1cf07a7569cfd6aeeb77178e01c2e875f7345",
+  "baseline": "R6 frozen candidate 7cff32e5b206db0854ba0bd7d3122cb8c5839189",
+  "order": "suite order, even case baseline then candidate, odd case candidate then baseline",
+  "scope": "Six fresh paired readiness cases only; no development probes, main evaluation, repeat, second model, deployment or external business publication. After independent review upload sanitized results to GitHub.",
+  "budgetPolicy": "Admission reserves input serialized UTF-8 bytes plus max(128000,configured output reservation) plus 16384. This is conservative admission accounting, not a provider-enforced upper bound: the subscribed CLI has opaque wrapping and no configured maxOutputTokens. Actual measured input+output is authoritative. Cached input is already part of input. Failed calls count. Missing, invalid or conflicting usage stops all new dispatch; not zero and not settled from the reservation. A reported overage is a failed budget gate, never pass. No budget top-up or automatic fourth-stage continuation.",
+  "completeness": "All 12 branches and both phases of each revision must be present to compare full-task cost. Early technical or acceptance failure remains in denominators and is explicitly incomplete; 0/0 is undefined.",
+  "readinessGates": [
+    "Known usage for every attempted transport and no budget overage.",
+    "Candidate both fixed drafts correctly judged.",
+    "Candidate all four dynamic chains complete with actual task checks, whole-goal checks and acceptance; both revisions accept before reopen and reaccept after revision.",
+    "No observed unsupported generated delivery or erroneous release, independently adjudicated.",
+    "Required mechanism exposure and execution recorded separately; lack of capability is not hallucination by itself."
+  ],
+  "metrics": {
+    "hallucination": "Unsupported factual or execution claims among final accepted model-generated dynamic artifacts. Fixed injected drafts excluded. Also report all passed dynamic stages and blocked draft findings separately. Zero denominator undefined.",
+    "fixedFalseBlock": "Qualified fixed draft rejected at a valid completed task gate divided by qualified fixed drafts with completed checks. Report technical unjudged cases separately, never call them false blocks.",
+    "wrongRelease": "Invalid fixed draft passed a completed gate divided by invalid fixed drafts with completed checks. Dynamic artifacts: invalid draft passed task and whole-goal gate divided by adjudicated invalid artifacts with completed applicable checks; separately report error incidence among accepted outputs.",
+    "cost": "All actual attempts per arm/lane/category/phase, including failed requests and repairs. Cached input is subset of input. Full paired-task cost only where both arms completed the same prescribed workflow. Unknown totals remain unknown; report known subtotal separately.",
+    "intervals": "Report exact denominators and Wilson 95% intervals for proportions; six pairs cannot establish population noninferiority. Do not claim zero true risk from zero observed events.",
+    "dynamicFalseBlock": "Independently qualified dynamic artifacts rejected by a valid task or goal check divided by qualified artifacts actually judged. Missing/invalid report is technical failure; cannot classify as false block.",
+    "procedureCompletion": "Fixed: valid current task check recorded, regardless of correct verdict. Dynamic: every prescribed phase completes task and whole-goal check and actual acceptance. Also report business correctness separately."
+  },
+  "audit": "Independent agent reviews gold, exact final text, actual tool receipts and gate reasons; remove arm identifiers where possible and disclose residual cues. This is model-agent review, not human or perfectly blinded review.",
+  "nextDecision": "Only after readiness report propose the formal evaluation design and fresh budget. No automatic dispatch of main, repeat or secondary stages.",
+  "round": "r7",
+  "limits": {
+    "calls": 96,
+    "tokens": 2000000,
+    "concurrency": 1,
+    "callsPerBranchPerPhase": 12
+  },
+  "handoff": "Both arms use the already reviewed evaluate/lifecycle/fixtures driver. Fixed: actual task verification only, no repair or acceptance. E2e: advance, production planner if needs_evidence or missing whole-goal check, actual acceptance. Revision: initial acceptance, update/reopen/revise, current task and whole-goal checks, actual second acceptance. No gate bypass or oracle injection. Every actual transport attempt shares 96 calls / 2000000 tokens, max 12 per branch phase, concurrency one.",
+  "comparability": "Within this round compare R6 candidate vs R7 candidate on identical fresh cases. Original stable baseline is historical only; no third arm. Cross-round scores are descriptive, not matched effects.",
+  "semanticCoverage": "Partial indexing is explicitly recorded. Search latency is diagnostic; correctness requires actual required rule/exception exposure, no semantic complete-recall claim.",
+  "authoring": "Independent author creates six new cases after reviewed implementation freeze; no case/content/implementation adjustment after live dispatch. Gold excluded from model inputs and executor logic.",
+  "observationDelay": {
+    "milliseconds": 90000,
+    "trigger": "At the first subsequent model dispatch after a genuine explicit file_observation (R7) or action_status (R6) of the fixture historical action, wait at least 90 seconds once per branch. Both arms identical; no system clock changes.",
+    "accounting": "No transport in flight or budget reservation during wait. Waiting counts toward flow time, not calls. Persist receipt and execution identity, observedAt, start, end and monotonic elapsed duration. Recheck implementation seals and budget after wait. Missing observation is recorded as not exercised, never fabricated."
+  }
+}

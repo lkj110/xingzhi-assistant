@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "sealedAt": "2026-10-26T08:36:21.179573+00:00",
+  "stage": "before_live_dispatch",
+  "statisticsRegressionTests": 28,
+  "files": {
+    "summarize.cjs": "06443d6e4254e069628ddadba09492f481dacd8d4d72b8a8ae902bae0eddf3bb",
+    "audit-statistics-tests.cjs": "888c966e558dbf070bcb9129a9f46e28432bcbe74de6919fc6f9dfd071c9e362",
+    "verify-independent-result.cjs": "19d435e6cf30a87452946d6ef54fe92c2bf9d0054e63d359236d0d9126ee90d5",
+    "publish.cjs": "902d35c6c4c7b83b3414d80695cbbcfdc2b4877c15d26f56ac334b3e94eb6c92"
+  },
+  "note": "Result arithmetic and independent verifier prepared before live data. Any later analysis repair must be disclosed; executable implementation/driver remain separately sealed."
+}

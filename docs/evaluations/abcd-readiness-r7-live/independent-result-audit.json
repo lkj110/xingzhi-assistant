@@ -1,0 +1,348 @@
+{
+  "schema": 1,
+  "approved": true,
+  "openP0toP2": 0,
+  "reviewer": "Independent result reviewer /root/r7_result_audit",
+  "reviewedAt": "2026-10-26T09:16:09.088Z",
+  "approvalScope": "Accuracy and bounded interpretation of recorded readiness results only. This is not readiness acceptance, product release approval, or authorization for further model calls.",
+  "sourceHashes": {
+    "protocol.json": "08d9c43a0bfc01c77fce2ac3df18c9aa81dde72a7ec99875366d6cff7920b68c",
+    "suite.json": "bb3f6aecb1a0a57223e4464a58c889bb78036efd674c14a2cd2ed9d347e56344",
+    "authorization.json": "12eadb8e8caf6ecc31188257002c75082c599247377562b81004c89bf69a06bd",
+    "implementation-freeze.json": "d88dec60bfa5d467f370cfae067a7955c750df84b4454f58f145fe7103e8256a",
+    "evaluation-seal.json": "357a0d76e4556a0e50aff0680b9f3daa8fea7e8947adb543670a765d6272345e",
+    "ledger.json": "80c1b4c0a1ddf2a8de0f556a7f3c1602c18be6c52a6fa9647dda3cf90dcd5c08",
+    "result/report.json": "b438bd908d1e8a54fb753e1f74d343c6af498b0595060e5da129762609c3cb42",
+    "result/integrity-check.json": "a1558248e2d5a91fd7c9cbd5edb09e9da52ce4db2c616243e33cc87c27cd1249",
+    "result/audit-key.json": "eb011ee8f08681aef3f9a1c2138e4215ba3385d643a7f65d45252da4610e090f",
+    "result/audit-packet.json": "4afb8b166aaf04fc408815e31155d8217f672984637095a316c979754c1466e7",
+    "result/audit-supplement.json": "20c1a3b9f7d876c58c292dd643792647dff3fe6eaff5c200d6902558abfe28c0",
+    "result/audit-results.json": "dff9ca80bf875d9e180740914735ec3321986cc77428d19ca93fe42a161aef8c",
+    "result/metrics.json": "051f0ceb619aecc454c8652b0eb347d82d710185682c85b8a9d8aa4780db6264",
+    "analysis/audit-blind-seal.json": "546f227f5e4fdb6c90653b793e0dfa0525b8297eba85bab1be99bd743bf59442",
+    "analysis/verify-independent-result.cjs": "972ab8ebeec2a4fc0bb6290f27981487c534340f259b5c1f391b0f1e72ea2e0a",
+    "analysis/analysis-preflight.json": "d6d608ca83fe8785c70c7e2f29f2189503f887333eff751ee14015eea15d737a"
+  },
+  "analysisChanges": [
+    {
+      "file": "verify-independent-result.cjs",
+      "beforeSHA256": "19d435e6cf30a87452946d6ef54fe92c2bf9d0054e63d359236d0d9126ee90d5",
+      "finalSHA256": "972ab8ebeec2a4fc0bb6290f27981487c534340f259b5c1f391b0f1e72ea2e0a",
+      "reason": "Post-unblinding compatibility repairs: integrity.withinTokenLimit stays null when any usage is unknown; a retained json_repair verification attempt is accepted only with verification role and an earlier original check in the same branch and phase. Added explicit analysis-preflight hash disclosure. No metric, denominator, verdict, execution data or sealed label changed."
+    },
+    {
+      "file": "publish.cjs",
+      "beforeSHA256": "902d35c6c4c7b83b3414d80695cbbcfdc2b4877c15d26f56ac334b3e94eb6c92",
+      "finalSHA256": "29f39d4d119f3376d70a49253ae30ef8f5dfc2e0e5c2edede0ae4178dbaa6f6d",
+      "reason": "Sanitized publication maintenance reported by the publishing agent and inspected in current source: replace provider thread/attempt identifiers, export analysis-preflight and blind-seal records, and include verifier/publisher source hashes. This file performs no model dispatch and does not change result arithmetic."
+    }
+  ],
+  "findings": [
+    {
+      "id": "IR1",
+      "severity": "info",
+      "status": "verified",
+      "finding": "Every recorded transport is reconciled with the ledger and original input hashes. Failed attempts remain in costs; cached input is not added twice; unknown usage remains unknown and prevents subsequent dispatch."
+    },
+    {
+      "id": "IR2",
+      "severity": "info",
+      "status": "verified",
+      "finding": "Procedure completion is independently reconstructed from current task and goal checks and acceptance transitions; revision completion requires initial acceptance, reopening, revision and subsequent acceptance."
+    },
+    {
+      "id": "IR3",
+      "severity": "info",
+      "status": "verified",
+      "finding": "All proportions, exact denominators, Wilson intervals, all-attempt costs, completed dynamic paired costs and correct dynamic paired costs are independently recomputed. Missing judgments do not become false blocks, and zero denominators remain undefined."
+    },
+    {
+      "id": "IR4",
+      "severity": "info",
+      "status": "not_exercised",
+      "finding": "No observation wait occurred. Unattempted historical-observation branches provide no evidence that the 90-second mechanism ran or succeeded; it cannot explain the observed transport timeout.",
+      "observedWaits": 0,
+      "plannedObservationBranches": [
+        {
+          "caseId": "R7-E02",
+          "arm": "baseline",
+          "attempted": false,
+          "observedWaits": 0
+        },
+        {
+          "caseId": "R7-E02",
+          "arm": "candidate",
+          "attempted": false,
+          "observedWaits": 0
+        }
+      ]
+    },
+    {
+      "id": "IR5",
+      "severity": "info",
+      "status": "corrected_before_execution",
+      "finding": "Independent statistics review identified missing accepted-output error incidence and an implicit artifact-presence assumption. The summary now reports invalidFinalAccepted separately from generated hallucination and requires hasCandidate for dynamic business correctness; dedicated synthetic regressions cover both."
+    },
+    {
+      "id": "IR6",
+      "severity": "info",
+      "status": "analysis_repairs_disclosed",
+      "finding": "The initially prepared verifier had two compatibility assumptions: known-subtotal budget success despite unknown total, and exclusion of json_repair from a valid verification chain. Both were corrected in analysis code only. All changed analysis files are listed with before/final hashes; original execution and sealed labels remain unchanged."
+    }
+  ],
+  "verifiedMetrics": {
+    "assertions": 889,
+    "execution": {
+      "calls": 6,
+      "knownUsageCalls": 5,
+      "unknownUsageCalls": 1,
+      "inputTokens": null,
+      "outputTokens": null,
+      "cachedInputTokens": null,
+      "totalTokens": null,
+      "totalKnownTokens": 95616,
+      "maxConcurrency": 1,
+      "approvedCalls": 96,
+      "approvedTokens": 2000000,
+      "remainingCalls": 90,
+      "remainingTokens": null,
+      "remainingBudgetDoesNotAuthorizeContinuation": true
+    },
+    "branches": 5,
+    "phases": 5,
+    "arms": {
+      "baseline": {
+        "calls": 3,
+        "knownUsageCalls": 2,
+        "unknownUsageCalls": 1,
+        "inputTokens": null,
+        "outputTokens": null,
+        "cachedInputTokens": null,
+        "totalTokens": null,
+        "totalKnownTokens": 37203,
+        "proportions": {
+          "procedureCompletion": {
+            "events": 2,
+            "denominator": 6,
+            "rate": 0.3333333333333333
+          },
+          "dynamicProcedureCompletion": {
+            "events": 0,
+            "denominator": 4,
+            "rate": 0
+          },
+          "businessCorrectFullOutcomes": {
+            "events": 2,
+            "denominator": 6,
+            "rate": 0.3333333333333333
+          },
+          "hallucinationFinalAccepted": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "invalidFinalAccepted": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "hallucinationAllPassedDynamicStages": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "fixedFalseBlock": {
+            "events": 0,
+            "denominator": 1,
+            "rate": 0
+          },
+          "fixedWrongRelease": {
+            "events": 0,
+            "denominator": 1,
+            "rate": 0
+          },
+          "dynamicFalseBlock": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "dynamicWrongRelease": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "unsupportedPersistedDynamicArtifacts": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          }
+        }
+      },
+      "candidate": {
+        "calls": 3,
+        "knownUsageCalls": 3,
+        "unknownUsageCalls": 0,
+        "inputTokens": 53026,
+        "outputTokens": 5387,
+        "cachedInputTokens": 17280,
+        "totalTokens": 58413,
+        "totalKnownTokens": 58413,
+        "proportions": {
+          "procedureCompletion": {
+            "events": 2,
+            "denominator": 6,
+            "rate": 0.3333333333333333
+          },
+          "dynamicProcedureCompletion": {
+            "events": 0,
+            "denominator": 4,
+            "rate": 0
+          },
+          "businessCorrectFullOutcomes": {
+            "events": 1,
+            "denominator": 6,
+            "rate": 0.16666666666666666
+          },
+          "hallucinationFinalAccepted": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "invalidFinalAccepted": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "hallucinationAllPassedDynamicStages": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "fixedFalseBlock": {
+            "events": 1,
+            "denominator": 1,
+            "rate": 1
+          },
+          "fixedWrongRelease": {
+            "events": 0,
+            "denominator": 1,
+            "rate": 0
+          },
+          "dynamicFalseBlock": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "dynamicWrongRelease": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "unsupportedPersistedDynamicArtifacts": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          }
+        }
+      }
+    },
+    "acceptanceChecks": [],
+    "observationWaits": [],
+    "pairedCosts": {
+      "completed": {
+        "caseIds": [
+          "R7-F01",
+          "R7-F02"
+        ],
+        "baseline": {
+          "calls": 2,
+          "knownUsageCalls": 2,
+          "unknownUsageCalls": 0,
+          "inputTokens": 33275,
+          "outputTokens": 3928,
+          "cachedInputTokens": 7552,
+          "totalTokens": 37203,
+          "totalKnownTokens": 37203
+        },
+        "candidate": {
+          "calls": 3,
+          "knownUsageCalls": 3,
+          "unknownUsageCalls": 0,
+          "inputTokens": 53026,
+          "outputTokens": 5387,
+          "cachedInputTokens": 17280,
+          "totalTokens": 58413,
+          "totalKnownTokens": 58413
+        },
+        "tokenChange": 21210,
+        "percentChange": 57.0115313281187
+      },
+      "completedDynamic": {
+        "caseIds": [],
+        "baseline": {
+          "calls": 0,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 0,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "cachedInputTokens": 0,
+          "totalTokens": 0,
+          "totalKnownTokens": 0
+        },
+        "candidate": {
+          "calls": 0,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 0,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "cachedInputTokens": 0,
+          "totalTokens": 0,
+          "totalKnownTokens": 0
+        },
+        "tokenChange": null,
+        "percentChange": null
+      },
+      "correctDynamic": {
+        "caseIds": [],
+        "baseline": {
+          "calls": 0,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 0,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "cachedInputTokens": 0,
+          "totalTokens": 0,
+          "totalKnownTokens": 0
+        },
+        "candidate": {
+          "calls": 0,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 0,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "cachedInputTokens": 0,
+          "totalTokens": 0,
+          "totalKnownTokens": 0
+        },
+        "tokenChange": null,
+        "percentChange": null
+      }
+    },
+    "status": "readiness_failed_no_main_evaluation",
+    "failedReadinessGates": [
+      "budget_or_unknown_usage",
+      "missing_branches",
+      "candidate_dynamic_chains_incomplete",
+      "candidate_business_outcomes_not_all_correct"
+    ],
+    "formalMainEvaluationStarted": false
+  },
+  "limitations": [
+    "Independent labels are sealed before arm and cost unblinding. This is model-agent review, not human or perfectly blinded review; protocol and tool forms can reveal residual cues.",
+    "Usage verification reconciles recorded provider receipts; it is not a separate billing-provider inquiry. Reservation is admission accounting, not a provider-enforced output cap.",
+    "Observation timing is corroborated by the recorded monotonic duration, wall-clock timestamps and dispatch trace; the reviewer did not independently observe the host clock or provider process in real time.",
+    "Mechanism exposure and execution judgments belong to the sealed audit labels. Missing exercises remain missing; successful listed evidence exposure does not prove complete semantic recall.",
+    "Six synthetic pairs and correlated phases cannot establish population noninferiority or zero true risk. All-attempt cost differences are not equal-success efficiency.",
+    "The source result files can contain local paths and identifiers. Sanitized publication requires separate review; this verifier neither publishes nor authorizes further evaluation."
+  ]
+}

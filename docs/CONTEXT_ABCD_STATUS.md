@@ -1,5 +1,30 @@
 # Context and evidence optimization acceptance status
 
+## Latest real-model result: R7 readiness stopped early, 2026-10-26
+
+The approved six-pair retest compared the R6 candidate against R7. Only 5/12
+branches were attempted: all four fixed-draft branches and the R6 long-document
+branch. Six actual calls were recorded; five have known usage totaling 95,616
+input-plus-output tokens. The sixth hit the two-minute idle timeout without a
+usage receipt, so the ledger stopped all further dispatch. Total usage remains
+unknown; no retry, budget top-up or automatic continuation was performed.
+
+Both arms completed valid checks for 2/6 planned cases. R6 correctly passed the
+qualified fixed draft; R7 falsely blocked it over an inference-label requirement.
+Both correctly blocked the invalid fixed draft. Fixed false-block counts were
+0/1 versus 1/1; fixed wrong releases were 0/1 in both arms. No generated dynamic
+artifact was accepted, so hallucination and dynamic gate rates are not estimable.
+
+The two completed fixed pairs cost 37,203 versus 58,413 tokens (+57.01%). R7 used
+one additional format-repair call costing 19,832 tokens. This is neither an
+equal-quality full-task comparison nor an estimate of overall cost: one verdict
+differed and one other call has unknown usage. No dynamic pair completed.
+
+**Readiness did not pass.** The 90-second file-observation exercise, revisions and
+whole-goal checks were not reached. A–D remains unaccepted; no main evaluation or
+installed-app replacement occurred. See the [R7 report and next repair
+priorities](CONTEXT_ABCD_R7_LIVE.md).
+
 ## Latest offline stage: R7 four repairs, 2026-10-26
 
 Historical observations now retain their explicit past observation scope while
@@ -15,10 +40,11 @@ reviewer passed 339/339 across 19 files, with no skips or unresolved P0–P2.
 These overlapping counts are not additive. Windows production build passed.
 Real-model calls and tokens were both zero. A–D remains unaccepted; the installed
 app was not replaced and the formal main evaluation was not started.
-See [R7 repairs, independent audit, and proposed six-pair 96-call / 2M-token
-retest](CONTEXT_ABCD_R7.md). That proposed budget requires new user approval.
+See [R7 repairs, independent audit, and the approved six-pair 96-call / 2M-token
+retest](CONTEXT_ABCD_R7.md). The live retest above stopped under its unknown-usage
+rule; its remaining call count does not authorize continuation.
 
-## Latest real-model result: R6 readiness, 2026-10-26
+## Earlier real-model result: R6 readiness, 2026-10-26
 
 Six fresh paired cases completed execution and independent result audit, using
 59 calls and 1,172,572 input-plus-output tokens within the approved 96-call /
@@ -36,7 +62,7 @@ These small denominators do not establish zero risk or statistical noninferiorit
 **Readiness did not pass.** Historical observation receipts expired during slow
 turns; two revision drafts retained an old body heading and were correctly blocked.
 These four follow-up priorities were implemented and passed offline review in
-R7 above; their live-model effects remain unmeasured. No formal main evaluation or installed-app upgrade
+R7 above; its interrupted live run did not establish their effectiveness. No formal main evaluation or installed-app upgrade
 was started. See the [audited R6 report](CONTEXT_ABCD_R6_LIVE.md).
 
 ## Prior offline stage: R6 lifecycle and evidence handoff, 2026-10-26

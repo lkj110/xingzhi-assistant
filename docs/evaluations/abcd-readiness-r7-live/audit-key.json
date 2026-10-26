@@ -1,0 +1,37 @@
+[
+  {
+    "auditId": "8441c5ac-77e8-4c4a-bd59-0c3e8f746713",
+    "caseId": "R7-F01",
+    "arm": "baseline",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "9bbd6d9d-5e99-42cb-9ed7-e5c228823b26",
+    "caseId": "R7-F01",
+    "arm": "candidate",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "7215a509-135b-493a-a637-bffe7bb18347",
+    "caseId": "R7-F02",
+    "arm": "candidate",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "a946e351-2434-4773-9e7c-a30ee1e3eb40",
+    "caseId": "R7-F02",
+    "arm": "baseline",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "de4ad454-cc7f-4598-9a09-9720602cb627",
+    "caseId": "R7-E01",
+    "arm": "baseline",
+    "phase": "initial",
+    "phaseIndex": 0
+  }
+]

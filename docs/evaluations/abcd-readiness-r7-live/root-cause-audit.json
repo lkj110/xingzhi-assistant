@@ -1,0 +1,390 @@
+{
+  "schema": 1,
+  "auditor": "r7_live_preflight_review",
+  "auditedAt": "2026-10-26T09:15:46.379Z",
+  "scope": "Read-only root-cause review after stopped live readiness run; no new model/API calls, replay, probes, production edits or credential access.",
+  "sourceReportSha256": "b438bd908d1e8a54fb753e1f74d343c6af498b0595060e5da129762609c3cb42",
+  "evaluationSealSha256": "357a0d76e4556a0e50aff0680b9f3daa8fea7e8947adb543670a765d6272345e",
+  "ledgerSha256": "80c1b4c0a1ddf2a8de0f556a7f3c1602c18be6c52a6fa9647dda3cf90dcd5c08",
+  "status": "root_cause_audit_complete",
+  "execution": {
+    "attemptedCalls": 6,
+    "reportedUsageCalls": 5,
+    "unknownUsageCalls": 1,
+    "knownInputPlusOutputTokens": 95616,
+    "totalActualInputPlusOutputTokens": null,
+    "reportRows": 5,
+    "plannedBranches": 12,
+    "halt": "EVAL_USAGE_UNKNOWN",
+    "withinCallLimit": true,
+    "withinTokenLimit": null,
+    "realModelCallsByAuditor": 0,
+    "realModelTokensByAuditor": 0
+  },
+  "findings": [
+    {
+      "id": "R7-LIVE-RC-001",
+      "topic": "Idle timeout caused the sixth transport attempt to fail",
+      "confidence": "confirmed local failure classification; remote cause unknown",
+      "rootCause": "The R6 baseline first generation request for R7-E01 exceeded the configured 120-second inactivity interval. The wrapper terminated the child process and raised MODEL_TIMEOUT. This is an idle timer event, not the 180-second total deadline and not the 90-second observation-delay experiment.",
+      "evidence": [
+        {
+          "file": "result/calls/R7-E01/baseline/01.json",
+          "sha256": "f8d421dd2aed4b4720ef7ba26d2a407205d8ac1304b5ffcd41cdd522fe665917",
+          "callIndex": 6,
+          "ledgerId": "972604d0-44b1-4eb1-a948-5c15f8b3fe94",
+          "role": "execute",
+          "stage": "task_work",
+          "startedAt": "2026-10-26T08:43:31.414Z",
+          "finishedAt": "2026-10-26T08:45:34.073Z",
+          "durationMs": 122659,
+          "errorCode": "MODEL_TIMEOUT",
+          "error": "模型超过设定时间没有返回新数据。已保存的章节会保留，可继续等待更久或从未完成章节续跑。",
+          "transportEvents": [
+            {
+              "sequence": 1,
+              "type": "thread.started"
+            },
+            {
+              "sequence": 2,
+              "type": "turn.started"
+            }
+          ],
+          "threadId": "[model-thread-1261b7af88e7]"
+        },
+        {
+          "file": "result/calls/R7-E01/baseline/workspace-snapshot.json",
+          "path": "modelCalls[0].timeoutKind",
+          "value": "idle"
+        },
+        {
+          "file": "transport.cjs",
+          "configuration": {
+            "idleMinutes": 2,
+            "totalMinutes": 3,
+            "retries": 0,
+            "timeoutMs": 180000
+          }
+        },
+        {
+          "file": "../abcd-readiness-r6/candidate/desktop/subscription.cjs",
+          "mechanism": "processCall.activity resets idle timer on stdout/stderr; idle expiry sets policy.timeoutError(\"idle\") and terminates the process."
+        }
+      ],
+      "limitations": [
+        "The two retained stream events prove thread/turn startup only. They do not establish whether the remote model was still reasoning, the stream stalled, or the service stopped responding.",
+        "No turn.completed, turn.failed-with-usage, model response or authoritative billing receipt was captured. No claim is made about provider-side completion or cost."
+      ],
+      "recommendations": [
+        "Investigate idle-timeout behavior for silent reasoning using isolated offline process fixtures before another authorized evaluation.",
+        "Separate transport activity, progress, cancellation, terminal receipt and usage persistence in diagnostics; preserve the frozen run.",
+        "Do not solve this by merely extending an evidence lifetime or weakening business evidence checks. Any future live timeout-policy change requires a new frozen protocol and authorization."
+      ]
+    },
+    {
+      "id": "R7-LIVE-RC-002",
+      "topic": "Unknown usage correctly stopped all later dispatch",
+      "confidence": "confirmed",
+      "rootCause": "The failed attempted transport had no reported usage. model-receipt retained usageStatus unknown; ledger.settle persisted usage null and EVAL_USAGE_UNKNOWN; runner halted before any seventh call.",
+      "evidence": [
+        {
+          "file": "ledger.json",
+          "calls": 6,
+          "lastStatus": "failed",
+          "lastUsage": null,
+          "halt": "EVAL_USAGE_UNKNOWN"
+        },
+        {
+          "file": "result/report.json",
+          "calls": 6,
+          "rows": 5,
+          "status": "incomplete",
+          "halt": "EVAL_USAGE_UNKNOWN"
+        },
+        {
+          "file": "ledger.cjs",
+          "mechanism": "settle normalizes usage; missing/invalid usage sets persistent EVAL_USAGE_UNKNOWN. open/reserve refuse halted or unresolved ledgers."
+        },
+        {
+          "file": "result/integrity-check.json",
+          "value": {
+            "at": "2026-10-26T08:47:00.413Z",
+            "sealUnchanged": true,
+            "implementationsUnchanged": true,
+            "historicalR6Unchanged": true,
+            "attemptsReconciled": true,
+            "calls": 6,
+            "knownUsageCalls": 5,
+            "unknownUsageCalls": 1,
+            "totalKnownTokens": 95616,
+            "withinCallLimit": true,
+            "withinTokenLimit": null,
+            "halt": "EVAL_USAGE_UNKNOWN"
+          }
+        }
+      ],
+      "limitations": [
+        "95,616 is a known subtotal, not the total cost of all six attempts.",
+        "The sixth reservation of 189,210 tokens is admission accounting, not measured usage, an estimate to settle, or proof of an upper bound.",
+        "Remaining nominal call/token allowance does not authorize continuation after unknown usage."
+      ],
+      "recommendations": [
+        "Keep the sixth usage and aggregate actual total unknown. Preserve both the failed attempt and the known subtotal.",
+        "Do not replace unknown with zero/reserved tokens or resume this run. Seek only an exact authoritative receipt if one later becomes available."
+      ]
+    },
+    {
+      "id": "R7-LIVE-RC-003",
+      "topic": "No authoritative usage recovery evidence was found within the permitted scope",
+      "confidence": "confirmed search result; not proof that no provider record exists",
+      "rootCause": "The sealed attempt contains only startup events. The exact failed thread ID yielded no session filename and no rows in the inspected local CLI log database.",
+      "evidence": [
+        {
+          "threadId": "[model-thread-1261b7af88e7]",
+          "source": "sealed transport receipt",
+          "usageStatus": "unknown",
+          "usage": null
+        },
+        {
+          "source": "[home]/.codex/logs_2.sqlite",
+          "access": "readOnly:true",
+          "queries": [
+            "logs WHERE thread_id = exact failed thread ID",
+            "logs WHERE ts BETWEEN 1793004180 AND 1793004360 AND instr(feedback_log_body, exact failed thread ID) > 0"
+          ],
+          "matchingRows": [
+            0,
+            0
+          ]
+        },
+        {
+          "source": "[home]/.codex",
+          "search": "filename-only search for the exact failed thread UUID",
+          "matchingSessionFiles": 0
+        }
+      ],
+      "limitations": [
+        "No auth files, keys, unrelated session contents, API, login refresh or broad log-body search were accessed.",
+        "The CLI invocation uses --ephemeral; this audit does not infer a recoverable rollout or bill from startup metadata."
+      ],
+      "recommendations": [
+        "Retain unknown usage. Do not enlarge the search to unrelated conversations or infer usage from elapsed time/input size."
+      ]
+    },
+    {
+      "id": "R7-LIVE-RC-004",
+      "topic": "Only the R7 candidate rejected the qualified fixed scheduling draft",
+      "confidence": "confirmed response and validator chain; independent blind audit supplies business qualification",
+      "rootCause": "The candidate verifier itself classified the overlap/impossibility conclusion c3 as inference, marked it supported:false despite acknowledging source support, omitted qualification, marked a requirement gap, and returned passed:false. The application then enforced supported===true and the non-fact qualification requirement, emitting QUALIFICATION_MISSING and unmet-requirement issues. R6 instead marked c3 supported:true and supplied a qualification span, so its gate passed. The observed trigger was not an invalid source citation or missing business source.",
+      "evidence": [
+        {
+          "file": "result/calls/R7-F01/candidate/02.json",
+          "responsePassed": false,
+          "responseSummary": "排班关系、未知事项和待办建议均准确保留；但重叠及无法同时履行属于推理结论，正文尚未明确标注为推断。",
+          "claim": {
+            "id": "c3",
+            "artifactId": "05d26a18-5a30-43cb-8d26-cca1ff480883",
+            "field": "content",
+            "text": "两段安排存在重叠，无法同时按原要求履行。",
+            "kind": "inference",
+            "supported": false,
+            "citationIds": [
+              "e1",
+              "e2"
+            ],
+            "reason": "两单时段及全程在厅条件支持该推断，但正文没有明确标注其推断性质。"
+          },
+          "qualificationPresent": false
+        },
+        {
+          "file": "result/report.json",
+          "candidateGroundingIssues": [
+            "关键结论未获支持：c3",
+            "推断、建议或未知未在正文标明（结论片段或绑定限定范围无效）：c3",
+            "要求尚未满足：保留两张排班单的展厅、时段和人员关系；识别不能同时全程到场的冲突，不擅自选定有效排班；替班人选和实际协调状态没有证据时保持未知。",
+            "冲突推断具有来源依据，但正文缺少明确的推断标注。",
+            "独立检查尚未通过全部完成标准"
+          ],
+          "candidateClassificationIssues": [
+            {
+              "code": "QUALIFICATION_MISSING",
+              "claimId": "c3",
+              "artifactId": "05d26a18-5a30-43cb-8d26-cca1ff480883",
+              "field": "content",
+              "text": "两段安排存在重叠，无法同时按原要求履行。"
+            }
+          ]
+        },
+        {
+          "file": "result/calls/R7-F01/baseline/01.json",
+          "responsePassed": true,
+          "claim": {
+            "id": "c3",
+            "artifactId": "2d64aff2-7f87-4635-8d79-a6f1c465bd31",
+            "field": "content",
+            "text": "两段安排存在重叠，无法同时按原要求履行。",
+            "kind": "inference",
+            "supported": true,
+            "citationIds": [
+              "e1",
+              "e2"
+            ],
+            "qualification": {
+              "field": "content",
+              "quote": "两厅独立且不能由一次讲解覆盖，两段安排存在重叠，无法同时按原要求履行。"
+            }
+          }
+        },
+        {
+          "file": "candidate/desktop/grounding.cjs",
+          "mechanism": "The validator rejects c.supported!==true and non-fact claims lacking a valid qualification or recognized explicit marker; the candidate c3 has neither supported:true nor qualification."
+        },
+        {
+          "files": [
+            "../abcd-readiness-r6/candidate/desktop/grounding.cjs",
+            "candidate/desktop/grounding.cjs"
+          ],
+          "sameInferenceInstruction": true,
+          "instruction": "原文未直接表达、需实质推理得到的结论用inference，须正文标注并引前提；未知/建议须明示。"
+        },
+        {
+          "files": [
+            "../abcd-readiness-r6/candidate/desktop/claim-qualification.cjs",
+            "candidate/desktop/claim-qualification.cjs"
+          ],
+          "identicalBytes": true,
+          "baselineSha256": "a75f9a8afb3142c2d0ae0c74dc4992d528e77f4cc19ca6328623530df88089f1",
+          "candidateSha256": "a75f9a8afb3142c2d0ae0c74dc4992d528e77f4cc19ca6328623530df88089f1"
+        }
+      ],
+      "limitations": [
+        "The validator carried through an upstream model judgement; this was not a newly fabricated deterministic citation failure.",
+        "One fresh paired sample with different model responses cannot identify a causal effect of a particular R7 code change. The inference instruction is shared and qualification module bytes are identical.",
+        "Business false-block classification comes from the sealed independent audit; no version/cost information was sent to the blind auditor."
+      ],
+      "recommendations": [
+        "Prioritize offline cases distinguishing direct logical entailment from substantive uncertain inference, including overlapping stated time intervals and mutually exclusive attendance conditions.",
+        "Check consistency between model supported status, qualification binding and substantive support, without weakening factual/source/uncertainty boundaries.",
+        "Retain this result as an observed false block, not proof that R7 code caused a population regression or that all inference marking should be removed."
+      ]
+    },
+    {
+      "id": "R7-LIVE-RC-005",
+      "topic": "Candidate fixed-draft verification incurred one additional JSON repair request",
+      "confidence": "confirmed",
+      "rootCause": "The first candidate verification produced invalid JSON containing a stray token in claimIds. The existing format-repair path issued one additional request and preserved the rejection judgement.",
+      "evidence": [
+        {
+          "file": "result/calls/R7-F01/candidate/01.json",
+          "callIndex": 2,
+          "status": "failed",
+          "code": "MODEL_INVALID_RESPONSE",
+          "parseError": "Expected ',' or ']' after array element in JSON at position 1299 (line 1 column 1300)",
+          "inputTokens": 17070,
+          "outputTokens": 1682,
+          "totalTokens": 18752
+        },
+        {
+          "file": "result/calls/R7-F01/candidate/02.json",
+          "callIndex": 3,
+          "stage": "json_repair",
+          "status": "completed",
+          "inputTokens": 18484,
+          "outputTokens": 1348,
+          "totalTokens": 19832
+        },
+        {
+          "file": "candidate/desktop/model-json.cjs",
+          "mechanism": "Invalid JSON is repairable; repairMessages requests valid JSON while preserving facts, conclusions and action intent."
+        }
+      ],
+      "limitations": [
+        "The extra repair consumed 19,832 known input-plus-output tokens; the first failed-format request also consumed 18,752 tokens.",
+        "This is format recovery within the shared ledger, not an uncounted retry or evidence that formatting caused the underlying c3 judgement."
+      ],
+      "recommendations": [
+        "Report both charged attempts and attribute the additional request to json_repair.",
+        "Use offline malformed-output fixtures to improve observability while preserving business decisions and total-budget accounting."
+      ]
+    },
+    {
+      "id": "R7-LIVE-RC-006",
+      "topic": "The targeted dynamic mechanisms were not exercised",
+      "confidence": "confirmed",
+      "rootCause": "Global stop occurred in the baseline first E01 generation attempt, before any completed dynamic output or tool request. E01 candidate, both E02 arms and all four revision branches were unattempted.",
+      "evidence": [
+        {
+          "file": "result/report.json",
+          "attemptedRows": [
+            {
+              "caseId": "R7-F01",
+              "arm": "baseline",
+              "lane": "fixed",
+              "procedureComplete": true
+            },
+            {
+              "caseId": "R7-F01",
+              "arm": "candidate",
+              "lane": "fixed",
+              "procedureComplete": true
+            },
+            {
+              "caseId": "R7-F02",
+              "arm": "candidate",
+              "lane": "fixed",
+              "procedureComplete": true
+            },
+            {
+              "caseId": "R7-F02",
+              "arm": "baseline",
+              "lane": "fixed",
+              "procedureComplete": true
+            },
+            {
+              "caseId": "R7-E01",
+              "arm": "baseline",
+              "lane": "e2e",
+              "procedureComplete": false
+            }
+          ],
+          "observationWaitEvents": [],
+          "transitions": []
+        },
+        {
+          "file": "result/calls/R7-E01/baseline/workspace-snapshot.json",
+          "toolReceiptCount": 0,
+          "toolExecutionCount": 0,
+          "generatedArtifacts": 0
+        }
+      ],
+      "limitations": [
+        "Historical file_observation/action_status continuity after 90 seconds, new-file reading, same-task evidence recovery, metadata/H1 revision, requirement retirement/shared-condition retention and dynamic whole-goal acceptance were not tested live.",
+        "The long-document E01 source could be present in input, but neither successful rule/exception use nor two explicit sums can be inferred from an unfinished request.",
+        "No completed dynamic pair exists, so same-success dynamic efficiency and generated accepted-output hallucination rates are unestimable."
+      ],
+      "recommendations": [
+        "State the mechanisms as untested rather than failed or fixed.",
+        "Use the offline review to design repairs; any future fresh paired live evaluation requires a separately approved plan and budget. Do not restart, append probes or launch the main evaluation."
+      ]
+    }
+  ],
+  "limitations": [
+    "This is a bounded read-only root-cause audit, not a replay or new model evaluation.",
+    "Raw logs were not expanded beyond exact failed-thread searches; no authoritative usage recovery was available.",
+    "No causal or statistical noninferiority claim follows from this stopped six-call run."
+  ],
+  "actions": {
+    "newModelCalls": 0,
+    "newApiCalls": 0,
+    "credentialFilesOpened": 0,
+    "loginRefreshes": 0,
+    "productionEdits": 0,
+    "executorEdits": 0,
+    "frozenArtifactEdits": 0,
+    "replays": 0,
+    "installationChanges": 0,
+    "pushes": 0,
+    "blindAuditorContacted": false
+  },
+  "evidenceBaseDirectory": "../abcd-readiness-r7"
+}

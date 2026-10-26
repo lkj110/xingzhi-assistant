@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "candidateCommit": "62a1cf07a7569cfd6aeeb77178e01c2e875f7345",
+  "baselineCommit": "7cff32e5b206db0854ba0bd7d3122cb8c5839189",
+  "baseline": "R6 candidate retained byte-for-byte from the R6 freeze",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "startedAt": "2026-10-26T08:38:32.876Z",
+  "finishedAt": "2026-10-26T08:45:49.274Z",
+  "limits": {
+    "calls": 96,
+    "tokens": 2000000,
+    "callsPerBranchPerPhase": 12,
+    "concurrency": 1
+  },
+  "sourceHashes": {
+    "implementation-freeze.json": "d88dec60bfa5d467f370cfae067a7955c750df84b4454f58f145fe7103e8256a",
+    "evaluation-seal.json": "357a0d76e4556a0e50aff0680b9f3daa8fea7e8947adb543670a765d6272345e",
+    "holdout-seal.json": "e1098949b214f4f79d9e97862ceb82c3892a82833e1ebbb2cf394fc13be6ee18",
+    "authorization.json": "12eadb8e8caf6ecc31188257002c75082c599247377562b81004c89bf69a06bd",
+    "ledger.json": "80c1b4c0a1ddf2a8de0f556a7f3c1602c18be6c52a6fa9647dda3cf90dcd5c08",
+    "result/report.json": "b438bd908d1e8a54fb753e1f74d343c6af498b0595060e5da129762609c3cb42",
+    "result/audit-results.json": "dff9ca80bf875d9e180740914735ec3321986cc77428d19ca93fe42a161aef8c",
+    "result/metrics.json": "051f0ceb619aecc454c8652b0eb347d82d710185682c85b8a9d8aa4780db6264",
+    "result/independent-result-audit.json": "25566ef106395e783b3ee874578aac92446af58f7882fd2025b40da92b08b9a7"
+  },
+  "analysisSourceHashes": {
+    "summarize.cjs": "06443d6e4254e069628ddadba09492f481dacd8d4d72b8a8ae902bae0eddf3bb",
+    "audit-statistics-tests.cjs": "888c966e558dbf070bcb9129a9f46e28432bcbe74de6919fc6f9dfd071c9e362",
+    "verify-independent-result.cjs": "972ab8ebeec2a4fc0bb6290f27981487c534340f259b5c1f391b0f1e72ea2e0a",
+    "analysis-preflight.json": "d6d608ca83fe8785c70c7e2f29f2189503f887333eff751ee14015eea15d737a",
+    "audit-blind-seal.json": "546f227f5e4fdb6c90653b793e0dfa0525b8297eba85bab1be99bd743bf59442",
+    "r7-root-cause-audit.json": "aff5178829afd879a5f12d6c581a70eb4c10abda5ae4eaa9f08240e6b047159f",
+    "publish.cjs": "29f39d4d119f3376d70a49253ae30ef8f5dfc2e0e5c2edede0ae4178dbaa6f6d"
+  },
+  "notes": [
+    "Implementation frozen before independent author created all six fresh pairs. No candidate tuning or extra probes after holdouts.",
+    "Same strict mode, model and reasoning; alternating paired order; full shared lifecycle driver.",
+    "Public data sanitized; original sealed local traces retain exact bytes and source hashes. This is not a standalone runnable credential-bearing experiment.",
+    "Independent model-agent audit with hidden arm/cost labels first; protocol cues can reveal identity.",
+    "No formal main evaluation or installed-application replacement."
+  ],
+  "formalMainEvaluationStarted": false,
+  "installedApplicationReplaced": false
+}
