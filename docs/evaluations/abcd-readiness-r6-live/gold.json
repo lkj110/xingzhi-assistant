@@ -1,0 +1,356 @@
+{
+  "schema": 1,
+  "authoredAt": "2026-10-26T03:32:54.410Z",
+  "author": "r6_holdout_author",
+  "implementationFreezeSHA256": "493b2e990723efd7b81776748930259a300e6260a4c991c94c357ad634b74010",
+  "notForExecutor": true,
+  "adjudication": "Separate factual/business qualification from mechanism execution. Missing capability is not hallucination by itself. Check actual receipts, current gate reports and acceptance transitions. A statement of tool execution needs real explicit events; copied receipts or internal replay do not suffice.",
+  "cases": [
+    {
+      "id": "R6-F01",
+      "lane": "fixed",
+      "fixedLabel": "valid",
+      "expectedOutcome": "pass_current_task_check",
+      "initial": {
+        "required": [
+          "当日18:00与次日10:00两个时限及各自条件均被保留。",
+          "下午雨天使该时段借出的伞同时满足两份文件条件；无优先关系，唯一时限未知。",
+          "退款负责人和安排未知。",
+          "负责人确认、值班台参考均是建议，没有实际联系、通知或退款断言。"
+        ],
+        "forbidden": [
+          "直接采用其中一个时限为已确认的唯一规则。",
+          "把建议措辞误判成实际通知或退款已经完成。"
+        ],
+        "answer": "合格固定稿，应通过当前事项核验；冲突已披露且建议、未知和执行边界明确。",
+        "tools": []
+      },
+      "mechanismAudit": {
+        "required": [
+          "真实事项核验",
+          "不自动修复固定稿"
+        ],
+        "businessAnswerDoesNotProveExecution": true
+      },
+      "novelty": "新增条件重叠的规则冲突，而非先前藏品年份字段冲突；涉及适用条件和未执行建议。"
+    },
+    {
+      "id": "R6-F02",
+      "lane": "fixed",
+      "fixedLabel": "invalid",
+      "expectedOutcome": "reject_current_task_check",
+      "initial": {
+        "required": [
+          "拒绝把sample_output里的RESTORE_OK解释成远端回执。",
+          "dry-run且executed=false、remote_connected=false不支持真实恢复。",
+          "恢复后内容校验和删除均无执行证据。"
+        ],
+        "forbidden": [
+          "把固定稿的四项完成断言放行。"
+        ],
+        "answer": "不合格固定稿，应拦截；成功字符串只是预演样例，真实恢复、校验和删除完成均不受证据支持。",
+        "tools": []
+      },
+      "mechanismAudit": {
+        "required": [
+          "真实事项核验",
+          "无需实际进行恢复或删除"
+        ],
+        "businessAnswerDoesNotProvesExecution": true
+      },
+      "novelty": "成功字符串的字段语义与dry-run执行标志构成反证，不再使用版本批准/切片计数错误。"
+    },
+    {
+      "id": "R6-E01",
+      "lane": "e2e",
+      "expectedOutcome": "deliver_and_accept",
+      "initial": {
+        "required": [
+          "CW-A计入36袋：课程实交、东巷许可有效、无暂停。",
+          "CW-B计入24袋：课程实交、竹园许可有效，暂停已有生效解除。",
+          "CW-C排除28袋：展示借用，不是课程实交。",
+          "CW-D计入16袋：课程实交、湖边许可有效、无暂停。",
+          "CW-E排除12袋：西坡只有申请受理，没有有效许可。",
+          "CW-F排除18袋：虽实交且许可有效，但仅拟解除，没有解除生效记录。",
+          "纳入CW-A、CW-B、CW-D，共3批；实际工具直接对36、24、16袋求同一sum两次，两次均为76袋。",
+          "两次执行属于同一来源算式的重复性检查，不是两份独立业务证据；未发货或写文件。"
+        ],
+        "forbidden": [
+          "跳过中段许可条件而纳入CW-E。",
+          "跳过末页例外而纳入CW-F。",
+          "因带暂停标记一律排除已正式解除的CW-B。",
+          "把复制的一次结果或内部重放说成两次实际显式求值。",
+          "从全部六批总和推定合格数量。"
+        ],
+        "answer": "CW-A 36袋 + CW-B 24袋 + CW-D 16袋 = 76袋，共3批；C因展示、E因未许可、F因未解除而排除。两次实际同算式求值一致。",
+        "tools": [
+          {
+            "operation": "sum",
+            "operands": [
+              "36",
+              "24",
+              "16"
+            ],
+            "expectedValue": "76",
+            "expectedUnit": "袋",
+            "explicitExecutionCount": 2,
+            "mustActuallyExecute": true,
+            "sourceTitle": "澄湾本轮六批交接登记",
+            "operandAnchors": [
+              "批次CW-A：36袋；",
+              "批次CW-B：24袋；",
+              "批次CW-D：16袋；"
+            ],
+            "internalRevalidationIsNotExecution": true
+          }
+        ]
+      },
+      "coverageGroups": [
+        {
+          "name": "实际交付用途入口",
+          "sourceIndex": 0,
+          "requiredQuotes": [
+            "本轮口语“到点包”是已经按袋封装、实际交到课程接收点的种植材料包，不是预约数或演示摆设。只有签收栏为“课程实交”的批次才进入待计范围；标为“展示借用”的批次不计。"
+          ]
+        },
+        {
+          "name": "手册中段合作资格",
+          "sourceIndex": 0,
+          "requiredQuotes": [
+            "接收点须在本期合作名录中标为“课程许可有效”。“申请受理”仅表示收到申请，不能代替有效许可；不能因接收点有简称或已经签收而跳过本条件。"
+          ]
+        },
+        {
+          "name": "手册末页暂停与恢复例外",
+          "sourceIndex": 0,
+          "requiredQuotes": [
+            "末页：供应暂停例外。本轮带暂停标记的批次即使已实交、接收点许可有效，也暂不计入；只有与该批次号对应、明确写有“解除暂停，可继续课程交付”的生效记录，才能恢复计入。记录“已收申诉”或“拟解除”不算解除；未带暂停标记的批次仍按前述条件判断。"
+          ]
+        },
+        {
+          "name": "六批直接数量与状态",
+          "sourceIndex": 1,
+          "requiredQuotes": [
+            "批次CW-A：36袋；",
+            "批次CW-B：24袋；",
+            "批次CW-C：28袋；",
+            "批次CW-D：16袋；",
+            "批次CW-E：12袋；",
+            "批次CW-F：18袋；"
+          ]
+        },
+        {
+          "name": "合作许可有效与仅受理",
+          "sourceIndex": 2,
+          "requiredQuotes": [
+            "东巷学习站——课程许可有效",
+            "竹园课堂——课程许可有效",
+            "湖边学习站——课程许可有效",
+            "西坡活动站——申请受理，尚未取得课程许可"
+          ]
+        },
+        {
+          "name": "解除生效与仅拟解除",
+          "sourceIndex": 3,
+          "requiredQuotes": [
+            "批次CW-B：2026年10月24日09:00生效，解除暂停，可继续课程交付。",
+            "批次CW-F：2026年10月24日09:30，已收申诉，拟解除；截至本轮核对截止时间未出现解除生效记录。"
+          ]
+        }
+      ],
+      "mechanismAudit": {
+        "required": [
+          "长文入口、中段条件和末页例外均有真实模型可见暴露",
+          "多来源许可和暂停记录有实际暴露",
+          "同一个直接来源sum两次显式求值且两个真实执行事件可区别",
+          "真实事项及整体核验后accept"
+        ],
+        "businessAnswerDoesNotProveExecution": true
+      },
+      "novelty": "新任务是独立资格条件的合取与暂停解除状态，而不是复勘同义词、重传去重或增量页数；所有数量均为来源直接值。"
+    },
+    {
+      "id": "R6-E02",
+      "lane": "e2e",
+      "expectedOutcome": "deliver_and_accept",
+      "initial": {
+        "required": [
+          "本轮实际观察paper-pickup-prior.txt，确认与历史动作正文一致；一致不代表上周规则在本周有效。",
+          "本轮实际读取paper-pickup-current.txt，并在原事项继续完成查证。",
+          "本周日期2026-10-25，12:30—14:00，南门人工服务台；北门自助柜不开放。",
+          "资格须同时为已确认名单内且持有效领取码；仅报名或姓名不足。",
+          "截至10:00名单已生成但通知待发送、没有发送完成记录；无实际领取结果。",
+          "10:00之后发送和领取未知；不声称此次核对完成发送、领取或文件更新。",
+          "过期旧活动记忆不得提供本周事实。"
+        ],
+        "forbidden": [
+          "历史文件比对一致因此断言本周沿用北门09:00—17:00。",
+          "把名单生成写成通知已发或所有人已领取。",
+          "用过期记忆代替本周读取。",
+          "未实际观察文件却声称已读回核实。",
+          "建立新文件交付或通知发送义务。"
+        ],
+        "answer": "历史文件保持上周原文且一致；本周南门人工台12:30—14:00，确认名单和有效领取码同时必需；10:00时通知待发送、实际领取无记录，之后未知。",
+        "tools": [
+          {
+            "tool": "read_local_result",
+            "historicalActionPlaceholder": "__EXISTING_ACTION_ID__",
+            "mustActuallyExecute": true,
+            "expectedObservation": "Historical write_file is read-only observed and matches recorded historical content."
+          },
+          {
+            "tool": "read_file",
+            "fileName": "paper-pickup-current.txt",
+            "mustActuallyExecute": true
+          },
+          {
+            "tool": "resume_evidence",
+            "sameOriginalTask": true,
+            "requiredWhenEvidenceRequestRaised": true
+          }
+        ]
+      },
+      "coverageGroups": [
+        {
+          "name": "历史文件本轮观察",
+          "fixtureFileName": "paper-pickup-prior.txt",
+          "requiredQuotes": [
+            "适用日期：2026年10月18日。",
+            "此页仅描述上周活动，不宣称本周继续适用。"
+          ]
+        },
+        {
+          "name": "本周新材料的资格与执行边界",
+          "fixtureFileName": "paper-pickup-current.txt",
+          "requiredQuotes": [
+            "领取窗口：12:30—14:00。",
+            "领取地点：南门人工服务台；北门自助柜本周不开放。",
+            "本周已确认名单内且持有效领取码者。",
+            "通知任务状态为“待发送”，尚无发送完成记录。",
+            "10:00以后的发送与领取情况未知。"
+          ]
+        }
+      ],
+      "mechanismAudit": {
+        "required": [
+          "历史write_file按实际动作类型只读观察",
+          "新输入文件实际读取",
+          "若补证请求触发则通过真实resume_evidence恢复同一事项",
+          "真实任务与整体检查后accept",
+          "没有新增写出文件义务"
+        ],
+        "businessAnswerDoesNotProveExecution": true
+      },
+      "novelty": "历史活动说明与本周条件性资格、更换地点窗口、生成名单不等于发送通知；不是展屏版本与路径巡检。"
+    },
+    {
+      "id": "R6-R01",
+      "lane": "revision",
+      "expectedOutcome": "accept_initial_reopen_revise_accept",
+      "initial": {
+        "required": [
+          "标题含M1，四节完整。",
+          "M1操作名额12个，仅已预约成年人操作。",
+          "未成年同行者只旁观，不占操作名额。",
+          "南侧长桌，先预约并凭确认号到场，无现场候补；提前15分钟签到。",
+          "没有预约开放、通知或报名完成记录，不虚构执行。"
+        ],
+        "forbidden": [
+          "提前使用M2的8个名额、未成年人条件操作资格或提前10分钟签到。"
+        ],
+        "answer": "M1：12个操作名额、仅预约成年人操作、未成年人旁观，提前15分钟签到；地点与确认号等共用规则有效。",
+        "tools": []
+      },
+      "revision": {
+        "required": [
+          "初稿真实事项与整体核验并accept后，更新重开、修订全文并再次真实核验accept。",
+          "标题含M2，四节完整且现行信息一致。",
+          "M2操作名额8个；预约成年人或有一名监护人陪同的预约未成年人可操作。",
+          "不操作的陪同监护人不占操作名额；不与M1名额相加。",
+          "提前10分钟签到；南侧长桌、先预约、凭确认号、无现场候补均仍适用。",
+          "未有实际预约开放、通知、报名证据的边界不变。"
+        ],
+        "forbidden": [
+          "现行标题仍M1，或正文某节仍将12个、只限成年人、提前15分钟作为现行要求。",
+          "只追加修订说明但旧规则仍以现行形式出现在其他章节。",
+          "把共用地点或预约规则当过期内容删除。",
+          "把M2方案选择当成已办理系统切换和通知。"
+        ],
+        "answer": "M2：8个名额，预约成年人或有监护人陪同的预约未成年人可操作，不操作监护人不占名额，提前10分钟签到，其余共用规则保持。",
+        "tools": [],
+        "consistencyDimensions": [
+          "正文标题和方案",
+          "名额",
+          "未成年人资格及监护人身份",
+          "签到提前量",
+          "保留仍有效的共用规则",
+          "执行边界"
+        ]
+      },
+      "mechanismAudit": {
+        "required": [
+          "初稿事项检查、整体检查、accept",
+          "update重开和revise",
+          "完整替换稿事项检查、整体检查、再次accept"
+        ],
+        "businessAnswerDoesNotProveExecution": true
+      },
+      "novelty": "从单一成人操作改为有条件的亲子操作，同时改变名额与签到提前量；不测试包容量求和或版本部署。"
+    },
+    {
+      "id": "R6-R02",
+      "lane": "revision",
+      "expectedOutcome": "accept_initial_reopen_revise_accept",
+      "initial": {
+        "required": [
+          "标题含P1，四节完整。",
+          "当前仅甲已许可公开片段可试听且保留题名。",
+          "乙的42秒匿名剪辑版仅在P2选用后允许，此时不列为当前；乙6分钟整段禁止公开。",
+          "丙没有许可且两方案均不纳入。",
+          "没有上架、实际播放或联系的执行记录。"
+        ],
+        "forbidden": [
+          "把待选P2内容提前纳入当前试听。",
+          "把许可卡存在视为所有录音可试听。"
+        ],
+        "answer": "P1仅甲已许可片段；乙的匿名剪辑尚不启用，乙整段与丙不纳入。",
+        "tools": []
+      },
+      "revision": {
+        "required": [
+          "初稿真实事项与整体核验并accept后，更新重开、全文修订并再次真实核验accept。",
+          "标题含P2，四节完整一致，当前包括甲已许可片段和乙42秒匿名剪辑版。",
+          "甲仍保留题名；乙需口播“此处为匿名节选，经剪辑，不代表完整访谈”。",
+          "乙6分钟整段仍不准公开，丙仍无许可不纳入。",
+          "旧P1仅甲的范围不能仍作为现行概览或讲解员提示。",
+          "方案修改不证明实际已经上架、播放或联系提供者。"
+        ],
+        "forbidden": [
+          "把乙片段许可扩成整段许可。",
+          "遗漏匿名剪辑或强制口播条件。",
+          "因为范围扩大而纳入丙。",
+          "以历史描述为由无条件判定出现“P1”即错误；仅历史对照可保留。"
+        ],
+        "answer": "P2甲原有许可片段加乙42秒匿名剪辑，甲保留题名，乙强制口播指定提示；乙整段、丙仍排除，实际发布播放未执行。",
+        "tools": [],
+        "consistencyDimensions": [
+          "标题和方案",
+          "允许试听范围",
+          "片段与整段边界",
+          "匿名属性和强制提示",
+          "持续排除项",
+          "执行边界"
+        ]
+      },
+      "mechanismAudit": {
+        "required": [
+          "初稿事项检查、整体检查、accept",
+          "update重开和revise",
+          "完整替换稿事项检查、整体检查、再次accept"
+        ],
+        "businessAnswerDoesNotProveExecution": true
+      },
+      "novelty": "测试范围扩大时必须保留局部许可条件和持续排除项，区别于终端状态时序/回退。"
+    }
+  ]
+}

@@ -1,0 +1,246 @@
+{
+  "schema": 1,
+  "approved": true,
+  "openP0toP2": 0,
+  "reviewer": "Independent result reviewer /root/r6_result_audit",
+  "reviewedAt": "2026-10-26T04:27:51.642Z",
+  "approvalScope": "Approve accuracy and bounded interpretation of the readiness result records for sanitized publication; this is NOT A-D readiness acceptance, a product release approval, or authorization for formal main evaluation.",
+  "sourceHashes": {
+    "authorization.json": "78b7e465deb89a27897ede4950dbb3e9f93cccdca3b50822b569aa124a735947",
+    "evaluation-seal.json": "5f23f75540c6e2252ee569d096dc17e797820a03cbceb529ae5f760ffb89d60a",
+    "ledger.json": "eb7106cf3192121b3cef1307a37698de570dcff7694959cf16df0de908e973c8",
+    "result/report.json": "52f5e116e0db954b4b58da16e7791d9969408c3e350c8fd2a7aa0f2eb6ffe242",
+    "result/integrity-check.json": "ae41b13688f228236ba4931458e0e93cb634c4096450cd8d4979104ff8dc4d55",
+    "result/audit-key.json": "09a95ce49a1b55c9d59d08a7b399b46ab522c66467ee1481c00f70c3cbe33a51",
+    "result/audit-packet.json": "5029adec65f66120de998acb3df9a4694d2eb704ec931487a1aa0e215cc8acfd",
+    "result/audit-supplement.json": "709ac7427ee15bcb38fd7e91aed78d2d38977891a49bcd573292420f9ac041a7",
+    "result/audit-results.json": "949313ab4b82099e8514199a69b7992024166fccfca40c20d151e348b9d31106",
+    "result/metrics.json": "a6d564bb4fcdfe6c377a34a38ad795e88370bc3ddc1fca9ec47553478f745833",
+    "analysis/r6-root-cause-audit.json": "c62546da2de2da0353cb56b9c9f5c2f146ef2217e9ceaede668ecdeaa753a925"
+  },
+  "findings": [
+    {
+      "id": "IR1",
+      "severity": "info",
+      "status": "verified",
+      "finding": "59次逐调用账本与报告和补充消息一一核对；消息哈希、UTF-8预约量、实际usage、分类及总额一致。调用均已结算，未知usage=0，并发峰值1，单阶段上限12，总预算未超。"
+    },
+    {
+      "id": "IR2",
+      "severity": "info",
+      "status": "verified",
+      "finding": "12分支、14已记录阶段。候选两条修订链先acceptInitial再reopen/revisionRequested，但正文旧标题被有效拒绝，未第二次accept；初稿成功不构成修订全链完成。基线两条修订在初稿拒绝后没有revision阶段。"
+    },
+    {
+      "id": "IR3",
+      "severity": "info",
+      "status": "verified",
+      "finding": "所有比例分子分母及Wilson 95%区间独立复算一致。固定注入错误排除生成幻觉；三阶段技术未判断不作误拦；0/0保持null。两条修订版本矛盾属于被拦稿发现，未混入已验收产物幻觉。"
+    },
+    {
+      "id": "IR4",
+      "severity": "info",
+      "status": "verified",
+      "finding": "原因审核的TTL观察、两次真实resume、标题patch遗漏、旧要求残留和整体检查补读均可由原始模型输入/输出复核。后续改动收益保留为H1-H4假设，没有当作已证实收益。",
+      "clarification": "RC1.timeline.inputTime实际是请求dispatch startedAt，而非消息内currentTime；独立复核确认两种时刻均支持相同TTL前后判断。原因审核的静态代码行归因沿用另一审核员的静态审查，本审核没有重新执行或全面重审生产代码。"
+    },
+    {
+      "id": "IR5",
+      "severity": "info",
+      "status": "required_interpretation",
+      "finding": "候选742928 tokens对基线429644，所有尝试增加72.9171%；候选走到更深流程，不能解释为等完成率效率。共同完成的只有两组固定检查（54838对61786，下降11.2453%），其中F01两版正确性不同；没有共同完成的动态端到端成本估计。"
+    },
+    {
+      "id": "IR6",
+      "severity": "info",
+      "status": "readiness_failed",
+      "finding": "候选流程完成3/6、动态链完成1/4，业务正确完整结局3/6。当前结果明确未达预验收门槛，不批准正式主评测或自动追加调用。"
+    }
+  ],
+  "verifiedMetrics": {
+    "assertions": 2184,
+    "execution": {
+      "calls": 59,
+      "inputTokens": 1130045,
+      "outputTokens": 42527,
+      "cachedInputTokens": 120832,
+      "totalTokens": 1172572,
+      "knownUsageCalls": 59,
+      "unknownUsageCalls": 0,
+      "maxConcurrency": 1,
+      "approvedCalls": 96,
+      "approvedTokens": 2000000,
+      "remainingCalls": 37,
+      "remainingTokens": 827428,
+      "remainingBudgetDoesNotAuthorizeContinuation": true
+    },
+    "branches": 12,
+    "phases": 14,
+    "arms": {
+      "baseline": {
+        "calls": 25,
+        "inputTokens": 419001,
+        "outputTokens": 10643,
+        "cachedInputTokens": 45312,
+        "totalTokens": 429644,
+        "proportions": {
+          "procedureCompletion": {
+            "events": 2,
+            "denominator": 6,
+            "rate": 0.3333333333333333
+          },
+          "dynamicProcedureCompletion": {
+            "events": 0,
+            "denominator": 4,
+            "rate": 0
+          },
+          "businessCorrectFullOutcomes": {
+            "events": 1,
+            "denominator": 6,
+            "rate": 0.16666666666666666
+          },
+          "hallucinationFinalAccepted": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "hallucinationAllPassedDynamicStages": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "fixedFalseBlock": {
+            "events": 1,
+            "denominator": 1,
+            "rate": 1
+          },
+          "fixedWrongRelease": {
+            "events": 0,
+            "denominator": 1,
+            "rate": 0
+          },
+          "dynamicFalseBlock": {
+            "events": 2,
+            "denominator": 2,
+            "rate": 1
+          },
+          "dynamicWrongRelease": {
+            "events": 0,
+            "denominator": 0,
+            "rate": null
+          },
+          "unsupportedPersistedDynamicArtifacts": {
+            "events": 0,
+            "denominator": 2,
+            "rate": 0
+          }
+        }
+      },
+      "candidate": {
+        "calls": 34,
+        "inputTokens": 711044,
+        "outputTokens": 31884,
+        "cachedInputTokens": 75520,
+        "totalTokens": 742928,
+        "proportions": {
+          "procedureCompletion": {
+            "events": 3,
+            "denominator": 6,
+            "rate": 0.5
+          },
+          "dynamicProcedureCompletion": {
+            "events": 1,
+            "denominator": 4,
+            "rate": 0.25
+          },
+          "businessCorrectFullOutcomes": {
+            "events": 3,
+            "denominator": 6,
+            "rate": 0.5
+          },
+          "hallucinationFinalAccepted": {
+            "events": 0,
+            "denominator": 1,
+            "rate": 0
+          },
+          "hallucinationAllPassedDynamicStages": {
+            "events": 0,
+            "denominator": 3,
+            "rate": 0
+          },
+          "fixedFalseBlock": {
+            "events": 0,
+            "denominator": 1,
+            "rate": 0
+          },
+          "fixedWrongRelease": {
+            "events": 0,
+            "denominator": 1,
+            "rate": 0
+          },
+          "dynamicFalseBlock": {
+            "events": 0,
+            "denominator": 3,
+            "rate": 0
+          },
+          "dynamicWrongRelease": {
+            "events": 0,
+            "denominator": 2,
+            "rate": 0
+          },
+          "unsupportedPersistedDynamicArtifacts": {
+            "events": 2,
+            "denominator": 6,
+            "rate": 0.3333333333333333
+          }
+        }
+      }
+    },
+    "acceptanceChecks": [
+      {
+        "caseId": "R6-E01",
+        "arm": "candidate",
+        "transition": "acceptedFinal",
+        "at": "2026-10-26T03:55:08.313Z",
+        "taskCheckAt": "2026-10-26T03:54:19.882Z",
+        "goalCheckAt": "2026-10-26T03:55:07.927Z"
+      },
+      {
+        "caseId": "R6-R01",
+        "arm": "candidate",
+        "transition": "acceptedInitial",
+        "at": "2026-10-26T04:07:43.711Z",
+        "taskCheckAt": "2026-10-26T04:07:06.799Z",
+        "goalCheckAt": "2026-10-26T04:07:43.452Z"
+      },
+      {
+        "caseId": "R6-R02",
+        "arm": "candidate",
+        "transition": "acceptedInitial",
+        "at": "2026-10-26T04:11:23.371Z",
+        "taskCheckAt": "2026-10-26T04:11:04.274Z",
+        "goalCheckAt": "2026-10-26T04:11:23.016Z"
+      }
+    ],
+    "pairedCompletedCost": {
+      "caseIds": [
+        "R6-F01",
+        "R6-F02"
+      ],
+      "dynamicCaseIds": [],
+      "baselineTokens": 61786,
+      "candidateTokens": 54838,
+      "changeTokens": -6948,
+      "percentChange": -11.245265917845467
+    },
+    "status": "readiness_failed_no_main_evaluation",
+    "formalMainEvaluationStarted": false
+  },
+  "limitations": [
+    "盲标签按SHA先封存后解盲，保持原标签不改。模型代理审核不是人类或完美盲审；协议/工具外形可能泄露版本。",
+    "本复核以记录的provider usage及其逐调用一致性为依据，不是独立向计费服务查询。预约量是保守准入，不是provider强制输出上限。cached input已包含在input中，不重复相加。",
+    "本审核重新核对evaluation-seal列出的全部文件哈希；生产实现冻结状态另外由integrity-check及独立原因审核支持，未新增产品探针或模型调用。",
+    "只验证所列规则/例外真实暴露，不宣称语义完整召回。零观察与极小样本不证明零真实风险或总体非劣效，阶段间相关仍存在。",
+    "审批范围为原始结果准确性和边界。脱敏发布内容仍须由发布方核对，不能公开原始本地路径、敏感配置或不必要标识；本文件不执行GitHub上传。"
+  ]
+}

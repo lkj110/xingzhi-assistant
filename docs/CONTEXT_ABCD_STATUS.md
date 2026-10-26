@@ -1,14 +1,36 @@
 # Context and evidence optimization acceptance status
 
-## Latest development: R6 lifecycle and evidence handoff, 2026-10-26
+## Latest real-model result: R6 readiness, 2026-10-26
+
+Six fresh paired cases completed execution and independent result audit, using
+59 calls and 1,172,572 input-plus-output tokens within the approved 96-call /
+2,000,000-token limit. Candidate procedure completion was 3/6 versus 2/6;
+dynamic full acceptance was 1/4 versus 0/4. Candidate total tokens were 742,928
+versus 429,644 (+72.92%). There were no jointly completed dynamic cases, so
+equal-success dynamic token efficiency is not estimable.
+
+Candidate false blocks were 0/1 fixed and 0/3 dynamic, versus 1/1 and 2/2.
+Wrong releases were 0/1 fixed in both arms and 0/2 dynamic for the candidate
+(baseline 0/0, not estimable). Final accepted generated-artifact hallucinations
+were 0/1 for the candidate; the baseline had no final accepted generated artifact.
+These small denominators do not establish zero risk or statistical noninferiority.
+
+**Readiness did not pass.** Historical observation receipts expired during slow
+turns; two revision drafts retained an old body heading and were correctly blocked.
+Next priorities are observation-versus-current-state validity and explicit title /
+body-heading revision semantics, followed by active-requirement cleanup and initial
+whole-goal evidence supply. No formal main evaluation or installed-app upgrade
+was started. See the [audited R6 report](CONTEXT_ABCD_R6_LIVE.md).
+
+## Prior offline stage: R6 lifecycle and evidence handoff, 2026-10-26
 
 The evaluation lifecycle and evidence handoff repairs passed independent review
 after three categories of findings were fixed. The reviewer ran 186/186 checks;
-the final expanded regression passed 380/380. No new real-model calls or
-installed-app upgrade were made. See [R6 repairs and proposed budget](CONTEXT_ABCD_R6.md).
-A–D remains unaccepted; the latest real-model evidence is still R5b below.
+the final expanded regression passed 380/380. That offline stage made no new
+real-model calls or installed-app upgrade. See [R6 repairs and the subsequent
+approved evaluation plan](CONTEXT_ABCD_R6.md). A–D remains unaccepted.
 
-## Latest real-model result: R5b readiness, 2026-10-23
+## Earlier real-model result: R5b readiness, 2026-10-23
 
 The four reviewed repairs in `bb2ab900703b4200ea5d1bc9542c5c9c22c1f8cb`
 were tested on six fresh paired cases. All 12 branches were attempted, using

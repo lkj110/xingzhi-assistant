@@ -1,0 +1,1127 @@
+{
+  "schema": 1,
+  "note": "Actual measured input+output. Cached input is included in input. Failed attempts count. No raw prompts, account profile or subscription receipt identifiers published.",
+  "calls": [
+    {
+      "index": 1,
+      "caseId": "R6-F01",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 14328,
+        "outputTokens": 97,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 13860
+    },
+    {
+      "index": 2,
+      "caseId": "R6-F01",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 15178,
+        "outputTokens": 1314,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 34204
+    },
+    {
+      "index": 3,
+      "caseId": "R6-F01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 16448,
+        "outputTokens": 1499,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 34600
+    },
+    {
+      "index": 4,
+      "caseId": "R6-F01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 16782,
+        "outputTokens": 1906,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 47848
+    },
+    {
+      "index": 5,
+      "caseId": "R6-F02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 16157,
+        "outputTokens": 2046,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 47852
+    },
+    {
+      "index": 6,
+      "caseId": "R6-F02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 13980,
+        "outputTokens": 94,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 13722
+    },
+    {
+      "index": 7,
+      "caseId": "R6-F02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 14816,
+        "outputTokens": 1979,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 47535
+    },
+    {
+      "index": 8,
+      "caseId": "R6-E01",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 13685,
+        "outputTokens": 166,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 19934
+    },
+    {
+      "index": 9,
+      "caseId": "R6-E01",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "needs_evidence",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 32122,
+        "outputTokens": 300,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 20384
+    },
+    {
+      "index": 10,
+      "caseId": "R6-E01",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "request_access",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 18039,
+        "outputTokens": 213,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 20251
+    },
+    {
+      "index": 11,
+      "caseId": "R6-E01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 22012,
+        "outputTokens": 173,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 19773
+    },
+    {
+      "index": 12,
+      "caseId": "R6-E01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 38123,
+        "outputTokens": 879,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 35361
+    },
+    {
+      "index": 13,
+      "caseId": "R6-E01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "artifact",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 40335,
+        "outputTokens": 1534,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 44440
+    },
+    {
+      "index": 14,
+      "caseId": "R6-E01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 44272,
+        "outputTokens": 3235,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 53785
+    },
+    {
+      "index": 15,
+      "caseId": "R6-E01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 25336,
+        "outputTokens": 185,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 16387
+    },
+    {
+      "index": 16,
+      "caseId": "R6-E01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 44265,
+        "outputTokens": 183,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 19079
+    },
+    {
+      "index": 17,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 14157,
+        "outputTokens": 95,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 14852
+    },
+    {
+      "index": 18,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "needs_evidence",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 14519,
+        "outputTokens": 326,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 19498
+    },
+    {
+      "index": 19,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_local_result",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 18200,
+        "outputTokens": 179,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 17005
+    },
+    {
+      "index": 20,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_file",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 19526,
+        "outputTokens": 96,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 22818
+    },
+    {
+      "index": 21,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "resume_evidence",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 18774,
+        "outputTokens": 293,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 21229
+    },
+    {
+      "index": 22,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "advance_task",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 18233,
+        "outputTokens": 101,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 11660
+    },
+    {
+      "index": 23,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "needs_evidence",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 15306,
+        "outputTokens": 302,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 19947
+    },
+    {
+      "index": 24,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_local_result",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 18689,
+        "outputTokens": 186,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 21483
+    },
+    {
+      "index": 25,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "resume_evidence",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 19734,
+        "outputTokens": 191,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 15624
+    },
+    {
+      "index": 26,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "advance_task",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 18232,
+        "outputTokens": 207,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 18518
+    },
+    {
+      "index": 27,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "artifact",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 16542,
+        "outputTokens": 526,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 21960
+    },
+    {
+      "index": 28,
+      "caseId": "R6-E02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 18091,
+        "outputTokens": 144,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 15611
+    },
+    {
+      "index": 29,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 13123,
+        "outputTokens": 118,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 12895
+    },
+    {
+      "index": 30,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "needs_evidence",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 13924,
+        "outputTokens": 306,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 17652
+    },
+    {
+      "index": 31,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17691,
+        "outputTokens": 108,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 13841
+    },
+    {
+      "index": 32,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_file",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17873,
+        "outputTokens": 94,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 13070
+    },
+    {
+      "index": 33,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_local_result",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17823,
+        "outputTokens": 176,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 21787
+    },
+    {
+      "index": 34,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_file",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17743,
+        "outputTokens": 119,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 14408
+    },
+    {
+      "index": 35,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_file",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 18263,
+        "outputTokens": 107,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 13286
+    },
+    {
+      "index": 36,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 18000,
+        "outputTokens": 257,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 19589
+    },
+    {
+      "index": 37,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_output_state",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 19106,
+        "outputTokens": 251,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 17925
+    },
+    {
+      "index": 38,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_local_result",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 19259,
+        "outputTokens": 179,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 14182
+    },
+    {
+      "index": 39,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_file",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 19358,
+        "outputTokens": 95,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 11498
+    },
+    {
+      "index": 40,
+      "caseId": "R6-E02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "planner",
+      "category": "planner",
+      "status": "completed",
+      "kind": "read_file",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 19425,
+        "outputTokens": 117,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 13871
+    },
+    {
+      "index": 41,
+      "caseId": "R6-R01",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 12929,
+        "outputTokens": 97,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 11922
+    },
+    {
+      "index": 42,
+      "caseId": "R6-R01",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "artifact",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 13849,
+        "outputTokens": 458,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 22228
+    },
+    {
+      "index": 43,
+      "caseId": "R6-R01",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 15704,
+        "outputTokens": 1409,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 31585
+    },
+    {
+      "index": 44,
+      "caseId": "R6-R01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "artifact",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 14465,
+        "outputTokens": 462,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 25659
+    },
+    {
+      "index": 45,
+      "caseId": "R6-R01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17111,
+        "outputTokens": 1765,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 33072
+    },
+    {
+      "index": 46,
+      "caseId": "R6-R01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17713,
+        "outputTokens": 2213,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 54739
+    },
+    {
+      "index": 47,
+      "caseId": "R6-R01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 21231,
+        "outputTokens": 127,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 13647
+    },
+    {
+      "index": 48,
+      "caseId": "R6-R01",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 22408,
+        "outputTokens": 160,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 15568
+    },
+    {
+      "index": 49,
+      "caseId": "R6-R01",
+      "arm": "candidate",
+      "phase": "revision",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "patch",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 16826,
+        "outputTokens": 718,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 24557
+    },
+    {
+      "index": 50,
+      "caseId": "R6-R01",
+      "arm": "candidate",
+      "phase": "revision",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 19313,
+        "outputTokens": 2648,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 47418
+    },
+    {
+      "index": 51,
+      "caseId": "R6-R02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "artifact",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 14397,
+        "outputTokens": 805,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 32572
+    },
+    {
+      "index": 52,
+      "caseId": "R6-R02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17368,
+        "outputTokens": 2026,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 38308
+    },
+    {
+      "index": 53,
+      "caseId": "R6-R02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17714,
+        "outputTokens": 2427,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 41225
+    },
+    {
+      "index": 54,
+      "caseId": "R6-R02",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 22210,
+        "outputTokens": 202,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 15828
+    },
+    {
+      "index": 55,
+      "caseId": "R6-R02",
+      "arm": "candidate",
+      "phase": "revision",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "patch",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 17011,
+        "outputTokens": 1266,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 36554
+    },
+    {
+      "index": 56,
+      "caseId": "R6-R02",
+      "arm": "candidate",
+      "phase": "revision",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 19544,
+        "outputTokens": 2779,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 45984
+    },
+    {
+      "index": 57,
+      "caseId": "R6-R02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "read_context",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 12930,
+        "outputTokens": 99,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 13544
+    },
+    {
+      "index": 58,
+      "caseId": "R6-R02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "status": "completed",
+      "kind": "artifact",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 13847,
+        "outputTokens": 803,
+        "cachedInputTokens": 7552
+      },
+      "durationMs": 30103
+    },
+    {
+      "index": 59,
+      "caseId": "R6-R02",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "status": "completed",
+      "kind": "verification",
+      "code": null,
+      "usageStatus": "reported",
+      "usage": {
+        "inputTokens": 16006,
+        "outputTokens": 1687,
+        "cachedInputTokens": 0
+      },
+      "durationMs": 31446
+    }
+  ]
+}

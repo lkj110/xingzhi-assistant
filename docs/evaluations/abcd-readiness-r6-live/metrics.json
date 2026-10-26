@@ -1,0 +1,1013 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-10-26T04:23:43.066Z",
+  "status": "readiness_failed_no_main_evaluation",
+  "failedReadinessGates": [
+    "candidate_dynamic_chains_incomplete",
+    "candidate_business_outcomes_not_all_correct"
+  ],
+  "execution": {
+    "calls": 59,
+    "knownUsageCalls": 59,
+    "unknownUsageCalls": 0,
+    "inputTokens": 1130045,
+    "outputTokens": 42527,
+    "cachedInputTokens": 120832,
+    "totalTokens": 1172572,
+    "totalKnownTokens": 1172572,
+    "branches": 12,
+    "status": "completed",
+    "approvedCalls": 96,
+    "approvedTokens": 2000000,
+    "halt": null
+  },
+  "arms": {
+    "baseline": {
+      "calls": 25,
+      "knownUsageCalls": 25,
+      "unknownUsageCalls": 0,
+      "inputTokens": 419001,
+      "outputTokens": 10643,
+      "cachedInputTokens": 45312,
+      "totalTokens": 429644,
+      "totalKnownTokens": 429644,
+      "attemptedBranches": 6,
+      "procedureCompletion": {
+        "events": 2,
+        "denominator": 6,
+        "rate": 0.3333333333333333,
+        "wilson95": [
+          0.09677141110578041,
+          0.700006684861608
+        ]
+      },
+      "dynamicProcedureCompletion": {
+        "events": 0,
+        "denominator": 4,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.4898908364545973
+        ]
+      },
+      "businessCorrectFullOutcomes": {
+        "events": 1,
+        "denominator": 6,
+        "rate": 0.16666666666666666,
+        "wilson95": [
+          0.030053369748306635,
+          0.5635028221864702
+        ]
+      },
+      "technicalIncompleteBranches": 2,
+      "technicalIncompletePhases": 2,
+      "hallucinationFinalAccepted": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "hallucinationAllPassedDynamicStages": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "fixedFalseBlock": {
+        "events": 1,
+        "denominator": 1,
+        "rate": 1,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ]
+      },
+      "fixedWrongRelease": {
+        "events": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "fixedUnjudged": 0,
+      "dynamicFalseBlock": {
+        "events": 2,
+        "denominator": 2,
+        "rate": 1,
+        "wilson95": [
+          0.34238022750665303,
+          1
+        ]
+      },
+      "dynamicWrongRelease": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "dynamicJudgedArtifacts": 2,
+      "unsupportedPersistedDynamicArtifacts": {
+        "events": 0,
+        "denominator": 2,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.6576197724933469
+        ]
+      },
+      "perLane": {
+        "fixed": {
+          "calls": 4,
+          "knownUsageCalls": 4,
+          "unknownUsageCalls": 0,
+          "inputTokens": 58302,
+          "outputTokens": 3484,
+          "cachedInputTokens": 0,
+          "totalTokens": 61786,
+          "totalKnownTokens": 61786
+        },
+        "e2e": {
+          "calls": 15,
+          "knownUsageCalls": 15,
+          "unknownUsageCalls": 0,
+          "inputTokens": 275434,
+          "outputTokens": 2606,
+          "cachedInputTokens": 22656,
+          "totalTokens": 278040,
+          "totalKnownTokens": 278040
+        },
+        "revision": {
+          "calls": 6,
+          "knownUsageCalls": 6,
+          "unknownUsageCalls": 0,
+          "inputTokens": 85265,
+          "outputTokens": 4553,
+          "cachedInputTokens": 22656,
+          "totalTokens": 89818,
+          "totalKnownTokens": 89818
+        }
+      },
+      "perPhase": {
+        "initial": {
+          "calls": 25,
+          "knownUsageCalls": 25,
+          "unknownUsageCalls": 0,
+          "inputTokens": 419001,
+          "outputTokens": 10643,
+          "cachedInputTokens": 45312,
+          "totalTokens": 429644,
+          "totalKnownTokens": 429644
+        },
+        "revision": {
+          "calls": 0,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 0,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "cachedInputTokens": 0,
+          "totalTokens": 0,
+          "totalKnownTokens": 0
+        }
+      },
+      "perCategory": {
+        "generation": {
+          "calls": 8,
+          "knownUsageCalls": 8,
+          "unknownUsageCalls": 0,
+          "inputTokens": 126409,
+          "outputTokens": 2347,
+          "cachedInputTokens": 22656,
+          "totalTokens": 128756,
+          "totalKnownTokens": 128756
+        },
+        "planner": {
+          "calls": 11,
+          "knownUsageCalls": 11,
+          "unknownUsageCalls": 0,
+          "inputTokens": 202580,
+          "outputTokens": 1716,
+          "cachedInputTokens": 22656,
+          "totalTokens": 204296,
+          "totalKnownTokens": 204296
+        },
+        "task_verify": {
+          "calls": 6,
+          "knownUsageCalls": 6,
+          "unknownUsageCalls": 0,
+          "inputTokens": 90012,
+          "outputTokens": 6580,
+          "cachedInputTokens": 0,
+          "totalTokens": 96592,
+          "totalKnownTokens": 96592
+        }
+      },
+      "cases": [
+        {
+          "caseId": "R6-F01",
+          "lane": "fixed",
+          "calls": 2,
+          "procedureComplete": true,
+          "businessCorrect": false,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": null,
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": true,
+              "unsupported": false,
+              "judged": true,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": null,
+              "auditId": "3583328d-bd7a-4792-92dc-6fce7e0e65c4"
+            }
+          ]
+        },
+        {
+          "caseId": "R6-F02",
+          "lane": "fixed",
+          "calls": 2,
+          "procedureComplete": true,
+          "businessCorrect": true,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": null,
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": false,
+              "unsupported": true,
+              "judged": true,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": null,
+              "auditId": "d240409c-9092-4cbb-b7e2-b11281484ea6"
+            }
+          ]
+        },
+        {
+          "caseId": "R6-E01",
+          "lane": "e2e",
+          "calls": 3,
+          "procedureComplete": false,
+          "businessCorrect": false,
+          "delivered": false,
+          "taskStatus": "todo",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": "EVAL_TASK_CHECK_INCOMPLETE",
+          "capReached": null,
+          "exceptionCode": "EVAL_NOT_ACCEPTABLE",
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": false,
+              "qualified": false,
+              "unsupported": false,
+              "judged": false,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": "EVAL_TASK_CHECK_INCOMPLETE",
+              "auditId": "aaaa9eb0-6a19-4ade-b60b-4cc734764b23"
+            }
+          ]
+        },
+        {
+          "caseId": "R6-E02",
+          "lane": "e2e",
+          "calls": 12,
+          "procedureComplete": false,
+          "businessCorrect": false,
+          "delivered": false,
+          "taskStatus": "todo",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": "EVAL_TASK_CHECK_INCOMPLETE",
+          "capReached": "EVAL_BRANCH_CALL_LIMIT",
+          "exceptionCode": "EVAL_NOT_ACCEPTABLE",
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": false,
+              "qualified": false,
+              "unsupported": false,
+              "judged": false,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": "EVAL_TASK_CHECK_INCOMPLETE",
+              "auditId": "21e3a618-6986-479f-9101-9769670db171"
+            }
+          ]
+        },
+        {
+          "caseId": "R6-R01",
+          "lane": "revision",
+          "calls": 3,
+          "procedureComplete": false,
+          "businessCorrect": false,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": "EVAL_INITIAL_NOT_ACCEPTABLE",
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": true,
+              "unsupported": false,
+              "judged": true,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": null,
+              "auditId": "3e9183cb-bbd0-418d-8eb0-9c9b6b3f18c1"
+            }
+          ]
+        },
+        {
+          "caseId": "R6-R02",
+          "lane": "revision",
+          "calls": 3,
+          "procedureComplete": false,
+          "businessCorrect": false,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": "EVAL_INITIAL_NOT_ACCEPTABLE",
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": true,
+              "unsupported": false,
+              "judged": true,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": null,
+              "auditId": "8659535b-1704-4a7b-ad2a-a5eb796e5e84"
+            }
+          ]
+        }
+      ]
+    },
+    "candidate": {
+      "calls": 34,
+      "knownUsageCalls": 34,
+      "unknownUsageCalls": 0,
+      "inputTokens": 711044,
+      "outputTokens": 31884,
+      "cachedInputTokens": 75520,
+      "totalTokens": 742928,
+      "totalKnownTokens": 742928,
+      "attemptedBranches": 6,
+      "procedureCompletion": {
+        "events": 3,
+        "denominator": 6,
+        "rate": 0.5,
+        "wilson95": [
+          0.18761630648265054,
+          0.8123836935173494
+        ]
+      },
+      "dynamicProcedureCompletion": {
+        "events": 1,
+        "denominator": 4,
+        "rate": 0.25,
+        "wilson95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ]
+      },
+      "businessCorrectFullOutcomes": {
+        "events": 3,
+        "denominator": 6,
+        "rate": 0.5,
+        "wilson95": [
+          0.18761630648265054,
+          0.8123836935173494
+        ]
+      },
+      "technicalIncompleteBranches": 1,
+      "technicalIncompletePhases": 1,
+      "hallucinationFinalAccepted": {
+        "events": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "hallucinationAllPassedDynamicStages": {
+        "events": 0,
+        "denominator": 3,
+        "rate": 0,
+        "wilson95": [
+          5.551115123125783e-17,
+          0.5614970317550454
+        ]
+      },
+      "fixedFalseBlock": {
+        "events": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "fixedWrongRelease": {
+        "events": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "fixedUnjudged": 0,
+      "dynamicFalseBlock": {
+        "events": 0,
+        "denominator": 3,
+        "rate": 0,
+        "wilson95": [
+          5.551115123125783e-17,
+          0.5614970317550454
+        ]
+      },
+      "dynamicWrongRelease": {
+        "events": 0,
+        "denominator": 2,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.6576197724933469
+        ]
+      },
+      "dynamicJudgedArtifacts": 5,
+      "unsupportedPersistedDynamicArtifacts": {
+        "events": 2,
+        "denominator": 6,
+        "rate": 0.3333333333333333,
+        "wilson95": [
+          0.09677141110578041,
+          0.700006684861608
+        ]
+      },
+      "perLane": {
+        "fixed": {
+          "calls": 3,
+          "knownUsageCalls": 3,
+          "unknownUsageCalls": 0,
+          "inputTokens": 49387,
+          "outputTokens": 5451,
+          "cachedInputTokens": 0,
+          "totalTokens": 54838,
+          "totalKnownTokens": 54838
+        },
+        "e2e": {
+          "calls": 18,
+          "knownUsageCalls": 18,
+          "unknownUsageCalls": 0,
+          "inputTokens": 424346,
+          "outputTokens": 8835,
+          "cachedInputTokens": 30208,
+          "totalTokens": 433181,
+          "totalKnownTokens": 433181
+        },
+        "revision": {
+          "calls": 13,
+          "knownUsageCalls": 13,
+          "unknownUsageCalls": 0,
+          "inputTokens": 237311,
+          "outputTokens": 17598,
+          "cachedInputTokens": 45312,
+          "totalTokens": 254909,
+          "totalKnownTokens": 254909
+        }
+      },
+      "perPhase": {
+        "initial": {
+          "calls": 30,
+          "knownUsageCalls": 30,
+          "unknownUsageCalls": 0,
+          "inputTokens": 638350,
+          "outputTokens": 24473,
+          "cachedInputTokens": 60416,
+          "totalTokens": 662823,
+          "totalKnownTokens": 662823
+        },
+        "revision": {
+          "calls": 4,
+          "knownUsageCalls": 4,
+          "unknownUsageCalls": 0,
+          "inputTokens": 72694,
+          "outputTokens": 7411,
+          "cachedInputTokens": 15104,
+          "totalTokens": 80105,
+          "totalKnownTokens": 80105
+        }
+      },
+      "perCategory": {
+        "generation": {
+          "calls": 11,
+          "knownUsageCalls": 11,
+          "unknownUsageCalls": 0,
+          "inputTokens": 223693,
+          "outputTokens": 7086,
+          "cachedInputTokens": 22656,
+          "totalTokens": 230779,
+          "totalKnownTokens": 230779
+        },
+        "goal_verify": {
+          "calls": 5,
+          "knownUsageCalls": 5,
+          "unknownUsageCalls": 0,
+          "inputTokens": 135450,
+          "outputTokens": 857,
+          "cachedInputTokens": 15104,
+          "totalTokens": 136307,
+          "totalKnownTokens": 136307
+        },
+        "planner": {
+          "calls": 7,
+          "knownUsageCalls": 7,
+          "unknownUsageCalls": 0,
+          "inputTokens": 131388,
+          "outputTokens": 1253,
+          "cachedInputTokens": 15104,
+          "totalTokens": 132641,
+          "totalKnownTokens": 132641
+        },
+        "task_verify": {
+          "calls": 11,
+          "knownUsageCalls": 11,
+          "unknownUsageCalls": 0,
+          "inputTokens": 220513,
+          "outputTokens": 22688,
+          "cachedInputTokens": 22656,
+          "totalTokens": 243201,
+          "totalKnownTokens": 243201
+        }
+      },
+      "cases": [
+        {
+          "caseId": "R6-F01",
+          "lane": "fixed",
+          "calls": 2,
+          "procedureComplete": true,
+          "businessCorrect": true,
+          "delivered": true,
+          "taskStatus": "review",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": null,
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": true,
+              "unsupported": false,
+              "judged": true,
+              "taskPassed": true,
+              "goalPassed": false,
+              "gatePassed": true,
+              "technicalError": null,
+              "auditId": "c88ad904-2ce5-49df-8f2e-b6e326e777fa"
+            }
+          ]
+        },
+        {
+          "caseId": "R6-F02",
+          "lane": "fixed",
+          "calls": 1,
+          "procedureComplete": true,
+          "businessCorrect": true,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": null,
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": false,
+              "unsupported": true,
+              "judged": true,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": null,
+              "auditId": "9af747d6-1be2-4722-bbca-1774aaa6e8b4"
+            }
+          ]
+        },
+        {
+          "caseId": "R6-E01",
+          "lane": "e2e",
+          "calls": 6,
+          "procedureComplete": true,
+          "businessCorrect": true,
+          "delivered": true,
+          "taskStatus": "completed",
+          "phaseCount": 1,
+          "transitions": [
+            "acceptedFinal"
+          ],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": null,
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": true,
+              "unsupported": false,
+              "judged": true,
+              "taskPassed": true,
+              "goalPassed": true,
+              "gatePassed": true,
+              "technicalError": null,
+              "auditId": "2a87fbc9-67a3-40c0-a3f2-161ee247931b"
+            }
+          ]
+        },
+        {
+          "caseId": "R6-E02",
+          "lane": "e2e",
+          "calls": 12,
+          "procedureComplete": false,
+          "businessCorrect": false,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": "EVAL_TASK_CHECK_INCOMPLETE",
+          "capReached": "EVAL_BRANCH_CALL_LIMIT",
+          "exceptionCode": "EVAL_NOT_ACCEPTABLE",
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": true,
+              "unsupported": false,
+              "judged": false,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": "EVAL_TASK_CHECK_INCOMPLETE",
+              "auditId": "5391eb18-e6ce-4a1b-888b-6089e7fb8c0a"
+            }
+          ]
+        },
+        {
+          "caseId": "R6-R01",
+          "lane": "revision",
+          "calls": 7,
+          "procedureComplete": false,
+          "businessCorrect": false,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 2,
+          "transitions": [
+            "acceptedInitial",
+            "reopened",
+            "revisionRequested"
+          ],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": "EVAL_REVISION_NOT_ACCEPTABLE",
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": true,
+              "unsupported": false,
+              "judged": true,
+              "taskPassed": true,
+              "goalPassed": true,
+              "gatePassed": true,
+              "technicalError": null,
+              "auditId": "8fa3e33b-dae4-469c-989b-1b6f3327d668"
+            },
+            {
+              "phase": "revision",
+              "hasCandidate": true,
+              "qualified": false,
+              "unsupported": true,
+              "judged": true,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": null,
+              "auditId": "3364d836-83f5-4199-ac33-37ca8f5848c2"
+            }
+          ]
+        },
+        {
+          "caseId": "R6-R02",
+          "lane": "revision",
+          "calls": 6,
+          "procedureComplete": false,
+          "businessCorrect": false,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 2,
+          "transitions": [
+            "acceptedInitial",
+            "reopened",
+            "revisionRequested"
+          ],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": "EVAL_REVISION_NOT_ACCEPTABLE",
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": true,
+              "unsupported": false,
+              "judged": true,
+              "taskPassed": true,
+              "goalPassed": true,
+              "gatePassed": true,
+              "technicalError": null,
+              "auditId": "7372369c-d5bd-42c8-abe0-b2d0bbb32a3f"
+            },
+            {
+              "phase": "revision",
+              "hasCandidate": true,
+              "qualified": false,
+              "unsupported": true,
+              "judged": true,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": null,
+              "auditId": "147df309-541a-4bbf-a5c5-b57b90ff9997"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "pairs": [
+    {
+      "caseId": "R6-F01",
+      "lane": "fixed",
+      "bothCompleted": true,
+      "bothBusinessCorrect": false,
+      "baseline": {
+        "calls": 2,
+        "knownUsageCalls": 2,
+        "unknownUsageCalls": 0,
+        "inputTokens": 29506,
+        "outputTokens": 1411,
+        "cachedInputTokens": 0,
+        "totalTokens": 30917,
+        "totalKnownTokens": 30917
+      },
+      "candidate": {
+        "calls": 2,
+        "knownUsageCalls": 2,
+        "unknownUsageCalls": 0,
+        "inputTokens": 33230,
+        "outputTokens": 3405,
+        "cachedInputTokens": 0,
+        "totalTokens": 36635,
+        "totalKnownTokens": 36635
+      },
+      "delta": 5718
+    },
+    {
+      "caseId": "R6-F02",
+      "lane": "fixed",
+      "bothCompleted": true,
+      "bothBusinessCorrect": true,
+      "baseline": {
+        "calls": 2,
+        "knownUsageCalls": 2,
+        "unknownUsageCalls": 0,
+        "inputTokens": 28796,
+        "outputTokens": 2073,
+        "cachedInputTokens": 0,
+        "totalTokens": 30869,
+        "totalKnownTokens": 30869
+      },
+      "candidate": {
+        "calls": 1,
+        "knownUsageCalls": 1,
+        "unknownUsageCalls": 0,
+        "inputTokens": 16157,
+        "outputTokens": 2046,
+        "cachedInputTokens": 0,
+        "totalTokens": 18203,
+        "totalKnownTokens": 18203
+      },
+      "delta": -12666
+    },
+    {
+      "caseId": "R6-E01",
+      "lane": "e2e",
+      "bothCompleted": false,
+      "bothBusinessCorrect": false,
+      "baseline": {
+        "calls": 3,
+        "knownUsageCalls": 3,
+        "unknownUsageCalls": 0,
+        "inputTokens": 63846,
+        "outputTokens": 679,
+        "cachedInputTokens": 0,
+        "totalTokens": 64525,
+        "totalKnownTokens": 64525
+      },
+      "candidate": {
+        "calls": 6,
+        "knownUsageCalls": 6,
+        "unknownUsageCalls": 0,
+        "inputTokens": 214343,
+        "outputTokens": 6189,
+        "cachedInputTokens": 7552,
+        "totalTokens": 220532,
+        "totalKnownTokens": 220532
+      },
+      "delta": 156007
+    },
+    {
+      "caseId": "R6-E02",
+      "lane": "e2e",
+      "bothCompleted": false,
+      "bothBusinessCorrect": false,
+      "baseline": {
+        "calls": 12,
+        "knownUsageCalls": 12,
+        "unknownUsageCalls": 0,
+        "inputTokens": 211588,
+        "outputTokens": 1927,
+        "cachedInputTokens": 22656,
+        "totalTokens": 213515,
+        "totalKnownTokens": 213515
+      },
+      "candidate": {
+        "calls": 12,
+        "knownUsageCalls": 12,
+        "unknownUsageCalls": 0,
+        "inputTokens": 210003,
+        "outputTokens": 2646,
+        "cachedInputTokens": 22656,
+        "totalTokens": 212649,
+        "totalKnownTokens": 212649
+      },
+      "delta": -866
+    },
+    {
+      "caseId": "R6-R01",
+      "lane": "revision",
+      "bothCompleted": false,
+      "bothBusinessCorrect": false,
+      "baseline": {
+        "calls": 3,
+        "knownUsageCalls": 3,
+        "unknownUsageCalls": 0,
+        "inputTokens": 42482,
+        "outputTokens": 1964,
+        "cachedInputTokens": 15104,
+        "totalTokens": 44446,
+        "totalKnownTokens": 44446
+      },
+      "candidate": {
+        "calls": 7,
+        "knownUsageCalls": 7,
+        "unknownUsageCalls": 0,
+        "inputTokens": 129067,
+        "outputTokens": 8093,
+        "cachedInputTokens": 15104,
+        "totalTokens": 137160,
+        "totalKnownTokens": 137160
+      },
+      "delta": 92714
+    },
+    {
+      "caseId": "R6-R02",
+      "lane": "revision",
+      "bothCompleted": false,
+      "bothBusinessCorrect": false,
+      "baseline": {
+        "calls": 3,
+        "knownUsageCalls": 3,
+        "unknownUsageCalls": 0,
+        "inputTokens": 42783,
+        "outputTokens": 2589,
+        "cachedInputTokens": 7552,
+        "totalTokens": 45372,
+        "totalKnownTokens": 45372
+      },
+      "candidate": {
+        "calls": 6,
+        "knownUsageCalls": 6,
+        "unknownUsageCalls": 0,
+        "inputTokens": 108244,
+        "outputTokens": 9505,
+        "cachedInputTokens": 30208,
+        "totalTokens": 117749,
+        "totalKnownTokens": 117749
+      },
+      "delta": 72377
+    }
+  ],
+  "allAttemptCostChange": {
+    "tokens": 313284,
+    "percent": 72.91711277243485
+  },
+  "pairedCompletedCost": {
+    "caseIds": [
+      "R6-F01",
+      "R6-F02"
+    ],
+    "dynamicCaseIds": [],
+    "baseline": {
+      "calls": 4,
+      "knownUsageCalls": 4,
+      "unknownUsageCalls": 0,
+      "inputTokens": 58302,
+      "outputTokens": 3484,
+      "cachedInputTokens": 0,
+      "totalTokens": 61786,
+      "totalKnownTokens": 61786
+    },
+    "candidate": {
+      "calls": 3,
+      "knownUsageCalls": 3,
+      "unknownUsageCalls": 0,
+      "inputTokens": 49387,
+      "outputTokens": 5451,
+      "cachedInputTokens": 0,
+      "totalTokens": 54838,
+      "totalKnownTokens": 54838
+    },
+    "tokenChange": -6948,
+    "percentChange": -11.245265917845467
+  },
+  "integrity": {
+    "at": "2026-10-26T04:14:55.414Z",
+    "sealUnchanged": true,
+    "implementationsUnchanged": true,
+    "attemptsReconciled": true,
+    "calls": 59,
+    "knownUsageCalls": 59,
+    "unknownUsageCalls": 0,
+    "totalKnownTokens": 1172572,
+    "withinCallLimit": true,
+    "withinTokenLimit": true,
+    "halt": null
+  },
+  "independentAudit": {
+    "sha256": "949313ab4b82099e8514199a69b7992024166fccfca40c20d151e348b9d31106",
+    "limitations": [
+      "本审核由模型代理独立完成，不是人类审核或完美盲审。arm和成本被隐藏，但协议外形、工具能力、时间戳和文本结构可能泄露实现身份。标签定稿前未读取report.json、audit-key.json、ledger.json、生产/执行器源码或root-cause文件。",
+      "四个布尔针对持久化candidate标题及正文。contentQualified按当前有效业务要求及明确要求的实际工具执行独立判断，不由产品门槛通过与否决定；产品检查和真实验收另列。无candidate不合格但不自动判幻觉。",
+      "生成response.summary的过度完成陈述作为prePersistenceDiagnostics/evidence单列，不混入最终持久化artifact的执行幻觉分母。固定注入坏稿的无依据事实/执行标签保留，但排除所有模型生成幻觉分母。",
+      "实际执行结论依据审计包中的工具回执、可区别事件、补充包中的实际请求输入和工具结果，以及验收状态转移；未重跑模型、计算或文件观察。受审计包完整性限制，不能据缺失记录证明现实世界绝对未执行。",
+      "R6-R01/R6-R02修订正文标题保留旧现行方案记为unsupportedFact（当前版本矛盾），并非虚构领域数值或外部执行。历史对照中出现旧方案本身不判错。最新明确修订要求优先于原始方案选择。",
+      "规则暴露核对只验证预定入口/许可/例外和指定数量事实进入真实模型输入，不宣称语义完整召回。样本小、阶段相关，0观察不证明0真实风险，0/0须保持不可估。"
+    ]
+  },
+  "limitations": [
+    "Six fresh paired synthetic cases cannot establish statistical noninferiority. Wilson intervals assume binomial observations and do not remove correlated phase or synthetic-case limitations.",
+    "Injected fixed drafts are excluded from model-generated hallucination metrics. Missing checks and technical interruptions are not false blocks.",
+    "Dynamic gate rates use independently adjudicated persisted artifacts with completed applicable checks. Unsupported text before persistence is documented separately in audit evidence.",
+    "Raw all-attempt token difference is not equal-success efficiency. Paired completed cost is meaningful only for the listed workflow mix. Cached input is already included in input.",
+    "No automatic rerun, formal main evaluation or installed application replacement."
+  ],
+  "formalMainEvaluationStarted": false,
+  "installedApplicationReplaced": false
+}

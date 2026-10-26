@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "originalSHA256": "71cdf85ec73d68e655877876cc71572054927dfc99e1826928b540ec7deb4e74",
+  "reviewer": "r6_live_preflight_review",
+  "reviewedAt": "2026-10-26T03:43:54.936Z",
+  "approved": true,
+  "openP0toP2": 0,
+  "findings": [
+    {
+      "id": "R6-P2-001",
+      "severity": "P2",
+      "status": "fixed",
+      "finding": "Per-call sealing checked only listed file hashes and could miss newly added runtime/harness files.",
+      "resolution": "Every dispatch now revalidates the exact reviewed candidate/harness manifest and exact baseline/candidate file sets; start/end and post-run checks compare the complete dependency set. Windows path separators are normalized; only the existing top-level node_modules junction is allowed.",
+      "validation": "Offline regression verifies additions/deletions/content changes and compares actual full frozen runtime/dependency manifests."
+    },
+    {
+      "id": "R6-P3-001",
+      "severity": "P3",
+      "status": "fixed",
+      "finding": "Audit exporter expected gold.common while this fresh suite stores top-level adjudication.",
+      "resolution": "Exporter falls back to top-level adjudication/notForExecutor, preserving the missing-capability and real-execution distinction in the review packet."
+    }
+  ],
+  "scope": [
+    "outer transport and shared authorization ledger",
+    "complete reviewed lifecycle adapter integration",
+    "gold isolation",
+    "exact implementation/harness/dependency freeze",
+    "audit packet export",
+    "offline-only regressions"
+  ],
+  "limitations": [
+    "This is an independent model-agent static/offline preflight review, not a human review or evidence of live-model readiness.",
+    "The subscribed CLI has opaque request wrapping and no enforced output cap. Admission reserves UTF-8 input bytes plus at least 128000 output tokens and 16384 wrapper tokens; actual reported usage is authoritative. Unknown/conflicting usage or measured overage halts dispatch.",
+    "A stopped budget or failed initial acceptance may leave later branches/revisions unattempted. Such cases remain incomplete; no automatic rerun or budget renewal is authorized.",
+    "Both revision cases use normal user-selected changes between already documented alternatives. The evaluator preserves the production job.goal created from the initial task and does not overwrite it after updateTask/revise. Any stale-goal rejection is product/lifecycle behavior to report, not to bypass.",
+    "Gold and authoring script bytes are hashed for integrity only. The live executor uses suite inputs and does not import gold labels or execute the authoring script.",
+    "Mechanism execution requires actual phase-local receipts and transitions. A correct answer, copied receipt, internal replay or final snapshot alone is insufficient evidence of an earlier explicit action.",
+    "Six synthetic pairs and residual protocol cues limit statistical claims and blinding. Capability absence alone is not hallucination.",
+    "R6-F02 gold contains the nonfunctional metadata spelling businessAnswerDoesNotProvesExecution; descriptive mechanism requirements and top-level adjudication remain authoritative. Sealed samples were preserved unchanged.",
+    "No production installation, user workspace mutation, external business action, main evaluation, secondary model, or additional live probe is authorized by this review."
+  ]
+}

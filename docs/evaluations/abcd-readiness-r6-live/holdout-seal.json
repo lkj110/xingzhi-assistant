@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "status": "sealed_by_independent_author_pending_external_audit",
+  "authoredAt": "2026-10-26T03:32:54.410Z",
+  "sealedAt": "2026-10-26T03:32:54.419Z",
+  "author": "r6_holdout_author",
+  "productionImplementationTouched": false,
+  "executorTouched": false,
+  "realModelCalls": 0,
+  "networkCalls": 0,
+  "semanticEncoderCalls": 0,
+  "freeze": {
+    "file": "implementation-freeze.json",
+    "sha256": "493b2e990723efd7b81776748930259a300e6260a4c991c94c357ad634b74010",
+    "frozenAt": "2026-10-26T02:26:08.114Z",
+    "commit": "7cff32e5b206db0854ba0bd7d3122cb8c5839189"
+  },
+  "files": {
+    "suite.json": "a8642004c20bf46f5496301a4a246ea8855d975cfe12bf831285355d63b88b8f",
+    "gold.json": "38f5317d5ad72f75c88f593d33580bc7e64f55b6606be9f44ccad8efa1a11840",
+    "author-holdout.cjs": "e2790bf079c35eca71432ed54b17d42e13821fce4ca1ed12794458507f0ec480"
+  },
+  "counts": {
+    "cases": 6,
+    "fixedValid": 1,
+    "fixedInvalid": 1,
+    "e2e": 2,
+    "revision": 2,
+    "phasesPerArm": 8,
+    "armTaskExecutions": 12
+  },
+  "authorChecks": {
+    "createExclusive": true,
+    "goldNotInSuite": true,
+    "allDescriptionsWithinLimits": true,
+    "sourceOperandAnchorsChecked": true,
+    "sumOperationOnly": true,
+    "sumExpectedValue": 76,
+    "sumExplicitExecutions": 2,
+    "manualLength": 17282,
+    "middleRuleOffset": 8631,
+    "tailExceptionOffset": 17164,
+    "coverageAnchorsChecked": true,
+    "newIdsTitlesAndDescriptionsVersusR5b": true,
+    "businessAndMechanismScoringSeparate": true,
+    "readOnlyFileScenario": true,
+    "revisionNeedsNoExtraCalculation": true
+  },
+  "novelty": [
+    {
+      "id": "R6-F01",
+      "distinction": "新增条件重叠的规则冲突，而非先前藏品年份字段冲突；涉及适用条件和未执行建议。"
+    },
+    {
+      "id": "R6-F02",
+      "distinction": "成功字符串的字段语义与dry-run执行标志构成反证，不再使用版本批准/切片计数错误。"
+    },
+    {
+      "id": "R6-E01",
+      "distinction": "新任务是独立资格条件的合取与暂停解除状态，而不是复勘同义词、重传去重或增量页数；所有数量均为来源直接值。"
+    },
+    {
+      "id": "R6-E02",
+      "distinction": "历史活动说明与本周条件性资格、更换地点窗口、生成名单不等于发送通知；不是展屏版本与路径巡检。"
+    },
+    {
+      "id": "R6-R01",
+      "distinction": "从单一成人操作改为有条件的亲子操作，同时改变名额与签到提前量；不测试包容量求和或版本部署。"
+    },
+    {
+      "id": "R6-R02",
+      "distinction": "测试范围扩大时必须保留局部许可条件和持续排除项，区别于终端状态时序/回退。"
+    }
+  ],
+  "notes": [
+    "全部六题在冻结后新编；未复用前轮题目，仅保留已批准的能力覆盖类型。",
+    "未读取或修改候选业务实现，只读公共驱动、协议及前轮样本以检查重复。",
+    "模型运行器只能读取suite，不能读取gold或本作者脚本；答案与覆盖审核规则仅用于事后独立审查。",
+    "历史文件观察、新输入读取和原事项补证属于同一只读任务，没有新增文件交付或外部发送义务。",
+    "两修订题均要求完整实际验收链；数据与条件直接来自来源，无未支持算式。",
+    "封存后不得因模型输出修改样本或答案。"
+  ]
+}
