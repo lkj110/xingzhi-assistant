@@ -29,5 +29,5 @@ function actionReview(a,task,record){
  if(check?.basis===basis&&check.passed===false)return 'blocked';
  return check?.basis===basis&&check.passed===true&&require('./grounding.cjs').reusable(a,task)?null:'required';
 }
-const instruction='事项名 taskTitle 是导航名称；本地稿件的精确标题要求核对 primaryArtifactTitle，不要求中性事项名同名。externalTitleBindings 仅列已知使用事项名的外部渠道；邮件主题及已准备动作核对 actionTitles，不能猜尚未准备的主题。actionTitles 的结论用 field:actionTitle、actionId 和绑定 artifactId 定位。所有标题的具体事实断言仍须检查，不能因其是导航名而豁免。辅助稿不能替代主稿。';
+const instruction='事项名 taskTitle 是导航名称；本地稿件的精确标题要求核对 primaryArtifactTitle，不要求中性事项名同名。externalTitleBindings 仅列已知使用事项名的外部渠道；邮件主题及已准备动作核对 actionTitles，不能猜尚未准备的主题。actionTitles 的结论用 field:actionTitle、actionId 和绑定 artifactId 定位。所有标题的具体事实断言仍须检查，不能因其是导航名而豁免。稿件元数据标题与正文 H1 分别检查；元数据已更新不代表正文标题已更新。新版本正文仍用旧版本标题属于实质矛盾，历史引用或中性章节名不要求机械同名。辅助稿不能替代主稿。';
 module.exports={identity,request,actionReview,instruction};

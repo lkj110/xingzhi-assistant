@@ -239,7 +239,8 @@ class Assistant {
     efficiency.resetProgress(job);
     if(note){
       require('./capability-binding.cjs').bind(this,job,note);
-      job.feedback.push({at:now(),taskId:task.id,kind:task.notes.at(-1)?.kind==='revise'?'task_revision':'task_feedback',text:`事项「${task.title}」收到补充：${note}`});job.feedback=job.feedback.slice(-30);
+      const sourceNote=task.notes.findLast(n=>n.text===note);
+      job.feedback.push({at:sourceNote?.at||now(),originEventId:sourceNote?.eventId||sourceNote?.id,workSequence:sourceNote?.workSequence,taskId:task.id,kind:sourceNote?.kind==='revise'?'task_revision':'task_feedback',text:note});job.feedback=job.feedback.slice(-30);
       for(const d of this.data.decisions)if(d.jobId===job.id&&d.kind==='question'&&d.status==='open'&&(d.key===`task:${task.id}`||d.taskIds?.includes(task.id))){d.status='answered';d.answer=note;d.answeredAt=now();d.answerBasis=decisions.signature(this,job);}
     }
     if(job.status!=='paused'){
@@ -496,7 +497,7 @@ analysis/draft 仅适用于阅读、分析、文本产出；发信、联系别�
       workMemory:memory.context(this,job?.projectId || task.projectId),
       task: {id:task.id,title:task.title,description:task.description,objective:task.objective,criteria:task.criteria,priority:task.priority,dueAt:task.dueAt,primaryArtifactId:task.primaryArtifactId,evidenceRequest:require('./evidence-request.cjs').view(task.evidenceRequest),
         steps:task.steps.map(({evidence,checkpoint,checkpointHistory,inputBasis,outputHash,...step})=>verification?{...step,evidence}:step),notes:task.notes.slice(-8),waitingOn:task.waitingOn},
-      delegation: job ? {...require('./execution-contract.cjs').context(job),feedback:job.feedback.filter(f=>!job.executionContract||f.at>job.executionContract.updatedAt).slice(-8),output:{folder:job.outputFolder,fileMode:job.fileMode},
+      delegation: job ? {...require('./execution-contract.cjs').context(job,{task}),output:{folder:job.outputFolder,fileMode:job.fileMode},
         followups:job.followups.filter(f=>!f.taskId||f.taskId===task.id).map(f=>({key:f.key,reason:f.reason,expected:f.expected,status:f.status,deadlineAt:f.deadlineAt,sourceId:f.sourceId,evidence:f.evidence}))} : null,
       ...(verification ? {deliveryEvidence:this.data.agentActions.filter(r=>r.jobId===job?.id&&r.taskId===task.id&&r.status==='done').map(r=>require('./revision-protocol.cjs').deliveryContext(this,task,r,protocol))} : {}),
       sources: this.data.sources.filter(s => task.sourceIds.includes(s.id)&&allowed.has(s.id)&&!task.supersededSourceIds?.includes(s.id)).map(s => s.deleted||s.projectExcluded?{...documents.summary(s,0),content:'该来源已撤回或被排除，历史正文不作为当前执行依据。',unavailable:true}:require('./data-platform.cjs').evidenceSummary(s,verification?30000:6000)),

@@ -216,7 +216,7 @@ function userDelta(target,kind,input) {
     if(Object.keys(input.changes).some(key=>!fields.includes(key)))throw fail('用户修改包含非业务字段');
     payload.changes=structuredClone(input.changes);
     if(kind==='task'&&['description','objective','criteria'].some(key=>Object.hasOwn(input.changes,key)&&input.changes[key]!==target[key])){
-      payload.previousRequirement=target.userRequirement?structuredClone(target.userRequirement):null;
+      payload.previousRequirement=target.userRequirement?structuredClone(target.userRequirement):{revision:target.requirementRevision||'original:'+hash([target.id,target.description,target.objective,target.criteria]),origin:'superseded_task_snapshot',...Object.fromEntries(['description','objective','criteria'].map(key=>[key,target[key]||'']))};
       payload.userRequirement={revision:input.requirementRevision,origin:'user_edit',...Object.fromEntries(['description','objective','criteria'].map(key=>[key,input.changes[key]??target[key]??'']))};
     }
   }
@@ -248,7 +248,7 @@ function applyUserDelta(target,event) {
   if(p.note){
     const field=kind==='job'?'feedback':'notes';target[field] ||= [];
     if(!target[field].some(n=>n.eventId===event.eventId))target[field].push({id:`work:${event.eventId}`,eventId:event.eventId,workSequence:event.sequence,contractRevision:target.executionContract?.revision||null,at:event.at,kind:p.noteKind||'feedback',text:p.note,...(p.taskId?{taskId:p.taskId}:{})});
-    if(kind==='job'){require('./execution-contract.cjs').remember(target,target[field].find(n=>n.eventId===event.eventId));const directive=target.userDirectives.find(d=>d.at===event.at&&d.text===p.note);if(directive)Object.assign(directive,{workSequence:event.sequence,contractRevision:target.executionContract?.revision||null});}
+    if(kind==='job'){require('./execution-contract.cjs').remember(target,target[field].find(n=>n.eventId===event.eventId));const directive=target.userDirectives.find(d=>d.eventId===event.eventId);if(directive)Object.assign(directive,{workSequence:event.sequence,contractRevision:target.executionContract?.revision||null});}
   }
 }
 function recordCommand(a, input, type, payload={}) {

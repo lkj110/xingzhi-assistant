@@ -8,14 +8,15 @@ function initialize(a){
 function remember(job,entry){
   if(!entry?.text?.trim())return;
   job.userDirectives ||= [];
-  const id=crypto.createHash('sha256').update(JSON.stringify([entry.at,entry.text])).digest('hex');
-  if(!job.userDirectives.some(x=>x.id===id))job.userDirectives.push({id,at:entry.at||now(),text:entry.text,origin:entry.origin||'user_feedback',kind:entry.kind,taskId:entry.taskId});
+  const id=entry.originEventId||entry.eventId||crypto.createHash('sha256').update(JSON.stringify([entry.at,entry.text])).digest('hex');
+  if(!job.userDirectives.some(x=>x.id===id))job.userDirectives.push({id,at:entry.at||now(),text:entry.text,origin:entry.origin||'user_feedback',kind:entry.kind,taskId:entry.taskId,eventId:entry.originEventId||entry.eventId,workSequence:entry.workSequence,contractRevision:entry.contractRevision});
 }
-function context(job){
+function context(job,{task,tasks}={}){
   if(!job)return null;
   const c=job.executionContract;
-  return {goal:c?.text||job.goal,executionContract:c?{revision:c.revision,text:c.text,updatedAt:c.updatedAt,authority:'user'}:null,
-    userDirectives:(job.userDirectives||job.feedback||[]).filter(f=>!c||f.at>c.updatedAt),
+  const projection=require('./requirement-projection.cjs').project(job,task||((tasks?.length===1)?tasks[0]:null));
+  return {...projection,executionContract:c?{revision:c.revision,text:c.text,updatedAt:c.updatedAt,authority:'user'}:null,
+    ...(tasks?{taskRequirementOverrides:tasks.filter(t=>t.userRequirement).map(t=>({taskId:t.id,revision:t.userRequirement.revision,currentFieldsRef:'tasks:'+t.id}))}:{}),
     instruction:c?'以当前执行约定为范围与验收依据；它已替代旧目标及此前冲突的计划/反馈。约定后的用户补充按时间继续生效。未被用户要求的新范围不得加入验收。':'后续用户补充优先于原目标中的冲突条目。userDirectives 持续保留用户决定，不能因最近反馈截断而恢复已被替代的要求。'};
 }
 function set(a,job,input){

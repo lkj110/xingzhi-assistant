@@ -15,7 +15,7 @@ function setup(t,{rewrite=false}={}){
  return {a,task,step,artifact,original,patch,run:()=>generation.run(a,task,step,'',a.context(task))};
 }
 test('one patch changes title and body together while preserving the saved original',async t=>{
- const f=setup(t);let calls=0;f.a.call=async(_role,prompt,c)=>{calls++;assert.match(prompt,/"title":"可选修订标题"/);assert.match(prompt,/对象、时间、口径一致/);assert.match(prompt,/不能当作正文 edits/);assert.equal(c.revision.title,f.original.title);return f.patch;};
+ const f=setup(t);let calls=0;f.a.call=async(_role,prompt,c)=>{calls++;assert.match(prompt,/"title":"可选修订标题"/);assert.match(prompt,/对象、时间、口径一致/);assert.match(prompt,/所有受影响的标题必须放入正文 edits/);assert.equal(c.revision.titleFields.automaticBodySync,false);assert.equal(c.revision.title,f.original.title);return f.patch;};
  const result=await f.run();assert.equal(result.title,f.patch.title);assert.equal(result.content,f.original.content.replace(f.patch.edits[0].before,f.patch.edits[0].after));assert.equal(calls,1);assert.deepEqual(f.artifact,f.original);assert.equal(f.a.data.artifacts.length,1);
 });
 test('title-only patch keeps every body character without another model call',async t=>{
@@ -46,4 +46,25 @@ for(const titleOnly of [false,true])for(const mutation of ['permission','body_ve
 });
 for(const titleOnly of [false,true])test(`${titleOnly?'title-only':'title and body'} revision still requires independent full-draft verification`,async t=>{
  const f=setup(t);let writes=0,checks=0;f.a.call=async(role,_prompt,context)=>{if(role!=='verify'){writes++;return {...f.patch,edits:titleOnly?[]:f.patch.edits};}checks++;const current=context.artifacts.find(row=>row.id!==f.artifact.id);assert.equal(current.title,f.patch.title);assert.equal(current.content,titleOnly?f.original.content:f.original.content.replace(f.patch.edits[0].before,f.patch.edits[0].after));return {passed:false,summary:'保留独立核验入口',gaps:['测试未批准交付']};};await f.a.advance(f.task.id);assert.equal(writes,1);assert.equal(checks,1);assert.equal(f.task.verification.passed,false);assert.notEqual(f.task.status,'review');assert.notEqual(f.task.status,'completed');assert.deepEqual(f.artifact,f.original);assert.equal(f.a.data.artifacts.length,2);
+});
+
+for(const sync of [false,true])test(`matching metadata and H1 are separate edits; independent checker catches omitted H1 (${sync})`,async t=>{
+ const f=setup(t);f.artifact.content='# '+f.artifact.title+'\n四月 A 门店为 12 件。\n\n# 历史说明\n引用“四月 A 门店”作为历史范围。';
+ const saved=structuredClone(f.artifact);let checks=0;
+ f.a.call=async(role,prompt,c)=>{
+  if(role!=='verify'){
+   assert.match(prompt,/绝不会自动修改正文 H1/);assert.equal(c.revision.titleFields.bodyH1[0].title,f.artifact.title);
+   return {...f.patch,edits:[...f.patch.edits,...(sync?[{before:'# 四月 A 门店统计',after:'# 五月 B 门店统计'}]:[])]};
+  }
+  checks++;const current=c.artifacts.find(r=>r.id!==f.artifact.id);assert.equal(current.title,f.patch.title);
+  assert.match(current.content,/引用“四月 A 门店”作为历史范围/);
+  const ok=current.content.startsWith('# '+current.title+'\n');
+  return {passed:ok,summary:ok?'标题正文范围一致':'正文标题仍为旧范围',gaps:ok?[]:['正文 H1 与当前对象、正文矛盾']};
+ };
+ await f.a.advance(f.task.id);assert.equal(checks,1);assert.equal(f.task.verification.passed,sync);assert.deepEqual(f.artifact,saved);
+});
+test('title locations exclude fenced examples and preserve repeated H1 positions',()=>{
+ const body='# 当前稿\n```md\n# 示例\n```\n# 当前稿\n正文';
+ const r=require('../desktop/revision-title-contract.cjs').describe({title:'当前稿',content:body});
+ assert.equal(r.bodyH1.length,2);assert.notEqual(r.bodyH1[0].start,r.bodyH1[1].start);
 });

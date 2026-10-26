@@ -59,6 +59,10 @@ function calculate(operation,args,inputs){
 }
 function evaluate(a,task,request){
  keys(request,['tool','operation','inputs','args','actionId']);if(request.tool!=='compute_evidence')fail('求证工具名无效');
+ if(request.operation==='file_observation'){
+  if(request.inputs?.length||request.args&&Object.keys(request.args).length)fail('文件观察不能包含自报结果');
+  return require('./file-observation.cjs').observe(a,task,request);
+ }
  if(request.operation==='action_status'){
   if(request.inputs?.length||request.args&&Object.keys(request.args).length)fail('状态查询不能包含自报结果');const record=a.data.agentActions.find(r=>r.id===request.actionId&&r.taskId===task.id&&r.jobId===task.agentJobId);if(!record)throw contextError('CONTEXT_SCOPE_DENIED');
   const observation=require('./revision-protocol.cjs').deliveryContext(a,task,record,protocol.buildContext(a,protocol.taskScope(task),'verify'));
@@ -74,15 +78,18 @@ function evaluate(a,task,request){
 }
 function execute(a,task,request){
  const value=evaluate(a,task,request);
- const prior=(task.toolEvidence||[]).find(r=>r.version===VERSION&&hash(r.request)===hash(request)&&r.contentHash===hash({...r,contentHash:undefined})&&(!r.validUntil||Date.parse(r.validUntil)>Date.now())&&r.basis===value.basis&&hash(r.output)===hash(value.output));
+ const prior=(task.toolEvidence||[]).find(r=>r.version===VERSION&&hash(r.request)===hash(request)&&r.contentHash===hash({...r,contentHash:undefined})&&(!r.validUntil||Date.parse(r.validUntil)>Date.now())&&r.basis===value.basis&&(r.temporalScope!=='observed_at'||valid(a,task,r))&&hash(r.temporalScope==='observed_at'?Object.fromEntries(Object.entries(r.output).filter(([k])=>!['observedAt','temporalScope'].includes(k))):r.output)===hash(value.output));
  if(prior){require('./tool-execution-events.cjs').record(task,prior,true);return prior;}
  const observedAt=new Date().toISOString(),receipt={version:VERSION,request:structuredClone(request),...value,observedAt,validUntil:value.dynamic?new Date(Date.now()+60000).toISOString():null};
+ if(value.temporalScope==='observed_at')receipt.output={...receipt.output,observedAt,temporalScope:'observed_at'};
  receipt.resultText=JSON.stringify(receipt.output);receipt.id='tool:'+hash(receipt).slice(0,24);receipt.contentHash=hash(receipt);
  task.toolEvidence=[...(task.toolEvidence||[]).filter(r=>hash(r.request)!==hash(request)),receipt].slice(-64);require('./tool-execution-events.cjs').record(task,receipt,false);return receipt;
 }
-function valid(a,task,receipt){try{if(receipt.version!==VERSION||receipt.contentHash!==hash({...receipt,contentHash:undefined})||receipt.validUntil&&Date.parse(receipt.validUntil)<=Date.now())return false;const current=evaluate(a,task,receipt.request);return current.basis===receipt.basis&&hash(current.output)===hash(receipt.output);}catch{return false;}}
+function valid(a,task,receipt){try{if(receipt.version!==VERSION||receipt.contentHash!==hash({...receipt,contentHash:undefined})||receipt.validUntil&&Date.parse(receipt.validUntil)<=Date.now())return false;
+ if(receipt.request.operation==='file_observation')return require('./file-observation.cjs').valid(a,task,receipt);
+ const current=evaluate(a,task,receipt.request);return current.basis===receipt.basis&&hash(current.output)===hash(receipt.output);}catch{return false;}}
 function current(a,task){if(!require('./context-optimizations.cjs').enabled(a,'C'))return [];return (task.toolEvidence||[]).filter(r=>valid(a,task,r));}
-function project(receipt,task){const executions=task?.id?require('./tool-execution-events.cjs').project(task,receipt):null;return {id:receipt.id,version:receipt.version,operation:receipt.request.operation,parameters:receipt.request.args||{},inputs:receipt.inputs,output:receipt.output,resultText:receipt.resultText+(executions?'\n显式求值记录：'+JSON.stringify({retainedCount:executions.retainedCount,events:executions.events,omitted:executions.omitted}):''),contentHash:receipt.contentHash,progressKey:hash([receipt.version,receipt.request,receipt.basis,receipt.output]),observedAt:receipt.observedAt,validUntil:receipt.validUntil,...(executions?{executions}:{})};}
+function project(receipt,task){const executions=task?.id?require('./tool-execution-events.cjs').project(task,receipt):null;return {id:receipt.id,version:receipt.version,operation:receipt.request.operation,parameters:receipt.request.args||{},inputs:receipt.inputs,output:receipt.output,resultText:receipt.resultText+(executions?'\n显式求值记录：'+JSON.stringify({retainedCount:executions.retainedCount,events:executions.events,omitted:executions.omitted}):''),contentHash:receipt.contentHash,progressKey:hash([receipt.version,receipt.request,receipt.basis,receipt.output]),observedAt:receipt.observedAt,validUntil:receipt.validUntil,...(receipt.temporalScope?{temporalScope:receipt.temporalScope}:{}),...(executions?{executions}:{})};}
 function progress(state,receipt,visible){
  state.toolCoverage ||= {};const key=receipt?.progressKey;if(!key)return 'failed';
  if(!state.toolCoverage[key]&&Object.keys(state.toolCoverage).length<256){state.toolCoverage[key]={restored:false};return 'fresh';}
@@ -118,6 +125,6 @@ async function readRequests(a,task,requests,next){
  batch.rows.push(...computedRows);batch.complete=batch.rows.length>0&&batch.rows.every(row=>row.result.ok&&row.result.complete);
  return batch;
 }
-const instruction='executions.events 给出显式求值事件（同一结果 ID 可有多次实际求值）；内部校验复算不计为执行，也不代表多个业务来源。\n白名单求证：read_context.requests:[{tool:"compute_evidence",operation:"sum|ratio|convert_unit|date_days|elapsed|timezone|count|action_status",inputs:[{sourceId,start,end,unit}],args:{}}]。业务数值/日期须绑定当前原文位置，用户原始陈述可用 userInputs ID；不能传裸数或脚本。sum 的 args.unit 须与每个输入一致；ratio 两个同单位输入（顺序为分子/分母）及 args:{scale,rounding:"half_even|half_up|truncate"}；scale 是 0–12 的小数位数，不是百分比倍率，输出为比例值；分母和业务精度必须明确，不默认猜测。convert_unit 加 to（mm/cm/m/km、mg/g/kg、mL/L、ms/s/min/h）。date_days 两个 YYYY-MM-DD 计算末减初；elapsed/timezone 输入含 UTC 偏移，args.timeZone 为 IANA，elapsed 加 unit。count 输入 whole:true，args.format:"csv|json"；可选 filter:{column,op:"eq|ne|lt|lte|gt|gte|contains",inputIndex:1}，第二输入绑定筛选值。action_status 用 actionId 不带 inputs。toolEvidence 是 App 计算回执，仅证明对应运算/观察，不证明原始业务数据真实；核验引文 sourceId 用回执 id，quote 用 resultText，仍核对原始口径。';
+const instruction='executions.events 给出显式求值事件（同一结果 ID 可有多次实际求值）；内部校验复算不计为执行，也不代表多个业务来源。\n白名单求证：read_context.requests:[{tool:"compute_evidence",operation:"sum|ratio|convert_unit|date_days|elapsed|timezone|count|file_observation|action_status",inputs:[{sourceId,start,end,unit}],args:{}}]。业务数值/日期须绑定当前原文位置，用户原始陈述可用 userInputs ID；不能传裸数或脚本。sum 的 args.unit 须与每个输入一致；ratio 两个同单位输入（顺序为分子/分母）及 args:{scale,rounding:"half_even|half_up|truncate"}；scale 是 0–12 的小数位数，不是百分比倍率，输出为比例值；分母和业务精度必须明确，不默认猜测。convert_unit 加 to（mm/cm/m/km、mg/g/kg、mL/L、ms/s/min/h）。date_days 两个 YYYY-MM-DD 计算末减初；elapsed/timezone 输入含 UTC 偏移，args.timeZone 为 IANA，elapsed 加 unit。count 输入 whole:true，args.format:"csv|json"；可选 filter:{column,op:"eq|ne|lt|lte|gt|gte|contains",inputIndex:1}，第二输入绑定筛选值。file_observation 用 actionId 对历史 write_file 做完整比较，保留 observedAt 时点证据，不能支持“现在仍一致”；文件现在的状态或交付必须用 action_status 新鲜回读。action_status 用 actionId 不带 inputs，60 秒后失效。toolEvidence 是 App 计算回执，仅证明对应运算/观察，不证明原始业务数据真实；核验引文 sourceId 用回执 id，quote 用 resultText，仍核对原始口径。';
 const plannerInstruction=instruction.replace('read_context.requests:[{tool:"compute_evidence",operation:','{tool:"compute_evidence",args:{taskId,operation:').replace('args:{}}]。','args:{}}}。');
 module.exports={plannerInstruction,VERSION,execute,valid,current,project,readRequests,instruction,calculate,csv,refreshStatus,refreshForDelivery,progress};

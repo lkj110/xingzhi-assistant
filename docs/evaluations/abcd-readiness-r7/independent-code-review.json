@@ -1,0 +1,322 @@
+{
+  "schema": "independent-code-review-v1",
+  "reviewer": "independent subagent r7_independent_review",
+  "reviewedAt": "2026-10-26T06:56:39.219857+00:00",
+  "approved": true,
+  "approvalScope": "Reviewed R7 implementation and offline regressions only; not live model quality or deployment certification.",
+  "openP0toP2": 0,
+  "baseCommit": "f9829ac9c81a1c70ccf61bdbcd72b3784111ad73",
+  "branch": "codex/shared-evidence-core",
+  "findings": [
+    {
+      "id": "R7-IR-01",
+      "severity": "P2",
+      "status": "fixed_and_reverified",
+      "title": "Retired goals and legacy wrapped directives re-entered production requirement surfaces",
+      "initialLocations": [
+        "desktop/work-obligations.cjs:5",
+        "desktop/requirements.cjs:13"
+      ],
+      "failure": "After a trusted Q1 to Q2 task edit, executionControl.requirements and content-check requirements still supplied the old job goal and duplicate wrapped feedback.",
+      "fix": "Both production requirement surfaces now share execution-contract/requirement-projection output, while current task objectives remain supplied.",
+      "regressions": [
+        "retired goal and wrapped directives stay retired in production planner requirement surfaces",
+        "retired goal and wrapped directives stay retired in production content_check requirement surfaces"
+      ]
+    },
+    {
+      "id": "R7-IR-02",
+      "severity": "P2",
+      "status": "fixed_and_reverified",
+      "title": "A later committed user supplement disappeared when its wall-clock timestamp equalled the contract timestamp",
+      "initialLocations": [
+        "desktop/requirement-projection.cjs:11",
+        "desktop/grounding.cjs:27"
+      ],
+      "failure": "A frozen-clock agentContract followed by taskAction feedback produced a later workSequence, but timestamp-only filtering removed the new supplement.",
+      "fix": "Contract filtering and event ordering prefer trusted workSequence; persistent directives use event identity and feedback mirrors preserve sequence.",
+      "regressions": [
+        "later user feedback in the same clock tick as a contract keeps journal precedence"
+      ]
+    },
+    {
+      "id": "R7-IR-03",
+      "severity": "P2",
+      "status": "fixed_and_reverified",
+      "title": "First-line deduplication lost the precedence of the final user reassertion",
+      "initialLocations": [
+        "desktop/grounding.cjs:29"
+      ],
+      "failure": "A multiline Q1 directive, followed by Q2 and then a Q1 reassertion, left Q1 before Q2 in the flattened requirement list.",
+      "fix": "Task notes and directives share event order; exact duplicate requirement lines retain their final occurrence.",
+      "regressions": [
+        "multiline requirement dedup retains the precedence of a later reasserted line"
+      ]
+    },
+    {
+      "id": "R7-IR-04",
+      "severity": "P2",
+      "status": "fixed_and_reverified",
+      "title": "Projected requirement changes did not invalidate old goal gaps, and the first repair invalidated unchanged legacy gaps",
+      "initialLocations": [
+        "desktop/work-obligations.cjs:7"
+      ],
+      "failure": "A retired Q1 goal changed projected text without changing its requirement revision, leaving an old Q1 gap open. Adding text/objective to every revision then failed the existing unchanged-legacy-gap migration regression.",
+      "fix": "New revisions bind projected text/objective. A one-time projectionVersion=2 compatibility refresh preserves an attributable unchanged legacy revision and gaps; a changed goal is never accepted as projection-only migration. Subsequent text/objective changes invalidate the projection.",
+      "regressions": [
+        "a retired goal line invalidates gaps recorded for the previous projected requirement",
+        "legacy requirement gap expires when its goal is retired (migrateFirst=false)",
+        "legacy requirement gap expires when its goal is retired (migrateFirst=true)",
+        "legacy requirement projections refresh without invalidating unchanged gaps"
+      ]
+    }
+  ],
+  "verification": {
+    "finalIndependentRun": {
+      "testFiles": 19,
+      "tests": 339,
+      "pass": 339,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "log": "readiness-r7-independent-final-offline.log",
+      "logSha256": "cffb1023c2c9549a30da5d5c483a3853b514d025365499c092d798c44d7514da"
+    },
+    "independentlyAddedRegressions": 9,
+    "directedCompatibilityRecheck": {
+      "testFiles": 2,
+      "tests": 19,
+      "pass": 19,
+      "fail": 0,
+      "skipped": 0
+    },
+    "previousBroadIndependentRun": {
+      "testFiles": 19,
+      "tests": 337,
+      "pass": 336,
+      "fail": 1,
+      "skipped": 0,
+      "log": "readiness-r7-independent-offline.log",
+      "resolvedFailure": "R7-IR-04 legacy migration compatibility"
+    },
+    "initialTargetedReproductions": {
+      "tests": 4,
+      "pass": 0,
+      "fail": 4,
+      "findings": [
+        "R7-IR-01",
+        "R7-IR-02",
+        "R7-IR-03"
+      ]
+    },
+    "fileSnapshotStableBeforeAndAfter": true,
+    "reviewedProductionFiles": 16,
+    "reviewedTestFiles": 19,
+    "realModelCalls": 0,
+    "realModelTokens": 0,
+    "testScope": [
+      "historical observation integrity, authorization, slow-turn and restart lifecycle",
+      "60-second current-state receipt expiry",
+      "metadata/body title separation and independent full verification",
+      "requirement authority, event ordering, deduplication, shared scope and gap migration",
+      "bounded whole-goal source preparation, coverage downgrade and continuation identity",
+      "grounding races, scope withdrawal, input budget, compression, revision safety and lifecycle protocol"
+    ],
+    "countingNote": "Runs overlap. Counts are per run, not an additive count of unique tests; parent-agent runs are not represented as independently executed."
+  },
+  "fileHashConvention": {
+    "rawSha256": "SHA-256 of original local bytes",
+    "lfSha256": "SHA-256 after replacing CRLF bytes with LF bytes only; no BOM removal or other transformation",
+    "allPaths": "Repository-relative"
+  },
+  "reviewedFiles": {
+    "desktop/agent-writes.cjs": {
+      "rawSha256": "8433193e8ee906f1b1b7cd39b9df3e961bcdc1cbf0f42f42f533521122364fed",
+      "lfSha256": "8433193e8ee906f1b1b7cd39b9df3e961bcdc1cbf0f42f42f533521122364fed",
+      "bytes": 35109
+    },
+    "desktop/agent.cjs": {
+      "rawSha256": "a6c3d6523166e471a70a879d33babfb9f9f27015482990d788c150e0a2c43a5d",
+      "lfSha256": "507bb120826199a1ac5794d68ef66a802d1dbeeb38e195bf5def0d3d19966c9a",
+      "bytes": 94321
+    },
+    "desktop/core.cjs": {
+      "rawSha256": "a04d6d1d04e4f565c83eccd560c6e305e05d795f26bc188dac5490c51ad0a1d9",
+      "lfSha256": "585a83fdd472993fcadcd9677a31bafb18d5a6e3238db4eca4d9feb5e75d5dfa",
+      "bytes": 84252
+    },
+    "desktop/evidence-handoff.cjs": {
+      "rawSha256": "4fce49c04046b72410e5ad621079617ccaa91eb52cb515c80babbd961715c079",
+      "lfSha256": "0bc3b3c57ae3e653be028c59c78ec3a39a8fa534b286c30fcf1b0332332271aa",
+      "bytes": 4755
+    },
+    "desktop/execution-contract.cjs": {
+      "rawSha256": "4a66c9d71b29830d992bdbc5231e55373d31d644f465fe82ca059280141d0a03",
+      "lfSha256": "4a66c9d71b29830d992bdbc5231e55373d31d644f465fe82ca059280141d0a03",
+      "bytes": 3072
+    },
+    "desktop/file-observation.cjs": {
+      "rawSha256": "c4dedc3d10cff24e1c95e72908f3f50ee21429e3951e2d74f5372b4e0ba73d57",
+      "lfSha256": "c4dedc3d10cff24e1c95e72908f3f50ee21429e3951e2d74f5372b4e0ba73d57",
+      "bytes": 2477
+    },
+    "desktop/generation.cjs": {
+      "rawSha256": "5abaa5561b8bdd2ec0e3618e01b9c9351886130f015c5d9cb872b651d6c4a218",
+      "lfSha256": "bf28f9b5d32f3d4fb4e34e19fdf6e3c4e45062f1b6ffd275c97030abf36c1350",
+      "bytes": 18993
+    },
+    "desktop/goal-evidence.cjs": {
+      "rawSha256": "5ee6e92d3737f0613f92a0b787c73c98a2f059901aa4517b294d7acbd13835ea",
+      "lfSha256": "5ee6e92d3737f0613f92a0b787c73c98a2f059901aa4517b294d7acbd13835ea",
+      "bytes": 2467
+    },
+    "desktop/grounding.cjs": {
+      "rawSha256": "817a2cdf9d4eb64900a0c8272397e7c00dc05c49fb073471a901037f2f6c4f42",
+      "lfSha256": "49a8ad0151f9265f8d5f9a95e20757e8fb1878ac4dfe5fdece0d7600de9c358c",
+      "bytes": 34339
+    },
+    "desktop/requirement-projection.cjs": {
+      "rawSha256": "9322281d38d8feded00306f083bf9a13699aa04f724ed15c50d3b52ff68ca705",
+      "lfSha256": "9322281d38d8feded00306f083bf9a13699aa04f724ed15c50d3b52ff68ca705",
+      "bytes": 3215
+    },
+    "desktop/requirements.cjs": {
+      "rawSha256": "b37b3c88c479d794a3a6c6107a46dd8b7791a3b4041e0d6f665b1b4bf918d77c",
+      "lfSha256": "b37b3c88c479d794a3a6c6107a46dd8b7791a3b4041e0d6f665b1b4bf918d77c",
+      "bytes": 1744
+    },
+    "desktop/revision-title-contract.cjs": {
+      "rawSha256": "3d5725a4e3addd3ca6ab60dfb9700dd2a139da717c61d7699b4ff49f6dd03370",
+      "lfSha256": "3d5725a4e3addd3ca6ab60dfb9700dd2a139da717c61d7699b4ff49f6dd03370",
+      "bytes": 964
+    },
+    "desktop/tool-evidence.cjs": {
+      "rawSha256": "46b35ab49aac322aa3a0087d3c84d6c8c5e5673960684b9802f16ad983cf40e0",
+      "lfSha256": "79506522f3ae64faa7a61bd1963723d3d502a69aeb2b765a8b1b72b5fa96d3f1",
+      "bytes": 19677
+    },
+    "desktop/verification-titles.cjs": {
+      "rawSha256": "2de6f536201c4fe38df63f26ea583ff2caf28bb3978cc54a5f37f5c5a1f183ac",
+      "lfSha256": "4adcabe5e4a26c58a8e4606d09b668c2c194c02e438b3fd2902df243060b66f3",
+      "bytes": 3707
+    },
+    "desktop/work-journal.cjs": {
+      "rawSha256": "10a0295d9df001fd1540f28d7f1a029db2d78b4c9d0fc4c735a8543f129fe44a",
+      "lfSha256": "10a0295d9df001fd1540f28d7f1a029db2d78b4c9d0fc4c735a8543f129fe44a",
+      "bytes": 29328
+    },
+    "desktop/work-obligations.cjs": {
+      "rawSha256": "28dfee3eda0303f55ca9dc7d99905a6f28ae9883f538d33bce98744e29494216",
+      "lfSha256": "28dfee3eda0303f55ca9dc7d99905a6f28ae9883f538d33bce98744e29494216",
+      "bytes": 8202
+    },
+    "tests/context-batch-efficiency.test.cjs": {
+      "rawSha256": "e35eacbbd9dae171c7a4e8a2ddc5d0aa3046d98fcf19a19ccbbca580ffeeb97b",
+      "lfSha256": "e35eacbbd9dae171c7a4e8a2ddc5d0aa3046d98fcf19a19ccbbca580ffeeb97b",
+      "bytes": 21540
+    },
+    "tests/evidence-handoff-routing.test.cjs": {
+      "rawSha256": "d1033fb39ab369256bc978c813c48dbdf656baefb0e25b0e5cb51fd14cd2a94f",
+      "lfSha256": "4bd7fae2f4d0610d2600350229c3ef2fab54a029ce4856de18a611023fbe9e3e",
+      "bytes": 14299
+    },
+    "tests/execution-continuity.test.cjs": {
+      "rawSha256": "10fd6da6a3ca7a5489e0011a9ddf4cdaac3d662ea34b2c602947148b3926f386",
+      "lfSha256": "10fd6da6a3ca7a5489e0011a9ddf4cdaac3d662ea34b2c602947148b3926f386",
+      "bytes": 8595
+    },
+    "tests/goal-evidence.test.cjs": {
+      "rawSha256": "896bf3ac36b6f635f2a156f7390a8bed92485f3bdd4e97f1d4e14028fadaf351",
+      "lfSha256": "4fab0430113af2cbc2d466e247815edafa6500a6f042bfc3c8f6245c0d513671",
+      "bytes": 4587
+    },
+    "tests/grounding-consistency.test.cjs": {
+      "rawSha256": "2d5b44054459266c617467708d07fbbaf9c0705d633424992a316bee7468a021",
+      "lfSha256": "58ad3d5fe4534f41f8be73370c6d43720a16f7a861b6f623fc81ef638da56e73",
+      "bytes": 10889
+    },
+    "tests/grounding-input-compaction.test.cjs": {
+      "rawSha256": "3d9a1b0a3192691b3e6378cdb88f355856fc90bc241b7c78c10453d5bac54b0a",
+      "lfSha256": "d63464098ef7c5fb4fb9e06f398817e7d8f69df365541f956c0bef770829fcb1",
+      "bytes": 12600
+    },
+    "tests/grounding-races.test.cjs": {
+      "rawSha256": "f77c4591b7c0f55583aef4193bf5ad4b097318d4f5206ac5dde0c03a4a7e66e5",
+      "lfSha256": "f77c4591b7c0f55583aef4193bf5ad4b097318d4f5206ac5dde0c03a4a7e66e5",
+      "bytes": 8469
+    },
+    "tests/grounding-v3.test.cjs": {
+      "rawSha256": "40b8094ccb41a430d5f1e35dfdae4d1deaa0623e3bf42b91dd7e45ad3a693019",
+      "lfSha256": "40b8094ccb41a430d5f1e35dfdae4d1deaa0623e3bf42b91dd7e45ad3a693019",
+      "bytes": 21221
+    },
+    "tests/grounding.test.cjs": {
+      "rawSha256": "9b1e055d6946a92f615ae78088a165ef7982a2a1c967c1c5fbdddc3b69bbcf93",
+      "lfSha256": "9b1e055d6946a92f615ae78088a165ef7982a2a1c967c1c5fbdddc3b69bbcf93",
+      "bytes": 28634
+    },
+    "tests/input-budget.test.cjs": {
+      "rawSha256": "0825f295a723d25a6b185e5fc0188873c48d4671e0756340905b6fc78a09b53f",
+      "lfSha256": "0825f295a723d25a6b185e5fc0188873c48d4671e0756340905b6fc78a09b53f",
+      "bytes": 10105
+    },
+    "tests/lifecycle-protocol-v3.test.cjs": {
+      "rawSha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7",
+      "lfSha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7",
+      "bytes": 38682
+    },
+    "tests/planner-context-efficiency.test.cjs": {
+      "rawSha256": "8580fa970c33344297605f469ab915cb0eaeebcf1eaca935b901b24c5e031a14",
+      "lfSha256": "8580fa970c33344297605f469ab915cb0eaeebcf1eaca935b901b24c5e031a14",
+      "bytes": 6765
+    },
+    "tests/readiness-r7-independent-review.test.cjs": {
+      "rawSha256": "e7e6e663599cafd23b0661f33649457060d6a9389ab505e6dfc72be1022000ca",
+      "lfSha256": "e7e6e663599cafd23b0661f33649457060d6a9389ab505e6dfc72be1022000ca",
+      "bytes": 8013
+    },
+    "tests/requirement-projection.test.cjs": {
+      "rawSha256": "51bc448b505307dfc2cd61618811a4de10fcb15dc9a73abfd1bc8bfe1f00f8cd",
+      "lfSha256": "51bc448b505307dfc2cd61618811a4de10fcb15dc9a73abfd1bc8bfe1f00f8cd",
+      "bytes": 4259
+    },
+    "tests/revision-safety.test.cjs": {
+      "rawSha256": "c5cab9f464339a4ef292c0067b06aeecd0c301434d813296ee6c50adba0cb46b",
+      "lfSha256": "c5cab9f464339a4ef292c0067b06aeecd0c301434d813296ee6c50adba0cb46b",
+      "bytes": 12629
+    },
+    "tests/revision-title.test.cjs": {
+      "rawSha256": "7b648da2d4aee92bf9eb611538e59cd8c682fdb45a5f6d2d4d4c3767ee42d89c",
+      "lfSha256": "7b3cf6bd9af2aae7c5fcb49ceed249a79db09b187cc0b923d5530a613b966caa",
+      "bytes": 9683
+    },
+    "tests/tool-evidence-recovery.test.cjs": {
+      "rawSha256": "f01cae08c0a6acaecd494537932b01f52d2c2b60bb2fdca73a0a8af792cb94c9",
+      "lfSha256": "f01cae08c0a6acaecd494537932b01f52d2c2b60bb2fdca73a0a8af792cb94c9",
+      "bytes": 7701
+    },
+    "tests/tool-evidence.test.cjs": {
+      "rawSha256": "61e6766bdf82d13014d6f42f08cef75b1b0f9fac0c7aefad26fd7f6c9599b086",
+      "lfSha256": "61e6766bdf82d13014d6f42f08cef75b1b0f9fac0c7aefad26fd7f6c9599b086",
+      "bytes": 10159
+    },
+    "tests/verification-titles.test.cjs": {
+      "rawSha256": "036a11506505a15a02f099ff74aa9b3c5bcba2c2ea5ae8e935f66e7e99e1c1e8",
+      "lfSha256": "036a11506505a15a02f099ff74aa9b3c5bcba2c2ea5ae8e935f66e7e99e1c1e8",
+      "bytes": 6209
+    }
+  },
+  "reviewedManifestSha256": "1f03cb59a4bc820a5170b6f7085d9334d5e61066e8e3475f62d9dc8b431fa380",
+  "limitations": [
+    "All model transport in tested execution paths is mocked/offline. Passing tests do not establish improved hallucination, false-rejection, false-acceptance, or real token metrics.",
+    "No real model/API calls, commits, pushes, installed-app replacement, production-workspace edits, or modifications to sealed evaluation artifacts were performed by this reviewer.",
+    "No macOS native packaging or platform integration certification was performed.",
+    "The parent agent is responsible for final expanded-suite/build evidence and verifying committed LF blobs against this review manifest.",
+    "R6 live dynamic completion remains 1/4; R7 requires newly authorized, frozen-sample live evaluation before claims of live quality improvement."
+  ],
+  "documentationReview": {
+    "path": "docs/CONTEXT_ABCD_R7.md",
+    "scope": "Reviewed proposal language and distinction between offline evidence and unapproved next-round budget; mutable documentation is excluded from the code/test hash manifest."
+  }
+}

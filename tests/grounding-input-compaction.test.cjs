@@ -138,5 +138,5 @@ test('observing text in a compact input does not authorize a source withdrawn fr
 test('runtime reports input policy identity without persisting diagnostic metadata into task facts',t=>{
  const f=fixture(t),before=JSON.stringify(f.a.data),status=grounding.status(f.a);
  assert.equal(status.inputProtocol,grounding.INPUT_PROTOCOL);assert.ok(status.inputProtocol);
- assert.equal(status.version,8);assert.equal(status.format,'compact-v5');assert.equal(status.inputProtocol,'verify-input-v8');assert.equal(JSON.stringify(f.a.data),before);
+ assert.equal(status.version,9);assert.equal(status.format,'compact-v5');assert.equal(status.inputProtocol,'verify-input-v9');assert.equal(JSON.stringify(f.a.data),before);
 });

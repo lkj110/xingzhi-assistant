@@ -11,9 +11,7 @@ function edit(task,changes,origin='user_edit') {
 }
 function text(task){return task.userRequirement?.criteria??task.criteria;}
 function directives(job){
- const rows=[...(job.userDirectives||[]),...(job.feedback||[])];
- const accepted=rows.filter(f=>f.text&&!['authorization','user_lark_policy','source_update'].includes(f.origin)&&(!job.executionContract?.updatedAt||f.at>job.executionContract.updatedAt));
- return [...new Map(accepted.map(f=>[basis().hash([f.at,f.text]),{text:f.text,kind:f.kind,taskId:f.taskId}])).values()];
+ return require('./requirement-projection.cjs').directives(job).map(({text,kind,taskId})=>({text,kind,taskId}));
 }
 function intent(job,task){
  return {contract:job?.executionContract?.revision||job?.goal,user:job?directives(job):[],edit:task?.userRequirement?.revision||null};

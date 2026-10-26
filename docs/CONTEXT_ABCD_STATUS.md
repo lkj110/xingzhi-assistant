@@ -1,5 +1,23 @@
 # Context and evidence optimization acceptance status
 
+## Latest offline stage: R7 four repairs, 2026-10-26
+
+Historical observations now retain their explicit past observation scope while
+current-state receipts still expire. Revision instructions distinguish metadata
+titles from body headings. Active requirement projection retires attributable
+old requirements, deduplicates supplements, and preserves unchanged legacy gaps.
+Independent whole-goal checks receive bounded original evidence and continuation
+information before their first call.
+
+All four P2 findings from the independent reviewer were fixed and reverified.
+The final expanded run passed 687/687 checks across 42 files; the independent
+reviewer passed 339/339 across 19 files, with no skips or unresolved P0–P2.
+These overlapping counts are not additive. Windows production build passed.
+Real-model calls and tokens were both zero. A–D remains unaccepted; the installed
+app was not replaced and the formal main evaluation was not started.
+See [R7 repairs, independent audit, and proposed six-pair 96-call / 2M-token
+retest](CONTEXT_ABCD_R7.md). That proposed budget requires new user approval.
+
 ## Latest real-model result: R6 readiness, 2026-10-26
 
 Six fresh paired cases completed execution and independent result audit, using
@@ -17,9 +35,8 @@ These small denominators do not establish zero risk or statistical noninferiorit
 
 **Readiness did not pass.** Historical observation receipts expired during slow
 turns; two revision drafts retained an old body heading and were correctly blocked.
-Next priorities are observation-versus-current-state validity and explicit title /
-body-heading revision semantics, followed by active-requirement cleanup and initial
-whole-goal evidence supply. No formal main evaluation or installed-app upgrade
+These four follow-up priorities were implemented and passed offline review in
+R7 above; their live-model effects remain unmeasured. No formal main evaluation or installed-app upgrade
 was started. See the [audited R6 report](CONTEXT_ABCD_R6_LIVE.md).
 
 ## Prior offline stage: R6 lifecycle and evidence handoff, 2026-10-26
