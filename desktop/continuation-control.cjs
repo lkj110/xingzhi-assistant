@@ -37,9 +37,12 @@ function actionInspect(a,job,{automatic=false,currentExecutionId,now=Date.now()}
  }
  const pending=related.find(r=>r.jobId===job.id&&r.status==='pending');if(!pending)return null;
  const task=tasks(a,job).find(t=>t.id===pending.taskId),e=task&&episode(a,job,task);
- const authorized=pending.approvedAt||['lark_create','lark_update'].includes(pending.tool)&&require('./agent-writes.cjs').mode(job,pending.tool,pending.taskId)==='auto';
+ const titled=task&&require('./verification-titles.cjs').identity(a,task).actionTitles.some(r=>r.actionId===pending.id);
+ const authorized=pending.approvedAt||(['lark_create','lark_update'].includes(pending.tool)||titled)&&require('./agent-writes.cjs').mode(job,pending.tool,pending.taskId)==='auto';
  if(!authorized)return {kind:'approval',eligible:false,action:pending,reason:'AWAIT_APPROVAL'};
  const permission=work.actionGuard(a,job,pending,{now});
+ const review=!permission&&task&&require('./verification-titles.cjs').actionReview(a,task,pending);
+ if(review)return {kind:'check_content',action:pending,eligible:review==='required'&&!e?.blocked&&allowed(a,job,task,{actionId:pending.id,allowReview:true,automatic}),reason:review==='blocked'?'PREPARED_TITLE_REVIEW_FAILED':'PREPARED_TITLE_REVIEW_REQUIRED'};
  return {kind:'approved',action:pending,eligible:!permission&&!!task&&!e?.blocked&&allowed(a,job,task,{actionId:pending.id,followupKey:pending.tool==='request_confirmation'?pending.followupKey:null,allowReview:true,automatic}),reason:permission?.code||'EXECUTE_APPROVED_EXISTING'};
 }
 function existingAction(a,job,options={}){const r=actionInspect(a,job,options);return r?.eligible?r:null;}

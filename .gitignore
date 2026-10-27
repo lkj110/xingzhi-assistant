@@ -15,3 +15,7 @@ test-results/
 .codex/
 .idea/
 .vscode/
+
+# Download pinned model weights explicitly; never commit generated caches.
+resources/evidence-encoder/onnx/
+resources/evidence-encoder/tokenizer.json

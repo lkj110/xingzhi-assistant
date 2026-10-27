@@ -88,6 +88,7 @@ function record(state,rows,visibleContext,{semanticCheckId,historyRows=[]}={}){
  for(const row of rows){
   const r=row?.result;
   if(r?.ok!==true){failed++;continue;}
+  if(r.computedEvidence){const kind=require('./tool-evidence.cjs').progress(bucket,r.computedEvidence,visibleContext);if(kind==='fresh')fresh++;else if(kind==='restored')restored++;else if(kind==='duplicate')duplicate++;else failed++;continue;}
   if(r.directoryOnly){if(navigation)directory++;else duplicate++;continue;}
   const hasBody=!!text(r,'content',r).trim()||(r.segments||[]).some(s=>typeof s.text==='string'&&s.text.trim());
   if(!hasBody){empty++;continue;}

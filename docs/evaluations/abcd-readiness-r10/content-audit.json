@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "createdAt": "2026-10-27T09:27:08.892Z",
+  "auditor": "independent-r10-result-audit-agent",
+  "stage": "immutable-blind-content-audit",
+  "packetSha256": "c3abee0bbc323b4c0c13f1f7c98c5a1366622a3d217fb346018c7e87e8e36dab",
+  "reportSha256": "bd715f5a75e035effb68ce0ec506797bdb25354ec9a3677254989b37514e6168",
+  "suiteSha256": "7fccd4c226ec7a2f42a9acfa6cff25abb1d63929b0c8db8b96040deef6825673",
+  "goldSha256": "88862fb7581cbc16cde603c2c500b1a7c9ecf200a7e46a57d153038547ece4d1",
+  "blindedArmKeyRead": false,
+  "rawReportRead": false,
+  "rawLedgerRead": false,
+  "realModelOrNetworkCalls": 0,
+  "methodology": [
+    "Before this write, directly read only the blind audit packet and the newly authorized gold file among the current run result and sample artifacts.",
+    "Computed SHA-256 from the exact packet and gold bytes and verified the gold digest equals the packet goldSha256.",
+    "Confirmed that the packet contains zero business items. No candidate, claim, correctness, hallucination, false-block or wrong-release judgment is possible.",
+    "The report and suite digests are retained from the packet; verification against their raw artifacts is deferred until after this immutable label write.",
+    "Created this file with exclusive creation. Later unblinding and accounting findings must be recorded in a separate review, without changing these labels."
+  ],
+  "limitations": [
+    "This is an agent audit, not a human audit or perfect blinding.",
+    "Before blind labeling, the coordinator supplied a protocol-stop summary. No business output or arm-to-business-output mapping was supplied or read; the packet has no business output.",
+    "During the earlier statistics code review, review-probes.test.cjs text was accidentally read. It revealed development direction, but no referenced product module, R9 sample or result, R10 sample, gold, frozen artifact, raw report, ledger or key was read at that stage. The auditor therefore does not claim ignorance of development direction.",
+    "With zero business packets, the empty label set establishes absence of material to review and does not establish model quality or any improvement."
+  ],
+  "summary": {
+    "businessPackets": 0,
+    "candidatesAssessed": 0,
+    "verifiableClaims": 0,
+    "unsupportedClaims": 0,
+    "businessContentAssessment": "not-assessable-no-business-output",
+    "contentQualityConclusion": null
+  },
+  "originalAuditSha256": "c60d837a91beb201a9724df2ee20db95bd9c37fa76edeab9d584f3333bd90081",
+  "publicationNote": "Arm mappings added only after immutable blind labels. Full drafts, raw receipts, local paths and account/thread identifiers excluded.",
+  "items": []
+}

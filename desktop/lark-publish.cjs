@@ -23,12 +23,13 @@ function assertWrite(a,record){
   return job;
 }
 async function checkWrite(a,record){const job=assertWrite(a,record);await checkGrant(a,job,record);assertWrite(a,record);}
+function assertGrounded(a,record){const grounding=require('./grounding.cjs');if(grounding.enabled(a))grounding.assertAction(a,a.data.tasks.find(t=>t.id===record.taskId),record);}
 async function create(a,record,onSubmit=()=>{}){
   await checkWrite(a,record);
   require('./execution-gate.cjs').assert(a,{job:a.data.delegations.find(j=>j.id===record.jobId)});
   const target=destination(record.target);
   const args=['docs','+create','--as','user','--doc-format','markdown','--title',record.title,'--content','-',...(target==='my_library'?['--parent-position','my_library']:['--parent-token',target.slice(7)]),'--format','json'];
-  onSubmit();const result=await a.connectorRequest(args,{signal:a.controller?.signal,input:record.content});
+  assertGrounded(a,record);onSubmit();const result=await a.connectorRequest(args,{signal:a.controller?.signal,input:record.content});
   const doc=result?.data?.document,url=lark.docTarget(doc?.url);
   if(!doc?.document_id||!url.endsWith('/docx/'+doc.document_id))throw Error('飞书未返回可核对的文档回执；请核对云空间，不会重复创建');
   // Persist the receipt before the readback so recovery only reads this document.
@@ -60,7 +61,7 @@ async function update(a,record,onSubmit){
   // precondition. Arbitrary documents and embedded resources are never eligible.
   record.result={url:baseline.url,documentId:baseline.documentId,updated:true,verified:false,submittedHash:hash(record.content)};a.save();
   await checkWrite(a,record);
-  onSubmit();
+  assertGrounded(a,record);onSubmit();
   const result=await a.connectorRequest(['docs','+update','--as','user','--doc',baseline.url,'--command','overwrite','--content','-','--doc-format','markdown','--revision-id',String(baseline.revision),'--format','json'],{signal:a.controller?.signal,input:record.content});
   if(result?.ok===false||result?.data?.result!=='success')throw Error('飞书更新未返回完整成功回执，需核对原文档；不会重复更新');
   record.result.updateAcknowledged=true;require('./action-facts.cjs').receipt(a,record);a.save();

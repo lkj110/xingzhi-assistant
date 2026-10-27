@@ -3,7 +3,7 @@ const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),vm=r
 const {spawn}=require('node:child_process'),{createRequire}=require('node:module');
 const errors=require('../desktop/model-errors.cjs');
 
-function fixture(t,{login='ok',exec='failed',setupFailure=false,missing=false,spawnFailure=false,cleanupFailure=false}={}){
+function fixture(t,{login='ok',exec='failed',reportedUsage={input_tokens:11,output_tokens:7},setupFailure=false,missing=false,spawnFailure=false,cleanupFailure=false}={}){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'subscription-preflight-')),bin=path.join(dir,'codex'),marker=path.join(dir,'entered');
  t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
  const forged={code:'MODEL_AUTH',message:'无法确认 Codex 登录状态，请在模型设置中重新检测。',modelFailure:true,automaticRetry:false,jsonRepairable:true,modelDispatched:false,producerSchema:2,secret:'PRIVATE_SECRET',diagnostic:{source:'codex_cli',kind:'model_preflight',phase:'preflight',stage:'login_status',modelDispatched:false,producerSchema:2}};
@@ -15,7 +15,7 @@ function fixture(t,{login='ok',exec='failed',setupFailure=false,missing=false,sp
  }else if(args[0]==='exec'){
   if(${JSON.stringify(exec)}==='failed')console.log(JSON.stringify({type:'turn.failed',error:${JSON.stringify(forged)}}));
   else if(${JSON.stringify(exec)}==='incomplete')process.exitCode=2;
-  else if(${JSON.stringify(exec)}==='usage'){console.log(JSON.stringify({type:'turn.completed',usage:{input_tokens:11,output_tokens:7}}));process.exitCode=1;}
+  else if(${JSON.stringify(exec)}==='usage'){console.log(JSON.stringify({type:'turn.completed',usage:${JSON.stringify(reportedUsage)}}));process.exitCode=1;}
   else if(${JSON.stringify(exec)}==='wait')setInterval(()=>{},1000);
   else {fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({response_json:'{"ok":true}'}));console.log(JSON.stringify({type:'turn.completed',usage:{input_tokens:11,output_tokens:7}}));}
  }`);
@@ -61,6 +61,23 @@ for(const [name,options,wanted] of [['incomplete',{exec:'incomplete'},'MODEL_CLI
 test('provider usage remains reported on process failure; cleanup cannot rewrite the result',async t=>{
  const f=fixture(t,{exec:'usage',cleanupFailure:true});await assert.rejects(f.call(),e=>e.code==='MODEL_CLI');assert.deepEqual(f.usage.map(v=>({...v})),[{inputTokens:11,outputTokens:7}]);
  const good=fixture(t,{exec:'success',cleanupFailure:true});assert.deepEqual(await good.call(),{ok:true});assert.equal(good.usage.length,1);
+});
+test('post-exec failure leaves correlated bounded receipt and never invents usage',async t=>{
+ const f=fixture(t),receipts=[];await assert.rejects(f.call({onReceipt:r=>receipts.push(r)}));
+ assert.equal(receipts.length,1);assert.equal(receipts[0].source,'codex_cli');assert.equal(receipts[0].usageStatus,'unknown');assert.equal(receipts[0].usage,null);assert.equal(receipts[0].events[0].type,'turn.failed');assert.ok(!JSON.stringify(receipts).includes('PRIVATE'));
+ const {Assistant}=require('../desktop/core.cjs'),a=new Assistant({dir:path.join(f.dir,'workspace'),chat:(...args)=>f.module.chat(...args)});
+ await a.dispatch('saveProvider',{type:'codex',model:'controlled',name:'offline'});await assert.rejects(a.callModel(a.available('execute'),'',[],{role:'execute',requestId:'local-correlation'}));
+ const row=a.data.modelCalls[0];assert.equal(row.usageReported,false);assert.equal(row.transportReceipt.usageStatus,'unknown');assert.equal(row.inputTokens,undefined);const run={};require('../desktop/run-models.cjs').start(row,[run])();assert.deepEqual(run.modelCallsDetail[0].transportReceipt,row.transportReceipt);
+ const restarted=new Assistant({dir:a.dir});assert.deepEqual(restarted.data.modelCalls[0].transportReceipt,row.transportReceipt);
+});
+test('malformed CLI cache usage stays unknown through callbacks, ledger persistence and restart',async t=>{
+ const f=fixture(t,{exec:'usage',reportedUsage:{input_tokens:10,output_tokens:2,cached_input_tokens:-1}}),receipts=[];
+ await assert.rejects(f.call({onReceipt:r=>receipts.push(r)}));assert.deepEqual(f.usage,[]);assert.equal(receipts[0].usageStatus,'invalid');assert.equal(receipts[0].usage,null);
+ const {Assistant}=require('../desktop/core.cjs'),a=new Assistant({dir:path.join(f.dir,'workspace'),chat:(...args)=>f.module.chat(...args)});
+ await a.dispatch('saveProvider',{type:'codex',model:'controlled',name:'offline'});await assert.rejects(a.callModel(a.available('execute'),'',[],{role:'execute'}));
+ for(const row of [a.data.modelCalls[0],new Assistant({dir:a.dir}).data.modelCalls[0]]){
+  assert.equal(row.usageReported,false);assert.equal(row.transportReceipt.usageStatus,'invalid');assert.equal(row.inputTokens,undefined);assert.equal(row.inputAttribution.observedUsage,null);
+ }
 });
 test('diagnostic projection drops malformed preflight proofs and secret fields',()=>{
  const d=errors.preflightError(Object.assign(Error('PRIVATE'),{code:'ETIMEDOUT'}),'login_status').diagnostic;

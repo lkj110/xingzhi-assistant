@@ -1,0 +1,311 @@
+{
+  "schema": 1,
+  "sourceReportSha256": "bd715f5a75e035effb68ce0ec506797bdb25354ec9a3677254989b37514e6168",
+  "startedAt": "2026-10-27T09:11:45.073Z",
+  "finishedAt": "2026-10-27T09:17:28.639Z",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "medium",
+  "limits": {
+    "calls": 80,
+    "tokens": 1600000,
+    "concurrency": 1,
+    "protocolCalls": 8,
+    "protocolTokens": 160000,
+    "businessCalls": 72,
+    "businessTokens": 1440000,
+    "callsPerBusinessBranch": 6
+  },
+  "protocol": [
+    {
+      "caseId": "R10-P01-nuanqiao-read",
+      "arm": "baseline",
+      "kind": "read",
+      "passed": true,
+      "code": null,
+      "usage": {
+        "inputTokens": 10752,
+        "outputTokens": 91,
+        "cachedInputTokens": 0
+      }
+    },
+    {
+      "caseId": "R10-P01-nuanqiao-read",
+      "arm": "candidate",
+      "kind": "read",
+      "passed": true,
+      "code": null,
+      "usage": {
+        "inputTokens": 10752,
+        "outputTokens": 91,
+        "cachedInputTokens": 0
+      }
+    },
+    {
+      "caseId": "R10-P02-yunmao-recover",
+      "arm": "candidate",
+      "kind": "compute",
+      "passed": false,
+      "code": "MODEL_CLI",
+      "usage": null
+    }
+  ],
+  "calls": [
+    {
+      "index": 1,
+      "budgetStage": "protocol",
+      "caseId": "R10-P01-nuanqiao-read",
+      "arm": "baseline",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_read",
+      "category": "protocol",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T09:12:12.380Z",
+      "finishedAt": "2026-10-27T09:12:26.744Z",
+      "durationMs": 14364,
+      "reservedTokens": 42571,
+      "inputHash": "45c80e0e6159357c4e452180cfd878707f1dcf5b162844eb3b82f654edfbc4f8",
+      "serializedInputHash": "0c2440f3acbbe8b17f0a0762010216fc4def6992dfbf226acfa757e64c811a08",
+      "serializedInputBytes": 1342,
+      "kind": "read_context",
+      "usage": {
+        "inputTokens": 10752,
+        "outputTokens": 91,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "process": {
+          "state": "closed"
+        },
+        "eventCount": 4,
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 1594
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 3188
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 10554
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 14309,
+            "exitCode": 0
+          }
+        ]
+      },
+      "diagnostic": {}
+    },
+    {
+      "index": 2,
+      "budgetStage": "protocol",
+      "caseId": "R10-P01-nuanqiao-read",
+      "arm": "candidate",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_read",
+      "category": "protocol",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T09:12:57.496Z",
+      "finishedAt": "2026-10-27T09:13:22.568Z",
+      "durationMs": 25072,
+      "reservedTokens": 42571,
+      "inputHash": "45c80e0e6159357c4e452180cfd878707f1dcf5b162844eb3b82f654edfbc4f8",
+      "serializedInputHash": "0c2440f3acbbe8b17f0a0762010216fc4def6992dfbf226acfa757e64c811a08",
+      "serializedInputBytes": 1342,
+      "kind": "read_context",
+      "usage": {
+        "inputTokens": 10752,
+        "outputTokens": 91,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "process": {
+          "state": "closed"
+        },
+        "eventCount": 4,
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 1592
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 3038
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 13504
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 25051,
+            "exitCode": 0
+          }
+        ]
+      },
+      "diagnostic": {}
+    },
+    {
+      "index": 3,
+      "budgetStage": "protocol",
+      "caseId": "R10-P02-yunmao-recover",
+      "arm": "candidate",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_compute",
+      "category": "protocol",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "failed",
+      "code": "MODEL_CLI",
+      "gateFailure": "EVAL_USAGE_UNKNOWN",
+      "startedAt": "2026-10-27T09:13:46.704Z",
+      "finishedAt": "2026-10-27T09:17:10.237Z",
+      "durationMs": 203533,
+      "reservedTokens": 43530,
+      "inputHash": "ea71868ea3af7385c8c587adc6f5983801c056c1260bf8822a1cc4a0ff3f2a7a",
+      "serializedInputHash": "06dc827fb346bc863d3f5c618473609eaff80af6c3f02f1a55cc17b2bf32ec44",
+      "serializedInputBytes": 2301,
+      "usage": null,
+      "usageStatus": "unknown",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "unknown",
+        "lastProtocolEvent": "turn.failed",
+        "process": {
+          "state": "closed"
+        },
+        "eventCount": 14,
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 814
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 15830
+          },
+          {
+            "sequence": 3,
+            "type": "error",
+            "elapsedMs": 51084,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 4,
+            "type": "error",
+            "elapsedMs": 66519,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 5,
+            "type": "error",
+            "elapsedMs": 82313,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 6,
+            "type": "error",
+            "elapsedMs": 98894,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 7,
+            "type": "error",
+            "elapsedMs": 132082,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 8,
+            "type": "error",
+            "elapsedMs": 147288,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 9,
+            "type": "error",
+            "elapsedMs": 162734,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 10,
+            "type": "error",
+            "elapsedMs": 178482,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 11,
+            "type": "error",
+            "elapsedMs": 194992,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 12,
+            "type": "error",
+            "elapsedMs": 203503,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 13,
+            "type": "turn.failed",
+            "elapsedMs": 203504,
+            "errorCode": "MODEL_CLI"
+          },
+          {
+            "sequence": 14,
+            "type": "process_exit",
+            "elapsedMs": 203523,
+            "exitCode": 1
+          }
+        ]
+      },
+      "diagnostic": {
+        "source": "codex_cli",
+        "kind": "turn_failed",
+        "fingerprint": "196307e4131a0e7f"
+      }
+    }
+  ]
+}

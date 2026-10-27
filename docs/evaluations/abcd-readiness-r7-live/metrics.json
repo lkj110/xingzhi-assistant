@@ -1,0 +1,723 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-10-26T08:51:21.615Z",
+  "status": "readiness_failed_no_main_evaluation",
+  "failedReadinessGates": [
+    "budget_or_unknown_usage",
+    "missing_branches",
+    "candidate_dynamic_chains_incomplete",
+    "candidate_business_outcomes_not_all_correct"
+  ],
+  "execution": {
+    "calls": 6,
+    "knownUsageCalls": 5,
+    "unknownUsageCalls": 1,
+    "inputTokens": null,
+    "outputTokens": null,
+    "cachedInputTokens": null,
+    "totalTokens": null,
+    "totalKnownTokens": 95616,
+    "branches": 5,
+    "status": "incomplete",
+    "approvedCalls": 96,
+    "approvedTokens": 2000000,
+    "halt": "EVAL_USAGE_UNKNOWN"
+  },
+  "arms": {
+    "baseline": {
+      "calls": 3,
+      "knownUsageCalls": 2,
+      "unknownUsageCalls": 1,
+      "inputTokens": null,
+      "outputTokens": null,
+      "cachedInputTokens": null,
+      "totalTokens": null,
+      "totalKnownTokens": 37203,
+      "attemptedBranches": 3,
+      "procedureCompletion": {
+        "events": 2,
+        "denominator": 6,
+        "rate": 0.3333333333333333,
+        "wilson95": [
+          0.09677141110578041,
+          0.700006684861608
+        ]
+      },
+      "dynamicProcedureCompletion": {
+        "events": 0,
+        "denominator": 4,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.4898908364545973
+        ]
+      },
+      "businessCorrectFullOutcomes": {
+        "events": 2,
+        "denominator": 6,
+        "rate": 0.3333333333333333,
+        "wilson95": [
+          0.09677141110578041,
+          0.700006684861608
+        ]
+      },
+      "technicalIncompleteBranches": 1,
+      "technicalIncompletePhases": 1,
+      "hallucinationFinalAccepted": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "invalidFinalAccepted": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "hallucinationAllPassedDynamicStages": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "fixedFalseBlock": {
+        "events": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "fixedWrongRelease": {
+        "events": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "fixedUnjudged": 0,
+      "dynamicFalseBlock": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "dynamicWrongRelease": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "dynamicJudgedArtifacts": 0,
+      "unsupportedPersistedDynamicArtifacts": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "perLane": {
+        "fixed": {
+          "calls": 2,
+          "knownUsageCalls": 2,
+          "unknownUsageCalls": 0,
+          "inputTokens": 33275,
+          "outputTokens": 3928,
+          "cachedInputTokens": 7552,
+          "totalTokens": 37203,
+          "totalKnownTokens": 37203
+        },
+        "e2e": {
+          "calls": 1,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 1,
+          "inputTokens": null,
+          "outputTokens": null,
+          "cachedInputTokens": null,
+          "totalTokens": null,
+          "totalKnownTokens": 0
+        },
+        "revision": {
+          "calls": 0,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 0,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "cachedInputTokens": 0,
+          "totalTokens": 0,
+          "totalKnownTokens": 0
+        }
+      },
+      "perPhase": {
+        "initial": {
+          "calls": 3,
+          "knownUsageCalls": 2,
+          "unknownUsageCalls": 1,
+          "inputTokens": null,
+          "outputTokens": null,
+          "cachedInputTokens": null,
+          "totalTokens": null,
+          "totalKnownTokens": 37203
+        },
+        "revision": {
+          "calls": 0,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 0,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "cachedInputTokens": 0,
+          "totalTokens": 0,
+          "totalKnownTokens": 0
+        }
+      },
+      "perCategory": {
+        "generation": {
+          "calls": 1,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 1,
+          "inputTokens": null,
+          "outputTokens": null,
+          "cachedInputTokens": null,
+          "totalTokens": null,
+          "totalKnownTokens": 0
+        },
+        "task_verify": {
+          "calls": 2,
+          "knownUsageCalls": 2,
+          "unknownUsageCalls": 0,
+          "inputTokens": 33275,
+          "outputTokens": 3928,
+          "cachedInputTokens": 7552,
+          "totalTokens": 37203,
+          "totalKnownTokens": 37203
+        }
+      },
+      "cases": [
+        {
+          "caseId": "R7-F01",
+          "lane": "fixed",
+          "calls": 1,
+          "procedureComplete": true,
+          "businessCorrect": true,
+          "delivered": true,
+          "taskStatus": "review",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": null,
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": true,
+              "unsupported": false,
+              "judged": true,
+              "taskPassed": true,
+              "goalPassed": false,
+              "gatePassed": true,
+              "technicalError": null,
+              "auditId": "8441c5ac-77e8-4c4a-bd59-0c3e8f746713"
+            }
+          ]
+        },
+        {
+          "caseId": "R7-F02",
+          "lane": "fixed",
+          "calls": 1,
+          "procedureComplete": true,
+          "businessCorrect": true,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": null,
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": false,
+              "unsupported": true,
+              "judged": true,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": null,
+              "auditId": "a946e351-2434-4773-9e7c-a30ee1e3eb40"
+            }
+          ]
+        },
+        {
+          "caseId": "R7-E01",
+          "lane": "e2e",
+          "calls": 1,
+          "procedureComplete": false,
+          "businessCorrect": false,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": "EVAL_USAGE_UNKNOWN",
+          "capReached": null,
+          "exceptionCode": "EVAL_NOT_ACCEPTABLE",
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": false,
+              "qualified": false,
+              "unsupported": false,
+              "judged": false,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": "EVAL_USAGE_UNKNOWN",
+              "auditId": "de4ad454-cc7f-4598-9a09-9720602cb627"
+            }
+          ]
+        }
+      ]
+    },
+    "candidate": {
+      "calls": 3,
+      "knownUsageCalls": 3,
+      "unknownUsageCalls": 0,
+      "inputTokens": 53026,
+      "outputTokens": 5387,
+      "cachedInputTokens": 17280,
+      "totalTokens": 58413,
+      "totalKnownTokens": 58413,
+      "attemptedBranches": 2,
+      "procedureCompletion": {
+        "events": 2,
+        "denominator": 6,
+        "rate": 0.3333333333333333,
+        "wilson95": [
+          0.09677141110578041,
+          0.700006684861608
+        ]
+      },
+      "dynamicProcedureCompletion": {
+        "events": 0,
+        "denominator": 4,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.4898908364545973
+        ]
+      },
+      "businessCorrectFullOutcomes": {
+        "events": 1,
+        "denominator": 6,
+        "rate": 0.16666666666666666,
+        "wilson95": [
+          0.030053369748306635,
+          0.5635028221864702
+        ]
+      },
+      "technicalIncompleteBranches": 0,
+      "technicalIncompletePhases": 0,
+      "hallucinationFinalAccepted": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "invalidFinalAccepted": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "hallucinationAllPassedDynamicStages": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "fixedFalseBlock": {
+        "events": 1,
+        "denominator": 1,
+        "rate": 1,
+        "wilson95": [
+          0.20654931437723745,
+          1
+        ]
+      },
+      "fixedWrongRelease": {
+        "events": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "fixedUnjudged": 0,
+      "dynamicFalseBlock": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "dynamicWrongRelease": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "dynamicJudgedArtifacts": 0,
+      "unsupportedPersistedDynamicArtifacts": {
+        "events": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "perLane": {
+        "fixed": {
+          "calls": 3,
+          "knownUsageCalls": 3,
+          "unknownUsageCalls": 0,
+          "inputTokens": 53026,
+          "outputTokens": 5387,
+          "cachedInputTokens": 17280,
+          "totalTokens": 58413,
+          "totalKnownTokens": 58413
+        },
+        "e2e": {
+          "calls": 0,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 0,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "cachedInputTokens": 0,
+          "totalTokens": 0,
+          "totalKnownTokens": 0
+        },
+        "revision": {
+          "calls": 0,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 0,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "cachedInputTokens": 0,
+          "totalTokens": 0,
+          "totalKnownTokens": 0
+        }
+      },
+      "perPhase": {
+        "initial": {
+          "calls": 3,
+          "knownUsageCalls": 3,
+          "unknownUsageCalls": 0,
+          "inputTokens": 53026,
+          "outputTokens": 5387,
+          "cachedInputTokens": 17280,
+          "totalTokens": 58413,
+          "totalKnownTokens": 58413
+        },
+        "revision": {
+          "calls": 0,
+          "knownUsageCalls": 0,
+          "unknownUsageCalls": 0,
+          "inputTokens": 0,
+          "outputTokens": 0,
+          "cachedInputTokens": 0,
+          "totalTokens": 0,
+          "totalKnownTokens": 0
+        }
+      },
+      "perCategory": {
+        "task_verify": {
+          "calls": 3,
+          "knownUsageCalls": 3,
+          "unknownUsageCalls": 0,
+          "inputTokens": 53026,
+          "outputTokens": 5387,
+          "cachedInputTokens": 17280,
+          "totalTokens": 58413,
+          "totalKnownTokens": 58413
+        }
+      },
+      "cases": [
+        {
+          "caseId": "R7-F01",
+          "lane": "fixed",
+          "calls": 2,
+          "procedureComplete": true,
+          "businessCorrect": false,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": null,
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": true,
+              "unsupported": false,
+              "judged": true,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": null,
+              "auditId": "9bbd6d9d-5e99-42cb-9ed7-e5c228823b26"
+            }
+          ]
+        },
+        {
+          "caseId": "R7-F02",
+          "lane": "fixed",
+          "calls": 1,
+          "procedureComplete": true,
+          "businessCorrect": true,
+          "delivered": false,
+          "taskStatus": "blocked",
+          "phaseCount": 1,
+          "transitions": [],
+          "technicalError": null,
+          "capReached": null,
+          "exceptionCode": null,
+          "phases": [
+            {
+              "phase": "initial",
+              "hasCandidate": true,
+              "qualified": false,
+              "unsupported": true,
+              "judged": true,
+              "taskPassed": false,
+              "goalPassed": false,
+              "gatePassed": false,
+              "technicalError": null,
+              "auditId": "7215a509-135b-493a-a637-bffe7bb18347"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "pairs": [
+    {
+      "caseId": "R7-F01",
+      "lane": "fixed",
+      "bothCompleted": true,
+      "bothBusinessCorrect": false,
+      "baseline": {
+        "calls": 1,
+        "knownUsageCalls": 1,
+        "unknownUsageCalls": 0,
+        "inputTokens": 16397,
+        "outputTokens": 1560,
+        "cachedInputTokens": 7552,
+        "totalTokens": 17957,
+        "totalKnownTokens": 17957
+      },
+      "candidate": {
+        "calls": 2,
+        "knownUsageCalls": 2,
+        "unknownUsageCalls": 0,
+        "inputTokens": 35554,
+        "outputTokens": 3030,
+        "cachedInputTokens": 0,
+        "totalTokens": 38584,
+        "totalKnownTokens": 38584
+      },
+      "delta": 20627
+    },
+    {
+      "caseId": "R7-F02",
+      "lane": "fixed",
+      "bothCompleted": true,
+      "bothBusinessCorrect": true,
+      "baseline": {
+        "calls": 1,
+        "knownUsageCalls": 1,
+        "unknownUsageCalls": 0,
+        "inputTokens": 16878,
+        "outputTokens": 2368,
+        "cachedInputTokens": 0,
+        "totalTokens": 19246,
+        "totalKnownTokens": 19246
+      },
+      "candidate": {
+        "calls": 1,
+        "knownUsageCalls": 1,
+        "unknownUsageCalls": 0,
+        "inputTokens": 17472,
+        "outputTokens": 2357,
+        "cachedInputTokens": 17280,
+        "totalTokens": 19829,
+        "totalKnownTokens": 19829
+      },
+      "delta": 583
+    },
+    {
+      "caseId": "R7-E01",
+      "lane": "e2e",
+      "bothCompleted": false,
+      "bothBusinessCorrect": false,
+      "baseline": {
+        "calls": 1,
+        "knownUsageCalls": 0,
+        "unknownUsageCalls": 1,
+        "inputTokens": null,
+        "outputTokens": null,
+        "cachedInputTokens": null,
+        "totalTokens": null,
+        "totalKnownTokens": 0
+      },
+      "candidate": null,
+      "delta": null
+    },
+    {
+      "caseId": "R7-E02",
+      "lane": "e2e",
+      "bothCompleted": false,
+      "bothBusinessCorrect": false,
+      "baseline": null,
+      "candidate": null,
+      "delta": null
+    },
+    {
+      "caseId": "R7-R01",
+      "lane": "revision",
+      "bothCompleted": false,
+      "bothBusinessCorrect": false,
+      "baseline": null,
+      "candidate": null,
+      "delta": null
+    },
+    {
+      "caseId": "R7-R02",
+      "lane": "revision",
+      "bothCompleted": false,
+      "bothBusinessCorrect": false,
+      "baseline": null,
+      "candidate": null,
+      "delta": null
+    }
+  ],
+  "allAttemptCostChange": {
+    "tokens": null,
+    "percent": null
+  },
+  "pairedCompletedCost": {
+    "caseIds": [
+      "R7-F01",
+      "R7-F02"
+    ],
+    "dynamicCaseIds": [],
+    "baseline": {
+      "calls": 2,
+      "knownUsageCalls": 2,
+      "unknownUsageCalls": 0,
+      "inputTokens": 33275,
+      "outputTokens": 3928,
+      "cachedInputTokens": 7552,
+      "totalTokens": 37203,
+      "totalKnownTokens": 37203
+    },
+    "candidate": {
+      "calls": 3,
+      "knownUsageCalls": 3,
+      "unknownUsageCalls": 0,
+      "inputTokens": 53026,
+      "outputTokens": 5387,
+      "cachedInputTokens": 17280,
+      "totalTokens": 58413,
+      "totalKnownTokens": 58413
+    },
+    "tokenChange": 21210,
+    "percentChange": 57.0115313281187
+  },
+  "pairedCompletedDynamicCost": {
+    "caseIds": [],
+    "baseline": {
+      "calls": 0,
+      "knownUsageCalls": 0,
+      "unknownUsageCalls": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "cachedInputTokens": 0,
+      "totalTokens": 0,
+      "totalKnownTokens": 0
+    },
+    "candidate": {
+      "calls": 0,
+      "knownUsageCalls": 0,
+      "unknownUsageCalls": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "cachedInputTokens": 0,
+      "totalTokens": 0,
+      "totalKnownTokens": 0
+    },
+    "tokenChange": null,
+    "percentChange": null
+  },
+  "pairedCorrectDynamicCost": {
+    "caseIds": [],
+    "baseline": {
+      "calls": 0,
+      "knownUsageCalls": 0,
+      "unknownUsageCalls": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "cachedInputTokens": 0,
+      "totalTokens": 0,
+      "totalKnownTokens": 0
+    },
+    "candidate": {
+      "calls": 0,
+      "knownUsageCalls": 0,
+      "unknownUsageCalls": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "cachedInputTokens": 0,
+      "totalTokens": 0,
+      "totalKnownTokens": 0
+    },
+    "tokenChange": null,
+    "percentChange": null
+  },
+  "integrity": {
+    "at": "2026-10-26T08:47:00.413Z",
+    "sealUnchanged": true,
+    "implementationsUnchanged": true,
+    "historicalR6Unchanged": true,
+    "attemptsReconciled": true,
+    "calls": 6,
+    "knownUsageCalls": 5,
+    "unknownUsageCalls": 1,
+    "totalKnownTokens": 95616,
+    "withinCallLimit": true,
+    "withinTokenLimit": null,
+    "halt": "EVAL_USAGE_UNKNOWN"
+  },
+  "independentAudit": {
+    "sha256": "dff9ca80bf875d9e180740914735ec3321986cc77428d19ca93fe42a161aef8c",
+    "limitations": [
+      "本次为模型代理的有限盲审，不是人类或完美盲审。包内没有arm或成本标签；协议形状、工具结构、时间和同稿对照可能泄露残余线索。",
+      "仅裁决实际5个阶段。固定送审稿是注入文本，其无依据断言不计入模型生成幻觉。",
+      "无产物时hasCandidate=false及contentQualified=false表示未形成可合格产物，不表示已观察到错误生成内容；unsupported两项为false仅表示未观察到相关文本。",
+      "规则暴露以实际请求中可见的原文为依据；搜索组provided_complete不等于整篇或全部关键规则覆盖。失败调用的输入可证明已提交可见内容，不能证明模型已成功吸收或完成推理。",
+      "最终隔离状态不用于证明较早时刻已执行；技术未判断与有效核验误拦分开记录。"
+    ]
+  },
+  "limitations": [
+    "Six fresh paired synthetic cases cannot establish statistical noninferiority. Wilson intervals assume binomial observations and do not remove correlated phase or synthetic-case limitations.",
+    "Injected fixed drafts are excluded from model-generated hallucination metrics. Missing checks and technical interruptions are not false blocks.",
+    "Dynamic gate rates use independently adjudicated persisted artifacts with completed applicable checks. Unsupported text before persistence is documented separately in audit evidence.",
+    "Raw all-attempt token difference is not equal-success efficiency. Paired completed cost is meaningful only for the listed workflow mix. Cached input is already included in input.",
+    "No automatic rerun, formal main evaluation or installed application replacement."
+  ],
+  "formalMainEvaluationStarted": false,
+  "installedApplicationReplaced": false
+}

@@ -1,0 +1,63 @@
+{
+  "schema": 2,
+  "checkedAt": "2026-10-27T09:25:53.567Z",
+  "sealSha256": "49db4d9b45f1a97b673d3c0bc6003d255b3e07f5f3550ce1a54d3e0102fce977",
+  "sealsUnchanged": true,
+  "implementationsUnchanged": true,
+  "dependenciesUnchanged": true,
+  "historicalR9Unchanged": true,
+  "attemptsReconciled": true,
+  "attributionReconciled": true,
+  "reservationsReconciled": true,
+  "allUsage": {
+    "calls": 3,
+    "knownUsageCalls": 2,
+    "unknownUsageCalls": 1,
+    "inputTokens": null,
+    "outputTokens": null,
+    "totalTokens": null,
+    "knownSubtotal": 21686,
+    "cachedInputTokens": null,
+    "cachedIncludedInInput": true
+  },
+  "stages": {
+    "protocol": {
+      "calls": 3,
+      "knownUsageCalls": 2,
+      "unknownUsageCalls": 1,
+      "inputTokens": null,
+      "outputTokens": null,
+      "totalTokens": null,
+      "knownSubtotal": 21686,
+      "cachedInputTokens": null,
+      "cachedIncludedInInput": true
+    },
+    "business": {
+      "calls": 0,
+      "knownUsageCalls": 0,
+      "unknownUsageCalls": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "totalTokens": 0,
+      "knownSubtotal": 0,
+      "cachedInputTokens": 0,
+      "cachedIncludedInInput": true
+    }
+  },
+  "protocolMatrixComplete": false,
+  "protocolFlagsConsistent": true,
+  "protocolOutcomesValid": true,
+  "protocolBeforeBusiness": true,
+  "fixedPreflightRespected": true,
+  "branchCallCounts": [],
+  "withinBranchCallLimit": true,
+  "serialCalls": true,
+  "noDispatchAfterStop": true,
+  "stopRecorded": true,
+  "firstStopAttempt": 3,
+  "withinReservationAdmissionLimits": true,
+  "withinCallLimit": true,
+  "withinTokenLimit": null,
+  "halt": "EVAL_USAGE_UNKNOWN",
+  "reportHalt": "EVAL_USAGE_UNKNOWN"
+}

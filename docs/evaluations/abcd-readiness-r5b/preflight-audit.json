@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "auditor": "r5_code_review",
+  "at": "2026-10-23T11:16:47.932Z",
+  "approved": true,
+  "blockingIssues": [],
+  "scope": "Read-only pre-dispatch feasibility, unchanged implementation/harness binding and single-grant carry-forward verification; not formal main acceptance.",
+  "replacement": {
+    "caseId": "R5B-R01",
+    "initial": {
+      "directSourceOperands": [
+        640,
+        270
+      ],
+      "unit": "MB",
+      "sum": 910
+    },
+    "revision": {
+      "directSourceOperands": [
+        640,
+        310,
+        460
+      ],
+      "unit": "MB",
+      "sum": 1410
+    },
+    "operandProvenance": "Every selected package capacity is directly stated in the authorized source with matching MB unit. sum supports an explicitly matching unit string; no conversion, inferred bare operand or unsupported subtraction/interval operation is required.",
+    "stageConsistency": "S1 selects A; switched S2 selects full replacement B and the newly included package. Four sections, title, scope, exclusions, unknown space and unexecuted copying agree with gold."
+  },
+  "retainedFive": {
+    "ids": [
+      "R5-F01",
+      "R5-F02",
+      "R5-E01",
+      "R5-E02",
+      "R5-R02"
+    ],
+    "suiteAndGoldDeeplyIdentical": true,
+    "previouslyUnrun": true
+  },
+  "integrity": {
+    "checkedFileHashes": 482,
+    "evaluationSealSHA256": "55d3ab12f63a87da3694d6c1a1b196894c3f58bf22ddabce3b4101738a5bf18e",
+    "implementationFreezeSHA256": "2d159606a94fb1f10fc19a3b467866818262e480de9beb2b485984a16c321cd3",
+    "reviewSHA256": "13115fc17e3b77fedd7f54fe4f1da8a69cedd1a3a45d89d7a91f318c74f52fcc",
+    "allReviewedRuntimeAndSealedFilesUnchanged": true
+  },
+  "budget": {
+    "singleUserGrant": true,
+    "priorRunnerHalt": "EVAL_PREFLIGHT_REJECTED_BEFORE_DISPATCH",
+    "priorCalls": 0,
+    "priorKnownTokens": 0,
+    "priorGrantAndLedgerHashesVerified": true,
+    "newRunnerUnstarted": true,
+    "sharedMaximumCalls": 96,
+    "sharedMaximumTokens": 1500000,
+    "concurrency": 1,
+    "additionalAuthorizationCreated": false
+  },
+  "limitations": [
+    "Stable baseline lacks compute_evidence. Separate business correctness from required-tool/process completion; capability absence alone is not hallucination, false blocking or wrong release.",
+    "Unequal successful-task composition prevents treating raw aggregate token differences as matched-success efficiency.",
+    "E02 frozen automatic coverage helper lacks fixtureFileName support; independent result audit must separately verify actual read_file receipt and source-bound worker exposure. Its conservative zero does not prove absence of exposure.",
+    "E01 requires two actually executed same-argument requests/results in trace. Stable deterministic receipt ID reuse is allowed; repeated final numbers or distinct IDs alone do not prove two executions or independent sources.",
+    "Only the six-pair readiness grant applies; no formal main evaluation."
+  ],
+  "providerEvaluationCalls": 0,
+  "networkCalls": 0,
+  "encoderCalls": 0,
+  "changedSealedFiles": false,
+  "changedProductionFiles": false
+}

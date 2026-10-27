@@ -24,8 +24,8 @@ async function packageApplication(out){
     ...(process.env.ELECTRON_ZIP_DIR?{electronZipDir:process.env.ELECTRON_ZIP_DIR}:{}),electronVersion:pkg.devDependencies.electron,
     appVersion:pkg.version,buildVersion:pkg.version,appCopyright:'Copyright (c) lkj110 and contributors',
     win32metadata:{CompanyName:'Xingzhi Assistant',FileDescription:'行知助手 Windows',ProductName:'行知助手'},
-    asar:{unpack:'**/*.{node,exe,dll,ps1}'},prune:true,
-    ignore:[/^\/(?!(?:desktop|dist|node_modules)(?:\/|$)|package\.json$).+/,/\/desktop\/native\/.*\.(?:swift|cs)$/, /\/desktop\/native\/bin\/(?!windows-(?:capture|process)\.exe$).+/,/\.DS_Store$/]});
+    asar:{unpack:'**/*.{node,exe,dll,ps1,onnx,json,wasm}'},prune:true,
+    ignore:[/^\/(?!(?:desktop|dist|node_modules|resources)(?:\/|$)|package\.json$).+/,/\/desktop\/native\/.*\.(?:swift|cs)$/, /\/desktop\/native\/bin\/(?!windows-(?:capture|process)\.exe$).+/,/\.DS_Store$/]});
   return verifyBundle(bundle,out);
 }
 async function verifyBundle(bundle,out){

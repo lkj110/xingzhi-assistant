@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "at": "2026-10-23T11:04:17.731Z",
+  "candidateCommit": "bb2ab900703b4200ea5d1bc9542c5c9c22c1f8cb",
+  "reviewApproved": true,
+  "openReviewIssues": 0,
+  "reviewTests": [
+    {
+      "file": "reviewer-regression.log",
+      "executedBy": "reviewer",
+      "tests": 118,
+      "passed": 118,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "qualifiers, plan recovery, readback, search, preparation, tool recovery and actual strict Agent handoff"
+    },
+    {
+      "file": "reviewer-readback.log",
+      "executedBy": "reviewer",
+      "tests": 19,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "after negative-observation narrative correction; readback and all deterministic tool operations"
+    },
+    {
+      "file": "reviewer-harness.log",
+      "executedBy": "reviewer",
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "caps, unknown usage, review freeze integrity, fresh-case coverage, result accounting, both-arm actual Agent handoff"
+    },
+    {
+      "file": "regression-tests.log",
+      "executedBy": "root; inspected by reviewer",
+      "tests": 1055,
+      "passed": 1052,
+      "failed": 2,
+      "skipped": 1,
+      "scope": "52-file wider regression before protocol expectation followup; not all green"
+    },
+    {
+      "file": "regression-followup.log",
+      "executedBy": "root; inspected by reviewer",
+      "tests": 28,
+      "passed": 27,
+      "failed": 1,
+      "skipped": 0,
+      "scope": "protocol-version assertion fixed; original remote Lark stale verification fixture remains"
+    },
+    {
+      "file": "build.log",
+      "executedBy": "root; inspected by reviewer",
+      "status": "passed",
+      "scope": "Vite build; existing bundle-size warning"
+    }
+  ],
+  "build": {
+    "passed": true,
+    "log": "build.log",
+    "warning": "Existing Vite chunk-size warning"
+  },
+  "frozenHarness": {
+    "tests": 9,
+    "passed": 9,
+    "failed": 0,
+    "log": "frozen-harness-tests.log"
+  },
+  "localEncoder": {
+    "prechange": {
+      "arm": "prechange",
+      "at": "2026-10-23T10:41:19.639Z",
+      "characters": 46614,
+      "providerCalls": 0,
+      "rows": [
+        {
+          "attempt": 1,
+          "ms": 30011,
+          "error": "TimeoutError",
+          "code": 23
+        }
+      ]
+    },
+    "candidate": {
+      "arm": "candidate",
+      "at": "2026-10-23T10:41:59.181Z",
+      "characters": 46614,
+      "providerCalls": 0,
+      "rows": [
+        {
+          "attempt": 1,
+          "ms": 9095,
+          "mode": "partial_hybrid",
+          "partial": true,
+          "diagnostic": {
+            "cacheHits": 0,
+            "encodedWindows": 16,
+            "indexedWindows": 16,
+            "totalWindows": 192,
+            "ms": 9093,
+            "encoder": {
+              "version": "local-multilingual-v1",
+              "ready": true,
+              "localOnly": true,
+              "manifestHash": "b911303c9b29de83343d515e45ca57236882095c24096172fc5a5092e86d06bf",
+              "model": "Xenova/paraphrase-multilingual-MiniLM-L12-v2",
+              "revision": "2c4055b12046f11709e9df2c122e59ffbdc2f900",
+              "backend": "wasm-cpu",
+              "lastMs": 1844,
+              "rss": 908935168
+            }
+          },
+          "groups": 1
+        },
+        {
+          "attempt": 2,
+          "ms": 8361,
+          "mode": "partial_hybrid",
+          "partial": true,
+          "diagnostic": {
+            "cacheHits": 1,
+            "encodedWindows": 16,
+            "indexedWindows": 32,
+            "totalWindows": 192,
+            "ms": 8361,
+            "encoder": {
+              "version": "local-multilingual-v1",
+              "ready": true,
+              "localOnly": true,
+              "manifestHash": "b911303c9b29de83343d515e45ca57236882095c24096172fc5a5092e86d06bf",
+              "model": "Xenova/paraphrase-multilingual-MiniLM-L12-v2",
+              "revision": "2c4055b12046f11709e9df2c122e59ffbdc2f900",
+              "backend": "wasm-cpu",
+              "lastMs": 2019,
+              "rss": 902336512
+            }
+          },
+          "groups": 1
+        }
+      ]
+    }
+  },
+  "fullRepositoryAttempt": {
+    "status": "interrupted_with_failures",
+    "log": "offline-tests.log",
+    "note": "The broad 297-file run was stopped after environment failures and long unrelated connector fixtures; not a passing full repository test."
+  },
+  "broaderReproduction": {
+    "log": "prechange-regressions.log",
+    "originalEngine": "sealed R4 candidate 719f14",
+    "failures": [
+      "remote Git repository root comparison",
+      "remote Lark content verification basis at dispatch"
+    ],
+    "note": "Both reproduce with the original engine; reviewed local-only readiness scope does not exercise these remote paths. Do not claim these product paths are fixed."
+  },
+  "providerCallsDuringImplementation": 0,
+  "currentInstalledApplicationReplaced": false,
+  "formalMainEvaluationStarted": false
+}

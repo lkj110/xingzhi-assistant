@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-23T11:38:07.579Z",
+  "sealUnchanged": true,
+  "implementationsUnchanged": true,
+  "attemptsReconciled": true,
+  "calls": 50,
+  "knownUsageCalls": 50,
+  "unknownUsageCalls": 0,
+  "totalKnownTokens": 955117,
+  "withinCallLimit": true,
+  "withinTokenLimit": true,
+  "halt": null
+}

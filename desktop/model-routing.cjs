@@ -22,7 +22,7 @@ function valid(data) {
 function initialize(a) { if (!valid(a.data)) revoke(a.data); }
 function changed(a) { if (!valid(a.data)) revoke(a.data); }
 function retain(current, restored) { restored.modelRouting = structuredClone(current.modelRouting); revoke(restored, 'restore'); }
-function revision(a) { return digest({configuration: configuration(a.data), value: a.data.modelRouting}); }
+function revision(a) { return digest({configuration: configuration(a.data), value: a.data.modelRouting, scenarios: a.data.settings?.scenarioModels}); }
 function snapshot(a) {
   const value = a.data.modelRouting || {};
   return {revision: revision(a), enabled: !!value.enabled && valid(a.data),
@@ -60,6 +60,8 @@ function classify(payload = {}, role = 'execute', stage = '') {
   return {tier: 'economy', reason: role === 'organize' ? '信息提取与事项拆解优先使用日常模型' : '未识别到复杂分析要求，优先使用日常模型'};
 }
 function select(a, primary, options = {}) {
+  const scenario = require('./scenario-models.cjs').select(a, primary, options);
+  if (scenario) return scenario;
   const value = a.data.modelRouting;
   if (!value?.enabled || !valid(a.data) || !roles.includes(options.role)
       || ['connection_test', 'evaluation'].includes(options.stage) || a.modelBudgetOwner
@@ -79,6 +81,7 @@ function select(a, primary, options = {}) {
   return {provider: provider || primary, routing: {mode: preference === 'auto' ? 'auto' : 'manual', ...decision, primaryId: primary.id}};
 }
 function allowsFallback(a, selection, backup) {
+  if (selection.routing?.mode === 'scenario') return false;
   if (!backup || backup.id === selection.provider.id) return false;
   return !selection.routing || selection.routing.mode === 'fixed'
     || [a.data.modelRouting?.economyId, a.data.modelRouting?.analysisId].includes(backup.id);

@@ -1,0 +1,190 @@
+{
+  "date": "2026-10-27",
+  "baselineRevision": "bacf826b21dbab940c00bd6e1133b5250fbcdd23",
+  "baselineProductRevision": "38ff396103692f6f51013fe524a279f85e431ed9",
+  "groundingVersion": 12,
+  "inputProtocol": "verify-input-v12",
+  "actualModelCalls": 0,
+  "actualTokens": null,
+  "formalMainEvaluationStarted": false,
+  "installedApplicationReplaced": false,
+  "offlineRegression": {
+    "files": [
+      "tests/check-finalization-transport.test.cjs",
+      "tests/check-reading-finalization.test.cjs",
+      "tests/claim-qualification.test.cjs",
+      "tests/context-repair-delivery.test.cjs",
+      "tests/context-repair-ui.test.cjs",
+      "tests/evidence-encoder-cancel.test.cjs",
+      "tests/evidence-handoff-routing.test.cjs",
+      "tests/evidence-plan-recovery.test.cjs",
+      "tests/evidence-preparation.test.cjs",
+      "tests/evidence-recovery-continuation.test.cjs",
+      "tests/evidence-search-recovery.test.cjs",
+      "tests/evidence-search.test.cjs",
+      "tests/evidence-workflow.test.cjs",
+      "tests/execution-control.test.cjs",
+      "tests/final-context-budget.test.cjs",
+      "tests/goal-evidence.test.cjs",
+      "tests/grounding-classification.test.cjs",
+      "tests/grounding-consistency.test.cjs",
+      "tests/grounding-eval-analysis.test.cjs",
+      "tests/grounding-eval-metrics.test.cjs",
+      "tests/grounding-input-compaction.test.cjs",
+      "tests/grounding-races.test.cjs",
+      "tests/grounding-v3.test.cjs",
+      "tests/grounding.test.cjs",
+      "tests/input-budget.test.cjs",
+      "tests/model-context-protocol-v3.test.cjs",
+      "tests/model-fallback.test.cjs",
+      "tests/model-json.test.cjs",
+      "tests/model-providers.test.cjs",
+      "tests/model-receipt.test.cjs",
+      "tests/model-regression.test.cjs",
+      "tests/model-routing.test.cjs",
+      "tests/p1-output-budget.test.cjs",
+      "tests/receipt-input.test.cjs",
+      "tests/requirement-projection.test.cjs",
+      "tests/subscription-errors.test.cjs",
+      "tests/subscription-health-metadata.test.cjs",
+      "tests/subscription-health.test.cjs",
+      "tests/subscription-lifecycle.test.cjs",
+      "tests/subscription-preflight.test.cjs",
+      "tests/subscription-protocol.test.cjs",
+      "tests/tool-evidence-recovery.test.cjs",
+      "tests/tool-evidence.test.cjs",
+      "tests/verification-editorial-flow.test.cjs",
+      "tests/verification-exact-cache.test.cjs",
+      "tests/verification-output.test.cjs",
+      "tests/verification-provider-prompt.test.cjs",
+      "tests/verification-stages.test.cjs",
+      "tests/verification-titles.test.cjs",
+      "tests/observation-time.test.cjs",
+      "tests/tool-status-recovery.test.cjs",
+      "tests/observation-time-boundaries.test.cjs"
+    ],
+    "tests": 880,
+    "passed": 879,
+    "failed": 0,
+    "skipped": 1,
+    "command": "node --test --test-concurrency=4 --test-timeout=120000 <51 files>; subscription-lifecycle.test.cjs separately with concurrency=1",
+    "groups": [
+      {
+        "name": "post-review-regression",
+        "files": 51,
+        "tests": 873,
+        "passed": 872,
+        "failed": 0,
+        "skipped": 1
+      },
+      {
+        "name": "post-review-timeout-regression",
+        "files": 1,
+        "tests": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "skipReason": "Existing Windows symlink fixture requires Developer Mode or SeCreateSymbolicLinkPrivilege",
+    "initialTimingFailure": "Unmodified subscription-lifecycle idle20ms/total40ms ordering flaked under CPU concurrency; isolated file passed without changing assertions or production timeout code."
+  },
+  "independentReview": {
+    "reviewer": "r10_code_review",
+    "conclusion": "no unresolved blocking findings",
+    "files": 9,
+    "tests": 178,
+    "passed": 178,
+    "failed": 0,
+    "skipped": 0,
+    "countsOverlapFullRegression": true,
+    "findings": [
+      {
+        "priority": "P2",
+        "problem": "Literal file quotations and complete negative disclaimers were misclassified as current or delivery assertions",
+        "resolution": "Exact visible original binding plus bounded attributed-literal and whole-negative-clause masking",
+        "status": "fixed-and-retested"
+      },
+      {
+        "priority": "P2",
+        "problem": "Fast task verification followed by slow goal verification expired historical grounding cache",
+        "resolution": "Stable receipt identity and per-claim historical/current validity; cloned citations and historical refresh exclusion",
+        "status": "fixed-and-retested"
+      }
+    ],
+    "permanentIndependentTests": 38
+  },
+  "build": {
+    "command": "node node_modules/vite/bin/vite.js build",
+    "passed": true
+  },
+  "lfNormalization": {
+    "purpose": "Committed Git blobs and local final source hashes agree",
+    "files": 16,
+    "semanticChanges": false,
+    "identityRegression": {
+      "tests": 31,
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "measurement": {
+    "file": "docs/CONTEXT_ABCD_R10_INPUT.json",
+    "unit": "UTF-8 bytes, not tokens",
+    "schemaChanged": false,
+    "defaultStageFullInputDeltaBytes": [
+      318,
+      319
+    ],
+    "defaultStagePercentIncrease": [
+      1.04,
+      1.31
+    ],
+    "basicStageDeltaBytes": -31,
+    "bodyHashesMatch": true,
+    "realModelCalls": 0,
+    "actualTokens": null
+  },
+  "sourceSha256": {
+    "desktop/claim-observation.cjs": "6978cceb66ea0d1e35e019c5097d30b832fec1e012c64142b30bb36344f57528",
+    "desktop/claim-qualification.cjs": "6baa214878fd29823cee30f916ead5ba371fddd7cb80c1f179b6d7ea62787987",
+    "desktop/file-observation.cjs": "6b8d91cfc59fcad2670fcddd9540570c2b39df29493c6566154d5bb4e4d16c15",
+    "desktop/generation-context.cjs": "fc5deec17a21656da48ba26969703eab4e94a43d6a17a8335525cb5ef10cbc5e",
+    "desktop/grounding.cjs": "24c9a5a7e4442384fb0548b4e5deb6020ee0b6d06f95f0ae470b4fa543424cfb",
+    "desktop/tool-evidence.cjs": "9f4643595b234e199437c8c25206c1356a6fdc92e9bb3b0cff6955d2466cd6b4",
+    "scripts/verification-protocol-measure.cjs": "f0a3aa8b077c1d11af7768ff13fef1aff8b086974ec688baaf78d85f9ba74a1f",
+    "tests/claim-qualification.test.cjs": "fa982f9aa5a1efdff74134c158d44c71d28e38a270f6591aa6b25f0b11b7d9f2",
+    "tests/evidence-handoff-routing.test.cjs": "495aeb1d60a31f96ff9ea22756e5c69068f81bad5f5ab694160505ec088cc8cd",
+    "tests/grounding-classification.test.cjs": "32a4425c300e8b1a31b5734bff4561c00d363bddaadadcf6eabc5eaf8c255bf1",
+    "tests/grounding-consistency.test.cjs": "a0288c6a3218f8460b12fd5eaa2d2d30777bbe638623e96f9b9036bb2c1d7a3c",
+    "tests/grounding-input-compaction.test.cjs": "97798b73ea6e96b06bded98989d14f84b45d9e4230338c347b2ab4acc6c5b2ab",
+    "tests/helpers/tool-observation-fixture.cjs": "f5ee49eee61ada0199240910a6e4e4dc4976abf611c4702898ac8b9c29fa55ca",
+    "tests/observation-time-boundaries.test.cjs": "b4f158269aa66624533037b607aeaae8d379238a449d1fa639061e14a547dcb2",
+    "tests/observation-time.test.cjs": "de05d0d2a4c9cad6fcee5b45b7f78b0bfc5ffdf1fe0152010ead84806fd26a94",
+    "tests/tool-status-recovery.test.cjs": "04f545e6ad8954a39dfb29e8fac002c67b2ea38b8599754e6421ddb3347482c8"
+  },
+  "logSha256": {
+    "post-review-regression.log": "68b9680c07fa8d18d7519642fc8cad5d75d2600be5de20d574b800b015f55bcc",
+    "post-review-timeout-regression.log": "88cfdb7d687e34759928ea74c54f18439e762b06d1be56ef8ccb2b82158cd1ec",
+    "review-final-tests.log": "358f57c2ad4a4fd4907dc2be309c23bf375065ffc77a322f43af31bd9198de29",
+    "build.log": "9caf73c752914a4527ba90d071085dff5f0403cb6f7ce09296b65f3db0725c05",
+    "lf-identity-check.log": "ff9a22dd550ae00d4f54609122c577754a744c295758bffdb2bbe1fc4452ace1",
+    "input-measurement-final.log": "4b1c42f2e06a00a22cca5b3ead85e2d9f523bda93fcd259be77d426677450363"
+  },
+  "proposedNextBudget": {
+    "status": "proposed-not-approved-not-started",
+    "totalCalls": 80,
+    "totalTokens": 1600000,
+    "protocolCalls": 8,
+    "protocolTokens": 160000,
+    "businessCalls": 72,
+    "businessTokens": 1440000,
+    "businessPairs": 6,
+    "maxCallsPerBusinessBranch": 6,
+    "concurrency": 1,
+    "applicationRetries": 0,
+    "stopOnUnknownUsage": true,
+    "stopOnSupplierProtocolRejection": true
+  }
+}

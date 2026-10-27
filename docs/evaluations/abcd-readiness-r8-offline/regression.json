@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-26",
+  "mode": "offline-only",
+  "platform": "Windows",
+  "liveEvaluationCalls": 0,
+  "installedAppReplaced": false,
+  "baseCommit": "2a76025a278d1f8bbe70f48afe7601189fd9ac6e",
+  "expandedRun": {
+    "testFiles": 56,
+    "tests": 1037,
+    "passed": 1032,
+    "failed": 2,
+    "skipped": 3
+  },
+  "targetedRetest": {
+    "tests": 2,
+    "passed": 2,
+    "failed": 0,
+    "scope": "Both Windows path alias assertions, after preserving all identity checks and canonicalizing the directory comparison"
+  },
+  "resolvedUniqueCases": {
+    "passed": 1034,
+    "unresolvedFailures": 0,
+    "skipped": 3,
+    "method": "Expanded run plus two corrected-case retests; not a single all-green full run and not a sum of repeated tests"
+  },
+  "skips": [
+    "File symlink fixture needs Windows Developer Mode or SeCreateSymbolicLinkPrivilege: pinned config link",
+    "File symlink fixture needs Windows Developer Mode or SeCreateSymbolicLinkPrivilege: CLI health identity",
+    "XINGZHI_READINESS_BASELINE not set for frozen compact-v3 compatibility probe"
+  ],
+  "build": {
+    "passed": true,
+    "nativeHelpers": true,
+    "vite": true,
+    "warning": "Existing bundle exceeds 500 KB advisory; no release package built"
+  },
+  "privateLogSha256": {
+    "expanded": "0fa90f8152f467fdb6a7ba2fa4eb62adb2676c018ced96d30e8a9a723d26a477",
+    "pathRetest": "e7f625bd95afa889c34f1cfb47ab61f52398fb6a9ad008da1d214c5a8112123f",
+    "build": "e0b2113d7376ec52834ce7e5030623691429346d287ed9e0bb579dcd76a08c75",
+    "initial": "03eb89810af53f4d382c325d693581986c42939c1506e1e4eee0cba73146f463",
+    "baselineRecovery": "a29afc9580439eb0006e53fe2167e0d8e66de2b103a29abf7065de5f5e032ae8",
+    "baselinePath": "6062b63c7d34b08508dc90042d186a2a7fcebdb4882d3bb901972a392e0a974e"
+  },
+  "frozenR7Checks": {
+    "implementation-freeze.json": "d88dec60bfa5d467f370cfae067a7955c750df84b4454f58f145fe7103e8256a",
+    "evaluation-seal.json": "357a0d76e4556a0e50aff0680b9f3daa8fea7e8947adb543670a765d6272345e",
+    "ledger.json": "80c1b4c0a1ddf2a8de0f556a7f3c1602c18be6c52a6fa9647dda3cf90dcd5c08",
+    "result/report.json": "b438bd908d1e8a54fb753e1f74d343c6af498b0595060e5da129762609c3cb42"
+  }
+}

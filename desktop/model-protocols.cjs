@@ -128,27 +128,27 @@ function request(config, messages, json = true) {
   return {...options.extraBody,model:config.model,messages,stream:false,...(max ? {[options.tokenParameter]:max} : {}),...(useJSON ? {response_format:{type:'json_object'}} : {})};
 }
 
-const count = n => Number.isFinite(n) && n >= 0;
+const count = n => Number.isSafeInteger(n) && n >= 0;
 function usage(config, data) {
   let inputTokens, outputTokens, cachedInputTokens, cacheWriteTokens, cacheWrite1hTokens;
   const u = data.usage || {};
   if (config.type === 'ollama') { inputTokens = data.prompt_eval_count; outputTokens = data.eval_count; }
   else if (config.type === 'anthropic') {
-    cachedInputTokens = u.cache_read_input_tokens ?? 0; cacheWriteTokens = u.cache_creation_input_tokens ?? 0;
+    cachedInputTokens = u.cache_read_input_tokens === undefined ? 0 : u.cache_read_input_tokens; cacheWriteTokens = u.cache_creation_input_tokens === undefined ? 0 : u.cache_creation_input_tokens;
     cacheWrite1hTokens = u.cache_creation?.ephemeral_1h_input_tokens;
     inputTokens = count(u.input_tokens) && count(cachedInputTokens) && count(cacheWriteTokens) ? u.input_tokens + cachedInputTokens + cacheWriteTokens : undefined;
     outputTokens = u.output_tokens;
   } else if (config.type === 'gemini') {
     const g = data.usageMetadata || {};
     inputTokens = g.promptTokenCount; cachedInputTokens = g.cachedContentTokenCount;
-    outputTokens = count(g.candidatesTokenCount) && count(g.thoughtsTokenCount ?? 0) ? g.candidatesTokenCount + (g.thoughtsTokenCount ?? 0) : undefined;
+    const thoughts = g.thoughtsTokenCount === undefined ? 0 : g.thoughtsTokenCount;
+    outputTokens = count(g.candidatesTokenCount) && count(thoughts) ? g.candidatesTokenCount + thoughts : undefined;
   } else if (config.type === 'responses') {
     inputTokens = u.input_tokens; outputTokens = u.output_tokens; cachedInputTokens = u.input_tokens_details?.cached_tokens;
   } else {
-    inputTokens = u.prompt_tokens; outputTokens = u.completion_tokens; cachedInputTokens = u.prompt_tokens_details?.cached_tokens ?? u.prompt_cache_hit_tokens;
+    inputTokens = u.prompt_tokens; outputTokens = u.completion_tokens; cachedInputTokens = u.prompt_tokens_details?.cached_tokens === undefined ? u.prompt_cache_hit_tokens : u.prompt_tokens_details.cached_tokens;
   }
-  if (!count(inputTokens) || !count(outputTokens)) return null;
-  return {inputTokens,outputTokens,...(count(cachedInputTokens) ? {cachedInputTokens} : {}),...(count(cacheWriteTokens) ? {cacheWriteTokens} : {}),...(count(cacheWrite1hTokens) ? {cacheWrite1hTokens} : {})};
+  return require('./model-receipt.cjs').usage({inputTokens,outputTokens,...(cachedInputTokens !== undefined ? {cachedInputTokens} : {}),...(cacheWriteTokens !== undefined ? {cacheWriteTokens} : {}),...(cacheWrite1hTokens !== undefined ? {cacheWrite1hTokens} : {})});
 }
 
 function responseText(config, data) {

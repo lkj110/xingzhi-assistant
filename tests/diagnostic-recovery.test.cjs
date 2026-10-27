@@ -92,6 +92,33 @@ test('real Agent loop hands off missing evidence, executes an authorized query, 
  assert.equal(queries,1,JSON.stringify({planners,workers,status:f.job.status,error:f.job.lastError,steps:f.a.data.agentRuns[0]?.steps}));assert.equal(workers,2);assert.equal(f.task.evidenceRequest,undefined);assert.equal(f.task.status,'review');assert.equal(f.job.status,'review');
  assert.equal(f.a.data.artifacts.length,1);assert.equal(f.a.data.decisions.length,0);assert.ok(f.a.data.agentRuns[0].steps.some(s=>s.tool==='platform_query'));assert.match(outputs.primary(f.a,f.task).content,/系统A/);
 });
+test('actual file evidence handoff resumes through the Agent and strict independent verification',async t=>{
+ const f=fixture(t);f.task.steps.pop();f.task.generationMode='single';f.a.data.settings.evidenceGrounding=true;f.job.maxActions=12;
+ const folder=path.join(f.dir,'authorized-input');fs.mkdirSync(folder);fs.writeFileSync(path.join(folder,'current.txt'),'本次订单消费者为系统A。');
+ f.a.data.folders=[{id:'input',path:folder,name:'核验材料'}];f.job.folderIds=['input'];require('../desktop/access-policy-store.cjs').syncTrustedJob(f.a,f.job,{trusted:true,actor:'user_command',command:'fixture_folder'});
+ let planners=0,workers=0,verifiers=0;
+ f.a.chat=async(p,k,m,o)=>{
+  o.onUsage({inputTokens:10,outputTokens:5});
+  if(m[0].content.includes('动作格式')){
+   planners++;
+   if(planners===1)return {tool:'advance_task',args:{taskId:f.task.id}};
+   if(planners===2){assert.ok(f.task.evidenceRequest);return {tool:'read_file',args:{folderId:'input',name:'current.txt'}};}
+   if(planners===3){const source=f.a.data.sources.find(s=>s.content.includes('本次订单消费者'));assert.ok(source);return {tool:'plan_task',args:args(f,{sourceIds:[source.id],evidenceResolution:{basis:f.task.evidenceRequest.basis,sourceIds:[source.id],reason:'已读取授权目录中的当前原文'}})};}
+   return {tool:'advance_task',args:{taskId:f.task.id}};
+  }
+  if(o.role==='verify'){
+   const context=require('../desktop/model-input.cjs').materialize(JSON.parse(m[1].content));if(!context.artifacts)return {passed:true,summary:'事项已基于实际来源核实',gaps:[]};
+   verifiers++;const artifact=context.artifacts[0],source=f.a.data.sources.find(s=>s.content.includes('本次订单消费者'));
+   return require('./helpers/evidence-workflow.cjs').review(f.a,f.task,context,[{id:'c',artifactId:artifact.id,field:'content',text:artifact.content,kind:'fact',supported:true,citationIds:['e']}],[{id:'e',sourceId:source.id,quote:'本次订单消费者为系统A。'}]);
+  }
+  workers++;return workers===1?{kind:'needs_evidence',summary:'读取授权目录 current.txt 核实消费者',gaps:['消费者未核实']}:{kind:'artifact',title:'核实报告',content:'本次订单消费者为系统A。'};
+ };
+ await agent.run(f.a,f.job.id);
+ assert.equal(f.task.status,'review',JSON.stringify({error:f.task.lastError,job:f.job.lastError,steps:f.a.data.agentRuns[0]?.steps}));assert.equal(f.job.status,'review',JSON.stringify(f.a.data.agentRuns[0]));
+ assert.equal(workers,2);assert.equal(verifiers,1);assert.equal(f.task.evidenceRequest,undefined);assert.equal(f.task.verification.passed,true);assert.equal(f.a.data.decisions.length,0);assert.equal(f.a.data.agentActions.length,0);
+ assert.equal(f.a.data.agentRuns[0].steps.filter(s=>s.tool==='read_file').length,1);assert.equal(fs.readFileSync(path.join(folder,'current.txt'),'utf8'),'本次订单消费者为系统A。');
+});
+
 test('revoked or ambiguous artifacts cannot be selected through explicit IDs or legacy draft fallback',async t=>{
  const f=fixture(t),r=artifact(f,'main'),policies=require('../desktop/access-policy-store.cjs');
  f.job.outputFolder=path.join(f.dir,'output');fs.mkdirSync(f.job.outputFolder);f.job.fileMode='ask';policies.syncTrustedJob(f.a,f.job,{trusted:true,actor:'user_command',command:'fixture_output'});

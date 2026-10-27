@@ -11,7 +11,7 @@ function paragraphs(text) {
   return segments;
 }
 function finish(name, segments, format, warnings=[]) {
-  segments = segments.filter(s=>s.text.trim()).flatMap(s=>{if(s.text.length<=6000)return [s];const parts=[];for(let i=0;i<s.text.length;i+=6000)parts.push({...s,id:`${s.id}-${i/6000+1}`,label:`${s.label}（片段 ${i/6000+1}）`,text:s.text.slice(i,i+6000)});return parts;});
+  segments = segments.filter(s=>s.text.trim()).flatMap(s=>{const groupId=s.groupId||s.id;if(s.text.length<=6000)return [{...s,groupId,partOffset:0}];const parts=[];for(let i=0;i<s.text.length;i+=6000)parts.push({...s,groupId,partOffset:i,id:`${s.id}-${i/6000+1}`,label:`${s.label}（片段 ${i/6000+1}）`,text:s.text.slice(i,i+6000)});return parts;});
   const content = segments.map(s=>`[${s.label}]\n${s.text}`).join('\n\n');
   if (!content.trim()) throw new Error(format==='pdf'?'PDF 没有可读取或识别的文字，请检查原文件':'文档没有可读取文字');
   if (content.length > maxChars) throw new Error('文档文字超过 50 万字符，请拆分后导入');
@@ -50,9 +50,10 @@ async function parseInWorker(name, buffer) {
   }
   if(ext==='.docx') {
     await validateZip(buffer);
-    const result=await require('mammoth').extractRawText({buffer});
-    return finish(name,paragraphs(result.value),'docx',result.messages.length?['部分文档格式无法读取，请核对原文件']:[]);
+    const result=await require('./document-structure.cjs').docx(buffer);
+    return finish(name,result.segments,'docx',result.warnings);
   }
+  if(['.csv','.json'].includes(ext))return finish(name,[{id:'structured-raw',label:'结构化原文',text:buffer.toString('utf8'),structure:'raw-contiguous'}],ext.slice(1));
   return finish(name,paragraphs(buffer.toString('utf8')),ext.slice(1));
 }
 function parse(name, buffer, signal) {
@@ -73,7 +74,7 @@ function parse(name, buffer, signal) {
   return parseWorker(name,buffer,signal).then(async result=>{
     if(ext!=='.pdf')return result;
     signal?.throwIfAborted();
-    const pages=result.pdfPages,requested=pages.filter(page=>!page.text).map(page=>page.page),warnings=[];
+    const pages=result.pdfPages,requested=pages.filter(page=>!page.text).map(page=>page.page),warnings=['PDF 按原页提取文字，跨页表头、脚注与阅读顺序须核对原页，未推断丢失结构。'];
     for(const page of result.imageWithTextPages||[])warnings.push(`第 ${page} 页已读取原有文本；同页图像中的文字未另行识别，请核对原页`);
     if(!requested.length)return finish(name,pages,'pdf',warnings);
     const pdfOCR=require('./pdf-ocr.cjs');

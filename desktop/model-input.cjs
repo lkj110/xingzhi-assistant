@@ -5,8 +5,8 @@ const DEFAULT_MAX=480000;
 const POLICY_VERSION='bounded-input-1';
 const encodedSize=value=>JSON.stringify(JSON.stringify(value)).length;
 function materialize(context){
- const result=structuredClone(context);
- const at=path=>path.replace(/\[(\d+)\]/g,'.$1').split('.').reduce((v,k)=>v?.[k],context);
+ const expanded=require('./receipt-input.cjs').expand(context),result=structuredClone(expanded);
+ const at=path=>path.replace(/\[(\d+)\]/g,'.$1').split('.').reduce((v,k)=>v?.[k],expanded);
  const visit=value=>{
   if(!value||typeof value!=='object')return;
   for(const key of ['content','text','originalContent'])if(value[key+'Ref']){
@@ -84,4 +84,4 @@ function prepare(context,{stage='task_work',maxChars=DEFAULT_MAX}={}){
  const error=require('./model-errors.cjs').contextError('CONTEXT_INVALID_REQUEST',{message:'当前必需的要求或不可分页信息超过单轮输入预算，已保留原稿；需要拆分核验要求，不能重试同一超限请求。'});
  error.diagnostic={kind:'input_budget_exceeded',maxChars};throw error;
 }
-module.exports={prepare,encodedSize,navigation,relation,DEFAULT_MAX,POLICY_VERSION};
+module.exports={prepare,encodedSize,navigation,materialize,relation,DEFAULT_MAX,POLICY_VERSION};

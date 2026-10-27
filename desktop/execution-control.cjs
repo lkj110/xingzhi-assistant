@@ -23,7 +23,7 @@ function peek(a,job,{taskId,automatic=a.automaticExecution!==false}={}) {
   if(['work','repair'].includes(phase))return {tool:'planner',args:{taskId:task.id},reason:'选择当前文本步骤所需的动作与参数'};
   if(phase==='verify')return {tool:'advance_task',args:{taskId:task.id},reason:'直接完成当前版本的步骤或结果检查',controlled:true};
   if(phase==='deliver'&&primary){
-   if(task.contentVerification?.basis!==contentBasis(a,job,task))return {tool:'verify_content',args:{taskId:task.id},reason:'交付前核对当前主稿',controlled:true};
+   if(task.contentVerification?.basis!==contentBasis(a,job,task)||require('./grounding.cjs').enabled(a)&&!require('./grounding.cjs').reusable(a,task)&&task.contentVerification?.passed!==false)return {tool:'verify_content',args:{taskId:task.id},reason:'交付前核对当前主稿',controlled:true};
    if(task.contentVerification.passed===false){const target=require('./revision-protocol.cjs').target(a,task,task.contentVerification);if(target&&!job.executionState?.recoveries?.['content:'+task.contentVerification.basis])return {tool:'revise_task',args:{taskId:task.id,artifactId:target.id,note:'按当前内容检查缺口修订，保持用户范围：\n'+task.contentVerification.gaps.join('\n')},recoveryBasis:task.contentVerification.basis,controlled:true};return {tool:'planner',args:{taskId:task.id},reason:'核对当前明确内容缺口'};}
    return {tool:'planner',args:{taskId:task.id},reason:'为当前已核验交付补齐工具参数，沿用原目标'};
   }
@@ -47,11 +47,11 @@ function next(a,job,options={}) {
  if(decision.action?.tool==='planner'){const task=tasks(a,job).find(t=>t.id===decision.taskIds[0]);if(task&&!task.needsReplan&&!require('./recovery-diagnostics.cjs').planning(a,job,task)&&stage(a,task)==='work')return {tool:'advance_task',args:{taskId:task.id},controlled:true};}
  return p.claim(a,job,options);
 }
-function contentBasis(a,job,task){return evidence.hash({intent:evidence.intent(job,task),criteria:task.criteria,sources:evidence.taskSources(a,task),...(task.primaryArtifactId?{primaryArtifactId:task.primaryArtifactId}:{}),artifacts:require('./deliverables.cjs').current(a,task).map(r=>({stepId:r.stepId,hash:evidence.hash(r.content)}))});}
+function contentBasis(a,job,task){return evidence.hash({titles:require('./verification-titles.cjs').identity(a,task),intent:evidence.intent(job,task),criteria:task.criteria,sources:evidence.taskSources(a,task),...(task.primaryArtifactId?{primaryArtifactId:task.primaryArtifactId}:{}),artifacts:require('./deliverables.cjs').current(a,task).map(r=>({stepId:r.stepId,hash:evidence.hash(r.content)}))});}
 function contentRequest(a,job,task,{prefetch=false}={}){
  // Claim selection happens inside generation.call. Defer eager numbered-section
  // reads until that selection proves this is an ordinary, rather than forced, check.
- return {context:{...a.context(task,{verification:true,prefetch}),requirements:obligations.requirements(a,job),verificationSnapshot:require('./revision-protocol.cjs').snapshot(a,task),verificationPhase:'content',businessObligations:require('./relation-obligations.cjs').context(a,job,task),pendingDelivery:task.steps.filter(s=>s.kind==='external'&&!s.done).map(s=>s.title)},system:require('./relation-obligations.cjs').instruction+'\n'+require('./revision-protocol.cjs').verificationInstruction+'独立检查当前文稿内容是否满足已确认的用户范围。返回 {"passed":true或false,"summary":"结论","gaps":["具体未满足要求"],"gapDetails":[{"requirementId":"对应要求 ID","text":"与 gaps 一致","sourceIds":["实际使用的来源 ID"]}]}。只能依据给定 requirements 指出缺口，不添加用户没有要求的范围。当前只做内容检查：pendingDelivery 是随后由 App 执行的交付，不因尚未写入、创建或回读而判内容失败。缺失事实如已按用户决定保留边界，核对说明即可。需要原文时使用 read_context。'};
+ return {context:{...a.context(task,{verification:true,prefetch}),requirements:obligations.requirements(a,job),verificationSnapshot:require('./revision-protocol.cjs').snapshot(a,task),verificationPhase:'content',businessObligations:require('./relation-obligations.cjs').context(a,job,task),pendingDelivery:task.steps.filter(s=>s.kind==='external'&&!s.done).map(s=>s.title)},system:require('./verification-instruction.cjs').content()};
 }
 async function verifyContent(a,job,task){
  require('./agent-plan.cjs').assertReady(a,task);
@@ -60,13 +60,14 @@ async function verifyContent(a,job,task){
  const before=contentBasis(a,job,task),prior=a.activeSpendTask;a.activeSpendTask=task;
  try{
   const {context,system}=contentRequest(a,job,task);
-  let result=await require('./generation-context.cjs').call(a,task,system,context,'verify');
+  let result=await require('./generation-context.cjs').call(a,task,system,context,'verify',{systemFor:require('./verification-instruction.cjs').content});
   if(typeof result.passed!=='boolean'||!result.summary?.trim()||!Array.isArray(result.gaps)||result.gaps.some(g=>typeof g!=='string')||result.passed&&result.gaps.some(g=>g.trim()))throw require('./model-errors.cjs').modelError('MODEL_INVALID_RESPONSE','内容检查结果无效，将保留文稿后恢复检查',true);
   if(contentBasis(a,job,task)!==before)throw Object.assign(Error('内容检查期间依据变化，需要重新核对'),{code:'PLAN_RECONCILE_REQUIRED',taskId:task.id});
   const coverage=require('./relation-obligations.cjs').validateCoverage(a,job,task,result,before);result=coverage.result;
   require('./state-transitions.cjs').commit(a,()=>{
    if(contentBasis(a,job,task)!==before)throw Object.assign(Error('提交内容检查前依据变化，需要重新核对'),{code:'PLAN_RECONCILE_REQUIRED',taskId:task.id});
    if(consumption.draftOnly(a,task)&&(!consumption.coverage(a,job,task)||consumption.view(a,job,task)?.remaining>0))throw Object.assign(Error('检查期间证据覆盖或事实纳入已变化，增量草稿保持待补证'),{code:'EVIDENCE_REQUIRED',taskId:task.id});
+   if(result.grounding)task.grounding=result.grounding;
    task.contentVerification={...result,basis:before,snapshot:context.verificationSnapshot,at:now()};require('./continuation-control.cjs').noteCheck(a,job,task,task.contentVerification,{phase:'content'});require('./relation-obligations.cjs').record(job,coverage.receipts);
    if(result.passed&&consumption.draftOnly(a,task)){
     const artifact=require('./deliverables.cjs').primary(a,task);artifact.draftOnly=false;
@@ -106,6 +107,11 @@ function error(error,taskId){
 }
 function recover(a,job,step,err){
  error(err,step.args?.taskId);
+ if(err.code==='GROUNDING_REQUIRED'){
+  const task=tasks(a,job).find(t=>t.id===(err.taskId||step.args?.taskId)),related=require('./projects.cjs').relatedActions(a,job);
+  if(!task||related.some(r=>['running','uncertain'].includes(r.status))||!related.some(r=>r.jobId===job.id&&r.taskId===task.id&&r.status==='pending'&&r.effectStatus!=='applied'&&require('./verification-titles.cjs').actionReview(a,task,r)==='required'))return false;
+  ledger.state(job).recovery={code:err.code,taskId:task.id,message:err.message,at:now(),allowedTools:['verify_content']};return true;
+ }
  if(!['PLAN_RECONCILE_REQUIRED','PLAN_ALREADY_RECONCILED','VERIFICATION_REQUIRED','CONTENT_REPAIR_REQUIRED','REVISION_TARGET_REQUIRED','EVIDENCE_REQUIRED','EXTERNAL_TOOL_REQUIRED'].includes(err.code))return false;
  if(step.tool==='complete'&&err.code==='VERIFICATION_REQUIRED')ledger.state(job).completionRequested={workRevision:job.workRevision??1,tasks:evidence.hash(tasks(a,job).map(t=>[t.id,t.workRevision??1]).sort())};
  ledger.state(job).recovery={code:err.code,taskId:err.taskId||step.args?.taskId,message:err.message,at:now(),allowedTools:err.code==='PLAN_ALREADY_RECONCILED'?['advance_task']:err.code==='EXTERNAL_TOOL_REQUIRED'?[a.task(err.taskId||step.args.taskId).steps.find(s=>!s.done)?.tool].filter(Boolean):['PLAN_RECONCILE_REQUIRED','EVIDENCE_REQUIRED'].includes(err.code)?['plan_task','platform_query','capability_call','read_source','search_source','read_output_state']:['CONTENT_REPAIR_REQUIRED','REVISION_TARGET_REQUIRED','EVIDENCE_REQUIRED','EXTERNAL_TOOL_REQUIRED'].includes(err.code)?['revise_task']:err.code==='EXTERNAL_TOOL_REQUIRED'?[a.task(err.taskId).steps.find(s=>!s.done)?.tool].filter(Boolean):['advance_task']};

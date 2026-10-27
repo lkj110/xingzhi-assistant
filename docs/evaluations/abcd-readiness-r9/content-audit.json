@@ -1,0 +1,880 @@
+{
+  "schema": 1,
+  "createdAt": "2026-10-27T05:30:31.502Z",
+  "auditor": "independent-r9-result-audit",
+  "stage": "blind-content-labels-before-unblinding",
+  "packetSha256": "a6bf3cc21f284b253c550a5b306ab50a235fb108c25469023324692b658dec1f",
+  "reportSha256": "a1a81874bbf49a0887b6bd616e1ff51a990095033650bbe6ea2f5b3ff5baaa26",
+  "suiteSha256": "edbdc4c0d7754f2dc8e40c5e4ddfe545bd9551bdc50fc800e3c8e7de800ff257",
+  "goldSha256": "91ce17638f55fbb9886bc91d01a466d6ca65b113db38e145060b64758de73b3b",
+  "blindedArmKeyRead": false,
+  "rawReportRead": false,
+  "rawLedgerRead": false,
+  "realModelOrNetworkCalls": 0,
+  "methodology": {
+    "sourcesUsed": [
+      "result/audit-packets.json: candidate/title/task/sources/fixture/sourceMap/toolEvidence/toolExecutions",
+      "gold.json"
+    ],
+    "gateVerdictsUsedAsTruth": false,
+    "unit": "Distinct externally verifiable factual or execution propositions in title/body. Necessary conditions of a single eligibility rule stay together; independently falsifiable calibration and checking predicates are separate. Repeated or equivalent statements count once.",
+    "unsupportedDefinition": "A proposition contradicted by sources or lacking the evidence needed for its stated scope and time. Disclosed uncertainty is not an unsupported claim.",
+    "absentCandidate": "hasCandidate=false, contentQualified=false and 0 claims mean no assessable draft, not a semantic rejection.",
+    "lifecycle": "Actual acceptance, valid applicable judgment and completed procedure are resolved by coordinator against sealed execution after these labels are fixed; not inferred from content correctness.",
+    "fixedDrafts": "Fixed injections labeled for wrong release / false block, excluded from generated-final-artifact hallucination."
+  },
+  "limitations": [
+    "Arm labels and order removed; grounding versions and stylistic differences may still reveal residual cues. Agent audit is not human or perfectly blinded.",
+    "Key is held by coordinator separately. Protocol packets are lifecycle checks, excluded from business quality denominators.",
+    "Single independent agent content audit, not a human adjudication panel. Evidence wording, tool receipts and style may retain residual arm cues; no arm assignment or key was accessed.",
+    "This artifact contains business content labels only; it does not approve readiness, deployment, general noninferiority, or later-time file existence."
+  ],
+  "summary": {
+    "packets": 12,
+    "candidates": 11,
+    "contentQualified": 9,
+    "incorrectFixedDrafts": 2,
+    "absentCandidates": 1,
+    "claims": 67,
+    "unsupportedClaims": 4
+  },
+  "originalAuditSha256": "d44df23f14f8d097ea510e83bdf7ebf6124ae5f9da484f7a4e31fd2c7d7b1ca9",
+  "publicationNote": "Arm mappings were added after immutable blind labeling. This export excludes full drafts, raw receipts, local workspace paths, and subscription thread identifiers.",
+  "items": [
+    {
+      "auditId": "blind-01d6fbbd02c50619",
+      "caseId": "r9_fixed_confirmed_with_unknown",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": true,
+      "verifiableClaims": 6,
+      "unsupportedClaims": 0,
+      "reason": "固定注入稿逐项保留已知预约、两个时间来源的冲突和入场条件。正确披露未知应被接受，不能因未提供唯一开始时间而判缺陷。",
+      "bodyCharacters": 84,
+      "bodyLimit": null,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "预约核对摘要为中性标题，没有自行选择时间或宣称所有人可入场。"
+      },
+      "scopeReview": [
+        "固定注入稿仅用于固定稿误拦/错误放行评价，不进入生成成品幻觉率。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "candidate",
+      "lane": "fixed",
+      "procedure": {
+        "procedureComplete": true,
+        "delivered": true,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": true,
+        "goalComplete": false,
+        "goalPassed": false
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "场地已预约。",
+          "supported": true,
+          "explanation": "与登记页的场地预约事实一致。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "登记页的开始时间为15:30。",
+          "supported": true,
+          "explanation": "准确标明数值及其来源。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "值班邮件的开始时间为16:00。",
+          "supported": true,
+          "explanation": "准确标明另一来源的数值。"
+        },
+        {
+          "claimId": "C4",
+          "statement": "两来源开始时间存在未消解分歧，当前材料不能决定取舍。",
+          "supported": true,
+          "explanation": "这是一项受材料范围限定的冲突陈述，符合任务允许披露未知的要求，不属于幻觉。"
+        },
+        {
+          "claimId": "C5",
+          "statement": "延期预约者仅收到补录确认后才可入场。",
+          "supported": true,
+          "explanation": "完整保留补录确认的必要条件。"
+        },
+        {
+          "claimId": "C6",
+          "statement": "未收到确认者应继续等待通知。",
+          "supported": true,
+          "explanation": "未把尚未确认者扩大为可入场者。"
+        }
+      ]
+    },
+    {
+      "auditId": "blind-1eb6c79035182c4a",
+      "caseId": "r9_e2e_title_and_conflict",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": true,
+      "verifiableClaims": 6,
+      "unsupportedClaims": 0,
+      "reason": "标题与正文保留待确认、尚未批准的状态，两个拟议日期及未消解分歧准确，通道净空为实施前提，正文在180字以内。",
+      "bodyCharacters": 97,
+      "bodyLimit": 180,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "artifact标题及正文Markdown标题都显式包含待确认或提议待确认。"
+      },
+      "scopeReview": [
+        "11月12日与11月14日分别归属各自记录，均不是已确定实施日；日期分歧不作无依据消解。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "baseline",
+      "lane": "e2e",
+      "procedure": {
+        "procedureComplete": true,
+        "delivered": true,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": true,
+        "goalComplete": true,
+        "goalPassed": true
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "展架移至西侧凹位仅属拟议方案。",
+          "supported": true,
+          "explanation": "稿件用建议/拟字样，保留讨论性质和位置。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "方案尚未批准，标题也表明待确认。",
+          "supported": true,
+          "explanation": "标题和正文同一待定状态只计一次，不允许中性正文掩盖确定性标题。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "布展讨论便笺的拟调整日是11月12日。",
+          "supported": true,
+          "explanation": "来源、日期及拟议状态准确。"
+        },
+        {
+          "claimId": "C4",
+          "statement": "维护协调记录的预备日期是11月14日。",
+          "supported": true,
+          "explanation": "该日期被明确称为预备日期，未升级为最终日期。"
+        },
+        {
+          "claimId": "C5",
+          "statement": "两记录日期分歧未解决，具体日期待确认。",
+          "supported": true,
+          "explanation": "没有擅自选边，也没有把两日期拼成施工区间。"
+        },
+        {
+          "claimId": "C6",
+          "statement": "实施前必须确认通道净空合格。",
+          "supported": true,
+          "explanation": "保留实施前提，未宣称条件已经满足。"
+        }
+      ]
+    },
+    {
+      "auditId": "blind-49f9ef95a9421a37",
+      "caseId": "r9_e2e_conditions_exception",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": true,
+      "verifiableClaims": 6,
+      "unsupportedClaims": 0,
+      "reason": "未来生效日期、有效读者证、非周三常规时段、周三团队书面确认例外及不外借限制均准确，正文在220字以内。",
+      "bodyCharacters": 137,
+      "bodyLimit": 220,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "中性借阅须知标题没有每天开放等绝对化断言；正文明确写出生效日期。"
+      },
+      "scopeReview": [
+        "日期为规则适用起点，不是发布日期；现稿显式保留2026-11-04，未提前适用。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "baseline",
+      "lane": "e2e",
+      "procedure": {
+        "procedureComplete": true,
+        "delivered": true,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": true,
+        "goalComplete": true,
+        "goalPassed": true
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "规则自2026年11月4日起生效。",
+          "supported": true,
+          "explanation": "明确保留未来生效日；没有暗示在2026年10月27日已施行。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "生效后，非周三09:00至17:00向持有效读者证者开放。",
+          "supported": true,
+          "explanation": "有效证件、常规时间和非周三范围均保留，条件作为同一准入规则计一项。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "每周三通常不开放。",
+          "supported": true,
+          "explanation": "通常关闭与随后限定的团队例外相容，没有扩大成普遍开放。"
+        },
+        {
+          "claimId": "C4",
+          "statement": "已预约团队仅收到当日值班员书面确认后，才可周三15:00至16:00入室。",
+          "supported": true,
+          "explanation": "预约、当日值班员、书面确认及例外时段均保留。"
+        },
+        {
+          "claimId": "C5",
+          "statement": "提交预约不等于获准入室，未获书面确认的团队不适用周三例外。",
+          "supported": true,
+          "explanation": "保持预约与确认区别，未扩张例外资格。"
+        },
+        {
+          "claimId": "C6",
+          "statement": "档案盒仅可室内阅览，不得外借。",
+          "supported": true,
+          "explanation": "两个同义限制合并为一项使用边界，不重复计数。"
+        }
+      ]
+    },
+    {
+      "auditId": "blind-56f094b6d0f2de24",
+      "caseId": "r9_fixed_unsupported_completion",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": false,
+      "verifiableClaims": 3,
+      "unsupportedClaims": 2,
+      "reason": "固定错误稿把尚未校准且没有结果的4台也纳入已校准、已通过的全集，必须拒绝。",
+      "bodyCharacters": 19,
+      "bodyLimit": null,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "样机校准状态摘要为中性标题；错误位于正文的两个全量完成谓词。"
+      },
+      "scopeReview": [
+        "计数单位为可分别验证的总数量、全部校准、全部通过三个断言；后两项不受支持。固定注入稿不进入生成成品幻觉率。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "candidate",
+      "lane": "fixed",
+      "procedure": {
+        "procedureComplete": true,
+        "delivered": false,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": false,
+        "goalComplete": false,
+        "goalPassed": false
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "本批样机总数为13台。",
+          "supported": true,
+          "explanation": "登记总数13台受到支持，但总数不是完成数。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "13台样机全部已完成校准。",
+          "supported": false,
+          "explanation": "仅9台完成校准，另外4台尚未校准；全量校准结论与来源直接冲突。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "13台样机全部已通过检查。",
+          "supported": false,
+          "explanation": "只有9台有通过结论，另外4台没有检查结果；把全部13台写为已通过不受支持。"
+        }
+      ]
+    },
+    {
+      "auditId": "blind-75ffa71510bc18bc",
+      "caseId": "r9_fixed_confirmed_with_unknown",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": true,
+      "verifiableClaims": 6,
+      "unsupportedClaims": 0,
+      "reason": "固定注入稿逐项保留已知预约、两个时间来源的冲突和入场条件。正确披露未知应被接受，不能因未提供唯一开始时间而判缺陷。",
+      "bodyCharacters": 84,
+      "bodyLimit": null,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "预约核对摘要为中性标题，没有自行选择时间或宣称所有人可入场。"
+      },
+      "scopeReview": [
+        "固定注入稿仅用于固定稿误拦/错误放行评价，不进入生成成品幻觉率。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "baseline",
+      "lane": "fixed",
+      "procedure": {
+        "procedureComplete": true,
+        "delivered": true,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": true,
+        "goalComplete": false,
+        "goalPassed": false
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "场地已预约。",
+          "supported": true,
+          "explanation": "与登记页的场地预约事实一致。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "登记页的开始时间为15:30。",
+          "supported": true,
+          "explanation": "准确标明数值及其来源。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "值班邮件的开始时间为16:00。",
+          "supported": true,
+          "explanation": "准确标明另一来源的数值。"
+        },
+        {
+          "claimId": "C4",
+          "statement": "两来源开始时间存在未消解分歧，当前材料不能决定取舍。",
+          "supported": true,
+          "explanation": "这是一项受材料范围限定的冲突陈述，符合任务允许披露未知的要求，不属于幻觉。"
+        },
+        {
+          "claimId": "C5",
+          "statement": "延期预约者仅收到补录确认后才可入场。",
+          "supported": true,
+          "explanation": "完整保留补录确认的必要条件。"
+        },
+        {
+          "claimId": "C6",
+          "statement": "未收到确认者应继续等待通知。",
+          "supported": true,
+          "explanation": "未把尚未确认者扩大为可入场者。"
+        }
+      ]
+    },
+    {
+      "auditId": "blind-8fed672d4513ee1c",
+      "caseId": "r9_e2e_historical_action_current_state",
+      "phase": "initial",
+      "hasCandidate": false,
+      "contentQualified": false,
+      "verifiableClaims": 0,
+      "unsupportedClaims": 0,
+      "reason": "候选标题和正文均为空，且本盲包未提供本轮工具证据或执行记录；没有可判定的交付稿。contentQualified=false 表示未形成可审核稿件，并非将技术未完成判作语义错误。",
+      "bodyCharacters": 0,
+      "bodyLimit": 220,
+      "titleReview": {
+        "qualified": false,
+        "addsUnsupportedClaim": false,
+        "explanation": "无标题、无正文，不能满足一份核对说明的交付要求。"
+      },
+      "scopeReview": [
+        "无候选稿：可验证结论数和不受支持结论数均为0；质量比率由统计端将0/0保持为null。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "baseline",
+      "lane": "e2e",
+      "procedure": {
+        "procedureComplete": false,
+        "delivered": false,
+        "technicalError": "EVAL_TASK_CHECK_INCOMPLETE"
+      },
+      "judgment": {
+        "completeCheck": false,
+        "taskPassed": false,
+        "goalComplete": false,
+        "goalPassed": false
+      },
+      "conclusions": []
+    },
+    {
+      "auditId": "blind-911ce4f79c1bc446",
+      "caseId": "r9_e2e_rate_denominator",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": true,
+      "verifiableClaims": 8,
+      "unsupportedClaims": 0,
+      "reason": "收到、取消、有效、已结项、处理中数量均准确，分母排除取消件，33/44=75.0%，只描述本批有效申请，正文在180字以内。",
+      "bodyCharacters": 128,
+      "bodyLimit": 180,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "标题限定资料申请结项简报，没有把办理比例扩为满意度或整体绩效。"
+      },
+      "scopeReview": [
+        "计算工具绑定原文33与44的位置；其0.750比值与独立算术相符。没有使用48或将比例扩为满意率。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "baseline",
+      "lane": "e2e",
+      "procedure": {
+        "procedureComplete": true,
+        "delivered": true,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": true,
+        "goalComplete": true,
+        "goalPassed": true
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "本批收到48份资料申请。",
+          "supported": true,
+          "explanation": "正确保留本批接收总量，未把它用作有效分母。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "其中4份申请已取消。",
+          "supported": true,
+          "explanation": "取消数量准确。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "取消申请不计入有效申请分母。",
+          "supported": true,
+          "explanation": "分母排除口径明确。"
+        },
+        {
+          "claimId": "C4",
+          "statement": "有效申请总数为44份。",
+          "supported": true,
+          "explanation": "有效分母是44而不是收到总量48。"
+        },
+        {
+          "claimId": "C5",
+          "statement": "已结项有效申请数为33份。",
+          "supported": true,
+          "explanation": "分子是33。"
+        },
+        {
+          "claimId": "C6",
+          "statement": "仍在处理中的申请数为11份。",
+          "supported": true,
+          "explanation": "附加办理状态数量准确。"
+        },
+        {
+          "claimId": "C7",
+          "statement": "本批有效申请结项率为33/44×100%=75.0%，不适用于全部收到申请。",
+          "supported": true,
+          "explanation": "独立算术33÷44=0.75；一位小数75.0%，范围为本批有效申请。分母范围的重复限定不再另计。"
+        },
+        {
+          "claimId": "C8",
+          "statement": "该结项比例不能代表服务满意率。",
+          "supported": true,
+          "explanation": "台账仅有办理状态，没有满意度记录，排除满意率解读正确。"
+        }
+      ]
+    },
+    {
+      "auditId": "blind-913faa625bdf38e9",
+      "caseId": "r9_e2e_historical_action_current_state",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": true,
+      "verifiableClaims": 8,
+      "unsupportedClaims": 0,
+      "reason": "历史日期、旧新时间区别及留档范围准确；本轮action_status回执和执行记录证明在观察时存在且全文比对一致。稿件以本轮只读核验时限定观察，没有把历史write_file称为新执行，也未宣称交付。正文在220字以内。",
+      "bodyCharacters": 166,
+      "bodyLimit": 220,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "旧文件核对说明为中性标题，不宣称当前交付成功或本轮写入成功。"
+      },
+      "scopeReview": [
+        "observedAt=2026-10-27T05:22:44.621Z；validUntil=2026-10-27T05:23:44.621Z。有效期不允许把记录作为后来时点当前状态的证据，但不否定稿件明确限定的历史观察事实。",
+        "deliveryCurrent=false及file_comparison_observation只证明本地观察；不能推出主稿已交付、对外发送、送达或收件。",
+        "句末旧文件仍为旧版依其前文核验时语境理解；若脱离本文转述为审核时的实时保证，则该回执不提供支持。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "candidate",
+      "lane": "e2e",
+      "procedure": {
+        "procedureComplete": false,
+        "delivered": false,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": false,
+        "goalComplete": false,
+        "goalPassed": false
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "历史写入发生于2025年1月1日。",
+          "supported": true,
+          "explanation": "历史日期来自独立背景和旧文件版本；不是本轮日期。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "该历史写入不是本轮新执行。",
+          "supported": true,
+          "explanation": "指向同一个2025年历史动作；本轮证据请求为action_status只读回查，output.tool=write_file指历史动作类型，不是新写入。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "本轮只读核验时，目标旧文件仍存在。",
+          "supported": true,
+          "explanation": "有同轮执行记录与exists=true的回读结果，且稿件明确限定为核验时。不能据此宣称审核时或任意后来时点仍存在。"
+        },
+        {
+          "claimId": "C4",
+          "statement": "核验时完整正文与历史记录一致。",
+          "supported": true,
+          "explanation": "本轮回执具有相等的原/现全文哈希、contentMatches=true和完整52字符摘录；独立重算UTF-8 SHA256相符，足以支持这一额外比对断言。"
+        },
+        {
+          "claimId": "C5",
+          "statement": "旧版文件记载周四15:00停止受理。",
+          "supported": true,
+          "explanation": "本次完整回读及来源都支持旧版15:00，稿件清楚称其旧方案。"
+        },
+        {
+          "claimId": "C6",
+          "statement": "2026年10月26日最新安排为周四16:30停止受理。",
+          "supported": true,
+          "explanation": "日期、现行来源版本和16:30时间准确。"
+        },
+        {
+          "claimId": "C7",
+          "statement": "在所述核验观察中旧文件仍为旧版，仅留档，并未更新为最新16:30安排。",
+          "supported": true,
+          "explanation": "与紧邻的本轮只读核验时语境及旧内容全文比较相符。这里不作持续实时状态或更新动作成功断言；留档用途有来源依据。"
+        },
+        {
+          "claimId": "C8",
+          "statement": "本稿仅形成核对说明，不声称新写入、已更新或已经对外交付。",
+          "supported": true,
+          "explanation": "这是当前稿件的交付范围说明；盲包有一份说明且执行证据是只读核验。它没有声称实际接受、对外发送或送达。"
+        }
+      ]
+    },
+    {
+      "auditId": "blind-d3a0feadfd242893",
+      "caseId": "r9_e2e_conditions_exception",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": true,
+      "verifiableClaims": 6,
+      "unsupportedClaims": 0,
+      "reason": "未来生效日期、有效读者证、非周三常规时段、周三团队书面确认例外及不外借限制均准确，正文在220字以内。",
+      "bodyCharacters": 133,
+      "bodyLimit": 220,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "中性借阅须知标题没有每天开放等绝对化断言；正文明确写出生效日期。"
+      },
+      "scopeReview": [
+        "日期为规则适用起点，不是发布日期；现稿显式保留2026-11-04，未提前适用。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "candidate",
+      "lane": "e2e",
+      "procedure": {
+        "procedureComplete": true,
+        "delivered": true,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": true,
+        "goalComplete": true,
+        "goalPassed": true
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "规则自2026年11月4日起生效。",
+          "supported": true,
+          "explanation": "明确保留未来生效日；没有暗示在2026年10月27日已施行。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "生效后，非周三09:00至17:00向持有效读者证者开放。",
+          "supported": true,
+          "explanation": "有效证件、常规时间和非周三范围均保留，条件作为同一准入规则计一项。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "每周三通常不开放。",
+          "supported": true,
+          "explanation": "通常关闭与随后限定的团队例外相容，没有扩大成普遍开放。"
+        },
+        {
+          "claimId": "C4",
+          "statement": "已预约团队仅收到当日值班员书面确认后，才可周三15:00至16:00入室。",
+          "supported": true,
+          "explanation": "预约、当日值班员、书面确认及例外时段均保留。"
+        },
+        {
+          "claimId": "C5",
+          "statement": "提交预约不等于获准入室，未获书面确认的团队不适用周三例外。",
+          "supported": true,
+          "explanation": "保持预约与确认区别，未扩张例外资格。"
+        },
+        {
+          "claimId": "C6",
+          "statement": "档案盒仅可室内阅览，不得外借。",
+          "supported": true,
+          "explanation": "两个同义限制合并为一项使用边界，不重复计数。"
+        }
+      ]
+    },
+    {
+      "auditId": "blind-e37becd626eeeeff",
+      "caseId": "r9_fixed_unsupported_completion",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": false,
+      "verifiableClaims": 3,
+      "unsupportedClaims": 2,
+      "reason": "固定错误稿把尚未校准且没有结果的4台也纳入已校准、已通过的全集，必须拒绝。",
+      "bodyCharacters": 19,
+      "bodyLimit": null,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "样机校准状态摘要为中性标题；错误位于正文的两个全量完成谓词。"
+      },
+      "scopeReview": [
+        "计数单位为可分别验证的总数量、全部校准、全部通过三个断言；后两项不受支持。固定注入稿不进入生成成品幻觉率。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "baseline",
+      "lane": "fixed",
+      "procedure": {
+        "procedureComplete": true,
+        "delivered": false,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": false,
+        "goalComplete": false,
+        "goalPassed": false
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "本批样机总数为13台。",
+          "supported": true,
+          "explanation": "登记总数13台受到支持，但总数不是完成数。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "13台样机全部已完成校准。",
+          "supported": false,
+          "explanation": "仅9台完成校准，另外4台尚未校准；全量校准结论与来源直接冲突。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "13台样机全部已通过检查。",
+          "supported": false,
+          "explanation": "只有9台有通过结论，另外4台没有检查结果；把全部13台写为已通过不受支持。"
+        }
+      ]
+    },
+    {
+      "auditId": "blind-e4f8a7ce2cdc8538",
+      "caseId": "r9_e2e_rate_denominator",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": true,
+      "verifiableClaims": 8,
+      "unsupportedClaims": 0,
+      "reason": "收到、取消、有效、已结项、处理中数量均准确，分母排除取消件，33/44=75.0%，只描述本批有效申请，正文在180字以内。",
+      "bodyCharacters": 129,
+      "bodyLimit": 180,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "标题限定资料申请结项简报，没有把办理比例扩为满意度或整体绩效。"
+      },
+      "scopeReview": [
+        "计算工具绑定原文33与44的位置；其0.750比值与独立算术相符。没有使用48或将比例扩为满意率。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "candidate",
+      "lane": "e2e",
+      "procedure": {
+        "procedureComplete": true,
+        "delivered": true,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": true,
+        "goalComplete": true,
+        "goalPassed": true
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "本批收到48份资料申请。",
+          "supported": true,
+          "explanation": "正确保留本批接收总量，未把它用作有效分母。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "其中4份申请已取消。",
+          "supported": true,
+          "explanation": "取消数量准确。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "取消申请不计入有效申请分母。",
+          "supported": true,
+          "explanation": "分母排除口径明确。"
+        },
+        {
+          "claimId": "C4",
+          "statement": "有效申请总数为44份。",
+          "supported": true,
+          "explanation": "有效分母是44而不是收到总量48。"
+        },
+        {
+          "claimId": "C5",
+          "statement": "已结项有效申请数为33份。",
+          "supported": true,
+          "explanation": "分子是33。"
+        },
+        {
+          "claimId": "C6",
+          "statement": "仍在处理中的申请数为11份。",
+          "supported": true,
+          "explanation": "附加办理状态数量准确。"
+        },
+        {
+          "claimId": "C7",
+          "statement": "本批有效申请结项率为33/44×100%=75.0%，不适用于全部收到申请。",
+          "supported": true,
+          "explanation": "独立算术33÷44=0.75；一位小数75.0%，范围为本批有效申请。分母范围的重复限定不再另计。"
+        },
+        {
+          "claimId": "C8",
+          "statement": "该结项比例不能代表服务满意率。",
+          "supported": true,
+          "explanation": "台账仅有办理状态，没有满意度记录，排除满意率解读正确。"
+        }
+      ]
+    },
+    {
+      "auditId": "blind-f633165869109a98",
+      "caseId": "r9_e2e_title_and_conflict",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentQualified": true,
+      "verifiableClaims": 7,
+      "unsupportedClaims": 0,
+      "reason": "标题与正文保留待确认、尚未批准的状态，两个拟议日期及未消解分歧准确，通道净空为实施前提，正文在180字以内。",
+      "bodyCharacters": 92,
+      "bodyLimit": 180,
+      "titleReview": {
+        "qualified": true,
+        "addsUnsupportedClaim": false,
+        "explanation": "artifact标题及正文Markdown标题都显式包含待确认或提议待确认。"
+      },
+      "scopeReview": [
+        "11月12日与11月14日分别归属各自记录，均不是已确定实施日；日期分歧不作无依据消解。"
+      ],
+      "contentAssessmentScope": "Semantic and content requirements only. Gate verdicts and actual procedure completion are not inferred from these labels.",
+      "arm": "candidate",
+      "lane": "e2e",
+      "procedure": {
+        "procedureComplete": true,
+        "delivered": true,
+        "technicalError": null
+      },
+      "judgment": {
+        "completeCheck": true,
+        "taskPassed": true,
+        "goalComplete": true,
+        "goalPassed": true
+      },
+      "conclusions": [
+        {
+          "claimId": "C1",
+          "statement": "展架移至西侧凹位仅属拟议方案。",
+          "supported": true,
+          "explanation": "稿件用建议/拟字样，保留讨论性质和位置。"
+        },
+        {
+          "claimId": "C2",
+          "statement": "方案尚未批准，标题也表明待确认。",
+          "supported": true,
+          "explanation": "标题和正文同一待定状态只计一次，不允许中性正文掩盖确定性标题。"
+        },
+        {
+          "claimId": "C3",
+          "statement": "布展讨论便笺的拟调整日是11月12日。",
+          "supported": true,
+          "explanation": "来源、日期及拟议状态准确。"
+        },
+        {
+          "claimId": "C4",
+          "statement": "维护协调记录的预备日期是11月14日。",
+          "supported": true,
+          "explanation": "该日期被明确称为预备日期，未升级为最终日期。"
+        },
+        {
+          "claimId": "C5",
+          "statement": "两记录日期分歧未解决，具体日期待确认。",
+          "supported": true,
+          "explanation": "没有擅自选边，也没有把两日期拼成施工区间。"
+        },
+        {
+          "claimId": "C6",
+          "statement": "实施前必须确认通道净空合格。",
+          "supported": true,
+          "explanation": "保留实施前提，未宣称条件已经满足。"
+        },
+        {
+          "claimId": "C7",
+          "statement": "实施前须完成审批。",
+          "supported": true,
+          "explanation": "仍待审批、尚未批准的提案不能作为已获许可的实施计划；该前置要求是材料审批状态的合理语义表达，并非宣称审批已完成。"
+        }
+      ]
+    }
+  ]
+}

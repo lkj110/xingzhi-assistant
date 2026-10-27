@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "candidateCommit": "7cff32e5b206db0854ba0bd7d3122cb8c5839189",
+  "baseline": "Original stable strict baseline retained byte-for-byte from the original freeze",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "startedAt": "2026-10-26T03:45:26.833Z",
+  "finishedAt": "2026-10-26T04:14:34.185Z",
+  "limits": {
+    "calls": 96,
+    "tokens": 2000000,
+    "callsPerBranchPerPhase": 12,
+    "concurrency": 1
+  },
+  "sourceHashes": {
+    "implementation-freeze.json": "493b2e990723efd7b81776748930259a300e6260a4c991c94c357ad634b74010",
+    "evaluation-seal.json": "5f23f75540c6e2252ee569d096dc17e797820a03cbceb529ae5f760ffb89d60a",
+    "holdout-seal.json": "b3f7616ee1f572012d12ffc104ab66f6e8e76fcd6c21102f894dd3cae590afe2",
+    "authorization.json": "78b7e465deb89a27897ede4950dbb3e9f93cccdca3b50822b569aa124a735947",
+    "ledger.json": "eb7106cf3192121b3cef1307a37698de570dcff7694959cf16df0de908e973c8",
+    "result/report.json": "52f5e116e0db954b4b58da16e7791d9969408c3e350c8fd2a7aa0f2eb6ffe242",
+    "result/audit-results.json": "949313ab4b82099e8514199a69b7992024166fccfca40c20d151e348b9d31106",
+    "result/metrics.json": "a6d564bb4fcdfe6c377a34a38ad795e88370bc3ddc1fca9ec47553478f745833",
+    "result/independent-result-audit.json": "816a13f71486029c21eb0d93655a838ac7e9219e1e56db6645ba14e24b004ab6"
+  },
+  "analysisSourceHashes": {
+    "summarize.cjs": "07830ca66b9519b74a361e9b45f1cd79bbe7aaf4431352a5758c8f4d82afd58d",
+    "audit-statistics-tests.cjs": "abb46a276094d5bdbcf1976adce07cce5220fa1d707b38b55f2cda7dc551bcee",
+    "r6-root-cause-audit.json": "c62546da2de2da0353cb56b9c9f5c2f146ef2217e9ceaede668ecdeaa753a925"
+  },
+  "notes": [
+    "Implementation frozen before independent author created all six fresh pairs. No candidate tuning or extra probes after holdouts.",
+    "Same strict mode, model and reasoning; alternating paired order; full shared lifecycle driver.",
+    "Public data sanitized; original sealed local traces retain exact bytes and source hashes. This is not a standalone runnable credential-bearing experiment.",
+    "Independent model-agent audit with hidden arm/cost labels first; protocol cues can reveal identity.",
+    "No formal main evaluation or installed-application replacement."
+  ],
+  "formalMainEvaluationStarted": false,
+  "installedApplicationReplaced": false
+}

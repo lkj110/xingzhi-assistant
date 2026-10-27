@@ -1,0 +1,19 @@
+.grounding-panel h3{display:flex;align-items:center;gap:7px}
+.grounding-record{padding:12px 14px;border:1px solid #e3e7e5;border-radius:10px;background:#f7f8f7}
+.grounding-record.checked{background:#f0f7f3;border-color:#d4e7dc}
+.grounding-record>small{display:block;margin-top:5px;color:#65746c;line-height:1.6}
+.grounding-record .help-text{margin:8px 0 0}
+.grounding-details{margin-top:12px;border:1px solid #e3e7e5;border-radius:9px;overflow:hidden}
+.grounding-details>summary{padding:11px 13px;cursor:pointer;font-weight:600;font-size:13px}
+.grounding-details>ul{margin:0 14px 14px;padding-left:18px}
+.grounding-details>ul li{margin:7px 0;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+.grounding-details>.muted{padding:0 13px 12px}
+.grounding-details>.help-text{margin:0;padding:0 13px 10px}
+.grounding-requirement,.grounding-claim{padding:13px;border-top:1px solid #e8ece9;font-size:13px;line-height:1.65;overflow-wrap:anywhere}
+.grounding-requirement p,.grounding-claim p{margin:7px 0}
+.grounding-requirement small,.grounding-claim>small{color:#69766e}
+.grounding-label{display:inline-block;padding:1px 7px;border-radius:5px;background:#edf0ee;color:#5b685f;font-size:11px;font-weight:600}
+.grounding-label.checked{background:#e3f1e8;color:#276445}
+.grounding-citation{margin:10px 0 0;border-left:3px solid #d1dfd6;padding-left:10px}
+.grounding-citation figcaption{color:#67746d;font-size:11px}
+.grounding-citation blockquote{margin:5px 0;white-space:pre-wrap;color:#354c40}

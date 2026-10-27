@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "reviewer": "r6_live_preflight_review",
+  "reviewedAt": "2026-10-26T03:43:54.936Z",
+  "approved": true,
+  "openP0toP2": 0,
+  "reviewedHashes": {
+    "suite.json": "a8642004c20bf46f5496301a4a246ea8855d975cfe12bf831285355d63b88b8f",
+    "gold.json": "38f5317d5ad72f75c88f593d33580bc7e64f55b6606be9f44ccad8efa1a11840",
+    "holdout-seal.json": "b3f7616ee1f572012d12ffc104ab66f6e8e76fcd6c21102f894dd3cae590afe2",
+    "protocol.json": "eb8da09665db0ea9143db709eb187dd11af9450166a1ebae0d37a1dcec5983bb",
+    "authorization.json": "78b7e465deb89a27897ede4950dbb3e9f93cccdca3b50822b569aa124a735947",
+    "implementation-freeze.json": "493b2e990723efd7b81776748930259a300e6260a4c991c94c357ad634b74010",
+    "author-holdout.cjs": "e2790bf079c35eca71432ed54b17d42e13821fce4ca1ed12794458507f0ec480"
+  },
+  "checks": {
+    "authorization": {
+      "calls": 96,
+      "tokens": 2000000,
+      "concurrency": 1,
+      "callsPerBranchPerPhase": 12
+    },
+    "sameModelAndStrictMode": true,
+    "originalBaselineUnchanged": true,
+    "implementationFrozenBeforeHoldout": true,
+    "caseCount": 6,
+    "fixedCount": 2,
+    "e2eCount": 2,
+    "revisionCount": 2,
+    "phasesPerArm": 8,
+    "fixedLabels": "one qualified disclosed conflict and one unsupported dry-run execution claim",
+    "goldExcludedFromModelInput": true,
+    "criteriaContainObligationsNotComputedAnswers": true,
+    "calculation": "Only supported direct-source sum 36+24+16=76, with two actual explicit evaluations; both receipts must be distinguished.",
+    "fileTask": "Read-only historical write_file observation plus actual new-file read; same-task recovery when requested; no new delivery-file obligation.",
+    "revisions": "Ordinary user changes to documented M2/P2 alternatives; no unsupported arithmetic or external actions.",
+    "lifecycle": "Fixed actual task check; dynamic actual task and whole-goal checks then acceptance; revisions accept, reopen, revise, check and accept again.",
+    "failureAccounting": "Failed actual attempts count; unknown/invalid/conflicting usage stops new dispatch; no automatic continuation.",
+    "mechanismAuditRequired": true,
+    "realModelCalls": 0
+  },
+  "limitations": [
+    "This is an independent model-agent static/offline preflight review, not a human review or evidence of live-model readiness.",
+    "The subscribed CLI has opaque request wrapping and no enforced output cap. Admission reserves UTF-8 input bytes plus at least 128000 output tokens and 16384 wrapper tokens; actual reported usage is authoritative. Unknown/conflicting usage or measured overage halts dispatch.",
+    "A stopped budget or failed initial acceptance may leave later branches/revisions unattempted. Such cases remain incomplete; no automatic rerun or budget renewal is authorized.",
+    "Both revision cases use normal user-selected changes between already documented alternatives. The evaluator preserves the production job.goal created from the initial task and does not overwrite it after updateTask/revise. Any stale-goal rejection is product/lifecycle behavior to report, not to bypass.",
+    "Gold and authoring script bytes are hashed for integrity only. The live executor uses suite inputs and does not import gold labels or execute the authoring script.",
+    "Mechanism execution requires actual phase-local receipts and transitions. A correct answer, copied receipt, internal replay or final snapshot alone is insufficient evidence of an earlier explicit action.",
+    "Six synthetic pairs and residual protocol cues limit statistical claims and blinding. Capability absence alone is not hallucination.",
+    "R6-F02 gold contains the nonfunctional metadata spelling businessAnswerDoesNotProvesExecution; descriptive mechanism requirements and top-level adjudication remain authoritative. Sealed samples were preserved unchanged.",
+    "No production installation, user workspace mutation, external business action, main evaluation, secondary model, or additional live probe is authorized by this review."
+  ]
+}

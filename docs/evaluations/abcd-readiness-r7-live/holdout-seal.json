@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "status": "sealed_by_independent_author_pending_external_audit",
+  "authoredAt": "2026-10-26T08:33:34.632Z",
+  "sealedAt": "2026-10-26T08:33:34.651Z",
+  "author": "r7_holdout_author",
+  "implementationFreezeSHA256": "d88dec60bfa5d467f370cfae067a7955c750df84b4454f58f145fe7103e8256a",
+  "productionImplementationTouched": false,
+  "executorTouched": false,
+  "realModelCalls": 0,
+  "networkCalls": 0,
+  "semanticEncoderCalls": 0,
+  "freeze": {
+    "file": "implementation-freeze.json",
+    "sha256": "d88dec60bfa5d467f370cfae067a7955c750df84b4454f58f145fe7103e8256a",
+    "frozenAt": "2026-10-26T07:23:14.631Z",
+    "commit": "62a1cf07a7569cfd6aeeb77178e01c2e875f7345"
+  },
+  "files": {
+    "suite.json": "bb3f6aecb1a0a57223e4464a58c889bb78036efd674c14a2cd2ed9d347e56344",
+    "gold.json": "0260a68be5a4ca4e95e18fd74870eebb3f2950925e25b9f86f05dbd5febc3c0f",
+    "author-holdout.cjs": "6bbc94a0203f8e32efc35cb3fe67c13941701a7a30139b196c57861afe41ca2d"
+  },
+  "counts": {
+    "cases": 6,
+    "fixedValid": 1,
+    "fixedInvalid": 1,
+    "e2e": 2,
+    "revision": 2,
+    "phasesPerArm": 8,
+    "armTaskExecutions": 12
+  },
+  "authorChecks": {
+    "createExclusive": true,
+    "goldNotInSuite": true,
+    "sourceAndFixtureQuoteAnchors": 43,
+    "sourceOperandAnchorsChecked": true,
+    "sumOperationOnly": true,
+    "sumExpectedValue": 346,
+    "sumExplicitExecutions": 2,
+    "manualLength": 17602,
+    "middleRuleOffset": 8400,
+    "tailExceptionOffset": 17484,
+    "localFixturePathsChecked": true,
+    "revisionDescriptionIndependentGoalLine": true,
+    "revisionMetadataAndH1TitlesChecked": true,
+    "newIdsTitlesDescriptionsAndSourceParagraphsVersusR5bR6": true,
+    "businessAndMechanismScoringSeparate": true,
+    "readOnlyFileScenario": true,
+    "observationDelayOnlyInGold": true
+  },
+  "novelty": [
+    {
+      "id": "R7-F01",
+      "distinction": "排班冲突由同一人须在不同独立场所全程在场产生，测试关系及可履行性；不是旧题印年字段差异或借伞时限条件。"
+    },
+    {
+      "id": "R7-F02",
+      "distinction": "将本批装箱准备、另一批次历史文件一致与接口受理三种证据跨批次错接；不是预演成功字符串或字幕条目计数。"
+    },
+    {
+      "id": "R7-E01",
+      "distinction": "计位采用总位包含从位的一般关系及经确认分架后的局部例外；不是签定号重传、增量页数或许可加暂停解除。"
+    },
+    {
+      "id": "R7-E02",
+      "distinction": "农业现场阀位的已观察与无法到达分开，控制器配置收妥不代表过水；不是活动领取窗口或展屏版本巡检。"
+    },
+    {
+      "id": "R7-R01",
+      "distinction": "交通路线从实际停靠变成途经，并新增有截止条件的预约停靠；共享终点下客和凭条规则持续适用，不是操作资格或容量替换。"
+    },
+    {
+      "id": "R7-R02",
+      "distinction": "体育计时方案改变每半场时长及普通暂停的事件触发条件，伤停与恢复条件持续有效；不是录音许可扩大或终端回退。"
+    }
+  ],
+  "developmentOverlapReview": {
+    "method": "Read only R7-changed test titles and bounded scenario/title lines to avoid reuse; did not run or import tests or production.",
+    "excludedScenarios": [
+      "Q1 generic方案",
+      "四月A门店与五月B门店统计",
+      "灰度说明时间与账号范围",
+      "预算跨段冲突",
+      "成员借器材及危险器材季度资格",
+      "existing.txt与inspection.txt未寄送"
+    ]
+  },
+  "notes": [
+    "All six cases newly authored after implementation freeze.",
+    "Only the four authorized author files created; no product/runtime/old seals modified.",
+    "Gold and author script are excluded from executor/model inputs.",
+    "Synthetic historical and new input files are read-only business targets; no external publication or dispatch.",
+    "No case adjustment after sealing or after any live model observation."
+  ]
+}

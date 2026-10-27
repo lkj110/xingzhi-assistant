@@ -2,8 +2,25 @@ const {state}=require('./operation-ledger.cjs');
 const evidence=require('./evidence-basis.cjs');
 const now=()=>new Date().toISOString();
 function requirements(a,job){
- const s=state(job),rows=[{id:'goal',authority:'user',text:job.executionContract?.text||job.goal,userDirectives:require('./requirements.cjs').directives(job)},...job.taskIds.map(id=>a.task(id)).filter(t=>!t.deletedAt&&!t.agentCancelled).map(t=>({id:'task:'+t.id,taskId:t.id,authority:t.userRequirement?'user':'agent_projection',text:require('./requirements.cjs').text(t)}))];
- for(const row of rows){const revision=evidence.hash({id:row.id,intent:evidence.intent(job,row.taskId?a.task(row.taskId):null)}),old=s.requirements.find(r=>r.id===row.id);if(!old)s.requirements.push({...row,revision});else if(old.revision!==revision){for(const gap of s.gaps.filter(g=>g.requirementId===row.id)){if(gap.status==='accepted_gap'&&gap.acceptedRequirementText===row.text)gap.requirementRevision=revision;else if(['open','accepted_gap'].includes(gap.status))gap.status='superseded';}Object.assign(old,{...row,revision});}else Object.assign(old,row);}
+ const active=job.taskIds.map(id=>a.task(id)).filter(t=>!t.deletedAt&&!t.agentCancelled),current=require('./execution-contract.cjs').context(job,{tasks:active});
+ const s=state(job),rows=[{id:'goal',authority:'user',text:current.goal,userDirectives:current.userDirectives,requirementPrecedence:current.requirementPrecedence},...active.map(t=>({id:'task:'+t.id,taskId:t.id,authority:t.userRequirement?'user':'agent_projection',text:require('./requirements.cjs').text(t),objective:t.userRequirement?.objective||t.userRequirement?.description||t.objective||t.description||t.title}))];
+ for(const row of rows){
+  const intent=evidence.intent(job,row.taskId?a.task(row.taskId):null),old=s.requirements.find(r=>r.id===row.id);
+  // Old records keyed the user's intent alone and may contain a stale agent
+  // task projection. Refresh it once without retiring unchanged user gaps.
+  // A changed goal is never a projection-only migration. After migration,
+  // text/objective changes must invalidate even an otherwise legacy revision.
+  const legacyUnchanged=old?.revision===evidence.hash({id:row.id,intent})&&(old.projectionVersion===2?old.text===row.text&&old.objective===row.objective:row.id!=='goal'||old.text===row.text);
+  const revision=legacyUnchanged?old.revision:evidence.hash({id:row.id,text:row.text,objective:row.objective,intent});
+  if(!old)s.requirements.push({...row,revision,projectionVersion:2});
+  else {
+   if(old.revision!==revision)for(const gap of s.gaps.filter(g=>g.requirementId===row.id)){
+    if(gap.status==='accepted_gap'&&gap.acceptedRequirementText===row.text)gap.requirementRevision=revision;
+    else if(['open','accepted_gap'].includes(gap.status))gap.status='superseded';
+   }
+   Object.assign(old,{...row,revision,projectionVersion:2});
+  }
+ }
  return s.requirements.filter(r=>rows.some(row=>row.id===r.id));
 }
 function record(a,job,key,result){

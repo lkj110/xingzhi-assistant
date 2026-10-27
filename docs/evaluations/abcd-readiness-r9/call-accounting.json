@@ -1,0 +1,2634 @@
+{
+  "schema": 1,
+  "sourceReportSha256": "a1a81874bbf49a0887b6bd616e1ff51a990095033650bbe6ea2f5b3ff5baaa26",
+  "startedAt": "2026-10-27T05:00:50.110Z",
+  "finishedAt": "2026-10-27T05:24:44.351Z",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "medium",
+  "limits": {
+    "calls": 80,
+    "tokens": 1600000,
+    "concurrency": 1,
+    "protocolCalls": 8,
+    "protocolTokens": 160000,
+    "businessCalls": 72,
+    "businessTokens": 1440000,
+    "callsPerBusinessBranch": 6
+  },
+  "protocol": [
+    {
+      "caseId": "r9_protocol_catalog_read",
+      "arm": "baseline",
+      "kind": "read",
+      "passed": true,
+      "code": null,
+      "usage": {
+        "inputTokens": 11229,
+        "outputTokens": 81,
+        "cachedInputTokens": 0
+      }
+    },
+    {
+      "caseId": "r9_protocol_catalog_read",
+      "arm": "candidate",
+      "kind": "read",
+      "passed": true,
+      "code": null,
+      "usage": {
+        "inputTokens": 10780,
+        "outputTokens": 81,
+        "cachedInputTokens": 0
+      }
+    },
+    {
+      "caseId": "r9_protocol_bound_ratio",
+      "arm": "candidate",
+      "kind": "compute",
+      "passed": true,
+      "code": null,
+      "usage": {
+        "inputTokens": 10913,
+        "outputTokens": 127,
+        "cachedInputTokens": 0
+      }
+    },
+    {
+      "caseId": "r9_protocol_bound_ratio",
+      "arm": "baseline",
+      "kind": "compute",
+      "passed": true,
+      "code": null,
+      "usage": {
+        "inputTokens": 11364,
+        "outputTokens": 127,
+        "cachedInputTokens": 9600
+      }
+    },
+    {
+      "caseId": "r9_protocol_complete_report",
+      "arm": "baseline",
+      "kind": "final",
+      "passed": true,
+      "code": null,
+      "usage": {
+        "inputTokens": 11349,
+        "outputTokens": 882,
+        "cachedInputTokens": 0
+      }
+    },
+    {
+      "caseId": "r9_protocol_complete_report",
+      "arm": "candidate",
+      "kind": "final",
+      "passed": true,
+      "code": null,
+      "usage": {
+        "inputTokens": 10194,
+        "outputTokens": 592,
+        "cachedInputTokens": 0
+      }
+    },
+    {
+      "caseId": "r9_protocol_title_classification",
+      "arm": "candidate",
+      "kind": "classification",
+      "passed": true,
+      "code": null,
+      "usage": {
+        "inputTokens": 10210,
+        "outputTokens": 926,
+        "cachedInputTokens": 0
+      }
+    },
+    {
+      "caseId": "r9_protocol_title_classification",
+      "arm": "baseline",
+      "kind": "classification",
+      "passed": true,
+      "code": null,
+      "usage": {
+        "inputTokens": 11365,
+        "outputTokens": 938,
+        "cachedInputTokens": 0
+      }
+    }
+  ],
+  "calls": [
+    {
+      "index": 1,
+      "budgetStage": "protocol",
+      "caseId": "r9_protocol_catalog_read",
+      "arm": "baseline",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_read",
+      "category": "protocol",
+      "responseContract": "grounding-output-v1",
+      "transportSchema": {
+        "id": "grounding-output-v1",
+        "sha256": "da552bfda835c596eabe794c47a4f841870cfb3cc52fcc85136890514ca2c79a",
+        "chars": 9970,
+        "utf8Bytes": 9970
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:01:06.769Z",
+      "finishedAt": "2026-10-27T05:01:24.214Z",
+      "durationMs": 17445,
+      "reservedTokens": 44243,
+      "inputHash": "a6f30e640ee86aa89a57b59b1d3e5f6818bf2ef0162ca9171ecc493d0d94cc1e",
+      "serializedInputHash": "a516ab63f6d7bd5cd97b0199e4d47f0477b9530f1e358484a183473a6a7774e4",
+      "serializedInputBytes": 1505,
+      "kind": "read_context",
+      "usage": {
+        "inputTokens": 11229,
+        "outputTokens": 81,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 928
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2794
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 10891
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 17412,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 17056,
+          "idleMs": 6521,
+          "stdoutBytes": 1195,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 2,
+      "budgetStage": "protocol",
+      "caseId": "r9_protocol_catalog_read",
+      "arm": "candidate",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_read",
+      "category": "protocol",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:01:38.901Z",
+      "finishedAt": "2026-10-27T05:01:55.254Z",
+      "durationMs": 16353,
+      "reservedTokens": 42734,
+      "inputHash": "a6f30e640ee86aa89a57b59b1d3e5f6818bf2ef0162ca9171ecc493d0d94cc1e",
+      "serializedInputHash": "a516ab63f6d7bd5cd97b0199e4d47f0477b9530f1e358484a183473a6a7774e4",
+      "serializedInputBytes": 1505,
+      "kind": "read_context",
+      "usage": {
+        "inputTokens": 10780,
+        "outputTokens": 81,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 1174
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2676
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11363
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 16327,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 15789,
+          "idleMs": 4964,
+          "stdoutBytes": 1195,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 3,
+      "budgetStage": "protocol",
+      "caseId": "r9_protocol_bound_ratio",
+      "arm": "candidate",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_compute",
+      "category": "protocol",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:02:09.651Z",
+      "finishedAt": "2026-10-27T05:02:27.635Z",
+      "durationMs": 17984,
+      "reservedTokens": 43112,
+      "inputHash": "601f793f3631745d3e61226b11653e2e3d542ab10299eed139a5793195274f22",
+      "serializedInputHash": "28fea13afab294cf6d3a7df9c832664e46ae7ae1fb6d5c433bbaaed4e550765a",
+      "serializedInputBytes": 1883,
+      "kind": "read_context",
+      "usage": {
+        "inputTokens": 10913,
+        "outputTokens": 127,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 658
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2033
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11927
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 17970,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 17741,
+          "idleMs": 6043,
+          "stdoutBytes": 1374,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 4,
+      "budgetStage": "protocol",
+      "caseId": "r9_protocol_bound_ratio",
+      "arm": "baseline",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_compute",
+      "category": "protocol",
+      "responseContract": "grounding-output-v1",
+      "transportSchema": {
+        "id": "grounding-output-v1",
+        "sha256": "da552bfda835c596eabe794c47a4f841870cfb3cc52fcc85136890514ca2c79a",
+        "chars": 9970,
+        "utf8Bytes": 9970
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:02:45.035Z",
+      "finishedAt": "2026-10-27T05:03:00.889Z",
+      "durationMs": 15854,
+      "reservedTokens": 44621,
+      "inputHash": "601f793f3631745d3e61226b11653e2e3d542ab10299eed139a5793195274f22",
+      "serializedInputHash": "28fea13afab294cf6d3a7df9c832664e46ae7ae1fb6d5c433bbaaed4e550765a",
+      "serializedInputBytes": 1883,
+      "kind": "read_context",
+      "usage": {
+        "inputTokens": 11364,
+        "outputTokens": 127,
+        "cachedInputTokens": 9600
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 811
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2336
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11412
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 15841,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 15612,
+          "idleMs": 4429,
+          "stdoutBytes": 1377,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 5,
+      "budgetStage": "protocol",
+      "caseId": "r9_protocol_complete_report",
+      "arm": "baseline",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_final",
+      "category": "protocol",
+      "responseContract": "grounding-output-v1",
+      "transportSchema": {
+        "id": "grounding-output-v1",
+        "sha256": "da552bfda835c596eabe794c47a4f841870cfb3cc52fcc85136890514ca2c79a",
+        "chars": 9970,
+        "utf8Bytes": 9970
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:03:14.984Z",
+      "finishedAt": "2026-10-27T05:03:52.310Z",
+      "durationMs": 37326,
+      "reservedTokens": 44642,
+      "inputHash": "002bd6839e37c0d1a29efc8cf62aa9c1efe74631146c2c150a70e88958854470",
+      "serializedInputHash": "e7b034ce68e47476e33b4dc95c2aec5ba9788383eaf00e2e2ec248995ecbf901",
+      "serializedInputBytes": 1904,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 11349,
+        "outputTokens": 882,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 766
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1855
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 25980
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 37295,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 37055,
+          "idleMs": 11316,
+          "stdoutBytes": 3730,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 6,
+      "budgetStage": "protocol",
+      "caseId": "r9_protocol_complete_report",
+      "arm": "candidate",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_final",
+      "category": "protocol",
+      "responseContract": "grounding-output-v2-final",
+      "transportSchema": {
+        "id": "grounding-output-v2-final",
+        "sha256": "8e1b27941f02859376282a07f8631f74a605e9ae80098ee5ab0b17fc394b3c5b",
+        "chars": 4641,
+        "utf8Bytes": 4641
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:04:03.999Z",
+      "finishedAt": "2026-10-27T05:04:32.905Z",
+      "durationMs": 28906,
+      "reservedTokens": 39313,
+      "inputHash": "002bd6839e37c0d1a29efc8cf62aa9c1efe74631146c2c150a70e88958854470",
+      "serializedInputHash": "e7b034ce68e47476e33b4dc95c2aec5ba9788383eaf00e2e2ec248995ecbf901",
+      "serializedInputBytes": 1904,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 10194,
+        "outputTokens": 592,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 721
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2377
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 20560
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 28888,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 28649,
+          "idleMs": 8328,
+          "stdoutBytes": 2915,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 7,
+      "budgetStage": "protocol",
+      "caseId": "r9_protocol_title_classification",
+      "arm": "candidate",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_classification",
+      "category": "protocol",
+      "responseContract": "grounding-output-v2-final",
+      "transportSchema": {
+        "id": "grounding-output-v2-final",
+        "sha256": "8e1b27941f02859376282a07f8631f74a605e9ae80098ee5ab0b17fc394b3c5b",
+        "chars": 4641,
+        "utf8Bytes": 4641
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:04:48.025Z",
+      "finishedAt": "2026-10-27T05:05:19.155Z",
+      "durationMs": 31130,
+      "reservedTokens": 39440,
+      "inputHash": "330ee4cb49369f6f5dd7cac4eec154e9e9211f6af870e837e1e7da990a15a9b6",
+      "serializedInputHash": "a804b5487fbfc559f37ce57cfcf939cd5a80868be1a99de2b77aac2930da9427",
+      "serializedInputBytes": 2031,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 10210,
+        "outputTokens": 926,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 859
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2353
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 27640
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 31115,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 30868,
+          "idleMs": 3475,
+          "stdoutBytes": 4054,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 8,
+      "budgetStage": "protocol",
+      "caseId": "r9_protocol_title_classification",
+      "arm": "baseline",
+      "phase": "protocol",
+      "role": "verify",
+      "stage": "protocol_classification",
+      "category": "protocol",
+      "responseContract": "grounding-output-v1",
+      "transportSchema": {
+        "id": "grounding-output-v1",
+        "sha256": "da552bfda835c596eabe794c47a4f841870cfb3cc52fcc85136890514ca2c79a",
+        "chars": 9970,
+        "utf8Bytes": 9970
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:05:36.895Z",
+      "finishedAt": "2026-10-27T05:06:07.080Z",
+      "durationMs": 30185,
+      "reservedTokens": 44769,
+      "inputHash": "330ee4cb49369f6f5dd7cac4eec154e9e9211f6af870e837e1e7da990a15a9b6",
+      "serializedInputHash": "a804b5487fbfc559f37ce57cfcf939cd5a80868be1a99de2b77aac2930da9427",
+      "serializedInputBytes": 2031,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 11365,
+        "outputTokens": 938,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 847
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2190
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 25749
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 30169,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 29926,
+          "idleMs": 4419,
+          "stdoutBytes": 4148,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 9,
+      "budgetStage": "business",
+      "caseId": "r9_fixed_confirmed_with_unknown",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v1",
+      "transportSchema": {
+        "id": "grounding-output-v1",
+        "sha256": "da552bfda835c596eabe794c47a4f841870cfb3cc52fcc85136890514ca2c79a",
+        "chars": 9970,
+        "utf8Bytes": 9970
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:06:20.634Z",
+      "finishedAt": "2026-10-27T05:06:53.982Z",
+      "durationMs": 33348,
+      "reservedTokens": 71178,
+      "inputHash": "fae90d58a8239e9d377876af597fbd6459ff5d97d5c5517ad2820446ce3d6769",
+      "serializedInputHash": "8a34fee7cad0f636fbe49958f555c224f67cc0ce07a789b484c43602534fcd7f",
+      "serializedInputBytes": 28440,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 18916,
+        "outputTokens": 1356,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 764
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2075
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 28316
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 33329,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 33090,
+          "idleMs": 5012,
+          "stdoutBytes": 4828,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 10,
+      "budgetStage": "business",
+      "caseId": "r9_fixed_confirmed_with_unknown",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:07:10.483Z",
+      "finishedAt": "2026-10-27T05:07:44.684Z",
+      "durationMs": 34201,
+      "reservedTokens": 67997,
+      "inputHash": "091e98c9ee826152e17dedca717fd26a337a5f966e32296ea2bdfa0b0cb6da28",
+      "serializedInputHash": "5093f208606b719fbad4840dae1be10da44cac6a079ecc37066de17337d84ac0",
+      "serializedInputBytes": 26768,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 17998,
+        "outputTokens": 1324,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 718
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2605
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 27664
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 34181,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 33947,
+          "idleMs": 6517,
+          "stdoutBytes": 4771,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 11,
+      "budgetStage": "business",
+      "caseId": "r9_fixed_confirmed_with_unknown",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v2-final",
+      "transportSchema": {
+        "id": "grounding-output-v2-final",
+        "sha256": "8e1b27941f02859376282a07f8631f74a605e9ae80098ee5ab0b17fc394b3c5b",
+        "chars": 4641,
+        "utf8Bytes": 4641
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:07:59.048Z",
+      "finishedAt": "2026-10-27T05:08:36.315Z",
+      "durationMs": 37267,
+      "reservedTokens": 64260,
+      "inputHash": "ead569137bc4b2512f7f432894d0cf3261e9ff788ee619ae8c88c4a06a236eec",
+      "serializedInputHash": "d3b4276e1df24f6003271f2d7a068d18a83bc13799a0343df2c0a7a4c80dc06d",
+      "serializedInputBytes": 26851,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 17304,
+        "outputTokens": 1446,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 733
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2299
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 30422
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 37246,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 37018,
+          "idleMs": 6824,
+          "stdoutBytes": 5188,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 12,
+      "budgetStage": "business",
+      "caseId": "r9_fixed_unsupported_completion",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:08:59.598Z",
+      "finishedAt": "2026-10-27T05:09:30.084Z",
+      "durationMs": 30486,
+      "reservedTokens": 65346,
+      "inputHash": "9b49165c38879ad9a7bc9ca27addb3e3f1ae251c1baceb66f8994de8854a8604",
+      "serializedInputHash": "e271b344e6efea41d65a704faa528dc3efcc0d0cf1b50a265a16e8a372522e5b",
+      "serializedInputBytes": 24117,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 17112,
+        "outputTokens": 872,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 970
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2613
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 24403
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 30459,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 30142,
+          "idleMs": 6056,
+          "stdoutBytes": 3601,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 13,
+      "budgetStage": "business",
+      "caseId": "r9_fixed_unsupported_completion",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v1",
+      "transportSchema": {
+        "id": "grounding-output-v1",
+        "sha256": "da552bfda835c596eabe794c47a4f841870cfb3cc52fcc85136890514ca2c79a",
+        "chars": 9970,
+        "utf8Bytes": 9970
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:09:46.123Z",
+      "finishedAt": "2026-10-27T05:10:14.395Z",
+      "durationMs": 28272,
+      "reservedTokens": 68527,
+      "inputHash": "1f99276ddb56500ba525c1668de17e7518e5647c3c537828ffab23a8c9a07333",
+      "serializedInputHash": "816a4b75ededd61770c0a87b62bfc5d0bdcbbf278c03467b1fa791a3c1e5b370",
+      "serializedInputBytes": 25789,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 18089,
+        "outputTokens": 871,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 686
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1929
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 25057
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 28252,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 28023,
+          "idleMs": 3195,
+          "stdoutBytes": 3345,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 14,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_conditions_exception",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:10:31.098Z",
+      "finishedAt": "2026-10-27T05:10:49.911Z",
+      "durationMs": 18813,
+      "reservedTokens": 52934,
+      "inputHash": "6a1232e614d1f81ae1323b784ff3029abb0fd7c60256adc01cb74e60a06f18f8",
+      "serializedInputHash": "e1bff2a18ff0ed255d9e46b68ebcf4b1ebffdfbb01fc829d04047d9b6a196581",
+      "serializedInputBytes": 20042,
+      "kind": "artifact",
+      "usage": {
+        "inputTokens": 14465,
+        "outputTokens": 209,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 724
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2101
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11686
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 18793,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 18572,
+          "idleMs": 7107,
+          "stdoutBytes": 1657,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 15,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_conditions_exception",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v1",
+      "transportSchema": {
+        "id": "grounding-output-v1",
+        "sha256": "da552bfda835c596eabe794c47a4f841870cfb3cc52fcc85136890514ca2c79a",
+        "chars": 9970,
+        "utf8Bytes": 9970
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:11:03.839Z",
+      "finishedAt": "2026-10-27T05:11:31.890Z",
+      "durationMs": 28051,
+      "reservedTokens": 71922,
+      "inputHash": "dca5500ba9350a9141ea50db23c0ed737c5e8fa42deff9d4393e24f0e17e91a0",
+      "serializedInputHash": "af0058a62cb534bb7fad05fde4da8078a26682639f339427251c6b671d04a931",
+      "serializedInputBytes": 29184,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 19317,
+        "outputTokens": 1087,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 780
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2243
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 23764
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 28026,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 27756,
+          "idleMs": 4262,
+          "stdoutBytes": 4173,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 16,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_conditions_exception",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:11:46.426Z",
+      "finishedAt": "2026-10-27T05:12:04.610Z",
+      "durationMs": 18184,
+      "reservedTokens": 53280,
+      "inputHash": "5ab7dc7a49812db3e93c2a8805894ba1e580ed6873abf6bd3561d898d1188386",
+      "serializedInputHash": "4d01c206d602693721825a5abb1a4d9c4afa95aca1a62de8a4e53b27f7ebf1ba",
+      "serializedInputBytes": 20388,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 15488,
+        "outputTokens": 136,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 761
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2148
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 13334
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 18165,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 17916,
+          "idleMs": 4831,
+          "stdoutBytes": 1327,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 17,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_conditions_exception",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:12:19.621Z",
+      "finishedAt": "2026-10-27T05:12:33.817Z",
+      "durationMs": 14196,
+      "reservedTokens": 52934,
+      "inputHash": "e03c29a06f90ab5d5bee0179b73ae56ca3887648efb9fe56317282d8c5b2125e",
+      "serializedInputHash": "1dac3880c75081c219ee3ab8702d081fae2f885a21f7c1b940e26a6ce2074d3d",
+      "serializedInputBytes": 20042,
+      "kind": "artifact",
+      "usage": {
+        "inputTokens": 14457,
+        "outputTokens": 197,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 747
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2164
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 10959
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 14173,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 13936,
+          "idleMs": 3214,
+          "stdoutBytes": 1620,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 18,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_conditions_exception",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:12:48.763Z",
+      "finishedAt": "2026-10-27T05:13:19.220Z",
+      "durationMs": 30457,
+      "reservedTokens": 68729,
+      "inputHash": "db8a06699b7f0f0a88c8d6de417261ba0f2dc00fa4c1b417799ff757d9f0700e",
+      "serializedInputHash": "8143416c9659c3013f8dd69c20a5c78fb5dc96391094c7ace6e61d4db1deee78",
+      "serializedInputBytes": 27500,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 18358,
+        "outputTokens": 1063,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 797
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2022
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 24342
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 30434,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 30190,
+          "idleMs": 6092,
+          "stdoutBytes": 4243,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 19,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_conditions_exception",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:13:33.306Z",
+      "finishedAt": "2026-10-27T05:13:55.317Z",
+      "durationMs": 22011,
+      "reservedTokens": 53274,
+      "inputHash": "8af235188678c0ffdbcbfc1516d9819f9229b3163b6b9cb52da8ca31fa496265",
+      "serializedInputHash": "51194c9f75439f96aba08a93c70d98c091373fb559e424b29ac95c1ebecf0458",
+      "serializedInputBytes": 20382,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 15441,
+        "outputTokens": 170,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 819
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2438
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 15672
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 21990,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 21760,
+          "idleMs": 6318,
+          "stdoutBytes": 1395,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 20,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_rate_denominator",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:14:08.759Z",
+      "finishedAt": "2026-10-27T05:14:29.551Z",
+      "durationMs": 20792,
+      "reservedTokens": 51253,
+      "inputHash": "46cce3eea6d1f1b0ba97202aaa8adfb03b94a9913279450ecb3a25a7fccd914f",
+      "serializedInputHash": "0ff189951e508aaf4daa7e3552e67d376f761451cdcae6a701376d0d247267c9",
+      "serializedInputBytes": 18361,
+      "kind": "read_context",
+      "usage": {
+        "inputTokens": 13897,
+        "outputTokens": 382,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 830
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2024
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 15054
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 20765,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 20522,
+          "idleMs": 5712,
+          "stdoutBytes": 1382,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 21,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_rate_denominator",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:14:47.506Z",
+      "finishedAt": "2026-10-27T05:15:06.616Z",
+      "durationMs": 19110,
+      "reservedTokens": 53766,
+      "inputHash": "2e5c7e39a5f9bd9362d0d88eb72580f1640350826ea36d1a3b1939efe405f65f",
+      "serializedInputHash": "d9f7e6948cd8b6287bc576e57d94c104343607634f7f5adf8d4d6a46691ce68a",
+      "serializedInputBytes": 20874,
+      "kind": "artifact",
+      "usage": {
+        "inputTokens": 14868,
+        "outputTokens": 219,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 822
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1852
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 12882
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 19090,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 18864,
+          "idleMs": 6208,
+          "stdoutBytes": 1607,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 22,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_rate_denominator",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:15:20.329Z",
+      "finishedAt": "2026-10-27T05:15:51.886Z",
+      "durationMs": 31557,
+      "reservedTokens": 68828,
+      "inputHash": "cb6826ccc1e5ac759b3a2c503161617a0c0f78a794282eb2afca7a3826c71103",
+      "serializedInputHash": "ef1aadded257a0a74e67135a281e6e7e392235a54eb0689c5664cbecb4775db4",
+      "serializedInputBytes": 27599,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 18490,
+        "outputTokens": 1002,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 730
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1992
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 25263
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 31533,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 31313,
+          "idleMs": 6270,
+          "stdoutBytes": 3984,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 23,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_rate_denominator",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:16:03.927Z",
+      "finishedAt": "2026-10-27T05:16:20.915Z",
+      "durationMs": 16988,
+      "reservedTokens": 51765,
+      "inputHash": "1fd898b43531d32913801eb242d3cd4bfc5eb03333efb47e56836f0c385c0fc8",
+      "serializedInputHash": "5becc760f43ca27deb4343ad399903be6b02286d1759371852978643cee90bc7",
+      "serializedInputBytes": 18873,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 14963,
+        "outputTokens": 122,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 747
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2355
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11548
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 16968,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 16752,
+          "idleMs": 5419,
+          "stdoutBytes": 1306,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 24,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_rate_denominator",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:16:34.970Z",
+      "finishedAt": "2026-10-27T05:16:57.183Z",
+      "durationMs": 22213,
+      "reservedTokens": 51253,
+      "inputHash": "6b50a5b29211c97fea60eb6ba62dc804fae7a517d4dad8c059bd2f27284d4720",
+      "serializedInputHash": "f0f1bdd344cee1be755771a5dd037bcd5d3bff62ceb90a6a20334a577dedd906",
+      "serializedInputBytes": 18361,
+      "kind": "read_context",
+      "usage": {
+        "inputTokens": 13848,
+        "outputTokens": 355,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 614
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2095
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 15222
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 22177,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 21951,
+          "idleMs": 6956,
+          "stdoutBytes": 1382,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 25,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_rate_denominator",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:17:10.408Z",
+      "finishedAt": "2026-10-27T05:17:27.609Z",
+      "durationMs": 17201,
+      "reservedTokens": 53766,
+      "inputHash": "c9befb9d6f21492e02975ef7cac53ede71e137be977cfc676e45c67f0ab6f0a3",
+      "serializedInputHash": "7701ebdd2e4cb0f0a0922790fe87cecbb81fcf9c83f0975a825f5aee94e7ccd1",
+      "serializedInputBytes": 20874,
+      "kind": "artifact",
+      "usage": {
+        "inputTokens": 14804,
+        "outputTokens": 173,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 763
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2173
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11034
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 17180,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 16939,
+          "idleMs": 6146,
+          "stdoutBytes": 1580,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 26,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_rate_denominator",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v1",
+      "transportSchema": {
+        "id": "grounding-output-v1",
+        "sha256": "da552bfda835c596eabe794c47a4f841870cfb3cc52fcc85136890514ca2c79a",
+        "chars": 9970,
+        "utf8Bytes": 9970
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:17:40.991Z",
+      "finishedAt": "2026-10-27T05:18:13.718Z",
+      "durationMs": 32727,
+      "reservedTokens": 72007,
+      "inputHash": "967374784fce48cf16e3b8f2ef7d6eddc643e3882ebfb1071bdf8bcbb2d14e56",
+      "serializedInputHash": "b3d637733b4fbbe040c5bf70df748009859ee51d8c9a576b6d2fe0442be21457",
+      "serializedInputBytes": 29269,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 19358,
+        "outputTokens": 948,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 721
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1935
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 26075
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 32704,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 32474,
+          "idleMs": 6629,
+          "stdoutBytes": 3619,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 27,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_rate_denominator",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:18:26.602Z",
+      "finishedAt": "2026-10-27T05:18:44.609Z",
+      "durationMs": 18007,
+      "reservedTokens": 51763,
+      "inputHash": "32cfa68034439a14c3db20ff3faf45910f7166e3fabfc368dc7a3c003eb362ff",
+      "serializedInputHash": "d267d709aa6e23e583e2d3fa64ee1e56fd9d63c8dcc42f4c7ddb3341d570f46e",
+      "serializedInputBytes": 18871,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 14897,
+        "outputTokens": 149,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 765
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1890
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11646
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 17984,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 17736,
+          "idleMs": 6338,
+          "stdoutBytes": 1352,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 28,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_title_and_conflict",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:18:58.322Z",
+      "finishedAt": "2026-10-27T05:19:15.417Z",
+      "durationMs": 17095,
+      "reservedTokens": 52981,
+      "inputHash": "15ed7c4eae2254fbd27d587b791128343e5243c3f19ba71f0797a0e147c5197d",
+      "serializedInputHash": "6a80a7010555492869b75db3b895182262b9bebbd5a5cd9e1e14f8ba39b6a093",
+      "serializedInputBytes": 20089,
+      "kind": "artifact",
+      "usage": {
+        "inputTokens": 14441,
+        "outputTokens": 174,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 711
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1958
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11903
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 17073,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 16842,
+          "idleMs": 5170,
+          "stdoutBytes": 1580,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 29,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_title_and_conflict",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v1",
+      "transportSchema": {
+        "id": "grounding-output-v1",
+        "sha256": "da552bfda835c596eabe794c47a4f841870cfb3cc52fcc85136890514ca2c79a",
+        "chars": 9970,
+        "utf8Bytes": 9970
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:19:28.374Z",
+      "finishedAt": "2026-10-27T05:19:54.045Z",
+      "durationMs": 25671,
+      "reservedTokens": 72007,
+      "inputHash": "333da21e6e914de91bd69c30a2d2a192c636b3147813af197f98e29836097703",
+      "serializedInputHash": "64d0dfa0d6bdf9e247fe40a1404cefa1223b60f79186ab4ef47f21f5bb8ca87c",
+      "serializedInputBytes": 29269,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 19270,
+        "outputTokens": 1455,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 861
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2274
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 21071
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 25646,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 25398,
+          "idleMs": 4575,
+          "stdoutBytes": 5552,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 30,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_title_and_conflict",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:20:07.074Z",
+      "finishedAt": "2026-10-27T05:20:24.344Z",
+      "durationMs": 17270,
+      "reservedTokens": 53278,
+      "inputHash": "33ce6c83b6612c8b81f4ca67839b20bbad4dce98ddad9533b3baa1d7d92a5002",
+      "serializedInputHash": "2ac8de42132580f92bad487b24c8c1f8b9980596e2bb91f2eef811dc285feda9",
+      "serializedInputBytes": 20386,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 15404,
+        "outputTokens": 104,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 727
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2308
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11100
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 17245,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 17011,
+          "idleMs": 6145,
+          "stdoutBytes": 1274,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 31,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_title_and_conflict",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:20:38.614Z",
+      "finishedAt": "2026-10-27T05:20:56.348Z",
+      "durationMs": 17734,
+      "reservedTokens": 52981,
+      "inputHash": "42aee3e792f04b4a616db64ca4ac2e8b6c33e6470d09e9ee641ed64d4e7a9278",
+      "serializedInputHash": "a3a4904895074a9a0dc0b9f5beece5db947189ba8ac37082cb20b4fc0ffad6c5",
+      "serializedInputBytes": 20089,
+      "kind": "artifact",
+      "usage": {
+        "inputTokens": 14433,
+        "outputTokens": 166,
+        "cachedInputTokens": 7552
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 815
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1877
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11961
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 17709,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 17445,
+          "idleMs": 5748,
+          "stdoutBytes": 1553,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 32,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_title_and_conflict",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:21:08.854Z",
+      "finishedAt": "2026-10-27T05:21:46.412Z",
+      "durationMs": 37558,
+      "reservedTokens": 68811,
+      "inputHash": "b14a9c3459b658ba676af5f7e8228ccc12813692857790f85a4b8b048a4a29b6",
+      "serializedInputHash": "a8ebc8c40be505d22592ad0df261328fbaf572badf974e24a03d230340b6fb50",
+      "serializedInputBytes": 27582,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 18325,
+        "outputTokens": 1599,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 693
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1750
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 31170
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 37528,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 37291,
+          "idleMs": 6358,
+          "stdoutBytes": 5923,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 33,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_title_and_conflict",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "goal_verify",
+      "category": "goal_verify",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:21:56.696Z",
+      "finishedAt": "2026-10-27T05:22:11.874Z",
+      "durationMs": 15178,
+      "reservedTokens": 53284,
+      "inputHash": "6468b7d0a16984328e942b0b5766dac09f674096f9d4c72e5d56be85e5ccac97",
+      "serializedInputHash": "4118763d0132949113b648a4d0ec6af3b02512acab9b8132c52c6ee1760e71e3",
+      "serializedInputBytes": 20392,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 15415,
+        "outputTokens": 135,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 745
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 3528
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11210
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 15153,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 14916,
+          "idleMs": 3943,
+          "stdoutBytes": 1296,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 34,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_historical_action_current_state",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:22:24.963Z",
+      "finishedAt": "2026-10-27T05:22:44.567Z",
+      "durationMs": 19604,
+      "reservedTokens": 54372,
+      "inputHash": "ce84f389597b0560d6c72eecc5d09f180230084aa50b392ce9f23dd28189f948",
+      "serializedInputHash": "31f0e7b6a03a082c22e9743d20b89809c1d37529bce2c40c25e081a5f04b94a8",
+      "serializedInputBytes": 21480,
+      "kind": "read_context",
+      "usage": {
+        "inputTokens": 14937,
+        "outputTokens": 123,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 651
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1823
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 11813
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 19577,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 19331,
+          "idleMs": 7764,
+          "stdoutBytes": 1128,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 35,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_historical_action_current_state",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:22:55.311Z",
+      "finishedAt": "2026-10-27T05:23:14.876Z",
+      "durationMs": 19565,
+      "reservedTokens": 58333,
+      "inputHash": "43a682391acc1bebbd1ef8e572b9c923edb100ed45ee3d954d165d46f694e9e0",
+      "serializedInputHash": "51dca908c019541e95bdd505ae4a117e6ff6cfa488b2de5025ef0fa146a1b5b6",
+      "serializedInputBytes": 25441,
+      "kind": "artifact",
+      "usage": {
+        "inputTokens": 16321,
+        "outputTokens": 287,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 705
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 1813
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 12506
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 19541,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 19320,
+          "idleMs": 7035,
+          "stdoutBytes": 1700,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 36,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_historical_action_current_state",
+      "arm": "candidate",
+      "phase": "initial",
+      "role": "verify",
+      "stage": "task_verify",
+      "category": "task_verify",
+      "responseContract": "grounding-output-v2-read-bc",
+      "transportSchema": {
+        "id": "grounding-output-v2-read-bc",
+        "sha256": "1903bf2c3e51fdf6000cb6c4717f8767fbbb6c0a33f3e0f7f9b3ab7b587101ab",
+        "chars": 8461,
+        "utf8Bytes": 8461
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:23:26.142Z",
+      "finishedAt": "2026-10-27T05:24:04.268Z",
+      "durationMs": 38126,
+      "reservedTokens": 74405,
+      "inputHash": "5fab0197cb1591d6822cbeda4242d3a9e2bd267167db21367b221a6f3cfcac88",
+      "serializedInputHash": "bbfba11480f12900ee12cdc9dbb222a5535d70744828bbcbe4d6638144468198",
+      "serializedInputBytes": 33176,
+      "kind": "verification",
+      "usage": {
+        "inputTokens": 20263,
+        "outputTokens": 1562,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 718
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2339
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 33986
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 38096,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 37871,
+          "idleMs": 4110,
+          "stdoutBytes": 5330,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    },
+    {
+      "index": 37,
+      "budgetStage": "business",
+      "caseId": "r9_e2e_historical_action_current_state",
+      "arm": "baseline",
+      "phase": "initial",
+      "role": "execute",
+      "stage": "task_work",
+      "category": "generation",
+      "responseContract": null,
+      "transportSchema": {
+        "id": "legacy-response-json-string",
+        "sha256": "23a77a54b2c727c2a068336e22347cf05f52a6d839aafa86d671705e58b5845c",
+        "chars": 124,
+        "utf8Bytes": 124
+      },
+      "status": "completed",
+      "startedAt": "2026-10-27T05:24:14.882Z",
+      "finishedAt": "2026-10-27T05:24:33.232Z",
+      "durationMs": 18350,
+      "reservedTokens": 54372,
+      "inputHash": "4e0a61b44a3ae4f3a074bdfb9d744a23f66b26d9c1af22bcca2bc37aa942d640",
+      "serializedInputHash": "d1a3ffe4ca27cb1881cce01ee352708e79716d1d85f568c0475dd1fb8f844d75",
+      "serializedInputBytes": 21480,
+      "kind": "read_context",
+      "usage": {
+        "inputTokens": 14914,
+        "outputTokens": 182,
+        "cachedInputTokens": 0
+      },
+      "usageStatus": "reported",
+      "lifecycle": {
+        "source": "codex_cli",
+        "usageStatus": "reported",
+        "lastProtocolEvent": "turn.completed",
+        "events": [
+          {
+            "sequence": 1,
+            "type": "thread.started",
+            "elapsedMs": 814
+          },
+          {
+            "sequence": 2,
+            "type": "turn.started",
+            "elapsedMs": 2395
+          },
+          {
+            "sequence": 3,
+            "type": "turn.completed",
+            "elapsedMs": 12221
+          },
+          {
+            "sequence": 4,
+            "type": "process_exit",
+            "elapsedMs": 18324,
+            "exitCode": 0
+          }
+        ],
+        "process": {
+          "durationMs": 18086,
+          "idleMs": 6103,
+          "stdoutBytes": 1144,
+          "stderrBytes": 0,
+          "state": "closed",
+          "terminationRequested": false
+        }
+      }
+    }
+  ]
+}

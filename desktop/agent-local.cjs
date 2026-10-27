@@ -31,6 +31,7 @@ async function prepare(a,job,tool,input){
  if(a.data.agentActions.some(r=>r.jobId===job.id&&['running','uncertain'].includes(r.status)))throw Object.assign(Error('上次动作结果未核清，不能通过新计划重复执行'),{requiresInput:true});
  const task=owned(a,job,input.taskId);require('./agent-plan.cjs').assertReady(a,task);require('./evidence-consumption.cjs').assertDelivery(a,job,task);
  const args=validate(a,job,tool,input),s=scope(a,job,tool,args),step=task.steps.find(s=>!s.done),version=require('./agent-writes.cjs').version(task);
+ if(tool==='send_mail'){await require('./tool-evidence.cjs').refreshForDelivery(a,task);require('./grounding.cjs').assertPayload(a,task,args.body);}
  if(step?.kind!=='external'||step.tool!==tool)throw Error('请先把本工具绑定到当前 external 计划步骤，再执行该步骤');
  require('./protocol-access.cjs').assertTool(a,job,'prepare_'+tool,args,{taskId:task.id});
  const key=hash([job.id,task.id,step.id||step.key,tool,args]);
@@ -82,6 +83,7 @@ async function executeLocked(a,job,r){
  if(r.status!=='pending'||r.scopeHash!==s.fingerprint||r.version!==require('./agent-writes.cjs').version(task))throw Object.assign(Error('事项、授权或目标已变化，请重新准备动作'),{conflict:true});
  if(mode(job,r.tool)==='ask'&&!r.approvedAt)throw Object.assign(Error('请先批准此具体动作'),{requiresInput:true});
  require('./execution-gate.cjs').assert(a,{job,task});require('./evidence-consumption.cjs').assertDelivery(a,job,task);
+ if(r.tool==='send_mail'){await require('./tool-evidence.cjs').refreshForDelivery(a,task);require('./grounding.cjs').assertPayload(a,task,r.args.body);}
  require('./protocol-access.cjs').assertTool(a,job,r.tool,r.args,{taskId:task.id,...(r.approvedAt?{action:r}:{})});
  const signal=a.controller?.signal;signal?.throwIfAborted();
  require('./action-facts.cjs').assertWritable(a);r.status='running';r.startedAt=now();job.pendingActionId=r.id;
@@ -103,7 +105,7 @@ async function executeLocked(a,job,r){
    finally{if(attempted)spend.settle(a,ticket,null,null);else spend.cancel(a,ticket);}
   }
   else if(r.tool==='synthesize_speech'){attempted=true;result=await require('./local-media.cjs').speech({text:args.text,cwd,signal});}
-  else{result=await require('./local-external.cjs').submit(a,s.external,{signal,beforeSend(){signal?.throwIfAborted();if(scope(a,job,r.tool,r.args).fingerprint!==r.scopeHash)throw Error('授权已变化');attempted=true;}});if(result.status!=='accepted'){r.result=result;throw Object.assign(Error(result.message),{uncertain:result.status==='uncertain'});}}
+  else{result=await require('./local-external.cjs').submit(a,s.external,{signal,beforeSend(){signal?.throwIfAborted();if(scope(a,job,r.tool,r.args).fingerprint!==r.scopeHash)throw Error('授权已变化');if(r.tool==='send_mail')require('./grounding.cjs').assertPayload(a,task,r.args.body);attempted=true;}});if(result.status!=='accepted'){r.result=result;throw Object.assign(Error(result.message),{uncertain:result.status==='uncertain'});}}
   r.result={...result,files:inventory(cwd),outputFolder:cwd,verified:true,verification:'已核对实际执行回执及本地文件哈希；业务内容仍需结果检查'};require('./action-facts.cjs').outcome(a,r,r.result);r.status='done';r.finishedAt=now();delete r.error;
   if(job.pendingActionId===r.id)job.pendingActionId=null;if(require('./action-facts.cjs').eligible(a,r)&&scope(a,job,r.tool,r.args).fingerprint===r.scopeHash)evidence(a,task,r);
   a.event('Agent 已执行新增工具',r.title,task.id,'success');a.save();return r.result;
@@ -121,7 +123,8 @@ function configure(a,input){
  if(a.dir)require('./access-policy-store.cjs').syncTrustedJob(a,job,{trusted:true,actor:'user_command',command:'agentLocalSettings'});a.save();return {id:job.id,localTools:job.localTools};
 }
 function read(a,job,input){
- const task=owned(a,job,input.taskId),r=a.data.agentActions.find(r=>r.id===input.actionId&&r.jobId===job.id&&r.taskId===task.id&&r.status==='done'&&actions.includes(r.tool));if(!r)throw Error('执行结果不属于本事项');
+ const task=owned(a,job,input.taskId),r=a.data.agentActions.find(r=>r.id===input.actionId&&r.jobId===job.id&&r.taskId===task.id&&r.status==='done');if(!r)throw Error('执行结果不属于本事项');
+ if(!actions.includes(r.tool))throw Object.assign(Error('此回执不是代码/媒体工具产出；文件写入请经 Agent 的 read_local_result 或 compute_evidence action_status 进行只读观察'),{code:'READBACK_TOOL_MISMATCH'});
  if(!job.outputFolder||path.dirname(r.outputFolder)!==job.outputFolder)throw Error('原交付目录不在当前委托范围');verify(r);
  if(!input.filename)return {actionId:r.id,...r.result};
  const file=r.result.files.find(f=>path.relative(r.outputFolder,f.path)===input.filename);if(!file)throw Error('文件不在本次已核对的产出列表');

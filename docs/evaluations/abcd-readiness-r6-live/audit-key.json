@@ -1,0 +1,100 @@
+[
+  {
+    "auditId": "3583328d-bd7a-4792-92dc-6fce7e0e65c4",
+    "caseId": "R6-F01",
+    "arm": "baseline",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "c88ad904-2ce5-49df-8f2e-b6e326e777fa",
+    "caseId": "R6-F01",
+    "arm": "candidate",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "9af747d6-1be2-4722-bbca-1774aaa6e8b4",
+    "caseId": "R6-F02",
+    "arm": "candidate",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "d240409c-9092-4cbb-b7e2-b11281484ea6",
+    "caseId": "R6-F02",
+    "arm": "baseline",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "aaaa9eb0-6a19-4ade-b60b-4cc734764b23",
+    "caseId": "R6-E01",
+    "arm": "baseline",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "2a87fbc9-67a3-40c0-a3f2-161ee247931b",
+    "caseId": "R6-E01",
+    "arm": "candidate",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "5391eb18-e6ce-4a1b-888b-6089e7fb8c0a",
+    "caseId": "R6-E02",
+    "arm": "candidate",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "21e3a618-6986-479f-9101-9769670db171",
+    "caseId": "R6-E02",
+    "arm": "baseline",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "3e9183cb-bbd0-418d-8eb0-9c9b6b3f18c1",
+    "caseId": "R6-R01",
+    "arm": "baseline",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "8fa3e33b-dae4-469c-989b-1b6f3327d668",
+    "caseId": "R6-R01",
+    "arm": "candidate",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "3364d836-83f5-4199-ac33-37ca8f5848c2",
+    "caseId": "R6-R01",
+    "arm": "candidate",
+    "phase": "revision",
+    "phaseIndex": 1
+  },
+  {
+    "auditId": "7372369c-d5bd-42c8-abe0-b2d0bbb32a3f",
+    "caseId": "R6-R02",
+    "arm": "candidate",
+    "phase": "initial",
+    "phaseIndex": 0
+  },
+  {
+    "auditId": "147df309-541a-4bbf-a5c5-b57b90ff9997",
+    "caseId": "R6-R02",
+    "arm": "candidate",
+    "phase": "revision",
+    "phaseIndex": 1
+  },
+  {
+    "auditId": "8659535b-1704-4a7b-ad2a-a5eb796e5e84",
+    "caseId": "R6-R02",
+    "arm": "baseline",
+    "phase": "initial",
+    "phaseIndex": 0
+  }
+]

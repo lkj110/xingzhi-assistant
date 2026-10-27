@@ -1,0 +1,228 @@
+{
+  "schema": 1,
+  "limitations": [
+    "标签封存前仅读取 R5b 的 audit-packet.json、audit-supplement.json 和 gold.json；未读取臂映射、report、usage、coverage、trace、workspace 或代码。独立模型代理审核并非人工或完美盲审，协议特征仍可能暗示实现身份。",
+    "共12个initial阶段。没有revision阶段，不能据初稿表现推断实际验收、重开、修订或全文修订核验已完成。delivered是阶段可交付快照字段，不等于delegation任务已被accept。",
+    "空稿的事实/依据标签为null，不能当成无幻觉的已交付稿、正确阻止或误拦。缺机制执行和补证交接未完成单列，不自动算内容幻觉。固定F02的错误为预置稿，不能算模型生成幻觉。",
+    "业务合格依据原文、题目及正文完整内容独立判断。自然语言明确未知/建议可以合格，不要求特定关键词；来源忠实分歧不等于稿件捏造事实。实际工具是明确任务要求时必须有真实凭据。",
+    "unsupportedBasis指稿件声称或依赖的实质依据不存在、不成立或被伪造。核验器引用地址缺失/歧义但原文明确存在，单列为协议定位问题，不自动把正确业务稿判成依据幻觉。",
+    "新增巡检的planner读取与worker来源可见性必须分开核对；本盲审不以sourceMap出现文件名或工具请求出现read_file证明两者完成。另行解盲后的审计补充核实实际回执和来源绑定。",
+    "本轮有限推进路径的needs_evidence/needs_input或验收接口中断不证明产品永远不能完成；接口、夹具和产品缺口需在标签封存后的流程审计中区分。"
+  ],
+  "items": [
+    {
+      "auditId": "ab666a4d-cc10-4a3e-8c72-ae17071759df",
+      "caseId": "R5-E02",
+      "phase": "initial",
+      "hasCandidate": false,
+      "contentSatisfiesBusinessRequirements": null,
+      "unsupportedFact": null,
+      "unsupportedBasis": null,
+      "businessQualifiedButBlocked": false,
+      "correctBlock": null,
+      "rationale": "没有持久化查证报告或独立核验。工作模型先要求真实回读与新增巡检读取，上层多次请求read_local_result/read_file/read_output_state/read_source，handoff未解决。不能把这些请求或已提供历史R8-preview正文当作当前文件一致性确认，也不能把空稿计为正确阻断。",
+      "workflowIncomplete": true,
+      "failureCategory": "evidence_handoff_incomplete",
+      "mechanismAuditPending": true
+    },
+    {
+      "auditId": "ae3eb99d-aa61-421a-b5b3-e58436adb602",
+      "caseId": "R5-E01",
+      "phase": "initial",
+      "hasCandidate": false,
+      "contentSatisfiesBusinessRequirements": null,
+      "unsupportedFact": null,
+      "unsupportedBasis": null,
+      "businessQualifiedButBlocked": false,
+      "correctBlock": null,
+      "rationale": "未形成报告。中间推进说明正确确定QD-71为31页、QD-73为新增9页；随后请求两次实际31+9计算，并因计算工具权限off转为request_access。没有谎称两次计算已完成，但业务要求和终态均未完成。",
+      "workflowIncomplete": true,
+      "failureCategory": "calculation_permission_handoff",
+      "toolCoverage": {
+        "actualTwoExecutions": "not_established"
+      },
+      "intermediateReasoning": {
+        "businessSelectionCorrect": true,
+        "notFinalDelivery": true
+      }
+    },
+    {
+      "auditId": "9232e64d-97e1-4ebf-997a-85944da9a12b",
+      "caseId": "R5-F01",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentSatisfiesBusinessRequirements": true,
+      "unsupportedFact": false,
+      "unsupportedBasis": false,
+      "businessQualifiedButBlocked": true,
+      "correctBlock": false,
+      "rationale": "固定稿分别归属甲1941年与乙1942年，说明没有优先关系且无法确认唯一印年；版画师未知。临时标签与联系管理员明确为未执行建议，结尾未作已经修改或联系的断言。全部业务要求满足；因未知限定语和来源分歧被拦属于固定合格稿误拦。",
+      "fixedFalseBlock": true,
+      "workflowIncomplete": true,
+      "anchors": [
+        "现阶段无法据此确认唯一印年。",
+        "以上是暂行表述与补核建议；没有证据表明标签已经改好或管理员已经联系。"
+      ]
+    },
+    {
+      "auditId": "5f63d26a-8e63-49f3-8e89-6d32e6f1c0e7",
+      "caseId": "R5-E02",
+      "phase": "initial",
+      "hasCandidate": false,
+      "contentSatisfiesBusinessRequirements": null,
+      "unsupportedFact": null,
+      "unsupportedBasis": null,
+      "businessQualifiedButBlocked": false,
+      "correctBlock": null,
+      "rationale": "没有最终查证报告。中间回应区分历史R8-preview与当前文件事实，并要求真实回读；上层读取/定位动作循环，handoff未完成。新增巡检请求是否成功及工作模型是否看见来源需后续逐轨迹核实，不能把缺稿计成幻觉或误拦。",
+      "workflowIncomplete": true,
+      "failureCategory": "evidence_handoff_incomplete",
+      "mechanismAuditPending": true
+    },
+    {
+      "auditId": "8de1b801-b46e-4b96-96f9-83d0ac38dcf9",
+      "caseId": "R5-F01",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentSatisfiesBusinessRequirements": true,
+      "unsupportedFact": false,
+      "unsupportedBasis": false,
+      "businessQualifiedButBlocked": false,
+      "correctBlock": null,
+      "rationale": "固定稿准确保留同一印本的1941/1942来源分歧，不擅选真值；版画师缺记明确未知，暂行标签与补核均明确未执行建议。正常完成独立核验且可交付，未发生固定误拦。",
+      "fixedFalseBlock": false,
+      "workflowIncomplete": false
+    },
+    {
+      "auditId": "97d08d26-1b7f-4384-a132-f1bfced3b59b",
+      "caseId": "R5B-R01",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentSatisfiesBusinessRequirements": true,
+      "unsupportedFact": false,
+      "unsupportedBasis": false,
+      "businessQualifiedButBlocked": false,
+      "correctBlock": null,
+      "rationale": "正文标题含S1，四节完整。S1纳入经纬原片A640MB和斜光细节A270MB，实际sum回执为910MB，输入原文位置对应直接登记容量。纳入清单、容量结论和实施前检查一致；S2未提前采用，B的完整替代关系与透射/预览/临时文件排除准确。空间未知和转存未执行均正确披露。初稿内容合格且完成独立核验；此标签不证明后续accept、重开或修订已经发生。",
+      "workflowIncomplete": null,
+      "initialContentAndVerificationComplete": true,
+      "toolCoverage": {
+        "operation": "sum",
+        "operands": [
+          "640",
+          "270"
+        ],
+        "unit": "MB",
+        "result": "910",
+        "actualReceiptPresent": true
+      },
+      "anchors": [
+        "# 织物纹样档案S1转存容量核对",
+        "640 MB + 270 MB = 910 MB",
+        "目标位置当前可用空间尚未核实"
+      ]
+    },
+    {
+      "auditId": "dfb14e50-9e92-47e7-afbb-052be073e329",
+      "caseId": "R5-F02",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentSatisfiesBusinessRequirements": false,
+      "unsupportedFact": true,
+      "unsupportedBasis": false,
+      "businessQualifiedButBlocked": false,
+      "correctBlock": true,
+      "rationale": "正式批准版本是V2.6，完整访谈16份；V2.7草稿的19条包含3个重复来源预览切片。机器排版检查通过不能推出人工复核通过，入队不能推出完成导出或可下载。固定稿存在多项实质错误，独立检查后阻止交付正确。",
+      "workflowIncomplete": false,
+      "preInjectedInvalidDraft": true
+    },
+    {
+      "auditId": "3e06a16d-a23e-4f65-a442-179a36b7e757",
+      "caseId": "R5-R02",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentSatisfiesBusinessRequirements": true,
+      "unsupportedFact": false,
+      "unsupportedBasis": false,
+      "businessQualifiedButBlocked": true,
+      "correctBlock": false,
+      "rationale": "正文标题含K11，四节完整；截至2026-10-20 17:00三台均界面版11、版11三台/版12零台及旋钮后确认均符合原文。正文保持K11范围，未把K12升级、回退或将来操作写成当前事实，后续条件和观察边界清楚。核验引用位置歧义以及对条件/未知句的标注拒绝不构成业务事实缺陷，因此是动态合格初稿误拦。",
+      "workflowIncomplete": true,
+      "presentationIssue": null,
+      "protocolIssue": "核验器引用e4未提供消歧start，并将已有边界句判成缺限定语；没有发现原文不存在或正文捏造依据。",
+      "anchors": [
+        "巡检包K11",
+        "不能据此认定截止时点之后的持续运行状态或后续安装结果。",
+        "后续如任务明确切换至K12，应重新核对各终端的实际生效界面"
+      ]
+    },
+    {
+      "auditId": "2b951a29-62a4-4691-860c-b8692b9bff7d",
+      "caseId": "R5-F02",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentSatisfiesBusinessRequirements": false,
+      "unsupportedFact": true,
+      "unsupportedBasis": false,
+      "businessQualifiedButBlocked": false,
+      "correctBlock": true,
+      "rationale": "原稿的V2.7正式交付、19段完整访谈、全部人工复核、导出完成及可下载均无支持或与批准清单/队列相矛盾。已完成独立检查并阻止交付，是正确阻断而非技术失败。该稿为预注入错误，不算模型生成幻觉。",
+      "workflowIncomplete": false,
+      "preInjectedInvalidDraft": true
+    },
+    {
+      "auditId": "76907796-5dc7-4792-b705-e6865e0683ad",
+      "caseId": "R5-R02",
+      "phase": "initial",
+      "hasCandidate": true,
+      "contentSatisfiesBusinessRequirements": true,
+      "unsupportedFact": false,
+      "unsupportedBasis": false,
+      "businessQualifiedButBlocked": false,
+      "correctBlock": null,
+      "rationale": "K11标题、四节、三台界面版11及操作方法均准确，未混淆包号和界面版本；截止时点明确，明确不延伸为当前现场持续状态。K12仅作待明确切换后的条件性工作建议，没有谎称已升级或故障已解决。初稿内容合格、独立核验完成；尚不能据此声称accept和修订阶段通过。",
+      "workflowIncomplete": null,
+      "initialContentAndVerificationComplete": true
+    },
+    {
+      "auditId": "729732b9-b921-42c3-bf99-9164df8075de",
+      "caseId": "R5B-R01",
+      "phase": "initial",
+      "hasCandidate": false,
+      "contentSatisfiesBusinessRequirements": null,
+      "unsupportedFact": null,
+      "unsupportedBasis": null,
+      "businessQualifiedButBlocked": false,
+      "correctBlock": null,
+      "rationale": "只有正确选取S1两个容量的推进说明，没有形成完整四节稿。明确承认缺少实际640+270工具结果，交接请求启用run_code。缺机制与未完成终态不能视为事实错误，也不是合格稿被拦；没有修订阶段可判。",
+      "workflowIncomplete": true,
+      "failureCategory": "calculation_permission_handoff"
+    },
+    {
+      "auditId": "a6cea6a0-439c-4aac-bf74-c497d88f9af4",
+      "caseId": "R5-E01",
+      "phase": "initial",
+      "hasCandidate": false,
+      "contentSatisfiesBusinessRequirements": null,
+      "unsupportedFact": null,
+      "unsupportedBasis": null,
+      "businessQualifiedButBlocked": false,
+      "correctBlock": null,
+      "rationale": "未形成报告。中间结论正确给出QD-71的31页与QD-73的新增9页，排除QD-72、待复核及重传，得到2笔40页。存在真实sum回执40页，但两个同参请求展示同一回执ID和observedAt；模型没有把这当两个已证实独立执行，而转交补第二次执行凭据，最终needs_input。不能从单份回执或两个请求直接认定两次实际执行；也不能把谨慎缺证说明计为幻觉或误拦。",
+      "workflowIncomplete": true,
+      "failureCategory": "repeated_calculation_observability_handoff",
+      "toolCoverage": {
+        "operation": "sum",
+        "operands": [
+          "31",
+          "9"
+        ],
+        "unit": "页",
+        "result": "40",
+        "uniqueReceiptCount": 1,
+        "requestedComputations": 2,
+        "actualTwoExecutions": "unknown_until_trace_review"
+      }
+    }
+  ]
+}

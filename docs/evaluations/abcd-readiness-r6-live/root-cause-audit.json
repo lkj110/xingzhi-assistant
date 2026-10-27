@@ -1,0 +1,569 @@
+{
+  "schema": 1,
+  "auditor": "r6_live_preflight_review",
+  "reviewedAt": "2026-10-26T04:21:18.660Z",
+  "type": "independent_unblinded_failure_mechanism_audit",
+  "candidateCommit": "7cff32e5b206db0854ba0bd7d3122cb8c5839189",
+  "sourceReportSha256": "52f5e116e0db954b4b58da16e7791d9969408c3e350c8fd2a7aa0f2eb6ffe242",
+  "evaluationSealSha256": "5f23f75540c6e2252ee569d096dc17e797820a03cbceb529ae5f760ffb89d60a",
+  "modelCallsByThisAudit": 0,
+  "productionFilesModified": false,
+  "frozenFilesModified": false,
+  "confirmedFindings": [
+    {
+      "id": "RC1",
+      "status": "confirmed",
+      "priority": 1,
+      "title": "Historical file observation disappears under a 60-second current-status TTL",
+      "finding": "The candidate successfully performed both historical-file observations. Each action_status receipt was marked dynamic and became invalid after 60 seconds. The first receipt was already filtered out when the worker resumed; the second was visible for generation but expired before task verification. This explains the observed missing-evidence inputs without attributing them solely to model forgetting.",
+      "evidence": [
+        {
+          "call": 20,
+          "file": "result/calls/R6-E02/candidate/04.json",
+          "sha256": "805163bd74a12a7010df6a089b177b97f862ddc51cefea805f8cef8f81a22e7d"
+        },
+        {
+          "call": 23,
+          "file": "result/calls/R6-E02/candidate/07.json",
+          "sha256": "dd1d74223a0a4ff0df71cf4b2502d6c0e0747cfb945174acdca4d470cdcf8948"
+        },
+        {
+          "call": 25,
+          "file": "result/calls/R6-E02/candidate/09.json",
+          "sha256": "e092de378f14350b4639bc4f712e7a151558bdd39932f650adf75155768f970c"
+        },
+        {
+          "call": 27,
+          "file": "result/calls/R6-E02/candidate/11.json",
+          "sha256": "a8c69b9c7aebc56eff463b3f58bbd4ef3a942493ef381f16669b2dc0a9cc9a73"
+        },
+        {
+          "call": 28,
+          "file": "result/calls/R6-E02/candidate/12.json",
+          "sha256": "14dfd64e9273189b6690af3db9665c11da94b9dca2373193512a7bf55be1b835"
+        }
+      ],
+      "timeline": [
+        {
+          "call": 23,
+          "receiptObservedAt": "2026-10-26T03:56:11.760Z",
+          "receiptValidUntil": "2026-10-26T03:57:11.760Z",
+          "inputTime": "2026-10-26T03:57:36.374Z",
+          "toolEvidenceCount": 0,
+          "ageAtDispatchMs": 84614
+        },
+        {
+          "call": 27,
+          "receiptObservedAt": "2026-10-26T03:58:28.190Z",
+          "receiptValidUntil": "2026-10-26T03:59:28.190Z",
+          "inputTime": "2026-10-26T03:59:15.129Z",
+          "toolEvidenceCount": 1,
+          "ageAtDispatchMs": 46939
+        },
+        {
+          "call": 28,
+          "receiptObservedAt": "2026-10-26T03:58:28.190Z",
+          "receiptValidUntil": "2026-10-26T03:59:28.190Z",
+          "inputTime": "2026-10-26T03:59:40.344Z",
+          "toolEvidenceCount": 0,
+          "ageAtDispatchMs": 72154
+        }
+      ],
+      "code": [
+        {
+          "file": "candidate/desktop/tool-evidence.cjs",
+          "lines": [
+            70,
+            79,
+            81,
+            83,
+            84
+          ],
+          "meaning": "action_status returns dynamic:true; execute sets validUntil=now+60000; valid/current exclude expired receipts; the current same-request receipt replaces its predecessor."
+        },
+        {
+          "file": "candidate/desktop/generation-context.cjs",
+          "lines": [
+            130
+          ],
+          "meaning": "Worker and verifier toolEvidence is projected from current(a,task), so expiration removes the observation from actual model inputs."
+        },
+        {
+          "file": "candidate/desktop/grounding.cjs",
+          "lines": [
+            43,
+            133
+          ],
+          "meaning": "Grounding uses current tool receipts and rejects unavailable/expired evidence."
+        }
+      ],
+      "boundary": "The final artifact says what was observed at 03:58:28 UTC, not that the file is guaranteed unchanged forever. A historical timestamped observation and a still-current state assertion need distinct validity semantics. The measured delays include evaluation integrity checks and other local overhead; no production-latency counterfactual was run."
+    },
+    {
+      "id": "RC2",
+      "status": "confirmed",
+      "priority": 1,
+      "title": "Two evidence resumes occurred; the terminal task check was incomplete because the next dispatch exceeded the phase call cap",
+      "finding": "Calls 19 and 20 perform historical observation and new-file read. Call 21 resumes using only the new source; 22 advances. Call 23 requests the now-missing historical observation. Calls 24,25,26 re-observe, resume with its receipt and advance. Call 27 produces a draft. Call 28 is a read_context search for the historical observation, not a completed verifier verdict; the next dispatch is rejected by the 12-call cap. There is no valid final task or whole-goal judgment for this branch.",
+      "evidence": [
+        {
+          "call": 19,
+          "file": "result/calls/R6-E02/candidate/03.json",
+          "sha256": "fc89b387323099f913736ef2538b5a4097f1baeb185497e2a073d08786ebf924"
+        },
+        {
+          "call": 20,
+          "file": "result/calls/R6-E02/candidate/04.json",
+          "sha256": "805163bd74a12a7010df6a089b177b97f862ddc51cefea805f8cef8f81a22e7d"
+        },
+        {
+          "call": 21,
+          "file": "result/calls/R6-E02/candidate/05.json",
+          "sha256": "908d9b9b7adaea03f5cfb6c8b7d9232f6d9c843f92a2e6bb1bf3a6aa5a6c84ce"
+        },
+        {
+          "call": 22,
+          "file": "result/calls/R6-E02/candidate/06.json",
+          "sha256": "72559a196bc1ff0a6426275e3e5aa15323ff12ad418fe90160a75aa24d1fb514"
+        },
+        {
+          "call": 23,
+          "file": "result/calls/R6-E02/candidate/07.json",
+          "sha256": "dd1d74223a0a4ff0df71cf4b2502d6c0e0747cfb945174acdca4d470cdcf8948"
+        },
+        {
+          "call": 24,
+          "file": "result/calls/R6-E02/candidate/08.json",
+          "sha256": "d6100bb9cec63814dfa30afe112a7d55b83d8f36a21724d5ea984e29a278dd7d"
+        },
+        {
+          "call": 25,
+          "file": "result/calls/R6-E02/candidate/09.json",
+          "sha256": "e092de378f14350b4639bc4f712e7a151558bdd39932f650adf75155768f970c"
+        },
+        {
+          "call": 26,
+          "file": "result/calls/R6-E02/candidate/10.json",
+          "sha256": "0dec576c20b2efa3383ba661b6071ba18d73c5f98ff6e729e639444ab5cf0fdc"
+        },
+        {
+          "call": 27,
+          "file": "result/calls/R6-E02/candidate/11.json",
+          "sha256": "a8c69b9c7aebc56eff463b3f58bbd4ef3a942493ef381f16669b2dc0a9cc9a73"
+        },
+        {
+          "call": 28,
+          "file": "result/calls/R6-E02/candidate/12.json",
+          "sha256": "14dfd64e9273189b6690af3db9665c11da94b9dca2373193512a7bf55be1b835"
+        }
+      ],
+      "code": [
+        {
+          "file": "candidate/desktop/evidence-handoff.cjs",
+          "lines": [
+            8,
+            22,
+            26,
+            35,
+            40
+          ],
+          "meaning": "Tool and source reads emit separate nextAction guidance; resume binds selected evidence and leaves actual gap adjudication to work/verifier."
+        },
+        {
+          "file": "candidate/desktop/evidence-request.cjs",
+          "lines": [
+            25,
+            26,
+            31
+          ],
+          "meaning": "Selected tool proofs must still be current; new source proof can independently permit resume."
+        },
+        {
+          "file": "ledger.cjs",
+          "lines": [
+            29
+          ],
+          "meaning": "The per-case/arm/phase cap prevents a 13th actual dispatch."
+        },
+        {
+          "file": "evaluate.cjs",
+          "lines": [
+            9,
+            15,
+            20
+          ],
+          "meaning": "A completed transport read_context alone is not a current task verdict."
+        }
+      ],
+      "boundary": "First resume omits toolEvidenceIds, but a valid receipt is projected from task state without requiring that field, and it expires before the worker anyway. Adding that ID alone is not established as a sufficient fix. Cap interruption is neither a false-block decision nor proof of erroneous release."
+    },
+    {
+      "id": "RC3",
+      "status": "confirmed",
+      "priority": 2,
+      "title": "Revision patch protocol conflates artifact metadata title with a heading inside the content",
+      "finding": "Both revised responses update the title property and all affected business paragraphs but omit an edit for the leading Markdown H1. The persisted content retains M1/P1 while metadata and body adopt M2/P2. The application applies exactly the supplied edits; there is no evidence of losing a requested H1 edit. Both verifier responses identify the actual title/content contradiction.",
+      "evidence": [
+        {
+          "call": 49,
+          "file": "result/calls/R6-R01/candidate/06.json",
+          "sha256": "e393a58e5a68c9bce9a02905e461bd3c4ac95d529ee64c8f2d601583788d9407"
+        },
+        {
+          "call": 50,
+          "file": "result/calls/R6-R01/candidate/07.json",
+          "sha256": "fc21277454af3c176fcabe3caac69be58cc45d79e772325936a033fc5fb0d10a"
+        },
+        {
+          "call": 55,
+          "file": "result/calls/R6-R02/candidate/05.json",
+          "sha256": "c93658c4f3b6a0a74f63078722a122a6c73fd5c98f6319f5121f135125549f9c"
+        },
+        {
+          "call": 56,
+          "file": "result/calls/R6-R02/candidate/06.json",
+          "sha256": "4b9ace7fc62a57dcbd92c88f64567b91717c9b01798ca853ba7576797c5a77c9"
+        }
+      ],
+      "code": [
+        {
+          "file": "candidate/desktop/generation.cjs",
+          "lines": [
+            13,
+            93
+          ],
+          "meaning": "The exact system prompt says title changes belong in title and cannot be body edits, without qualifying metadata versus Markdown headings."
+        },
+        {
+          "file": "candidate/desktop/generation.cjs",
+          "lines": [
+            18,
+            27,
+            97,
+            101,
+            103
+          ],
+          "meaning": "title and content edits are applied separately; no implicit H1 synchronization occurs."
+        }
+      ],
+      "observedPrompt": "标题修改放在 title 字段，不能当作正文 edits。",
+      "boundary": "The misleading wording and repeated omission are directly observed. The model causal contribution cannot be isolated without a later controlled test. The stale H1 is a real incomplete revision; bypassing its rejection would weaken the gate."
+    },
+    {
+      "id": "RC4",
+      "status": "confirmed",
+      "priority": 3,
+      "title": "Superseded original goal remains an active checklist agreement alongside two equivalent revision directives",
+      "finding": "Revision inputs #49/#55 contain latest task.description/criteria and the original M1/P1 job.goal as a separate agreement with no superseded status. Each also contains both raw revision text and its prefixed task-feedback duplicate as active directives. The semantic verifier explicitly states that the latest selection replaces the earlier one, but grounding reports still render the old agreement among gaps.",
+      "evidence": [
+        {
+          "call": 49,
+          "file": "result/calls/R6-R01/candidate/06.json",
+          "sha256": "e393a58e5a68c9bce9a02905e461bd3c4ac95d529ee64c8f2d601583788d9407"
+        },
+        {
+          "call": 50,
+          "file": "result/calls/R6-R01/candidate/07.json",
+          "sha256": "fc21277454af3c176fcabe3caac69be58cc45d79e772325936a033fc5fb0d10a"
+        },
+        {
+          "call": 55,
+          "file": "result/calls/R6-R02/candidate/05.json",
+          "sha256": "c93658c4f3b6a0a74f63078722a122a6c73fd5c98f6319f5121f135125549f9c"
+        },
+        {
+          "call": 56,
+          "file": "result/calls/R6-R02/candidate/06.json",
+          "sha256": "4b9ace7fc62a57dcbd92c88f64567b91717c9b01798ca853ba7576797c5a77c9"
+        }
+      ],
+      "code": [
+        {
+          "file": "candidate/desktop/grounding.cjs",
+          "lines": [
+            24,
+            26,
+            29,
+            30
+          ],
+          "meaning": "Requirements concatenate current task fields, contract goal and directives, deduplicating only exact text."
+        },
+        {
+          "file": "candidate/desktop/execution-contract.cjs",
+          "lines": [
+            17,
+            18,
+            19
+          ],
+          "meaning": "Without a replacement contract the context retains job.goal and instructs newer user directives to override conflicts."
+        },
+        {
+          "file": "candidate/desktop/core.cjs",
+          "lines": [
+            898,
+            922,
+            925,
+            926,
+            927
+          ],
+          "meaning": "updateTask records current user requirements, updates task fields and requeues; the task edit does not replace the whole job goal."
+        },
+        {
+          "file": "lifecycle.cjs",
+          "lines": [
+            24,
+            27
+          ],
+          "meaning": "The approved evaluator uses updateTask/revise and preserves production goal behavior."
+        }
+      ],
+      "boundary": "This is confirmed contradictory/redundant checklist input, but not a proven cause of these two rejections: the unchanged H1 independently violates the latest requirement and the verifier recognized the override. Do not replace a multi-task job goal wholesale from one task edit."
+    },
+    {
+      "id": "RC5",
+      "status": "confirmed",
+      "priority": 4,
+      "title": "Multiple goal_verify calls are source-fetch continuations, not duplicate completed approvals",
+      "finding": "E01 #15 returns read_context for four sources and #16 produces the final judgment; R01 #47 returns read_context for two sources and #48 produces the judgment. Initial inputs list source metadata with bodyOmitted and no contextReads; second inputs contain four/two read rows. R02 #54 judges in one call. This is avoidable orchestration overhead only if actual necessary source coverage can be supplied safely before the first independent check, not by skipping the check.",
+      "evidence": [
+        {
+          "call": 15,
+          "file": "result/calls/R6-E01/candidate/05.json",
+          "sha256": "351a8c65c8af11b3d64500c5a9e4d3defc48941d3890ff3ef59a06c2eb7e02de"
+        },
+        {
+          "call": 16,
+          "file": "result/calls/R6-E01/candidate/06.json",
+          "sha256": "c8f2492dc4ceb1269f06a66f999e5e2ce67f38d9875b47bd0ab4b0c2608c9ece"
+        },
+        {
+          "call": 47,
+          "file": "result/calls/R6-R01/candidate/04.json",
+          "sha256": "d60ea8db4c9608528492514ef4ffa0afb676d60dd03d6604e78b8b1bd5de226c"
+        },
+        {
+          "call": 48,
+          "file": "result/calls/R6-R01/candidate/05.json",
+          "sha256": "f6d4dd196da8a5d615a2d84fbd8f7c449a42f035ffee736d802cb10e77424d34"
+        },
+        {
+          "call": 54,
+          "file": "result/calls/R6-R02/candidate/04.json",
+          "sha256": "b40710719a8cd66310bdc166e13f44d048ac7b9f5f7c9bcdf3c7771dac20bbae"
+        }
+      ],
+      "code": [
+        {
+          "file": "candidate/desktop/agent.cjs",
+          "lines": [
+            103,
+            105,
+            108,
+            117,
+            120,
+            121,
+            129,
+            134
+          ],
+          "meaning": "The goal model loop can return read_context, merge actual authorized source reads, then call the verifier again."
+        },
+        {
+          "file": "candidate/desktop/agent.cjs",
+          "lines": [
+            411,
+            412,
+            413,
+            416
+          ],
+          "meaning": "Only the final valid boolean judgment is recorded as a completion check."
+        }
+      ],
+      "tokenObservation": {
+        "goalVerifyCalls": 5,
+        "goalVerifyTokens": 136307,
+        "sourceRequestTurns": [
+          {
+            "call": 15,
+            "tokens": 25521
+          },
+          {
+            "call": 47,
+            "tokens": 21358
+          }
+        ],
+        "sourceRequestTurnTokens": 46879
+      },
+      "boundary": "46879 tokens identifies the two source-request turns, not guaranteed achievable savings; preloading changes later input size, source coverage and possible model behavior."
+    },
+    {
+      "id": "RC6",
+      "status": "confirmed",
+      "priority": 3,
+      "title": "This readiness driver does not automatically repair a valid negative semantic revision judgment",
+      "finding": "After revision advance, the helper invokes the planner only for a needs_evidence request or a ready completion candidate missing its whole-goal check. Both revision task checks are valid negative judgments with no evidence request, so the driver stops with EVAL_REVISION_NOT_ACCEPTABLE. These branches did not exhaust their phase budget; no extra repair turn was authorized by the sealed driver.",
+      "evidence": [
+        {
+          "call": 50,
+          "file": "result/calls/R6-R01/candidate/07.json",
+          "sha256": "fc21277454af3c176fcabe3caac69be58cc45d79e772325936a033fc5fb0d10a"
+        },
+        {
+          "call": 56,
+          "file": "result/calls/R6-R02/candidate/06.json",
+          "sha256": "4b9ace7fc62a57dcbd92c88f64567b91717c9b01798ca853ba7576797c5a77c9"
+        }
+      ],
+      "code": [
+        {
+          "file": "lifecycle.cjs",
+          "lines": [
+            5,
+            9,
+            28,
+            29
+          ],
+          "meaning": "Conditional handoff and failure after revision task check."
+        },
+        {
+          "file": "evaluate.cjs",
+          "lines": [
+            27,
+            34,
+            35
+          ],
+          "meaning": "Valid rejection is retained separately from technical failure."
+        }
+      ],
+      "boundary": "This is the prescribed readiness execution boundary, not proof that every interactive or automatic product workflow is incapable of further repair. Do not alter the finished experiment or rerun it to obtain acceptance."
+    }
+  ],
+  "tokenAttribution": {
+    "basis": "Actual input+output per recorded transport category, not estimated attribution of individual prompt fields.",
+    "baseline": {
+      "calls": 25,
+      "totalTokens": 429644,
+      "categories": {
+        "task_verify": {
+          "calls": 6,
+          "inputTokens": 90012,
+          "outputTokens": 6580,
+          "totalTokens": 96592
+        },
+        "generation": {
+          "calls": 8,
+          "inputTokens": 126409,
+          "outputTokens": 2347,
+          "totalTokens": 128756
+        },
+        "planner": {
+          "calls": 11,
+          "inputTokens": 202580,
+          "outputTokens": 1716,
+          "totalTokens": 204296
+        }
+      }
+    },
+    "candidate": {
+      "calls": 34,
+      "totalTokens": 742928,
+      "categories": {
+        "task_verify": {
+          "calls": 11,
+          "inputTokens": 220513,
+          "outputTokens": 22688,
+          "totalTokens": 243201
+        },
+        "generation": {
+          "calls": 11,
+          "inputTokens": 223693,
+          "outputTokens": 7086,
+          "totalTokens": 230779
+        },
+        "goal_verify": {
+          "calls": 5,
+          "inputTokens": 135450,
+          "outputTokens": 857,
+          "totalTokens": 136307
+        },
+        "planner": {
+          "calls": 7,
+          "inputTokens": 131388,
+          "outputTokens": 1253,
+          "totalTokens": 132641
+        }
+      }
+    },
+    "allActualTokens": 1172572,
+    "candidateFileCase": {
+      "calls": 12,
+      "tokens": 212649
+    },
+    "comparisonWarning": "Candidate reaches deeper workflows and revision phases. The all-attempt totals are not equal-completion token efficiency estimates."
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "statement": "Clarifying metadata title versus content headings will reduce H1 omissions.",
+      "support": "Both revision prompts include the ambiguous prohibition and both outputs follow the same incomplete pattern.",
+      "unproven": "No counterfactual prompt run; retain full verification and test novel revisions later."
+    },
+    {
+      "id": "H2",
+      "statement": "Durable as-of observation evidence plus bounded evidence handoff can reduce the E02 repeat cycle.",
+      "support": "Receipt expiry and exact missing/present inputs are confirmed.",
+      "unproven": "A final valid file-task verdict after such a fix has not been observed; other evidence search or qualification issues may remain."
+    },
+    {
+      "id": "H3",
+      "statement": "Explicit supersession and deduplicated directives can reduce checker ambiguity and token cost.",
+      "support": "Old agreements and duplicate directives are present.",
+      "unproven": "Not demonstrated to be the necessary cause of current blocked revisions."
+    },
+    {
+      "id": "H4",
+      "statement": "A bounded primary-source bundle for the independent whole-goal verifier may remove source-request turns.",
+      "support": "Two first goal calls request source bodies omitted from their inputs.",
+      "unproven": "Net token reduction and preserved full exception coverage require later testing; do not transfer earlier verdicts as authority."
+    }
+  ],
+  "nextPriorities": [
+    {
+      "order": 1,
+      "scope": "Observation validity and handoff",
+      "minimalChange": "Separate immutable timestamped file-observation proof from fresh-current-status proof; keep permission/version/hash scope checks. Preserve usable as-of evidence across worker and verifier calls. Give a bounded merged receipt/source continuation for an outstanding gap without declaring all gaps solved.",
+      "offlineRegression": "Advance fake time past 60 seconds between read, resume, generation and verification; permit only the recorded as-of claim, reject current-state claims without refresh, changed/revoked scope and forged receipts. Check repeated explicit observations retain distinct events."
+    },
+    {
+      "order": 2,
+      "scope": "Revision title contract",
+      "minimalChange": "Make metadata title and content headings explicitly distinct in patch instructions/schema. Content H1/title changes require exact body edits; title must not imply body synchronization. Retain full current-artifact verification.",
+      "offlineRegression": "Original metadata equals H1; update metadata and paragraphs without H1 and verify it remains rejected. Cover correctly edited H1, title-only metadata edits, repeated heading text, preserved history and failed patch rollback."
+    },
+    {
+      "order": 3,
+      "scope": "Current requirement projection",
+      "minimalChange": "Represent superseded task-specific original requirements as history/provenance while retaining unaffected job obligations; deduplicate raw/prefixed directives by event identity. Preserve latest user decisions without clearing unrelated tasks or permissions.",
+      "offlineRegression": "Task-level scope changes, shared goal obligations, contradictory old/new options, repeated feedback, reopens and original acceptance invalidation."
+    },
+    {
+      "order": 4,
+      "scope": "Input efficiency after correctness",
+      "minimalChange": "Offer the whole-goal verifier a bounded current primary-source evidence bundle with source scope/version and coverage, so it can decide or ask only for missing ranges. Keep generation and independent judgment separate.",
+      "offlineRegression": "Complete versus partial evidence, hidden tail exception, permission revocation, stale version, and no reuse of a previous verdict as source proof."
+    },
+    {
+      "order": 5,
+      "scope": "Next readiness protocol",
+      "minimalChange": "After code review/offline regression, propose a separate fresh six-pair readiness grant. Explicitly decide whether one bounded semantic-repair cycle belongs in the next driver, cost it and count it equally for both arms. Do not start a formal main evaluation.",
+      "offlineRegression": "Keep all failures/repair attempts metered, final task and whole-goal checks actual, phase cap and unknown-usage stop unchanged until separately approved."
+    }
+  ],
+  "limitations": [
+    "This audit uses actual traces plus static frozen code. It performs no product probes, API requests, semantic encoders, or model reruns.",
+    "Outcome quality adjudication is assigned to a separate blinded reviewer. This unblinded audit does not set hallucination/false-block/wrong-release labels and did not disclose arm or token information to that reviewer.",
+    "Only persisted phase artifacts and actual call messages support claims. Final workspace state is not used alone to prove an earlier observation.",
+    "Wall-clock expiry observations include model latency, CLI/local processing and per-dispatch integrity hashing. Their exact contribution was not experimentally isolated.",
+    "The 12-call phase limit stopped both file branches. Subsequent behavior is unknown; unused global grant is not permission for unplanned probes or replay.",
+    "The original baseline, candidate and six sealed cases are unchanged. Findings suggest the next iteration and do not retroactively repair this result."
+  ]
+}

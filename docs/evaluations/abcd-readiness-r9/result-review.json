@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-27T05:37:48.892Z",
+  "reviewer": "independent-r9-result-audit",
+  "status": "approved",
+  "approved": true,
+  "verdict": "no blocking findings",
+  "openBlockingFindings": 0,
+  "findings": [],
+  "approvalScope": "Accuracy, arithmetic, trace reconciliation, independent content labels, root-cause evidence and sanitized publication of the listed R9 result documents. This is not product-readiness approval, main-evaluation authorization, deployment approval or a population noninferiority result.",
+  "reviewedArtifacts": [
+    {
+      "path": "docs/CONTEXT_ABCD_R9_LIVE.md",
+      "sha256": "418144e491abed421668295a7c805910545f11ad6d1e81d7b682b8c51832c52d"
+    },
+    {
+      "path": "docs/CONTEXT_ABCD_R9_PROTOCOL.md",
+      "sha256": "0a3f9e327aa20cd9f76de637acd7e62969a54763639f77434bf24b448f7a536d"
+    },
+    {
+      "path": "docs/evaluations/abcd-readiness-r9/metrics.json",
+      "sha256": "47ccdb004627bffe8b57430e02c222238c097180746b036347a8c49653107730"
+    },
+    {
+      "path": "docs/evaluations/abcd-readiness-r9/call-accounting.json",
+      "sha256": "d7a80a12b9565e3e64fbd961b7136f8b132639eb88bb89241fe83cf270b513df"
+    },
+    {
+      "path": "docs/evaluations/abcd-readiness-r9/content-audit.json",
+      "sha256": "1c9a05febd4368004cfecff8126e48284d71528794353e237060662d3ede44a7"
+    },
+    {
+      "path": "docs/evaluations/abcd-readiness-r9/integrity.json",
+      "sha256": "2892510f3e708d11f8d4bf7c3c9fc0f46b5bc48abfbb58f4b877015a8ce508e2"
+    },
+    {
+      "path": "docs/evaluations/abcd-readiness-r9/root-causes.json",
+      "sha256": "18a209dcaac00d46f87a4d203f304df4a809fdfd2cb5614f2e9931191926a7e4"
+    },
+    {
+      "path": "docs/evaluations/abcd-readiness-r9/provenance.json",
+      "sha256": "7f5df2c4cc6629294d8acee76e204efdf1067f4ce3535aa54c0672c8d6dad3ca"
+    }
+  ],
+  "checkedScope": [
+    "Blind business content adjudication against sealed gold, before reading arm mappings or raw execution outcomes.",
+    "Post-label unblinding and reconciliation of every application transport with ledger, raw call records, messages, serialized input and lifecycle.",
+    "Recomputation of metrics and integrity, including applicability denominators, fixed/dynamic separation, accepted-generated claims, unknown usage, cache accounting, stage/global/branch limits and completed-pair costs.",
+    "Recheck of implementation/evaluation seals, frozen runtime/dependencies/binaries and preserved historical R8 hashes.",
+    "Static frozen-code and original-call cross-check of extra_classification, nested_action_id and receipt_expired_during_verification.",
+    "Public JSON field-by-field comparison, provenance hashes, narrative numbers, scope limits, and removal of local/account/subscription identifiers."
+  ],
+  "counts": {
+    "protocolGates": 8,
+    "businessCases": 6,
+    "businessBranches": 12,
+    "rawCalls": 37,
+    "ledgerCalls": 37,
+    "messageHashes": 37,
+    "serializedInputHashes": 37,
+    "blindPackets": 12,
+    "candidates": 11,
+    "contentQualified": 9,
+    "incorrectFixedDrafts": 2,
+    "absentCandidates": 1,
+    "adjudicatedClaims": 67,
+    "unsupportedClaimsInFixedDrafts": 4,
+    "completeBusinessPairs": 5,
+    "publicSourceArtifacts": 8,
+    "statisticsAndAccountingOfflineTestsPassed": 21
+  },
+  "keyResults": {
+    "protocolCompletion": "8/8",
+    "procedureCompletion": {
+      "baseline": "5/6",
+      "candidate": "5/6"
+    },
+    "acceptedGeneratedUnsupportedClaims": {
+      "baseline": "0/20",
+      "candidate": "0/21"
+    },
+    "dynamicFalseBlock": {
+      "baseline": "0/3",
+      "candidate": "1/4"
+    },
+    "fixedFalseBlock": {
+      "baseline": "0/1",
+      "candidate": "0/1"
+    },
+    "fixedWrongRelease": {
+      "baseline": "0/1",
+      "candidate": "0/1"
+    },
+    "dynamicWrongRelease": {
+      "baseline": null,
+      "candidate": null,
+      "denominators": [
+        0,
+        0
+      ]
+    },
+    "candidateBlockedQualifiedArtifactClaims": 8,
+    "baselineNoDraftClassification": "technical and unjudged, not a correct rejection",
+    "totalTokens": 584819,
+    "protocolTokens": 91158,
+    "businessTokens": 493661,
+    "cachedInputTokensIncludedOnce": 17152,
+    "unknownUsageCalls": 0,
+    "completePairCost": {
+      "pairs": 5,
+      "baselineTokens": 205314,
+      "candidateTokens": 219758,
+      "deltaTokens": 14444,
+      "percentChange": 7.035077978121317
+    }
+  },
+  "rootCauses": [
+    {
+      "id": "extra_classification",
+      "status": "confirmed",
+      "extraCallTokens": 18750
+    },
+    {
+      "id": "nested_action_id",
+      "status": "confirmed",
+      "applicationParameterFailure": true,
+      "supplierTransportRejected": false,
+      "noSubsequentDispatch": true
+    },
+    {
+      "id": "receipt_expired_during_verification",
+      "status": "confirmed",
+      "freshAtRequestStart": true,
+      "expiredAtResponse": true,
+      "qualifiedObservationTimeDraftWasBlocked": true
+    }
+  ],
+  "resolvedEditorialNotes": [
+    "Clarified supplier schema/transport rejection versus the final application-tool parameter error and stated that no later call occurred.",
+    "Corrected the sample description to cancellation exclusion; the sample did not contain duplicate cancellation records."
+  ],
+  "evidenceHashes": {
+    "report": "a1a81874bbf49a0887b6bd616e1ff51a990095033650bbe6ea2f5b3ff5baaa26",
+    "ledger": "aff843f9db7549463551992223a5ab069683daa0c9559102c80919b1293493b6",
+    "blindLabels": "d44df23f14f8d097ea510e83bdf7ebf6124ae5f9da484f7a4e31fd2c7d7b1ca9",
+    "blindPackets": "a6bf3cc21f284b253c550a5b306ab50a235fb108c25469023324692b658dec1f",
+    "gold": "91ce17638f55fbb9886bc91d01a466d6ca65b113db38e145060b64758de73b3b",
+    "evaluationSeal": "7ee61f117bf3345539d7f8f9d25ac97bc9a0d03458a1432cccc87194423346fe",
+    "localDetailedCrossCheck": "0216991d8d6f99241003289463134988293966c360e33b9af416e62872400a3e"
+  },
+  "limitations": [
+    "Six synthetic paired cases with one draw per arm; small denominators and correlated claims do not support population safety, risk-reduction or noninferiority conclusions.",
+    "Independent agent adjudication, not a human panel; labels were fixed before unblinding, but style and evidence format can retain arm cues.",
+    "Schema/lifecycle protocol success differs from substantive acceptance; expected rejection of the title-classification fixture still passes its protocol gate.",
+    "Procedure completion includes correct fixed-draft rejection; it is not a delivery rate.",
+    "The candidate observation draft was qualified for its explicitly stated observation time, not as proof of later current state or delivery.",
+    "Public summaries and hashes support subsequent cross-checking; local raw requests, fixtures and receipts are required for complete replay.",
+    "Original implementation and preflight test history is referenced from preserved reviews; this result audit independently ran the 21 statistics/accounting tests and did not rerun the full product suite."
+  ],
+  "newRealModelOrNetworkCallsDuringAudit": 0,
+  "frozenInputsOrProductsChangedDuringAudit": false,
+  "formalMainEvaluationApproved": false,
+  "deploymentApproved": false,
+  "uploadPerformedByAuditor": false
+}

@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "originalSHA256": "ab78b44e67ad44da1f9896d587b388428b4e949188ec0f84e322cf5878213218",
+  "reviewer": "r7_live_preflight_review",
+  "reviewedAt": "2026-10-26T08:36:42.309Z",
+  "approved": true,
+  "openP0toP2": 0,
+  "findings": [
+    {
+      "id": "R7-P2-001",
+      "severity": "P2",
+      "status": "fixed",
+      "finding": "The initial timing helper accepted either receipt operation in either arm, allowing candidate action_status to consume the only delay before file_observation.",
+      "resolution": "Runner passes the arm-specific expectedOperation; timing helper matches only that operation and rejects invalid configuration. Fixed before implementation/driver freeze and independently regression-tested."
+    },
+    {
+      "id": "R7-P3-001",
+      "severity": "P3",
+      "status": "documented",
+      "finding": "The sealed protocol phrase no budget reservation during wait could be read to include production internal bookkeeping.",
+      "resolution": "Clarified here: no outer evaluation-ledger reservation or transport exists during the injected delay; product internal spend.reserve/chargeCall state already exists. No post-freeze protocol edit."
+    }
+  ],
+  "scope": "R6 versus R7 six-pair live-readiness harness, timing injection, budget, immutable seals and holdout preflight; no live execution",
+  "limitations": [
+    "This is an independent model-agent static/offline review, not a human review or evidence of live-model quality. Reviewer real model calls and tokens are zero.",
+    "The 90-second delay is evaluator-injected flow time, not actual model transport latency and not an extra model call. The outer evaluation ledger has no pending reservation during this delay; production core has already created its internal spend.reserve/chargeCall state before entering the injected chat callback. Both arms use the same delay rule with their specified receipt operation.",
+    "The subscribed CLI has opaque wrapping and no provider-enforced output cap. Admission reserves serialized UTF-8 input bytes plus at least 128000 output tokens and 16384 wrapper tokens. Actual measured input plus output is authoritative; unknown/conflicting usage or a measured overage fails the gate and stops further dispatch.",
+    "A missing observation or no subsequent dispatch does not create a receipt or authorize a forced delay. The audit must verify actual receipt/event identity and wait endpoints; no_matching_receipt is not evidence that the timing condition was exercised.",
+    "Budget or initial-acceptance failure may leave later branches or revision phases incomplete. No automatic retry, rerun, extra probe, second model, formal evaluation or installation replacement is authorized.",
+    "Gold and author-script bytes are hashed for integrity, but the executor neither imports their labels nor executes authoring code. Business correctness does not prove mechanism execution; actual phase-local receipts, source exposure and acceptance transitions are required.",
+    "Six synthetic pairs cannot establish population noninferiority. Protocol shape and receipt operation can reveal implementation despite omitted arm labels in the audit packet. Unknown or zero denominators remain unestimable.",
+    "The final result-only analysis is outside the sealed executor dependency graph and needs its own final result audit. The reviewed 23-test statistics snapshot predates the separately assigned invalidFinalAccepted addition."
+  ]
+}

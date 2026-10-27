@@ -239,7 +239,8 @@ class Assistant {
     efficiency.resetProgress(job);
     if(note){
       require('./capability-binding.cjs').bind(this,job,note);
-      job.feedback.push({at:now(),taskId:task.id,kind:task.notes.at(-1)?.kind==='revise'?'task_revision':'task_feedback',text:`事项「${task.title}」收到补充：${note}`});job.feedback=job.feedback.slice(-30);
+      const sourceNote=task.notes.findLast(n=>n.text===note);
+      job.feedback.push({at:sourceNote?.at||now(),originEventId:sourceNote?.eventId||sourceNote?.id,workSequence:sourceNote?.workSequence,taskId:task.id,kind:sourceNote?.kind==='revise'?'task_revision':'task_feedback',text:note});job.feedback=job.feedback.slice(-30);
       for(const d of this.data.decisions)if(d.jobId===job.id&&d.kind==='question'&&d.status==='open'&&(d.key===`task:${task.id}`||d.taskIds?.includes(task.id))){d.status='answered';d.answer=note;d.answeredAt=now();d.answerBasis=decisions.signature(this,job);}
     }
     if(job.status!=='paused'){
@@ -274,9 +275,9 @@ class Assistant {
       { role: 'user', content: JSON.stringify(payload) }
     ];
   }
-  async call(role, prompt, payload, {boundedFinalization} = {}) {
+  async call(role, prompt, payload, {boundedFinalization,onSupplied,responseContract,structuredPrompt} = {}) {
     const provider = this.available(role);
-    const result = await this.callModel(provider, undefined, this.modelMessages(prompt,payload), { signal: this.controller?.signal, role, stage: role==='verify'?'task_verify':'task_work', routingContext: payload, boundedFinalization });
+    const result = await this.callModel(provider, undefined, this.modelMessages(prompt,payload), { signal: this.controller?.signal, role, stage: role==='verify'?'task_verify':'task_work', routingContext: payload, boundedFinalization,onSupplied,responseContract,structuredMessages:structuredPrompt===undefined?undefined:this.modelMessages(structuredPrompt,payload) });
     this.controller?.signal.throwIfAborted();
     return result;
   }
@@ -288,17 +289,25 @@ class Assistant {
     const selection=modelRouting.select(this,provider,options);
     if(selection.provider.id!==provider.id)key=undefined;
     provider=selection.provider;
-    const {routingContext,boundedFinalization,...requestOptions}=options;
-    const assertActive=()=>{
+    const {routingContext,boundedFinalization,onSupplied,structuredMessages,...requestOptions}=options;
+    const assertActive=(readOnly=false)=>{
       if(options.signal?.aborted||this.controller?.signal.aborted||this.suspended||this.activeAgentJob?.status==='paused')throw cancelledError();
-      require('./execution-gate.cjs').assert(this,{task:this.activeSpendTask});
+      require('./execution-gate.cjs').assert(this,{task:this.activeSpendTask,readOnly});
       if(this.activeAgentJob||this.activeSpendTask)require('./access-policy-store.cjs').assertTool(this,this.activeAgentJob,'model_request',{},this.activeSpendTask?{taskId:this.activeSpendTask.id}:{});
       if(this.activeAgentJob)projectLifecycle.assertJobActive(this.data,this.activeAgentJob);
     };
-    const attempt=async(p,k,number,from,requestMessages=messages,stage=requestOptions.stage)=>{
+    let lastPreparedBudget;
+    const attempt=async(p,k,number,from,requestMessages=messages,stage=requestOptions.stage,shrink=false)=>{
       assertActive();
       if(requestOptions.role==='execute')require('./evidence-consumption.cjs').modelGuard(this);
       if(authorization!==revision())throw modelError('MODEL_CONFIG','模型配置已变化，请重新推进。',false);
+      const transportSchema=require('./verification-output.cjs').overhead(p,requestOptions);
+      // Choose after routing and again for an authorized fallback. HTTP providers
+      // retain textual structure; only a real typed Codex request may omit it.
+      if(transportSchema&&structuredMessages&&requestMessages===messages)requestMessages=structuredMessages;
+      const preparedInput=require('./input-budget.cjs').prepare(this,p,requestMessages,{stage,shrink,transportSchema});
+      requestMessages=preparedInput.messages;
+      lastPreparedBudget=preparedInput.diagnostic;
       // Includes the real system/profile and both JSON serialization layers.
       // A local rejected request must not create a usage reservation or billed attempt.
       if(p.type==='codex')subscription.validateInput(requestMessages);
@@ -308,7 +317,7 @@ class Assistant {
       const priorCalls=chargedJob?.callsUsed,priorRuleUsage=chargedRule?clone(chargedRule.usage):null;
       agent.chargeCall(this,{persist:false});
       let spendTicket;
-      try{spendTicket=spend.reserve(owner,p,requestMessages,{evaluation:owner!==this});stewardship.reserve(owner);}catch(error){
+      try{spendTicket=spend.reserve(owner,p,requestMessages,{evaluation:owner!==this,extraInputBytes:transportSchema?.utf8Bytes||0});stewardship.reserve(owner);}catch(error){
         if(spendTicket)spend.cancel(owner,spendTicket);
         if(chargedJob)chargedJob.callsUsed=priorCalls;
         if(chargedRule)chargedRule.usage=priorRuleUsage;
@@ -316,10 +325,10 @@ class Assistant {
       }
       // A persistence failure is never a reason to send this context to another model.
       try{owner.save();if(owner!==this)this.save();}catch{throw persistenceError();}
-      const meta={...requestOptions,stage,spendTicket,requestId,attempt:number,...(selection.routing?{routing:selection.routing}:{}),...(from?{fallbackFrom:from}:{})};
-      if(owner!==this)return efficiency.call(owner,p,k,requestMessages,{...meta,stage:'evaluation'},(p,k,m,o)=>efficiency.call(this,p,k,m,{...o,spendTicket:null},this.chat));
+      const meta={...requestOptions,stage,spendTicket,requestId,attempt:number,inputBudget:preparedInput.diagnostic,transportSchema,...(selection.routing?{routing:selection.routing}:{}),...(from?{fallbackFrom:from}:{})};
+      if(owner!==this){const result=await efficiency.call(owner,p,k,requestMessages,{...meta,stage:'evaluation'},(p,k,m,o)=>efficiency.call(this,p,k,m,{...o,spendTicket:null},this.chat));assertActive(true);onSupplied?.(preparedInput);return result;}
       const consumption=require('./evidence-consumption.cjs');consumption.beforeModel(this,meta);
-      try{const result=await efficiency.call(this,p,k,requestMessages,meta,this.chat);consumption.afterModel(this,meta);return result;}catch(error){consumption.afterModel(this,meta,error);throw error;}
+      try{const result=await efficiency.call(this,p,k,requestMessages,meta,this.chat);consumption.afterModel(this,meta);assertActive(true);onSupplied?.(preparedInput);return result;}catch(error){consumption.afterModel(this,meta,error);throw error;}
     };
     assertActive();
     if(key===undefined)key=provider.sealedKey?await this.vault.open(provider.sealedKey):'';
@@ -330,6 +339,7 @@ class Assistant {
       // retain their existing JSON repair, retry and consented fallback below.
       if(beginFinalization)throw error;
       if(!error.spendLimit&&!error.localPersistence)spend.check(owner,{evaluation:owner!==this});
+      if(error.contextOverflow&&require('./context-optimizations.cjs').enabled(this,'A')&&modelPolicy.normalize(provider.requestPolicy).retries===1&&authorization===revision()&&!this.modelBudgetOwner&&!['connection_test','evaluation'].includes(options.stage))return attempt(provider,key,2,null,messages,requestOptions.stage,lastPreparedBudget||true);
       if(error.jsonRepairable&&authorization===revision()&&!this.modelBudgetOwner&&!['connection_test','evaluation'].includes(options.stage)){
         // Repair inference only: external application actions have not run yet.
         try{return await attempt(provider,key,2,null,require('./model-json.cjs').repairMessages(messages,error),'json_repair');}
@@ -491,7 +501,7 @@ analysis/draft 仅适用于阅读、分析、文本产出；发信、联系别�
       workMemory:memory.context(this,job?.projectId || task.projectId),
       task: {id:task.id,title:task.title,description:task.description,objective:task.objective,criteria:task.criteria,priority:task.priority,dueAt:task.dueAt,primaryArtifactId:task.primaryArtifactId,evidenceRequest:require('./evidence-request.cjs').view(task.evidenceRequest),
         steps:task.steps.map(({evidence,checkpoint,checkpointHistory,inputBasis,outputHash,...step})=>verification?{...step,evidence}:step),notes:task.notes.slice(-8),waitingOn:task.waitingOn},
-      delegation: job ? {...require('./execution-contract.cjs').context(job),feedback:job.feedback.filter(f=>!job.executionContract||f.at>job.executionContract.updatedAt).slice(-8),output:{folder:job.outputFolder,fileMode:job.fileMode},
+      delegation: job ? {...require('./execution-contract.cjs').context(job,{task}),output:{folder:job.outputFolder,fileMode:job.fileMode},
         followups:job.followups.filter(f=>!f.taskId||f.taskId===task.id).map(f=>({key:f.key,reason:f.reason,expected:f.expected,status:f.status,deadlineAt:f.deadlineAt,sourceId:f.sourceId,evidence:f.evidence}))} : null,
       ...(verification ? {deliveryEvidence:this.data.agentActions.filter(r=>r.jobId===job?.id&&r.taskId===task.id&&r.status==='done').map(r=>require('./revision-protocol.cjs').deliveryContext(this,task,r,protocol))} : {}),
       sources: this.data.sources.filter(s => task.sourceIds.includes(s.id)&&allowed.has(s.id)&&!task.supersededSourceIds?.includes(s.id)).map(s => s.deleted||s.projectExcluded?{...documents.summary(s,0),content:'该来源已撤回或被排除，历史正文不作为当前执行依据。',unavailable:true}:require('./data-platform.cjs').evidenceSummary(s,verification?30000:6000)),
@@ -586,27 +596,26 @@ delegation 提供用户目标、已配置的产出目录和相关等待状态；
         task.status = 'running'; this.save();
         const checkCache=require('./verification-cache.cjs');
         const fullContext={...this.context(task,{verification:true}),verificationSnapshot:require('./revision-protocol.cjs').snapshot(this,task),...(linkedJob?{requirements:require('./work-obligations.cjs').requirements(this,linkedJob),businessObligations:require('./relation-obligations.cjs').context(this,linkedJob,task)}:{})};
-        const verifyPrompt=(linkedJob?require('./relation-obligations.cjs').instruction+'\n':'')+require('./revision-protocol.cjs').verificationInstruction+`本次以用户已确认的范围检查。已在 delegation 明确允许保留的权限缺口只检查是否如实标注，不重复要求取得已接受不可访问的内容。可选返回 gapDetails:[{requirementId:"task:事项 ID",text:"与 gaps 一致",sourceIds:["实际用于判断该缺口的来源 ID"]}]，仅填写确实关联的证据，不能借无关来源刷新缺口。
-独立检查事项是否满足完成标准。根据实际产出和用户提供的执行证据判断，不能只相信模型声称完成。
-返回 {"passed":true或false,"summary":"检查结论与理由","gaps":["未满足的标准"]}。
-没有证据的外部行动不算完成；如果要求已经通过草稿/分析满足，不要求额外的外部发送。
-artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作为背景，不能用来证明当前步骤已满足完成标准。 artifacts.storageEvidence 是应用提供的本地工作空间保存凭据，不是正文自述；origin=user_import 表示已通过用户导入正文接入本步骤。独立事项要求交接文档但未要求额外写入指定外部位置时，已保存的正文即可作为交付，不要求 deliveryEvidence。若明确要求外部路径或发送回执，工作空间保存凭据不能替代外部交付证据。业务任务/表 ID、SQL、运维命令和交接包相对路径属于有用的技术交接信息，不应误判为应用内部编号。保存状态依据 deliveryEvidence 和步骤 evidence 核验，不要求正文自述已保存。检查正文是否混入本应用的保存交接、内部 ID 或哈希；用户没有要求这些内容时应列为改进项。相关等待状态以 delegation.followups 为准。previousCheck 存在时，已标记片段通过过检查且字节未变；重点检查改动及其对上下文、完成标准的影响。无法判断省略部分时返回 {"retryFull":true}，应用会提供全文重新检查。`;
-        const verifierKey=digest(verifyPrompt),checkingBasis=acceptance.basis(this,task);
+        const verifyPrompt=require('./verification-instruction.cjs').result({linkedJob:!!linkedJob});
+        const grounding=require('./grounding.cjs');
+        const verifierKey=digest(verifyPrompt+(grounding.enabled(this)?'grounding:'+grounding.VERSION+':'+grounding.INPUT_PROTOCOL:'')),checkingBasis=acceptance.basis(this,task);
         let prepared=checkCache.prepare(this,task,fullContext,{allowExact:true,verifierKey});
         let verification=checkCache.reuse(this,task,prepared,{verifierKey});
         if(!verification){
           if(prepared.mode==='exact')prepared=checkCache.prepare(this,task,fullContext,{allowExact:false});
-          verification=await require('./generation-context.cjs').call(this,task,verifyPrompt,prepared.context,'verify');
+          verification=await require('./generation-context.cjs').call(this,task,verifyPrompt,prepared.context,'verify',{systemFor:options=>require('./verification-instruction.cjs').result({linkedJob:!!linkedJob,...options})});
         }
-        if(verification.retryFull===true&&prepared.mode==='incremental'){prepared={...prepared,mode:'full',reusedChunks:0,context:fullContext};verification=await require('./generation-context.cjs').call(this,task,verifyPrompt,fullContext,'verify');}
+        if(verification.retryFull===true&&prepared.mode==='incremental'){prepared={...prepared,mode:'full',reusedChunks:0,context:fullContext};verification=await require('./generation-context.cjs').call(this,task,verifyPrompt,fullContext,'verify',{systemFor:options=>require('./verification-instruction.cjs').result({linkedJob:!!linkedJob,...options})});}
 
         if (typeof verification.passed !== 'boolean' || typeof verification.summary !== 'string' || !Array.isArray(verification.gaps)) throw modelError('MODEL_INVALID_RESPONSE','模型返回的结果检查格式无效',true);
         if (verification.gaps.some(gap => typeof gap !== 'string') || !verification.summary.trim()) throw modelError('MODEL_INVALID_RESPONSE','模型返回的结果检查内容无效',true);
         if (verification.passed && verification.gaps.some(gap => gap.trim())) throw modelError('MODEL_INVALID_RESPONSE','检查结论存在矛盾：仍有未满足的标准，不能标记完成。将自动重试检查。',true);
         if(checkingBasis!==acceptance.basis(this,this.task(id)))throw modelError('MODEL_INVALID_RESPONSE','检查期间要求或资料已变化，旧检查已丢弃，将按当前依据重新检查',true);
         if(linkedJob){const covered=require('./relation-obligations.cjs').validateCoverage(this,linkedJob,task,verification,checkingBasis);verification=covered.result;require('./relation-obligations.cjs').record(linkedJob,covered.receipts);}
+        if(grounding.enabled(this)&&verification.grounding)task.grounding=verification.grounding;
         checkCache.remember(this,task,verification,prepared);
         task.verification = { basisVersion:2,mode:prepared.mode,reusedChunks:prepared.reusedChunks,checkedChunks:prepared.checkedChunks,...(prepared.mode==='exact'?{avoidedModelCalls:1}:{}), passed: verification.passed, summary: short(verification.summary, 5000), gaps: verification.gaps.map(s => short(s, 1000)).slice(0, 20), gapDetails:verification.gapDetails,relationCoverage:verification.relationCoverage,snapshot:fullContext.verificationSnapshot,at: now(), basis:acceptance.basis(this,task) };
+        if(verification.suggestions?.length)task.verification.suggestions=verification.suggestions;
         task.status = verification.passed ? 'review' : 'blocked';
         if(linkedJob)require('./continuation-control.cjs').noteCheck(this,linkedJob,task,task.verification,{phase:'result'});
         task.lastError = verification.passed ? '' : `结果检查未通过：${verification.summary}`;
@@ -779,6 +788,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
     if (typeof action === 'string' && action.startsWith('rule')) return workRules.dispatch(this,action,input);
     if (typeof action === 'string' && action.startsWith('agent')) return agent.dispatch(this, action, input);
     if (action === 'state') return this.publicState();
+    if (action === 'groundingStatus') return require('./grounding.cjs').status(this);
     if (action === 'stop') { this.stop(); return this.publicState(); }
     if (action === 'import') return this.addSources(input.items);
     if (action === 'extract') { this.available('organize'); return this.launch('整理材料并拆解事项', () => this.extract(input.ids)); }
@@ -822,6 +832,12 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
         requestPolicy:modelPolicy.normalize(input.requestPolicy ?? existing?.requestPolicy),
         sealedKey: input.clearKey ? '' : existing?.sealedKey || ''
       };
+      if(input.contextWindowTokens!==undefined){
+        const n=input.contextWindowTokens===''||input.contextWindowTokens===null?null:Number(input.contextWindowTokens);
+        if(n!==null&&(!Number.isSafeInteger(n)||n<1024||n>10000000))throw new Error('模型上下文窗口须为 1024–10000000 的整数，未知时留空');
+        provider.contextCapability=n===null?null:{contextWindow:n,maxOutputTokens:null,source:'user-confirmed-model-settings',checkedAt:now()};
+      }else if(existing?.model===provider.model&&existing?.type===provider.type&&existing?.baseUrl===provider.baseUrl&&existing.contextCapability)provider.contextCapability=existing.contextCapability;
+      else if(existing?.contextCapability)provider.contextCapability=null;
       for(const key of ['inputPrice','cachedInputPrice','outputPrice']) {
         const value=input[key]===undefined?existing?.[key]:input[key];
         if(value===null||value===''||value===undefined)provider[key]=null;
@@ -852,13 +868,14 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       });
     } else if (action === 'settings') {
       const settings = clone(this.data.settings);
+      const enableGrounding=input.evidenceGrounding===true&&this.data.settings.evidenceGrounding!==true;
       if (input.roles) for (const role of ['organize', 'execute', 'verify']) {
         if (!Object.hasOwn(input.roles, role)) continue;
         if (input.roles[role] && !this.data.providers.some(p => p.id === input.roles[role])) throw new Error('所选模型不存在');
         settings.roles[role] = input.roles[role] || '';
       }
       if (input.profile !== undefined) settings.profile = short(input.profile, 5000);
-      for (const key of ['automatic', 'autoExtract', 'autoComplete', 'compactContext']) if (input[key] !== undefined) settings[key] = !!input[key];
+      for (const key of ['automatic', 'autoExtract', 'autoComplete', 'compactContext', 'evidenceGrounding']) if (input[key] !== undefined) settings[key] = !!input[key];
       if (input.intervalMinutes !== undefined) settings.intervalMinutes = Math.max(1, Math.min(120, Number(input.intervalMinutes) || 15));
       if (input.maxActions !== undefined) settings.maxActions = Math.max(1, Math.min(10, Math.floor(Number(input.maxActions) || 3)));
       if (settings.automatic) for (const role of settings.autoExtract ? ['organize', 'execute', 'verify'] : ['execute', 'verify']) {
@@ -866,11 +883,18 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       }
       return this.commitOrdinary(() => {
         this.data.settings = settings;
+        if(enableGrounding)for(const task of this.data.tasks.filter(t=>t.status==='review'&&!t.acceptedAt&&!t.deletedAt)){
+          let current=false;try{current=!!require('./grounding.cjs').reusable(this,task);}catch{}
+          if(current)continue;
+          this.requeue(task);delete task.contentVerification;
+          this.event('等待独立证据核验','原稿已保留，继续推进时核验要求与原文。',task.id);
+        }
         modelFallback.changed(this);
         modelRouting.changed(this);
       });
     } else if (action === 'createTask') {
-      this.createTask(input);
+      const created=this.createTask(input);
+      require('./grounding.cjs').captureUserInput(created,'description',created.description);
       require('./deadline-scheduler.cjs').reconcile(this);
     } else if (action === 'updateTask') {
       const task = this.task(input.id);
@@ -890,12 +914,14 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       if(input.modelPreference!==undefined){if(!modelRouting.preferences.includes(input.modelPreference))throw new Error('事项模型选择无效');changes.modelPreference=input.modelPreference;}
       const meaningChanged = ['title', 'description', 'objective', 'criteria'].some(key => key in changes && changes[key] !== task[key]);
       if(!meaningChanged&&!deadlineInput)return this.commitOrdinary(() => {
+        if(input.description!==undefined)require('./grounding.cjs').captureUserInput(task,'description',changes.description);
         require('./requirements.cjs').edit(task,changes);
         Object.assign(task,changes);
         this.event('更新事项',task.title,task.id);
         task.updatedAt=now();
       });
       if(meaningChanged)require('./work-journal.cjs').recordUserEdit(this,{id:task.id,reopen:task.status==='completed',requirementRevision:uid(),changes});
+      for(const field of ['description','objective'])if(input[field]!==undefined)require('./grounding.cjs').captureUserInput(task,field,changes[field]);
       if(deadlineInput)require('./deadline-events.cjs').setPolicy(this,{taskId:task.id,input:deadlineInput,expectedRevision:input.expectedDeadlineRevision});
       require('./requirements.cjs').edit(task,changes);
       Object.assign(task, changes);
