@@ -1,0 +1,275 @@
+{
+  "schema": "foundation-public-delivery-v1",
+  "createdAt": "2026-10-27T11:10:42.913Z",
+  "version": "0.42.4",
+  "releaseLabel": "Windows Foundation 2026-10-27",
+  "productSourceCommit": "90815f43395b0f453e48730ebb9ecd4671d9917b",
+  "scope": "Import source material -> generate a local draft -> strict independent evidence verification -> explicit manual acceptance",
+  "excludedScope": [
+    "A-D experimental capabilities",
+    "Complete automatic Agent execution",
+    "External connector synchronization and identity-bound subprocess lifecycle",
+    "External publication and end-to-end external delivery",
+    "Historical Agent authorization-repair and autonomous continuation",
+    "Current online model service availability",
+    "Other-platform packaging"
+  ],
+  "GlobalRegressionPassed": false,
+  "TargetedRetestPassed": false,
+  "review": {
+    "decision": "conditionally_approved_for_the_predeclared_foundation_scope",
+    "reviewedAt": "2026-10-27T11:08:59.661Z",
+    "reviewer": "Independent source-and-artifact reviewer; retrospective nonblind audit",
+    "approved": true,
+    "sourceAuditSha256": "c0044ff398053e90a448d6b7bcec84cee537b683168c13f76c893967414b471a",
+    "conditions": [
+      {
+        "id": "exact-package",
+        "requirement": "Install or distribute the reviewed package identity. Any executable/product-code or ASAR change needs fresh identity and affected-scope verification; documentary-only packaging changes need an updated archive hash."
+      },
+      {
+        "id": "manual-strict-mode",
+        "requirement": "At installation, read back strict evidence grounding enabled, automatic management disabled and automatic completion disabled. Use one explicitly advanced local draft task at a time and require human review before acceptance."
+      },
+      {
+        "id": "exclude-unverified-execution",
+        "requirement": "Do not activate or represent external connector synchronization, external publication, complete Agent delegation or historical Agent recovery as certified behavior of this delivery. Existing automatic/external work must not be resumed as part of installation."
+      },
+      {
+        "id": "disclose-results",
+        "requirement": "Publish the original full-run and fixed-rerun totals and these four unpassed cases alongside the limited-scope delivery statement. Never describe this delivery as globally green."
+      },
+      {
+        "id": "no-new-live",
+        "requirement": "This approval authorizes no new model calls, health probes or reuse of the halted evaluation budget."
+      }
+    ],
+    "conclusion": "No necessary P0/P1 product repair was identified within the foundation scope fixed before testing. The exact historical-J package may be installed and delivered under the listed operating and disclosure conditions. Global regression and the fixed targeted rerun remain failed; the four residual cases remain visible and do not become passed through this scoped approval."
+  },
+  "artifactIdentity": {
+    "version": "0.42.4",
+    "restorationCommit": "90815f43395b0f453e48730ebb9ecd4671d9917b",
+    "signature": "unsigned",
+    "asarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+    "zipFile": "XingzhiAssistant-Windows-Foundation-20261027.zip",
+    "zipSha256": "4c96a9763e4a8693ceae571b1c7fb74ab2d13ac590a32bdfb53808171a914805",
+    "executableSha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a",
+    "sourceFilesMatched": 839,
+    "historicalJDesktopModulesMatched": 189,
+    "historicalJFrontendAssetsMatched": 2,
+    "packageManifestEntriesMatched": 213,
+    "zipFilesMatched": 86,
+    "originalPackageFilesUnchanged": 83,
+    "addedReadmeEqualsApprovedScopeDocument": true,
+    "productChangesMadeToObtainTestPass": false,
+    "additionalPackageFiles": [
+      "README-FOUNDATION.md",
+      "STABLE_FOUNDATION_VALIDATION.md",
+      "evidence/stable-foundation-historical-J.json"
+    ],
+    "validationDocumentOnlyPackageLinkRewritten": true,
+    "publicHistoricalJsonExactlyEqualsIndependentReanalysis": true,
+    "previousCandidate": {
+      "file": "XingzhiAssistant-Windows-Foundation-20261027-candidate-v1.zip",
+      "sha256": "5e9eca387ea6fc0057439afd3e60bd6ab04e39d0fa4dace7bcb061234e824be1",
+      "retained": true,
+      "supersededByFinalDocumentaryPackaging": true
+    },
+    "nonProductChangesSinceRestoration": [
+      "docs/STABLE_FOUNDATION.md",
+      "docs/STABLE_FOUNDATION_VALIDATION.md",
+      "docs/evidence/stable-foundation-historical-J.json",
+      "scripts/foundation-smoke.cjs"
+    ]
+  },
+  "verification": {
+    "fullRegression": {
+      "tests": 4777,
+      "pass": 4700,
+      "fail": 8,
+      "cancelled": 7,
+      "skipped": 62,
+      "todo": 0,
+      "exitCode": 1,
+      "allPassed": false
+    },
+    "fixedTargetedRetest": {
+      "tests": 15,
+      "pass": 11,
+      "fail": 3,
+      "cancelled": 1,
+      "skipped": 0,
+      "todo": 0,
+      "exitCode": 1,
+      "originalTimeoutMs": 60000,
+      "fileConcurrency": 1,
+      "originalAssertionsUnchanged": true,
+      "unpassedCases": 4
+    },
+    "originalWriteResponseLostAssertion": "failed in full run; passed in the original-condition fixed rerun; original failure retained",
+    "nativeCaptureUi": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "coverage": [
+        "real selection",
+        "explicit copy",
+        "clipboard restoration",
+        "password refusal",
+        "region screenshot"
+      ]
+    },
+    "foundationPackageSmokeV2": {
+      "passed": true,
+      "actualPackagedRendererIpcWorkerHttp": true,
+      "sameAsar": true,
+      "syntheticLoopbackRequests": 5,
+      "positiveRequests": 3,
+      "negativeRequests": 2,
+      "positiveReadyForAcceptanceAfterFirstColdStart": true,
+      "positiveCompletedOnlyAfterExplicitAcceptCommand": true,
+      "negativeMissingEvidenceBlocked": true,
+      "negativeAcceptRejected": true,
+      "secondColdStartPreservedStatesAndSettings": true,
+      "mainWindowPageErrorListeners": 3,
+      "recordedPageErrors": 0,
+      "persistedStateIndependentlyRead": true,
+      "usageValuesSynthetic": true,
+      "realModelCalls": 0
+    },
+    "startupDiagnostic": {
+      "acceptanceRetest": false,
+      "originalIdleBudgetMs": 200,
+      "defaultProductionIdleMs": 900000,
+      "firstStdoutMs": [
+        217.7025,
+        240.92370000000005,
+        226.3692000000001
+      ],
+      "allGreaterThanFixtureBudget": true,
+      "changesToTestOrProduction": false
+    }
+  },
+  "residualFailures": [
+    {
+      "test": "Codex subprocess activity extends idle window without a total deadline",
+      "file": "tests/long-generation.test.cjs",
+      "line": 21,
+      "originalResult": "MODEL_TIMEOUT",
+      "retestResult": "MODEL_TIMEOUT",
+      "retestDurationMs": 363.9157,
+      "classification": "unpassed subsecond subprocess timing fixture",
+      "rootCauseEstablished": false,
+      "scopeAssessment": "This test starts the managed Windows process with a 200 ms idle window. The unchanged production policy defaults to 900000 ms and accepts whole-minute user settings. Three offline observations of the same managed spawn path first emitted stdout after 217.7025, 240.9237 and 226.3692 ms. This supports a fixture startup-budget explanation; the diagnostic is not an acceptance pass and uses an inherited environment rather than processCall’s filtered environment.",
+      "foundationBlocker": false,
+      "requiredProductFix": false,
+      "disposition": "Retain the failing test and diagnostic. No production waiting-policy change or further retest is required for the declared foundation delivery."
+    },
+    {
+      "test": "I13 actual same-group descendant ignores TERM; abort-transient-probe waits for group exit before session cleanup",
+      "file": "tests/p1-b2-lark-identity.test.cjs",
+      "line": 114,
+      "originalResult": "fixture wait expired",
+      "retestResult": "fixture wait expired",
+      "retestDurationMs": 12005.7458,
+      "classification": "unresolved connector process-lifecycle test",
+      "rootCauseEstablished": false,
+      "scopeAssessment": "The failing wait at line 117 precedes the transient-confirmation probe injection. It waits for a synthetic Lark connector descendant readiness marker and process-group record after identity binding and connector sync. Close and ordinary abort variants passed the fixed rerun; the transient-probe scenario remains unverified. The certified workflow neither synchronizes this connector nor invokes its identity-bound process session.",
+      "foundationBlocker": false,
+      "requiredProductFix": false,
+      "disposition": "Keep as an unresolved external-connector limitation. Do not claim that the transient probe, descendant cleanup or the whole connector lifecycle passed."
+    },
+    {
+      "test": "controlled formal Worker: full-delivery check-revise",
+      "file": "tests/system-controlled-worker.test.cjs",
+      "line": 30,
+      "originalResult": "60000 ms test timeout",
+      "retestResult": "60000 ms test timeout (cancelled)",
+      "retestDurationMs": 65031.5041,
+      "classification": "unresolved complete Agent delivery scenario",
+      "rootCauseEstablished": false,
+      "scopeAssessment": "The test sets automaticExecution=true and runs agent.run on a delegation whose contract reads 19 sources, revises an existing main artifact and updates the same external Lark document with readback. It exercises a broader automatic Agent contract than the declared local manual task path. The actual foundation renderer/IPC/Worker generate-check-accept-persist route passed on the same ASAR; this does not validate the failed complete Agent route.",
+      "foundationBlocker": false,
+      "requiredProductFix": false,
+      "disposition": "Do not certify complete Agent check-revise or external publication. Retain this timeout without attributing it to environment."
+    },
+    {
+      "test": "controlled/notproduction formal Worker: context authorization repair uses normal RPC across upgrade and committed-repair cold restarts",
+      "file": "tests/system-controlled-worker.test.cjs",
+      "line": 51,
+      "originalResult": "observation timeout",
+      "retestResult": "observation timeout",
+      "retestDurationMs": 23372.6078,
+      "classification": "unresolved Agent historical authorization-repair scenario",
+      "rootCauseEstablished": false,
+      "scopeAssessment": "The same external-delivery delegation is seeded with a historical context failure, 20 synthetic billed requests and a permission decision. The test repairs it using agentCheckResume and normal Worker resume RPC across restarts. A read-only observation helper times out after 15000 ms; the log does not locate the underlying product or fixture cause. This historical automatic-delegation recovery path is outside the predeclared foundation contract.",
+      "foundationBlocker": false,
+      "requiredProductFix": false,
+      "disposition": "Do not certify historical Agent authorization repair or full recovery. Preserve the unresolved timeout."
+    }
+  ],
+  "historicalEvidence": {
+    "evaluation": "Historical J, 2026-10-22",
+    "pairedCases": 20,
+    "branches": 40,
+    "fixedPairs": 16,
+    "generatedPairs": 4,
+    "callsPerArm": 44,
+    "baselineTotalTokens": 632813,
+    "candidateTotalTokens": 626439,
+    "tokenDelta": -6374,
+    "tokenDeltaPercent": -1.0072485868653143,
+    "endpoint": "review, pending human acceptance",
+    "independentlyReconciled": true,
+    "blind": false,
+    "claimsRemainLimitedToRecordedSample": true
+  },
+  "limitations": [
+    "This is a scoped delivery decision, not a blanket assertion of software correctness. Four original-condition rerun cases remain unpassed.",
+    "The three connector/Agent failures have unresolved causes. Their exclusion follows the scope fixed before results, not a claim that environment caused them.",
+    "The subsecond timing diagnosis supports an explanation for that fixture failure but does not rerun or pass the original test and does not prove future online service behavior.",
+    "The two source-to-draft smoke runs used loopback synthetic responses. The IPC accept command was automated; a real human reading and approving a real model draft was not measured.",
+    "Foundation v2 registered pageerror on all three main windows; the earlier Windows smoke only observed its first main window. Neither result guarantees every possible renderer condition.",
+    "Historical J review is retrospective and nonblind, and its generated sample size is four per arm. It is not a population-level no-hallucination claim.",
+    "The reviewer performed no live calls, network probes, installation, product edits or credential-file reads."
+  ],
+  "installation": {
+    "checkedAt": "2026-10-27T11:10:26.240Z",
+    "actualPackagedApp": true,
+    "sameAsar": true,
+    "grounding": {
+      "enabled": true,
+      "version": 3,
+      "implementationHash": "cc46e51f073a5ea922af4a304c926e4d2c0833f3e37f7079c5c550c2ff072b9b",
+      "format": "compact-v3",
+      "inputProtocol": "verify-input-v2",
+      "inputComponents": {
+        "attribution": "e3a94aa9130c27c9a586dcdbb0d4ad7e0f5124e4dac1651109bd6484b67d2c9c",
+        "receipts": "63f6f5a02b2519f703cc7be015d5eca62802770d4b79c0dadfb53715ac475407"
+      },
+      "features": [
+        "disclosed-source-conflicts",
+        "shared-citations",
+        "receipt-input-v1",
+        "input-attribution-v1"
+      ]
+    },
+    "preservedExistingSettings": true,
+    "preservedExistingProviders": true,
+    "newLiveModelCalls": 0
+  },
+  "evidenceHashes": {
+    "windows-tests.log": "1afc48887bf9215ca8d28ae49206de8485ef1c9a76177d9053c50fba4c2513c6",
+    "windows-tests-normalized.log": "fa06616405e1cce4a3750f275115c21333c91f3a987a2646f501bd607c3142b8",
+    "windows-retest.log": "dc8cdafd05edf728e6f31c9b721503d3151509d981a73976d33ae855f7762883",
+    "windows-capture-ui.log": "de08280ee58d0f2756553debc36730f7eaddafb269a0ee36579850489f04bc9e",
+    "foundation-smoke-v2/foundation-smoke.json": "97c05b2ae0eedbfb5bdfcafdf7ec010f64183c95c1faa96f0e61069d9f2ca663",
+    "independent-J-reanalysis.json": "dfbf928c1fd2de136a7d2c179c08337ab41c15d48cb0c791b76607f76b95f718",
+    "independent-J-reconciliation.json": "3e625ddd7ce019b909349e41613bb603f9f432d115c49fd4c18f9981c4bbb89d",
+    "process-startup-diagnostic.json": "49922477aef3c2ccbf68d6f8d9a4df8ad8806d1b5c4e0930212199c647eeff80"
+  },
+  "newLiveModelCalls": 0
+}

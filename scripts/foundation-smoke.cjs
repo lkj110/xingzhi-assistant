@@ -31,11 +31,11 @@ async function verify({executable,out}){
  const env={...process.env};for(const key of ['ELECTRON_RUN_AS_NODE','NODE_OPTIONS','ASSISTANT_TEST_DATA_DIR','ASSISTANT_DESKTOP_FIXTURE','ASSISTANT_ENGINE_FIXTURE'])delete env[key];
  const launch=()=>electron.launch({executablePath:executable,args:['--user-data-dir='+profile],env,timeout:45000});
  let page;
+ const attachPage=async()=>{page=await app.firstWindow();page.on('pageerror',error=>errors.push(error.message));await page.waitForFunction(()=>!!window.assistant);};
  const api=(action,input={})=>page.evaluate(async({action,input})=>{const r=await window.assistant.call(action,input);if(r.error)throw Error(r.error);return r.data;},{action,input});
  const settle=async id=>{await expect.poll(async()=>{const state=await api('state');return state.tasks.find(t=>t.id===id)?.status;},{timeout:45000}).toMatch(/^(review|blocked)$/);return (await api('state')).tasks.find(t=>t.id===id);};
  try{
-  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));app=await launch();page=await app.firstWindow();await page.waitForFunction(()=>!!window.assistant);
-  page.on('pageerror',error=>errors.push(error.message));
+  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));app=await launch();await attachPage();
   const identity=await app.evaluate(({app})=>({packaged:app.isPackaged,profile:app.getPath('userData'),version:app.getVersion(),appPath:app.getAppPath()}));
   assert.equal(identity.packaged,true);assert.equal(identity.profile,profile);
   const before=await api('state');assert.equal(before.providers.length,0);assert.equal(before.tasks.length,0);
@@ -47,7 +47,7 @@ async function verify({executable,out}){
   assert.equal(review.status,'review',review.lastError);assert.equal(review.grounding.passed,true);assert.equal(requests.length,3);
   const citation=review.grounding.claims[0].citations[0];assert.equal(citation.quote,sourceText);assert.equal(citation.start,0);assert.equal(citation.end,sourceText.length);assert.ok(citation.version);
   checks.push('实际包经 renderer/IPC/worker/HTTP 完成一轮生成、读取原文及独立核验，3 次 loopback 替身调用');
-  await app.close();app=null;app=await launch();page=await app.firstWindow();await page.waitForFunction(()=>!!window.assistant);
+  await app.close();app=null;app=await launch();await attachPage();
   assert.equal((await api('state')).tasks.find(t=>t.id===validId).status,'review');
   await api('taskAction',{id:validId,command:'accept'});assert.equal((await api('state')).tasks.find(t=>t.id===validId).status,'completed');
   checks.push('核验通过后冷启动仍待人工验收；通过实际 IPC 人工接受后才变为 completed');
@@ -55,14 +55,14 @@ async function verify({executable,out}){
   assert.equal(blocked.status,'blocked');assert.equal(blocked.grounding.passed,false);
   await assert.rejects(api('taskAction',{id:invalidId,command:'accept'}),/检查|核验|验收/);
   assert.equal(requests.length,5);checks.push('缺少证据清单的肯定结论被阻断，人工接受也不能绕过证据门槛');
-  await app.close();app=null;app=await launch();page=await app.firstWindow();await page.waitForFunction(()=>!!window.assistant);
+  await app.close();app=null;app=await launch();await attachPage();
   const final=await api('state'),status=await api('groundingStatus');
   assert.equal(final.tasks.find(t=>t.id===validId).status,'completed');assert.equal(final.tasks.find(t=>t.id===invalidId).status,'blocked');
   assert.equal(final.settings.evidenceGrounding,true);assert.equal(final.settings.automatic,false);assert.equal(final.settings.autoComplete,false);
   assert.equal(requests.length,5);assert.deepEqual(errors,[]);
   checks.push('再次完全退出并冷启动保留人工验收结果、拦截结果与严格核验/手动控制设置，无新增替身调用');
-  result={passed:true,checkedAt:new Date().toISOString(),version:identity.version,packaged:true,asarSha256:sha(fs.readFileSync(identity.appPath)),grounding:status,checks,loopbackRequests:requests,syntheticUsage:true,liveModelCalls:0,actualUserWorkspaceTouched:false,rendererErrors:errors};
- }catch(error){failure=error;result={passed:false,checks,error:error.stack,loopbackRequests:requests,liveModelCalls:0,actualUserWorkspaceTouched:false,rendererErrors:errors};}
+  result={passed:true,checkedAt:new Date().toISOString(),version:identity.version,packaged:true,isolatedWorkspace:path.join(profile,'workspace'),asarSha256:sha(fs.readFileSync(identity.appPath)),grounding:status,checks,loopbackRequests:requests,syntheticUsage:true,liveModelCalls:0,actualUserWorkspaceTouched:false,rendererErrors:errors};
+ }catch(error){failure=error;result={passed:false,isolatedWorkspace:path.join(profile,'workspace'),checks,error:error.stack,loopbackRequests:requests,liveModelCalls:0,actualUserWorkspaceTouched:false,rendererErrors:errors};}
  try{await app?.close();}catch(error){failure ||= error;result.passed=false;result.shutdownError=error.message;}
  server.closeAllConnections();await new Promise(resolve=>server.close(resolve));
  fs.writeFileSync(path.join(out,'foundation-smoke.json'),JSON.stringify(result,null,2));
