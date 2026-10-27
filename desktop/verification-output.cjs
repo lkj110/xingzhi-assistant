@@ -1,7 +1,7 @@
 'use strict';
 // Subscription transport contract only. Semantic support, access, scope and
 // delivery still pass through the existing independent/local validators.
-const ID='grounding-output-v1',optionalNodes=new WeakSet();
+const PREFIX='grounding-output-v2',ID=PREFIX+'-read-bcr',FINAL_ID=PREFIX+'-final',optionalNodes=new WeakSet();
 const str={type:'string'},bool={type:'boolean'},int={type:'integer'};
 const choice=(...values)=>({type:typeof values[0],enum:values});
 const array=items=>({type:'array',items});
@@ -29,12 +29,42 @@ const boundInput=object({sourceId:str,start:position(),end:position(),whole:opti
 const filter=object({column:str,op:choice('eq','ne','lt','lte','gt','gte','contains'),inputIndex:int});
 const args=object({unit:optional(str),scale:position(),rounding:optional(choice('half_even','half_up','truncate')),to:optional(str),timeZone:optional(str),format:optional(choice('csv','json')),filter:optional(filter)});
 const compute=object({tool:choice('compute_evidence'),operation:choice('sum','ratio','convert_unit','date_days','elapsed','timezone','count','file_observation','action_status'),inputs:optional(array(boundInput)),args:optional(args),actionId:optional(str)});
-const response={anyOf:[report,object({kind:choice('read_context'),requests:array({anyOf:[read,list,search,obligations,compute]})}),object({retryFull:choice(true)}),object({kind:choice('need_input'),question:str})]};
-const schema=object({response_json:response});
-const serialized=JSON.stringify(schema),bytes=Buffer.byteLength(serialized,'utf8');
-const metadata=Object.freeze({id:ID,sha256:require('node:crypto').createHash('sha256').update(serialized).digest('hex'),chars:serialized.length,utf8Bytes:bytes});
-function selected(options){return options?.responseContract===ID;}
-function overhead(provider,options){return provider.type==='codex'&&selected(options)?metadata:null;}
+// Both wire schemas and the local decoder derive from these same typed nodes.
+// Keep null removal local to explicitly optional slots; schema compaction never
+// changes the report fields or any evidence/semantic decision.
+function wire(node,{inline=false}={}){
+ if(node===strings&&!inline)return {$ref:'#/$defs/ids'};
+ if(optionalNodes.has(node)){
+  const value=wire(node.anyOf[0],{inline:true});
+  return {...value,type:[value.type,'null'],...(value.enum?{enum:[...value.enum,null]}:{})};
+ }
+ return Object.fromEntries(Object.entries(node).map(([key,value])=>[key,
+  key==='properties'?Object.fromEntries(Object.entries(value).map(([k,v])=>[k,wire(v)])):
+  key==='items'?wire(value):key==='anyOf'?value.map(v=>wire(v)):value]));
+}
+function select({final=false,search=true,compute=true,retryFull=true}={}){
+ return final?FINAL_ID:PREFIX+'-read-'+((search?'b':'')+(compute?'c':'')+(retryFull?'r':'')||'plain');
+}
+const contracts=new Map();
+function build(id,response){
+ const raw=object({response_json:response}),schema={...wire(raw),$defs:{ids:wire(strings,{inline:true})}};
+ const serialized=JSON.stringify(schema),metadata={id,sha256:require('node:crypto').createHash('sha256').update(serialized).digest('hex'),chars:serialized.length,utf8Bytes:Buffer.byteLength(serialized,'utf8')};
+ const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
+ contracts.set(id,{raw,public:freeze({id,schema,serialized,metadata})});
+}
+for(const searchEnabled of [false,true])for(const computeEnabled of [false,true])for(const retryFull of [false,true]){
+ const tools=[read,list,obligations,...(searchEnabled?[search]:[]),...(computeEnabled?[compute]:[])];
+ build(select({search:searchEnabled,compute:computeEnabled,retryFull}),{anyOf:[report,object({kind:choice('read_context'),requests:array({anyOf:tools})}),...(retryFull?[object({retryFull:choice(true)})]:[]),object({kind:choice('need_input'),question:str})]});
+}
+build(FINAL_ID,report);
+function selected(options){return contracts.has(options?.responseContract);}
+function get(id=ID){
+ const entry=contracts.get(id);
+ if(!entry)throw require('./model-errors.cjs').modelError('MODEL_CONFIG','核验输出协议不可用，已停止发送。',false);
+ return entry.public;
+}
+function overhead(provider,options){return provider.type==='codex'&&options?.responseContract!==undefined?get(options.responseContract).metadata:null;}
+const {schema,serialized,metadata}=get();
 // Match BEFORE dropping null: only explicitly optional slots may disappear.
 // No coercion, guessed syntax, removal of unknown properties or semantic repair.
 function normalize(value,node){
@@ -52,8 +82,9 @@ function normalize(value,node){
  }
  if(node.type==='integer'?!Number.isSafeInteger(value):typeof value!==node.type)throw Error('type');return value;
 }
-function decode(value){
- try{return normalize(typeof value==='string'?require('./model-json.cjs').parse(value):value,schema).response_json;}
+function decode(value,id=ID){
+ get(id);
+ try{return normalize(typeof value==='string'?require('./model-json.cjs').parse(value):value,contracts.get(id).raw).response_json;}
  catch{
   const error=require('./model-errors.cjs').modelError('MODEL_INVALID_RESPONSE','订阅核验结果不符合结构协议，已保留进度；不会通过猜测或删改内容修复。',false);
   // Preserve a bounded original for explicit private evaluation/debug capture,
@@ -62,4 +93,4 @@ function decode(value){
   throw error;
  }
 }
-module.exports={ID,schema,serialized,metadata,selected,overhead,decode};
+module.exports={ID,FINAL_ID,select,get,schema,serialized,metadata,selected,overhead,decode};

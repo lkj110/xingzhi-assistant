@@ -126,6 +126,12 @@ async function readRequests(a,task,requests,readBatch,{maxChars=48000,signal=a.c
  return combined;
 }
 const instruction='\n可用 search_evidence 做本地语义＋关键词检索：read_context.requests:[{tool:"search_evidence",query:"待证问题",limit:2}]，limit 为 1–3，可选 sourceId/ref。App 补读标题/相邻条件/脚注；hybridSearch.groups 中 partial 必须按 readRequests 续读。命中不等于已读，无结果不等于不存在。生成的同轮结果可附 evidencePlan:[{requirementId,question,evidenceIds:[],readRequests:[],gap:""}]；只用当前要求 ID，未读/未找到/已读分开，未知或创作要求说明适当出口。未完成 readRequests 会先执行，保留依据缺口。';
+function verificationInstruction({structured=false,final=false}={}){
+ const meaning='hybridSearch命中不等于已读，无结果不等于不存在；partial是局部，不能当全文。';
+ if(final)return '\n'+meaning;
+ return '\n'+(structured?'可用search_evidence本地语义＋关键词检索，limit为1–3，可选sourceId/ref。':'可用 search_evidence 做本地语义＋关键词检索：read_context.requests:[{tool:"search_evidence",query:"待证问题",limit:2}]，limit 为 1–3，可选 sourceId/ref。')+'App补读标题/相邻条件/脚注；hybridSearch.groups中partial必须按readRequests续读。'+meaning;
+}
+
 function plan(a,task,value){
  return require('./evidence-plan.cjs').plan(a,task,value);
 }
@@ -161,4 +167,4 @@ function consumePlan(plan,batch){
   return {...item,readRequests:pending,gap:failure||(completed&&item.gap==='待定位'?'':item.gap),state:pending.length?'unread':failure?'gap':completed?'read_not_verified':item.state};
  });
 }
-module.exports={VERSION,search,readRequests,structure,lexical,instruction,plan,summary,suppliedGroups,consumePlan};
+module.exports={VERSION,search,readRequests,structure,lexical,instruction,verificationInstruction,plan,summary,suppliedGroups,consumePlan};

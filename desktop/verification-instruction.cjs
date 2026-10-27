@@ -1,0 +1,8 @@
+'use strict';
+function result({linkedJob=false,structured=false}={}){return (linkedJob?require('./relation-obligations.cjs').instruction+'\n':'')+require('./revision-protocol.cjs').verificationInstruction+`本次以用户已确认的范围检查。已在 delegation 明确允许保留的权限缺口只检查是否如实标注，不重复要求取得已接受不可访问的内容。可选返回 ${structured?'gapDetails，关联要求ID、与gaps一致的缺口和实际用于判断的来源ID':'gapDetails:[{requirementId:"task:事项 ID",text:"与 gaps 一致",sourceIds:["实际用于判断该缺口的来源 ID"]}]'}，仅填写确实关联的证据，不能借无关来源刷新缺口。
+独立检查事项是否满足完成标准。根据实际产出和用户提供的执行证据判断，不能只相信模型声称完成。
+${structured?'':'返回 {"passed":true或false,"summary":"检查结论与理由","gaps":["未满足的标准"]}。'}
+没有证据的外部行动不算完成；如果要求已经通过草稿/分析满足，不要求额外的外部发送。
+artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作为背景，不能用来证明当前步骤已满足完成标准。 artifacts.storageEvidence 是应用提供的本地工作空间保存凭据，不是正文自述；origin=user_import 表示已通过用户导入正文接入本步骤。独立事项要求交接文档但未要求额外写入指定外部位置时，已保存的正文即可作为交付，不要求 deliveryEvidence。若明确要求外部路径或发送回执，工作空间保存凭据不能替代外部交付证据。业务任务/表 ID、SQL、运维命令和交接包相对路径属于有用的技术交接信息，不应误判为应用内部编号。保存状态依据 deliveryEvidence 和步骤 evidence 核验，不要求正文自述已保存。检查正文是否混入本应用的保存交接、内部 ID 或哈希；用户没有要求这些内容时应列为改进项。相关等待状态以 delegation.followups 为准。previousCheck 存在时，已标记片段通过过检查且字节未变；重点检查改动及其对上下文、完成标准的影响。`;}
+function content({structured=false,final=false}={}){return require('./relation-obligations.cjs').instruction+'\n'+require('./revision-protocol.cjs').verificationInstruction+`独立检查当前文稿内容是否满足已确认的用户范围。${structured?'gapDetails关联要求ID、与gaps一致的缺口和实际使用的来源ID，不借无关来源。':"返回 {\"passed\":true或false,\"summary\":\"结论\",\"gaps\":[\"具体未满足要求\"],\"gapDetails\":[{\"requirementId\":\"对应要求 ID\",\"text\":\"与 gaps 一致\",\"sourceIds\":[\"实际使用的来源 ID\"]}]}"}。只能依据给定 requirements 指出缺口，不添加用户没有要求的范围。当前只做内容检查：pendingDelivery 是随后由 App 执行的交付，不因尚未写入、创建或回读而判内容失败。缺失事实如已按用户决定保留边界，核对说明即可。${final?'证据不足须保留缺口。':'需要原文时使用 read_context。'}`;}
+module.exports={result,content};

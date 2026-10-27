@@ -4,7 +4,7 @@ const contract=require('../desktop/verification-output.cjs');
 const report=()=>({passed:true,summary:'逐项核对',gaps:[],groundingReview:{format:'compact-v5',scannedArtifactIds:['a'],citations:[{id:'e',sourceId:'s',quote:'条件：限定同一人员。'}],requirements:[{id:'r',status:'satisfied',claimIds:['c']}],claims:[{id:'c',artifactId:'a',field:'content',text:'null 只是正文，不是控制字段。',kind:'fact',supported:true,citationIds:['e']}],unsupportedClaims:[],conflicts:[],consistencyIssues:[]}});
 const decode=value=>contract.decode(JSON.stringify({response_json:value}));
 test('strict schema recursively closes every object and declares every property required',()=>{
- let objects=0;const walk=node=>{if(node.type==='object'){objects++;assert.equal(node.additionalProperties,false);assert.deepEqual(node.required,Object.keys(node.properties));Object.values(node.properties).forEach(walk);}if(node.items)walk(node.items);node.anyOf?.forEach(walk);};walk(contract.schema);assert.ok(objects>20);
+ let objects=0;const walk=node=>{if([].concat(node.type).includes('object')){objects++;assert.equal(node.additionalProperties,false);assert.deepEqual(node.required,Object.keys(node.properties));Object.values(node.properties).forEach(walk);}if(node.items)walk(node.items);node.anyOf?.forEach(walk);};walk(contract.schema);assert.ok(objects>20);
  assert.equal(contract.metadata.utf8Bytes,Buffer.byteLength(contract.serialized));assert.ok(contract.metadata.sha256.match(/^[a-f0-9]{64}$/));
  assert.equal(contract.overhead({type:'openai'},{responseContract:contract.ID}),null);
  assert.equal(contract.overhead({type:'codex'},{role:'verify',stage:'goal_verify'}),null);
@@ -52,3 +52,25 @@ test('transport schema overhead is visible, conservatively budgeted and never ac
  const settled=attribution.settle(measured,{inputTokens:101,outputTokens:17,cachedInputTokens:0});assert.equal(settled.observedUsage.totalTokens,118);assert.equal(Object.values(settled.categories).reduce((n,r)=>n+(r.estimatedInputTokens||0),0),101);
 });
 module.exports={report};
+
+test('all phase schemas validate with independent JSON Schema engine; required nullable fields preserve values',()=>{
+ const Ajv=require('ajv/dist/2020'),ajv=new Ajv({strict:false});
+ // CLI requires all keys; local normalization tolerates omitted optional slots.
+ const fill=(value,node,schema)=>{
+  if(node.$ref)return fill(value,schema.$defs[node.$ref.split('/').at(-1)],schema);
+  if(node.anyOf){for(const branch of node.anyOf){const candidate=fill(value,branch,schema);if(ajv.compile({...branch,$defs:schema.$defs})(candidate))return candidate;}return value;}
+  if(!value||typeof value!=='object')return value;
+  if(Array.isArray(value))return value.map(v=>fill(v,node.items||{},schema));
+  if(!node.properties)return value;
+  return Object.fromEntries(Object.entries(node.properties).map(([key,field])=>[key,Object.hasOwn(value,key)?fill(value[key],field,schema):null]));
+ };
+ const ids=new Set([contract.FINAL_ID]);
+ for(const search of [false,true])for(const compute of [false,true])for(const retryFull of [false,true])ids.add(contract.select({search,compute,retryFull}));
+ for(const id of ids){const {schema}=contract.get(id),validate=ajv.compile(schema),wire=fill({response_json:report()},schema,schema);assert.equal(validate(wire),true,JSON.stringify(validate.errors));assert.deepEqual(contract.decode(wire,id),report());
+  for(const mutate of [r=>r.groundingReview.claims[0].supported=null,r=>r.groundingReview.claims[0].foreign=null,r=>r.groundingReview.requirements[0].status='invented']){const bad=structuredClone(wire);mutate(bad.response_json);assert.equal(validate(bad),false);assert.throws(()=>contract.decode(bad,id));}
+ }
+ assert.equal(ids.size,9);assert.throws(()=>contract.get('unknown'),e=>e.code==='MODEL_CONFIG');
+ for(const value of [{retryFull:true},{kind:'need_input',question:'question'},{kind:'read_context',requests:[]}])assert.throws(()=>contract.decode({response_json:value},contract.FINAL_ID));
+ for(const [tool,options] of [['search_evidence',{search:false}],['compute_evidence',{compute:false}]])assert.throws(()=>contract.decode({response_json:{kind:'read_context',requests:[tool==='search_evidence'?{tool,query:'term'}:{tool,operation:'action_status',actionId:'a'}]}},contract.select(options)));
+ assert.throws(()=>contract.decode({response_json:{retryFull:true}},contract.select({retryFull:false})));
+});

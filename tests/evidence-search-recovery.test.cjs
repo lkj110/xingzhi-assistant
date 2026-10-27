@@ -27,7 +27,7 @@ test('bad search preserves successful search groups and ordinary read siblings',
  const plan=search.consumePlan([{readRequests:[bad],gap:''},{readRequests:[good],gap:''}],batch);assert.deepEqual(plan[0].readRequests,[bad]);assert.match(plan[0].gap,/limit 为 1–3/);assert.deepEqual(plan[1].readRequests,[]);
 });
 for(const role of ['execute','verify'])test(`${role} corrects a search limit after seeing the local failure`,async t=>{
- const f=setup(t);let calls=0;f.a.call=async(_role,system,input)=>{calls++;const c=require('../desktop/model-input.cjs').materialize(input);assert.match(system,/limit 为 1–3/);
+ const f=setup(t);let calls=0;f.a.call=async(_role,system,input)=>{calls++;const c=require('../desktop/model-input.cjs').materialize(input);if(system.includes('本轮改为形成检查结论'))assert.doesNotMatch(system,/limit 为 1–3/);else assert.match(system,/limit 为 1–3/);
   if(calls===1)return {kind:'read_context',requests:[f.request(4)]};
   if(calls===2){assert.equal(c.contextReads.find(row=>!row.result.ok).result.recovery,'correct_request');assert.equal(f.task.contextDiagnostics.length,1);assert.equal(f.encoded(),0);return {kind:'read_context',requests:[f.request(1)]};}
   assert.equal(calls,3);assert.ok(c.hybridSearch[0].groups.length);assert.match(c.contextReads.map(row=>row.result.content||'').join('\n'),/涉密/);return role==='verify'?{passed:false,summary:'已读原文，测试无交付稿',gaps:['缺少交付稿']}:{kind:'artifact',content:'员工可在家办公，涉密岗位须到公司。'};

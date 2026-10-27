@@ -51,7 +51,7 @@ function contentBasis(a,job,task){return evidence.hash({titles:require('./verifi
 function contentRequest(a,job,task,{prefetch=false}={}){
  // Claim selection happens inside generation.call. Defer eager numbered-section
  // reads until that selection proves this is an ordinary, rather than forced, check.
- return {context:{...a.context(task,{verification:true,prefetch}),requirements:obligations.requirements(a,job),verificationSnapshot:require('./revision-protocol.cjs').snapshot(a,task),verificationPhase:'content',businessObligations:require('./relation-obligations.cjs').context(a,job,task),pendingDelivery:task.steps.filter(s=>s.kind==='external'&&!s.done).map(s=>s.title)},system:require('./relation-obligations.cjs').instruction+'\n'+require('./revision-protocol.cjs').verificationInstruction+'独立检查当前文稿内容是否满足已确认的用户范围。返回 {"passed":true或false,"summary":"结论","gaps":["具体未满足要求"],"gapDetails":[{"requirementId":"对应要求 ID","text":"与 gaps 一致","sourceIds":["实际使用的来源 ID"]}]}。只能依据给定 requirements 指出缺口，不添加用户没有要求的范围。当前只做内容检查：pendingDelivery 是随后由 App 执行的交付，不因尚未写入、创建或回读而判内容失败。缺失事实如已按用户决定保留边界，核对说明即可。需要原文时使用 read_context。'};
+ return {context:{...a.context(task,{verification:true,prefetch}),requirements:obligations.requirements(a,job),verificationSnapshot:require('./revision-protocol.cjs').snapshot(a,task),verificationPhase:'content',businessObligations:require('./relation-obligations.cjs').context(a,job,task),pendingDelivery:task.steps.filter(s=>s.kind==='external'&&!s.done).map(s=>s.title)},system:require('./verification-instruction.cjs').content()};
 }
 async function verifyContent(a,job,task){
  require('./agent-plan.cjs').assertReady(a,task);
@@ -60,7 +60,7 @@ async function verifyContent(a,job,task){
  const before=contentBasis(a,job,task),prior=a.activeSpendTask;a.activeSpendTask=task;
  try{
   const {context,system}=contentRequest(a,job,task);
-  let result=await require('./generation-context.cjs').call(a,task,system,context,'verify');
+  let result=await require('./generation-context.cjs').call(a,task,system,context,'verify',{systemFor:require('./verification-instruction.cjs').content});
   if(typeof result.passed!=='boolean'||!result.summary?.trim()||!Array.isArray(result.gaps)||result.gaps.some(g=>typeof g!=='string')||result.passed&&result.gaps.some(g=>g.trim()))throw require('./model-errors.cjs').modelError('MODEL_INVALID_RESPONSE','内容检查结果无效，将保留文稿后恢复检查',true);
   if(contentBasis(a,job,task)!==before)throw Object.assign(Error('内容检查期间依据变化，需要重新核对'),{code:'PLAN_RECONCILE_REQUIRED',taskId:task.id});
   const coverage=require('./relation-obligations.cjs').validateCoverage(a,job,task,result,before);result=coverage.result;

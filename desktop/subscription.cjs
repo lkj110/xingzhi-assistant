@@ -149,8 +149,8 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, onRece
     root=fs.mkdtempSync(path.join(os.tmpdir(),'xingzhi-model-'));
     root=fs.realpathSync(root);
     const schema = path.join(root,'schema.json'), output = path.join(root,'response.json');
-    const contract=require('./verification-output.cjs'),structured=contract.selected({responseContract});
-    fs.writeFileSync(schema, structured?contract.serialized:JSON.stringify({type:'object',properties:{response_json:{type:'string'}},required:['response_json'],additionalProperties:false}));
+    const contract=require('./verification-output.cjs'),structured=responseContract!==undefined?contract.get(responseContract):null;
+    fs.writeFileSync(schema, structured?structured.serialized:JSON.stringify({type:'object',properties:{response_json:{type:'string'}},required:['response_json'],additionalProperties:false}));
     const args = ['exec','--ignore-user-config','--ephemeral','--sandbox','read-only','--skip-git-repo-check','--color','never','--json','--model',config.model,
       ...protocol.configuration(),'-c',`model_reasoning_effort=${JSON.stringify(config.reasoning || 'medium')}`,
       '--output-schema',schema,'--output-last-message',output,'-'];
@@ -177,7 +177,7 @@ async function chat(config, _key, messages, {signal, onUsage, onProgress, onRece
     if (result.code !== 0 || !completed) throw streamError||incomplete(result.code,completed);
     if (!fs.existsSync(output) || fs.statSync(output).size > 2_000_000) throw modelError('MODEL_INVALID_RESPONSE','订阅模型没有返回有效结果',false);
     const raw=fs.readFileSync(output,'utf8');
-    return structured?contract.decode(raw):require('./model-json.cjs').subscription(raw);
+    return structured?contract.decode(raw,responseContract):require('./model-json.cjs').subscription(raw);
   } catch (error) {
     if(!execEntered){
       const failure=preflightError(signal?.aborted?cancelledError():error,stage);

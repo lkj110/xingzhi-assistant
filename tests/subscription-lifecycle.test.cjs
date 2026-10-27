@@ -46,3 +46,10 @@ test('legacy calls keep string envelope for planner, nonstrict, cache and goal v
  const f=fixture(t,(c,args)=>{fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({response_json:'{"passed":false,"summary":"缺口","gaps":["待补证"]}'}));event(c,{type:'turn.completed',usage:{input_tokens:10,output_tokens:4}});c.emit('close',0);});
  assert.equal((await f.call()).passed,false);assert.equal(f.schemas[0].properties.response_json.type,'string');
 });
+
+test('final CLI schema rejects read requests without repair and keeps actual reported usage',async t=>{
+ const f=fixture(t,(c,args)=>{fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({response_json:{kind:'read_context',requests:[]}}));event(c,{type:'turn.completed',usage:{input_tokens:19,output_tokens:5}});c.emit('close',0);});
+ await assert.rejects(f.call({responseContract:contract.FINAL_ID}),e=>e.code==='MODEL_INVALID_RESPONSE'&&!e.jsonRepairable);
+ assert.deepEqual(f.schemas[0],contract.get(contract.FINAL_ID).schema);assert.deepEqual(f.usage,[{inputTokens:19,outputTokens:5}]);assert.equal(f.count(),1);
+ const bad=fixture(t,()=>assert.fail('unknown contract cannot dispatch'));await assert.rejects(bad.call({responseContract:'unknown'}),e=>e.code==='MODEL_CONFIG');assert.equal(bad.count(),0);
+});

@@ -22,7 +22,7 @@ async function fixture(t,{first,second,content=draftText,hook,sourceContent=sour
 test('one independent classification correction preserves complete target and source',async t=>{
  const f=await fixture(t);const result=await f.run();assert.equal(result.passed,true,result.summary);assert.equal(f.calls.length,3);
  const retry=f.calls[2].payload;assert.equal(retry.groundingClassificationReview.claims[0].text,draftText);assert.ok(f.calls[2].system.includes('不预设应该通过'));assert.ok(JSON.stringify(retry).includes(sourceText));
- assert.ok(f.calls.every(c=>c.options.responseContract===require('../desktop/verification-output.cjs').ID),'read loop and bounded classification carry the explicit strict contract');
+ const contract=require('../desktop/verification-output.cjs');assert.deepEqual(f.calls.map(c=>c.options.responseContract),[contract.select({retryFull:false}),contract.select({retryFull:false}),contract.FINAL_ID]);
  const record=Object.values(f.task.contextFinalizations)[0];assert.equal(record.reason,'grounding_classification');assert.equal(record.initialGrounding.passed,false);assert.equal(record.status,'returned');assert.ok(record.transport.requestId);
  await assert.rejects(f.run(),/有界结论/);assert.equal(f.calls.length,3);
  const restarted=new Assistant({dir:f.dir,chat:async()=>{throw Error('Unexpected transport after restart');}}),task=restarted.data.tasks.find(x=>x.id===f.task.id);

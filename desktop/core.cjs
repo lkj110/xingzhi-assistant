@@ -275,9 +275,9 @@ class Assistant {
       { role: 'user', content: JSON.stringify(payload) }
     ];
   }
-  async call(role, prompt, payload, {boundedFinalization,onSupplied,responseContract} = {}) {
+  async call(role, prompt, payload, {boundedFinalization,onSupplied,responseContract,structuredPrompt} = {}) {
     const provider = this.available(role);
-    const result = await this.callModel(provider, undefined, this.modelMessages(prompt,payload), { signal: this.controller?.signal, role, stage: role==='verify'?'task_verify':'task_work', routingContext: payload, boundedFinalization,onSupplied,responseContract });
+    const result = await this.callModel(provider, undefined, this.modelMessages(prompt,payload), { signal: this.controller?.signal, role, stage: role==='verify'?'task_verify':'task_work', routingContext: payload, boundedFinalization,onSupplied,responseContract,structuredMessages:structuredPrompt===undefined?undefined:this.modelMessages(structuredPrompt,payload) });
     this.controller?.signal.throwIfAborted();
     return result;
   }
@@ -289,7 +289,7 @@ class Assistant {
     const selection=modelRouting.select(this,provider,options);
     if(selection.provider.id!==provider.id)key=undefined;
     provider=selection.provider;
-    const {routingContext,boundedFinalization,onSupplied,...requestOptions}=options;
+    const {routingContext,boundedFinalization,onSupplied,structuredMessages,...requestOptions}=options;
     const assertActive=(readOnly=false)=>{
       if(options.signal?.aborted||this.controller?.signal.aborted||this.suspended||this.activeAgentJob?.status==='paused')throw cancelledError();
       require('./execution-gate.cjs').assert(this,{task:this.activeSpendTask,readOnly});
@@ -302,6 +302,9 @@ class Assistant {
       if(requestOptions.role==='execute')require('./evidence-consumption.cjs').modelGuard(this);
       if(authorization!==revision())throw modelError('MODEL_CONFIG','模型配置已变化，请重新推进。',false);
       const transportSchema=require('./verification-output.cjs').overhead(p,requestOptions);
+      // Choose after routing and again for an authorized fallback. HTTP providers
+      // retain textual structure; only a real typed Codex request may omit it.
+      if(transportSchema&&structuredMessages&&requestMessages===messages)requestMessages=structuredMessages;
       const preparedInput=require('./input-budget.cjs').prepare(this,p,requestMessages,{stage,shrink,transportSchema});
       requestMessages=preparedInput.messages;
       lastPreparedBudget=preparedInput.diagnostic;
@@ -593,20 +596,16 @@ delegation 提供用户目标、已配置的产出目录和相关等待状态；
         task.status = 'running'; this.save();
         const checkCache=require('./verification-cache.cjs');
         const fullContext={...this.context(task,{verification:true}),verificationSnapshot:require('./revision-protocol.cjs').snapshot(this,task),...(linkedJob?{requirements:require('./work-obligations.cjs').requirements(this,linkedJob),businessObligations:require('./relation-obligations.cjs').context(this,linkedJob,task)}:{})};
-        const verifyPrompt=(linkedJob?require('./relation-obligations.cjs').instruction+'\n':'')+require('./revision-protocol.cjs').verificationInstruction+`本次以用户已确认的范围检查。已在 delegation 明确允许保留的权限缺口只检查是否如实标注，不重复要求取得已接受不可访问的内容。可选返回 gapDetails:[{requirementId:"task:事项 ID",text:"与 gaps 一致",sourceIds:["实际用于判断该缺口的来源 ID"]}]，仅填写确实关联的证据，不能借无关来源刷新缺口。
-独立检查事项是否满足完成标准。根据实际产出和用户提供的执行证据判断，不能只相信模型声称完成。
-返回 {"passed":true或false,"summary":"检查结论与理由","gaps":["未满足的标准"]}。
-没有证据的外部行动不算完成；如果要求已经通过草稿/分析满足，不要求额外的外部发送。
-artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作为背景，不能用来证明当前步骤已满足完成标准。 artifacts.storageEvidence 是应用提供的本地工作空间保存凭据，不是正文自述；origin=user_import 表示已通过用户导入正文接入本步骤。独立事项要求交接文档但未要求额外写入指定外部位置时，已保存的正文即可作为交付，不要求 deliveryEvidence。若明确要求外部路径或发送回执，工作空间保存凭据不能替代外部交付证据。业务任务/表 ID、SQL、运维命令和交接包相对路径属于有用的技术交接信息，不应误判为应用内部编号。保存状态依据 deliveryEvidence 和步骤 evidence 核验，不要求正文自述已保存。检查正文是否混入本应用的保存交接、内部 ID 或哈希；用户没有要求这些内容时应列为改进项。相关等待状态以 delegation.followups 为准。previousCheck 存在时，已标记片段通过过检查且字节未变；重点检查改动及其对上下文、完成标准的影响。无法判断省略部分时返回 {"retryFull":true}，应用会提供全文重新检查。`;
+        const verifyPrompt=require('./verification-instruction.cjs').result({linkedJob:!!linkedJob});
         const grounding=require('./grounding.cjs');
         const verifierKey=digest(verifyPrompt+(grounding.enabled(this)?'grounding:'+grounding.VERSION+':'+grounding.INPUT_PROTOCOL:'')),checkingBasis=acceptance.basis(this,task);
         let prepared=checkCache.prepare(this,task,fullContext,{allowExact:true,verifierKey});
         let verification=checkCache.reuse(this,task,prepared,{verifierKey});
         if(!verification){
           if(prepared.mode==='exact')prepared=checkCache.prepare(this,task,fullContext,{allowExact:false});
-          verification=await require('./generation-context.cjs').call(this,task,verifyPrompt,prepared.context,'verify');
+          verification=await require('./generation-context.cjs').call(this,task,verifyPrompt,prepared.context,'verify',{systemFor:options=>require('./verification-instruction.cjs').result({linkedJob:!!linkedJob,...options})});
         }
-        if(verification.retryFull===true&&prepared.mode==='incremental'){prepared={...prepared,mode:'full',reusedChunks:0,context:fullContext};verification=await require('./generation-context.cjs').call(this,task,verifyPrompt,fullContext,'verify');}
+        if(verification.retryFull===true&&prepared.mode==='incremental'){prepared={...prepared,mode:'full',reusedChunks:0,context:fullContext};verification=await require('./generation-context.cjs').call(this,task,verifyPrompt,fullContext,'verify',{systemFor:options=>require('./verification-instruction.cjs').result({linkedJob:!!linkedJob,...options})});}
 
         if (typeof verification.passed !== 'boolean' || typeof verification.summary !== 'string' || !Array.isArray(verification.gaps)) throw modelError('MODEL_INVALID_RESPONSE','模型返回的结果检查格式无效',true);
         if (verification.gaps.some(gap => typeof gap !== 'string') || !verification.summary.trim()) throw modelError('MODEL_INVALID_RESPONSE','模型返回的结果检查内容无效',true);

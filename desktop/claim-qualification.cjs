@@ -68,5 +68,6 @@ function implicit(claim,artifact,task,seen,actionTitles=[]){
  if(claim.kind!=='unknown'||claim.qualification!==undefined||!explicitUnknown(claim.text))return null;
  return validate({...claim,qualification:{field:claim.field,quote:claim.text,start:claim.start}},artifact,task,seen,actionTitles);
 }
-const instruction='非 fact 结论必须在正文明确限定（依照分类规则判断实际语义，不强制固定提示词）：text自身完整表达限定，或提供qualification:{field:"同一字段",quote:"包含完整结论及限定语的当前稿逐字作用域",start:可选}。限定在相邻行、规范性要求或不常见表达时必须显式绑定，不能只在reason解释；text自身表达限制时quote可等于text。确定性标签用于限定结论，无独立业务断言时不另造claim。claim用field:"content|artifactTitle|taskTitle|actionTitle"（actionTitle另带actionId）；正文范围限同一普通段落或连续结构记录，不跨空段、标题、列表项或重复字段；标题范围须是完整标题。重复text用claim.start定位，重复quote用qualification.start。独立判断该范围确实限定该条完整结论，不能借另一对象的未知，不能把混合肯定断言藏进unknown/inference；不成立则supported:false并指出缺口。原文锚点只证明位置，不能证明语义成立。';
-module.exports={observe,validate,implicit,explicitUnknown,sameRecord,instruction};
+function instructionFor({structured=false}={}){return `非 fact 结论必须在正文明确限定（依照分类规则判断实际语义，不强制固定提示词）：text自身完整表达限定，或提供${structured?'qualification绑定同一字段中包含完整结论及限定语的当前稿逐字作用域':'qualification:{field:"同一字段",quote:"包含完整结论及限定语的当前稿逐字作用域",start:可选}'}。限定在相邻行、规范性要求或不常见表达时必须显式绑定，不能只在reason解释；text自身表达限制时quote可等于text。确定性标签用于限定结论，无独立业务断言时不另造claim。${structured?'claim.field明确正文或对应标题，actionTitle另带actionId':'claim用field:"content|artifactTitle|taskTitle|actionTitle"（actionTitle另带actionId）'}；正文范围限同一普通段落或连续结构记录，不跨空段、标题、列表项或重复字段；标题范围须是完整标题。重复text用claim.start定位，重复quote用qualification.start。独立判断该范围确实限定该条完整结论，不能借另一对象的未知，不能把混合肯定断言藏进unknown/inference；不成立则supported:false并指出缺口。原文锚点只证明位置，不能证明语义成立。`;}
+const instruction=instructionFor();
+module.exports={observe,validate,implicit,explicitUnknown,sameRecord,instruction,instructionFor};
