@@ -58,6 +58,7 @@ function explicitUnknown(text){
  if(typeof text!=='string'||text.length>600)return false;
  const body='[^，。！？；,.;!?\\r\\n\\u2028\\u2029]',clause=body+'+',end='[。！？.!?]?';
  return [
+  `^(?:现|目前|当前|本轮)?(?:无|没有|尚无)(?:材料|资料|证据)(?:足以|能够|可)?(?:决定取舍|选定唯一答案|确定唯一结果)${end}$`,
   `^(?:(?:现有|已有|当前|本轮)的?)?(?:资料|记录|证据)(?:中)?(?:尚)?未(?:进一步)?(?:说明|提供|给出|记载|证实|表明)${clause}${end}$`,
   `^(?:目前|现阶段|据此|仍)?(?:不能|无法|不足以)(?:认定|证明|确认|断定)${clause}${end}$`,
   `^${clause}未在(?:(?:现有|当前|本轮)(?:的)?)?(?:资料|记录|证据)中(?:提供|说明|给出|记载)(?:，(?:不据此|不能据此)(?:确认|认定)(?:已完成|已执行|已经完成))?${end}$`,
@@ -68,6 +69,6 @@ function implicit(claim,artifact,task,seen,actionTitles=[]){
  if(claim.kind!=='unknown'||claim.qualification!==undefined||!explicitUnknown(claim.text))return null;
  return validate({...claim,qualification:{field:claim.field,quote:claim.text,start:claim.start}},artifact,task,seen,actionTitles);
 }
-function instructionFor({structured=false}={}){return `非 fact 结论必须在正文明确限定（依照分类规则判断实际语义，不强制固定提示词）：text自身完整表达限定，或提供${structured?'qualification绑定同一字段中包含完整结论及限定语的当前稿逐字作用域':'qualification:{field:"同一字段",quote:"包含完整结论及限定语的当前稿逐字作用域",start:可选}'}。限定在相邻行、规范性要求或不常见表达时必须显式绑定，不能只在reason解释；text自身表达限制时quote可等于text。确定性标签用于限定结论，无独立业务断言时不另造claim。${structured?'claim.field明确正文或对应标题，actionTitle另带actionId':'claim用field:"content|artifactTitle|taskTitle|actionTitle"（actionTitle另带actionId）'}；正文范围限同一普通段落或连续结构记录，不跨空段、标题、列表项或重复字段；标题范围须是完整标题。重复text用claim.start定位，重复quote用qualification.start。独立判断该范围确实限定该条完整结论，不能借另一对象的未知，不能把混合肯定断言藏进unknown/inference；不成立则supported:false并指出缺口。原文锚点只证明位置，不能证明语义成立。`;}
+function instructionFor({structured=false}={}){return `首次报告中每条非 fact 结论都提供${structured?'qualification绑定同一字段中包含完整结论及限定语的当前稿逐字作用域':'qualification:{field:"同一字段",quote:"包含完整结论及限定语的当前稿逐字作用域",start:可选}'}；正文必须有真实限定，text已完整表达限制时quote就用text（标题须完整），不能省略绑定或仅在reason解释。相邻限定和不常见表达也按同一规则绑定，语义不要求固定提示词。确定性标签用于限定结论，无独立业务断言时不另造claim。${structured?'claim.field明确正文或对应标题，actionTitle另带actionId':'claim用field:"content|artifactTitle|taskTitle|actionTitle"（actionTitle另带actionId）'}；正文范围限同一普通段落或连续结构记录，不跨空段、标题、列表项或重复字段；标题范围须是完整标题。重复text用claim.start定位，重复quote用qualification.start。独立判断该范围确实限定该条完整结论，不能借另一对象的未知，不能把混合肯定断言藏进unknown/inference；不成立则supported:false并指出缺口。原文锚点只证明位置，不能证明语义成立。`;}
 const instruction=instructionFor();
 module.exports={observe,validate,implicit,explicitUnknown,sameRecord,instruction,instructionFor};

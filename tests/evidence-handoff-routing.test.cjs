@@ -87,7 +87,7 @@ for(const slow of [false,true])test(`actual planner handoff reads, resumes, rege
   if(o.stage==='goal_verify'){goals++;return {passed:true,summary:'实际观察已完成',gaps:[]};}
   if(o.role==='verify'){
    checks++;const ground=require('../desktop/grounding.cjs'),draft=require('../desktop/deliverables.cjs').primary(f.a,f.task),source=f.a.data.sources.find(r=>r.content==='现场记录：未寄送。'),receipt=tool.current(f.a,f.task)[0];
-   return {passed:true,summary:'说明符合观察',gaps:[],groundingReview:{format:'compact-v5',scannedArtifactIds:[draft.id],requirements:ground.requirements(f.a,f.task).map(r=>({id:r.id,status:'satisfied',claimIds:['c1','c2']})),claims:[{id:'c1',artifactId:draft.id,text:'历史文件与记录一致。',kind:'fact',supported:true,citationIds:['e1']},{id:'c2',artifactId:draft.id,text:'现场记录：未寄送。',kind:'fact',supported:true,citationIds:['e2']}],citations:[{id:'e1',sourceId:receipt.id,quote:receipt.resultText},{id:'e2',sourceId:source.id,quote:source.content}],unsupportedClaims:[],conflicts:[],consistencyIssues:[]}};
+   return {passed:true,summary:'说明符合观察',gaps:[],groundingReview:{format:'compact-v5',scannedArtifactIds:[draft.id],requirements:ground.requirements(f.a,f.task).map(r=>({id:r.id,status:'satisfied',claimIds:['c1','c2']})),claims:[{id:'c1',artifactId:draft.id,text:'本轮只读核验时，历史文件与记录一致。',kind:'fact',supported:true,citationIds:['e1']},{id:'c2',artifactId:draft.id,text:'现场记录：未寄送。',kind:'fact',supported:true,citationIds:['e2']}],citations:[{id:'e1',sourceId:receipt.id,quote:receipt.resultText},{id:'e2',sourceId:source.id,quote:source.content}],unsupportedClaims:[],conflicts:[],consistencyIssues:[]}};
   }
   if(m[0].content.includes('动作格式')){
    planner++;if(planner===1)return {tool:'read_local_result',args:{taskId:f.task.id,actionId:f.action.id}};
@@ -98,7 +98,7 @@ for(const slow of [false,true])test(`actual planner handoff reads, resumes, rege
   }
   workers++;if(workers===1)return {kind:'needs_evidence',summary:'须核对旧稿和新检查记录',gaps:['缺本次回读和检查记录']};
   assert.match(JSON.stringify(m),/现场记录：未寄送/);assert.match(JSON.stringify(m),/matches_recorded_content/);
-  return {kind:'artifact',title:'只读核对',content:'历史文件与记录一致。现场记录：未寄送。'};
+  return {kind:'artifact',title:'只读核对',content:'本轮只读核验时，历史文件与记录一致。现场记录：未寄送。'};
  };
  const result=await require('../scripts/readiness/lifecycle.cjs').advance(f.a,f.task,root);
  assert.ok(result.completionChecked,JSON.stringify({result,error:f.task.lastError,runs:f.a.data.agentRuns.map(r=>({steps:r.steps.map(s=>({tool:s.tool,error:s.error,result:s.tool==='advance_task'?s.result:undefined})),error:r.error})),verification:f.task.verification}));assert.equal(f.task.evidenceRequest,undefined);assert.equal(workers,2);assert.equal(planner,4);assert.equal(checks,1);assert.equal(goals,1);

@@ -40,3 +40,16 @@ test('implicit qualifier cannot absorb an affirmative second clause or an unseen
 test('implicit unknown cannot absorb affirmative clauses across ASCII or Unicode line boundaries',t=>{for(const boundary of [',','.','!','?','\r','\u2028','\u2029']){const content='资料未说明范围'+boundary+'因此全部通过。',f=integrated(t,content);delete f.report.groundingReview.sourceConflicts;delete f.report.groundingReview.claims[0].qualification;assert.equal(q.explicitUnknown(content),false,JSON.stringify(boundary));assert.equal(f.finish().passed,false,JSON.stringify(boundary));}assert.equal(q.explicitUnknown('资料未说明其他范围.'),true);});
 test('presentation advice is nonblocking while business failure remains blocking with qualification diagnostics',t=>{const f=integrated(t,'资料未说明其他范围。');delete f.report.groundingReview.sourceConflicts;delete f.report.groundingReview.claims[0].qualification;f.report.suggestions=['可将真实回执编号换成可读计算说明。'];assert.equal(f.finish().passed,true);assert.deepEqual(f.finish().suggestions,f.report.suggestions);f.report.groundingReview.claims[0].text='其他范围';f.report.passed=false;f.report.gaps=['缺少业务要求'];f.report.groundingReview.requirements[0].status='gap';f.report.groundingReview.requirements[0].reason='缺少业务要求';const result=f.finish();assert.equal(result.passed,false);assert.ok(result.grounding.classificationIssues.length);assert.equal(result.grounding.classificationOnly,false);assert.equal(require('../desktop/grounding-classification.cjs').request(f.report,result),null);});
 test('ambiguous same-field text without a position cannot obtain a retry target',t=>{const f=integrated(t,'答案：值得继续检验\n确定性：known\n\n答案：值得继续检验\n确定性：inference'),c=f.report.groundingReview.claims[0];delete f.report.groundingReview.sourceConflicts;delete c.qualification;c.text=text;c.kind='inference';assert.equal(require('../desktop/grounding-classification.cjs').request(f.report,f.finish()),null);});
+
+test('R9 complete absence-of-proof clause binds itself on the first report',t=>{
+ const f=integrated(t,'现无材料决定取舍。');delete f.report.groundingReview.claims[0].qualification;
+ const result=f.finish();assert.equal(result.passed,true,result.summary);assert.equal(result.grounding.claims[0].qualification.quote,'现无材料决定取舍。');assert.equal(require('../desktop/grounding-classification.cjs').request(f.report,result),null);
+});
+test('absence-of-proof binding does not hide appended assertions or alter model verdicts',t=>{
+ for(const value of ['现无材料决定取舍，所以全部通过。','现无材料决定取舍.已经全部通过。','现无材料决定取舍\n已经全部通过。','现无材料决定取舍，已通知全部对象。','已完成，现无材料决定取舍。'])assert.equal(q.explicitUnknown(value),false,value);
+ const f=integrated(t,'现无材料决定取舍。');delete f.report.groundingReview.claims[0].qualification;f.report.passed=false;f.report.gaps=['要求必须提供确定答案'];assert.equal(f.finish().passed,false);
+ f.report.passed=true;f.report.gaps=[];f.report.groundingReview.claims[0].supported=false;assert.equal(f.finish().passed,false);
+});
+test('first-report instruction requires binding in structured and text protocols without adding schema fields',()=>{
+ for(const structured of [false,true]){const text=q.instructionFor({structured});assert.match(text,/首次报告中每条非 fact 结论都提供/);assert.match(text,/quote就用text/);assert.match(text,/原文锚点只证明位置，不能证明语义成立/);}
+});

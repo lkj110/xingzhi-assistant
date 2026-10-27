@@ -41,6 +41,14 @@ test('same-paragraph premise and applicable limit can bind inference without key
  const f=await fixture(t,{content,first:r=>{const c=r.groundingReview.claims[0];c.field='content';c.text='现有数据支持蓝箱需要更少货位';c.qualification={field:'content',quote:content};return r;}}),result=await f.run();
  assert.equal(result.passed,true,result.summary);assert.equal(f.calls.length,2);assert.equal(result.grounding.claims[0].qualification.quote,content);
 });
+
+for(const explicit of [false,true])test(`first report binds a complete unknown without classification replay (explicit=${explicit})`,async t=>{
+ const content=explicit?'两份记录尚不足以裁定唯一口径。':'现无材料决定取舍。';
+ const f=await fixture(t,{content,sourceContent:'两份箱内登记相互冲突，未提供优先级或替代关系。',first:r=>{const c=r.groundingReview.claims[0];c.kind='unknown';if(explicit){c.field='content';c.qualification={field:'content',quote:content};}return r;}});
+ const result=await f.run();assert.equal(result.passed,true,result.summary);assert.equal(f.calls.length,2,'one source read plus first report; no classification replay');
+ assert.equal(result.grounding.claims[0].qualification.quote,content);assert.equal(f.calls.some(c=>c.payload.groundingClassificationReview),false);
+ assert.match(f.calls[1].system,/首次报告中每条非 fact 结论都提供/);
+});
 test('model refusal over marker, hidden assumption or execution claim cannot be locally converted into pass',async t=>{
  for(const reason of ['已读前提支持结论，但没有额外写推断二字','两室是否由同一人负责未说明','排期不证明已经通知观众']){
   const f=await fixture(t,{first:r=>{r.passed=false;r.gaps=[reason];r.groundingReview.claims[0].supported=false;r.groundingReview.claims[0].reason=reason;return r;}}),result=await f.run();

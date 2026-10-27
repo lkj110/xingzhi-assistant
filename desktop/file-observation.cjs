@@ -21,4 +21,15 @@ function observe(a,task,request){
 function valid(a,task,receipt){
  return receipt.temporalScope==='observed_at'&&receipt.dynamic===false&&receipt.validUntil===null&&Number.isFinite(Date.parse(receipt.observedAt))&&receipt.output?.observedAt===receipt.observedAt&&receipt.output?.temporalScope==='observed_at'&&receipt.output.readbackHash===hash(receipt.output.files)&&receipt.resultText===JSON.stringify(receipt.output)&&require('./tool-execution-events.cjs').rows(task,receipt).length>0&&identity(a,task,receipt.request).basis===receipt.basis;
 }
-module.exports={observe,valid};
+// action_status keeps its short current-state validity, while the actual file
+// comparison remains an observation. Old receipts without this capture cannot
+// acquire a historical proof by replaying a read during validation.
+function validStatus(a,task,receipt){
+ return receipt.request?.operation==='action_status'&&receipt.dynamic===true&&
+  typeof receipt.observationBasis==='string'&&Number.isFinite(Date.parse(receipt.observedAt))&&
+  receipt.output?.tool==='write_file'&&receipt.output.observedAt===receipt.observedAt&&
+  Array.isArray(receipt.output.files)&&receipt.output.files.length>0&&
+  receipt.output.readbackHash===hash(receipt.output.files)&&receipt.resultText===JSON.stringify(receipt.output)&&
+  require('./tool-execution-events.cjs').rows(task,receipt).length>0&&identity(a,task,receipt.request).basis===receipt.observationBasis;
+}
+module.exports={observe,valid,identity,validStatus};
