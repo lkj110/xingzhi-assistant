@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "sourceReportSha256": "a1a81874bbf49a0887b6bd616e1ff51a990095033650bbe6ea2f5b3ff5baaa26",
+  "productCodeChangedAfterFreeze": false,
+  "newRealModelCalls": 0,
+  "observations": [
+    {
+      "id": "nested_action_id",
+      "caseId": "r9_e2e_historical_action_current_state",
+      "arm": "baseline",
+      "request": {
+        "tool": "compute_evidence",
+        "operation": "action_status",
+        "args": {
+          "actionId": "<existing-action-id>"
+        }
+      },
+      "observedTaskError": "该引用不在当前可读取范围",
+      "applicationCalls": 1,
+      "codePath": "tool-evidence.readRequests calls refreshStatus before evaluate validates parameter shape; refreshStatus reads top-level request.actionId and rejects absent matching record as CONTEXT_SCOPE_DENIED.",
+      "interpretation": "Malformed request placement produced a scope failure, rather than an opportunity to correct parameters. This runtime path is shared by the two frozen revisions."
+    },
+    {
+      "id": "receipt_expired_during_verification",
+      "caseId": "r9_e2e_historical_action_current_state",
+      "arm": "candidate",
+      "observedAt": "2026-10-27T05:22:44.621Z",
+      "validUntil": "2026-10-27T05:23:44.621Z",
+      "verificationStartedAt": "2026-10-27T05:23:26.142Z",
+      "verificationFinishedAt": "2026-10-27T05:24:04.268Z",
+      "ageAtStartMs": 41521,
+      "ageAtFinishMs": 79647,
+      "expiredBeforeModelReturned": true,
+      "toolQuotes": [
+        {
+          "id": "c3",
+          "characters": 306,
+          "exactSubstring": true,
+          "unique": true
+        },
+        {
+          "id": "c4",
+          "characters": 120,
+          "exactSubstring": true,
+          "unique": true
+        }
+      ],
+      "modelVerdict": true,
+      "localVerdict": false,
+      "codePath": "tool-evidence.valid rejects expired validUntil; grounding.validate constructs toolMap from tool-evidence.current at validation time.",
+      "interpretation": "The evidence was fresh at request start, expired during model verification, and both verbatim tool quotes were then rejected locally. Whether the draft is qualified depends on its explicit observation-time scope and independent gold review."
+    },
+    {
+      "id": "extra_classification",
+      "caseId": "r9_fixed_confirmed_with_unknown",
+      "arm": "candidate",
+      "target": {
+        "claims": [
+          {
+            "claimId": "c5",
+            "field": "content",
+            "start": 44,
+            "allowImplicitField": false,
+            "allowImplicitStart": true,
+            "text": "现无材料决定取舍。",
+            "reportedKind": "unknown",
+            "issue": "当前结论片段或绑定限定范围未通过本地标注检查，需独立核对实际标注、原文及分类"
+          }
+        ]
+      },
+      "extraCallTokens": 18750,
+      "interpretation": "First report classified an intrinsically limited sentence as unknown but did not bind qualification explicitly. Local marking validation requested another full independent check; the final business gate passed. One paired draw does not establish that prompt compaction caused this choice."
+    }
+  ]
+}

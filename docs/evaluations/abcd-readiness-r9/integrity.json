@@ -1,0 +1,124 @@
+{
+  "schema": 2,
+  "checkedAt": "2026-10-27T05:26:16.721Z",
+  "sealSha256": "7ee61f117bf3345539d7f8f9d25ac97bc9a0d03458a1432cccc87194423346fe",
+  "sealsUnchanged": true,
+  "implementationsUnchanged": true,
+  "dependenciesUnchanged": true,
+  "historicalR8Unchanged": true,
+  "attemptsReconciled": true,
+  "attributionReconciled": true,
+  "reservationsReconciled": true,
+  "allUsage": {
+    "calls": 37,
+    "knownUsageCalls": 37,
+    "unknownUsageCalls": 0,
+    "inputTokens": 563197,
+    "outputTokens": 21622,
+    "totalTokens": 584819,
+    "knownSubtotal": 584819,
+    "cachedInputTokens": 17152,
+    "cachedIncludedInInput": true
+  },
+  "stages": {
+    "protocol": {
+      "calls": 8,
+      "knownUsageCalls": 8,
+      "unknownUsageCalls": 0,
+      "inputTokens": 87404,
+      "outputTokens": 3754,
+      "totalTokens": 91158,
+      "knownSubtotal": 91158,
+      "cachedInputTokens": 9600,
+      "cachedIncludedInInput": true
+    },
+    "business": {
+      "calls": 29,
+      "knownUsageCalls": 29,
+      "unknownUsageCalls": 0,
+      "inputTokens": 475793,
+      "outputTokens": 17868,
+      "totalTokens": 493661,
+      "knownSubtotal": 493661,
+      "cachedInputTokens": 7552,
+      "cachedIncludedInInput": true
+    }
+  },
+  "protocolMatrixComplete": true,
+  "protocolFlagsConsistent": true,
+  "protocolOutcomesValid": true,
+  "protocolBeforeBusiness": true,
+  "fixedPreflightRespected": true,
+  "branchCallCounts": [
+    {
+      "caseId": "r9_fixed_confirmed_with_unknown",
+      "arm": "baseline",
+      "calls": 1
+    },
+    {
+      "caseId": "r9_fixed_confirmed_with_unknown",
+      "arm": "candidate",
+      "calls": 2
+    },
+    {
+      "caseId": "r9_fixed_unsupported_completion",
+      "arm": "candidate",
+      "calls": 1
+    },
+    {
+      "caseId": "r9_fixed_unsupported_completion",
+      "arm": "baseline",
+      "calls": 1
+    },
+    {
+      "caseId": "r9_e2e_conditions_exception",
+      "arm": "baseline",
+      "calls": 3
+    },
+    {
+      "caseId": "r9_e2e_conditions_exception",
+      "arm": "candidate",
+      "calls": 3
+    },
+    {
+      "caseId": "r9_e2e_rate_denominator",
+      "arm": "candidate",
+      "calls": 4
+    },
+    {
+      "caseId": "r9_e2e_rate_denominator",
+      "arm": "baseline",
+      "calls": 4
+    },
+    {
+      "caseId": "r9_e2e_title_and_conflict",
+      "arm": "baseline",
+      "calls": 3
+    },
+    {
+      "caseId": "r9_e2e_title_and_conflict",
+      "arm": "candidate",
+      "calls": 3
+    },
+    {
+      "caseId": "r9_e2e_historical_action_current_state",
+      "arm": "candidate",
+      "calls": 3
+    },
+    {
+      "caseId": "r9_e2e_historical_action_current_state",
+      "arm": "baseline",
+      "calls": 1
+    }
+  ],
+  "withinBranchCallLimit": true,
+  "serialCalls": true,
+  "noDispatchAfterStop": true,
+  "stopRecorded": true,
+  "firstStopAttempt": null,
+  "withinReservationAdmissionLimits": true,
+  "withinCallLimit": true,
+  "withinTokenLimit": true,
+  "halt": null,
+  "reportHalt": null
+}

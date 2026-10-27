@@ -1,0 +1,531 @@
+{
+  "schema": 1,
+  "createdAt": "2026-10-27T05:32:37.686Z",
+  "reportSha256": "a1a81874bbf49a0887b6bd616e1ff51a990095033650bbe6ea2f5b3ff5baaa26",
+  "auditSha256": "d44df23f14f8d097ea510e83bdf7ebf6124ae5f9da484f7a4e31fd2c7d7b1ca9",
+  "protocol": {
+    "passed": true,
+    "completion": {
+      "numerator": 8,
+      "denominator": 8,
+      "rate": 1,
+      "wilson95": [
+        0.6755924351161198,
+        1
+      ]
+    },
+    "attempted": 8,
+    "usage": {
+      "calls": 8,
+      "knownUsageCalls": 8,
+      "unknownUsageCalls": 0,
+      "inputTokens": 87404,
+      "outputTokens": 3754,
+      "totalTokens": 91158,
+      "knownSubtotal": 91158,
+      "cachedInputTokens": 9600,
+      "cachedIncludedInInput": true
+    }
+  },
+  "businessCompletion": {
+    "numerator": 10,
+    "denominator": 12,
+    "rate": 0.8333333333333334,
+    "wilson95": [
+      0.5519691377470266,
+      0.9530348578161463
+    ]
+  },
+  "arms": {
+    "baseline": {
+      "procedureCompletion": {
+        "numerator": 5,
+        "denominator": 6,
+        "rate": 0.8333333333333334,
+        "wilson95": [
+          0.43649717781352987,
+          0.9699466302516935
+        ]
+      },
+      "attemptedBranches": 6,
+      "unattemptedBranches": 0,
+      "validJudgments": 5,
+      "technicalOrUnjudged": 1,
+      "hallucination": {
+        "numerator": 0,
+        "denominator": 20,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.16112515805281938
+        ]
+      },
+      "falseBlock": {
+        "numerator": 0,
+        "denominator": 4,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.4898908364545973
+        ]
+      },
+      "wrongRelease": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "fixedFalseBlock": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "fixedWrongRelease": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "dynamicFalseBlock": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0,
+        "wilson95": [
+          5.551115123125783e-17,
+          0.5614970317550454
+        ]
+      },
+      "dynamicWrongRelease": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "blockedOutputDefects": {
+        "fixed": {
+          "incorrectCandidates": {
+            "numerator": 1,
+            "denominator": 1,
+            "rate": 1,
+            "wilson95": [
+              0.20654931437723745,
+              1
+            ]
+          },
+          "unsupportedClaims": {
+            "numerator": 2,
+            "denominator": 3,
+            "rate": 0.6666666666666666,
+            "wilson95": [
+              0.2076596008020477,
+              0.9385080552796037
+            ]
+          }
+        },
+        "dynamic": {
+          "incorrectCandidates": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          },
+          "unsupportedClaims": {
+            "numerator": 0,
+            "denominator": 0,
+            "rate": null,
+            "wilson95": null
+          }
+        }
+      },
+      "businessUsage": {
+        "calls": 13,
+        "knownUsageCalls": 13,
+        "unknownUsageCalls": 0,
+        "inputTokens": 213211,
+        "outputTokens": 7199,
+        "totalTokens": 220410,
+        "knownSubtotal": 220410,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      },
+      "protocolUsage": {
+        "calls": 4,
+        "knownUsageCalls": 4,
+        "unknownUsageCalls": 0,
+        "inputTokens": 45307,
+        "outputTokens": 2028,
+        "totalTokens": 47335,
+        "knownSubtotal": 47335,
+        "cachedInputTokens": 9600,
+        "cachedIncludedInInput": true
+      },
+      "allUsage": {
+        "calls": 17,
+        "knownUsageCalls": 17,
+        "unknownUsageCalls": 0,
+        "inputTokens": 258518,
+        "outputTokens": 9227,
+        "totalTokens": 267745,
+        "knownSubtotal": 267745,
+        "cachedInputTokens": 9600,
+        "cachedIncludedInInput": true
+      }
+    },
+    "candidate": {
+      "procedureCompletion": {
+        "numerator": 5,
+        "denominator": 6,
+        "rate": 0.8333333333333334,
+        "wilson95": [
+          0.43649717781352987,
+          0.9699466302516935
+        ]
+      },
+      "attemptedBranches": 6,
+      "unattemptedBranches": 0,
+      "validJudgments": 6,
+      "technicalOrUnjudged": 0,
+      "hallucination": {
+        "numerator": 0,
+        "denominator": 21,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.154639018924847
+        ]
+      },
+      "falseBlock": {
+        "numerator": 1,
+        "denominator": 5,
+        "rate": 0.2,
+        "wilson95": [
+          0.03622410863243014,
+          0.6244653702374747
+        ]
+      },
+      "wrongRelease": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "fixedFalseBlock": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "fixedWrongRelease": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0,
+        "wilson95": [
+          0,
+          0.7934506856227626
+        ]
+      },
+      "dynamicFalseBlock": {
+        "numerator": 1,
+        "denominator": 4,
+        "rate": 0.25,
+        "wilson95": [
+          0.04558726080970055,
+          0.6993581574175981
+        ]
+      },
+      "dynamicWrongRelease": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null,
+        "wilson95": null
+      },
+      "blockedOutputDefects": {
+        "fixed": {
+          "incorrectCandidates": {
+            "numerator": 1,
+            "denominator": 1,
+            "rate": 1,
+            "wilson95": [
+              0.20654931437723745,
+              1
+            ]
+          },
+          "unsupportedClaims": {
+            "numerator": 2,
+            "denominator": 3,
+            "rate": 0.6666666666666666,
+            "wilson95": [
+              0.2076596008020477,
+              0.9385080552796037
+            ]
+          }
+        },
+        "dynamic": {
+          "incorrectCandidates": {
+            "numerator": 0,
+            "denominator": 1,
+            "rate": 0,
+            "wilson95": [
+              0,
+              0.7934506856227626
+            ]
+          },
+          "unsupportedClaims": {
+            "numerator": 0,
+            "denominator": 8,
+            "rate": 0,
+            "wilson95": [
+              0,
+              0.32440756488388023
+            ]
+          }
+        }
+      },
+      "businessUsage": {
+        "calls": 16,
+        "knownUsageCalls": 16,
+        "unknownUsageCalls": 0,
+        "inputTokens": 262582,
+        "outputTokens": 10669,
+        "totalTokens": 273251,
+        "knownSubtotal": 273251,
+        "cachedInputTokens": 7552,
+        "cachedIncludedInInput": true
+      },
+      "protocolUsage": {
+        "calls": 4,
+        "knownUsageCalls": 4,
+        "unknownUsageCalls": 0,
+        "inputTokens": 42097,
+        "outputTokens": 1726,
+        "totalTokens": 43823,
+        "knownSubtotal": 43823,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      },
+      "allUsage": {
+        "calls": 20,
+        "knownUsageCalls": 20,
+        "unknownUsageCalls": 0,
+        "inputTokens": 304679,
+        "outputTokens": 12395,
+        "totalTokens": 317074,
+        "knownSubtotal": 317074,
+        "cachedInputTokens": 7552,
+        "cachedIncludedInInput": true
+      }
+    }
+  },
+  "pairs": [
+    {
+      "caseId": "r9_fixed_confirmed_with_unknown",
+      "lane": "fixed",
+      "complete": true,
+      "tokenDelta": 17800,
+      "baseline": {
+        "calls": 1,
+        "knownUsageCalls": 1,
+        "unknownUsageCalls": 0,
+        "inputTokens": 18916,
+        "outputTokens": 1356,
+        "totalTokens": 20272,
+        "knownSubtotal": 20272,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      },
+      "candidate": {
+        "calls": 2,
+        "knownUsageCalls": 2,
+        "unknownUsageCalls": 0,
+        "inputTokens": 35302,
+        "outputTokens": 2770,
+        "totalTokens": 38072,
+        "knownSubtotal": 38072,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      }
+    },
+    {
+      "caseId": "r9_fixed_unsupported_completion",
+      "lane": "fixed",
+      "complete": true,
+      "tokenDelta": -976,
+      "baseline": {
+        "calls": 1,
+        "knownUsageCalls": 1,
+        "unknownUsageCalls": 0,
+        "inputTokens": 18089,
+        "outputTokens": 871,
+        "totalTokens": 18960,
+        "knownSubtotal": 18960,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      },
+      "candidate": {
+        "calls": 1,
+        "knownUsageCalls": 1,
+        "unknownUsageCalls": 0,
+        "inputTokens": 17112,
+        "outputTokens": 872,
+        "totalTokens": 17984,
+        "knownSubtotal": 17984,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      }
+    },
+    {
+      "caseId": "r9_e2e_conditions_exception",
+      "lane": "e2e",
+      "complete": true,
+      "tokenDelta": -1016,
+      "baseline": {
+        "calls": 3,
+        "knownUsageCalls": 3,
+        "unknownUsageCalls": 0,
+        "inputTokens": 49270,
+        "outputTokens": 1432,
+        "totalTokens": 50702,
+        "knownSubtotal": 50702,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      },
+      "candidate": {
+        "calls": 3,
+        "knownUsageCalls": 3,
+        "unknownUsageCalls": 0,
+        "inputTokens": 48256,
+        "outputTokens": 1430,
+        "totalTokens": 49686,
+        "knownSubtotal": 49686,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      }
+    },
+    {
+      "caseId": "r9_e2e_rate_denominator",
+      "lane": "e2e",
+      "complete": true,
+      "tokenDelta": -589,
+      "baseline": {
+        "calls": 4,
+        "knownUsageCalls": 4,
+        "unknownUsageCalls": 0,
+        "inputTokens": 62907,
+        "outputTokens": 1625,
+        "totalTokens": 64532,
+        "knownSubtotal": 64532,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      },
+      "candidate": {
+        "calls": 4,
+        "knownUsageCalls": 4,
+        "unknownUsageCalls": 0,
+        "inputTokens": 62218,
+        "outputTokens": 1725,
+        "totalTokens": 63943,
+        "knownSubtotal": 63943,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      }
+    },
+    {
+      "caseId": "r9_e2e_title_and_conflict",
+      "lane": "e2e",
+      "complete": true,
+      "tokenDelta": -775,
+      "baseline": {
+        "calls": 3,
+        "knownUsageCalls": 3,
+        "unknownUsageCalls": 0,
+        "inputTokens": 49115,
+        "outputTokens": 1733,
+        "totalTokens": 50848,
+        "knownSubtotal": 50848,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      },
+      "candidate": {
+        "calls": 3,
+        "knownUsageCalls": 3,
+        "unknownUsageCalls": 0,
+        "inputTokens": 48173,
+        "outputTokens": 1900,
+        "totalTokens": 50073,
+        "knownSubtotal": 50073,
+        "cachedInputTokens": 7552,
+        "cachedIncludedInInput": true
+      }
+    },
+    {
+      "caseId": "r9_e2e_historical_action_current_state",
+      "lane": "e2e",
+      "complete": false,
+      "tokenDelta": null,
+      "baseline": {
+        "calls": 1,
+        "knownUsageCalls": 1,
+        "unknownUsageCalls": 0,
+        "inputTokens": 14914,
+        "outputTokens": 182,
+        "totalTokens": 15096,
+        "knownSubtotal": 15096,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      },
+      "candidate": {
+        "calls": 3,
+        "knownUsageCalls": 3,
+        "unknownUsageCalls": 0,
+        "inputTokens": 51521,
+        "outputTokens": 1972,
+        "totalTokens": 53493,
+        "knownSubtotal": 53493,
+        "cachedInputTokens": 0,
+        "cachedIncludedInInput": true
+      }
+    }
+  ],
+  "pairedCompleteCost": {
+    "pairs": 5,
+    "knownUsagePairs": 5,
+    "unknownUsagePairs": 0,
+    "baselineTokens": 205314,
+    "candidateTokens": 219758,
+    "baselineKnownSubtotal": 205314,
+    "candidateKnownSubtotal": 219758,
+    "tokenDelta": 14444,
+    "percentChange": 7.035077978121317
+  },
+  "allUsage": {
+    "calls": 37,
+    "knownUsageCalls": 37,
+    "unknownUsageCalls": 0,
+    "inputTokens": 563197,
+    "outputTokens": 21622,
+    "totalTokens": 584819,
+    "knownSubtotal": 584819,
+    "cachedInputTokens": 17152,
+    "cachedIncludedInInput": true
+  },
+  "halt": null,
+  "status": "completed",
+  "mainEvaluationStarted": false,
+  "installedApplicationReplaced": false
+}

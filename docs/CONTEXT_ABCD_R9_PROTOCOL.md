@@ -1,8 +1,8 @@
 # R9：核验协议按阶段精简（离线验证）
 
-2026-10-27。基线为 `6cb1c70bd386a68f3b67f5b01e2e129befbb654c`，候选为本报告同一提交。双方均开启严格核验；这是 R8 → R9 的协议成本比较，不是严格模式开关比较。
+2026-10-27。基线为 `6cb1c70bd386a68f3b67f5b01e2e129befbb654c`，候选实现提交为 `38ff396103692f6f51013fe524a279f85e431ed9`。双方均开启严格核验；这是 R8 → R9 的协议成本比较，不是严格模式开关比较。
 
-本轮没有真实模型调用、没有正式主评测、没有安装替换。旧 R8 真实评测的内容标签仍待独立审核，其本地草稿不随本轮上传。本报告不推导新的幻觉率、误拦率或错误放行率。
+本报告保留上述实现提交的离线验证记录；该阶段没有真实模型调用、正式主评测或安装替换。随后用户批准的协议门检与六组复测已完成，实际调用、质量及成本见 [R9 真实模型复测](CONTEXT_ABCD_R9_LIVE.md)。旧 R8 真实评测的内容标签仍待独立审核，其本地草稿不随本轮上传。以下离线字节测量不推导幻觉率、误拦率或错误放行率。
 
 ## 实现
 
@@ -39,7 +39,7 @@ node scripts/verification-protocol-measure.cjs <基线目录> <输出JSON>
 
 脚本执行真实的上下文准备、预算、路由和可见性逻辑，最终 transport 是离线替身。测量中的模拟 usage 仅服务测试结算，不作为 token 结果输出。对应结构化记录见 `docs/CONTEXT_ABCD_R9_INPUT.json`。
 
-JSON Schema 的 `$defs`、嵌套 anyOf 和可空类型用法参考 [OpenAI Structured Outputs 官方文档](https://developers.openai.com/api/docs/guides/structured-outputs)。本地 JSON Schema 校验器通过不等于已验证真实订阅 CLI 接受新版所有分支，该项保留到获批后的协议门检。
+JSON Schema 的 `$defs`、嵌套 anyOf 和可空类型用法参考 [OpenAI Structured Outputs 官方文档](https://developers.openai.com/api/docs/guides/structured-outputs)。本地 JSON Schema 校验器通过不等于真实订阅 CLI 已接受新版所有分支；后续获批的读取、计算、结论和分类协议门检结果见上述真实模型复测报告，不扩大为所有 schema 变体的穷尽验证。
 
 ## 证据与语义保护
 
@@ -61,7 +61,9 @@ JSON Schema 的 `$defs`、嵌套 anyOf 和可空类型用法参考 [OpenAI Struc
 - Vite 生产构建通过；未执行安装包发布或替换已安装应用。
 - 独立 subagent `/root/r9_protocol_review` 审核通过，结论为 **no blocking findings**。独立重跑同一完整清单：813 用例，812 通过、0 失败、1 既有跳过；另生成 159 个独立 schema 合法样本，基线/候选 wire schema 均通过独立校验且 decoder 输出相同。审核提出的增量测量边界及动态元数据波动已在上文修正，无需追加生产修复。详见 `docs/CONTEXT_ABCD_R9_REVIEW.md`。
 
-## 下一轮真实模型复测提案（尚未获批/未启动）
+## 原真实模型复测提案（已获批并完成）
+
+以下保留实施前提案；实际结果见 [R9 真实模型复测](CONTEXT_ABCD_R9_LIVE.md)。没有自动启动正式主评测。
 
 建议采用一个总预算、两个连续门槛，最多 **80 次应用 transport 调用、1,600,000 输入＋输出 tokens**；两项任一先触顶即停，不追加预算，不自动启动正式主评测。
 

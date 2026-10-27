@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "baseline": "6cb1c70bd386a68f3b67f5b01e2e129befbb654c",
+  "candidate": "38ff396103692f6f51013fe524a279f85e431ed9",
+  "comparison": "R8 vs R9 with strict verification enabled in both arms; one paired draw per case.",
+  "implementationFrozenAt": "2026-10-27T04:48:49.786Z",
+  "evaluationSealedAt": "2026-10-27T05:00:22.357Z",
+  "author": "independent-r9-holdout-author",
+  "preflightReviewer": "independent-r9-live-preflight",
+  "resultReviewer": "independent-r9-result-audit",
+  "samplePolicy": {
+    "businessCases": 6,
+    "fixedCases": 2,
+    "endToEndCases": 4,
+    "createdAfterImplementationFreeze": true,
+    "goldAmendedBeforeAnyLiveCalls": true,
+    "originalGoldAndSealPreserved": true,
+    "noPostLiveInputChanges": true
+  },
+  "preflightOfflineTests": {
+    "passed": 29,
+    "failed": 0
+  },
+  "statisticsOfflineTests": {
+    "passed": 21,
+    "failed": 0
+  },
+  "admissionReserve": "serialized message UTF-8 bytes + actual schema bytes + max(16384, profile maxOutputTokens) + 16384 wrapper margin. An admission estimate, not an enforced output cap; actual reported usage is authoritative.",
+  "callPolicy": {
+    "concurrency": 1,
+    "applicationNetworkRetries": 0,
+    "unknownUsageStops": true,
+    "protocolRejectionStops": true,
+    "noExtraRuns": true
+  },
+  "artifacts": {
+    "implementation-freeze.json": "a8c1b78e4928aa5087cde0007d8d23eb3839e04d121f4b0ef64e4ed150d942a2",
+    "authorization.json": "b3aa5e0873e48d23b3b6c4e8454f5f602c99d5aecd6cc28b770f5bd384a2d2dc",
+    "suite.json": "edbdc4c0d7754f2dc8e40c5e4ddfe545bd9551bdc50fc800e3c8e7de800ff257",
+    "gold.json": "91ce17638f55fbb9886bc91d01a466d6ca65b113db38e145060b64758de73b3b",
+    "holdout-seal.json": "e0bde6e773cdf256112fbb68ea3bc2c7beb0ad5ba79756e00480e806d5683a40",
+    "code-review.json": "11dfe88016f964db2ed4c840d5e66d4282043f5010cdd1675f6cd98ac4ee2e6c",
+    "preflight-audit.json": "d52f8372e9a1235b39fd8e86327a7621d03f4d66f1ccf068fcf07b9a4def3785",
+    "evaluation-seal.json": "7ee61f117bf3345539d7f8f9d25ac97bc9a0d03458a1432cccc87194423346fe",
+    "result/report.json": "a1a81874bbf49a0887b6bd616e1ff51a990095033650bbe6ea2f5b3ff5baaa26",
+    "ledger.json": "aff843f9db7549463551992223a5ab069683daa0c9559102c80919b1293493b6",
+    "result/audit-packets.json": "a6bf3cc21f284b253c550a5b306ab50a235fb108c25469023324692b658dec1f",
+    "result/audit-results.json": "d44df23f14f8d097ea510e83bdf7ebf6124ae5f9da484f7a4e31fd2c7d7b1ca9",
+    "result/metrics.json": "47ccdb004627bffe8b57430e02c222238c097180746b036347a8c49653107730"
+  },
+  "analysisArtifacts": {
+    "metrics.cjs": "ece896b67baff7c050302f245ec3aa1d8f63cf4fd204ad5528e6c784dc7fcd6a",
+    "metrics.test.cjs": "21c0d1b5c324f59ebac8bce991c449feddd293b5cc13e74c2ec5df5cde7a8276",
+    "integrity.cjs": "467b2870b8ae4d36edb5e6410f98a14dd5b823b6831804bcd2bf2c2d57a1e748",
+    "integrity.test.cjs": "40399864c7eb6eb44578a09a1810f9a0ce1b165bd711f098438e692c9f10dad3",
+    "statistics-code-review.json": "ceb3957b5e872414c5ced8242f017404544406dd8d7045dd95c4bf03b9817f67"
+  },
+  "publicationScope": "Sanitized aggregate metrics, per-call usage/lifecycle, blind content labels with post-label arm mapping, and audit hashes. Frozen synthetic fixtures, raw CLI traces, local paths and account/thread identifiers remain local. Public hashes allow later cross-check, not a standalone replay of private local execution.",
+  "formalMainEvaluationStarted": false,
+  "installedApplicationReplaced": false
+}
