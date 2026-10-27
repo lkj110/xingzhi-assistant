@@ -56,6 +56,7 @@ async function prepare(a,job,tool,args) {
   if(task.steps.some(s=>!s.done&&s.outputRole==='primary'))throw Error('主稿修订尚未完成，不能交付旧版本');
   if(task.status==='paused')throw new Error('事项已暂停');
   const artifact=require('./deliverables.cjs').select(a,task,tool==='write_file'?args.artifactId:undefined);
+  require('./grounding.cjs').assertDelivery(a,task);
   const supporting=require('./deliverables.cjs').role(a,task,artifact)==='supporting';
   if(supporting&&!args.filename)throw Error('保存辅助报告必须指定独立文件名');
   if(tool==='write_file'&&!job.outputFolder)throw new Error('此委托尚未选择产出文件夹');
@@ -73,6 +74,7 @@ async function prepare(a,job,tool,args) {
   if(tool==='github_comment') {
     if(typeof args.body!=='string'||!args.body.trim()||args.body.length>10000)throw new Error('评论内容需要 1–10000 字符');
     body=args.body.trim();
+    require('./grounding.cjs').assertPayload(a,task,body,artifact.id);
   }
   if(tool==='github_update') {
     if(args.state!==undefined&&!['open','closed'].includes(args.state))throw new Error('Issue 状态无效');
@@ -219,6 +221,8 @@ async function executeLocked(a,job,record) {
   let attempted=false;
   if(['lark_create','lark_update'].includes(record.tool)&&mode(job,record.tool,record.taskId)==='auto')record.authorization={kind:'task_policy',...require('./lark-create-policy.cjs').policy(job,record.taskId)};
   require('./execution-gate.cjs').assert(a,{job,task});
+  require('./grounding.cjs').assertDelivery(a,task);
+  require('./grounding.cjs').assertAction(a,task,record);
   require('./evidence-consumption.cjs').assertDelivery(a,job,task);
   require('./protocol-access.cjs').assertTool(a,job,record.tool,record.args,{taskId:record.taskId,...(mode(job,record.tool,record.taskId)==='ask'?{action:record}:{})});
   require('./action-facts.cjs').assertWritable(a);

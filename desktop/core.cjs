@@ -591,7 +591,8 @@ delegation 提供用户目标、已配置的产出目录和相关等待状态；
 返回 {"passed":true或false,"summary":"检查结论与理由","gaps":["未满足的标准"]}。
 没有证据的外部行动不算完成；如果要求已经通过草稿/分析满足，不要求额外的外部发送。
 artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作为背景，不能用来证明当前步骤已满足完成标准。 artifacts.storageEvidence 是应用提供的本地工作空间保存凭据，不是正文自述；origin=user_import 表示已通过用户导入正文接入本步骤。独立事项要求交接文档但未要求额外写入指定外部位置时，已保存的正文即可作为交付，不要求 deliveryEvidence。若明确要求外部路径或发送回执，工作空间保存凭据不能替代外部交付证据。业务任务/表 ID、SQL、运维命令和交接包相对路径属于有用的技术交接信息，不应误判为应用内部编号。保存状态依据 deliveryEvidence 和步骤 evidence 核验，不要求正文自述已保存。检查正文是否混入本应用的保存交接、内部 ID 或哈希；用户没有要求这些内容时应列为改进项。相关等待状态以 delegation.followups 为准。previousCheck 存在时，已标记片段通过过检查且字节未变；重点检查改动及其对上下文、完成标准的影响。无法判断省略部分时返回 {"retryFull":true}，应用会提供全文重新检查。`;
-        const verifierKey=digest(verifyPrompt),checkingBasis=acceptance.basis(this,task);
+        const grounding=require('./grounding.cjs');
+        const verifierKey=digest(verifyPrompt+(grounding.enabled(this)?'grounding:'+grounding.VERSION+':'+grounding.INPUT_PROTOCOL:'')),checkingBasis=acceptance.basis(this,task);
         let prepared=checkCache.prepare(this,task,fullContext,{allowExact:true,verifierKey});
         let verification=checkCache.reuse(this,task,prepared,{verifierKey});
         if(!verification){
@@ -605,6 +606,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
         if (verification.passed && verification.gaps.some(gap => gap.trim())) throw modelError('MODEL_INVALID_RESPONSE','检查结论存在矛盾：仍有未满足的标准，不能标记完成。将自动重试检查。',true);
         if(checkingBasis!==acceptance.basis(this,this.task(id)))throw modelError('MODEL_INVALID_RESPONSE','检查期间要求或资料已变化，旧检查已丢弃，将按当前依据重新检查',true);
         if(linkedJob){const covered=require('./relation-obligations.cjs').validateCoverage(this,linkedJob,task,verification,checkingBasis);verification=covered.result;require('./relation-obligations.cjs').record(linkedJob,covered.receipts);}
+        if(grounding.enabled(this)&&verification.grounding)task.grounding=verification.grounding;
         checkCache.remember(this,task,verification,prepared);
         task.verification = { basisVersion:2,mode:prepared.mode,reusedChunks:prepared.reusedChunks,checkedChunks:prepared.checkedChunks,...(prepared.mode==='exact'?{avoidedModelCalls:1}:{}), passed: verification.passed, summary: short(verification.summary, 5000), gaps: verification.gaps.map(s => short(s, 1000)).slice(0, 20), gapDetails:verification.gapDetails,relationCoverage:verification.relationCoverage,snapshot:fullContext.verificationSnapshot,at: now(), basis:acceptance.basis(this,task) };
         task.status = verification.passed ? 'review' : 'blocked';
@@ -779,6 +781,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
     if (typeof action === 'string' && action.startsWith('rule')) return workRules.dispatch(this,action,input);
     if (typeof action === 'string' && action.startsWith('agent')) return agent.dispatch(this, action, input);
     if (action === 'state') return this.publicState();
+    if (action === 'groundingStatus') return require('./grounding.cjs').status(this);
     if (action === 'stop') { this.stop(); return this.publicState(); }
     if (action === 'import') return this.addSources(input.items);
     if (action === 'extract') { this.available('organize'); return this.launch('整理材料并拆解事项', () => this.extract(input.ids)); }
@@ -852,13 +855,14 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       });
     } else if (action === 'settings') {
       const settings = clone(this.data.settings);
+      const enableGrounding=input.evidenceGrounding===true&&this.data.settings.evidenceGrounding!==true;
       if (input.roles) for (const role of ['organize', 'execute', 'verify']) {
         if (!Object.hasOwn(input.roles, role)) continue;
         if (input.roles[role] && !this.data.providers.some(p => p.id === input.roles[role])) throw new Error('所选模型不存在');
         settings.roles[role] = input.roles[role] || '';
       }
       if (input.profile !== undefined) settings.profile = short(input.profile, 5000);
-      for (const key of ['automatic', 'autoExtract', 'autoComplete', 'compactContext']) if (input[key] !== undefined) settings[key] = !!input[key];
+      for (const key of ['automatic', 'autoExtract', 'autoComplete', 'compactContext', 'evidenceGrounding']) if (input[key] !== undefined) settings[key] = !!input[key];
       if (input.intervalMinutes !== undefined) settings.intervalMinutes = Math.max(1, Math.min(120, Number(input.intervalMinutes) || 15));
       if (input.maxActions !== undefined) settings.maxActions = Math.max(1, Math.min(10, Math.floor(Number(input.maxActions) || 3)));
       if (settings.automatic) for (const role of settings.autoExtract ? ['organize', 'execute', 'verify'] : ['execute', 'verify']) {
@@ -866,11 +870,18 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       }
       return this.commitOrdinary(() => {
         this.data.settings = settings;
+        if(enableGrounding)for(const task of this.data.tasks.filter(t=>t.status==='review'&&!t.acceptedAt&&!t.deletedAt)){
+          let current=false;try{current=!!require('./grounding.cjs').reusable(this,task);}catch{}
+          if(current)continue;
+          this.requeue(task);delete task.contentVerification;
+          this.event('等待独立证据核验','原稿已保留，继续推进时核验要求与原文。',task.id);
+        }
         modelFallback.changed(this);
         modelRouting.changed(this);
       });
     } else if (action === 'createTask') {
-      this.createTask(input);
+      const created=this.createTask(input);
+      require('./grounding.cjs').captureUserInput(created,'description',created.description);
       require('./deadline-scheduler.cjs').reconcile(this);
     } else if (action === 'updateTask') {
       const task = this.task(input.id);
@@ -890,12 +901,14 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       if(input.modelPreference!==undefined){if(!modelRouting.preferences.includes(input.modelPreference))throw new Error('事项模型选择无效');changes.modelPreference=input.modelPreference;}
       const meaningChanged = ['title', 'description', 'objective', 'criteria'].some(key => key in changes && changes[key] !== task[key]);
       if(!meaningChanged&&!deadlineInput)return this.commitOrdinary(() => {
+        if(input.description!==undefined)require('./grounding.cjs').captureUserInput(task,'description',changes.description);
         require('./requirements.cjs').edit(task,changes);
         Object.assign(task,changes);
         this.event('更新事项',task.title,task.id);
         task.updatedAt=now();
       });
       if(meaningChanged)require('./work-journal.cjs').recordUserEdit(this,{id:task.id,reopen:task.status==='completed',requirementRevision:uid(),changes});
+      for(const field of ['description','objective'])if(input[field]!==undefined)require('./grounding.cjs').captureUserInput(task,field,changes[field]);
       if(deadlineInput)require('./deadline-events.cjs').setPolicy(this,{taskId:task.id,input:deadlineInput,expectedRevision:input.expectedDeadlineRevision});
       require('./requirements.cjs').edit(task,changes);
       Object.assign(task, changes);

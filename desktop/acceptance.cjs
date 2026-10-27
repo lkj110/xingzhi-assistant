@@ -132,6 +132,7 @@ function reasons(a, task, { completed = false, seen = new Set() } = {}) {
   if (task.needsReplan) add('replan', '来源或计划已变化，请先重新推进和检查');
   if (require('./evidence-consumption.cjs').draftOnly(a,task)) add('draft_evidence', '当前为增量草稿：须补齐全部类型证据并通过当前稿内容检查，才能交付或验收');
   const verification = task.verification;
+  if(require('./grounding.cjs').enabled(a)&&artifactState(a,task).length){try{require('./grounding.cjs').assertDelivery(a,task);}catch{add('grounding','当前稿件缺少有效的独立证据核验，请重新检查');}}
   if (verification?.passed !== true || !nonempty(verification.summary) || rows(verification.gaps).some(nonempty)) add('verification', '请先完成执行与结果检查');
   if (!rows(task.steps).length || !rows(task.steps).every(step => object(step) && ['analysis','draft','external'].includes(step.kind) && step.done === true)) add('steps', '执行步骤尚未全部完成');
   for (const step of rows(task.steps).filter(step => object(step) && step.done)) {
