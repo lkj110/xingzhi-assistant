@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "baseline": "bacf826b21dbab940c00bd6e1133b5250fbcdd23",
+  "candidate": "343e629dd7905c6ef8dcace258a5fa9954f66aee",
+  "comparison": "R9 vs R10; strict verification in both arms. Plan: one paired draw per business case. Actual: zero business branches attempted after protocol halt.",
+  "implementationFrozenAt": "2026-10-27T08:36:02.398Z",
+  "evaluationSealedAt": "2026-10-27T09:10:44.543Z",
+  "samplePolicy": {
+    "businessCases": 6,
+    "fixedCases": 2,
+    "endToEndCases": 4,
+    "createdAfterImplementationFreeze": true,
+    "noPostLiveChanges": true,
+    "goldAmendedBeforeAnyLiveCalls": true,
+    "originalGoldAndSealPreserved": true
+  },
+  "preflightOfflineTests": {
+    "passed": 43,
+    "failed": 0
+  },
+  "statisticsOfflineTests": {
+    "passed": 21,
+    "failed": 0
+  },
+  "exportGuardsOfflineTests": {
+    "passed": 11,
+    "failed": 0
+  },
+  "timeConditions": "Only the preselected historical-observation business case waits before returning each task-verifier model response until every existing dynamic action_status receipt is at least 1000 ms past its actual TTL. Same rule in both arms. Uses real wall time, does not change response text, clocks or evidence. If no such receipt is produced, coverage is untriggered. Other cases use natural time.",
+  "parameterCoverage": "Compute protocol packet uses a fresh local action. A real malformed nested actionId request is evaluated offline, then the model receives the error and required top-level shape; its actual corrected response is executed and receipt/event checked. No fake model output. Business malformed-parameter path is natural; absent trigger is reported, no extra probes.",
+  "callPolicy": {
+    "concurrency": 1,
+    "applicationNetworkRetries": 0,
+    "unknownUsageStops": true,
+    "protocolRejectionStops": true,
+    "noExtraRuns": true
+  },
+  "admissionReserve": "Each attempt reserves actual serialized input UTF-8 bytes plus actual schema bytes (including the 124-byte legacy schema), max(16384, profile.maxOutputTokens) output estimate, and 16384 wrapper margin. Reserved quantities are conservative admission estimates, not a provider-enforced output limit: CLI exposes no output cap. Measured input+output is authoritative, failed calls count, cached input is a subset. Any reported stage/global overage is a failed budget gate and halts; unknown usage stays unknown, never zero or reservation-derived.",
+  "artifacts": {
+    "implementation-freeze.json": "4db2cbda9384854ceb113afc9aa1d8fee8c2bdbcdd16276bdb32fc0f59f4d013",
+    "authorization.json": "cfb40945398c4e3229339e5ec7eb8077243908e04ee7cdd51fabcfcc82d62f5c",
+    "suite.json": "7fccd4c226ec7a2f42a9acfa6cff25abb1d63929b0c8db8b96040deef6825673",
+    "gold.json": "88862fb7581cbc16cde603c2c500b1a7c9ecf200a7e46a57d153038547ece4d1",
+    "holdout-seal.json": "d0108ae48730445469778c969c3549f4614687d4a4a088d482170cfece7aa565",
+    "code-review.json": "392984510b5d777f6f458cec379e00cecfee9d0cd362a7516c23c2628d2b025c",
+    "preflight-audit.json": "de7ca304f4fafe475c9920f3bfab3ad85cb8eb114bc985147a8f1a64bdd08250",
+    "evaluation-seal.json": "49db4d9b45f1a97b673d3c0bc6003d255b3e07f5f3550ce1a54d3e0102fce977",
+    "result/report.json": "bd715f5a75e035effb68ce0ec506797bdb25354ec9a3677254989b37514e6168",
+    "ledger.json": "36efe4f8c6598371934bb7ab102e9d1879d021e148ad37da062aa69460a11a4a",
+    "result/audit-packets.json": "c3abee0bbc323b4c0c13f1f7c98c5a1366622a3d217fb346018c7e87e8e36dab",
+    "result/audit-results.json": "c60d837a91beb201a9724df2ee20db95bd9c37fa76edeab9d584f3333bd90081",
+    "result/metrics.json": "7584570a4bc5b90ce7802609dca2056d20f84a9b89bb593f1bc6c480b3ac3113"
+  },
+  "analysisArtifacts": {
+    "metrics.cjs": "ece896b67baff7c050302f245ec3aa1d8f63cf4fd204ad5528e6c784dc7fcd6a",
+    "metrics.test.cjs": "21c0d1b5c324f59ebac8bce991c449feddd293b5cc13e74c2ec5df5cde7a8276",
+    "integrity.cjs": "c3a023767386a140696a1f4cdf0d91e8c3e438cf9d578ec345904acf338d4698",
+    "integrity.test.cjs": "40399864c7eb6eb44578a09a1810f9a0ce1b165bd711f098438e692c9f10dad3",
+    "export-audit.cjs": "df7db8333a7cdfecbcce7646bebf5f6fdb2db0b523914b5610e5a01bf89d0353",
+    "publish-live.cjs": "58143327008b5addbde35c2f8be1708ed336a3a48a973a01ef99615b3a596e43",
+    "export-guards.cjs": "bbb45f0431ad91f279edc32c66b1035a4f4f7e55cac97f54149320f17135e0bf",
+    "export-guards.test.cjs": "c98c9df420f52653a58ea6251ea462e8310c7c67e9cc4c39e282a99f21116c10"
+  },
+  "publicationScope": "Sanitized aggregates, per-call usage/lifecycle, independent blind labels with post-label arm mapping and hashes. Raw traces and sealed synthetic inputs remain local. Hashes support later cross-check, not standalone public replay.",
+  "formalMainEvaluationStarted": false,
+  "installedApplicationReplaced": false
+}

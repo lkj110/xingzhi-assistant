@@ -1,0 +1,261 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-27T09:45:45.504Z",
+  "reviewer": "independent-r10-result-audit-agent",
+  "stage": "post-blind-unblinded-accounting-review",
+  "approvedResultFacts": true,
+  "publicationFinalReview": "approved-for-listed-files-only",
+  "readOrder": {
+    "blindLabelWrittenBeforeRawRead": true,
+    "immutableBlindAuditSha256": "c60d837a91beb201a9724df2ee20db95bd9c37fa76edeab9d584f3333bd90081",
+    "immutableBlindAuditUnchanged": true,
+    "afterWriteReadKeyReportLedger": true
+  },
+  "checks": {
+    "blindPacketGoldHashMatched": true,
+    "packetReportSuiteHashesMatched": true,
+    "allEvaluationSealFilesMatched": 21,
+    "allPreflightReviewedHashesMatched": 9,
+    "frozenDriverHashesMatched": 15,
+    "runtimeManifestContentHashesMatched": {
+      "baseline": 249,
+      "candidate": 250
+    },
+    "dependencyContentHashesMatched": 13528,
+    "binaryContentHashesMatched": 3,
+    "allGoldAnchorsMatched": 37,
+    "callArtifactCount": 3,
+    "callArtifactsEqualReportRecords": true,
+    "inputMessageHashesMatched": true,
+    "receiptUsageEqualsReportUsage": true,
+    "ledgerAndReportTimestampsConsistent": true,
+    "accountingOutputRecomputedExactly": true,
+    "metricsOutputRecomputedExactly": true,
+    "offlineStatisticsTests": {
+      "passed": 21,
+      "failed": 0
+    },
+    "offlineExportGuardTests": {
+      "passed": 11,
+      "failed": 0
+    },
+    "realModelOrNetworkCallsByReviewer": 0,
+    "credentialFilesRead": false
+  },
+  "facts": {
+    "status": "incomplete",
+    "halt": "EVAL_USAGE_UNKNOWN",
+    "applicationTransportAttempts": 3,
+    "knownUsageAttempts": 2,
+    "unknownUsageAttempts": 1,
+    "knownInputTokens": 21504,
+    "knownOutputTokens": 182,
+    "knownTotalTokens": 21686,
+    "totalTokens": null,
+    "cachedInputTokensKnownSubtotal": 0,
+    "protocol": {
+      "planned": 8,
+      "attempted": 3,
+      "passed": 2,
+      "failed": 1,
+      "unattempted": 5,
+      "completion": {
+        "numerator": 2,
+        "denominator": 8,
+        "rate": 0.25,
+        "wilson95": [
+          0.071479212752109,
+          0.5907245696898311
+        ]
+      },
+      "readGoldSemanticsPassed": 2
+    },
+    "business": {
+      "plannedBranches": 12,
+      "attemptedBranches": 0,
+      "completedBranches": 0,
+      "unattemptedBranches": 12,
+      "completion": {
+        "numerator": 0,
+        "denominator": 12,
+        "rate": 0,
+        "wilson95": [
+          2.7755575615628914e-17,
+          0.24249400665524085
+        ]
+      },
+      "baselineCompleted": 0,
+      "baselinePlanned": 6,
+      "candidateCompleted": 0,
+      "candidatePlanned": 6,
+      "blindPackets": 0,
+      "validJudgments": 0,
+      "hallucination": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "falseBlock": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "wrongRelease": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "pairedCompletedCases": 0,
+      "pairedTokenDelta": null,
+      "pairedPercentChange": null,
+      "ttlCoverage": "not-triggered-no-business-dispatch",
+      "naturalParameterRecoveryCoverage": "not-triggered-no-business-dispatch"
+    },
+    "stop": {
+      "firstStopAttempt": 3,
+      "dispatchesAfterStop": 0,
+      "allProcessesClosed": true,
+      "failedProcessExitCode": 1,
+      "applicationRetryPolicy": 0,
+      "observedApplicationRedispatches": 0,
+      "cliErrorEvents": 10,
+      "cliTurnFailedEvents": 1,
+      "underlyingHttpAttempts": null,
+      "noBusinessDispatch": true,
+      "mainEvaluationStarted": false
+    },
+    "budget": {
+      "authorizedCalls": 80,
+      "authorizedTokens": 1600000,
+      "protocolTokenLimit": 160000,
+      "businessTokenLimit": 1440000,
+      "knownSubtotal": 21686,
+      "unknownUsageAttempts": 1,
+      "withinCallLimit": true,
+      "withinMeasuredTokenLimit": null,
+      "knownMeasuredOverage": false,
+      "reservationAdmissionRespected": true,
+      "admission": [
+        {
+          "attempt": 1,
+          "knownTokensBefore": 0,
+          "reservedTokens": 42571,
+          "admittedTotal": 42571
+        },
+        {
+          "attempt": 2,
+          "knownTokensBefore": 10843,
+          "reservedTokens": 42571,
+          "admittedTotal": 53414
+        },
+        {
+          "attempt": 3,
+          "knownTokensBefore": 21686,
+          "reservedTokens": 43530,
+          "admittedTotal": 65216
+        }
+      ]
+    },
+    "failureClassification": {
+      "transportCode": "MODEL_CLI",
+      "diagnosticKind": "turn_failed",
+      "resultResponseAvailable": false,
+      "semanticRejectionEstablished": false,
+      "providerSchemaRejectionEstablished": false,
+      "rootCause": "undetermined-from-retained-evidence"
+    }
+  },
+  "sourceHashes": {
+    "result/report.json": "bd715f5a75e035effb68ce0ec506797bdb25354ec9a3677254989b37514e6168",
+    "ledger.json": "36efe4f8c6598371934bb7ab102e9d1879d021e148ad37da062aa69460a11a4a",
+    "suite.json": "7fccd4c226ec7a2f42a9acfa6cff25abb1d63929b0c8db8b96040deef6825673",
+    "gold.json": "88862fb7581cbc16cde603c2c500b1a7c9ecf200a7e46a57d153038547ece4d1",
+    "result/audit-packets.json": "c3abee0bbc323b4c0c13f1f7c98c5a1366622a3d217fb346018c7e87e8e36dab",
+    "result/audit-results.json": "c60d837a91beb201a9724df2ee20db95bd9c37fa76edeab9d584f3333bd90081",
+    "result/audit-key.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "implementation-freeze.json": "4db2cbda9384854ceb113afc9aa1d8fee8c2bdbcdd16276bdb32fc0f59f4d013",
+    "evaluation-seal.json": "49db4d9b45f1a97b673d3c0bc6003d255b3e07f5f3550ce1a54d3e0102fce977",
+    "holdout-seal.json": "d0108ae48730445469778c969c3549f4614687d4a4a088d482170cfece7aa565",
+    "authorization.json": "cfb40945398c4e3229339e5ec7eb8077243908e04ee7cdd51fabcfcc82d62f5c",
+    "code-review.json": "392984510b5d777f6f458cec379e00cecfee9d0cd362a7516c23c2628d2b025c",
+    "preflight-audit.json": "de7ca304f4fafe475c9920f3bfab3ad85cb8eb114bc985147a8f1a64bdd08250",
+    "preflight-runtime-checks.json": "53491208ecf948c0f28a5678c3d1a9be709812c760dad5c22ebe3db8a2749564",
+    "preflight-sizing.json": "814253c54a65c6a18c162018da108a10ae363088c9fb8e6d021e544fc1274139",
+    "protocol.json": "9f99ee9b37957757ac18e45216a8ade2c344f193b533a469b2d334b1c726f685",
+    "result/integrity-check.json": "9a484baccb01dec861a22de02b0682db740d998a92091386de98f905261fbc9b",
+    "result/metrics.json": "7584570a4bc5b90ce7802609dca2056d20f84a9b89bb593f1bc6c480b3ac3113",
+    "result/protocol/R10-P01-nuanqiao-read/baseline/call.json": "c4f33c693a9b264ef1ae773bc1acbf16c58360711c00151f0f35e79442e12691",
+    "result/protocol/R10-P01-nuanqiao-read/candidate/call.json": "376bda2d05c0d58698d4dec5540659490b00f5052e51a3bf74bef13121050213",
+    "result/protocol/R10-P02-yunmao-recover/candidate/call.json": "0cc963517f579ea6260c05a50127cbd1d1eb502847b39229a3343969eece07de"
+  },
+  "limitations": [
+    "This is an agent audit, not a human audit or perfect blinding.",
+    "Before blind labeling, the coordinator supplied a protocol-stop summary. No business output or arm-to-business-output mapping was supplied or read; the packet has no business output.",
+    "During the earlier statistics code review, review-probes.test.cjs text was accidentally read. It revealed development direction, but no referenced product module, R9 sample or result, R10 sample, gold, frozen artifact, raw report, ledger or key was read at that stage. The auditor therefore does not claim ignorance of development direction.",
+    "With zero business packets, the empty label set establishes absence of material to review and does not establish model quality or any improvement.",
+    "The third application transport contains ten CLI error events. They are not a count of HTTP attempts, provider retries, billable requests, or distinct application transports.",
+    "The retained third-call record has no response body or provider HTTP status. It establishes a CLI turn failure with unknown usage, not a semantic failure or a provider schema rejection.",
+    "Reservation admission stayed within the configured limits, but a missing measured usage prevents certification that the actual global or protocol token total stayed within budget.",
+    "No business case was attempted. Zero planned-branch completion is a stopped-run result; all zero-denominator quality metrics and paired cost comparisons remain undefined.",
+    "Direct digest rechecks covered frozen manifest contents, dependencies and three binaries. Historical R9 files were not opened by this reviewer; the separate integrity artifact reports their hashes unchanged. No additional model call, health probe or external request was made by this review.",
+    "Freeze/holdout authorship isolation is documented by timestamps, hashes and declarations. These records do not prove perfect external independence.",
+    "The coordinator reports that an exact lookup found no retained CLI session file. This reviewer confirmed the frozen wrapper uses --ephemeral but did not independently repeat a wider CLI storage search; no diagnosis depends on that absence.",
+    "The R10 repair document review covers its updated execution-status section plus a full-file sensitive-content scan. Historical product-development assertions in the unchanged repair sections were not independently re-audited here."
+  ],
+  "findings": [
+    {
+      "id": "R10-RESULT-01",
+      "severity": "interpretation-limit",
+      "statement": "Readiness stopped during the third protocol transport. No business quality, cost-reduction, noninferiority or general superiority conclusion is supported."
+    },
+    {
+      "id": "R10-RESULT-02",
+      "severity": "interpretation-limit",
+      "statement": "Unknown usage is preserved. Total measured tokens and token-budget compliance remain null."
+    }
+  ],
+  "conclusion": "Approved for publication of the listed files. The records reconcile to three application transports; unknown usage caused the stop at attempt three, with no business dispatch. Actual total tokens and token-budget compliance remain unknown. Business quality, paired cost, semantic rejection and provider schema rejection conclusions are unsupported. No further execution is authorized.",
+  "approved": true,
+  "approvedFor": "Publication of the listed result documentation and sanitized JSON evidence. This approval authorizes no new live call, probe, replay, main evaluation, deployment or product change.",
+  "reviewedPublicFilesSha256": {
+    "docs/CONTEXT_ABCD_R10_LIVE.md": "a90fe116a2f9b10c9f09e923b81b1ff7d57564c1d81091055c4ea98dfcdd01ca",
+    "docs/CONTEXT_ABCD_R10_REPAIR.md": "3c2ff68d4a695e4c19e3f82c984cbcd31f8932324207d83282c7d23207933732",
+    "docs/evaluations/abcd-readiness-r10/metrics.json": "cb18311d70b576d1360de8c11f8b4e5c60141570bf2a9d710c176da433511cfa",
+    "docs/evaluations/abcd-readiness-r10/integrity.json": "123aefbda280d5e56864a45e3bbdd7530e37242705b353f99ff54c601171185b",
+    "docs/evaluations/abcd-readiness-r10/call-accounting.json": "4e0c6174729475a83c3395edab20151d3d89babd0e7920946c798694c44d1ba5",
+    "docs/evaluations/abcd-readiness-r10/content-audit.json": "37891e5d2943546817e62719d3d87287f04c1d4010007ea0a7e9698e6625c8fb",
+    "docs/evaluations/abcd-readiness-r10/provenance.json": "353def963927289666a4a3a751a60ff3e62faf2f60d4d9b1000072ee5924949c"
+  },
+  "analysisArtifactHashes": {
+    "metrics.cjs": "ece896b67baff7c050302f245ec3aa1d8f63cf4fd204ad5528e6c784dc7fcd6a",
+    "metrics.test.cjs": "21c0d1b5c324f59ebac8bce991c449feddd293b5cc13e74c2ec5df5cde7a8276",
+    "integrity.cjs": "c3a023767386a140696a1f4cdf0d91e8c3e438cf9d578ec345904acf338d4698",
+    "integrity.test.cjs": "40399864c7eb6eb44578a09a1810f9a0ce1b165bd711f098438e692c9f10dad3",
+    "export-audit.cjs": "df7db8333a7cdfecbcce7646bebf5f6fdb2db0b523914b5610e5a01bf89d0353",
+    "publish-live.cjs": "58143327008b5addbde35c2f8be1708ed336a3a48a973a01ef99615b3a596e43",
+    "export-guards.cjs": "bbb45f0431ad91f279edc32c66b1035a4f4f7e55cac97f54149320f17135e0bf",
+    "export-guards.test.cjs": "c98c9df420f52653a58ea6251ea462e8310c7c67e9cc4c39e282a99f21116c10"
+  },
+  "offlineTests": {
+    "passed": 32,
+    "failed": 0,
+    "statistics": 21,
+    "exportGuards": 11
+  },
+  "withinTokenLimit": null,
+  "publicationChecks": {
+    "allSevenFilesScannedForSensitiveContent": true,
+    "knownPrivateIdentifiersExcluded": true,
+    "rawInputsAndReceiptReferenceIdsExcluded": true,
+    "publicMetricsAndIntegrityMatchRaw": true,
+    "publicCallFieldsAndEventsMatchRaw": true,
+    "publicBlindAuditMatchesImmutableLabels": true,
+    "allPublishedProvenanceHashesMatched": true,
+    "preservedPreLiveHoldoutVersionsHashesMatched": 3,
+    "sourceReportLedgerAndAuditRemainUnchanged": true,
+    "readmeNumbersAndInterpretationSupported": true,
+    "repairStatusSectionReviewed": true,
+    "repairHistoricalProductAssertionsReaudited": false,
+    "rawCliSessionSearchIndependentlyRepeated": false
+  }
+}
