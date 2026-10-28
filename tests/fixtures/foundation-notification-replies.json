@@ -1,0 +1,277 @@
+{
+  "schema": 1,
+  "provenance": "Complete decoded synthetic-business verifier replies from 2026-10-28 run 4a824ddd-68bb-4202-82b8-d4b5ee3bf6c5. No private runtime/account fields. Tests rebind source/artifact UUIDs only; requirement identities and business text are unchanged.",
+  "fixtures": [
+    {
+      "caseId": "F01-lanqiao-tour",
+      "rawOutputSha256": "ee7094e1ed4e62d0f2baa5a34aa5be4ed74250dc7c78e134f51a63903c500e69",
+      "input": {
+        "title": "岚桥展览预约团体讲解通知",
+        "description": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。\n仅根据所附排班记录，写一份供预约团体联络员使用的短通知。记录属于虚构业务场景，请以记录给定时点为准，不查询外部信息。",
+        "criteria": "标题须体现仅面向预约团体；正文写明日期、报到与开始时间、人数上限、负责人及下雨时的安排。保留适用对象与触发条件，不得扩大为公众开放活动；不超过250个汉字。",
+        "sources": [
+          {
+            "title": "岚桥展览团体场确认记录",
+            "content": "记录时点：2025年4月16日18:00。\n活动日期为2025年4月19日，仅面向已预约的校内团体，不接待未预约散客。\n团体于10:00报到，讲解于10:20开始；本场最多接待24人。\n现场负责人为林芃。\n仅当活动当天降雨时，讲解移至东侧连廊；未降雨时在庭院集合。\n此记录确认的是活动安排，不表示活动已经举行。"
+          }
+        ]
+      },
+      "draft": {
+        "title": "岚桥展览讲解通知（仅限已预约校内团体）",
+        "content": "### 岚桥展览讲解通知（仅限已预约校内团体）\n\n请团体联络员通知参加人员：2025年4月19日10:00报到，10:20开始讲解，本场最多接待24人，现场负责人为林芃。未降雨时在庭院集合；仅当活动当天降雨时，讲解移至东侧连廊。\n\n本场仅面向已预约的校内团体，不接待未预约散客。\n\n以上为截至2025年4月16日18:00确认的安排，不表示活动已经举行。"
+      },
+      "response": {
+        "passed": true,
+        "summary": "检查通过。当前通知与所附记录一致，标题限定预约校内团体，日期、时间、人数上限、负责人和降雨安排齐全，保留适用对象与触发条件，未推断后续活动状态；全文不足250个汉字，且已有工作空间保存凭据。",
+        "gaps": [],
+        "groundingReview": {
+          "format": "compact-v3",
+          "scannedArtifactIds": [
+            "d70ae772-25ca-4cf8-ba92-df82848933b9"
+          ],
+          "citations": [
+            {
+              "id": "e1",
+              "sourceId": "bc37c8c9-be90-475c-9ee7-786518baf3cc",
+              "quote": "记录时点：2025年4月16日18:00。\n活动日期为2025年4月19日，仅面向已预约的校内团体，不接待未预约散客。\n团体于10:00报到，讲解于10:20开始；本场最多接待24人。\n现场负责人为林芃。\n仅当活动当天降雨时，讲解移至东侧连廊；未降雨时在庭院集合。\n此记录确认的是活动安排，不表示活动已经举行。"
+            }
+          ],
+          "requirements": [
+            {
+              "id": "req:ab933ab63b9ad944",
+              "status": "satisfied",
+              "claimIds": [
+                "c6"
+              ]
+            },
+            {
+              "id": "req:3a6c174928944b06",
+              "status": "satisfied",
+              "claimIds": [
+                "c1",
+                "c2",
+                "c3",
+                "c4",
+                "c5",
+                "c6",
+                "c7"
+              ]
+            },
+            {
+              "id": "req:4ddd03b1be237e97",
+              "status": "satisfied",
+              "claimIds": [
+                "c1",
+                "c3",
+                "c4",
+                "c5"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "artifactId": "d70ae772-25ca-4cf8-ba92-df82848933b9",
+              "text": "岚桥展览讲解通知（仅限已预约校内团体）",
+              "kind": "fact",
+              "supported": true,
+              "citationIds": [
+                "e1"
+              ]
+            },
+            {
+              "id": "c2",
+              "artifactId": "d70ae772-25ca-4cf8-ba92-df82848933b9",
+              "text": "请团体联络员通知参加人员：",
+              "kind": "proposal",
+              "supported": true,
+              "citationIds": [
+                "e1"
+              ]
+            },
+            {
+              "id": "c3",
+              "artifactId": "d70ae772-25ca-4cf8-ba92-df82848933b9",
+              "text": "2025年4月19日10:00报到，10:20开始讲解，本场最多接待24人，现场负责人为林芃。",
+              "kind": "fact",
+              "supported": true,
+              "citationIds": [
+                "e1"
+              ]
+            },
+            {
+              "id": "c4",
+              "artifactId": "d70ae772-25ca-4cf8-ba92-df82848933b9",
+              "text": "未降雨时在庭院集合；仅当活动当天降雨时，讲解移至东侧连廊。",
+              "kind": "fact",
+              "supported": true,
+              "citationIds": [
+                "e1"
+              ]
+            },
+            {
+              "id": "c5",
+              "artifactId": "d70ae772-25ca-4cf8-ba92-df82848933b9",
+              "text": "本场仅面向已预约的校内团体，不接待未预约散客。",
+              "kind": "fact",
+              "supported": true,
+              "citationIds": [
+                "e1"
+              ]
+            },
+            {
+              "id": "c6",
+              "artifactId": "d70ae772-25ca-4cf8-ba92-df82848933b9",
+              "text": "以上为截至2025年4月16日18:00确认的安排，不表示活动已经举行。",
+              "kind": "fact",
+              "supported": true,
+              "citationIds": [
+                "e1"
+              ]
+            },
+            {
+              "id": "c7",
+              "artifactId": "d70ae772-25ca-4cf8-ba92-df82848933b9",
+              "text": "岚桥展览预约团体讲解通知",
+              "kind": "fact",
+              "supported": true,
+              "citationIds": [
+                "e1"
+              ]
+            }
+          ],
+          "unsupportedClaims": [],
+          "conflicts": []
+        }
+      }
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "rawOutputSha256": "30e8e750f7d4c3126888ebdb669f190f6cb3ec660227ebd7b09cffffd7821037",
+      "input": {
+        "title": "闻杉教材领取通知",
+        "description": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。\n根据领用安排，起草一份简短通知，先写清数量、领取日期和地点。所有内容以所附记录为依据。",
+        "criteria": "写明60套教材、2025年8月12日、南楼资料室。不得写成教材已经领取；不超过180个汉字。",
+        "sources": [
+          {
+            "title": "闻杉教材领用安排",
+            "content": "截至2025年8月10日，闻杉教材领用安排已确认，领取尚未开始。\n共准备60套教材，每包5套，共12包。\n领取日期为2025年8月12日，时段为14:00至16:00，地点为南楼资料室。\n仅允许各班已登记的联络员领取，现场不办理追加。"
+          }
+        ]
+      },
+      "draft": {
+        "title": "闻杉教材领取通知",
+        "content": "闻杉教材领取通知\n\n本次共准备60套教材，领取日期为2025年8月12日，地点为南楼资料室。请各班已登记的联络员于当日14:00至16:00领取。教材每包5套，共12包；现场不办理追加。"
+      },
+      "response": {
+        "passed": true,
+        "summary": "通知符合要求：开头写明60套教材、2025年8月12日及南楼资料室，领取时段、领取资格和包装信息均有原文依据；未声称已经领取，全文少于180个汉字，且已有工作空间保存凭据。",
+        "gaps": [],
+        "groundingReview": {
+          "format": "compact-v3",
+          "scannedArtifactIds": [
+            "63f6af8f-1c3a-4bf8-b786-70461bfb3b37"
+          ],
+          "citations": [
+            {
+              "id": "e1",
+              "sourceId": "33a5c4dd-bf1f-495b-b891-82c087f104e0",
+              "quote": "截至2025年8月10日，闻杉教材领用安排已确认，领取尚未开始。"
+            },
+            {
+              "id": "e2",
+              "sourceId": "33a5c4dd-bf1f-495b-b891-82c087f104e0",
+              "quote": "共准备60套教材，每包5套，共12包。"
+            },
+            {
+              "id": "e3",
+              "sourceId": "33a5c4dd-bf1f-495b-b891-82c087f104e0",
+              "quote": "领取日期为2025年8月12日，时段为14:00至16:00，地点为南楼资料室。"
+            },
+            {
+              "id": "e4",
+              "sourceId": "33a5c4dd-bf1f-495b-b891-82c087f104e0",
+              "quote": "仅允许各班已登记的联络员领取，现场不办理追加。"
+            }
+          ],
+          "requirements": [
+            {
+              "id": "req:ab933ab63b9ad944",
+              "status": "satisfied",
+              "claimIds": [
+                "c1",
+                "c2"
+              ]
+            },
+            {
+              "id": "req:f708ff84f8d257a0",
+              "status": "satisfied",
+              "claimIds": [
+                "c1",
+                "c2",
+                "c3",
+                "c4"
+              ]
+            },
+            {
+              "id": "req:a435a1c47a9b4dda",
+              "status": "satisfied",
+              "claimIds": [
+                "c1",
+                "c2"
+              ]
+            }
+          ],
+          "claims": [
+            {
+              "id": "c1",
+              "artifactId": "63f6af8f-1c3a-4bf8-b786-70461bfb3b37",
+              "text": "本次共准备60套教材，领取日期为2025年8月12日，地点为南楼资料室。",
+              "kind": "fact",
+              "supported": true,
+              "citationIds": [
+                "e1",
+                "e2",
+                "e3"
+              ]
+            },
+            {
+              "id": "c2",
+              "artifactId": "63f6af8f-1c3a-4bf8-b786-70461bfb3b37",
+              "text": "请各班已登记的联络员于当日14:00至16:00领取。",
+              "kind": "proposal",
+              "supported": true,
+              "citationIds": [
+                "e1",
+                "e3",
+                "e4"
+              ]
+            },
+            {
+              "id": "c3",
+              "artifactId": "63f6af8f-1c3a-4bf8-b786-70461bfb3b37",
+              "text": "教材每包5套，共12包",
+              "kind": "fact",
+              "supported": true,
+              "citationIds": [
+                "e2"
+              ]
+            },
+            {
+              "id": "c4",
+              "artifactId": "63f6af8f-1c3a-4bf8-b786-70461bfb3b37",
+              "text": "现场不办理追加。",
+              "kind": "fact",
+              "supported": true,
+              "citationIds": [
+                "e4"
+              ]
+            }
+          ],
+          "unsupportedClaims": [],
+          "conflicts": []
+        }
+      }
+    }
+  ]
+}

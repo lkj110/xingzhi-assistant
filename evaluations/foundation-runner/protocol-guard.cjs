@@ -1,6 +1,7 @@
 'use strict';
 const assert=require('node:assert/strict');
 const modelJSON=require('../../desktop/model-json.cjs');
+const {evidenceProtocol}=require('./evidence-protocol.cjs');
 const object=v=>v&&typeof v==='object'&&!Array.isArray(v),text=v=>typeof v==='string'&&v.trim().length>0;
 function request(messages,payload,context){
  assert.deepEqual(messages.map(m=>m.role),['system','user'],'Unplanned repair messages');
@@ -27,8 +28,7 @@ function response(raw,{payload,role}){
   assert.equal(typeof r.passed,'boolean');assert.equal(typeof r.summary,'string');assert.ok(Array.isArray(r.gaps)&&r.gaps.every(s=>typeof s==='string'));
   assert.ok(r.summary.trim());assert.ok(!r.passed||r.gaps.every(s=>!s.trim()),'Contradictory verification result');
   if(payload.groundingReviewRequest?.reused===true)return r;
-  assert.ok(object(r.groundingReview),'Evidence review required');
-  for(const k of ['scannedArtifactIds','requirements','claims','unsupportedClaims','conflicts'])assert.ok(Array.isArray(r.groundingReview[k]),'Missing evidence protocol '+k);
+  evidenceProtocol(r.groundingReview);
   // Semantic support, exact quotes and active evidence bindings remain owned by the frozen verifier.
   return r;
  }

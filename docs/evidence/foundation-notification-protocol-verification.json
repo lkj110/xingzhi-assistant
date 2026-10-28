@@ -1,0 +1,266 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-10-28T07:39:02.263Z",
+  "baselineCommit": "e7d988851109da7d7fcf9e07434e6150c3b0e650",
+  "scope": "offline-notification-tone-and-evaluation-format-stop-only",
+  "realModelCalls": 0,
+  "officialCliProbePerformed": false,
+  "manualAcceptancePerformed": false,
+  "userWorkspaceTouched": false,
+  "candidateInstalled": false,
+  "liveAcceptancePassed": false,
+  "newBudgetAuthorized": false,
+  "runnerIdentity": "6a843f5f8cc95ab19c90444ddc21985f595512293fa8dbcf1f28f9f64cab169d",
+  "sampleSealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "sourceFilesBeforeAfterIdentical": true,
+  "runnerFiles": [
+    {
+      "path": "Bridge.cs",
+      "sha256": "582556e1c6f3b58a497340191cbf84db3c78cb1bfcfa9a5480a7a3ca145eaa0a"
+    },
+    {
+      "path": "README.md",
+      "sha256": "8950b5093f4799e6b7a55b1d005633368866a6c0f84ca421a1f3c1875d8d221f"
+    },
+    {
+      "path": "authorization.cjs",
+      "sha256": "561987eee03aec56cb1295d04c480ba067272c51ebbdab5936b2493cd1939246"
+    },
+    {
+      "path": "authorization.test.cjs",
+      "sha256": "1ff27f91a16b9dd5f5b31bf70a75f2dcf4a6d8494c2cc14caea4c443962de455"
+    },
+    {
+      "path": "broker-paths.test.cjs",
+      "sha256": "10019c3fbaf6dac8e6e06886871f357b944af1638863a16bf3701c014bf552f9"
+    },
+    {
+      "path": "broker.cjs",
+      "sha256": "400b48a75f9f7ce07dbcc2e8e0ac6a5ca083c038d2f5d69e23e38a218597f8ee"
+    },
+    {
+      "path": "checkpoints.cjs",
+      "sha256": "d97f9a719e3199cbf9b5a05e118ddb82a91a7acd00666ebbbdbf7b3dc623f198"
+    },
+    {
+      "path": "checkpoints.test.cjs",
+      "sha256": "537aed526f07139779e72ce4504919eabe22b5e44d3dbe192ff9e50f8c9f0d61"
+    },
+    {
+      "path": "common.cjs",
+      "sha256": "0fa4bc7c305b65e0703244405e607243590f14f0e79441ac0bc138af65774b71"
+    },
+    {
+      "path": "evidence-protocol.cjs",
+      "sha256": "ecde327c706c1d850b848434dfd624ff549cbf8905f3e852e3d91f85e33cd372"
+    },
+    {
+      "path": "evidence-protocol.test.cjs",
+      "sha256": "5a60bc859f8ee8a1bcaee12133e2e67649037f44c8ac47dfe772a93afdd97f43"
+    },
+    {
+      "path": "integration-test.cjs",
+      "sha256": "6daf127b255f7f2d67580b46fb11af8535115a85d7d75f378da6337fcb657ce7"
+    },
+    {
+      "path": "ledger.cjs",
+      "sha256": "227c62bd172d05bd68385a3f75118f401a5664dbce9506f026b3c7c52447fa7b"
+    },
+    {
+      "path": "ledger.test.cjs",
+      "sha256": "29162e2ad968112ed96bee583c3e8eef0af8338e6f7a45d9dae71508a1ed0d5c"
+    },
+    {
+      "path": "negative-fixture.cjs",
+      "sha256": "6d0874ee69522e9d9ea096d24f41ec1d49d165d4d3562cdc13a3c23849747178"
+    },
+    {
+      "path": "negative.cjs",
+      "sha256": "e185f25aa5e48d8bdbf489d899fa04d6a44fb4db56a196b6f505c6d7aa79810a"
+    },
+    {
+      "path": "offline-fixture.cjs",
+      "sha256": "278681ee85f301161e70398c2387c3d98c034f39d0fcd35949d05e95baf06355"
+    },
+    {
+      "path": "path-integration-test.cjs",
+      "sha256": "c02969d82ded69ff8e91ba851afa88ef7af165385b6192a1f1e53a5c71c68507"
+    },
+    {
+      "path": "paths.cjs",
+      "sha256": "51bc74fd7a4af808070d67dfd679705433ced776798f4f2a81f1ddb4cfb7810c"
+    },
+    {
+      "path": "paths.test.cjs",
+      "sha256": "fc50ec4b93a112eecd5cf41b61415d78fd5ef0e758d74ffbb8341bf3e4d160c7"
+    },
+    {
+      "path": "protocol-guard.cjs",
+      "sha256": "eb7dea72002d232f4c466f0048400d35a475f6cdbe84b4681e7268d54d34c878"
+    },
+    {
+      "path": "protocol-guard.test.cjs",
+      "sha256": "01bea71f589be243f6966c09ed35c57d24b8aaffbc72042bde8047bc33b32d10"
+    },
+    {
+      "path": "run.cjs",
+      "sha256": "e2daa32c9b15b930a1d40e11017e844cf4c57cb1c7d42941acc7b3e4fdae53fd"
+    },
+    {
+      "path": "transport.cjs",
+      "sha256": "5491662cedcd4d36cc9012bd0e459f95a60802a6e7e9b1f2999794242bcc7ad6"
+    },
+    {
+      "path": "transport.test.cjs",
+      "sha256": "dccc1343b8b4732d5280790cdfe6bca640ec1fd76b9ebf57513901c7a5d388c8"
+    }
+  ],
+  "productFiles": [
+    {
+      "path": "desktop/grounding.cjs",
+      "sha256": "845a3c2f67b1a88fe9d02a3c3e0f65ff8ce644c8a7ac446a6cb6bec0f98bbb9c"
+    },
+    {
+      "path": "tests/grounding-notification.test.cjs",
+      "sha256": "d165352385407a1cd1c3c9570e977f04fdc07eb212757f4ee44bfa9e1da0dd9a"
+    },
+    {
+      "path": "tests/fixtures/foundation-notification-replies.json",
+      "sha256": "3ebb716de2ee29605b34cfc33ecad7498a959ed95f29d20d5146f3215c5e3ccf"
+    },
+    {
+      "path": "tests/fixtures/foundation-evidence-format-replays.json",
+      "sha256": "e10da4d13d76d4a2d413bd370babdd13a41f6b14cbfb2a58cb468d63abf148ee"
+    }
+  ],
+  "installedFreeze": {
+    "version": "0.42.4",
+    "executableSha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a",
+    "asarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+    "windowsHelperSha256": "91f11ecbe6673b3f017541dab9f1d2bdb8c464b7eea25839148b8867dff41b0a"
+  },
+  "unit": {
+    "product": {
+      "tests": 160,
+      "pass": 160,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "sha256": "e1f3c33450a18f78cec2726cf13009213a3931e1caa3706828ff28691a20e5f6"
+    },
+    "runner": {
+      "tests": 151,
+      "pass": 150,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 1,
+      "sha256": "a929ddeeb220362d81284feee221b3d53e88fe537c609b4a7fe8191aa71e5700"
+    },
+    "skipReason": "Existing Windows file symlink privilege unavailable; junction, hardlink and 16 short/long spelling combinations tested."
+  },
+  "promptBytes": {
+    "generation": {
+      "before": 472,
+      "after": 472,
+      "delta": 0
+    },
+    "verification": {
+      "before": 2157,
+      "after": 2341,
+      "delta": 184
+    },
+    "units": "UTF-8 bytes, not actual model tokens",
+    "schemaFieldsAdded": 0
+  },
+  "realReplyReplay": {
+    "notification": {
+      "baselinePassed": 0,
+      "candidatePassed": 2,
+      "cases": 2,
+      "rebinding": "runtime source/artifact UUIDs only; full decoded replies, requirements, claims, quotes and draft retained"
+    },
+    "malformedEvidence": {
+      "originalRepliesRejected": 2,
+      "correctlyTypedSemanticRefusalsRetained": 2
+    }
+  },
+  "integration": {
+    "scenarios": 6,
+    "passed": 6,
+    "syntheticApplicationAttempts": 66,
+    "liveModelCalls": 0,
+    "scope": "frozen installed app in isolated profiles; candidate grounding patch covered separately by product tests",
+    "variantsExecuted": [
+      "current TEMP"
+    ],
+    "pathDriverTwelveScenariosExecuted": false,
+    "results": [
+      {
+        "name": "full-lifecycle",
+        "expectedOutcomePassed": true,
+        "syntheticApplicationAttempts": 22,
+        "globallyStopped": false,
+        "summarySha256": "0a5150ec98b68a867a203fd8388d6513ed6289c2d852118eec792e080d8d5622"
+      },
+      {
+        "name": "malformed-envelope",
+        "expectedOutcomePassed": true,
+        "syntheticApplicationAttempts": 1,
+        "globallyStopped": true,
+        "summarySha256": "8353fa9a78528c75e1bfa64291fd7f2399593add3e1ba09dee299f9e9b0ffa41"
+      },
+      {
+        "name": "malformed-inner",
+        "expectedOutcomePassed": true,
+        "syntheticApplicationAttempts": 1,
+        "globallyStopped": true,
+        "summarySha256": "707ef00e625781e4e417b3c6e20aa519f4e83198e570091e80801bf2464cdcb7"
+      },
+      {
+        "name": "unknown-usage",
+        "expectedOutcomePassed": true,
+        "syntheticApplicationAttempts": 1,
+        "globallyStopped": true,
+        "summarySha256": "3707ce85f0e6ac6bc46ce5fc70568378fe690d8e53abaaefce9dcfa29037b198"
+      },
+      {
+        "name": "case-budget",
+        "expectedOutcomePassed": true,
+        "syntheticApplicationAttempts": 21,
+        "globallyStopped": true,
+        "summarySha256": "65b37606c50269d780f091b6cb408c89491a1ced300b4a8c4dcbf044ec95e17e"
+      },
+      {
+        "name": "malformed-evidence",
+        "expectedOutcomePassed": true,
+        "syntheticApplicationAttempts": 20,
+        "globallyStopped": true,
+        "summarySha256": "308c6171b97db2e1422f9885bbe5c3a734c4b4d9633feb388faaa0bed958fb08"
+      }
+    ],
+    "lateFormatFailure": {
+      "caseId": "F05-tangyu-missing-approval",
+      "code": "RUNNER_EVIDENCE_FORMAT",
+      "failureStage": "response-protocol",
+      "field": "groundingReview.conflicts",
+      "attemptsThroughStop": 20,
+      "nextCaseAttempts": 0,
+      "unexpectedAttempts": 0,
+      "unknownUsage": 0,
+      "pendingUsage": 0,
+      "rawResponsePreserved": true,
+      "knownUsagePreserved": true,
+      "terminalStatus": "failed-known-usage"
+    }
+  },
+  "evidenceSha256": {
+    "sourceBefore": "599df0fe42f207fb8720b64134d9bf3227e03f967563d84aaa97e3373727eeeb",
+    "integrationResults": "c96b7cc50c1ba13bc54da0472eb6ff42d94f12092a9e1ed4a1a378d40f051323",
+    "promptBytes": "2733726c14cbae55c641de38d3677ac0c1e80a10671cabb5e580cb7bdf7ff1ee"
+  },
+  "limitations": [
+    "Offline synthetic outcomes are not real hallucination, false-block, wrong-release rates or token savings.",
+    "Notification tone recognition remains conservative and does not prove semantic authorization.",
+    "Candidate package and fresh holdout suite must be separately prepared and reviewed before any newly approved real run."
+  ]
+}

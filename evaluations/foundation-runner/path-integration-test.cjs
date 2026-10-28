@@ -63,8 +63,8 @@ async function test({executable,output}){
    const entry={variant,exitCode:run.code,signal:run.signal,passed:false,evidenceSha256:{stdout:sha(run.stdoutPath),stderr:sha(run.stderrPath)}};result.variants.push(entry);
    assert.equal(run.code,0,'Offline integration failed for '+variant+' TEMP; inspect retained stderr log');
    const environmentFile=path.join(output,variant+'-environment.json'),environment=read(environmentFile),resultsFile=path.join(directory,'integration-results.json'),integration=read(resultsFile);
-   assert.equal(environment.observedTmpdir,discovered[variant]);assert.deepEqual(environment.fileIdentity,discovered.fileIdentity);assert.equal(integration.passed,true);assert.equal(integration.tests,5);assert.equal(integration.liveModelCalls,0);
-   assert.deepEqual(integration.results.map(r=>r.name),['full-lifecycle','malformed-envelope','malformed-inner','unknown-usage','case-budget']);
+   assert.equal(environment.observedTmpdir,discovered[variant]);assert.deepEqual(environment.fileIdentity,discovered.fileIdentity);assert.equal(integration.passed,true);assert.equal(integration.tests,6);assert.equal(integration.liveModelCalls,0);
+   assert.deepEqual(integration.results.map(r=>r.name),['full-lifecycle','malformed-envelope','malformed-inner','unknown-usage','case-budget','malformed-evidence']);
    const scenarios=integration.results.map(r=>{
     assert.equal(r.passed,true);assert.equal(r.liveModelCalls,0);const file=path.join(directory,r.name,'summary.json'),summary=read(file);
     assert.equal(summary.mode,'offline');assert.equal(summary.liveModelCalls,0);assert.equal(summary.syntheticUsage,true);assert.equal(summary.userWorkspaceTouched,false);assert.equal(summary.manualAcceptancePerformed,false);
@@ -72,7 +72,7 @@ async function test({executable,output}){
    });
    Object.assign(entry,{passed:true,tests:integration.tests,scenarios,evidenceSha256:{...entry.evidenceSha256,environment:sha(environmentFile),integration:sha(resultsFile)}});result.tests+=integration.tests;
   }
-  assert.equal(result.tests,10);result.passed=true;
+  assert.equal(result.tests,12);result.passed=true;
  }catch(error){result.error={code:error.code||null,message:error.message};throw error;}
  finally{write(path.join(output,'path-integration-results.json'),result);}
  console.log(JSON.stringify({pathIntegrationPassed:true,tests:result.tests,realModelCalls:0,output}));return result;

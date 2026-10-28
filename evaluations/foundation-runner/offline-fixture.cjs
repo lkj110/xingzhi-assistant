@@ -11,7 +11,7 @@ function createFixture(){
   const negative=context.lane==='fixed_invalid',text=negative?context.candidate:draft;
   const citations=context.sources.map((s,i)=>({id:'e'+i,sourceId:s.id,quote:s.content,start:0})),citationIds=citations.map(c=>c.id);
   const claims=[{id:'c1',artifactId:ids[0],text,kind:'fact',supported:!negative,citationIds}];
-  const requirements=payload.groundingChecklist.requirements.map(r=>({id:r.id,status:negative?'unmet':'satisfied',claimIds:['c1']}));
+  const requirements=payload.groundingChecklist.requirements.map(r=>({id:r.id,status:negative?'gap':'satisfied',claimIds:['c1'],...(negative?{reason:'OFFLINE SYNTHETIC: 原文明确否定候选结论'}:{})}));
   const groundingReview={format:'compact-v3',scannedArtifactIds:ids,citations,requirements,claims,unsupportedClaims:negative?[text]:[],conflicts:[]};
   if(context.id==='F02-chengdao-disagreement'){
    claims.push({id:'u1',artifactId:ids[0],text:'目前不能确定唯一封箱数',kind:'unknown',supported:true,citationIds});

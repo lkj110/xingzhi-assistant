@@ -1,10 +1,10 @@
 # 冻结基础版验收执行器
 
-本目录是评测工具，产品源码和安装包不变。配套样本为已经独立审核的 `../foundation-acceptance-20261028`，不改题、不更换金标准。Windows Foundation 0.42.4 的真实 EXE 经 renderer → IPC → Worker → 原 Codex 订阅适配器运行。临时 PATH 中的薄 CLI 转接程序只连随机 nonce 保护的 loopback 端点；实际模型边界前先做持久预算准入。固定反例单独在冻结 ASAR 的隔离 Worker 中一次初始化，后续不能改稿或接受。
+本目录是评测工具；当前安装包保持冻结，候选产品修复另做离线回归，不由本执行器自动部署。配套样本为已经独立审核的 `../foundation-acceptance-20261028`，不改题、不更换金标准。Windows Foundation 0.42.4 的真实 EXE 经 renderer → IPC → Worker → 原 Codex 订阅适配器运行。临时 PATH 中的薄 CLI 转接程序只连随机 nonce 保护的 loopback 端点；实际模型边界前先做持久预算准入。固定反例单独在冻结 ASAR 的隔离 Worker 中一次初始化，后续不能改稿或接受。
 
 ## 离线预演
 
-使用系统临时目录和全新 profile。`--offline` 不发现或运行官方 Codex CLI，不探测登录，不读取用户模型配置。它明确返回合成回复及用量；这些数字不能作为真实成本或幻觉率。完整预演覆盖门检、四个生成流程（含精确修改及两次冷启动）和两个固定错误稿。三项故障分别为错误外层 JSON、错误内层 JSON、未知用量，均须在门检停止且不追加格式修复调用。
+使用系统临时目录和全新 profile。`--offline` 不发现或运行官方 Codex CLI，不探测登录，不读取用户模型配置。它明确返回合成回复及用量；这些数字不能作为真实成本或幻觉率。完整预演覆盖门检、四个生成流程（含精确修改及两次冷启动）和两个固定错误稿。错误外层 JSON、错误内层 JSON、未知用量三项故障均须在门检停止且不追加格式修复调用。另在 F05 注入与实测同类的 `conflicts` 对象数组：必须当场停整轮，保留已知用量、原始响应及 `RUNNER_EVIDENCE_FORMAT` 字段诊断，F06 不得建立或分发。
 
 ```powershell
 node --test evaluations/foundation-runner/*.test.cjs
@@ -12,7 +12,7 @@ node evaluations/foundation-runner/integration-test.cjs --executable <冻结EXE�
 node evaluations/foundation-runner/path-integration-test.cjs --executable <冻结EXE绝对路径> --output <另一个全新输出目录绝对路径>
 ```
 
-路径驱动在两个独立进程中使用实际等价的Windows短/长TEMP，各执行完整流程和四项故障预演，共10项；不能取得真实短路径别名时明确失败，不静默跳过。单元回归另覆盖路径混用、越界、目录和文件替换、junction及hardlink。宿主未授权创建文件symlink时，该单项明确报告skip，不能宣称已经实测。
+路径驱动在两个独立进程中使用实际等价的Windows短/长TEMP，各执行完整流程和五项故障预演，共12项；不能取得真实短路径别名时明确失败，不静默跳过。单元回归另覆盖路径混用、越界、目录和文件替换、junction及hardlink。宿主未授权创建文件symlink时，该单项明确报告skip，不能宣称已经实测。
 
 路径校验用native realpath解析短/长别名，并比较目录和文件身份；保留原始CLI参数与请求，不改产品协议。固定叶名仍是schema.json与response.json。分发前复核工作目录、schema身份/内容及输出尚不存在；读结果前复核并绑定普通输出文件，拒绝可观测的换址与替换。此校验不声称可原子抵御具有同等文件权限的并发恶意修改。请求和终态记录保留原始/规范化路径及存在状态，拒绝记录另含发生阶段和稳定错误码；不把完整argv、环境或登录凭证写入路径诊断。准入后尚未执行即拒绝的请求保持一次应用尝试，按已证明未分发记录0用量。
 
@@ -25,6 +25,8 @@ node evaluations/foundation-runner/path-integration-test.cjs --executable <冻�
 3. 真实运行仅执行 `--live --authorization <批准记录> --real-cli <经核对的CLI>`。批准记录必须来自真实用户批准，不能由工具自行生成或把测试授权当真。首次调用开始后停止即结束本轮，不自动复跑或挪用历史额度。
 
 每次应用尝试都计数，包括已证明未转发的本地拒绝。CLI exec、应用 modelCalls 和持久账本必须对账；未到转发边界的错误按可证实的零远端调用记录，已转发却无权威用量则总数未知。已知用量后的失败保留已知值；缓存缺失单列未知，不把 input+output 变成未知。原始 usage 事件、失败响应、错误详情和进程树退出证据保留。外层/内层 JSON 和必要应用协议在返回成功前检查；阻断隐式 JSON 修复及 revisionRecovery，合法读取续轮、预定修改、受控全文扩展仍计预算。
+
+嵌套证据字段也属于协议边界：`scannedArtifactIds`、要求/结论记录、共享或旧式引用及可选来源分歧均检查字段类型，`unsupportedClaims` 和 `conflicts` 必须为字符串数组。原协议的条数/片段长度上限、重复记录编号、重复共享引用编号和混用引用格式一并拒绝。此检查不添加模型输入或输出 schema，不替代产品对支持程度、原文位置、引文可读性、冲突披露及要求满足情况的语义核验。有效类型但引用不存在、内容不匹配、要求未满足及 `supported:false` 仍是业务拒绝，只结束该例；结构错误则全局停止。两条原始真实响应的回放夹具位于 `tests/fixtures/foundation-evidence-format-replays.json`，仅包含合成业务内容和来源哈希。
 
 ## 预算与结束
 

@@ -55,6 +55,10 @@ async function createBroker({directory,plan,mode,sealIdentity,authorization,real
    phase='transport';executionEntered=true;record.executionEntered=true;
    if(mode==='offline'){
     const response=await fixture({context,...call});
+    // Reproduce the observed F05 nested-type violation only after prior cases
+    // complete. No model or application prompt is changed by this offline fault.
+    if(fault==='malformed-evidence'&&context.id==='F05-tangyu-missing-approval'&&response.groundingReview)
+     response.groundingReview.conflicts=[{claimIds:['c1'],citationIds:['e0'],reason:'OFFLINE SYNTHETIC: 格式错误的冲突对象'}];
     call.pathProof.revalidate({output:'absent'});
     const usage={inputTokens:Math.ceil(call.serializedInputBytes/3),outputTokens:200,cachedInputTokens:0};
     fs.writeFileSync(call.output,fault==='malformed-envelope'?'invalid-envelope':JSON.stringify({response_json:fault==='malformed-inner'?'invalid-json':JSON.stringify(response)}));
