@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "id": "foundation-notice-regression-20261028",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "1134114104947bdb802ba9165b9c9886bb45e79abf2a8aedde0fa53e8b688b27"
+    },
+    {
+      "path": "plan.json",
+      "sha256": "caa9690a04025ae4c1ae274dc92bcb43541b08a57281b585ba361e54101e9215"
+    },
+    {
+      "path": "stimuli.json",
+      "sha256": "63fdd4ee78b7d5723956324879af3a33f3d9001461cc9c422d1a38f038ab9a91"
+    },
+    {
+      "path": "gold.json",
+      "sha256": "d11fd1df855c12a7d453f29a1a7da04fccf15f470918e195e1622dc34a1f7680"
+    },
+    {
+      "path": "anchors.json",
+      "sha256": "e5de226550f37bcab6a3262c571ba31b08dafb97e2193da5bade9757cf3392c1"
+    },
+    {
+      "path": "inputs.cjs",
+      "sha256": "d332f40bf2afdafe36b34722a817b69bd3a470fd3cce8f99803536fc03c45d87"
+    },
+    {
+      "path": "preflight.cjs",
+      "sha256": "e6042ed1214081bf4c260e03a197bc65293f4b76b9c022d124718db697a7b1ee"
+    },
+    {
+      "path": "preflight.json",
+      "sha256": "31c7a7bc4d2488dedbacae4e51d624ab2d40b3cb514c1d8557a957a98178410f"
+    },
+    {
+      "path": "package-manifest.json",
+      "sha256": "d0e9e31aa28a9f42ecdae5ae80d6fe86480da3eec0a3e1d6c1bd48c843b0985a"
+    }
+  ],
+  "identity": "3ca62ae7e9048ba2d74b51737c446a340d6ae83cd43205ddcc6420be8a21a85c",
+  "liveModelCalls": 0,
+  "liveAuthorized": false,
+  "offlineOnly": true,
+  "note": "Previously exposed samples copied byte-for-byte; package-only regression, not fresh real-model acceptance."
+}

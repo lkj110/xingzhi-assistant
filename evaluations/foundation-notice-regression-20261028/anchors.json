@@ -1,0 +1,255 @@
+{
+  "schema": 1,
+  "anchors": [
+    {
+      "caseId": "N01-yunhe-notice",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "1aa09707416c8c93abc7c26eaa36697b8e8597ce96af331e87e59ce1acb911a1",
+      "start": 18,
+      "end": 52,
+      "offsetUnit": "UTF-16",
+      "quote": "本轮名单限收到确认短信的晚班志愿者；未收到确认短信的其他人员不参加。"
+    },
+    {
+      "caseId": "N01-yunhe-notice",
+      "assertionId": "a2",
+      "sourceKey": "s1",
+      "sourceSha256": "1aa09707416c8c93abc7c26eaa36697b8e8597ce96af331e87e59ce1acb911a1",
+      "start": 53,
+      "end": 105,
+      "offsetUnit": "UTF-16",
+      "quote": "设备演示定在2026年2月21日，18:10签到，18:25开始演示，人数上限17人，带班负责人为顾霏。"
+    },
+    {
+      "caseId": "N01-yunhe-notice",
+      "assertionId": "a3",
+      "sourceKey": "s1",
+      "sourceSha256": "1aa09707416c8c93abc7c26eaa36697b8e8597ce96af331e87e59ce1acb911a1",
+      "start": 53,
+      "end": 105,
+      "offsetUnit": "UTF-16",
+      "quote": "设备演示定在2026年2月21日，18:10签到，18:25开始演示，人数上限17人，带班负责人为顾霏。"
+    },
+    {
+      "caseId": "N01-yunhe-notice",
+      "assertionId": "a4",
+      "sourceKey": "s1",
+      "sourceSha256": "1aa09707416c8c93abc7c26eaa36697b8e8597ce96af331e87e59ce1acb911a1",
+      "start": 106,
+      "end": 137,
+      "offsetUnit": "UTF-16",
+      "quote": "正常供电时在西楼操作间进行；只有活动场地停电才转到附楼研讨室。"
+    },
+    {
+      "caseId": "N01-yunhe-notice",
+      "assertionId": "a5",
+      "sourceKey": "s1",
+      "sourceSha256": "1aa09707416c8c93abc7c26eaa36697b8e8597ce96af331e87e59ce1acb911a1",
+      "start": 138,
+      "end": 156,
+      "offsetUnit": "UTF-16",
+      "quote": "这是一份待执行的排期，活动尚未开始。"
+    },
+    {
+      "caseId": "N02-qinglu-disagreement",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "c0fd785f166c313aa3796e352ff54adc853f5e1e957eafa8bb38b03975d7dc3a",
+      "start": 0,
+      "end": 38,
+      "offsetUnit": "UTF-16",
+      "quote": "工单QL-782记录的是青麓西侧门禁同一次维修，纸质联填写作业耗时95分钟。"
+    },
+    {
+      "caseId": "N02-qinglu-disagreement",
+      "assertionId": "a2",
+      "sourceKey": "s2",
+      "sourceSha256": "758591b44f268ae99fa409f99e1c7b8cfd1f2942350bba1b5e556869eab1365c",
+      "start": 0,
+      "end": 43,
+      "offsetUnit": "UTF-16",
+      "quote": "同一工单QL-782的电子联填写作业耗时110分钟，主管签认与归档登记时间均同纸质联。"
+    },
+    {
+      "caseId": "N02-qinglu-disagreement",
+      "assertionId": "a3",
+      "sourceKey": "s2",
+      "sourceSha256": "758591b44f268ae99fa409f99e1c7b8cfd1f2942350bba1b5e556869eab1365c",
+      "start": 44,
+      "end": 80,
+      "offsetUnit": "UTF-16",
+      "quote": "纸质联与电子联在本工单上具有同等效力，未指定优先项，也未办理更正或替换。"
+    },
+    {
+      "caseId": "N02-qinglu-disagreement",
+      "assertionId": "a4",
+      "sourceKey": "s2",
+      "sourceSha256": "758591b44f268ae99fa409f99e1c7b8cfd1f2942350bba1b5e556869eab1365c",
+      "start": 81,
+      "end": 127,
+      "offsetUnit": "UTF-16",
+      "quote": "2026年3月11日16:45的归档备注要求另约维修员核对；当时尚未核对，准确耗时没有定论。"
+    },
+    {
+      "caseId": "N03-lansui-revision",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "11ffdbac4c539e32efd3cec2c88c49daf737466943a14781682b04cd1281ed46",
+      "start": 0,
+      "end": 33,
+      "offsetUnit": "UTF-16",
+      "quote": "2026年4月5日登记：本轮待回收展板48块，装为6箱，每箱8块。"
+    },
+    {
+      "caseId": "N03-lansui-revision",
+      "assertionId": "a2",
+      "sourceKey": "s1",
+      "sourceSha256": "11ffdbac4c539e32efd3cec2c88c49daf737466943a14781682b04cd1281ed46",
+      "start": 34,
+      "end": 80,
+      "offsetUnit": "UTF-16",
+      "quote": "预约回收日为2026年4月8日，办理窗口09:20至10:40，交回地点是河西服务站卸货口。"
+    },
+    {
+      "caseId": "N03-lansui-revision",
+      "assertionId": "a3",
+      "sourceKey": "s1",
+      "sourceSha256": "11ffdbac4c539e32efd3cec2c88c49daf737466943a14781682b04cd1281ed46",
+      "start": 34,
+      "end": 80,
+      "offsetUnit": "UTF-16",
+      "quote": "预约回收日为2026年4月8日，办理窗口09:20至10:40，交回地点是河西服务站卸货口。"
+    },
+    {
+      "caseId": "N03-lansui-revision",
+      "assertionId": "a4",
+      "sourceKey": "s1",
+      "sourceSha256": "11ffdbac4c539e32efd3cec2c88c49daf737466943a14781682b04cd1281ed46",
+      "start": 81,
+      "end": 104,
+      "offsetUnit": "UTF-16",
+      "quote": "办理人限定为已备案的布展组长，不接受快递代交。"
+    },
+    {
+      "caseId": "N03-lansui-revision",
+      "assertionId": "a5",
+      "sourceKey": "s1",
+      "sourceSha256": "11ffdbac4c539e32efd3cec2c88c49daf737466943a14781682b04cd1281ed46",
+      "start": 105,
+      "end": 129,
+      "offsetUnit": "UTF-16",
+      "quote": "表内为撤展后的回收预约，截至登记时回收尚未开始。"
+    },
+    {
+      "caseId": "N04-heqiao-restart",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "1610307b5a982dabe55ee49b80320fd418250ec88c0253bc1d99e4b28f027f24",
+      "start": 0,
+      "end": 16,
+      "offsetUnit": "UTF-16",
+      "quote": "抄录日期：2026年5月16日。"
+    },
+    {
+      "caseId": "N04-heqiao-restart",
+      "assertionId": "a2",
+      "sourceKey": "s1",
+      "sourceSha256": "1610307b5a982dabe55ee49b80320fd418250ec88c0253bc1d99e4b28f027f24",
+      "start": 17,
+      "end": 47,
+      "offsetUnit": "UTF-16",
+      "quote": "06:55现场抄得水位2.74米，该数字对应这一次水尺观测。"
+    },
+    {
+      "caseId": "N04-heqiao-restart",
+      "assertionId": "a3",
+      "sourceKey": "s1",
+      "sourceSha256": "1610307b5a982dabe55ee49b80320fd418250ec88c0253bc1d99e4b28f027f24",
+      "start": 48,
+      "end": 90,
+      "offsetUnit": "UTF-16",
+      "quote": "巡查人员于09:30全部离开；归档页没有09:30以后的读数，16:15复查栏为空。"
+    },
+    {
+      "caseId": "N04-heqiao-restart",
+      "assertionId": "a4",
+      "sourceKey": "s1",
+      "sourceSha256": "1610307b5a982dabe55ee49b80320fd418250ec88c0253bc1d99e4b28f027f24",
+      "start": 91,
+      "end": 114,
+      "offsetUnit": "UTF-16",
+      "quote": "这页历史材料没有提供后续或当前水位的确认依据。"
+    },
+    {
+      "caseId": "N05-jinzhu-missing-approval",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "2e38f3e7861f3a192c1122fe3f54fe19860fd6eb385b6a626532ca2ba304bc7f",
+      "start": 0,
+      "end": 64,
+      "offsetUnit": "UTF-16",
+      "quote": "2026年6月19日10:25，场馆收到锦竹合唱队的排练厅使用申请，申请单拟用时段为2026年6月23日19:30至21:00。"
+    },
+    {
+      "caseId": "N05-jinzhu-missing-approval",
+      "assertionId": "a2",
+      "sourceKey": "s1",
+      "sourceSha256": "2e38f3e7861f3a192c1122fe3f54fe19860fd6eb385b6a626532ca2ba304bc7f",
+      "start": 65,
+      "end": 101,
+      "offsetUnit": "UTF-16",
+      "quote": "收件人备注：审批委员尚未审议，本申请没有获批，场馆也未开具场地使用回执。"
+    },
+    {
+      "caseId": "N05-jinzhu-missing-approval",
+      "assertionId": "a3",
+      "sourceKey": "s1",
+      "sourceSha256": "2e38f3e7861f3a192c1122fe3f54fe19860fd6eb385b6a626532ca2ba304bc7f",
+      "start": 102,
+      "end": 126,
+      "offsetUnit": "UTF-16",
+      "quote": "拟用时段仅是申请意向，未形成可以入场的确认安排。"
+    },
+    {
+      "caseId": "N06-senwan-unjustified-choice",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "b75ae0f177693d7b46fd9ede5084a0c1538e0a18b370edf8ea389db601cabaa2",
+      "start": 0,
+      "end": 73,
+      "offsetUnit": "UTF-16",
+      "quote": "登记时间：2026年7月7日14:20。甲表登记金额8,240元，乙表登记金额8,460元，均针对森湾同一批展陈搬运服务，服务范围及含税口径一致。"
+    },
+    {
+      "caseId": "N06-senwan-unjustified-choice",
+      "assertionId": "a2",
+      "sourceKey": "s1",
+      "sourceSha256": "b75ae0f177693d7b46fd9ede5084a0c1538e0a18b370edf8ea389db601cabaa2",
+      "start": 74,
+      "end": 117,
+      "offsetUnit": "UTF-16",
+      "quote": "两表均经相同权限的经办人签认，效力相同；归档规则没有规定甲表优先，任何一表也未被撤回。"
+    },
+    {
+      "caseId": "N06-senwan-unjustified-choice",
+      "assertionId": "a3",
+      "sourceKey": "s2",
+      "sourceSha256": "33472d08bc024fbe00eef2eb48eb179c973fd343ffbcef1e8a0d5fe6236d23e8",
+      "start": 0,
+      "end": 36,
+      "offsetUnit": "UTF-16",
+      "quote": "截至2026年7月7日14:20，双方尚未开展核账会商，差额原因未确认。"
+    },
+    {
+      "caseId": "N06-senwan-unjustified-choice",
+      "assertionId": "a4",
+      "sourceKey": "s2",
+      "sourceSha256": "33472d08bc024fbe00eef2eb48eb179c973fd343ffbcef1e8a0d5fe6236d23e8",
+      "start": 37,
+      "end": 68,
+      "offsetUnit": "UTF-16",
+      "quote": "唯一应付金额须在双方核账并确认后形成；目前没有最终结算确认单。"
+    }
+  ]
+}

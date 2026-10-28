@@ -7,6 +7,8 @@ const {createNegative}=require('./negative.cjs');
 async function run({executable,output,mode='offline',authorization,authorizationPath,realCli,fault,candidate=false}){
  assert.equal(process.platform,'win32');assert.ok(path.isAbsolute(output)&&!fs.existsSync(output),'Output must be a new absolute directory');
  const identity=frozen(executable,{candidate,complete:true}),{plan,asar,pack}=identity,IDENTITY=identity.seal.identity,dependencyIdentity=dependencies(executable,{candidate});let runnerManifest;
+ assert.ok(mode==='offline'||mode==='live','Unknown execution mode');
+ assert.ok(mode==='offline'||plan.offlineOnly!==true,'Exposed regression pack is offline-only');
  const {project}=require(path.join(pack,'inputs.cjs'));
  const suite=read(path.join(pack,'stimuli.json')),firstCase=suite.cases[0].id,negativeCases=suite.cases.filter(s=>s.lane==='fixed_invalid');
  assert.equal(suite.cases.length,6);assert.equal(negativeCases.length,2);

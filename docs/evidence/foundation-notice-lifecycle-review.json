@@ -1,0 +1,310 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-28T09:26:55.104Z",
+  "reviewer": "independent-subagent",
+  "reviewTask": "candidate_lifecycle_audit",
+  "baselineCommit": "8d374b24b2aae2760f3d33cf1c2561130429f6ae",
+  "status": "approved-offline-readiness-and-upload",
+  "approvedForUpload": true,
+  "candidateOfflineReady": true,
+  "approvedForNewEvaluationProposal": true,
+  "approvedForLiveReadiness": false,
+  "approvedForLiveExecution": false,
+  "approvedForInstallation": false,
+  "nextSamplePackPrepared": false,
+  "approvalMeaning": "本轮隔离候选包的已暴露样本离线流程及格式错误停止回归通过；允许上传如实记录并提出全新样本预算。不是新样本或真实运行身份审核，不允许据此启动真实模型、发布安装更新或宣称效果/成本已验收。",
+  "remainingBlockingFindings": [],
+  "realModelCalls": 0,
+  "officialCliProbePerformed": false,
+  "newBudgetAuthorized": false,
+  "candidateInstalled": false,
+  "installedFoundationFrozen": true,
+  "manualAcceptancePerformed": false,
+  "userWorkspaceTouched": false,
+  "runnerIdentity": "e995cb47a82c08d9006965d97888a411d4bb6da9917b8b21adb8b2c6cb403b15",
+  "sampleSealIdentity": "3ca62ae7e9048ba2d74b51737c446a340d6ae83cd43205ddcc6420be8a21a85c",
+  "productSourceChangedThisRound": false,
+  "independentChecks": {
+    "unit": {
+      "executedByReviewer": true,
+      "tests": 160,
+      "passed": 159,
+      "failed": 0,
+      "skipped": 1,
+      "skipReason": "Existing Windows file symlink creation privilege unavailable"
+    },
+    "bundle": {
+      "outerFiles": 86,
+      "archiveEntries": 10447,
+      "archiveFiles": 9665,
+      "changedOuterFiles": [
+        "resources/app.asar"
+      ],
+      "changedArchiveFiles": [
+        "desktop/grounding.cjs"
+      ],
+      "allContentAndMetadataCompared": true,
+      "installedBeforeAfterFilesCompared": 86,
+      "archiveSha256": "56916f8062b2384df6de2fbb3a8d976b9ae8bf6c7e4ff0c29f8d841ed0c5b1af",
+      "groundingSha256": "687bf5f3078a86cd360cc0c6971f4e9edc9f672236910f623b7744f87b799310"
+    },
+    "samples": {
+      "previouslyExposed": true,
+      "reusedSourceGoldAnchorsAndProjectionByteIdentical": true,
+      "newSamplesPrepared": false,
+      "originalTwoPacksPreserved": true,
+      "originalSealFilesRehashed": 18,
+      "currentSampleFiles": 9
+    },
+    "source": {
+      "runnerFilesBeforeAfter": 28,
+      "dependencies": 10,
+      "builderAndGroundingBeforeAfterIdentical": true,
+      "gitDiffCheckPassed": true
+    },
+    "liveGuard": {
+      "executedByReviewer": true,
+      "rejectedBeforeOutputBrokerAndApp": true,
+      "message": "Exposed regression pack is offline-only",
+      "outputCreated": false
+    },
+    "fullLifecycle": {
+      "executedByReviewer": false,
+      "rawRecordsIndependentlyAudited": true,
+      "passed": true,
+      "protocolCases": 1,
+      "businessCases": 6,
+      "businessExpectedResults": 6,
+      "normalWorkflows": 4,
+      "normalReachedReviewAndAcceptanceReady": 4,
+      "fixedInvalid": 2,
+      "fixedInvalidBlockedUnchangedAndNotReady": 2,
+      "syntheticAttempts": 22,
+      "requestRecords": 22,
+      "terminalRecords": 22,
+      "unknownUsage": 0,
+      "pendingUsage": 0,
+      "unexpectedAttempts": 0,
+      "plannedRevisionExecuted": true,
+      "newRevisionEvidenceBound": true,
+      "restartChecks": 2,
+      "loadedWorkerIdentityVerified": true,
+      "manualAcceptancePerformed": false,
+      "cases": [
+        {
+          "caseId": "G00-xilan",
+          "technicalPassed": true,
+          "status": "review",
+          "groundingPassed": true,
+          "acceptanceReady": true,
+          "applicationAttempts": 3,
+          "title": "希岚抽样封袋归档摘要",
+          "contentSha256": "2042f9caeeef2d4b739907f04fb8a317f8ce5e3d511668f8682f9ada73f21b7f",
+          "basis": "c117f0388ce0b18f4da7895335991ef6d543ee3a064dfca6a31df0b146667271"
+        },
+        {
+          "caseId": "N01-yunhe-notice",
+          "technicalPassed": true,
+          "status": "review",
+          "groundingPassed": true,
+          "acceptanceReady": true,
+          "applicationAttempts": 3,
+          "title": "云荷设备演示通知（限本轮已获短信确认的晚班志愿者）",
+          "contentSha256": "53a74f96199d0c64ecd1ea52174e02e86bf35c51fe45f6fd97cb19166918511f",
+          "basis": "446084406bab1f4dcd63c59a2c8b0b49c881b630b62a00d2951db165ea9d8d68"
+        },
+        {
+          "caseId": "N02-qinglu-disagreement",
+          "technicalPassed": true,
+          "status": "review",
+          "groundingPassed": true,
+          "acceptanceReady": true,
+          "applicationAttempts": 3,
+          "title": "青麓巡检工单耗时差异说明",
+          "contentSha256": "21026d875b06cc755dad1d235ef420b084c20f3328647343998e9c2664799bbd",
+          "basis": "d472ff70264c195c66740bc73ea9130899aacf760a298638b343c6558998170c"
+        },
+        {
+          "caseId": "N03-lansui-revision",
+          "technicalPassed": true,
+          "status": "review",
+          "groundingPassed": true,
+          "acceptanceReady": true,
+          "applicationAttempts": 6,
+          "title": "岚穗展板回收通知",
+          "contentSha256": "908f6595c99e76f9d0b7deb6a14ee7510cc6aae910f540d99df1b103db8a3449",
+          "basis": "c28b5b1fe052bee5e98db68bb1f295087de371c578e02dfe918961723515baab"
+        },
+        {
+          "caseId": "N04-heqiao-restart",
+          "technicalPassed": true,
+          "status": "review",
+          "groundingPassed": true,
+          "acceptanceReady": true,
+          "applicationAttempts": 3,
+          "title": "荷桥水闸历史水位交接说明",
+          "contentSha256": "1772962b29d119248ec9bdbfec17fd51231564342061818133ed0f7daa745453",
+          "basis": "168430ef46f58bd0ae1c6e66e22ed14cf32dce391dba39174a1b7bfcdc1d9d2b"
+        },
+        {
+          "caseId": "N05-jinzhu-missing-approval",
+          "technicalPassed": true,
+          "status": "blocked",
+          "groundingPassed": false,
+          "acceptanceReady": false,
+          "applicationAttempts": 2,
+          "title": "锦竹排练厅使用确认通知核验",
+          "contentSha256": "841532529def76454b7e7484d726850a71a9cca9f6356c2081d52326016630fb",
+          "basis": "1e3554543e47a00ad474c0e8b4b0110afb0b79c2fa9ff9ab416fdb7c61801b3c"
+        },
+        {
+          "caseId": "N06-senwan-unjustified-choice",
+          "technicalPassed": true,
+          "status": "blocked",
+          "groundingPassed": false,
+          "acceptanceReady": false,
+          "applicationAttempts": 2,
+          "title": "森湾搬运费用最终结算意见核验",
+          "contentSha256": "7ac3585b513df0662d8d406d38f1a557133f707ddc688cc489cbf67cc08dc28a",
+          "basis": "80c5f86df97f5fa08cadf7caa4f0dddf6376b573511e79aba513ad24ebfcd303"
+        }
+      ]
+    },
+    "malformedEvidence": {
+      "executedByReviewer": false,
+      "rawRecordsIndependentlyAudited": true,
+      "expectedGlobalStopVerified": true,
+      "underlyingRunPassed": false,
+      "syntheticAttempts": 20,
+      "requestRecords": 20,
+      "terminalRecords": 20,
+      "errorCode": "RUNNER_EVIDENCE_FORMAT",
+      "failureStage": "response-protocol",
+      "field": "groundingReview.conflicts",
+      "knownUsageAndRawResponsePreserved": true,
+      "nextCaseAttempts": 0,
+      "nextCaseResultFileExists": false,
+      "notCountedAsSemanticCorrectBlock": true
+    },
+    "totalSyntheticAttempts": 42,
+    "additionalFourPackagedFaultScenariosExecuted": false,
+    "realModelMetricsCalculated": false,
+    "publicReportMatchesRawRecords": true,
+    "nextBudgetArithmeticVerified": true
+  },
+  "evidenceSha256": {
+    "independentUnit": "ba8a92c5a433a54088b153f5c75756ed04bc480c2a238e022be451fa932d7779",
+    "independentPackageAudit": "0b4435a6436bacb9a6869e4c2278f013f5462507fb86099191943f0b6f56a735",
+    "independentLifecycleAudit": "0ecab241c87cd82ac0c8d9d693ab960417e63719b37b4880ae865c6a1e68b7ea",
+    "independentLiveGuard": "8dcd7dd76c47c84b622c68e0b48d26e8ec4a751d93b93201e8e874a5785c128e",
+    "independentInstalledBefore": "b30be010ce63394c123ab1d692592ba5ca796503e03137e661cffcf9fa98f5cb",
+    "independentInstalledAfter": "05af47f8f30228de389523177ff323bbf6fb6415b6aaff4af629db076d4ed071",
+    "packageAuditScript": "9d6b7527e06231e6c142045561033e753eb2f5c98a8def5d1f231c95b963009c",
+    "lifecycleAuditScript": "d5402fd302050a8e15ca6a593717ff56f894833d24c267749e6944690df78c03",
+    "publicVerification": "089a39efdd07e4e4be18dc5b0e50321041f6ac44a1b6954d98e97ee1088bd49f",
+    "mainReport": "6c91de92ff60df9750636b63c994c2f125a4e9e851ca4f5651192a25d68ea7a6"
+  },
+  "reviewedFiles": [
+    {
+      "path": "desktop/grounding.cjs",
+      "sha256": "687bf5f3078a86cd360cc0c6971f4e9edc9f672236910f623b7744f87b799310"
+    },
+    {
+      "path": "docs/evidence/foundation-notice-lifecycle-verification.json",
+      "sha256": "089a39efdd07e4e4be18dc5b0e50321041f6ac44a1b6954d98e97ee1088bd49f"
+    },
+    {
+      "path": "docs/FOUNDATION_NOTICE_LIFECYCLE_20261028.md",
+      "sha256": "6c91de92ff60df9750636b63c994c2f125a4e9e851ca4f5651192a25d68ea7a6"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/anchors.json",
+      "sha256": "e5de226550f37bcab6a3262c571ba31b08dafb97e2193da5bade9757cf3392c1"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/gold.json",
+      "sha256": "d11fd1df855c12a7d453f29a1a7da04fccf15f470918e195e1622dc34a1f7680"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/inputs.cjs",
+      "sha256": "d332f40bf2afdafe36b34722a817b69bd3a470fd3cce8f99803536fc03c45d87"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/package-manifest.json",
+      "sha256": "d0e9e31aa28a9f42ecdae5ae80d6fe86480da3eec0a3e1d6c1bd48c843b0985a"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/plan.json",
+      "sha256": "caa9690a04025ae4c1ae274dc92bcb43541b08a57281b585ba361e54101e9215"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/preflight.cjs",
+      "sha256": "e6042ed1214081bf4c260e03a197bc65293f4b76b9c022d124718db697a7b1ee"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/preflight.json",
+      "sha256": "31c7a7bc4d2488dedbacae4e51d624ab2d40b3cb514c1d8557a957a98178410f"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/README.md",
+      "sha256": "1134114104947bdb802ba9165b9c9886bb45e79abf2a8aedde0fa53e8b688b27"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/runner-seal.json",
+      "sha256": "570348c778acd6047f9e2f48ef8d9169d99c7afe36c64896fc16210e03586400"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/seal.json",
+      "sha256": "27ac94bbceeb5eb9974fecaa046b8f27f49c7c5c9090eedf59ac6c6e2e5b389d"
+    },
+    {
+      "path": "evaluations/foundation-notice-regression-20261028/stimuli.json",
+      "sha256": "63fdd4ee78b7d5723956324879af3a33f3d9001461cc9c422d1a38f038ab9a91"
+    },
+    {
+      "path": "evaluations/foundation-runner/common.cjs",
+      "sha256": "f34ad684a9491856ba8d88ce70585eff8a491ae73a165042967bfc9e4df3ab8c"
+    },
+    {
+      "path": "evaluations/foundation-runner/offline-fixture.cjs",
+      "sha256": "c12b35768344da9cc9d28b6881cea28afc0c38b238e66b8d2104ca7cee15fc34"
+    },
+    {
+      "path": "evaluations/foundation-runner/offline-fixture.test.cjs",
+      "sha256": "aaa3dfc1b910f40605519ea247fa5650cea4343e134e81ecdfbc1af2e3122421"
+    },
+    {
+      "path": "evaluations/foundation-runner/README.md",
+      "sha256": "15f929d800d63c7aa06c885a74340d28298f8a29765d2dcd35cc44d30ca83a70"
+    },
+    {
+      "path": "evaluations/foundation-runner/run.cjs",
+      "sha256": "f493b7c710e5cdb97fdbe21bc4a74158bb2bb79f897ec9da1e1f1f2aec201205"
+    },
+    {
+      "path": "scripts/prepare-foundation-candidate.cjs",
+      "sha256": "ca6b3ae4217e1c676c8b97c3a8cef60ed73aa2b5047e28d002f05b2a660169f6"
+    }
+  ],
+  "proposedNextBudget": {
+    "status": "proposal-only-requires-new-user-approval",
+    "applicationAttempts": 36,
+    "tokenStopThreshold": 700000,
+    "protocolAttempts": 4,
+    "protocolTokenStopThreshold": 100000,
+    "businessAttempts": 32,
+    "businessTokenStopThreshold": 600000,
+    "serverEnforcedTokenCap": false,
+    "freshSamplePackAndRunnerReviewRequired": true,
+    "formalMainEvaluation": false
+  },
+  "limitations": [
+    "合成回复只证明应用流程与停止机制，不能据此计算真实幻觉率、误拦率、错误放行率或模型成本。",
+    "正常稿进入review且验收入口ready，脚本未代替真人accept。",
+    "本轮样本已暴露；下一轮须独立创建与审核新样本/plan/seal/runner身份，并取得新的预算批准。",
+    "协议格式错误场的底层run失败是预期停止，不等于N05语义拒绝正确，也不把未执行的N06计为通过。",
+    "当前安装目录及旧历史记录保持冻结；隔离包不是已发布安装更新。",
+    "局部通知标记不能纠正独立核验模型错误的supported:true判断；本轮未添加语义模块。",
+    "另外四种实际包故障场未在本轮重跑，相关停止机制仅有单元回归覆盖。"
+  ]
+}

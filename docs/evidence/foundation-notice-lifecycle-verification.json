@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-10-28T09:24:32.525Z",
+  "scope": "bounded-notice-candidate-offline-lifecycle",
+  "productCommit": "8d374b24b2aae2760f3d33cf1c2561130429f6ae",
+  "productSourceChangedThisRound": false,
+  "candidateOfflineReady": true,
+  "candidateLiveReady": false,
+  "candidateInstalled": false,
+  "installedFoundationFrozen": true,
+  "realModelCalls": 0,
+  "officialCliProbePerformed": false,
+  "newBudgetAuthorized": false,
+  "manualAcceptancePerformed": false,
+  "userWorkspaceTouched": false,
+  "runnerIdentity": "e995cb47a82c08d9006965d97888a411d4bb6da9917b8b21adb8b2c6cb403b15",
+  "sampleSealIdentity": "3ca62ae7e9048ba2d74b51737c446a340d6ae83cd43205ddcc6420be8a21a85c",
+  "samplesPreviouslyExposed": true,
+  "bundle": {
+    "asarSha256": "56916f8062b2384df6de2fbb3a8d976b9ae8bf6c7e4ff0c29f8d841ed0c5b1af",
+    "groundingSha256": "687bf5f3078a86cd360cc0c6971f4e9edc9f672236910f623b7744f87b799310",
+    "outerFiles": 86,
+    "archiveFiles": 9665,
+    "outerChangedFiles": [
+      "resources/app.asar"
+    ],
+    "archiveChangedFiles": [
+      "desktop/grounding.cjs"
+    ]
+  },
+  "unit": {
+    "tests": 160,
+    "passed": 159,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Windows file symlink privilege unavailable"
+  },
+  "main": {
+    "passed": true,
+    "protocolPassed": true,
+    "businessCasesMatchingExpected": 6,
+    "businessCases": 6,
+    "normalWorkflowsCompleted": 4,
+    "normalWorkflows": 4,
+    "fixedInvalidBlocked": 2,
+    "fixedInvalid": 2,
+    "cases": [
+      {
+        "caseId": "G00-xilan",
+        "technicalPassed": true,
+        "applicationAttempts": 3,
+        "error": null,
+        "status": "review",
+        "groundingPassed": true,
+        "acceptanceReady": true,
+        "resultSha256": "5a3afa276ed1abd6bfe554f3de03da7a587fbe22fc6cd3d1956d94a02c34a96b"
+      },
+      {
+        "caseId": "N01-yunhe-notice",
+        "technicalPassed": true,
+        "applicationAttempts": 3,
+        "error": null,
+        "status": "review",
+        "groundingPassed": true,
+        "acceptanceReady": true,
+        "resultSha256": "f5b23fe93c9c0a51188b5bc06b34b65bf13d17c47faa240f70d49c09e4b07d7d"
+      },
+      {
+        "caseId": "N02-qinglu-disagreement",
+        "technicalPassed": true,
+        "applicationAttempts": 3,
+        "error": null,
+        "status": "review",
+        "groundingPassed": true,
+        "acceptanceReady": true,
+        "resultSha256": "1764f82ed91f0d0dbf1f3147c72fef78c2e89c2eba9132c57fd5c2ef4c5e74bc"
+      },
+      {
+        "caseId": "N03-lansui-revision",
+        "technicalPassed": true,
+        "applicationAttempts": 6,
+        "error": null,
+        "status": "review",
+        "groundingPassed": true,
+        "acceptanceReady": true,
+        "resultSha256": "db0f5d17db5ffa2da861b6fdc1aba855a6d7cda747315ee241ad489f69ed6e6a"
+      },
+      {
+        "caseId": "N04-heqiao-restart",
+        "technicalPassed": true,
+        "applicationAttempts": 3,
+        "error": null,
+        "status": "review",
+        "groundingPassed": true,
+        "acceptanceReady": true,
+        "resultSha256": "94c19eef4a0be83edf9b0535692caf939ce5cb5ac3c0f066cde734646ba15f1e"
+      },
+      {
+        "caseId": "N05-jinzhu-missing-approval",
+        "technicalPassed": true,
+        "applicationAttempts": 2,
+        "error": null,
+        "status": "blocked",
+        "groundingPassed": false,
+        "acceptanceReady": false,
+        "resultSha256": "3f2b3dbdc4a425984aa05ce471355acf5564f7616874c99ce205d8d2105576b4"
+      },
+      {
+        "caseId": "N06-senwan-unjustified-choice",
+        "technicalPassed": true,
+        "applicationAttempts": 2,
+        "error": null,
+        "status": "blocked",
+        "groundingPassed": false,
+        "acceptanceReady": false,
+        "resultSha256": "ca64a40bd22176cd99f99e941008987bc7620503db0e5597b7851b6e1651568e"
+      }
+    ],
+    "syntheticApplicationAttempts": 22,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "plannedRevisionExecuted": true,
+    "reviewRequiresHuman": true,
+    "restartChecks": 2,
+    "mainWorkerIdentityChecks": 3,
+    "negativeWorkerIdentityChecks": 2,
+    "rendererErrors": [],
+    "syntheticAccountingOnly": {
+      "inputTokens": 116040,
+      "outputTokens": 4400,
+      "totalTokens": 120440,
+      "isRealModelUsage": false
+    }
+  },
+  "malformedEvidence": {
+    "passed": true,
+    "expectedGlobalStop": true,
+    "underlyingRunPassed": false,
+    "syntheticAttempts": 20,
+    "realModelCalls": 0,
+    "stoppedCase": "N05-jinzhu-missing-approval",
+    "errorCode": "RUNNER_EVIDENCE_FORMAT",
+    "failureStage": "response-protocol",
+    "diagnostic": "Invalid evidence response field: groundingReview.conflicts",
+    "rawOutputPreserved": true,
+    "knownUsagePreserved": true,
+    "nextCaseAttempts": 0,
+    "nextCaseCreated": false,
+    "unexpectedAttempts": 0,
+    "unknownUsage": 0,
+    "pendingUsage": 0
+  },
+  "totalSyntheticAttempts": 42,
+  "otherPackagedFaultScenariosExecuted": false,
+  "unchanged": {
+    "runnerFiles": 28,
+    "sampleFiles": 9,
+    "grounding": true,
+    "builder": true,
+    "historicalSealFiles": 18,
+    "installedFiles": 86
+  },
+  "realModelMetrics": {
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "wrongReleaseRate": null,
+    "totalTokens": null,
+    "reason": "Offline synthetic responses only; no real model quality or cost measurement."
+  },
+  "proposedNextBudget": {
+    "status": "proposal-only-requires-new-user-approval",
+    "applicationAttempts": 36,
+    "tokenStopThreshold": 700000,
+    "protocolAttempts": 4,
+    "protocolTokenStopThreshold": 100000,
+    "businessAttempts": 32,
+    "businessTokenStopThreshold": 600000,
+    "serverEnforcedTokenCap": false,
+    "freshSamplesRequired": true,
+    "formalMainEvaluation": false
+  },
+  "evidenceSha256": {
+    "mainSummary": "84580b03fb6fe2c53d04b5fca9cdb1b17ef177bff338be2b4e23cd86fafd5888",
+    "faultSummary": "4502ea32ce4b556b37b4107c61a535ed7478d7762e6c5193c0b86a70b1103d21",
+    "unitLog": "c2139da260c98d7f0a00151ea6e41ae6d719dc7d11cdd1aff9bf25f38ff7751f",
+    "sourceBefore": "73b67a7c22d789dccdccd02bd2213fbc905a13a486e1a800ad7e4067b9c3291a",
+    "sourceAfter": "71a9d55caa3bf7e74afa3ce51ae3927c07bef1cc73e71397e77e901ad49cb3fa",
+    "builder": "ca6b3ae4217e1c676c8b97c3a8cef60ed73aa2b5047e28d002f05b2a660169f6",
+    "packageManifest": "d0e9e31aa28a9f42ecdae5ae80d6fe86480da3eec0a3e1d6c1bd48c843b0985a"
+  }
+}

@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'../..'),pack=path.join(root,'evaluations/foundation-acceptance-20261028');
 const IDENTITY='7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7';
-const candidatePack=path.join(root,'evaluations/foundation-candidate-20261028');
+const candidatePack=path.join(root,'evaluations/foundation-notice-regression-20261028');
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex'),read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const write=(f,v)=>fs.writeFileSync(f,JSON.stringify(v,null,2)+'\n',{flag:'wx'});
 function frozen(executable,{candidate=false,complete=false}={}){

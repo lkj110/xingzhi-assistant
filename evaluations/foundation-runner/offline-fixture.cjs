@@ -6,7 +6,9 @@ function createFixture({pack=defaultPack,plan}={}){
  return async({context,role,payload})=>{
   const g=gold.cases.find(g=>g.id===context.id),gateId=plan?.protocolGate.id||'G00-ronglan';
   const draft=context.id===gateId?(gold.protocolGate?.referenceDraft||'容澜登记袋号K-314，共7袋，仅供档案组复核，尚未向外移交。'):context.revised?g.referenceDraft:(g.initialReferenceDraft||g.referenceDraft);
-  if(role==='execute')return payload.revision?{kind:'patch',edits:[{before:payload.revision.originalContent,after:draft}],summary:'OFFLINE SYNTHETIC'}:{kind:'artifact',title:context.title,content:draft,summary:'OFFLINE SYNTHETIC'};
+  // These sealed multiline reference drafts carry their complete title on line 1.
+  // Keep the draft bytes intact; a single-line summary retains the task title.
+  if(role==='execute')return payload.revision?{kind:'patch',edits:[{before:payload.revision.originalContent,after:draft}],summary:'OFFLINE SYNTHETIC'}:{kind:'artifact',title:draft.includes('\n')?draft.split(/\r?\n/,1)[0]:context.title,content:draft,summary:'OFFLINE SYNTHETIC'};
   const ids=payload.groundingReviewRequest.artifactIds,key=JSON.stringify(ids);
   if(!seen.has(key)){seen.add(key);return {kind:'read_context',requests:context.sources.map(s=>({tool:'read_source',sourceId:s.id}))};}
   const negative=context.lane==='fixed_invalid',text=negative?context.candidate:draft;

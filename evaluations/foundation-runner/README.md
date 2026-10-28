@@ -2,7 +2,7 @@
 
 本目录是评测工具；当前安装包保持冻结，候选产品修复另做离线回归，不由本执行器自动部署。配套样本为已经独立审核的 `../foundation-acceptance-20261028`，不改题、不更换金标准。Windows Foundation 0.42.4 的真实 EXE 经 renderer → IPC → Worker → 原 Codex 订阅适配器运行。临时 PATH 中的薄 CLI 转接程序只连随机 nonce 保护的 loopback 端点；实际模型边界前先做持久预算准入。固定反例单独在冻结 ASAR 的隔离 Worker 中一次初始化，后续不能改稿或接受。
 
-显式传入 `--candidate` 时，同一执行器只切换到固定的 `../foundation-candidate-20261028`，不接受任意样本目录或实现覆盖。该封存包须含 plan、stimuli、gold、inputs 和 package-manifest；候选 EXE/ASAR/helper、来源 grounding 和启动/重启时的完整包文件表须与封存一致。正常 UI Worker 与固定反例 Worker 还须报告实际已加载 grounding 的实现哈希。当前安装目录不被写入。共享输入投影的实际依赖也列入候选执行器依赖封存，避免只封存转发包装文件。
+显式传入 `--candidate` 时，同一执行器只切换到固定的 `../foundation-notice-regression-20261028`，不接受任意样本目录或实现覆盖。该封存包须含 plan、stimuli、gold、inputs 和 package-manifest；候选 EXE/ASAR/helper、来源 grounding 和启动/重启时的完整包文件表须与封存一致。正常 UI Worker 与固定反例 Worker 还须报告实际已加载 grounding 的实现哈希。当前安装目录不被写入。共享输入投影的实际依赖也列入候选执行器依赖封存，避免只封存转发包装文件。
 
 候选的 runner-seal.json 和 runner-review.json 位于候选样本包内，与旧记录分开；它们不参与样本封存以避免循环哈希。真实准入同时绑定新样本身份、执行器身份及新的单次用户预算授权；离线选用候选包不是授权真实调用。`--offline --candidate` 才会加载候选 gold 作为合成回复，并显式产生通知 proposal、来源分歧 unknown 等核验结构；不得把通知全改为 fact、修改已封存样本或省去预期失败来让候选通过。候选或旧 gold 哨兵进入请求均在转发前拒绝。
 
@@ -41,3 +41,7 @@ node evaluations/foundation-runner/path-integration-test.cjs --executable <冻�
 门检及 F03 初稿先写独立内容检查点：只给审查者原文、要求和当前稿，不给系统是否通过；回执绑定 case、stage、内容及样本身份，不能写入模型上下文或业务状态。门检拒绝停整轮，F03 初稿不合格结束该例，保留初稿评分。无回执不默认通过。AI 独立检查不等于真人接受；四个正例最后仍待真人阅读并明确接受。45 分钟发起窗口从第一次尝试开始，不因 AI 检查点重置；每次请求 idle 2 分钟、total 3 分钟。
 
 结果单版本、少量合成场景，只报告各项分子/分母和 N/A；不能据此宣称总体零幻觉、比历史试验省多少 token 或完整 Agent/macOS 已验收。正式主评测和平台公共模块抽取仍在范围外。
+
+## 本次通知回归候选
+
+当前 `--candidate` 固定选择已暴露的通知回归包 `foundation-notice-regression-20261028`。原候选样本与历史 seal/review 保留原样；新的包与执行器身份分别封存。该包的 `offlineOnly:true` 在执行入口拒绝 live，即使提供授权文件也不可用于真实验收。离线夹具从多行参考稿首行传递完整 artifact.title，正文原字节及修改 patch 保持不变；单行摘要继续沿用事项标题。本轮只运行一次完整主流程和一次 malformed-evidence 停止回归，其他故障不重复运行。

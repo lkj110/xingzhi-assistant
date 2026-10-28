@@ -20,3 +20,32 @@ test('selected offline pack supplies its own gate, notice proposals, revision an
  const context={id:'N02-new',title:'conflict',sources:[{id:'s',content:'记录甲'},{id:'t',content:'记录乙'}]},payload={groundingReviewRequest:{artifactIds:['c']},groundingChecklist:{requirements:[{id:'r'}]}};
  await fixture({context,role:'verify',payload});const result=await fixture({context,role:'verify',payload});assert.equal(result.groundingReview.claims[1].text,'目前不能确定维修时长');assert.equal(result.groundingReview.sourceConflicts[0].disposition,'disclosed_unknown');
 });
+
+// Already exposed reference material is a fixture regression, not a fresh sample.
+const exposedPack=path.join(__dirname,'../foundation-candidate-20261028');
+const exposedGold=JSON.parse(fs.readFileSync(path.join(exposedPack,'gold.json'),'utf8'));
+const exposedPlan=JSON.parse(fs.readFileSync(path.join(exposedPack,'plan.json'),'utf8'));
+
+test('exposed N01 fixture keeps the full reference title and unchanged draft bytes',async()=>{
+ const fixture=createFixture({pack:exposedPack,plan:exposedPlan}),g=exposedGold.cases.find(c=>c.id==='N01-yunhe-notice');
+ const result=await fixture({context:{id:g.id,title:'云荷设备演示通知'},role:'execute',payload:{}});
+ assert.equal(result.kind,'artifact');assert.equal(result.title,'云荷设备演示通知（限本轮已获短信确认的晚班志愿者）');
+ assert.deepEqual(Buffer.from(result.content,'utf8'),Buffer.from(g.referenceDraft,'utf8'));
+});
+
+test('exposed N03 fixture retains its initial title and exact revision patch',async()=>{
+ const fixture=createFixture({pack:exposedPack,plan:exposedPlan}),g=exposedGold.cases.find(c=>c.id==='N03-lansui-revision');
+ const initial=await fixture({context:{id:g.id,title:'回收任务'},role:'execute',payload:{}});
+ assert.equal(initial.kind,'artifact');assert.equal(initial.title,'岚穗展板回收通知');assert.equal(initial.content,g.initialReferenceDraft);
+ const revised=await fixture({context:{id:g.id,title:'回收任务',revised:true},role:'execute',payload:{revision:{originalContent:initial.content}}});
+ assert.deepEqual(revised,{kind:'patch',edits:[{before:g.initialReferenceDraft,after:g.referenceDraft}],summary:'OFFLINE SYNTHETIC'});
+});
+
+test('single-line exposed summaries retain their task title and original content',async()=>{
+ const fixture=createFixture({pack:exposedPack,plan:exposedPlan});
+ for(const g of [exposedGold.protocolGate,exposedGold.cases.find(c=>c.id==='N02-qinglu-disagreement')]){
+  assert.ok(!g.referenceDraft.includes('\n'));
+  const result=await fixture({context:{id:g.id,title:'原事项标题'},role:'execute',payload:{}});
+  assert.equal(result.title,'原事项标题');assert.equal(result.content,g.referenceDraft);
+ }
+});
