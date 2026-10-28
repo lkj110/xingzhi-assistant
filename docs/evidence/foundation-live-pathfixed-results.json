@@ -1,0 +1,236 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "runId": "4a824ddd-68bb-4202-82b8-d4b5ee3bf6c5",
+  "runnerCommit": "06b41e1b5c7b9aa50dc6388d583ab85246458946",
+  "runnerIdentity": "717a27c303bd26ea5b5c4dbcbf18228d9dc8c010a07b52d535e6912e30e8c515",
+  "sampleSealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "acceptancePassed": false,
+  "protocolGatePassed": true,
+  "businessCasesAttempted": 6,
+  "businessCasesPlanned": 6,
+  "metrics": {
+    "automaticFlow": {
+      "numerator": 2,
+      "denominator": 4,
+      "rate": 0.5
+    },
+    "initialDraftHallucination": {
+      "numerator": 0,
+      "denominator": 4,
+      "rate": 0
+    },
+    "plannedFinalDraftHallucination": {
+      "numerator": 0,
+      "denominator": 3,
+      "rate": 0,
+      "excluded": "F03 revised draft was not produced"
+    },
+    "releasedDraftHallucination": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "falseBlock": {
+      "numerator": 2,
+      "denominator": 4,
+      "rate": 0.5
+    },
+    "protocolCompliantNegativeWrongRelease": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null,
+      "invalidCases": 2
+    },
+    "observedFixedDraftWrongRelease": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0,
+      "notAProtocolCompliantPass": true
+    },
+    "humanAcceptance": {
+      "accepted": 0,
+      "planned": 4,
+      "status": "pending"
+    }
+  },
+  "cases": [
+    {
+      "caseId": "F01-lanqiao-tour",
+      "lane": "generated",
+      "applicationAttempts": 3,
+      "tokens": 39931,
+      "status": "blocked",
+      "runnerExpectedStateReached": false,
+      "groundingPassed": false,
+      "contentAdjudicable": true,
+      "contentHallucination": false,
+      "allRequirementsSatisfied": true,
+      "semanticFalseBlock": true,
+      "applicationSchemaError": false,
+      "protocolCompliantNegative": null,
+      "revisionPerformed": null,
+      "manualAcceptance": "pending"
+    },
+    {
+      "caseId": "F02-chengdao-disagreement",
+      "lane": "generated",
+      "applicationAttempts": 3,
+      "tokens": 41599,
+      "status": "review",
+      "runnerExpectedStateReached": true,
+      "groundingPassed": true,
+      "contentAdjudicable": true,
+      "contentHallucination": false,
+      "allRequirementsSatisfied": true,
+      "semanticFalseBlock": false,
+      "applicationSchemaError": false,
+      "protocolCompliantNegative": null,
+      "revisionPerformed": null,
+      "manualAcceptance": "pending"
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "lane": "generated_revision",
+      "applicationAttempts": 3,
+      "tokens": 39287,
+      "status": "blocked",
+      "runnerExpectedStateReached": false,
+      "groundingPassed": false,
+      "contentAdjudicable": true,
+      "contentHallucination": false,
+      "allRequirementsSatisfied": true,
+      "semanticFalseBlock": true,
+      "applicationSchemaError": false,
+      "protocolCompliantNegative": null,
+      "revisionPerformed": false,
+      "manualAcceptance": "pending"
+    },
+    {
+      "caseId": "F04-xingpu-restart",
+      "lane": "generated_restart",
+      "applicationAttempts": 3,
+      "tokens": 39403,
+      "status": "review",
+      "runnerExpectedStateReached": true,
+      "groundingPassed": true,
+      "contentAdjudicable": true,
+      "contentHallucination": false,
+      "allRequirementsSatisfied": true,
+      "semanticFalseBlock": false,
+      "applicationSchemaError": false,
+      "protocolCompliantNegative": null,
+      "revisionPerformed": null,
+      "manualAcceptance": "pending"
+    },
+    {
+      "caseId": "F05-tangyu-missing-approval",
+      "lane": "fixed_invalid",
+      "applicationAttempts": 2,
+      "tokens": 27958,
+      "status": "blocked",
+      "runnerExpectedStateReached": true,
+      "groundingPassed": false,
+      "contentAdjudicable": true,
+      "contentHallucination": true,
+      "allRequirementsSatisfied": false,
+      "semanticFalseBlock": false,
+      "applicationSchemaError": true,
+      "protocolCompliantNegative": false,
+      "revisionPerformed": null,
+      "manualAcceptance": "pending"
+    },
+    {
+      "caseId": "F06-qichuan-unjustified-choice",
+      "lane": "fixed_invalid",
+      "applicationAttempts": 2,
+      "tokens": 29107,
+      "status": "blocked",
+      "runnerExpectedStateReached": true,
+      "groundingPassed": false,
+      "contentAdjudicable": true,
+      "contentHallucination": true,
+      "allRequirementsSatisfied": false,
+      "semanticFalseBlock": false,
+      "applicationSchemaError": true,
+      "protocolCompliantNegative": false,
+      "revisionPerformed": null,
+      "manualAcceptance": "pending"
+    }
+  ],
+  "accounting": {
+    "applicationAttempts": 19,
+    "modelInferenceCalls": 19,
+    "inputTokens": 247527,
+    "outputTokens": 8228,
+    "totalTokens": 255755,
+    "cachedInputTokensIncluded": 7552,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "stages": {
+      "gate": {
+        "calls": 3,
+        "input": 37908,
+        "output": 562,
+        "total": 38470,
+        "cachedInput": 0
+      },
+      "business-generation": {
+        "calls": 8,
+        "input": 99481,
+        "output": 1036,
+        "total": 100517,
+        "cachedInput": 0
+      },
+      "business-verification": {
+        "calls": 8,
+        "input": 110138,
+        "output": 6630,
+        "total": 116768,
+        "cachedInput": 7552
+      }
+    },
+    "businessTokens": 217285,
+    "businessTokensPerQualifiedReview": 108642.5,
+    "includingGateTokensPerQualifiedReview": 127877.5,
+    "unitCostIsEvaluationAllocation": true
+  },
+  "stopPolicy": {
+    "compliant": false,
+    "firstMissedStopAttempt": 17,
+    "firstMissedStopCase": "F05-tangyu-missing-approval",
+    "firstMissedStopAttemptId": "394cc5a7-42ac-4a43-9210-5aa574c4b331",
+    "reason": "conflicts object elements rejected by frozen application but not escalated by evaluator array-only protocol guard",
+    "tokensThroughFirstMalformedResponse": 226648,
+    "subsequentCalls": 2,
+    "subsequentInputTokens": 27621,
+    "subsequentOutputTokens": 1486,
+    "subsequentTokens": 29107,
+    "subsequentCase": "F06-qichuan-unjustified-choice"
+  },
+  "frozenProductUnchanged": true,
+  "productPatchApplied": false,
+  "runnerUnchangedDuringRound": true,
+  "formalMainEvaluationStarted": false,
+  "roundClosed": true,
+  "unusedBudgetReusable": false,
+  "liveRetries": 0,
+  "extraDevelopmentProbes": 0,
+  "manualAcceptancePerformed": false,
+  "evidenceSha256": {
+    "summary": "9323ee9db0979d0da6e94f32b3bdfb14a3fdacfc8e5f779d224118eacc79d4d7",
+    "ledger": "e6aa28a0de76c93fe981f553f607dfc11d2803a182e43a515dff3025aeba00c8",
+    "authorization": "08268c60424c4a9e2b2f8b9bc51d484904b6fe9391136945360783c54a77247c",
+    "consumed": "4a2e28dc5e81ba4cdb4f93bd689f7d8968b9eaa6742194defe9229dca742fd52",
+    "blindRequest": "dba78596a75d4d3df02af49a241c1369dff61dac6ebf99c35c87b33ed037c542",
+    "blindDecision": "544db8d5f4dbe1f33956433e801db397eec8dac93a0ef66c2a15c1b32ad443a8",
+    "blindMapping": "b43df31148004db02c02e9b3992269d43a39c7bdadddb6656a010207049eb565",
+    "installedGroundingProof": "067846f2c1e229a670dfbf88dfb23e4ceaf20dc7cf4992c8b64a009eece084bc"
+  },
+  "limitations": [
+    "Only four generated initial drafts; no population-level zero-hallucination claim.",
+    "F03 revision was not attempted; fewer calls are not a token-saving result.",
+    "Both fixed-negative outputs have application schema errors; F06 also ran after the required stop point.",
+    "This is a single-version evaluation, not an A/B comparison or monetary bill."
+  ]
+}

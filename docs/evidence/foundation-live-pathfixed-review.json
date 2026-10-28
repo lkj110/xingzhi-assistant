@@ -1,0 +1,418 @@
+{
+  "schema": 1,
+  "reviewer": "independent-subagent",
+  "auditType": "Read-only final accounting, lifecycle and post-lock content audit",
+  "reviewedAt": "2026-10-28T07:03:31.035Z",
+  "runId": "4a824ddd-68bb-4202-82b8-d4b5ee3bf6c5",
+  "runDirectory": "foundation-live-pathfixed-20261028-4a824ddd",
+  "repositoryHead": "06b41e1b5c7b9aa50dc6388d583ab85246458946",
+  "runnerIdentity": "717a27c303bd26ea5b5c4dbcbf18228d9dc8c010a07b52d535e6912e30e8c515",
+  "sampleSealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "conclusion": {
+    "acceptancePassed": false,
+    "accountingVerified": true,
+    "frozenIdentityVerified": true,
+    "budgetThresholdsSatisfied": true,
+    "mandatoryStopPolicySatisfied": false,
+    "manualAcceptanceComplete": false,
+    "formalMainEvaluationAuthorized": false,
+    "accurateFailedResultSuitableForPublication": true
+  },
+  "findings": [
+    {
+      "id": "FALSE_BLOCK_NOTIFICATION_IMPERATIVES",
+      "severity": "high",
+      "cases": [
+        "F01-lanqiao-tour",
+        "F03-wenshan-revision"
+      ],
+      "detail": "Locked blind review and gold cross-check find both drafts qualified. Raw model verification passed with empty gaps and supported c2 proposals. Installed grounding.cjs:129 rejects the explicit notification imperatives because its marker list omits this wording.",
+      "evidence": [
+        "desktop/grounding.cjs:129",
+        "F01-lanqiao-tour.json",
+        "F03-wenshan-revision.json"
+      ],
+      "consequence": "Two semantic false blocks; F03 planned revision never executed."
+    },
+    {
+      "id": "MANDATORY_SCHEMA_STOP_MISSED",
+      "severity": "high",
+      "firstCase": "F05-tangyu-missing-approval",
+      "firstAttemptNumber": 17,
+      "firstAttemptId": "394cc5a7-42ac-4a43-9210-5aa574c4b331",
+      "firstProductFormatErrorAt": "2026-10-28T06:49:05.237Z",
+      "detail": "groundingReview.conflicts contains an object; installed grounding.cjs:151 reports 核验缺口格式无效. protocol-guard.cjs:31 checks only the array type. The runner treats the case as a successful negative and dispatches F06 instead of stopping under protocol_or_schema_rejection.",
+      "throughFirstDefect": {
+        "attempts": 17,
+        "inputTokens": 219906,
+        "outputTokens": 6742,
+        "cachedInputTokens": 0,
+        "totalTokens": 226648
+      },
+      "afterRequiredStop": {
+        "attempts": 2,
+        "inputTokens": 27621,
+        "outputTokens": 1486,
+        "cachedInputTokens": 7552,
+        "totalTokens": 29107
+      },
+      "afterRequiredStopAttemptIds": [
+        "e6209c6d-a82f-473c-a2c7-bc613bdece6b",
+        "0b150483-1b0c-4d17-adee-d8da987196ea"
+      ],
+      "consequence": "Approved immediate-stop policy was not satisfied. F06 repeats the application format defect; neither negative establishes protocol-conformant acceptance."
+    }
+  ],
+  "accounting": {
+    "attempts": 19,
+    "inputTokens": 247527,
+    "outputTokens": 8228,
+    "cachedInputTokens": 7552,
+    "totalTokens": 255755,
+    "gate": {
+      "attempts": 3,
+      "inputTokens": 37908,
+      "outputTokens": 562,
+      "cachedInputTokens": 0,
+      "totalTokens": 38470
+    },
+    "business": {
+      "attempts": 16,
+      "inputTokens": 209619,
+      "outputTokens": 7666,
+      "cachedInputTokens": 7552,
+      "totalTokens": 217285
+    },
+    "byRoleAndStage": {
+      "protocol:execute:task_work": {
+        "attempts": 2,
+        "inputTokens": 24354,
+        "outputTokens": 164,
+        "cachedInputTokens": 0,
+        "totalTokens": 24518
+      },
+      "protocol:verify:task_verify": {
+        "attempts": 1,
+        "inputTokens": 13554,
+        "outputTokens": 398,
+        "cachedInputTokens": 0,
+        "totalTokens": 13952
+      },
+      "business:execute:task_work": {
+        "attempts": 8,
+        "inputTokens": 99481,
+        "outputTokens": 1036,
+        "cachedInputTokens": 0,
+        "totalTokens": 100517
+      },
+      "business:verify:task_verify": {
+        "attempts": 8,
+        "inputTokens": 110138,
+        "outputTokens": 6630,
+        "cachedInputTokens": 7552,
+        "totalTokens": 116768
+      }
+    },
+    "knownUsageAttempts": 19,
+    "unknownUsageAttempts": 0,
+    "pendingUsageAttempts": 0,
+    "applicationModelCallsReconciled": 19,
+    "requestRecordsVerified": 19,
+    "terminalRecordsVerified": 19,
+    "rawUsageEventsVerified": 19,
+    "inputOutputHashesVerified": 19,
+    "processTreeTerminationConfirmed": 19,
+    "transportOrOuterProtocolRejections": 0,
+    "applicationVerificationFormatErrors": 2,
+    "overReservationCalls": 0,
+    "overBudgetThresholdCalls": 0,
+    "ledgerUnexpectedAttempts": 0,
+    "actualPostRequiredStopAttempts": 2,
+    "lastDispatchMinutesFromFirst": 12.979733333333334,
+    "cachedInputAlreadyIncludedInInput": true,
+    "serverEnforcedHardCap": false,
+    "actualCostPerQualifiedReviewTask": {
+      "denominator": 2,
+      "businessTokens": 108642.5,
+      "includingGateTokens": 127877.5,
+      "note": "Includes the 29107 tokens dispatched after required stop; not a protocol-conformant cost benchmark."
+    }
+  },
+  "metrics": {
+    "automaticWorkflowCompletion": {
+      "numerator": 2,
+      "denominator": 4,
+      "rate": 0.5,
+      "display": "2/4",
+      "attempted": 4,
+      "notAttempted": 0,
+      "successfulCases": [
+        "F02-chengdao-disagreement",
+        "F04-xingpu-restart"
+      ]
+    },
+    "humanAcceptanceCompletion": {
+      "numerator": 0,
+      "denominator": 4,
+      "rate": 0,
+      "display": "0/4",
+      "pending": 4,
+      "readyForHumanReview": 2,
+      "blockedBeforeHumanReview": 2,
+      "pendingIsNotFailure": true
+    },
+    "initialGeneratedDraftHallucination": {
+      "numerator": 0,
+      "denominator": 4,
+      "rate": 0,
+      "display": "0/4",
+      "adjudicable": 4,
+      "unadjudicated": 0
+    },
+    "plannedFinalGeneratedDraftHallucination": {
+      "numerator": 0,
+      "denominator": 3,
+      "rate": 0,
+      "display": "0/3",
+      "includedCases": [
+        "F01-lanqiao-tour",
+        "F02-chengdao-disagreement",
+        "F04-xingpu-restart"
+      ],
+      "unexecutedPlannedFinals": 1,
+      "note": "F03 unchanged initial is not its planned revised final. These three final drafts are the same versions as their initial drafts, not extra independent samples."
+    },
+    "f03InitialHallucination": {
+      "numerator": 0,
+      "denominator": 1,
+      "rate": 0,
+      "display": "0/1"
+    },
+    "f03RevisedFinalHallucination": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null,
+      "display": "N/A (0/0)",
+      "unexecuted": 1
+    },
+    "releasedGeneratedDraftHallucination": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0,
+      "display": "0/2"
+    },
+    "semanticFalseBlock": {
+      "numerator": 2,
+      "denominator": 4,
+      "rate": 0.5,
+      "display": "2/4",
+      "qualifiedInitialDrafts": 4,
+      "falseBlockedCases": [
+        "F01-lanqiao-tour",
+        "F03-wenshan-revision"
+      ],
+      "unadjudicated": 0
+    },
+    "observedFixedNegativeFalseRelease": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0,
+      "display": "0/2",
+      "descriptiveOnly": true,
+      "originalUnchanged": 2
+    },
+    "protocolConformantFixedNegativeFalseRelease": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null,
+      "display": "N/A (0/0)",
+      "excluded": 2,
+      "exclusions": {
+        "F05": "Verification schema invalid",
+        "F06": "After mandatory stop and verification schema invalid"
+      },
+      "passed": false
+    }
+  },
+  "caseResults": [
+    {
+      "caseId": "G00-ronglan",
+      "lane": "generated",
+      "attempts": 3,
+      "inputTokens": 37908,
+      "outputTokens": 562,
+      "cachedInputTokens": 0,
+      "totalTokens": 38470,
+      "status": "review",
+      "modelVerificationPassed": true,
+      "productGroundingPassed": true,
+      "runnerTechnicalPassed": true,
+      "draftSha256": "139206842b065cde3dbeca5d9a2389f03c1cf895129ea3dd91baaff3f7f57d64",
+      "humanAccepted": false,
+      "contentAdjudicable": null,
+      "contentQualified": null,
+      "hallucination": null
+    },
+    {
+      "caseId": "F01-lanqiao-tour",
+      "lane": "generated",
+      "attempts": 3,
+      "inputTokens": 38637,
+      "outputTokens": 1294,
+      "cachedInputTokens": 0,
+      "totalTokens": 39931,
+      "status": "blocked",
+      "modelVerificationPassed": true,
+      "productGroundingPassed": false,
+      "runnerTechnicalPassed": false,
+      "draftSha256": "229fa03e807950cc2fd5492b6abda31e4d728475308e178218c79146c9bd3161",
+      "humanAccepted": false,
+      "contentAdjudicable": true,
+      "contentQualified": true,
+      "hallucination": false
+    },
+    {
+      "caseId": "F02-chengdao-disagreement",
+      "lane": "generated",
+      "attempts": 3,
+      "inputTokens": 40149,
+      "outputTokens": 1450,
+      "cachedInputTokens": 0,
+      "totalTokens": 41599,
+      "status": "review",
+      "modelVerificationPassed": true,
+      "productGroundingPassed": true,
+      "runnerTechnicalPassed": true,
+      "draftSha256": "8047a8f9106a4f00a41eb0dda276a0bef8cecb08b6a3f1f5ee7cc1166edb0cb6",
+      "humanAccepted": false,
+      "contentAdjudicable": true,
+      "contentQualified": true,
+      "hallucination": false
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "lane": "generated_revision",
+      "attempts": 3,
+      "inputTokens": 38226,
+      "outputTokens": 1061,
+      "cachedInputTokens": 0,
+      "totalTokens": 39287,
+      "status": "blocked",
+      "modelVerificationPassed": true,
+      "productGroundingPassed": false,
+      "runnerTechnicalPassed": false,
+      "draftSha256": "8715f148da3be58b409b99c83578c47ead08ae24d0fc70d730af04acc92496ce",
+      "humanAccepted": false,
+      "contentAdjudicable": true,
+      "contentQualified": true,
+      "hallucination": false,
+      "plannedRevisionExecuted": false,
+      "plannedRevisedFinalAvailable": false,
+      "finalSnapshotIsUnchangedInitial": true
+    },
+    {
+      "caseId": "F04-xingpu-restart",
+      "lane": "generated_restart",
+      "attempts": 3,
+      "inputTokens": 38426,
+      "outputTokens": 977,
+      "cachedInputTokens": 0,
+      "totalTokens": 39403,
+      "status": "review",
+      "modelVerificationPassed": true,
+      "productGroundingPassed": true,
+      "runnerTechnicalPassed": true,
+      "draftSha256": "6297108e17895693c0a73cc7d281f9ade4ce8c22a161ec9c8ce334a0f887393c",
+      "humanAccepted": false,
+      "contentAdjudicable": true,
+      "contentQualified": true,
+      "hallucination": false,
+      "restartChecks": 2,
+      "restartModelCalls": 0,
+      "reviewDraftAndGroundingPreserved": true
+    },
+    {
+      "caseId": "F05-tangyu-missing-approval",
+      "lane": "fixed_invalid",
+      "attempts": 2,
+      "inputTokens": 26560,
+      "outputTokens": 1398,
+      "cachedInputTokens": 0,
+      "totalTokens": 27958,
+      "status": "blocked",
+      "modelVerificationPassed": false,
+      "productGroundingPassed": false,
+      "runnerTechnicalPassed": true,
+      "draftSha256": "ac356a366c0748bd3f00749b78e2ca64b8a35a59a7fb344a27d169d3f5aff716",
+      "humanAccepted": false,
+      "contentAdjudicable": true,
+      "contentQualified": false,
+      "hallucination": true,
+      "originalUnchanged": true,
+      "observedCorrectSemanticBlock": true,
+      "protocolConformantNegativeValid": false,
+      "exclusionReason": "application verification format error"
+    },
+    {
+      "caseId": "F06-qichuan-unjustified-choice",
+      "lane": "fixed_invalid",
+      "attempts": 2,
+      "inputTokens": 27621,
+      "outputTokens": 1486,
+      "cachedInputTokens": 7552,
+      "totalTokens": 29107,
+      "status": "blocked",
+      "modelVerificationPassed": false,
+      "productGroundingPassed": false,
+      "runnerTechnicalPassed": true,
+      "draftSha256": "9deb8c0033ee05eafef58b6b63bdd6dc37e0e58ea708cf8021dcdbcb6c88e623",
+      "humanAccepted": false,
+      "contentAdjudicable": true,
+      "contentQualified": false,
+      "hallucination": true,
+      "originalUnchanged": true,
+      "observedCorrectSemanticBlock": true,
+      "protocolConformantNegativeValid": false,
+      "exclusionReason": "after mandatory stop and application verification format error"
+    }
+  ],
+  "independentContentReview": {
+    "humanReview": false,
+    "blindDecisionLockedBeforeGoldCrossCheck": true,
+    "blindDecisionSha256": "544db8d5f4dbe1f33956433e801db397eec8dac93a0ef66c2a15c1b32ad443a8",
+    "requestIdentity": "14e312fe0039f7dcec7273025f0b4947dbcba1ce721342ef10cdf74300870fd2",
+    "allSixDecisionsAdjudicable": true,
+    "allSixGoldCrossChecksAgree": true
+  },
+  "verifiedEvidence": {
+    "sealedSampleFiles": 9,
+    "sealedRunnerFiles": 23,
+    "dependencies": 8,
+    "installedExeAsarAndRealCliHashes": true,
+    "authorizationRawAndCanonicalHashes": true,
+    "ledgerChecksumAndSummaryReconciliation": true,
+    "requestBusinessInputIsolation": true,
+    "fixedDraftSeedsAndFinalHashes": true,
+    "sourceCitationInstances": 38,
+    "rawUserInputCitationInstances": 1,
+    "userCitationProjectionNote": "F02 user:description quote is blank in public export; raw verifier citation exactly matches supplied user input and recorded offsets/hash. public-context.cjs masks source IDs absent from source rows.",
+    "installedGroundingSha256": "cc46e51f073a5ea922af4a304c926e4d2c0833f3e37f7079c5c550c2ff072b9b",
+    "installedGroundingIndependentlyExtractedReadOnly": true,
+    "evidenceFiles": 54,
+    "evidenceTreeSha256": "57f2b1fcb084414df883cfaac3ca93c1510682d2d3e190915f84cba88b5e7527",
+    "summarySha256": "9323ee9db0979d0da6e94f32b3bdfb14a3fdacfc8e5f779d224118eacc79d4d7",
+    "ledgerSha256": "e6aa28a0de76c93fe981f553f607dfc11d2803a182e43a515dff3025aeba00c8",
+    "authorizationSha256": "08268c60424c4a9e2b2f8b9bc51d484904b6fe9391136945360783c54a77247c",
+    "consumedAuthorizationSha256": "4a2e28dc5e81ba4cdb4f93bd689f7d8968b9eaa6742194defe9229dca742fd52",
+    "blindMappingSha256": "b43df31148004db02c02e9b3992269d43a39c7bdadddb6656a010207049eb565",
+    "groundingProofSha256": "067846f2c1e229a670dfbf88dfb23e4ceaf20dc7cf4992c8b64a009eece084bc"
+  },
+  "limitations": [
+    "Single frozen version and six synthetic business cases; no general zero-hallucination or historical cost-reduction claim.",
+    "F03 revision and revised-verification lifecycle remain untested in this real run.",
+    "Observed original negative blocking does not establish protocol-conformant negative acceptance.",
+    "No human acceptance occurred; AI blind review is not human acceptance.",
+    "Application attempts do not reveal internal CLI network retries.",
+    "This audit changed no runner, product, sample or original output and ran no model/CLI probe or rerun."
+  ]
+}

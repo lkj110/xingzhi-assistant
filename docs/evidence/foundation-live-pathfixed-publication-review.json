@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-28T07:08:09.343Z",
+  "reviewer": "independent-subagent",
+  "scope": "Final read-only publication check of six requested documentation/evidence files",
+  "approvedForUpload": true,
+  "acceptancePassed": false,
+  "approvalMeaning": "These files accurately publish a failed and nonconformant acceptance run. This is not approval for further model calls, a retry, product changes, or the formal main evaluation.",
+  "checks": {
+    "strictNegativeMetricNA": true,
+    "observedNegativeMetricSeparateZeroOfTwo": true,
+    "stopViolationTwoCalls29107TokensProminent": true,
+    "actualCostAllocationIncludesPostStopConsumption": true,
+    "initialAndPlannedFinalDraftsSeparated": true,
+    "f03RevisionUnexecuted": true,
+    "blindMappingsAndContentHashesVerified": 6,
+    "lockedJudgementsExactlyPreserved": true,
+    "sourceEvidenceHashesVerified": 8,
+    "independentAuditJsonOnlyRunDirectorySanitized": true,
+    "independentAuditMarkdownUnchanged": true,
+    "pathFixReportOnlyAddsClosureAndFailureLink": true,
+    "noPrivateLocalPathsOrCredentialMarkersFound": true,
+    "noNewTestsOrModelCliProbes": true,
+    "originalAuditUnmodified": true
+  },
+  "remainingBlockingFindings": [],
+  "files": [
+    {
+      "path": "docs/FOUNDATION_LIVE_ACCEPTANCE_PATHFIXED_20261028.md",
+      "sha256": "dd6350b40879bef8feb51a40c712d3ff3b819686e2d0c1d6ad49dc8030967a4c"
+    },
+    {
+      "path": "docs/evidence/foundation-live-pathfixed-results.json",
+      "sha256": "ccd56089fe7cd516e672349e8947c8957f20c6aaef6782b9245bf7bd1eff9a1f"
+    },
+    {
+      "path": "docs/evidence/foundation-live-pathfixed-content.json",
+      "sha256": "6dd5cc3cce83f58931bea942e297703591349b01c88aa3936ec9faa1390e4e81"
+    },
+    {
+      "path": "docs/evidence/foundation-live-pathfixed-review.json",
+      "sha256": "4e7d168d1a23b75ee22d0235ffdfea7269b11bc3e92ebe3d48b976a865bf952d"
+    },
+    {
+      "path": "docs/evidence/foundation-live-pathfixed-review.md",
+      "sha256": "4b8d5d4b886b43bd38dd357d465abaa4b85de2ca26bf862ebfc1b040a513819e"
+    },
+    {
+      "path": "docs/FOUNDATION_RUNNER_PATH_FIX.md",
+      "sha256": "f5db44fc8273124549f79d80b4203191d026873255b51189f882919ba588313c"
+    }
+  ],
+  "originalAuditSha256": "549824906cc443873c51e062cba6324aa7b6703f6dfdc5f95b205eb6e063ebf8",
+  "blindDecisionSha256": "544db8d5f4dbe1f33956433e801db397eec8dac93a0ef66c2a15c1b32ad443a8"
+}
