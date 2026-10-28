@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "baselineCommit": "769d93d624db38f03ab6c2a3e8d17f3cc062c62b",
+  "scope": "local-notification-marker-only",
+  "realModelCalls": 0,
+  "candidateRebuilt": false,
+  "candidateInstalled": false,
+  "installedFreeze": {
+    "executableSha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a",
+    "asarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac"
+  },
+  "sampleSealsUnchanged": true,
+  "prompt": {
+    "generationUtf8Bytes": 472,
+    "verificationUtf8Bytes": 2341,
+    "generationDelta": 0,
+    "verificationDelta": 0,
+    "exactStringsUnchanged": true
+  },
+  "schemaChanged": false,
+  "modelCallOrchestrationChanged": false,
+  "files": [
+    {
+      "path": "desktop/grounding.cjs",
+      "sha256": "687bf5f3078a86cd360cc0c6971f4e9edc9f672236910f623b7744f87b799310"
+    },
+    {
+      "path": "tests/grounding-notification.test.cjs",
+      "sha256": "dbfd0796affa5d641f4a0344ac628211982328b2741ec9e8501e03ca0fb202bd"
+    },
+    {
+      "path": "tests/grounding-notice-bounded.test.cjs",
+      "sha256": "97d528e6be3778cf8d1b92d6b57f394861b4571c30f50be97b8857c165b7c61a"
+    }
+  ],
+  "recordedAt": "2026-10-28T08:49:24.264Z",
+  "tests": {
+    "tests": 176,
+    "pass": 176,
+    "fail": 0,
+    "skipped": 0
+  },
+  "unitLogSha256": "2214304d4e4df224ce65842eebbc799239ccba744383347da76671014c70faa9",
+  "exposedMarkerCases": [
+    "N01 original Chinese comma",
+    "N01 English comma variant",
+    "N03 initial",
+    "N03 revised"
+  ],
+  "exposedCasesAreFreshSamples": false,
+  "fullCandidateLifecycleRun": false,
+  "independentModelQualityMeasured": false,
+  "knownLimit": "Local marker checks do not detect false statements when the existing independent verifier wrongly reports support and no gap/conflict.",
+  "testMigration": "The old comma-only forced-true blocker was replaced by independent unsupported/gaps/conflicts rejection tests; full sentence boundaries remain tested."
+}

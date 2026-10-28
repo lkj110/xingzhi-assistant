@@ -78,11 +78,22 @@ test('unsupported approval directive cannot gain authorization merely by beginni
  const result=finish(f);assert.equal(result.passed,false);assert.match(result.gaps.join('\n'),/未获支持|冲突/);
 });
 
-for(const text of ['请团体联络员通知参加人员，活动已批准向公众开放。','请团体联络员通知参加人员。活动已批准向公众开放。','请团体联络员通知参加人员：活动已批准向公众开放。','请团体联络员通知参加人员；活动已批准向公众开放。'])test('a leading imperative cannot hide an appended declarative clause: '+text,async t=>{
+for(const text of ['请团体联络员通知参加人员。活动已批准向公众开放。','请团体联络员通知参加人员：活动已批准向公众开放。','请团体联络员通知参加人员；活动已批准向公众开放。'])test('a leading imperative cannot hide an appended declarative clause: '+text,async t=>{
  const f=await setup(t);rewriteClaim(f,text);
  // Deliberately keep the model's true verdict: local tone recognition must not
  // exempt this mixed assertion solely because its first character is 请.
  const result=finish(f);assert.equal(result.passed,false);assert.match(result.gaps.join('\n'),/未在正文标明/);
+});
+
+// A comma is clause punctuation, not evidence that the following assertion is
+// true or false. Keep each existing independent rejection channel effective.
+for(const rejection of ['unsupported','gaps','conflicts'])test('comma-separated false approval remains blocked by '+rejection,async t=>{
+ const f=await setup(t);rewriteClaim(f,'请团体联络员通知参加人员，活动已批准向公众开放。');
+ if(rejection==='unsupported'){f.claim.supported=false;f.claim.reason='原文只限已预约校内团体，未批准公众开放';}
+ if(rejection==='gaps'){f.response.passed=false;f.response.gaps=['未获批准的公众开放断言'];}
+ if(rejection==='conflicts')f.response.groundingReview.conflicts=['公众开放断言与来源的适用范围冲突'];
+ const result=finish(f);assert.equal(result.passed,false);
+ assert.ok(result.gaps.some(g=>/未获支持|未获批准|冲突/.test(g)));
 });
 
 test('plain assertion cannot become a notification just by assigning proposal kind',async t=>{

@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-28T08:50:49.793Z",
+  "reviewer": "independent-subagent",
+  "reviewTask": "narrow_notice_review",
+  "baselineCommit": "769d93d624db38f03ab6c2a3e8d17f3cc062c62b",
+  "scope": "local-notification-marker-only",
+  "status": "approved-offline-source-upload-only",
+  "approvedForUpload": true,
+  "approvedForPackaging": false,
+  "approvedForInstallation": false,
+  "approvedForLiveReadiness": false,
+  "approvedForLiveExecution": false,
+  "approvalMeaning": "仅批准上传本轮候选源码修复、离线回归与如实报告；不表示候选包已重建、安装或通过完整生命周期及真实模型验收。",
+  "realModelCalls": 0,
+  "officialCliProbePerformed": false,
+  "candidateRebuilt": false,
+  "candidateInstalled": false,
+  "remainingBlockingFindings": [],
+  "implementationScope": {
+    "productionFilesChanged": ["desktop/grounding.cjs"],
+    "functionChanged": "notificationTone",
+    "conditionChanges": 2,
+    "commentChanged": true,
+    "productionOutsideFunctionEqualToBaseline": true,
+    "schemaChanged": false,
+    "modelCallOrchestrationChanged": false,
+    "newSemanticModule": false,
+    "runnerOrHistoricalSealsChanged": false
+  },
+  "independentChecks": {
+    "groundingSuites": {
+      "command": "node --test --test-reporter=tap tests/grounding*.test.cjs",
+      "executedByReviewer": true,
+      "tests": 176,
+      "passed": 176,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "logSha256": "69027a4ec0d0697e363f49c4cf01d474762821f98f6775337b55f959325997d1"
+    },
+    "newBoundedTests": 14,
+    "historicalCompleteF01F03ReplyReplayRetained": true,
+    "exposedN01N03UseSyntheticLocalMarkerVerdict": true,
+    "fullCandidateLifecycleRun": false,
+    "gitDiffCheckPassed": true,
+    "prompt": {
+      "generationUtf8Bytes": 472,
+      "verificationUtf8Bytes": 2341,
+      "generationDelta": 0,
+      "verificationDelta": 0,
+      "exactStringsUnchanged": true,
+      "units": "UTF-8 bytes, not model tokens"
+    },
+    "sealedSampleFilesIndependentlyRehashed": {
+      "foundation-candidate-20261028": 9,
+      "foundation-acceptance-20261028": 9
+    },
+    "installedFreezeIndependentlyVerified": {
+      "executableSha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a",
+      "asarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac"
+    }
+  },
+  "testMigration": {
+    "removedCaseBehavior": "旧逗号混合错误批准断言在 supported:true 且无缺口/冲突时，仅因逗号边界被本地标记规则阻断。允许正常逗号后，不再声称保留这一标点造成的阻断。",
+    "replacementChecks": ["supported:false", "passed:false with gaps", "unresolved conflicts"],
+    "forcedSupportedTrueBoundariesRetained": ["sentence stop", "interior colon", "semicolon"],
+    "migrationExplicitInTestsAndReport": true,
+    "claimsUnchangedRealErrorReleaseRate": false
+  },
+  "preservedChecks": [
+    "proposal kind and supported:true are required for the local notice exception",
+    "trusted current captured user request must contain 通知 and link through a satisfied requirement",
+    "valid citation must belong to current authorized input, match exact source text and have been read by this verifier",
+    "inference and unknown markers remain required",
+    "unsupported claims, unmet requirements, unresolved conflicts and overall verifier refusal remain blocking",
+    "updated draft or requirements invalidate prior grounding reuse"
+  ],
+  "reviewedFiles": [
+    {"path": "desktop/grounding.cjs", "sha256": "687bf5f3078a86cd360cc0c6971f4e9edc9f672236910f623b7744f87b799310"},
+    {"path": "tests/grounding-notification.test.cjs", "sha256": "dbfd0796affa5d641f4a0344ac628211982328b2741ec9e8501e03ca0fb202bd"},
+    {"path": "tests/grounding-notice-bounded.test.cjs", "sha256": "97d528e6be3778cf8d1b92d6b57f394861b4571c30f50be97b8857c165b7c61a"},
+    {"path": "docs/FOUNDATION_NOTICE_NARROW_FIX.md", "sha256": "77e06a8f5537b7ed21c29d4890ad05d1bf00a8d9710e2fd57521beb1ce0a1f9c"},
+    {"path": "docs/evidence/foundation-notice-narrow-verification.json", "sha256": "d3b98ff13ea7bacc565c0fcceb0098bb6b5630c5ace3c25d259e043504776ece"}
+  ],
+  "limitations": [
+    "这是本地标记识别修复。有效逐字引文证明引用绑定正确，不自动证明该引文蕴含结论。",
+    "若独立核验错误地给出 supported:true 且无缺口/冲突，本地标记不能自行证伪逗号后的错误批准或完成断言；本次没有引入额外语义兜底。",
+    "N01/N03 合成回复只隔离局部标记与证据接口，并未独立完整扫描参考稿全部事实；已暴露材料属于回归样本，不能再称为全新模型验收样本。",
+    "未测量真实幻觉率、误拦率、错误放行率或总 token，不能从离线通过率推导这些指标不变或改善。",
+    "保留整句、换行、分号和正文冒号的保守边界；本次不解决所有自然语言通知表达。",
+    "旧候选包及历史生命周期失败记录保持原样，本轮源码审核不覆盖重新打包、实际包生命周期或上线效果。"
+  ]
+}

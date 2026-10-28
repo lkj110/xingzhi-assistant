@@ -91,12 +91,12 @@ function sourceCovered(body,start,end,parts){
 }
 function notificationTone(c,citations,s,supplied){
  // A request tone is not an inferred fact or evidence of approval. This only
- // recognizes a single imperative in a user-requested notice, after exact
+ // recognizes a notice imperative (including clause commas), after exact
  // evidence binding. Semantic authorization still belongs to the independent
  // verifier, including every operand, limitation and implied factual premise.
  const wording=text(c.text).replace(/\b\d{1,2}:\d{2}\b/g,'时刻');
- if(c.kind!=='proposal'||c.supported!==true||!citations.length||!/^请[^。\r\n！？!?；;，,：:]+[。！!：:]?$/u.test(wording))return false;
- return rows(supplied?.requirements).some(r=>r?.status==='satisfied'&&rows(r.claimIds).includes(c.id)&&s.requirements.some(req=>req.id===r.id&&/(?:写|起草|编制|制作)[^。\r\n！？]{0,80}通知/u.test(req.text)&&s.userInputs.some(input=>input.text.includes(req.text))));
+ if(c.kind!=='proposal'||c.supported!==true||!citations.length||!/^请[^。\r\n！？!?；;：:]+[。！!：:]?$/u.test(wording))return false;
+ return rows(supplied?.requirements).some(r=>r?.status==='satisfied'&&rows(r.claimIds).includes(c.id)&&s.requirements.some(req=>req.id===r.id&&/通知/u.test(req.text)&&s.userInputs.some(input=>input.text.includes(req.text))));
 }
 function validate(a,task,response,{seen=new Set(),phase='result'}={}){
  const s=snapshot(a,task),cached=reusable(a,task,s);if(cached&&!(phase!=='content'&&cached.requirements.some(r=>r.status==='deferred')))return {...cached,reused:true,reportHash:undefined};
