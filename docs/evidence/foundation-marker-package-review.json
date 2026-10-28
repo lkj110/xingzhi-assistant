@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "at": "2026-10-28T11:33:43.873Z",
+  "reviewer": "/root/marker_package_audit",
+  "independent": true,
+  "approvedForUpload": true,
+  "approvalScope": "This turn only: offline candidate build and lifecycle scripts, regression test, evidence and unapproved live proposal",
+  "sourceCommit": "0d448e264c87a6e65638b330141408335c33c6c1",
+  "productSourceChangedThisRound": false,
+  "readyForInstall": false,
+  "readyForBinaryRelease": false,
+  "readyForLive": false,
+  "budgetAuthorized": false,
+  "realModelCalls": 0,
+  "actualHumanAcceptance": false,
+  "candidate": {
+    "asarSha256": "9fe3cc8b865a37fa063fec7cce7158e4e9a07f682f6556fd08a844f6e89dec2b",
+    "groundingSha256": "ac89ce673dd30b9adfbc3b6d459f13979b8a7a5a0e9513ecd463aa688c2a3d40",
+    "fullManifestSha256": "621e1e85e676e9f9f55f65dccd2754c523a9185883dc1d3a814e6c1f8f3af020",
+    "outerFiles": 86,
+    "archiveFiles": 9666,
+    "archiveChanges": 13,
+    "outerChangedFiles": [
+      "resources/app.asar"
+    ]
+  },
+  "independentChecks": {
+    "buildScriptReviewed": true,
+    "lifecycleScriptReviewed": true,
+    "sourceAndArchiveIdentityVerified": true,
+    "unitTests": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "bootsVerified": 5,
+    "requestResponsePairsVerified": 18,
+    "applicationCallsReconciled": 18,
+    "persistedLedgerCallsReconciled": 18,
+    "unknownUsageCalls": 0,
+    "unsettledCalls": 0,
+    "checkpointsMatchedToPublicReport": 9,
+    "validCitationSpansRechecked": true,
+    "persistedTaskStatesRechecked": true,
+    "allFourDraftsUnchanged": true,
+    "actualDomCommandsVerified": true,
+    "screenshotVisuallyReviewed": true,
+    "publicAndPrivateEvidenceMatched": true
+  },
+  "scenarioResults": {
+    "M01": "completed only after explicit recheck and simulated user acceptance; waiting, confirmation and completion persisted across restarts",
+    "M02": "blocked after independent refusal despite prior expression confirmation",
+    "M03": "blocked for invalid quote; human confirmation and acceptance rejected",
+    "M04": "waiting after requirement change; old confirmation not reused"
+  },
+  "resolvedFindings": [
+    {
+      "finding": "All HTTP attempts must be counted and fixture errors must stop promptly",
+      "resolution": "Bounded received-attempt counter and immediate fixture-error stop added before the successful run"
+    },
+    {
+      "finding": "Each actual boot must bind loaded package and worker identities",
+      "resolution": "Manifest ASAR/version assertions and loaded grounding identity checks present for all five boots"
+    },
+    {
+      "finding": "Initial harness used a multi-item captureSave payload unsupported by the existing API",
+      "resolution": "Each unchanged original source imported separately in a new run; original failed run with zero model requests retained"
+    }
+  ],
+  "remainingBlockingFindings": [],
+  "preservedFailedLifecycleRuns": 1,
+  "freeze": {
+    "installedFilesUnchanged": 86,
+    "oldCandidateFilesUnchanged": 86,
+    "newCandidateFilesUnchangedAfterRun": 86,
+    "historicalPacksUnchanged": 4,
+    "historicalFilesUnchanged": 47
+  },
+  "syntheticUsage": {
+    "input": 1800,
+    "output": 360,
+    "total": 2160,
+    "notRealCost": true
+  },
+  "limitations": [
+    "Actual candidate EXE and renderer/IPC/Worker were exercised through a synthetic HTTP model adapter; live Codex CLI protocol was not tested",
+    "DOM automation simulates human commands; no actual human business acceptance occurred",
+    "Synthetic fault injection and previously exposed P01 regression material cannot measure model hallucination, false-block or false-release rates",
+    "No install, binary publication or model spending is authorized by this audit"
+  ],
+  "nextLiveProposal": {
+    "applicationAttempts": 40,
+    "inputOutputTokenStopThreshold": 800000,
+    "hardProviderCap": false,
+    "inFlightMayExceedThreshold": true,
+    "freshSamplesPrepared": false,
+    "liveRunnerSealed": false,
+    "budgetAuthorized": false,
+    "formalMainEvaluation": false,
+    "requiredBeforeNewBudgetRequest": [
+      "Independently authored fresh gate and six business cases",
+      "Full-input reference coverage audit",
+      "Human-waiting runner offline regression and identity seal"
+    ],
+    "requiresActualHumanConfirmationAndAcceptance": true
+  },
+  "evidenceSha256": {
+    "fullPrivateManifest": "621e1e85e676e9f9f55f65dccd2754c523a9185883dc1d3a814e6c1f8f3af020",
+    "independentPackageIdentity": "5507ec1ff0cc578f2d7c01c4a365aabbae57e0fd5676b7f23154cf83002ab49a",
+    "independentLifecycleAudit": "a36ae7f2f7f2f414a03723f9fe4758bc4a32309d07ef2190261661019da0f04f",
+    "independentBuildTests": "e148a41b77aabb1b09a845d8ee5d5b14a59b4597e855ecaba14782141e481f29",
+    "independentFreezeBefore": "aa142194baf6a73a203d4c7969c0694755826948ea3238d028b13b672042f10d",
+    "successfulResult": "a6011939a9d650b407047470a47bc5b40979a3cd522d90cd66d280cef340483e",
+    "finalState": "213c063b945e135b93f04d2d2a62a832cc1522b8c7b01aa64172d02bea1ee4a4",
+    "preservedFailedResult": "258f3657fbc0c40dcd85d69734a838bdda5da2904d7dcf755cdcc5e050202f79"
+  },
+  "reviewedFiles": [
+    {
+      "path": "scripts/prepare-marker-candidate.cjs",
+      "sha256": "6cdbfe5c798065832d51d7618ecb36b535dce511dfc7376c8d07d3ce3e13a13e"
+    },
+    {
+      "path": "scripts/marker-candidate-lifecycle.cjs",
+      "sha256": "c9b659118b2dfc4eb5e981678c2660e7d62a8027f3b542375c382273de173e13"
+    },
+    {
+      "path": "tests/marker-candidate-build.test.cjs",
+      "sha256": "eafdb66f7e4cad6561b55de6c9a3cc16b5f9ec88e3223d7633a9355049f124f6"
+    },
+    {
+      "path": "docs/FOUNDATION_MARKER_CANDIDATE_20261028.md",
+      "sha256": "046446009481264152f944fd6a3a6afd9f69809167ef9d8e4cfb81efe9122732"
+    },
+    {
+      "path": "docs/evidence/foundation-marker-package-manifest.json",
+      "sha256": "1ef4dbc9be03afef6ab48917f8225e53c8701a40e6ee2fe413f61bbc0ca25280"
+    },
+    {
+      "path": "docs/evidence/foundation-marker-package-verification.json",
+      "sha256": "4943861134314c7c2a0688d448f2d7c95f411cfbe2714e352073872e7e36704d"
+    },
+    {
+      "path": "docs/evidence/foundation-marker-package-review.md",
+      "sha256": "becea0ea0cb1a1c3c12f39f0ef315431a1f1534a64e45f086ab6a339805ea061"
+    }
+  ]
+}
