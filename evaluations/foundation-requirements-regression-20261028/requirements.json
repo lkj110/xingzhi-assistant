@@ -1,0 +1,2449 @@
+{
+  "schema": 1,
+  "purpose": "在不读取参考稿、断言、产品代码或历史结果的条件下，独立盘点全部用户要求。用于覆盖审计，不充当改写后的评分答案。",
+  "inputs": [
+    "evaluations/foundation-notice-acceptance-20261028/stimuli.json",
+    "evaluations/foundation-notice-acceptance-20261028/gate.json",
+    "evaluations/foundation-notice-acceptance-20261028/inputs.cjs"
+  ],
+  "stageDefinitions": {
+    "initial": "仅指 P03 修订前初稿及相应流程",
+    "final": "P01/P02/P04 的交付稿与流程，以及 P03 修订后的最终稿与相应流程",
+    "fixed": "给定候选原稿的核验；不得以替换稿完成任务",
+    "gate": "G01 冒烟门禁；不计入业务指标"
+  },
+  "boundaryNotes": [
+    "只读取列出的三个允许文件；未读取 gold、参考稿、已有 assertions、产品代码、历史运行结果，也未调用真实模型、产品 CLI 或应用。",
+    "业务要求仅从 title、description、criteria、revision.note、revision.additionalCriteria、投影前缀和 workflow/passRequires 取得。sources 只解释要求指向的事实或条件；未把来源中所有事实自动扩张为必写项。",
+    "title 提供地点、批次及业务对象上下文；若用户没有要求逐字复用标题，不据此强制照抄整条标题。受众描述通常约束写作适用性，不强制正文逐字出现受众称谓。",
+    "workflow 和 gate.passRequires 均是流程要求；流程通过、阻断正确和文本业务交付完成分别判断。",
+    "仅忽略“请”等纯礼貌词；“至少”“仅”“本轮”“且”“须”“不能”“仍”“恰好”等限制未忽略。",
+    "同义或跨字段重复要求合并为一个条目，references 保留补充的逐字引用。复合限制按可独立违背的约束拆分，必要时保留一个整体逻辑条目。",
+    "inputs.cjs 的 project 对传入 spec 一律附加历史场景前缀；该前缀为输入限制。未从样本日期相对于现实日期已过去推断业务已经执行。",
+    "没有从 sources 的数量、来源标题或登记时间额外制造未被用户要求的必写项；只有被显式要求的业务概念需要材料消歧时，才提供 sourceSupport。",
+    "revision.additionalCriteria 仅作评分元数据关联，不是实际新增用户输入，不能据此增加独立义务；P03 真实新增要求仅来自 revision.note。",
+    "workflow 条目均为 process-only，等待人工验收及核验流程成功不由文稿合格自动推出。"
+  ],
+  "cases": [
+    {
+      "id": "P01-qingjia-notice",
+      "lane": "generated",
+      "requirements": [
+        {
+          "id": "P01-R01",
+          "field": "title",
+          "quote": "清岬",
+          "meaning": "业务场景属于清岬；不得改为其他机构或场景。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R02",
+          "field": "description",
+          "quote": "低温柜清洁预约通知",
+          "meaning": "交付物必须是针对低温柜清洁的预约通知，低温柜这一业务对象不能被遗漏。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R03",
+          "field": "description",
+          "quote": "请依据两份短记录",
+          "meaning": "通知安排须依据两份所附短记录，地点附记也属于依据。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R04",
+          "field": "criteria",
+          "quote": "夜班保管员",
+          "meaning": "本轮对象必须限定为夜班保管员。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "title",
+              "quote": "夜班保管员"
+            },
+            {
+              "field": "description",
+              "quote": "可发给本轮对象"
+            }
+          ]
+        },
+        {
+          "id": "P01-R05",
+          "field": "criteria",
+          "quote": "仅面向已列入C组名册且持活动当班有效通行证的夜班保管员。",
+          "meaning": "对象须已列入 C 组名册，不能扩大到其他组或未列入名册者。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R06",
+          "field": "criteria",
+          "quote": "且持活动当班有效通行证",
+          "meaning": "对象还须持本次活动当班有效通行证；有效通行证不能省略其当班适用限制。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R07",
+          "field": "description",
+          "quote": "通知标题也须体现完整对象限制",
+          "meaning": "标题须完整表达夜班保管员、已列入 C 组名册、持活动当班有效通行证三项并存的对象限制。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "title",
+              "quote": "C组持有效当班通行证夜班保管员"
+            }
+          ]
+        },
+        {
+          "id": "P01-R08",
+          "field": "description",
+          "quote": "正文按待执行安排表达",
+          "meaning": "正文将清洁写为预约待执行安排，不确认已经完成。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "criteria",
+              "quote": "不得确认清洁已经完成"
+            }
+          ]
+        },
+        {
+          "id": "P01-R09",
+          "field": "criteria",
+          "quote": "2026年1月25日21:10至21:35",
+          "meaning": "写清预约日期为 2026 年 1 月 25 日。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R10",
+          "field": "criteria",
+          "quote": "2026年1月25日21:10至21:35",
+          "meaning": "写清预约时段为 21:10 至 21:35。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R11",
+          "field": "criteria",
+          "quote": "通常集结地点",
+          "meaning": "写清通常集结地点是柜区外缓冲间。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s1",
+              "title": "清岬标本库清洁预约单",
+              "quote": "通常在柜区外缓冲间集结",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R12",
+          "field": "criteria",
+          "quote": "变更地点须同时满足的两个条件",
+          "meaning": "写清改换集结地点的条件之一为该次值班表标为 B 档。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s2",
+              "title": "清岬清洁预约地点附记",
+              "quote": "仅当该次值班表标为B档且主缓冲门封闭时",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R13",
+          "field": "criteria",
+          "quote": "变更地点须同时满足的两个条件",
+          "meaning": "写清改换集结地点的另一条件为主缓冲门封闭。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s2",
+              "title": "清岬清洁预约地点附记",
+              "quote": "仅当该次值班表标为B档且主缓冲门封闭时",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R14",
+          "field": "criteria",
+          "quote": "须同时满足的两个条件",
+          "meaning": "两个变更条件须同时成立才能改址，不能使用任一条件成立即可改址的逻辑。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R15",
+          "field": "criteria",
+          "quote": "备用地点",
+          "meaning": "写清条件同时成立时的备用集结地点是北侧更衣间。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s2",
+              "title": "清岬清洁预约地点附记",
+              "quote": "集结地点才改为北侧更衣间",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R16",
+          "field": "criteria",
+          "quote": "通常集结地点、变更地点须同时满足的两个条件及备用地点",
+          "meaning": "通常地点和条件式备用地点须保持对应关系；条件不同时成立时仍使用通常地点。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s2",
+              "title": "清岬清洁预约地点附记",
+              "quote": "其他情况仍在柜区外缓冲间。",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R17",
+          "field": "criteria",
+          "quote": "手套领取量是每人最多2副",
+          "meaning": "领取量的分母是每人，计量对象是手套的副数。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R18",
+          "field": "criteria",
+          "quote": "每人最多2副",
+          "meaning": "手套领取上限是每人最多 2 副，必须保留上限含义。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R19",
+          "field": "criteria",
+          "quote": "不能写成人数或固定领取数",
+          "meaning": "不得把 2 副写成人数。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R20",
+          "field": "criteria",
+          "quote": "不能写成人数或固定领取数",
+          "meaning": "不得将最多 2 副改写为固定必须领取 2 副。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R21",
+          "field": "criteria",
+          "quote": "不超过260个汉字",
+          "meaning": "通知不超过 260 个汉字。",
+          "kind": "format",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R22",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断",
+          "meaning": "只在所附资料指定的历史时点判断本案例状态。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R23",
+          "field": "projection.descriptionPrefix",
+          "quote": "不推断其后的实际状态。",
+          "meaning": "不得根据现实时间或材料未记载的进展推断后续实际状态。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P01-R24",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "导入本案例所附来源材料。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/0",
+          "sequenceIndex": 0,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P01-R25",
+          "field": "workflow",
+          "quote": "create_task",
+          "meaning": "创建本案例任务。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/1",
+          "sequenceIndex": 1,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P01-R26",
+          "field": "workflow",
+          "quote": "advance_once",
+          "meaning": "按该步骤推进一次任务。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/2",
+          "sequenceIndex": 2,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P01-R27",
+          "field": "workflow",
+          "quote": "audit_final_draft",
+          "meaning": "核验最终稿的完整业务要求；流程到达审阅并不等于正文合格。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/3",
+          "sequenceIndex": 3,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P01-R28",
+          "field": "workflow",
+          "quote": "await_human_acceptance",
+          "meaning": "在等待人工验收的状态停留，不擅自宣称已由人验收。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/4",
+          "sequenceIndex": 4,
+          "references": [],
+          "processOnly": true
+        }
+      ],
+      "allowances": []
+    },
+    {
+      "id": "P02-haiting-conflict",
+      "lane": "generated",
+      "requirements": [
+        {
+          "id": "P02-R01",
+          "field": "title",
+          "quote": "海汀HT-L319炉次",
+          "meaning": "说明对象是海汀 HT-L319 炉次，不得串换炉次。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R02",
+          "field": "description",
+          "quote": "关于同一炉次出窑净重的说明",
+          "meaning": "交付一段关于同一炉次出窑净重的差异说明，必须保留出窑净重这个业务对象。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "title",
+              "quote": "出窑净重差异说明"
+            }
+          ]
+        },
+        {
+          "id": "P02-R03",
+          "field": "description",
+          "quote": "归档员需要一段",
+          "meaning": "说明应适用于归档员，一段说明即可；无需强制写出归档员称谓。",
+          "kind": "format",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R04",
+          "field": "description",
+          "quote": "请把两份复核记录的差异交代清楚",
+          "meaning": "说明须同时交代两份复核记录的冲突，不能只展示其中一份。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R05",
+          "field": "criteria",
+          "quote": "甲记录36.8千克",
+          "meaning": "明确甲记录为 36.8 千克，并保持记录名称与数值对应。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R06",
+          "field": "criteria",
+          "quote": "乙记录37.6千克",
+          "meaning": "明确乙记录为 37.6 千克，并保持记录名称与数值对应。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R07",
+          "field": "criteria",
+          "quote": "两者针对同炉次同批实物",
+          "meaning": "明确两份记录针对同一炉次。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R08",
+          "field": "criteria",
+          "quote": "两者针对同炉次同批实物",
+          "meaning": "明确两份记录针对同一批实物。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R09",
+          "field": "criteria",
+          "quote": "净重口径、复核时间和效力一致",
+          "meaning": "明确净重计量口径一致。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s1",
+              "title": "海汀HT-L319炉次双份净重复核摘录",
+              "quote": "均已扣除托盘质量",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R10",
+          "field": "criteria",
+          "quote": "净重口径、复核时间和效力一致",
+          "meaning": "明确两份记录复核时间一致。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R11",
+          "field": "criteria",
+          "quote": "净重口径、复核时间和效力一致",
+          "meaning": "明确两份记录效力一致。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R12",
+          "field": "criteria",
+          "quote": "没有优先或更正关系",
+          "meaning": "明确没有指定任一记录优先。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R13",
+          "field": "criteria",
+          "quote": "没有优先或更正关系",
+          "meaning": "明确不存在使一份覆盖另一份的更正关系。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R14",
+          "field": "criteria",
+          "quote": "准确净重尚不能确定",
+          "meaning": "明确当前准确净重尚不能确定。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "description",
+              "quote": "说明现在能否给出准确值"
+            }
+          ]
+        },
+        {
+          "id": "P02-R15",
+          "field": "description",
+          "quote": "以及还需做什么",
+          "meaning": "说明后续需要另约复秤。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s2",
+              "title": "海汀HT-L319归档核对便签",
+              "quote": "另约复秤并核对两份记录",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R16",
+          "field": "description",
+          "quote": "以及还需做什么",
+          "meaning": "说明后续还需要核对两份记录。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s2",
+              "title": "海汀HT-L319归档核对便签",
+              "quote": "另约复秤并核对两份记录",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R17",
+          "field": "criteria",
+          "quote": "复秤只能写成待办",
+          "meaning": "复秤是尚待进行的行动，不得表述为已经执行或已产生确认结果。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R18",
+          "field": "criteria",
+          "quote": "不得以平均数、大小或记录名称裁定结果",
+          "meaning": "不能用平均数代替有依据的准确净重。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R19",
+          "field": "criteria",
+          "quote": "不得以平均数、大小或记录名称裁定结果",
+          "meaning": "不能按数值较大或较小裁定最终结果。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R20",
+          "field": "criteria",
+          "quote": "不得以平均数、大小或记录名称裁定结果",
+          "meaning": "不能按甲乙等记录名称裁定最终结果。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R21",
+          "field": "criteria",
+          "quote": "不超过240个汉字",
+          "meaning": "说明不超过 240 个汉字。",
+          "kind": "format",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R22",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断",
+          "meaning": "只在所附资料指定的历史时点判断本案例状态。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R23",
+          "field": "projection.descriptionPrefix",
+          "quote": "不推断其后的实际状态。",
+          "meaning": "不得根据现实时间或材料未记载的进展推断后续实际状态。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P02-R24",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "导入本案例所附来源材料。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/0",
+          "sequenceIndex": 0,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P02-R25",
+          "field": "workflow",
+          "quote": "create_task",
+          "meaning": "创建本案例任务。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/1",
+          "sequenceIndex": 1,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P02-R26",
+          "field": "workflow",
+          "quote": "advance_once",
+          "meaning": "按该步骤推进一次任务。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/2",
+          "sequenceIndex": 2,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P02-R27",
+          "field": "workflow",
+          "quote": "audit_final_draft",
+          "meaning": "核验最终稿的完整业务要求；流程到达审阅并不等于正文合格。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/3",
+          "sequenceIndex": 3,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P02-R28",
+          "field": "workflow",
+          "quote": "await_human_acceptance",
+          "meaning": "在等待人工验收的状态停留，不擅自宣称已由人验收。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/4",
+          "sequenceIndex": 4,
+          "references": [],
+          "processOnly": true
+        }
+      ],
+      "allowances": [
+        {
+          "field": "description",
+          "quote": "允许以准确值未定结束本说明。",
+          "meaning": "明确许可：只要差异、不能确定准确值及后续待办交代完整，可以在准确值未定时完成这份说明；不得把准确值未定本身判作交付不合格。",
+          "stages": [
+            "final"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P03-taoyu-revision",
+      "lane": "generated_revision",
+      "requirements": [
+        {
+          "id": "P03-R01",
+          "field": "title",
+          "quote": "桃屿馆",
+          "meaning": "通知属于桃屿馆本轮换签业务。",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P03-R02",
+          "field": "description",
+          "quote": "本轮临时借阅证换签预约通知",
+          "meaning": "交付物是本轮临时借阅证换签预约通知，不能省略或改换证件与办理业务对象。",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P03-R03",
+          "field": "criteria",
+          "quote": "本轮对象仅为已登记的临时借阅证持有人",
+          "meaning": "对象仅限本轮已经登记的临时借阅证持有人。",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [
+            {
+              "field": "title",
+              "quote": "本轮已登记临时借阅证持有人"
+            },
+            {
+              "field": "revision.note",
+              "quote": "保留本轮仅已登记临时借阅证持有人"
+            }
+          ]
+        },
+        {
+          "id": "P03-R04",
+          "field": "description",
+          "quote": "标题与正文都限定对象",
+          "meaning": "初稿和最终稿的标题都须限定为本轮已登记临时借阅证持有人。",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [
+            {
+              "field": "revision.note",
+              "quote": "标题仍限定对象"
+            }
+          ]
+        },
+        {
+          "id": "P03-R05",
+          "field": "description",
+          "quote": "标题与正文都限定对象",
+          "meaning": "初稿和最终稿的正文也须完整限定本轮对象，不能只在标题限定。",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P03-R06",
+          "field": "criteria",
+          "quote": "待换签28张卡",
+          "meaning": "明确待换签数量为 28 张卡。",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [
+            {
+              "field": "description",
+              "quote": "初稿至少交代待换签卡数"
+            },
+            {
+              "field": "revision.note",
+              "quote": "待换签28张卡"
+            }
+          ]
+        },
+        {
+          "id": "P03-R07",
+          "field": "criteria",
+          "quote": "不得改成28人",
+          "meaning": "不得把 28 张卡误写为 28 人。",
+          "kind": "restriction",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P03-R08",
+          "field": "criteria",
+          "quote": "日期为2026年2月14日",
+          "meaning": "预约日期为 2026 年 2 月 14 日。",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [
+            {
+              "field": "description",
+              "quote": "预约日期"
+            },
+            {
+              "field": "revision.note",
+              "quote": "2026年2月14日"
+            }
+          ]
+        },
+        {
+          "id": "P03-R09",
+          "field": "criteria",
+          "quote": "地点为南厅4号窗口",
+          "meaning": "办理地点为南厅 4 号窗口。",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [
+            {
+              "field": "description",
+              "quote": "及窗口"
+            },
+            {
+              "field": "revision.note",
+              "quote": "南厅4号窗口"
+            }
+          ]
+        },
+        {
+          "id": "P03-R10",
+          "field": "description",
+          "quote": "内容应保持待执行状态",
+          "meaning": "全文保持预约待执行安排，不得说换签已经办完。",
+          "kind": "restriction",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [
+            {
+              "field": "criteria",
+              "quote": "不得说换签已办完"
+            },
+            {
+              "field": "revision.note",
+              "quote": "全文保持待执行安排"
+            }
+          ]
+        },
+        {
+          "id": "P03-R11",
+          "field": "criteria",
+          "quote": "不超过200个汉字",
+          "meaning": "初稿和最终稿均不超过 200 个汉字；最终修订没有取消该初稿要求。",
+          "kind": "format",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [
+            {
+              "field": "revision.additionalCriteria",
+              "quote": "初稿要求继续满足"
+            }
+          ]
+        },
+        {
+          "id": "P03-R12",
+          "field": "revision.note",
+          "quote": "将正文改为恰好三条项目符号",
+          "meaning": "最终正文恰好包含三条项目符号。",
+          "kind": "format",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "revision.additionalCriteria",
+              "quote": "最终正文恰好三条项目符号"
+            }
+          ]
+        },
+        {
+          "id": "P03-R13",
+          "field": "revision.note",
+          "quote": "补充14:20至15:05",
+          "meaning": "最终稿补充完整办理时段 14:20 至 15:05。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "revision.additionalCriteria",
+              "quote": "另具备完整时段"
+            }
+          ]
+        },
+        {
+          "id": "P03-R14",
+          "field": "revision.note",
+          "quote": "本人携旧卡且旧卡号码须与登记号吻合",
+          "meaning": "最终稿说明持有人须本人办理。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "revision.additionalCriteria",
+              "quote": "本人和旧卡号码条件"
+            }
+          ]
+        },
+        {
+          "id": "P03-R15",
+          "field": "revision.note",
+          "quote": "本人携旧卡且旧卡号码须与登记号吻合",
+          "meaning": "最终稿说明本人办理须携带旧卡。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P03-R16",
+          "field": "revision.note",
+          "quote": "旧卡号码须与登记号吻合",
+          "meaning": "最终稿说明旧卡号码须与登记号吻合，不能只写携带旧卡。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "revision.additionalCriteria",
+              "quote": "旧卡号码条件"
+            }
+          ]
+        },
+        {
+          "id": "P03-R17",
+          "field": "revision.note",
+          "quote": "无旧卡者只登记后续补办",
+          "meaning": "最终稿说明无旧卡者仅登记后续补办，不能写成当场完成补办。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "revision.additionalCriteria",
+              "quote": "无旧卡时的后续补办登记"
+            }
+          ]
+        },
+        {
+          "id": "P03-R18",
+          "field": "revision.note",
+          "quote": "不当场换签",
+          "meaning": "最终稿明确无旧卡者不当场换签。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "revision.additionalCriteria",
+              "quote": "不当场换签限制"
+            }
+          ]
+        },
+        {
+          "id": "P03-R19",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断",
+          "meaning": "只在所附资料指定的历史时点判断本案例状态。",
+          "kind": "restriction",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P03-R20",
+          "field": "projection.descriptionPrefix",
+          "quote": "不推断其后的实际状态。",
+          "meaning": "不得根据现实时间或材料未记载的进展推断后续实际状态。",
+          "kind": "restriction",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P03-R21",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "导入本案例所附来源材料。",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "inputPath": "/workflow/0",
+          "sequenceIndex": 0,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P03-R22",
+          "field": "workflow",
+          "quote": "create_task",
+          "meaning": "创建本案例任务。",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "inputPath": "/workflow/1",
+          "sequenceIndex": 1,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P03-R23",
+          "field": "workflow",
+          "quote": "advance_once",
+          "meaning": "按该步骤推进一次任务。",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "inputPath": "/workflow/2",
+          "sequenceIndex": 2,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P03-R24",
+          "field": "workflow",
+          "quote": "capture_initial_review",
+          "meaning": "记录修订前初稿的审阅状态。",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "inputPath": "/workflow/3",
+          "sequenceIndex": 3,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P03-R25",
+          "field": "workflow",
+          "quote": "revise_once",
+          "meaning": "依据 revision 执行一次修订。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/4",
+          "sequenceIndex": 4,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P03-R26",
+          "field": "workflow",
+          "quote": "advance_once",
+          "meaning": "按该步骤推进一次任务。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/5",
+          "sequenceIndex": 5,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P03-R27",
+          "field": "workflow",
+          "quote": "assert_new_verification_basis",
+          "meaning": "修订后核验须基于新的稿件与验证依据，不能沿用旧验证结论。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/6",
+          "sequenceIndex": 6,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P03-R28",
+          "field": "workflow",
+          "quote": "audit_final_draft",
+          "meaning": "核验最终稿的完整业务要求；流程到达审阅并不等于正文合格。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/7",
+          "sequenceIndex": 7,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P03-R29",
+          "field": "workflow",
+          "quote": "await_human_acceptance",
+          "meaning": "在等待人工验收的状态停留，不擅自宣称已由人验收。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/8",
+          "sequenceIndex": 8,
+          "references": [],
+          "processOnly": true
+        }
+      ],
+      "allowances": [
+        {
+          "field": "criteria",
+          "quote": "初稿不要求项目符号",
+          "meaning": "初稿无需满足项目符号格式；恰好三条仅是修订后最终稿要求。",
+          "stages": [
+            "initial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P04-fanyu-restart",
+      "lane": "generated_restart",
+      "requirements": [
+        {
+          "id": "P04-R01",
+          "field": "title",
+          "quote": "帆隅小剧场",
+          "meaning": "历史摘要对应帆隅小剧场。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R02",
+          "field": "description",
+          "quote": "为查阅旧档的布景组",
+          "meaning": "摘要面向查阅旧档的布景组；写作须支持历史档案理解，无需逐字出现受众称谓。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R03",
+          "field": "description",
+          "quote": "写一段历史摘要",
+          "meaning": "交付一段历史摘要，不能改写成当前场地状态报告。",
+          "kind": "format",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "title",
+              "quote": "地板检点历史摘要"
+            }
+          ]
+        },
+        {
+          "id": "P04-R04",
+          "field": "criteria",
+          "quote": "东区所检12块中2块边角翘起",
+          "meaning": "明确结果限于东区受检布景地板，不能扩成全剧场。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "description",
+              "quote": "说明检点结果适用的区域"
+            },
+            {
+              "field": "title",
+              "quote": "东区"
+            }
+          ],
+          "sourceSupport": [
+            {
+              "key": "s1",
+              "title": "帆隅小剧场东区地板检点归档页",
+              "quote": "东区检查的12块布景地板中",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ]
+        },
+        {
+          "id": "P04-R05",
+          "field": "criteria",
+          "quote": "东区所检12块中2块边角翘起",
+          "meaning": "明确受检总数为 12 块。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R06",
+          "field": "criteria",
+          "quote": "东区所检12块中2块边角翘起",
+          "meaning": "明确受检 12 块中有 2 块边角翘起，保留异常数量和具体异常。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R07",
+          "field": "criteria",
+          "quote": "明确绑定到2026年3月9日08:40",
+          "meaning": "将东区 12 块中 2 块翘起的检点结果明确绑定于 2026 年 3 月 9 日 08:40，不能让结果失去历史时点。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [
+            {
+              "field": "description",
+              "quote": "和时点"
+            },
+            {
+              "field": "title",
+              "quote": "2026年3月9日"
+            }
+          ]
+        },
+        {
+          "id": "P04-R08",
+          "field": "criteria",
+          "quote": "说明09:10封存的是记录页",
+          "meaning": "说明 09:10 封存的是记录页，并保持与同日历史档案对应。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R09",
+          "field": "criteria",
+          "quote": "也不能把封存记录解释为场地停用",
+          "meaning": "不得把记录页封存解释为场地已经停用。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R10",
+          "field": "criteria",
+          "quote": "17:00复检栏为空",
+          "meaning": "说明 17:00 复检栏未填写。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R11",
+          "field": "criteria",
+          "quote": "且没有后续记录",
+          "meaning": "说明没有 08:40 检点之后的现场检查或修复记录。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s2",
+              "title": "帆隅地板检点归档封面注",
+              "quote": "没有08:40检点以后的现场检查或修复记录",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R12",
+          "field": "description",
+          "quote": "并说明这页档案不能证明哪些后续状态",
+          "meaning": "摘要须明确告知该档案的后续状态证明边界，不能只列历史数字而沉默于限制。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R13",
+          "field": "criteria",
+          "quote": "不能推断其他区域",
+          "meaning": "不得将该结果外推至其他区域的地板状态。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R14",
+          "field": "criteria",
+          "quote": "17:00或当前是否仍翘起",
+          "meaning": "不得声称 17:00 或当前仍存在翘起；档案无法确定这两个时点的状态。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R15",
+          "field": "criteria",
+          "quote": "已经修复",
+          "meaning": "不得据此声称后续或当前已经修复。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R16",
+          "field": "criteria",
+          "quote": "或情况未变",
+          "meaning": "不得据此声称后续或当前情况未变。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R17",
+          "field": "criteria",
+          "quote": "不超过240个汉字",
+          "meaning": "历史摘要不超过 240 个汉字。",
+          "kind": "format",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R18",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断",
+          "meaning": "只在所附资料指定的历史时点判断本案例状态。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R19",
+          "field": "projection.descriptionPrefix",
+          "quote": "不推断其后的实际状态。",
+          "meaning": "不得根据现实时间或材料未记载的进展推断后续实际状态。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "P04-R20",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "导入本案例所附来源材料。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/0",
+          "sequenceIndex": 0,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P04-R21",
+          "field": "workflow",
+          "quote": "create_task",
+          "meaning": "创建本案例任务。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/1",
+          "sequenceIndex": 1,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P04-R22",
+          "field": "workflow",
+          "quote": "cold_restart_before_advance",
+          "meaning": "推进前执行一次冷重启。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/2",
+          "sequenceIndex": 2,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P04-R23",
+          "field": "workflow",
+          "quote": "assert_no_model_dispatch_on_restart",
+          "meaning": "冷重启本身不得触发模型派发。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/3",
+          "sequenceIndex": 3,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P04-R24",
+          "field": "workflow",
+          "quote": "advance_once",
+          "meaning": "按该步骤推进一次任务。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/4",
+          "sequenceIndex": 4,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P04-R25",
+          "field": "workflow",
+          "quote": "cold_restart_at_review",
+          "meaning": "在审阅阶段执行一次冷重启。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/5",
+          "sequenceIndex": 5,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P04-R26",
+          "field": "workflow",
+          "quote": "assert_same_draft_and_verification",
+          "meaning": "审阅阶段冷重启后保持同一稿件与核验信息。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/6",
+          "sequenceIndex": 6,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P04-R27",
+          "field": "workflow",
+          "quote": "audit_final_draft",
+          "meaning": "核验最终稿的完整业务要求；流程到达审阅并不等于正文合格。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/7",
+          "sequenceIndex": 7,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P04-R28",
+          "field": "workflow",
+          "quote": "await_human_acceptance",
+          "meaning": "在等待人工验收的状态停留，不擅自宣称已由人验收。",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "inputPath": "/workflow/8",
+          "sequenceIndex": 8,
+          "references": [],
+          "processOnly": true
+        }
+      ],
+      "allowances": []
+    },
+    {
+      "id": "P05-sifangting-unapproved",
+      "lane": "fixed_invalid",
+      "requirements": [
+        {
+          "id": "P05-R01",
+          "field": "title",
+          "quote": "四方庭3月20日收件时夜间搬箱状态确认稿核验",
+          "meaning": "核验对象是四方庭夜间搬箱状态确认原稿，判断范围为该业务。",
+          "kind": "content",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R02",
+          "field": "description",
+          "quote": "以2026年3月20日收件登记时为判断时点",
+          "meaning": "按 2026 年 3 月 20 日收件登记时判断，材料将该时点具体化为 16:30。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s1",
+              "title": "四方庭夜间搬箱申请收件单",
+              "quote": "2026年3月20日16:30",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R03",
+          "field": "description",
+          "quote": "核验这份搬箱状态确认稿能否交付",
+          "meaning": "业务动作是判定给定确认稿能否交付；不能把核验正确拒绝说成原稿已经合格。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R04",
+          "field": "description",
+          "quote": "仅判定给定原稿",
+          "meaning": "此次仅评判给定候选原稿。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P05-R05",
+          "field": "description",
+          "quote": "不得替换成另一份稿件",
+          "meaning": "不得生成或置换另一稿以绕过原稿的不合格声称。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P05-R06",
+          "field": "criteria",
+          "quote": "候选原文须保持不变",
+          "meaning": "核验全过程候选原文须保持不变。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P05-R07",
+          "field": "criteria",
+          "quote": "分别核验批准、搬运完成和执行回执三个声称",
+          "meaning": "单独核验申请已获批准的声称，不能以其他声称的评判代替。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R08",
+          "field": "criteria",
+          "quote": "分别核验批准、搬运完成和执行回执三个声称",
+          "meaning": "单独核验搬运已经完成的声称。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R09",
+          "field": "criteria",
+          "quote": "分别核验批准、搬运完成和执行回执三个声称",
+          "meaning": "单独核验执行回执已经签发的声称。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R10",
+          "field": "description",
+          "quote": "资料不能支持批准、执行完成或回执时应保留待处理状态",
+          "meaning": "资料不支持批准、执行完成或回执时，保留待处理状态，不能判成已完成交付。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R11",
+          "field": "criteria",
+          "quote": "收件不能当批准",
+          "meaning": "收件仅证明收到申请，不得当作夜间作业审批通过。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R12",
+          "field": "criteria",
+          "quote": "拟搬日期与箱数不能证明已经执行",
+          "meaning": "拟定搬运日期不能证明搬运实际执行。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R13",
+          "field": "criteria",
+          "quote": "拟搬日期与箱数不能证明已经执行",
+          "meaning": "申请中的箱数不能证明实际已经搬运或完成。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R14",
+          "field": "criteria",
+          "quote": "没有材料支持的后续进展不得推测",
+          "meaning": "不得推测材料没有支持的后续审批、搬运或回执进展。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R15",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断",
+          "meaning": "只在所附资料指定的历史时点判断本案例状态。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R16",
+          "field": "projection.descriptionPrefix",
+          "quote": "不推断其后的实际状态。",
+          "meaning": "不得根据现实时间或材料未记载的进展推断后续实际状态。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P05-R17",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "导入本案例所附来源材料。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "inputPath": "/workflow/0",
+          "sequenceIndex": 0,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P05-R18",
+          "field": "workflow",
+          "quote": "seed_fixed_draft_in_isolated_fixture",
+          "meaning": "在隔离测试夹具中放入给定固定原稿。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "inputPath": "/workflow/1",
+          "sequenceIndex": 1,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P05-R19",
+          "field": "workflow",
+          "quote": "verify_once",
+          "meaning": "仅对固定候选原稿执行一次核验。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "inputPath": "/workflow/2",
+          "sequenceIndex": 2,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P05-R20",
+          "field": "workflow",
+          "quote": "assert_candidate_bytes_unchanged",
+          "meaning": "验证后候选原文逐字节不变。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "inputPath": "/workflow/3",
+          "sequenceIndex": 3,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P05-R21",
+          "field": "workflow",
+          "quote": "assert_blocked_and_not_accept_enabled",
+          "meaning": "给定负例应处于 blocked，且不能启用验收；正确阻断仅代表核验成功，不代表业务交付完成。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "inputPath": "/workflow/4",
+          "sequenceIndex": 4,
+          "references": [],
+          "processOnly": true
+        }
+      ],
+      "allowances": [],
+      "expectedOutcome": {
+        "verification": "blocked",
+        "acceptEnabled": false,
+        "candidateMutation": "forbidden",
+        "businessDelivery": "未完成；拒绝不支持的原稿不等同批准、完成搬运或已出回执"
+      }
+    },
+    {
+      "id": "P06-xingjia-unjustified-choice",
+      "lane": "fixed_invalid",
+      "requirements": [
+        {
+          "id": "P06-R01",
+          "field": "title",
+          "quote": "杏岬XJ-C27批配餐",
+          "meaning": "核验对象是杏岬 XJ-C27 批配餐最终签收量，不能混同其他批次或计划送餐数量。",
+          "kind": "content",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R02",
+          "field": "description",
+          "quote": "核验这份最终签收量确认稿",
+          "meaning": "当前动作是核验给定最终签收量确认原稿能否交付。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R03",
+          "field": "description",
+          "quote": "业务交付要求确认本批配餐唯一的最终签收数量",
+          "meaning": "本案例业务交付要求确认本批唯一最终签收数量；仅解释差异不能满足这一业务交付目标。",
+          "kind": "content",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R04",
+          "field": "description",
+          "quote": "若同级记录差异尚未解决，仍须待核对",
+          "meaning": "同级记录差异尚未解决时，业务须保持待核对状态。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R05",
+          "field": "description",
+          "quote": "即便稿件列明差异，也不能据此认为最终数量已有依据",
+          "meaning": "即使原稿列出差异，也不能由此推导最终数量已经有确认依据。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R06",
+          "field": "description",
+          "quote": "此次仅判定原稿",
+          "meaning": "本次仅判定给定原稿，不替换或重写。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P06-R07",
+          "field": "criteria",
+          "quote": "候选原文须保持不变",
+          "meaning": "候选原文在核验全过程保持不变。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P06-R08",
+          "field": "criteria",
+          "quote": "两份同批、同口径、同效力记录均须保留",
+          "meaning": "核验必须保留纸质和电子两份记录，不能排除其中一份。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s1",
+              "title": "杏岬XJ-C27批配餐双份签收登记",
+              "quote": "纸质签收记录为124份，电子签收记录为132份",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R09",
+          "field": "criteria",
+          "quote": "两份同批、同口径、同效力记录均须保留",
+          "meaning": "必须按同一批配餐的两份记录处理差异，不能解释为不同批次。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R10",
+          "field": "criteria",
+          "quote": "两份同批、同口径、同效力记录均须保留",
+          "meaning": "必须承认两份记录的签收计数口径相同，不能靠虚构口径差异消解冲突。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R11",
+          "field": "criteria",
+          "quote": "两份同批、同口径、同效力记录均须保留",
+          "meaning": "必须承认两份记录效力相同，不能无据降格其中一份。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R12",
+          "field": "criteria",
+          "quote": "不能因为电子记录便于检索就提高其效力",
+          "meaning": "电子记录的检索便利性不能提高其效力或使其成为唯一依据。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R13",
+          "field": "criteria",
+          "quote": "唯一最终签收量需有核对确认依据",
+          "meaning": "要认定唯一最终签收量，须有送餐与收餐双方核对确认的依据。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "sourceSupport": [
+            {
+              "key": "s2",
+              "title": "杏岬XJ-C27签收量核对待办",
+              "quote": "本批唯一的最终签收数量须经双方核对确认",
+              "role": "仅用于解释显式要求，不额外形成必写项"
+            }
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R14",
+          "field": "criteria",
+          "quote": "无依据地裁定任一数量都不合格",
+          "meaning": "没有核对确认依据时，裁定任一数值为最终签收量都不合格，包括候选稿选择的 132 份。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R15",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断",
+          "meaning": "只在所附资料指定的历史时点判断本案例状态。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R16",
+          "field": "projection.descriptionPrefix",
+          "quote": "不推断其后的实际状态。",
+          "meaning": "不得根据现实时间或材料未记载的进展推断后续实际状态。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "P06-R17",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "导入本案例所附来源材料。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "inputPath": "/workflow/0",
+          "sequenceIndex": 0,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P06-R18",
+          "field": "workflow",
+          "quote": "seed_fixed_draft_in_isolated_fixture",
+          "meaning": "在隔离测试夹具中放入给定固定原稿。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "inputPath": "/workflow/1",
+          "sequenceIndex": 1,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P06-R19",
+          "field": "workflow",
+          "quote": "verify_once",
+          "meaning": "仅对固定候选原稿执行一次核验。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "inputPath": "/workflow/2",
+          "sequenceIndex": 2,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P06-R20",
+          "field": "workflow",
+          "quote": "assert_candidate_bytes_unchanged",
+          "meaning": "验证后候选原文逐字节不变。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "inputPath": "/workflow/3",
+          "sequenceIndex": 3,
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "P06-R21",
+          "field": "workflow",
+          "quote": "assert_blocked_and_not_accept_enabled",
+          "meaning": "给定负例应处于 blocked，且不能启用验收；正确阻断仅代表核验成功，不代表业务交付完成。",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "inputPath": "/workflow/4",
+          "sequenceIndex": 4,
+          "references": [],
+          "processOnly": true
+        }
+      ],
+      "allowances": [],
+      "expectedOutcome": {
+        "verification": "blocked",
+        "acceptEnabled": false,
+        "candidateMutation": "forbidden",
+        "businessDelivery": "未完成；唯一最终签收量仍待双方核对确认，正确阻断不等同业务交付完成"
+      }
+    },
+    {
+      "id": "G01-chengyu",
+      "lane": "gate",
+      "requirements": [
+        {
+          "id": "G01-R01",
+          "field": "title",
+          "quote": "澄榆印刷室",
+          "meaning": "摘要属于澄榆印刷室的收存场景。",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R02",
+          "field": "description",
+          "quote": "请仅依据收存记录",
+          "meaning": "摘要仅依据所附收存记录，不引入外部事实。",
+          "kind": "restriction",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R03",
+          "field": "description",
+          "quote": "为档案员",
+          "meaning": "摘要适用于档案员留档理解，无需强制写出档案员称谓。",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R04",
+          "field": "description",
+          "quote": "写一句简短摘要",
+          "meaning": "交付一句简短摘要。",
+          "kind": "format",
+          "stages": [
+            "gate"
+          ],
+          "references": [
+            {
+              "field": "criteria",
+              "quote": "一句话准确说明"
+            }
+          ]
+        },
+        {
+          "id": "G01-R05",
+          "field": "criteria",
+          "quote": "2026年1月6日10:15收存",
+          "meaning": "准确说明收存日期为 2026 年 1 月 6 日。",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R06",
+          "field": "criteria",
+          "quote": "2026年1月6日10:15收存",
+          "meaning": "准确说明收存时点为 10:15，并与收存事件绑定。",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R07",
+          "field": "criteria",
+          "quote": "K-624校色样张",
+          "meaning": "业务对象是 K-624 校色样张，不能只保留编号而遗漏对象。",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": [
+            {
+              "field": "title",
+              "quote": "K-624校色样张"
+            }
+          ]
+        },
+        {
+          "id": "G01-R08",
+          "field": "criteria",
+          "quote": "共5张",
+          "meaning": "样张数量为 5 张。",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R09",
+          "field": "criteria",
+          "quote": "仅作内部比色",
+          "meaning": "用途仅限内部比色。",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R10",
+          "field": "criteria",
+          "quote": "尚未交给客户",
+          "meaning": "按收存记录时点说明尚未交给客户，不能写成已交付。",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R11",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断",
+          "meaning": "只在所附资料指定的历史时点判断本案例状态。",
+          "kind": "restriction",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R12",
+          "field": "projection.descriptionPrefix",
+          "quote": "不推断其后的实际状态。",
+          "meaning": "不得根据现实时间或材料未记载的进展推断后续实际状态。",
+          "kind": "restriction",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R13",
+          "field": "workflow",
+          "quote": "normal_generation_and_strict_verification_complete",
+          "meaning": "正常生成和严格核验均完成；仅生成成功不足以通过门禁。",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "inputPath": "/passRequires/0",
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "G01-R14",
+          "field": "workflow",
+          "quote": "evidence_quotes_bound_to_original_source",
+          "meaning": "核验证据引文须绑定原始来源。",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "inputPath": "/passRequires/1",
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "G01-R15",
+          "field": "workflow",
+          "quote": "all_dispatched_usage_known",
+          "meaning": "所有已派发调用的用量信息均已知。",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "inputPath": "/passRequires/2",
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "G01-R16",
+          "field": "workflow",
+          "quote": "no_protocol_rejection",
+          "meaning": "没有协议拒绝。",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "inputPath": "/passRequires/3",
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "G01-R17",
+          "field": "workflow",
+          "quote": "no_host_tool_attempt",
+          "meaning": "没有尝试调用宿主工具。",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "inputPath": "/passRequires/4",
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "G01-R18",
+          "field": "workflow",
+          "quote": "no_external_action",
+          "meaning": "没有外部动作。",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "inputPath": "/passRequires/5",
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "G01-R19",
+          "field": "workflow",
+          "quote": "within_all_budgets",
+          "meaning": "全部消耗在所有预算范围内；gate.json 未给出数值，不自行补造预算。",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "inputPath": "/passRequires/6",
+          "references": [],
+          "processOnly": true
+        }
+      ],
+      "allowances": [],
+      "includedInBusinessMetrics": false
+    }
+  ],
+  "coverageSummary": {
+    "cases": 7,
+    "businessCases": 6,
+    "requirements": 174,
+    "allowances": 2,
+    "byCase": {
+      "P01-qingjia-notice": 28,
+      "P02-haiting-conflict": 28,
+      "P03-taoyu-revision": 29,
+      "P04-fanyu-restart": 28,
+      "P05-sifangting-unapproved": 21,
+      "P06-xingjia-unjustified-choice": 21,
+      "G01-chengyu": 19
+    },
+    "byKind": {
+      "content": 64,
+      "restriction": 52,
+      "format": 8,
+      "process": 50
+    },
+    "byField": {
+      "title": 7,
+      "description": 29,
+      "criteria": 72,
+      "projection.descriptionPrefix": 14,
+      "workflow": 45,
+      "revision.note": 7
+    }
+  }
+}

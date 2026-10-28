@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/coverage_independent_audit",
+  "approved": true,
+  "scope": "本轮离线要求覆盖修订、审计代码及唯一P01 source-only回放的独立复核。批准归档本轮审计结果，不代表产品发布、真实模型验收或安装更新通过。",
+  "coverageIdentity": "de9025239a22b0b51c9b5fefe7bb1dd1a5f9443829e05905287b61106bcdb42b",
+  "evidenceSha256": {
+    "coverage-review.json": "814618be176e7347b40f9c848f5f1725f21cdc542d25adeb5d5f7712c6f9eca6",
+    "../foundation-coverage/replay-notice.cjs": "b215923be0895c0923d02504b6200bce57257f3746db65e601a8a22ad74efe0a",
+    "../../docs/evidence/foundation-requirements-source-replay.json": "e191e65f10c596f0653a3b9fe8c159340018f8c23487279392e383b1091eaa08"
+  },
+  "verification": {
+    "completeOriginalRequirementsReviewed": 174,
+    "stageBindingsReviewed": 187,
+    "processRequirementsNotExecuted": 55,
+    "wholeReferencesReviewed": 8,
+    "qualifiedPositiveReferences": 6,
+    "fixedInvalidReferences": 2,
+    "independentlyRerunUnitTests": {
+      "passed": 8,
+      "failed": 0
+    },
+    "replayExecutionsByReviewer": 0,
+    "rootReplayResultsInspected": 1,
+    "realModelCalls": 0,
+    "applicationLifecycleRun": false,
+    "installedFilesUnchanged": 86,
+    "candidateFilesUnchanged": 86,
+    "historicalPacksUnchanged": 4,
+    "historicalFilesUnchanged": 47,
+    "groundingSha256": "687bf5f3078a86cd360cc0c6971f4e9edc9f672236910f623b7744f87b799310"
+  },
+  "auditCodeFindings": [],
+  "confirmedExistingProductLimitation": {
+    "caseId": "P01-qingjia-notice",
+    "qualifiedCorrectedReference": true,
+    "localVerifierPassed": false,
+    "soleIssue": "推断、建议或未知未在正文标明：n1",
+    "location": "desktop/grounding.cjs:98",
+    "explanation": "notificationTone的局部语法只接受以请开头并且没有分号的proposal。原样保留的n1是仅当起句、包含分号的条件通知，虽有完整原文引用且整稿经独立语义复核合格，仍被标记格式要求拦截。这证明一个局部误拦反例，不证明任意条件句都安全，也不能据此估计模型误拦率。"
+  },
+  "preservedBoundaries": [
+    "原封存P01仍缺少低温柜业务对象；本次另存参考稿不回写旧稿、旧失败或旧判分。",
+    "P03的revision.note只用于final，初稿未增加事后义务。",
+    "P05与P06候选原文未改，两份负例仍分别为无据完成及无据裁定，不能把局部满足或正确阻断当作业务交付成功。",
+    "P01回放使用合成groundingReview及整稿c1，n0与n1的proposal类别、文字、标点和源证据未变；本审核只解释本地确定性标记行为。",
+    "结构与哈希检查不替代独立语义审核；55条执行要求保持未执行，不产生流程完成率。",
+    "本轮未启动已安装应用、真实模型或正式主评测，未改产品规则，未覆盖安装。"
+  ],
+  "nextStep": "建议下一步仅明确表达标记疑义的有限处理契约：证据绑定与独立语义核验均满足时转为显式待人工确认，不得据此标记核验通过或自动完成验收。来源身份、逐字绑定、缺证、未解决冲突、独立核验不支持继续硬拦截；使用有限正负例验证分流，不继续增加句式词表或通用语义推断规则。该建议本轮尚未实施。",
+  "readyForLive": false,
+  "readyForInstall": false,
+  "finalArchiveAudit": {
+    "at": "2026-10-28T10:30:40.719Z",
+    "publicReplayByteIdentical": true,
+    "reportConclusionsAndLimitsChecked": true,
+    "nextStepIsUnimplementedManualConfirmationProposal": true,
+    "newModelCalls": 0,
+    "newReplayExecutions": 0
+  },
+  "reviewedFiles": [
+    {
+      "path": "docs/FOUNDATION_REQUIREMENTS_COVERAGE_20261028.md",
+      "sha256": "a4be58f22dce5fe5d03d7bcc85bd3f691d295347afee83c7bd24a8b9a2e40744"
+    },
+    {
+      "path": "docs/evidence/foundation-requirements-coverage-verification.json",
+      "sha256": "7e6c73adec01992f7ab14f802c3933372ab0be020ad70eb6e35e56a0a45eb8b8"
+    },
+    {
+      "path": "docs/evidence/foundation-requirements-source-replay.json",
+      "sha256": "e191e65f10c596f0653a3b9fe8c159340018f8c23487279392e383b1091eaa08"
+    },
+    {
+      "path": "evaluations/foundation-coverage/replay-notice.cjs",
+      "sha256": "b215923be0895c0923d02504b6200bce57257f3746db65e601a8a22ad74efe0a"
+    },
+    {
+      "path": "evaluations/foundation-coverage/validate.cjs",
+      "sha256": "c6f59c082c9ccc75081474add8981775afb0eda231b26483c70b6299b8d6bea1"
+    },
+    {
+      "path": "evaluations/foundation-coverage/validate.test.cjs",
+      "sha256": "ad66dcb9f2c4ddb3d61c1558d5af1d8df81882bc0a6ce59a94989ff6d9b06f87"
+    },
+    {
+      "path": "evaluations/foundation-requirements-regression-20261028/README.md",
+      "sha256": "5e67eddd53d61d631b4a4f851e107f7d3e2d696970584027317cafa491b51e53"
+    },
+    {
+      "path": "evaluations/foundation-requirements-regression-20261028/coverage-review.json",
+      "sha256": "814618be176e7347b40f9c848f5f1725f21cdc542d25adeb5d5f7712c6f9eca6"
+    },
+    {
+      "path": "evaluations/foundation-requirements-regression-20261028/coverage.json",
+      "sha256": "bc66450362690889a8ea2055bdc58c4e8ecbd7ec18b9adf3611f48ebecb2bd58"
+    },
+    {
+      "path": "evaluations/foundation-requirements-regression-20261028/metadata.json",
+      "sha256": "2f5f6053975129bc751d4d0936b7e023d19b6c94c052026c4411bc063db3f00a"
+    },
+    {
+      "path": "evaluations/foundation-requirements-regression-20261028/references.json",
+      "sha256": "e477b551c692469d1ac03b12c9467609fb1f547596b987c27161fc2f187ce1a9"
+    },
+    {
+      "path": "evaluations/foundation-requirements-regression-20261028/requirements.json",
+      "sha256": "3b5624864862ba31e3303b99164b98b584442108cda65d5496322f9886df774d"
+    }
+  ],
+  "reviewedFilesPathBase": "repository-root",
+  "approvedForUpload": true
+}

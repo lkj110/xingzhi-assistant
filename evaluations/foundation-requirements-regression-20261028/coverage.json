@@ -1,0 +1,2587 @@
+{
+  "schema": 1,
+  "bindings": [
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R01",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 2,
+          "quote": "清岬"
+        }
+      ],
+      "reason": "标题将场景指向清岬，正文未引入其他机构。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R02",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 26,
+          "end": 35,
+          "quote": "低温柜清洁预约通知"
+        },
+        {
+          "part": "content",
+          "start": 36,
+          "end": 54,
+          "quote": "本轮低温柜清洁仅面向上述夜班保管员。"
+        }
+      ],
+      "reason": "标题直接把低温柜清洁标为预约通知，正文说明本轮低温柜清洁的预约安排；业务对象明确。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R03",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "清岬本轮C组名册内且持活动当班有效通行证的夜班保管员低温柜清洁预约通知\n本轮低温柜清洁仅面向上述夜班保管员。请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。本通知按2026年1月22日预约单拟定，截至签发时清洁尚未执行。"
+        }
+      ],
+      "reason": "全文的对象、预约时段、通常地点、手套上限和未执行状态对应预约单 s1；合取改址规则对应附记 s2。文本没有追加两份记录以外的事实。此处是文本依据映射，不证明运行中已经导入来源。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R04",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 2,
+          "end": 26,
+          "quote": "本轮C组名册内且持活动当班有效通行证的夜班保管员"
+        },
+        {
+          "part": "content",
+          "start": 36,
+          "end": 54,
+          "quote": "本轮低温柜清洁仅面向上述夜班保管员。"
+        }
+      ],
+      "reason": "标题明确夜班保管员；正文“上述”回指带完整条件的标题对象，未扩大为所有保管员。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R05",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 2,
+          "end": 26,
+          "quote": "本轮C组名册内且持活动当班有效通行证的夜班保管员"
+        },
+        {
+          "part": "content",
+          "start": 36,
+          "end": 54,
+          "quote": "本轮低温柜清洁仅面向上述夜班保管员。"
+        }
+      ],
+      "reason": "“C组名册内”表达已经列入名册的成员条件，且与持证及夜班保管员身份共同限制同一对象；正文的“上述”沿用该交集。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R06",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 2,
+          "end": 26,
+          "quote": "本轮C组名册内且持活动当班有效通行证的夜班保管员"
+        },
+        {
+          "part": "content",
+          "start": 36,
+          "end": 54,
+          "quote": "本轮低温柜清洁仅面向上述夜班保管员。"
+        }
+      ],
+      "reason": "持证限制完整保留“活动当班有效”，以“且”与名册条件相连，正文沿用这一限定对象。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R07",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 2,
+          "end": 26,
+          "quote": "本轮C组名册内且持活动当班有效通行证的夜班保管员"
+        }
+      ],
+      "reason": "标题在同一名词短语中要求本轮 C 组名册内、持活动当班有效通行证、夜班保管员三项并存，没有使用任一条件即可参加的表述。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R08",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "清岬本轮C组名册内且持活动当班有效通行证的夜班保管员低温柜清洁预约通知\n本轮低温柜清洁仅面向上述夜班保管员。请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。本通知按2026年1月22日预约单拟定，截至签发时清洁尚未执行。"
+        }
+      ],
+      "reason": "“请于”“仅当……请改”是待执行安排；结尾把清洁未执行限定在预约单签发时，全文没有完成确认。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R09",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 54,
+          "end": 86,
+          "quote": "请于2026年1月25日21:10至21:35在柜区外缓冲间集结"
+        }
+      ],
+      "reason": "“请于”把 2026 年 1 月 25 日明确作为预约集结日。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R10",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 54,
+          "end": 86,
+          "quote": "请于2026年1月25日21:10至21:35在柜区外缓冲间集结"
+        }
+      ],
+      "reason": "同一预约句给出 21:10 至 21:35 的完整起止时段。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R11",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 54,
+          "end": 86,
+          "quote": "请于2026年1月25日21:10至21:35在柜区外缓冲间集结"
+        },
+        {
+          "part": "content",
+          "start": 128,
+          "end": 141,
+          "quote": "其他情况仍在柜区外缓冲间。"
+        }
+      ],
+      "reason": "先指明柜区外缓冲间集结，后明确未同时满足改址条件时仍在该处，保留通常地点的作用。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R12",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 98,
+          "end": 127,
+          "quote": "仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结"
+        }
+      ],
+      "reason": "B 档限定于“该次值班表”，作为条件从句的一部分，未断言当次已经是 B 档。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R13",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 98,
+          "end": 127,
+          "quote": "仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结"
+        }
+      ],
+      "reason": "主缓冲门封闭与 B 档通过“且”相连，是改址的另一条件，未表述为已发生事实。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R14",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 98,
+          "end": 141,
+          "quote": "仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。"
+        }
+      ],
+      "reason": "“仅当……且……时”要求两个条件共同成立；后文“其他情况仍”排除仅满足其中一个条件即改址的解读。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R15",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 98,
+          "end": 127,
+          "quote": "仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结"
+        }
+      ],
+      "reason": "北侧更衣间是双条件同时成立时才启用的备用集结处。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R16",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 98,
+          "end": 141,
+          "quote": "仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。"
+        }
+      ],
+      "reason": "同一句完整对应双条件、北侧更衣间及其他情况下的柜区外缓冲间，未把备用地点改成普遍地点。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R17",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 87,
+          "end": 98,
+          "quote": "手套每人最多领取2副。"
+        }
+      ],
+      "reason": "“手套每人最多领取2副”把分母限定为每个人，数量单位为手套副数。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R18",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 87,
+          "end": 98,
+          "quote": "手套每人最多领取2副。"
+        }
+      ],
+      "reason": "“最多”明确 2 副是单人领取上限，并非保证或要求领取的固定数。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R19",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "清岬本轮C组名册内且持活动当班有效通行证的夜班保管员低温柜清洁预约通知\n本轮低温柜清洁仅面向上述夜班保管员。请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。本通知按2026年1月22日预约单拟定，截至签发时清洁尚未执行。"
+        }
+      ],
+      "reason": "数量短语明确是手套的 2 副；结合全文没有把该数换算为 2 人或总人数。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R20",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "清岬本轮C组名册内且持活动当班有效通行证的夜班保管员低温柜清洁预约通知\n本轮低温柜清洁仅面向上述夜班保管员。请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。本通知按2026年1月22日预约单拟定，截至签发时清洁尚未执行。"
+        }
+      ],
+      "reason": "全文只使用“每人最多领取2副”的上限表达，没有强制每人固定领取 2 副。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R21",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "清岬本轮C组名册内且持活动当班有效通行证的夜班保管员低温柜清洁预约通知\n本轮低温柜清洁仅面向上述夜班保管员。请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。本通知按2026年1月22日预约单拟定，截至签发时清洁尚未执行。"
+        }
+      ],
+      "reason": "全文含标题共 173 个 UTF-16 码元，其中汉字 137 个；即使把全部字符计入也不超过 260，满足字数限制。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R22",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 141,
+          "end": 173,
+          "quote": "本通知按2026年1月22日预约单拟定，截至签发时清洁尚未执行。"
+        }
+      ],
+      "reason": "结尾以 2026 年 1 月 22 日预约单及“截至签发时”界定事实状态；1 月 25 日作为预约日期，没有把预约日当成已发生事件。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R23",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "清岬本轮C组名册内且持活动当班有效通行证的夜班保管员低温柜清洁预约通知\n本轮低温柜清洁仅面向上述夜班保管员。请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。本通知按2026年1月22日预约单拟定，截至签发时清洁尚未执行。"
+        }
+      ],
+      "reason": "全文将将来安排写成请求和条件，把未执行状态锚定签发时，没有根据现实日期推断清洁后来已做完或其他后续进展。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R24",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：导入本案例所附来源材料。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R25",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：创建本案例任务。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R26",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：按该步骤推进一次任务。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R27",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：核验最终稿的完整业务要求；流程到达审阅并不等于正文合格。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "requirementId": "P01-R28",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：在等待人工验收的状态停留，不擅自宣称已由人验收。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R01",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 11,
+          "quote": "海汀HT-L319炉次"
+        },
+        {
+          "part": "content",
+          "start": 59,
+          "end": 76,
+          "quote": "均针对HT-L319同炉次同批实物"
+        }
+      ],
+      "reason": "标题标明海汀 HT-L319 炉次，正文以同一编号继续说明，未串换炉次。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R02",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 11,
+          "end": 19,
+          "quote": "出窑净重差异说明"
+        },
+        {
+          "part": "content",
+          "start": 0,
+          "end": 157,
+          "quote": "海汀HT-L319炉次出窑净重差异说明\n截至2026年2月3日15:40，甲记录为36.8千克，乙记录为37.6千克，均针对HT-L319同炉次同批实物，已扣除托盘质量。两份记录复核时间相同、签认权限及效力相同，无优先、更正或撤回关系。准确净重尚不能确定，差异原因也未确认；待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "标题明确交付的是出窑净重差异说明，正文比较两份净重记录并解释准确值未定及后续待办。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R03",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 157,
+          "quote": "海汀HT-L319炉次出窑净重差异说明\n截至2026年2月3日15:40，甲记录为36.8千克，乙记录为37.6千克，均针对HT-L319同炉次同批实物，已扣除托盘质量。两份记录复核时间相同、签认权限及效力相同，无优先、更正或撤回关系。准确净重尚不能确定，差异原因也未确认；待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "标题后正文是一段连贯的记录差异、证据效力和归档待办说明，可用于归档理解；无需额外写出“归档员”称谓。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R04",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 37,
+          "end": 58,
+          "quote": "甲记录为36.8千克，乙记录为37.6千克"
+        },
+        {
+          "part": "content",
+          "start": 118,
+          "end": 127,
+          "quote": "准确净重尚不能确定"
+        }
+      ],
+      "reason": "甲、乙数值在同一句分别列明，后接准确净重未定，清楚揭示冲突而非只保留其中一份。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R05",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 37,
+          "end": 47,
+          "quote": "甲记录为36.8千克"
+        }
+      ],
+      "reason": "甲记录与 36.8 千克在同一短句绑定，没有交换甲乙数值或改变单位。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R06",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 48,
+          "end": 58,
+          "quote": "乙记录为37.6千克"
+        }
+      ],
+      "reason": "乙记录与 37.6 千克在同一短句绑定，没有交换甲乙数值或改变单位。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R07",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 59,
+          "end": 76,
+          "quote": "均针对HT-L319同炉次同批实物"
+        }
+      ],
+      "reason": "“均针对HT-L319同炉次”把两条数字限定到同一炉次。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R08",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 59,
+          "end": 76,
+          "quote": "均针对HT-L319同炉次同批实物"
+        }
+      ],
+      "reason": "“均针对……同批实物”排除两份记录针对不同物件批次的解释。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R09",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 59,
+          "end": 85,
+          "quote": "均针对HT-L319同炉次同批实物，已扣除托盘质量。"
+        }
+      ],
+      "reason": "“均针对”引出的两份记录共同采用“已扣除托盘质量”的净重口径，未将一份当成毛重。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R10",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 85,
+          "end": 105,
+          "quote": "两份记录复核时间相同、签认权限及效力相同"
+        }
+      ],
+      "reason": "文本直接说明两份记录复核时间相同。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R11",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 85,
+          "end": 105,
+          "quote": "两份记录复核时间相同、签认权限及效力相同"
+        }
+      ],
+      "reason": "文本把签认权限及效力均标为相同，没有人为升降任何一份记录。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R12",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 106,
+          "end": 118,
+          "quote": "无优先、更正或撤回关系。"
+        },
+        {
+          "part": "content",
+          "start": 118,
+          "end": 127,
+          "quote": "准确净重尚不能确定"
+        }
+      ],
+      "reason": "“无优先”明确不存在优先链，后文也没有裁定一份获胜。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R13",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 106,
+          "end": 118,
+          "quote": "无优先、更正或撤回关系。"
+        }
+      ],
+      "reason": "“无……更正……关系”明确一份未覆盖另一份，与准确值未定结论一致。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R14",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 118,
+          "end": 127,
+          "quote": "准确净重尚不能确定"
+        }
+      ],
+      "reason": "“准确净重尚不能确定”直接答复当前不能给出准确值；按题面允许以未定结束差异说明，不视未定本身为失败。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R15",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 137,
+          "end": 157,
+          "quote": "待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "“待另约复秤”明确仍需另约开展复秤。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R16",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 137,
+          "end": 157,
+          "quote": "待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "“并核对两份记录”与待另约复秤共享“待”的语气，说明核对也是后续待办。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R17",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 137,
+          "end": 157,
+          "quote": "待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "“待”及“尚未进行”双重确认复秤未执行，未由待办推得确认结果。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R18",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 157,
+          "quote": "海汀HT-L319炉次出窑净重差异说明\n截至2026年2月3日15:40，甲记录为36.8千克，乙记录为37.6千克，均针对HT-L319同炉次同批实物，已扣除托盘质量。两份记录复核时间相同、签认权限及效力相同，无优先、更正或撤回关系。准确净重尚不能确定，差异原因也未确认；待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "全文只列来源中的 36.8 和 37.6 千克，并明确准确值未定，没有计算平均数替代结果。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R19",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 157,
+          "quote": "海汀HT-L319炉次出窑净重差异说明\n截至2026年2月3日15:40，甲记录为36.8千克，乙记录为37.6千克，均针对HT-L319同炉次同批实物，已扣除托盘质量。两份记录复核时间相同、签认权限及效力相同，无优先、更正或撤回关系。准确净重尚不能确定，差异原因也未确认；待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "全文保留大小不同的两值而不择其一，准确值未定和待核对结论没有按大小裁决。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R20",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 157,
+          "quote": "海汀HT-L319炉次出窑净重差异说明\n截至2026年2月3日15:40，甲记录为36.8千克，乙记录为37.6千克，均针对HT-L319同炉次同批实物，已扣除托盘质量。两份记录复核时间相同、签认权限及效力相同，无优先、更正或撤回关系。准确净重尚不能确定，差异原因也未确认；待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "甲乙仅作为数值归属名称，全文以无优先及尚不能确定作结，没有依名称裁决。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R21",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 157,
+          "quote": "海汀HT-L319炉次出窑净重差异说明\n截至2026年2月3日15:40，甲记录为36.8千克，乙记录为37.6千克，均针对HT-L319同炉次同批实物，已扣除托盘质量。两份记录复核时间相同、签认权限及效力相同，无优先、更正或撤回关系。准确净重尚不能确定，差异原因也未确认；待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "全文含标题共 157 个 UTF-16 码元，其中汉字 110 个；即使把全部字符计入也不超过 240，满足字数限制。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R22",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 20,
+          "end": 36,
+          "quote": "截至2026年2月3日15:40"
+        },
+        {
+          "part": "content",
+          "start": 118,
+          "end": 157,
+          "quote": "准确净重尚不能确定，差异原因也未确认；待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "段首先用“截至2026年2月3日15:40”界定整段的记录与未知状态，待办没有被写为之后已发生的结果。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R23",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 157,
+          "quote": "海汀HT-L319炉次出窑净重差异说明\n截至2026年2月3日15:40，甲记录为36.8千克，乙记录为37.6千克，均针对HT-L319同炉次同批实物，已扣除托盘质量。两份记录复核时间相同、签认权限及效力相同，无优先、更正或撤回关系。准确净重尚不能确定，差异原因也未确认；待另约复秤并核对两份记录，复秤尚未进行。"
+        }
+      ],
+      "reason": "全文未推测后续复秤、纠正或准确值；将所有待办和未知状态保留在资料时点。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R24",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：导入本案例所附来源材料。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R25",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：创建本案例任务。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R26",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：按该步骤推进一次任务。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R27",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：核验最终稿的完整业务要求；流程到达审阅并不等于正文合格。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "requirementId": "P02-R28",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：在等待人工验收的状态停留，不擅自宣称已由人验收。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R01",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 22,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知"
+        }
+      ],
+      "reason": "标题指向桃屿馆本轮换签，正文持续使用本轮对象与该次预约，场景一致。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R01",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 22,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知"
+        }
+      ],
+      "reason": "标题指向桃屿馆本轮换签，正文持续使用本轮对象与该次预约，场景一致。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R02",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 8,
+          "end": 22,
+          "quote": "临时借阅证持有人换签预约通知"
+        },
+        {
+          "part": "content",
+          "start": 23,
+          "end": 40,
+          "quote": "本轮仅面向已登记的临时借阅证持有人"
+        }
+      ],
+      "reason": "标题完整包含临时借阅证、换签及预约通知，正文围绕该业务安排办理，未改换证件或业务对象。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R02",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 8,
+          "end": 22,
+          "quote": "临时借阅证持有人换签预约通知"
+        },
+        {
+          "part": "content",
+          "start": 25,
+          "end": 42,
+          "quote": "本轮仅面向已登记的临时借阅证持有人"
+        }
+      ],
+      "reason": "标题完整包含临时借阅证、换签及预约通知，正文围绕该业务安排办理，未改换证件或业务对象。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R03",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 3,
+          "end": 16,
+          "quote": "本轮已登记临时借阅证持有人"
+        },
+        {
+          "part": "content",
+          "start": 23,
+          "end": 40,
+          "quote": "本轮仅面向已登记的临时借阅证持有人"
+        }
+      ],
+      "reason": "标题与正文分别限定本轮已登记临时借阅证持有人；“仅面向”排除未登记者及其他人群。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R03",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 3,
+          "end": 16,
+          "quote": "本轮已登记临时借阅证持有人"
+        },
+        {
+          "part": "content",
+          "start": 25,
+          "end": 42,
+          "quote": "本轮仅面向已登记的临时借阅证持有人"
+        }
+      ],
+      "reason": "标题与正文分别限定本轮已登记临时借阅证持有人；“仅面向”排除未登记者及其他人群。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R04",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 3,
+          "end": 16,
+          "quote": "本轮已登记临时借阅证持有人"
+        }
+      ],
+      "reason": "标题自身包含“本轮”“已登记”“临时借阅证持有人”，没有依赖正文补全对象。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R04",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 3,
+          "end": 16,
+          "quote": "本轮已登记临时借阅证持有人"
+        }
+      ],
+      "reason": "标题自身包含“本轮”“已登记”“临时借阅证持有人”，没有依赖正文补全对象。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R05",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 23,
+          "end": 40,
+          "quote": "本轮仅面向已登记的临时借阅证持有人"
+        }
+      ],
+      "reason": "正文自身以“本轮仅面向已登记的临时借阅证持有人”完整限定受理对象，没有只靠标题。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R05",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 25,
+          "end": 42,
+          "quote": "本轮仅面向已登记的临时借阅证持有人"
+        }
+      ],
+      "reason": "正文自身以“本轮仅面向已登记的临时借阅证持有人”完整限定受理对象，没有只靠标题。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R06",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 41,
+          "end": 50,
+          "quote": "待换签共28张卡。"
+        }
+      ],
+      "reason": "“待换签”与“28张卡”直接绑定，数量指向待处理的卡片。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R06",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 43,
+          "end": 51,
+          "quote": "待换签28张卡；"
+        }
+      ],
+      "reason": "“待换签”与“28张卡”直接绑定，数量指向待处理的卡片。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R07",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 99,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知\n本轮仅面向已登记的临时借阅证持有人，待换签共28张卡。请于2026年2月14日到南厅4号窗口办理换签。截至2026年2月10日登记时，本轮换签尚未开始。"
+        }
+      ],
+      "reason": "全文只将 28 量化为卡片张数，没有把卡数换算为 28 位持有人。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R07",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 147,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知\n- 本轮仅面向已登记的临时借阅证持有人，待换签28张卡；截至2026年2月10日登记时尚未开始。\n- 请于2026年2月14日14:20至15:05到南厅4号窗口办理；须本人携旧卡，旧卡号码须与登记号吻合。\n- 无旧卡者只登记后续补办，不当场换签。"
+        }
+      ],
+      "reason": "全文只将 28 量化为卡片张数，没有把卡数换算为 28 位持有人。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R08",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 50,
+          "end": 74,
+          "quote": "请于2026年2月14日到南厅4号窗口办理换签。"
+        }
+      ],
+      "reason": "“请于”将 2026 年 2 月 14 日绑定为预约办理日。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R08",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 74,
+          "end": 107,
+          "quote": "请于2026年2月14日14:20至15:05到南厅4号窗口办理；"
+        }
+      ],
+      "reason": "“请于”将 2026 年 2 月 14 日绑定为预约办理日。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R09",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 50,
+          "end": 74,
+          "quote": "请于2026年2月14日到南厅4号窗口办理换签。"
+        }
+      ],
+      "reason": "同一预约办理句明确地点为南厅 4 号窗口。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R09",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 74,
+          "end": 107,
+          "quote": "请于2026年2月14日14:20至15:05到南厅4号窗口办理；"
+        }
+      ],
+      "reason": "同一预约办理句明确地点为南厅 4 号窗口。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R10",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 99,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知\n本轮仅面向已登记的临时借阅证持有人，待换签共28张卡。请于2026年2月14日到南厅4号窗口办理换签。截至2026年2月10日登记时，本轮换签尚未开始。"
+        }
+      ],
+      "reason": "预约句使用“请于”安排办理，历史状态说明登记时尚未开始；全文没有换签办完的断言。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R10",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 147,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知\n- 本轮仅面向已登记的临时借阅证持有人，待换签28张卡；截至2026年2月10日登记时尚未开始。\n- 请于2026年2月14日14:20至15:05到南厅4号窗口办理；须本人携旧卡，旧卡号码须与登记号吻合。\n- 无旧卡者只登记后续补办，不当场换签。"
+        }
+      ],
+      "reason": "预约句使用“请于”安排办理，历史状态说明登记时尚未开始；全文没有换签办完的断言。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R11",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 99,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知\n本轮仅面向已登记的临时借阅证持有人，待换签共28张卡。请于2026年2月14日到南厅4号窗口办理换签。截至2026年2月10日登记时，本轮换签尚未开始。"
+        }
+      ],
+      "reason": "全文含标题共 99 个 UTF-16 码元，其中汉字 76 个；即使把全部字符计入也不超过 200，满足字数限制。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R11",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 147,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知\n- 本轮仅面向已登记的临时借阅证持有人，待换签28张卡；截至2026年2月10日登记时尚未开始。\n- 请于2026年2月14日14:20至15:05到南厅4号窗口办理；须本人携旧卡，旧卡号码须与登记号吻合。\n- 无旧卡者只登记后续补办，不当场换签。"
+        }
+      ],
+      "reason": "全文含标题共 147 个 UTF-16 码元，其中汉字 103 个；即使把全部字符计入也不超过 200，满足字数限制。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R12",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 147,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知\n- 本轮仅面向已登记的临时借阅证持有人，待换签28张卡；截至2026年2月10日登记时尚未开始。\n- 请于2026年2月14日14:20至15:05到南厅4号窗口办理；须本人携旧卡，旧卡号码须与登记号吻合。\n- 无旧卡者只登记后续补办，不当场换签。"
+        }
+      ],
+      "reason": "标题之外正文由三个以“- ”开头的独立非空行构成，没有额外正文段或第四条；三条分别说明对象与状态、预约及旧卡条件、无旧卡处理。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R13",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 74,
+          "end": 107,
+          "quote": "请于2026年2月14日14:20至15:05到南厅4号窗口办理；"
+        }
+      ],
+      "reason": "最终稿在预约日期后连续给出 14:20 至 15:05 的完整办理时段。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R14",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 107,
+          "end": 126,
+          "quote": "须本人携旧卡，旧卡号码须与登记号吻合。"
+        }
+      ],
+      "reason": "“须本人携旧卡”中的“本人”限定持有人亲自办理，没有写成可代办。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R15",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 107,
+          "end": 126,
+          "quote": "须本人携旧卡，旧卡号码须与登记号吻合。"
+        }
+      ],
+      "reason": "“须本人携旧卡”将携带旧卡列为本人办理的必需条件。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R16",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 107,
+          "end": 126,
+          "quote": "须本人携旧卡，旧卡号码须与登记号吻合。"
+        }
+      ],
+      "reason": "“旧卡号码须与登记号吻合”明确号码匹配要求，不能仅凭带卡满足。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R17",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 129,
+          "end": 147,
+          "quote": "无旧卡者只登记后续补办，不当场换签。"
+        }
+      ],
+      "reason": "“只登记后续补办”把无旧卡者当前可办事项限为登记，未承诺当场补卡完成。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R18",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 129,
+          "end": 147,
+          "quote": "无旧卡者只登记后续补办，不当场换签。"
+        }
+      ],
+      "reason": "无旧卡处理同一句直接排除当场换签，并保留后续补办登记。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R19",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 74,
+          "end": 99,
+          "quote": "截至2026年2月10日登记时，本轮换签尚未开始。"
+        },
+        {
+          "part": "content",
+          "start": 50,
+          "end": 74,
+          "quote": "请于2026年2月14日到南厅4号窗口办理换签。"
+        }
+      ],
+      "reason": "以 2026 年 2 月 10 日登记时尚未开始界定事实；2 月 14 日仅是预约办理日期，不因现实时间较晚推得办理结果。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R19",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 51,
+          "end": 71,
+          "quote": "截至2026年2月10日登记时尚未开始。"
+        },
+        {
+          "part": "content",
+          "start": 74,
+          "end": 107,
+          "quote": "请于2026年2月14日14:20至15:05到南厅4号窗口办理；"
+        }
+      ],
+      "reason": "以 2026 年 2 月 10 日登记时尚未开始界定事实；2 月 14 日仅是预约办理日期，不因现实时间较晚推得办理结果。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R20",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 99,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知\n本轮仅面向已登记的临时借阅证持有人，待换签共28张卡。请于2026年2月14日到南厅4号窗口办理换签。截至2026年2月10日登记时，本轮换签尚未开始。"
+        }
+      ],
+      "reason": "全文仅描述记录时未开始及将来办理规则，没有断言后续已开始、完成或补办结果。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R20",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 147,
+          "quote": "桃屿馆本轮已登记临时借阅证持有人换签预约通知\n- 本轮仅面向已登记的临时借阅证持有人，待换签28张卡；截至2026年2月10日登记时尚未开始。\n- 请于2026年2月14日14:20至15:05到南厅4号窗口办理；须本人携旧卡，旧卡号码须与登记号吻合。\n- 无旧卡者只登记后续补办，不当场换签。"
+        }
+      ],
+      "reason": "全文仅描述记录时未开始及将来办理规则，没有断言后续已开始、完成或补办结果。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R21",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：导入本案例所附来源材料。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R22",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：创建本案例任务。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R23",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：按该步骤推进一次任务。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R24",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：记录修订前初稿的审阅状态。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R25",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：依据 revision 执行一次修订。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R26",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：按该步骤推进一次任务。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R27",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：修订后核验须基于新的稿件与验证依据，不能沿用旧验证结论。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R28",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：核验最终稿的完整业务要求；流程到达审阅并不等于正文合格。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "requirementId": "P03-R29",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：在等待人工验收的状态停留，不擅自宣称已由人验收。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R01",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 5,
+          "quote": "帆隅小剧场"
+        }
+      ],
+      "reason": "标题将历史检点资料归于帆隅小剧场，全文未混同其他场馆。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R02",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 162,
+          "quote": "帆隅小剧场东区2026年3月9日地板检点历史摘要\n2026年3月9日08:40，东区检查的12块布景地板中有2块边角翘起，仅能说明该区域此次检点。09:10封存的是记录页，不能理解为场地停用；17:00复检栏未填写，所附材料没有后续检查或修复记录，不能确认17:00或当前是否仍翘起、已经修复或情况未变，也不能推及其他区域。"
+        }
+      ],
+      "reason": "正文说明东区布景地板历史检点及档案证明边界，能支持布景组查阅旧档理解；受众称谓无需照写。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R03",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 162,
+          "quote": "帆隅小剧场东区2026年3月9日地板检点历史摘要\n2026年3月9日08:40，东区检查的12块布景地板中有2块边角翘起，仅能说明该区域此次检点。09:10封存的是记录页，不能理解为场地停用；17:00复检栏未填写，所附材料没有后续检查或修复记录，不能确认17:00或当前是否仍翘起、已经修复或情况未变，也不能推及其他区域。"
+        }
+      ],
+      "reason": "标题标为历史摘要，正文是一段历史结果与档案限制说明，不将所记情况当作当前场地报告。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R04",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 40,
+          "end": 73,
+          "quote": "东区检查的12块布景地板中有2块边角翘起，仅能说明该区域此次检点。"
+        }
+      ],
+      "reason": "“东区检查的12块布景地板”明确受检区域与对象，紧接“仅能说明该区域此次检点”，没有扩大为全场。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R05",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 40,
+          "end": 60,
+          "quote": "东区检查的12块布景地板中有2块边角翘起"
+        }
+      ],
+      "reason": "“东区检查的12块”明确 12 块是受检总数，而非异常数或全场总数。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R06",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 40,
+          "end": 60,
+          "quote": "东区检查的12块布景地板中有2块边角翘起"
+        }
+      ],
+      "reason": "“12块……中有2块边角翘起”同时保留受检分母、异常数量及边角翘起的异常类型。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R07",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 25,
+          "end": 73,
+          "quote": "2026年3月9日08:40，东区检查的12块布景地板中有2块边角翘起，仅能说明该区域此次检点。"
+        }
+      ],
+      "reason": "2026 年 3 月 9 日 08:40 与东区 12 块中 2 块翘起处于同一句；后半句限定此次检点，避免读成当前状态。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R08",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 25,
+          "end": 85,
+          "quote": "2026年3月9日08:40，东区检查的12块布景地板中有2块边角翘起，仅能说明该区域此次检点。09:10封存的是记录页"
+        }
+      ],
+      "reason": "该段从 3 月 9 日检点转入同一记录页的 09:10 封存，封存客体直接写为“记录页”，保留同日历史关系。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R09",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 73,
+          "end": 95,
+          "quote": "09:10封存的是记录页，不能理解为场地停用"
+        }
+      ],
+      "reason": "文本不但未推断停用，还明确“不能理解为场地停用”，区分封存档案与停用场地。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R10",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 96,
+          "end": 107,
+          "quote": "17:00复检栏未填写"
+        }
+      ],
+      "reason": "“17:00复检栏未填写”表达栏目空缺，没有以空缺推导有无异常。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R11",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 25,
+          "end": 73,
+          "quote": "2026年3月9日08:40，东区检查的12块布景地板中有2块边角翘起，仅能说明该区域此次检点。"
+        },
+        {
+          "part": "content",
+          "start": 108,
+          "end": 123,
+          "quote": "所附材料没有后续检查或修复记录"
+        }
+      ],
+      "reason": "“所附材料没有后续检查或修复记录”的“后续”承接 08:40 此次检点，清楚说明其后的检查与修复证据均缺失。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R12",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 108,
+          "end": 162,
+          "quote": "所附材料没有后续检查或修复记录，不能确认17:00或当前是否仍翘起、已经修复或情况未变，也不能推及其他区域。"
+        }
+      ],
+      "reason": "末句明确不能由该材料确认 17:00、当前或其他区域的状况，提供证据边界而非只列历史数字。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R13",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 61,
+          "end": 73,
+          "quote": "仅能说明该区域此次检点。"
+        },
+        {
+          "part": "content",
+          "start": 152,
+          "end": 162,
+          "quote": "也不能推及其他区域。"
+        }
+      ],
+      "reason": "“仅能说明该区域此次检点”及“也不能推及其他区域”共同排除外推，全文无其他区域状态断言。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R14",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 124,
+          "end": 151,
+          "quote": "不能确认17:00或当前是否仍翘起、已经修复或情况未变"
+        }
+      ],
+      "reason": "“不能确认17:00或当前是否仍翘起”明确两个时点均未知；并未因历史翘起就断言仍存在。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R15",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 108,
+          "end": 151,
+          "quote": "所附材料没有后续检查或修复记录，不能确认17:00或当前是否仍翘起、已经修复或情况未变"
+        }
+      ],
+      "reason": "“已经修复”处于“不能确认”的否定认识范围内，不是完成修复的事实断言；全文同时说明缺少修复记录。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R16",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 124,
+          "end": 151,
+          "quote": "不能确认17:00或当前是否仍翘起、已经修复或情况未变"
+        }
+      ],
+      "reason": "“情况未变”同样受“不能确认”限定，未把资料缺口解释为持续不变。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R17",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 162,
+          "quote": "帆隅小剧场东区2026年3月9日地板检点历史摘要\n2026年3月9日08:40，东区检查的12块布景地板中有2块边角翘起，仅能说明该区域此次检点。09:10封存的是记录页，不能理解为场地停用；17:00复检栏未填写，所附材料没有后续检查或修复记录，不能确认17:00或当前是否仍翘起、已经修复或情况未变，也不能推及其他区域。"
+        }
+      ],
+      "reason": "全文含标题共 162 个 UTF-16 码元，其中汉字 116 个；即使把全部字符计入也不超过 240，满足字数限制。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R18",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 162,
+          "quote": "帆隅小剧场东区2026年3月9日地板检点历史摘要\n2026年3月9日08:40，东区检查的12块布景地板中有2块边角翘起，仅能说明该区域此次检点。09:10封存的是记录页，不能理解为场地停用；17:00复检栏未填写，所附材料没有后续检查或修复记录，不能确认17:00或当前是否仍翘起、已经修复或情况未变，也不能推及其他区域。"
+        }
+      ],
+      "reason": "检点结果精确锚定 2026 年 3 月 9 日 08:40，同段的封存及空栏各自保留时间；后续与当前状况明确不可确认。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R19",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 162,
+          "quote": "帆隅小剧场东区2026年3月9日地板检点历史摘要\n2026年3月9日08:40，东区检查的12块布景地板中有2块边角翘起，仅能说明该区域此次检点。09:10封存的是记录页，不能理解为场地停用；17:00复检栏未填写，所附材料没有后续检查或修复记录，不能确认17:00或当前是否仍翘起、已经修复或情况未变，也不能推及其他区域。"
+        }
+      ],
+      "reason": "全文明确拒绝以旧档推定 17:00、当前或其他区域状态，未添加后续检查、修复或停用事实。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R20",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：导入本案例所附来源材料。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R21",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：创建本案例任务。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R22",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：推进前执行一次冷重启。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R23",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：冷重启本身不得触发模型派发。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R24",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：按该步骤推进一次任务。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R25",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：在审阅阶段执行一次冷重启。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R26",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：审阅阶段冷重启后保持同一稿件与核验信息。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R27",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：核验最终稿的完整业务要求；流程到达审阅并不等于正文合格。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "requirementId": "P04-R28",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：在等待人工验收的状态停留，不擅自宣称已由人验收。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R01",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 22,
+          "quote": "四方庭3月20日收件时夜间搬箱状态确认稿核验"
+        },
+        {
+          "part": "content",
+          "start": 38,
+          "end": 50,
+          "quote": "四方庭资料室夜间搬箱申请"
+        }
+      ],
+      "reason": "固定原稿标题及正文明确属于四方庭资料室夜间搬箱状态确认；此映射只确定业务对象，不认可其批准和完成声称。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R02",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 20,
+          "end": 37,
+          "quote": "截至2026年3月20日16:30"
+        }
+      ],
+      "reason": "原稿以“截至2026年3月20日16:30”给出与收件登记一致的判断时点；该时点被保留不代表其中的状态声称有依据。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R03",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：业务动作是判定给定确认稿能否交付；不能把核验正确拒绝说成原稿已经合格。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R04",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：此次仅评判给定候选原稿。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R05",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：不得生成或置换另一稿以绕过原稿的不合格声称。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R06",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：核验全过程候选原文须保持不变。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R07",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：单独核验申请已获批准的声称，不能以其他声称的评判代替。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R08",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：单独核验搬运已经完成的声称。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R09",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：单独核验执行回执已经签发的声称。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R10",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 38,
+          "end": 90,
+          "quote": "四方庭资料室夜间搬箱申请已获批准，18箱资料已全部从东储间搬至西储间，执行回执已经签发，搬运事项已完成。"
+        }
+      ],
+      "reason": "原稿同时断言获批、搬完、回执签发及事项完成；s1 明示收件时审批未过、尚未执行、无执行回执，故没有保留待处理状态。原稿仍为固定反例，不作修补。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R11",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 38,
+          "end": 54,
+          "quote": "四方庭资料室夜间搬箱申请已获批准"
+        }
+      ],
+      "reason": "原稿将申请写为“已获批准”；s1 仅证明收到申请且明确审批尚未通过，收件无法支撑批准声称。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R12",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 55,
+          "end": 72,
+          "quote": "18箱资料已全部从东储间搬至西储间"
+        },
+        {
+          "part": "content",
+          "start": 82,
+          "end": 89,
+          "quote": "搬运事项已完成"
+        }
+      ],
+      "reason": "原稿直接声称全部搬完及事项完成；s1 所给 3 月 23 日只是拟搬日期，并明确收件时尚未执行。原稿未写出以日期推论的过程，但其执行结论没有日期计划所能提供的证明。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R13",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 55,
+          "end": 72,
+          "quote": "18箱资料已全部从东储间搬至西储间"
+        }
+      ],
+      "reason": "“18箱资料已全部……搬至”把申请中的计划箱数写成已完成数量；s1 的 18 箱属于拟搬内容且明确未执行，不能支持实际完成。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R14",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 38,
+          "end": 90,
+          "quote": "四方庭资料室夜间搬箱申请已获批准，18箱资料已全部从东储间搬至西储间，执行回执已经签发，搬运事项已完成。"
+        }
+      ],
+      "reason": "原稿无材料支撑地增加获批、搬完、签发回执三类业务进展；s1 在同一判断时点分别否定这些进展，原稿没有保留资料边界。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R15",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 20,
+          "end": 37,
+          "quote": "截至2026年3月20日16:30"
+        }
+      ],
+      "reason": "原稿全部状态声称形式上锚定来源指定的 2026 年 3 月 20 日 16:30，没有改用现实日期或其他判断日；获批等事实错误分别列为预期违反，不能由此时点绑定推断全文合格。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R16",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 38,
+          "end": 90,
+          "quote": "四方庭资料室夜间搬箱申请已获批准，18箱资料已全部从东储间搬至西储间，执行回执已经签发，搬运事项已完成。"
+        }
+      ],
+      "reason": "原稿把未得到材料支持的审批、搬运及回执进展写为事实，超出来源给定状态；这些事实即便冠以原收件时点仍不成立，不以现实日期变化为它们补证。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R17",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：导入本案例所附来源材料。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R18",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：在隔离测试夹具中放入给定固定原稿。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R19",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：仅对固定候选原稿执行一次核验。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R20",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：验证后候选原文逐字节不变。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "requirementId": "P05-R21",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：给定负例应处于 blocked，且不能启用验收；正确阻断仅代表核验成功，不代表业务交付完成。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R01",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 18,
+          "quote": "杏岬XJ-C27批配餐最终签收量确认"
+        }
+      ],
+      "reason": "固定原稿第一行明确杏岬 XJ-C27 批配餐最终签收量，正文持续讨论本批签收份数；业务对象保留不表示最终数有依据。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R02",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：当前动作是核验给定最终签收量确认原稿能否交付。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R03",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 74,
+          "end": 81,
+          "quote": "双方尚未核对。"
+        },
+        {
+          "part": "content",
+          "start": 99,
+          "end": 116,
+          "quote": "本批最终签收数量已确定为132份。"
+        }
+      ],
+      "reason": "原稿虽然宣称最终为 132 份，却又承认双方尚未核对；s2 明确尚无最终确认记录，因此未有依据地完成唯一最终数量交付。正确判定该反例不等同已完成这项业务。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R04",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 74,
+          "end": 81,
+          "quote": "双方尚未核对。"
+        },
+        {
+          "part": "content",
+          "start": 99,
+          "end": 116,
+          "quote": "本批最终签收数量已确定为132份。"
+        }
+      ],
+      "reason": "“双方尚未核对”之后仍宣称最终数量已确定，把待核对业务写成完成确认；s2 要求经双方核对而当前仍待核对。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R05",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 36,
+          "end": 116,
+          "quote": "纸质记录为124份，电子记录为132份，两份记录的批次、计数口径和效力相同，双方尚未核对。电子记录便于检索，故应作为唯一依据；本批最终签收数量已确定为132份。"
+        }
+      ],
+      "reason": "原稿先披露 124 与 132 的差异，却紧接无效的唯一依据推论及最终确认；列出差异本身不产生 s2 要求的核对确认依据。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R06",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：本次仅判定给定原稿，不替换或重写。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R07",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：候选原文在核验全过程保持不变。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R08",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 36,
+          "end": 55,
+          "quote": "纸质记录为124份，电子记录为132份"
+        },
+        {
+          "part": "content",
+          "start": 81,
+          "end": 99,
+          "quote": "电子记录便于检索，故应作为唯一依据；"
+        }
+      ],
+      "reason": "原稿虽展示纸质 124 份和电子 132 份，随后把电子记录指定为“唯一依据”，在最终裁定中排除纸质记录；不满足两份同级记录均须保留的实质要求。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R09",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 56,
+          "end": 73,
+          "quote": "两份记录的批次、计数口径和效力相同"
+        }
+      ],
+      "reason": "原稿明确“两份记录的批次……相同”，且最终指向本批，未借不同批次消解差异；后续效力及裁决错误另列为预期违反。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R10",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 56,
+          "end": 73,
+          "quote": "两份记录的批次、计数口径和效力相同"
+        }
+      ],
+      "reason": "原稿明确两份记录计数口径相同，全文未虚构口径差异；这项局部限定不使无依据最终裁定成立。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R11",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 56,
+          "end": 73,
+          "quote": "两份记录的批次、计数口径和效力相同"
+        },
+        {
+          "part": "content",
+          "start": 81,
+          "end": 99,
+          "quote": "电子记录便于检索，故应作为唯一依据；"
+        }
+      ],
+      "reason": "原稿先写效力相同，后以检索便利把电子记录提升为唯一依据，实质降格纸质记录；不能只凭“效力相同”字样认定全文保留同等效力。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R12",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 81,
+          "end": 99,
+          "quote": "电子记录便于检索，故应作为唯一依据；"
+        }
+      ],
+      "reason": "“便于检索，故应作为唯一依据”直接把检索便利升级为效力优先，违反 s1 明确的无优先效力限制。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R13",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 74,
+          "end": 81,
+          "quote": "双方尚未核对。"
+        },
+        {
+          "part": "content",
+          "start": 99,
+          "end": 116,
+          "quote": "本批最终签收数量已确定为132份。"
+        }
+      ],
+      "reason": "原稿承认双方尚未核对，却直接确认 132 份；s2 要求双方核对确认且尚无确认记录，因此缺少最终签收量所需依据。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R14",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 81,
+          "end": 116,
+          "quote": "电子记录便于检索，故应作为唯一依据；本批最终签收数量已确定为132份。"
+        }
+      ],
+      "reason": "在同级差异未核对的情况下选择 132 份为最终值，正是无依据裁定；保留该固定错误用于核验，不能改选 124 或其他数修补。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R15",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 19,
+          "end": 35,
+          "quote": "截至2026年4月2日12:50"
+        }
+      ],
+      "reason": "原稿以来源归档时点 2026 年 4 月 2 日 12:50 为判断范围，没有改用现实日期；最终数量错误由其他要求独立标记。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R16",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 74,
+          "end": 81,
+          "quote": "双方尚未核对。"
+        },
+        {
+          "part": "content",
+          "start": 99,
+          "end": 116,
+          "quote": "本批最终签收数量已确定为132份。"
+        }
+      ],
+      "reason": "原稿在尚未核对的资料状态之外增加“最终签收数量已确定”这一无依据进展；无论冠以原时点还是借现实日期推测，都没有来源支持。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R17",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：导入本案例所附来源材料。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R18",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：在隔离测试夹具中放入给定固定原稿。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R19",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：仅对固定候选原稿执行一次核验。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R20",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：验证后候选原文逐字节不变。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "requirementId": "P06-R21",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：给定负例应处于 blocked，且不能启用验收；正确阻断仅代表核验成功，不代表业务交付完成。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R01",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 17,
+          "end": 35,
+          "quote": "澄榆印刷室收存K-624校色样张5张"
+        }
+      ],
+      "reason": "摘要直接指向澄榆印刷室收存事件，场景一致。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R02",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 50,
+          "quote": "截至2026年1月6日10:15，澄榆印刷室收存K-624校色样张5张，仅作内部比色，尚未交给客户。"
+        }
+      ],
+      "reason": "全文的时点、机构、样张编号、数量、内部用途及未交付状态都来自唯一收存记录，没有追加外部事实；此为文本依据映射，非运行证据绑定已完成的断言。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R03",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 50,
+          "quote": "截至2026年1月6日10:15，澄榆印刷室收存K-624校色样张5张，仅作内部比色，尚未交给客户。"
+        }
+      ],
+      "reason": "一句话同时保留档案辨识所需的收存时点、对象、数量、用途及交付状态，适于留档理解，无需称呼档案员。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R04",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 50,
+          "quote": "截至2026年1月6日10:15，澄榆印刷室收存K-624校色样张5张，仅作内部比色，尚未交给客户。"
+        }
+      ],
+      "reason": "正文只有一个以句号收束的简短句子，无第二句或列表，完成一句摘要的形式。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R05",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 35,
+          "quote": "截至2026年1月6日10:15，澄榆印刷室收存K-624校色样张5张"
+        }
+      ],
+      "reason": "日期 2026 年 1 月 6 日置于收存摘要的“截至”时点，后接收存事件，与来源日期一致。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R06",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 35,
+          "quote": "截至2026年1月6日10:15，澄榆印刷室收存K-624校色样张5张"
+        }
+      ],
+      "reason": "10:15 与日期合成同一收存时点，紧接澄榆印刷室收存事件，未误作为交付时刻。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R07",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 24,
+          "end": 35,
+          "quote": "K-624校色样张5张"
+        }
+      ],
+      "reason": "K-624 与“校色样张”连续出现，保留编号及实际业务对象。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R08",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 22,
+          "end": 35,
+          "quote": "收存K-624校色样张5张"
+        }
+      ],
+      "reason": "“收存K-624校色样张5张”明确样张数量与张数单位。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R09",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 36,
+          "end": 42,
+          "quote": "仅作内部比色"
+        }
+      ],
+      "reason": "“仅作内部比色”限定用途，没有扩大到外部使用或其他用途。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R10",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 43,
+          "end": 50,
+          "quote": "尚未交给客户。"
+        }
+      ],
+      "reason": "“尚未交给客户”在摘要历史时点范围内否定交付，未改成已交客户。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R11",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 16,
+          "quote": "截至2026年1月6日10:15"
+        },
+        {
+          "part": "content",
+          "start": 0,
+          "end": 50,
+          "quote": "截至2026年1月6日10:15，澄榆印刷室收存K-624校色样张5张，仅作内部比色，尚未交给客户。"
+        }
+      ],
+      "reason": "句首明确以 2026 年 1 月 6 日 10:15 为时点，所有状态均依附该收存记录。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R12",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 50,
+          "quote": "截至2026年1月6日10:15，澄榆印刷室收存K-624校色样张5张，仅作内部比色，尚未交给客户。"
+        }
+      ],
+      "reason": "整句没有后续交付或现实当前状态的推测，只保留所给历史时点的未交付状态。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R13",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：正常生成和严格核验均完成；仅生成成功不足以通过门禁。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R14",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：核验证据引文须绑定原始来源。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R15",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：所有已派发调用的用量信息均已知。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R16",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：没有协议拒绝。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R17",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：没有尝试调用宿主工具。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R18",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：没有外部动作。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    },
+    {
+      "caseId": "G01-chengyu",
+      "requirementId": "G01-R19",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "执行型要求：全部消耗在所有预算范围内；gate.json 未给出数值，不自行补造预算。本包只建立离线文本映射，未运行模型、应用或该工作流；未运行不等于已满足，须由相应运行证据另行确认。"
+    }
+  ]
+}

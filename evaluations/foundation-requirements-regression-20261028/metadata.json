@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "kind": "offline-requirement-coverage-regression",
+  "sourcePack": "foundation-notice-acceptance-20261028",
+  "sourceSealIdentity": "a168f20515e2a79061793f11a6a51b3298e340113f9e0b2b6a60d2ee90e3c8f4",
+  "offlineOnly": true,
+  "freshModelSamples": false,
+  "productChanges": false,
+  "modelCalls": 0
+}

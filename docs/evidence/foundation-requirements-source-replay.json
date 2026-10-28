@@ -1,0 +1,263 @@
+{
+  "schema": 1,
+  "at": "2026-10-28T10:23:22.683Z",
+  "scope": "one-source-only-local-marker-replay",
+  "caseId": "P01-qingjia-notice",
+  "validationIdentity": "de9025239a22b0b51c9b5fefe7bb1dd1a5f9443829e05905287b61106bcdb42b",
+  "independentReferenceQualified": true,
+  "reviewSha256": "814618be176e7347b40f9c848f5f1725f21cdc542d25adeb5d5f7712c6f9eca6",
+  "referenceSha256": "59fef8d09ccab3295484c1f7910c00bd7334fde4d79f09b8e8ef1c1310bcebb5",
+  "implementationSha256": "687bf5f3078a86cd360cc0c6971f4e9edc9f672236910f623b7744f87b799310",
+  "candidateModuleMatchesSource": true,
+  "sourceInputUnchanged": true,
+  "proposalTextAndKindsUnchanged": true,
+  "artifactUnchangedByVerifier": true,
+  "realModelCalls": 0,
+  "actualPackageLifecycleRun": false,
+  "passed": false,
+  "issues": [
+    "推断、建议或未知未在正文标明：n1"
+  ],
+  "artifact": {
+    "title": "清岬本轮C组名册内且持活动当班有效通行证的夜班保管员低温柜清洁预约通知",
+    "content": "清岬本轮C组名册内且持活动当班有效通行证的夜班保管员低温柜清洁预约通知\n本轮低温柜清洁仅面向上述夜班保管员。请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。本通知按2026年1月22日预约单拟定，截至签发时清洁尚未执行。"
+  },
+  "response": {
+    "passed": true,
+    "summary": "OFFLINE SYNTHETIC: independently qualified corrected reference",
+    "gaps": [],
+    "groundingReview": {
+      "format": "compact-v3",
+      "scannedArtifactIds": [
+        "qualified-notice-reference"
+      ],
+      "citations": [
+        {
+          "id": "e0",
+          "sourceId": "111571cd-0642-4b92-ab5b-91697199a93f",
+          "quote": "本附记与2026年1月22日清洁预约单一同生效。\n仅当该次值班表标为B档且主缓冲门封闭时，集结地点才改为北侧更衣间；其他情况仍在柜区外缓冲间。",
+          "start": 0
+        },
+        {
+          "id": "e1",
+          "sourceId": "7ec069d8-bcf9-4702-bd84-49807a2c3996",
+          "quote": "2026年1月22日签发：本轮低温柜清洁预约仅面向已列入C组名册且持活动当班有效通行证的夜班保管员。\n预约时段为2026年1月25日21:10至21:35，通常在柜区外缓冲间集结；手套领取上限为每人2副。\n截至签发时，清洁尚未执行。",
+          "start": 0
+        }
+      ],
+      "requirements": [
+        {
+          "id": "req:ab933ab63b9ad944",
+          "status": "satisfied",
+          "claimIds": [
+            "c1",
+            "n0",
+            "n1"
+          ]
+        },
+        {
+          "id": "req:8af55e251fca2abd",
+          "status": "satisfied",
+          "claimIds": [
+            "c1",
+            "n0",
+            "n1"
+          ]
+        },
+        {
+          "id": "req:c7ecf8b4a082148b",
+          "status": "satisfied",
+          "claimIds": [
+            "c1",
+            "n0",
+            "n1"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "id": "c1",
+          "artifactId": "qualified-notice-reference",
+          "text": "清岬本轮C组名册内且持活动当班有效通行证的夜班保管员低温柜清洁预约通知\n本轮低温柜清洁仅面向上述夜班保管员。请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。本通知按2026年1月22日预约单拟定，截至签发时清洁尚未执行。",
+          "kind": "fact",
+          "supported": true,
+          "citationIds": [
+            "e0",
+            "e1"
+          ]
+        },
+        {
+          "id": "n0",
+          "artifactId": "qualified-notice-reference",
+          "text": "请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。",
+          "kind": "proposal",
+          "supported": true,
+          "citationIds": [
+            "e0",
+            "e1"
+          ]
+        },
+        {
+          "id": "n1",
+          "artifactId": "qualified-notice-reference",
+          "text": "仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。",
+          "kind": "proposal",
+          "supported": true,
+          "citationIds": [
+            "e0",
+            "e1"
+          ]
+        }
+      ],
+      "unsupportedClaims": [],
+      "conflicts": []
+    }
+  },
+  "result": {
+    "passed": false,
+    "summary": "证据核验未通过：推断、建议或未知未在正文标明：n1",
+    "gaps": [
+      "推断、建议或未知未在正文标明：n1"
+    ],
+    "grounding": {
+      "version": 3,
+      "basis": "b6c774cc0baadc161f25e3ee053c7c81b8ed7ca06c4ccac3701adeb8da843c49",
+      "phase": "result",
+      "passed": false,
+      "requirements": [
+        {
+          "id": "req:ab933ab63b9ad944",
+          "kind": "objective",
+          "text": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。",
+          "status": "satisfied",
+          "reason": "已核对关联结论",
+          "claimIds": [
+            "c1",
+            "n0",
+            "n1"
+          ]
+        },
+        {
+          "id": "req:8af55e251fca2abd",
+          "kind": "objective",
+          "text": "请依据两份短记录，拟一份可发给本轮对象的低温柜清洁预约通知。通知标题也须体现完整对象限制，正文按待执行安排表达。",
+          "status": "satisfied",
+          "reason": "已核对关联结论",
+          "claimIds": [
+            "c1",
+            "n0",
+            "n1"
+          ]
+        },
+        {
+          "id": "req:c7ecf8b4a082148b",
+          "kind": "criteria",
+          "text": "仅面向已列入C组名册且持活动当班有效通行证的夜班保管员。写清2026年1月25日21:10至21:35、通常集结地点、变更地点须同时满足的两个条件及备用地点；手套领取量是每人最多2副，不能写成人数或固定领取数。不得确认清洁已经完成；不超过260个汉字。",
+          "status": "satisfied",
+          "reason": "已核对关联结论",
+          "claimIds": [
+            "c1",
+            "n0",
+            "n1"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "id": "c1",
+          "artifactId": "qualified-notice-reference",
+          "text": "清岬本轮C组名册内且持活动当班有效通行证的夜班保管员低温柜清洁预约通知\n本轮低温柜清洁仅面向上述夜班保管员。请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。本通知按2026年1月22日预约单拟定，截至签发时清洁尚未执行。",
+          "kind": "fact",
+          "reason": "已核对所列原文依据",
+          "citations": [
+            {
+              "sourceId": "111571cd-0642-4b92-ab5b-91697199a93f",
+              "title": "清岬清洁预约地点附记",
+              "version": "6414dd4535bb024e18172760b7c272ec5accba5a40c5a513db27e6973d81d8ec",
+              "start": 0,
+              "end": 71,
+              "quote": "本附记与2026年1月22日清洁预约单一同生效。\n仅当该次值班表标为B档且主缓冲门封闭时，集结地点才改为北侧更衣间；其他情况仍在柜区外缓冲间。"
+            },
+            {
+              "sourceId": "7ec069d8-bcf9-4702-bd84-49807a2c3996",
+              "title": "清岬标本库清洁预约单",
+              "version": "972a6c78bb8de0dfdc2fca1218237a8856a525b40103c3ea2e5503554594e281",
+              "start": 0,
+              "end": 116,
+              "quote": "2026年1月22日签发：本轮低温柜清洁预约仅面向已列入C组名册且持活动当班有效通行证的夜班保管员。\n预约时段为2026年1月25日21:10至21:35，通常在柜区外缓冲间集结；手套领取上限为每人2副。\n截至签发时，清洁尚未执行。"
+            }
+          ],
+          "citationIds": [
+            "e0",
+            "e1"
+          ]
+        },
+        {
+          "id": "n0",
+          "artifactId": "qualified-notice-reference",
+          "text": "请于2026年1月25日21:10至21:35在柜区外缓冲间集结，手套每人最多领取2副。",
+          "kind": "proposal",
+          "reason": "已核对所列原文依据",
+          "citations": [
+            {
+              "sourceId": "111571cd-0642-4b92-ab5b-91697199a93f",
+              "title": "清岬清洁预约地点附记",
+              "version": "6414dd4535bb024e18172760b7c272ec5accba5a40c5a513db27e6973d81d8ec",
+              "start": 0,
+              "end": 71,
+              "quote": "本附记与2026年1月22日清洁预约单一同生效。\n仅当该次值班表标为B档且主缓冲门封闭时，集结地点才改为北侧更衣间；其他情况仍在柜区外缓冲间。"
+            },
+            {
+              "sourceId": "7ec069d8-bcf9-4702-bd84-49807a2c3996",
+              "title": "清岬标本库清洁预约单",
+              "version": "972a6c78bb8de0dfdc2fca1218237a8856a525b40103c3ea2e5503554594e281",
+              "start": 0,
+              "end": 116,
+              "quote": "2026年1月22日签发：本轮低温柜清洁预约仅面向已列入C组名册且持活动当班有效通行证的夜班保管员。\n预约时段为2026年1月25日21:10至21:35，通常在柜区外缓冲间集结；手套领取上限为每人2副。\n截至签发时，清洁尚未执行。"
+            }
+          ],
+          "citationIds": [
+            "e0",
+            "e1"
+          ]
+        },
+        {
+          "id": "n1",
+          "artifactId": "qualified-notice-reference",
+          "text": "仅当该次值班表为B档且主缓冲门封闭时，请改在北侧更衣间集结；其他情况仍在柜区外缓冲间。",
+          "kind": "proposal",
+          "reason": "已核对所列原文依据",
+          "citations": [
+            {
+              "sourceId": "111571cd-0642-4b92-ab5b-91697199a93f",
+              "title": "清岬清洁预约地点附记",
+              "version": "6414dd4535bb024e18172760b7c272ec5accba5a40c5a513db27e6973d81d8ec",
+              "start": 0,
+              "end": 71,
+              "quote": "本附记与2026年1月22日清洁预约单一同生效。\n仅当该次值班表标为B档且主缓冲门封闭时，集结地点才改为北侧更衣间；其他情况仍在柜区外缓冲间。"
+            },
+            {
+              "sourceId": "7ec069d8-bcf9-4702-bd84-49807a2c3996",
+              "title": "清岬标本库清洁预约单",
+              "version": "972a6c78bb8de0dfdc2fca1218237a8856a525b40103c3ea2e5503554594e281",
+              "start": 0,
+              "end": 116,
+              "quote": "2026年1月22日签发：本轮低温柜清洁预约仅面向已列入C组名册且持活动当班有效通行证的夜班保管员。\n预约时段为2026年1月25日21:10至21:35，通常在柜区外缓冲间集结；手套领取上限为每人2副。\n截至签发时，清洁尚未执行。"
+            }
+          ],
+          "citationIds": [
+            "e0",
+            "e1"
+          ]
+        }
+      ],
+      "sourceConflicts": [],
+      "issues": [
+        "推断、建议或未知未在正文标明：n1"
+      ],
+      "at": "2026-10-28T10:23:22.683Z",
+      "reused": false,
+      "reportHash": "32509b243c6345b0068c10952684e08d7717ec49aadcdd8780d3cd433d3ca588"
+    }
+  }
+}

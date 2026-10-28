@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "at": "2026-10-28T10:25:58.640Z",
+  "scope": "offline-requirements-to-reference-coverage-and-one-local-marker-replay",
+  "productSourceChanged": false,
+  "installedCandidate": false,
+  "realModelCalls": 0,
+  "officialCliProbePerformed": false,
+  "fullPackageLifecycleRun": false,
+  "liveBudgetUsed": false,
+  "originalSamplePackUnchanged": true,
+  "originalFixedCandidatesUnchanged": true,
+  "referenceCorrection": {
+    "caseId": "P01-qingjia-notice",
+    "fieldsChanged": [
+      "reference title",
+      "reference first sentence"
+    ],
+    "meaning": "add the required low-temperature cabinet cleaning object",
+    "proposalTextAndPunctuationUnchanged": true
+  },
+  "coverage": {
+    "schema": 1,
+    "identity": "de9025239a22b0b51c9b5fefe7bb1dd1a5f9443829e05905287b61106bcdb42b",
+    "structuralPassed": true,
+    "semanticProof": false,
+    "requirements": 174,
+    "allowances": 2,
+    "bindings": 187,
+    "processOnly": 55,
+    "references": [
+      {
+        "caseId": "G01-chengyu",
+        "stage": "gate",
+        "negative": false,
+        "referenceSha256": "249d934f510e1668481d4f73db079890f6ed3a48caaa816f9edccdc481151f84"
+      },
+      {
+        "caseId": "P01-qingjia-notice",
+        "stage": "final",
+        "negative": false,
+        "referenceSha256": "59fef8d09ccab3295484c1f7910c00bd7334fde4d79f09b8e8ef1c1310bcebb5"
+      },
+      {
+        "caseId": "P02-haiting-conflict",
+        "stage": "final",
+        "negative": false,
+        "referenceSha256": "ad604fd35aea09041062d5f25bbbf250daa6b69c00620607ddc9d6b2107af033"
+      },
+      {
+        "caseId": "P03-taoyu-revision",
+        "stage": "initial",
+        "negative": false,
+        "referenceSha256": "2696038967e3aa719eeca589cb60c6ec60bd570d4a9e12fa834aa31e413e2efc"
+      },
+      {
+        "caseId": "P03-taoyu-revision",
+        "stage": "final",
+        "negative": false,
+        "referenceSha256": "3d83f866d7d10927ecbe04eaa7c65a8cfffb281a27c4a0fb8db8681c2bf971b4"
+      },
+      {
+        "caseId": "P04-fanyu-restart",
+        "stage": "final",
+        "negative": false,
+        "referenceSha256": "0ce2df56ef267e1a5c9e456deeccef52b4e6db58ac2bc0ce10cf178aca64ac11"
+      },
+      {
+        "caseId": "P05-sifangting-unapproved",
+        "stage": "fixed",
+        "negative": true,
+        "referenceSha256": "9771285a591cd56cbb2a72d61e0ab754480d0139831e1fcbd8c64b4dfef184e0"
+      },
+      {
+        "caseId": "P06-xingjia-unjustified-choice",
+        "stage": "fixed",
+        "negative": true,
+        "referenceSha256": "926c3136d870cc855b4b5aa1da0b55b7327e9b09a4610121e5a66b251e327789"
+      }
+    ],
+    "semanticReviewPassed": true,
+    "generatedReferencesQualified": true,
+    "fixedInvalidReferencesPreserved": true,
+    "readyForLocalReplay": true,
+    "readyForLive": false,
+    "coveredBindings": 117,
+    "expectedViolationBindings": 15,
+    "processOnlyBindings": 55,
+    "processChecksExecuted": false,
+    "positiveReferencesQualified": 6,
+    "fixedInvalidReferencesRemainUnqualified": 2
+  },
+  "unit": {
+    "tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0
+  },
+  "sourceReplay": {
+    "executions": 1,
+    "independentFullDraftQualified": true,
+    "currentSourceMatchesCandidateModule": true,
+    "passed": false,
+    "issues": [
+      "推断、建议或未知未在正文标明：n1"
+    ],
+    "proposalTextAndKindsUnchanged": true,
+    "localFalseBlockCounterexampleEstablished": true,
+    "wholeAppReadinessEstablished": false,
+    "modelErrorRateMeasured": false,
+    "modelTokensMeasured": false
+  },
+  "decision": {
+    "productRuleAdjustmentNeededForThisClass": true,
+    "scope": "local marker rule for otherwise independently qualified conditional notices",
+    "implemented": false,
+    "recommendation": "Decide once whether marker ambiguity requires explicit manual confirmation while evidence identity, exact quotes, missing support and unresolved conflicts continue to block; do not append syntax word lists or claim automatic semantic approval."
+  },
+  "evidenceSha256": {
+    "requirements": "3b5624864862ba31e3303b99164b98b584442108cda65d5496322f9886df774d",
+    "coverage": "bc66450362690889a8ea2055bdc58c4e8ecbd7ec18b9adf3611f48ebecb2bd58",
+    "references": "e477b551c692469d1ac03b12c9467609fb1f547596b987c27161fc2f187ce1a9",
+    "semanticReview": "814618be176e7347b40f9c848f5f1725f21cdc542d25adeb5d5f7712c6f9eca6",
+    "sourceReplay": "e191e65f10c596f0653a3b9fe8c159340018f8c23487279392e383b1091eaa08",
+    "unitLog": "baa7d72f1aa275f8ca0f8a6d0e35e786700443cfd423cfbaf4abbaea39f333ae"
+  }
+}

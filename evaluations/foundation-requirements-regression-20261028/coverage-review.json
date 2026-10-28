@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/coverage_independent_audit",
+  "identity": "de9025239a22b0b51c9b5fefe7bb1dd1a5f9443829e05905287b61106bcdb42b",
+  "approved": true,
+  "coverageComplete": true,
+  "inputRequirementsComplete": true,
+  "scope": "独立核对封存原输入及来源、174条要求、2条允许条件、187条分阶段映射、8篇完整参考稿，以及离线覆盖审计工具。仅批准本轮离线文本覆盖，不证明应用工作流或真实模型验收通过。",
+  "method": [
+    "先按原任务description、criteria、历史时点前缀、revision.note及workflow检查完整要求提取，再将各条要求的实质含义与整篇参考稿及来源逐项比较。",
+    "对否定、限定、条件合取、未知、历史时点和冲突裁定阅读上下文；原文位置及哈希只证明定位和版本一致，不替代语义判断。",
+    "人工复核全部187条映射的阶段、disposition、理由及引文，不因局部出现关键词或正文到达审阅而判整稿合格。",
+    "独立重跑8项单元回归，核实修改输入、清单、覆盖理由或参考稿会使既有审核失效；原P01缺对象版本不能使用修订版的绑定。"
+  ],
+  "counts": {
+    "requirements": 174,
+    "allowances": 2,
+    "bindings": 187,
+    "processOnly": 55,
+    "wholeReferences": 8,
+    "qualifiedReferences": 6,
+    "fixedInvalidReferences": 2,
+    "unitTestsPassed": 8,
+    "unitTestsFailed": 0,
+    "modelCalls": 0
+  },
+  "auditedFiles": {
+    "requirements.json": "3b5624864862ba31e3303b99164b98b584442108cda65d5496322f9886df774d",
+    "../foundation-coverage/validate.cjs": "c6f59c082c9ccc75081474add8981775afb0eda231b26483c70b6299b8d6bea1",
+    "../foundation-coverage/validate.test.cjs": "ad66dcb9f2c4ddb3d61c1558d5af1d8df81882bc0a6ce59a94989ff6d9b06f87"
+  },
+  "references": [
+    {
+      "caseId": "G01-chengyu",
+      "stage": "gate",
+      "referenceSha256": "249d934f510e1668481d4f73db079890f6ed3a48caaa816f9edccdc481151f84",
+      "qualified": true,
+      "reason": "一句摘要完整保留澄榆印刷室、K-624校色样张、5张、2026年1月6日10:15收存时点、仅内部比色及未交客户状态；没有追加外部事实或后续状态。门检调用、证据绑定及用量等运行要求仍未由本文证明。"
+    },
+    {
+      "caseId": "P01-qingjia-notice",
+      "stage": "final",
+      "referenceSha256": "59fef8d09ccab3295484c1f7910c00bd7334fde4d79f09b8e8ef1c1310bcebb5",
+      "qualified": true,
+      "reason": "修订稿明确低温柜清洁业务对象；标题包含C组名册、活动当班有效通行证、夜班保管员的完整交集，正文通过上述对象承接。日期、时段、通常地点、B档且主门封闭才改至北侧更衣间、其他情况原址、每人手套最多2副和签发时未执行均与两份来源一致，字数达标。条件句为待执行通知，不把条件当已发生事实，也不新增必须重复写对象的要求。旧稿缺对象结论仍保留。"
+    },
+    {
+      "caseId": "P02-haiting-conflict",
+      "stage": "final",
+      "referenceSha256": "ad604fd35aea09041062d5f25bbbf250daa6b69c00620607ddc9d6b2107af033",
+      "qualified": true,
+      "reason": "全文同时保留HT-L319出窑净重36.8与37.6千克、同炉同批净重口径、同级同时记录以及无优先更正关系；明确准确值未知、复秤及核对仍待办，没有按均值、大小或名称裁定。原输入允许未知结束差异说明，一段及字数要求均满足。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "stage": "initial",
+      "referenceSha256": "2696038967e3aa719eeca589cb60c6ec60bd570d4a9e12fa834aa31e413e2efc",
+      "qualified": true,
+      "reason": "初稿标题和正文分别完整限定本轮已登记临时借阅证持有人，明确28张卡而非人数、2月14日南厅4号窗口及2月10日登记时尚未开始，保持预约语气并满足200字限制。未把之后revision.note中的三条项目符号、时段及旧卡处理要求追溯加入初稿。"
+    },
+    {
+      "caseId": "P03-taoyu-revision",
+      "stage": "final",
+      "referenceSha256": "3d83f866d7d10927ecbe04eaa7c65a8cfffb281a27c4a0fb8db8681c2bf971b4",
+      "qualified": true,
+      "reason": "最终稿保留全部初始对象、28张卡、日期地点及预约状态限制；正文恰为三条项目符号，增加14:20至15:05、本人携旧卡、旧卡号与登记号吻合，以及无旧卡仅登记后续补办且不当场换签。全文未捏造号码不匹配时的处理，也未声称已经办理，字数达标。修订工作流和旧验证失效仍须另有运行证据。"
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "stage": "final",
+      "referenceSha256": "0ce2df56ef267e1a5c9e456deeccef52b4e6db58ac2bc0ce10cf178aca64ac11",
+      "qualified": true,
+      "reason": "全文将东区12块中2块边角翘起明确绑定2026年3月9日08:40，区分09:10记录页封存与场地停用，说明17:00复检空栏及无后续检查修复记录，并明确不能外推其他区域、17:00或当前仍异常、已修复或未变。为一段历史摘要且字数达标；两次冷重启及状态保持没有被当作已验证。"
+    },
+    {
+      "caseId": "P05-sifangting-unapproved",
+      "stage": "fixed",
+      "referenceSha256": "9771285a591cd56cbb2a72d61e0ab754480d0139831e1fcbd8c64b4dfef184e0",
+      "qualified": false,
+      "reason": "固定原稿虽保留四方庭搬箱对象和收件时点，却把收件与拟搬18箱无据写成审批已过、全部搬完、回执已发和事项完成；来源在同一时点明确否定这些进展。覆盖映射逐项保留预期违反，未修补原稿。正确判负仅能算核验成功，不能算业务交付完成。"
+    },
+    {
+      "caseId": "P06-xingjia-unjustified-choice",
+      "stage": "fixed",
+      "referenceSha256": "926c3136d870cc855b4b5aa1da0b55b7327e9b09a4610121e5a66b251e327789",
+      "qualified": false,
+      "reason": "固定原稿披露纸质124与电子132、同批同口径同效力及尚未核对，但随后仅因电子便于检索就将其升级为唯一依据并确认132为最终量；这仍缺少双方核对确认。不能因存在冲突披露或同效力字样就判全文合格。原稿和对应预期违反保持不变。"
+    }
+  ],
+  "findings": [],
+  "limitations": [
+    "本审核是绑定当前输入、清单、映射和参考稿版本的独立语义复核，不是数学完备性证明，也不是通用语义分类器。",
+    "55条process_only保持未执行。其中5条限制候选替换或要求全过程不变，属于运行约束；其余文本要求没有被隐藏为process_only。",
+    "旧封存P01失败及整稿缺对象的历史结论不得因本次另存参考稿而被改写。",
+    "本次数据已被阅读及修订，不得再称为未见过的新样本，也不得用于报告新真实模型幻觉率、误拦率或错误放行率。",
+    "仅允许root安排的一次P01 source-only局部回放；不允许由本审核自动运行应用、增加模型调用、放宽产品规则、发布或覆盖安装。"
+  ],
+  "readyForLive": false,
+  "readyForInstall": false
+}
