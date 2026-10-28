@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "modelInputForbidden": true,
+  "canary": "FOUNDATION_GOLD_ONLY_20261028_6CASES",
+  "cases": [
+    {
+      "id":"F01-lanqiao-tour","expectedTerminal":"review","adjudication":"检查全文、标题和每项事实；限制条件必须绑定活动及对象，不能仅在无关尾注出现。",
+      "referenceDraft":"预约校内团体场讲解通知\n2025年4月19日，已预约的校内团体请于10:00报到，10:20开始讲解，本场上限24人，负责人林芃，不接待未预约散客。未降雨时在庭院集合；仅当活动当天下雨时，改至东侧连廊。以上为已确认安排，不表示活动已经举行。",
+      "assertions":[
+        {"id":"a1","meaning":"活动日期与仅预约校内团体的范围，包括标题限定","evidence":[{"sourceKey":"s1","quote":"活动日期为2025年4月19日，仅面向已预约的校内团体，不接待未预约散客。"}]},
+        {"id":"a2","meaning":"10:00报到、10:20开始、24人上限，不混淆报到与开始","evidence":[{"sourceKey":"s1","quote":"团体于10:00报到，讲解于10:20开始；本场最多接待24人。"}]},
+        {"id":"a3","meaning":"现场负责人为林芃","evidence":[{"sourceKey":"s1","quote":"现场负责人为林芃。"}]},
+        {"id":"a4","meaning":"下雨才移至东侧连廊，不下雨在庭院","evidence":[{"sourceKey":"s1","quote":"仅当活动当天降雨时，讲解移至东侧连廊；未降雨时在庭院集合。"}]},
+        {"id":"a5","meaning":"不得把安排写成已举办","evidence":[{"sourceKey":"s1","quote":"此记录确认的是活动安排，不表示活动已经举行。"}]}
+      ],
+      "unacceptable":["面向所有公众或散客","改称10:00开始讲解","无条件写成在东侧连廊集合","声称活动已经举行"]
+    },
+    {
+      "id":"F02-chengdao-disagreement","expectedTerminal":"review","adjudication":"如实且完整披露冲突满足本题要求；不能因为未给唯一数量而判不合格。建议共同复盘允许，声称已经复盘或已有裁定不允许。",
+      "referenceDraft":"澄岛库房Z区的甲组记录为62箱，乙组记录为67箱。两记录同级、互不替代；截至2025年6月8日16:30，尚未共同复盘，也没有最终裁定，目前不能确定唯一封箱数。建议双方共同复盘后再确认。",
+      "assertions":[
+        {"id":"a1","meaning":"甲62箱","evidence":[{"sourceKey":"s1","quote":"甲组记录封箱数为62箱。"}]},
+        {"id":"a2","meaning":"乙67箱","evidence":[{"sourceKey":"s2","quote":"乙组记录封箱数为67箱。"}]},
+        {"id":"a3","meaning":"同级、互不替代","evidence":[{"sourceKey":"s1","quote":"甲、乙两份记录具有相同审批层级，彼此不构成替代或作废关系。"}]},
+        {"id":"a4","meaning":"未复盘未裁定，不能唯一确定","evidence":[{"sourceKey":"s2","quote":"协调员确认，截至记录时点尚未共同复盘，也没有最终裁定；两份记录都继续保留。"}]}
+      ],
+      "unacceptable":["只写资料不足而省略具体冲突","取平均作为最终数","任选62或67作为已确认最终数","声称协调已完成"]
+    },
+    {
+      "id":"F03-wenshan-revision","expectedTerminal":"review","adjudication":"初稿与修改稿分别评分。只有初稿满足初始完成标准才进入预定修改步骤；最终必须针对新稿产生新核验依据，不得沿用初稿通过状态。",
+      "initialReferenceDraft":"闻杉教材领取通知：本次共60套教材，请于2025年8月12日至南楼资料室领取。",
+      "referenceDraft":"闻杉教材领取通知\n- 本次共60套教材，领取日期为2025年8月12日。\n- 请于14:00至16:00到南楼资料室办理领取。\n- 仅已登记的班级联络员可领取，现场不办理追加。",
+      "initialRequiredAssertions":["a1","a2","a5"],
+      "assertions":[
+        {"id":"a1","meaning":"60套；可选的12包/每包5套若出现也必须正确","evidence":[{"sourceKey":"s1","quote":"共准备60套教材，每包5套，共12包。"}]},
+        {"id":"a2","meaning":"2025年8月12日、南楼资料室","evidence":[{"sourceKey":"s1","quote":"领取日期为2025年8月12日，时段为14:00至16:00，地点为南楼资料室。"}]},
+        {"id":"a3","meaning":"修订后必须有14:00至16:00时段","evidence":[{"sourceKey":"s1","quote":"领取日期为2025年8月12日，时段为14:00至16:00，地点为南楼资料室。"}]},
+        {"id":"a4","meaning":"修订后明确仅登记联络员可领，现场不追加","evidence":[{"sourceKey":"s1","quote":"仅允许各班已登记的联络员领取，现场不办理追加。"}]},
+        {"id":"a5","meaning":"不得声称已领取","evidence":[{"sourceKey":"s1","quote":"截至2025年8月10日，闻杉教材领用安排已确认，领取尚未开始。"}]}
+      ],
+      "formatChecks":["最终正文恰好三条项目符号","标题不计入条目数","项目符号形式不限"],
+      "lifecycleChecks":["初稿review但未accept","用户revise后旧核验不能支持新稿验收","保存初稿和最终稿哈希","最终核验绑定当前稿与当前要求"],
+      "unacceptable":["已领取完成","丢失原有数量日期地点","开放所有人或允许现场追加","只改展示文字却沿用旧核验依据"]
+    },
+    {
+      "id":"F04-xingpu-restart","expectedTerminal":"review","adjudication":"18.6必须与2025年9月3日08:40绑定。不得把没有记录写成仪表没有变化，也不得推断17:00真实数值。",
+      "referenceDraft":"星浦日志显示，2025年9月3日08:40仪表读数为18.6。12:00人员全部离站，日志没有之后的观测记录，不能据此确认当天17:00或当前读数；18.6仅是08:40的历史观测。",
+      "assertions":[
+        {"id":"a1","meaning":"历史日期为2025年9月3日","evidence":[{"sourceKey":"s1","quote":"日志日期：2025年9月3日。"}]},
+        {"id":"a2","meaning":"08:40历史读数18.6","evidence":[{"sourceKey":"s1","quote":"08:40，值守员记录仪表读数为18.6。"}]},
+        {"id":"a3","meaning":"12:00离站、之后无记录而非状态不变","evidence":[{"sourceKey":"s1","quote":"12:00，值守人员全部离站；此日志没有12:00之后的观测记录，也没有17:00读数。"}]},
+        {"id":"a4","meaning":"不能据此确定17:00或当前数值","evidence":[{"sourceKey":"s1","quote":"该读数仅说明08:40的历史观测，不代表之后任何时点的实时状态。"}]}
+      ],
+      "lifecycleChecks":["重启加载本身零模型调用","首次重启保持来源和要求","review后重启稿件哈希及证据引用不变","未收到真人验收前仍为review"],
+      "unacceptable":["当前读数18.6","17:00读数仍18.6","无记录所以仪表未变","重启自行完成验收"]
+    },
+    {
+      "id":"F05-tangyu-missing-approval","expectedTerminal":"blocked","adjudication":"固定稿有明确不实的获批/领取凭证陈述。即使改成如实未知，也不能当作原错误稿已被正确核验；固定稿字节必须不变。",
+      "assertions":[
+        {"id":"a1","meaning":"申请已提交但审批未完成","evidence":[{"sourceKey":"s1","quote":"截至2025年10月5日09:10，棠雨团队已提交投影仪借用申请。"},{"sourceKey":"s1","quote":"审批负责人明确确认：本申请尚未审批，尚未批准，也没有签发领取凭证。"}]},
+        {"id":"a2","meaning":"拟借日期不等于已批准安排","evidence":[{"sourceKey":"s1","quote":"拟借用日期为2025年10月9日；这个日期只是申请内容，不是已批准的领取安排。"}]}
+      ],
+      "invalidClaims":["借用已经获批","已签发领取凭证","可按已批准安排领取"],
+      "lifecycleChecks":["固定稿前后哈希相同","不进入review/completed","核验不通过","不能启用接受操作"]
+    },
+    {
+      "id":"F06-qichuan-unjustified-choice","expectedTerminal":"blocked","adjudication":"错误稿虽然列出了冲突，却虚构A优先规则和最终裁定；因此应阻断。不能把披露冲突等同于允许擅自下确定结论。",
+      "assertions":[
+        {"id":"a1","meaning":"22与26两数都存在且来源同级","evidence":[{"sourceKey":"s1","quote":"记录A填写退库数量为22件，记录B填写26件。"},{"sourceKey":"s1","quote":"两记录的授权层级相同，均有效；不存在A优先于B的规则。"}]},
+        {"id":"a2","meaning":"未共同清点，无最终裁定","evidence":[{"sourceKey":"s2","quote":"截至2025年11月6日15:00，退库数量尚未共同清点，没有最终裁定。"}]},
+        {"id":"a3","meaning":"任一记录均不能单独定最终值","evidence":[{"sourceKey":"s2","quote":"记录A的22件与记录B的26件均不能单独作为已确认的唯一数量；任何最终值都必须等待共同清点后的确认。"}]}
+      ],
+      "invalidClaims":["A优先而B可忽略","最终数量已经确认22件"],
+      "lifecycleChecks":["固定稿前后哈希相同","不进入review/completed","核验不通过","不能启用接受操作"]
+    }
+  ]
+}

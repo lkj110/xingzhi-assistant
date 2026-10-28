@@ -1,0 +1,1061 @@
+{
+  "method": "exact case-id and unique business-name marker search in listed local case files; not semantic novelty proof",
+  "cases": [
+    {
+      "caseId": "F01-lanqiao-tour",
+      "marker": "岚桥",
+      "matches": []
+    },
+    {
+      "caseId": "F02-chengdao-disagreement",
+      "marker": "澄岛",
+      "matches": []
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "marker": "闻杉",
+      "matches": []
+    },
+    {
+      "caseId": "F04-xingpu-restart",
+      "marker": "星浦",
+      "matches": []
+    },
+    {
+      "caseId": "F05-tangyu-missing-approval",
+      "marker": "棠雨",
+      "matches": []
+    },
+    {
+      "caseId": "F06-qichuan-unjustified-choice",
+      "marker": "绮川",
+      "matches": []
+    }
+  ],
+  "history": [
+    {
+      "path": "abcd-baseline/scripts/grounding-eval-cases.cjs",
+      "sha256": "bdb965bfd423d42a84c5b04b7281650b81f097b7ff2b29397c8c3cecee2d69cc"
+    },
+    {
+      "path": "abcd-baseline/scripts/grounding-v3-eval-cases.cjs",
+      "sha256": "765542e51d33fde68536926d6a6a3ac4f72e4b048fa0c87970394c0bcd817bbd"
+    },
+    {
+      "path": "abcd-baseline/scripts/grounding-v4-holdout-cases.cjs",
+      "sha256": "9c4e7a450f4a667623b8d772859a7920cd8e6a8578f046d24b51a319d66ff4a1"
+    },
+    {
+      "path": "abcd-baseline/scripts/grounding-v5-holdout-cases.cjs",
+      "sha256": "25c69a579b430ff930b264ee76aef54569ef870f6d2e87ff00423ea99b34713e"
+    },
+    {
+      "path": "abcd-baseline/scripts/protocol-v3-package-verify.cjs",
+      "sha256": "f0ce7bfa27cfd64185b7761c6a83c726882905cf02736308b9bd3e6dd4d2c1e0"
+    },
+    {
+      "path": "abcd-baseline/tests/access-policy-protocol-v3.test.cjs",
+      "sha256": "fd66600682c6988897b68b8b373a265a44b07f5e020d1487d9ddd1a98b0b6228"
+    },
+    {
+      "path": "abcd-baseline/tests/context-protocol-v3.test.cjs",
+      "sha256": "4243a7a6407f55a43c78e6de6d33bf80046f2f2589cf0a4daea572a7e2d6ebb3"
+    },
+    {
+      "path": "abcd-baseline/tests/deadline-protocol-v3.test.cjs",
+      "sha256": "6bf84f372e60013e946ce1e061cfaa30ee600d2789952a5cf6ba477ae85132ee"
+    },
+    {
+      "path": "abcd-baseline/tests/decisions-protocol-v3.test.cjs",
+      "sha256": "f2fc9594588f105d81567198ba23a07fb5bb6cf89986b820ac009494f8e823fe"
+    },
+    {
+      "path": "abcd-baseline/tests/helpers/windows-fixtures.cjs",
+      "sha256": "e5ce84dcd085f2ea381ed27450baa6735a5737d89773354d7ab52f41e81d3f6c"
+    },
+    {
+      "path": "abcd-baseline/tests/lifecycle-protocol-v3.test.cjs",
+      "sha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7"
+    },
+    {
+      "path": "abcd-baseline/tests/model-context-protocol-v3.test.cjs",
+      "sha256": "c094c7578668faae947cee465490690b79f156e647c809cffcc066dc052f5c99"
+    },
+    {
+      "path": "abcd-baseline/tests/platform-permission-protocol.test.cjs",
+      "sha256": "6734321e7f75ae0cae1a1ea869deafbf678c61845179610b705232fd38f0eb20"
+    },
+    {
+      "path": "abcd-baseline/tests/protocol-rule-policy.test.cjs",
+      "sha256": "bcd35422f01f3748a331a8922211496cb6fe760479b11c5405df2d114a19aafc"
+    },
+    {
+      "path": "abcd-baseline/tests/protocol-v3-independent-review.test.cjs",
+      "sha256": "ccd3ebc3b271e9507ae7d83ca08ef741da6c052d830bf5ba1e1812c40765a0c2"
+    },
+    {
+      "path": "abcd-baseline/tests/public-context-protocol-v3.test.cjs",
+      "sha256": "3544167764e9e0b522b5e6316bf827566e9fd8f8909758dc49b10124e498a7f2"
+    },
+    {
+      "path": "abcd-baseline/tests/revision-protocol.test.cjs",
+      "sha256": "949993eeabcd5e37b1ed42b727a46b1b4edf5c897fe80ad304aa04d6043fe582"
+    },
+    {
+      "path": "abcd-baseline/tests/subscription-protocol.test.cjs",
+      "sha256": "4df66778575508310f0766d2a54978f3e1be31736a972d36e8b9e58babf49dc1"
+    },
+    {
+      "path": "abcd-baseline/tests/tool-protocol.test.cjs",
+      "sha256": "7180748a07bd86cf8da8cba2959e70df269fadf8529c6ab3b4189900d4c75c03"
+    },
+    {
+      "path": "abcd-candidate/scripts/grounding-eval-cases.cjs",
+      "sha256": "bdb965bfd423d42a84c5b04b7281650b81f097b7ff2b29397c8c3cecee2d69cc"
+    },
+    {
+      "path": "abcd-candidate/scripts/grounding-v3-eval-cases.cjs",
+      "sha256": "765542e51d33fde68536926d6a6a3ac4f72e4b048fa0c87970394c0bcd817bbd"
+    },
+    {
+      "path": "abcd-candidate/scripts/grounding-v4-holdout-cases.cjs",
+      "sha256": "9c4e7a450f4a667623b8d772859a7920cd8e6a8578f046d24b51a319d66ff4a1"
+    },
+    {
+      "path": "abcd-candidate/scripts/grounding-v5-holdout-cases.cjs",
+      "sha256": "25c69a579b430ff930b264ee76aef54569ef870f6d2e87ff00423ea99b34713e"
+    },
+    {
+      "path": "abcd-candidate/scripts/protocol-v3-package-verify.cjs",
+      "sha256": "f0ce7bfa27cfd64185b7761c6a83c726882905cf02736308b9bd3e6dd4d2c1e0"
+    },
+    {
+      "path": "abcd-candidate/tests/access-policy-protocol-v3.test.cjs",
+      "sha256": "fd66600682c6988897b68b8b373a265a44b07f5e020d1487d9ddd1a98b0b6228"
+    },
+    {
+      "path": "abcd-candidate/tests/context-protocol-v3.test.cjs",
+      "sha256": "4243a7a6407f55a43c78e6de6d33bf80046f2f2589cf0a4daea572a7e2d6ebb3"
+    },
+    {
+      "path": "abcd-candidate/tests/deadline-protocol-v3.test.cjs",
+      "sha256": "6bf84f372e60013e946ce1e061cfaa30ee600d2789952a5cf6ba477ae85132ee"
+    },
+    {
+      "path": "abcd-candidate/tests/decisions-protocol-v3.test.cjs",
+      "sha256": "f2fc9594588f105d81567198ba23a07fb5bb6cf89986b820ac009494f8e823fe"
+    },
+    {
+      "path": "abcd-candidate/tests/helpers/windows-fixtures.cjs",
+      "sha256": "e5ce84dcd085f2ea381ed27450baa6735a5737d89773354d7ab52f41e81d3f6c"
+    },
+    {
+      "path": "abcd-candidate/tests/lifecycle-protocol-v3.test.cjs",
+      "sha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7"
+    },
+    {
+      "path": "abcd-candidate/tests/model-context-protocol-v3.test.cjs",
+      "sha256": "c094c7578668faae947cee465490690b79f156e647c809cffcc066dc052f5c99"
+    },
+    {
+      "path": "abcd-candidate/tests/platform-permission-protocol.test.cjs",
+      "sha256": "6734321e7f75ae0cae1a1ea869deafbf678c61845179610b705232fd38f0eb20"
+    },
+    {
+      "path": "abcd-candidate/tests/protocol-rule-policy.test.cjs",
+      "sha256": "bcd35422f01f3748a331a8922211496cb6fe760479b11c5405df2d114a19aafc"
+    },
+    {
+      "path": "abcd-candidate/tests/protocol-v3-independent-review.test.cjs",
+      "sha256": "ccd3ebc3b271e9507ae7d83ca08ef741da6c052d830bf5ba1e1812c40765a0c2"
+    },
+    {
+      "path": "abcd-candidate/tests/public-context-protocol-v3.test.cjs",
+      "sha256": "3544167764e9e0b522b5e6316bf827566e9fd8f8909758dc49b10124e498a7f2"
+    },
+    {
+      "path": "abcd-candidate/tests/revision-protocol.test.cjs",
+      "sha256": "949993eeabcd5e37b1ed42b727a46b1b4edf5c897fe80ad304aa04d6043fe582"
+    },
+    {
+      "path": "abcd-candidate/tests/subscription-protocol.test.cjs",
+      "sha256": "4df66778575508310f0766d2a54978f3e1be31736a972d36e8b9e58babf49dc1"
+    },
+    {
+      "path": "abcd-candidate/tests/tool-protocol.test.cjs",
+      "sha256": "7180748a07bd86cf8da8cba2959e70df269fadf8529c6ab3b4189900d4c75c03"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/docs/evaluations/abcd-readiness-r5b/gold.json",
+      "sha256": "f05ab1f0832c789f22a5cee6e52fac278d040b64c8d4c94cf6579a44291c734a"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/docs/evaluations/abcd-readiness-r5b/protocol.json",
+      "sha256": "3e0378568c92de396ef4ed0a982b953e50eee9843c9ad50ca24562da1313e23c"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/docs/evaluations/abcd-readiness-r5b/suite.json",
+      "sha256": "df69e405683b894114958c19803c8d6c7c2f8712d6c0e50612296fcac2d50adb"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/docs/evaluations/abcd-readiness-r6-live/gold.json",
+      "sha256": "38f5317d5ad72f75c88f593d33580bc7e64f55b6606be9f44ccad8efa1a11840"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/docs/evaluations/abcd-readiness-r6-live/protocol.json",
+      "sha256": "2541324a8e73f59d64bb16bbe5604f6a6dc030593a872f8d6733e7bd3835ee14"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/docs/evaluations/abcd-readiness-r6-live/suite.json",
+      "sha256": "a8642004c20bf46f5496301a4a246ea8855d975cfe12bf831285355d63b88b8f"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/docs/evaluations/abcd-readiness-r7-live/gold.json",
+      "sha256": "0260a68be5a4ca4e95e18fd74870eebb3f2950925e25b9f86f05dbd5febc3c0f"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/docs/evaluations/abcd-readiness-r7-live/protocol.json",
+      "sha256": "08d9c43a0bfc01c77fce2ac3df18c9aa81dde72a7ec99875366d6cff7920b68c"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/docs/evaluations/abcd-readiness-r7-live/suite.json",
+      "sha256": "bb3f6aecb1a0a57223e4464a58c889bb78036efd674c14a2cd2ed9d347e56344"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/scripts/grounding-eval-cases.cjs",
+      "sha256": "bdb965bfd423d42a84c5b04b7281650b81f097b7ff2b29397c8c3cecee2d69cc"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/scripts/grounding-v3-eval-cases.cjs",
+      "sha256": "765542e51d33fde68536926d6a6a3ac4f72e4b048fa0c87970394c0bcd817bbd"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/scripts/grounding-v4-holdout-cases.cjs",
+      "sha256": "9c4e7a450f4a667623b8d772859a7920cd8e6a8578f046d24b51a319d66ff4a1"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/scripts/grounding-v5-holdout-cases.cjs",
+      "sha256": "25c69a579b430ff930b264ee76aef54569ef870f6d2e87ff00423ea99b34713e"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/scripts/protocol-v3-package-verify.cjs",
+      "sha256": "f0ce7bfa27cfd64185b7761c6a83c726882905cf02736308b9bd3e6dd4d2c1e0"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/scripts/readiness/fixtures.cjs",
+      "sha256": "71e74e7c4065b1ff8dd196bdfa936c75b54234dea068db6832932831fc4ffeb2"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/scripts/verification-protocol-measure.cjs",
+      "sha256": "0e54772dea2754c07a72175462b7f6d1385d660168f6edb43e7133859141a85e"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/access-policy-protocol-v3.test.cjs",
+      "sha256": "fd66600682c6988897b68b8b373a265a44b07f5e020d1487d9ddd1a98b0b6228"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/context-protocol-v3.test.cjs",
+      "sha256": "4243a7a6407f55a43c78e6de6d33bf80046f2f2589cf0a4daea572a7e2d6ebb3"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/deadline-protocol-v3.test.cjs",
+      "sha256": "6bf84f372e60013e946ce1e061cfaa30ee600d2789952a5cf6ba477ae85132ee"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/decisions-protocol-v3.test.cjs",
+      "sha256": "f2fc9594588f105d81567198ba23a07fb5bb6cf89986b820ac009494f8e823fe"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/helpers/windows-fixtures.cjs",
+      "sha256": "e5ce84dcd085f2ea381ed27450baa6735a5737d89773354d7ab52f41e81d3f6c"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/lifecycle-protocol-v3.test.cjs",
+      "sha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/model-context-protocol-v3.test.cjs",
+      "sha256": "c094c7578668faae947cee465490690b79f156e647c809cffcc066dc052f5c99"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/platform-permission-protocol.test.cjs",
+      "sha256": "6734321e7f75ae0cae1a1ea869deafbf678c61845179610b705232fd38f0eb20"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/protocol-rule-policy.test.cjs",
+      "sha256": "bcd35422f01f3748a331a8922211496cb6fe760479b11c5405df2d114a19aafc"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/protocol-v3-independent-review.test.cjs",
+      "sha256": "ccd3ebc3b271e9507ae7d83ca08ef741da6c052d830bf5ba1e1812c40765a0c2"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/public-context-protocol-v3.test.cjs",
+      "sha256": "3544167764e9e0b522b5e6316bf827566e9fd8f8909758dc49b10124e498a7f2"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/revision-protocol.test.cjs",
+      "sha256": "949993eeabcd5e37b1ed42b727a46b1b4edf5c897fe80ad304aa04d6043fe582"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/subscription-protocol.test.cjs",
+      "sha256": "4df66778575508310f0766d2a54978f3e1be31736a972d36e8b9e58babf49dc1"
+    },
+    {
+      "path": "abcd-readiness-r10/baseline/tests/tool-protocol.test.cjs",
+      "sha256": "7180748a07bd86cf8da8cba2959e70df269fadf8529c6ab3b4189900d4c75c03"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/docs/evaluations/abcd-readiness-r5b/gold.json",
+      "sha256": "f05ab1f0832c789f22a5cee6e52fac278d040b64c8d4c94cf6579a44291c734a"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/docs/evaluations/abcd-readiness-r5b/protocol.json",
+      "sha256": "3e0378568c92de396ef4ed0a982b953e50eee9843c9ad50ca24562da1313e23c"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/docs/evaluations/abcd-readiness-r5b/suite.json",
+      "sha256": "df69e405683b894114958c19803c8d6c7c2f8712d6c0e50612296fcac2d50adb"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/docs/evaluations/abcd-readiness-r6-live/gold.json",
+      "sha256": "38f5317d5ad72f75c88f593d33580bc7e64f55b6606be9f44ccad8efa1a11840"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/docs/evaluations/abcd-readiness-r6-live/protocol.json",
+      "sha256": "2541324a8e73f59d64bb16bbe5604f6a6dc030593a872f8d6733e7bd3835ee14"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/docs/evaluations/abcd-readiness-r6-live/suite.json",
+      "sha256": "a8642004c20bf46f5496301a4a246ea8855d975cfe12bf831285355d63b88b8f"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/docs/evaluations/abcd-readiness-r7-live/gold.json",
+      "sha256": "0260a68be5a4ca4e95e18fd74870eebb3f2950925e25b9f86f05dbd5febc3c0f"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/docs/evaluations/abcd-readiness-r7-live/protocol.json",
+      "sha256": "08d9c43a0bfc01c77fce2ac3df18c9aa81dde72a7ec99875366d6cff7920b68c"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/docs/evaluations/abcd-readiness-r7-live/suite.json",
+      "sha256": "bb3f6aecb1a0a57223e4464a58c889bb78036efd674c14a2cd2ed9d347e56344"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/scripts/grounding-eval-cases.cjs",
+      "sha256": "bdb965bfd423d42a84c5b04b7281650b81f097b7ff2b29397c8c3cecee2d69cc"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/scripts/grounding-v3-eval-cases.cjs",
+      "sha256": "765542e51d33fde68536926d6a6a3ac4f72e4b048fa0c87970394c0bcd817bbd"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/scripts/grounding-v4-holdout-cases.cjs",
+      "sha256": "9c4e7a450f4a667623b8d772859a7920cd8e6a8578f046d24b51a319d66ff4a1"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/scripts/grounding-v5-holdout-cases.cjs",
+      "sha256": "25c69a579b430ff930b264ee76aef54569ef870f6d2e87ff00423ea99b34713e"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/scripts/protocol-v3-package-verify.cjs",
+      "sha256": "f0ce7bfa27cfd64185b7761c6a83c726882905cf02736308b9bd3e6dd4d2c1e0"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/scripts/readiness/fixtures.cjs",
+      "sha256": "71e74e7c4065b1ff8dd196bdfa936c75b54234dea068db6832932831fc4ffeb2"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/scripts/verification-protocol-measure.cjs",
+      "sha256": "f0a3aa8b077c1d11af7768ff13fef1aff8b086974ec688baaf78d85f9ba74a1f"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/access-policy-protocol-v3.test.cjs",
+      "sha256": "fd66600682c6988897b68b8b373a265a44b07f5e020d1487d9ddd1a98b0b6228"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/context-protocol-v3.test.cjs",
+      "sha256": "4243a7a6407f55a43c78e6de6d33bf80046f2f2589cf0a4daea572a7e2d6ebb3"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/deadline-protocol-v3.test.cjs",
+      "sha256": "6bf84f372e60013e946ce1e061cfaa30ee600d2789952a5cf6ba477ae85132ee"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/decisions-protocol-v3.test.cjs",
+      "sha256": "f2fc9594588f105d81567198ba23a07fb5bb6cf89986b820ac009494f8e823fe"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/helpers/windows-fixtures.cjs",
+      "sha256": "e5ce84dcd085f2ea381ed27450baa6735a5737d89773354d7ab52f41e81d3f6c"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/lifecycle-protocol-v3.test.cjs",
+      "sha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/model-context-protocol-v3.test.cjs",
+      "sha256": "c094c7578668faae947cee465490690b79f156e647c809cffcc066dc052f5c99"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/platform-permission-protocol.test.cjs",
+      "sha256": "6734321e7f75ae0cae1a1ea869deafbf678c61845179610b705232fd38f0eb20"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/protocol-rule-policy.test.cjs",
+      "sha256": "bcd35422f01f3748a331a8922211496cb6fe760479b11c5405df2d114a19aafc"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/protocol-v3-independent-review.test.cjs",
+      "sha256": "ccd3ebc3b271e9507ae7d83ca08ef741da6c052d830bf5ba1e1812c40765a0c2"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/public-context-protocol-v3.test.cjs",
+      "sha256": "3544167764e9e0b522b5e6316bf827566e9fd8f8909758dc49b10124e498a7f2"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/revision-protocol.test.cjs",
+      "sha256": "949993eeabcd5e37b1ed42b727a46b1b4edf5c897fe80ad304aa04d6043fe582"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/subscription-protocol.test.cjs",
+      "sha256": "4df66778575508310f0766d2a54978f3e1be31736a972d36e8b9e58babf49dc1"
+    },
+    {
+      "path": "abcd-readiness-r10/candidate/tests/tool-protocol.test.cjs",
+      "sha256": "7180748a07bd86cf8da8cba2959e70df269fadf8529c6ab3b4189900d4c75c03"
+    },
+    {
+      "path": "abcd-readiness-r10/fixtures.cjs",
+      "sha256": "71e74e7c4065b1ff8dd196bdfa936c75b54234dea068db6832932831fc4ffeb2"
+    },
+    {
+      "path": "abcd-readiness-r10/gold.json",
+      "sha256": "88862fb7581cbc16cde603c2c500b1a7c9ecf200a7e46a57d153038547ece4d1"
+    },
+    {
+      "path": "abcd-readiness-r10/holdout-history/v1/gold.json",
+      "sha256": "22a6c15809a929db378f0f4b67d73807fb3d1d4fd277289892d6f0b2686488a6"
+    },
+    {
+      "path": "abcd-readiness-r10/holdout-history/v1/suite.json",
+      "sha256": "f189da1948327b7b28938b63dd01752d800df92fac54d7580570ef35202f0556"
+    },
+    {
+      "path": "abcd-readiness-r10/protocol.json",
+      "sha256": "9f99ee9b37957757ac18e45216a8ade2c344f193b533a469b2d334b1c726f685"
+    },
+    {
+      "path": "abcd-readiness-r10/suite.json",
+      "sha256": "7fccd4c226ec7a2f42a9acfa6cff25abb1d63929b0c8db8b96040deef6825673"
+    },
+    {
+      "path": "abcd-readiness-r4/fixtures.cjs",
+      "sha256": "fff9eefb347ec23ae217a783aee45ca26f1da44a86146e734e0b00de6b4e84c1"
+    },
+    {
+      "path": "abcd-readiness-r4/gold.json",
+      "sha256": "e646b22194c245739234093d6665c6c68caec887d8a3dcdff98d222591742f0f"
+    },
+    {
+      "path": "abcd-readiness-r4/protocol.json",
+      "sha256": "e194016a5095c56c3eff9b2040e45c63c1061d262fae5365f8241f901a9de6f8"
+    },
+    {
+      "path": "abcd-readiness-r4/suite.json",
+      "sha256": "5a0a0a4556d35988c622d3d2996ab6d879d8cda5420212f2e27d6111332e828a"
+    },
+    {
+      "path": "abcd-readiness-r5/fixtures.cjs",
+      "sha256": "3cf8ffa9caef6c96ab5e33b4b3414c45503e0e8516689375602d59a125a65589"
+    },
+    {
+      "path": "abcd-readiness-r5/gold.json",
+      "sha256": "f6c4da2381ef95a04424e55c37e1163964ddc0847ddcbffe89b6fb87dc193d74"
+    },
+    {
+      "path": "abcd-readiness-r5/protocol.json",
+      "sha256": "3e0378568c92de396ef4ed0a982b953e50eee9843c9ad50ca24562da1313e23c"
+    },
+    {
+      "path": "abcd-readiness-r5/suite.json",
+      "sha256": "ac12d7e5993883a5f7de974679aad051e551bcb488013cc74d5ae9475891af23"
+    },
+    {
+      "path": "abcd-readiness-r5b/fixtures.cjs",
+      "sha256": "3cf8ffa9caef6c96ab5e33b4b3414c45503e0e8516689375602d59a125a65589"
+    },
+    {
+      "path": "abcd-readiness-r5b/gold.json",
+      "sha256": "f05ab1f0832c789f22a5cee6e52fac278d040b64c8d4c94cf6579a44291c734a"
+    },
+    {
+      "path": "abcd-readiness-r5b/protocol.json",
+      "sha256": "3e0378568c92de396ef4ed0a982b953e50eee9843c9ad50ca24562da1313e23c"
+    },
+    {
+      "path": "abcd-readiness-r5b/suite.json",
+      "sha256": "df69e405683b894114958c19803c8d6c7c2f8712d6c0e50612296fcac2d50adb"
+    },
+    {
+      "path": "abcd-readiness-r6/fixtures.cjs",
+      "sha256": "71e74e7c4065b1ff8dd196bdfa936c75b54234dea068db6832932831fc4ffeb2"
+    },
+    {
+      "path": "abcd-readiness-r6/gold.json",
+      "sha256": "38f5317d5ad72f75c88f593d33580bc7e64f55b6606be9f44ccad8efa1a11840"
+    },
+    {
+      "path": "abcd-readiness-r6/protocol.json",
+      "sha256": "eb8da09665db0ea9143db709eb187dd11af9450166a1ebae0d37a1dcec5983bb"
+    },
+    {
+      "path": "abcd-readiness-r6/suite.json",
+      "sha256": "a8642004c20bf46f5496301a4a246ea8855d975cfe12bf831285355d63b88b8f"
+    },
+    {
+      "path": "abcd-readiness-r7/fixtures.cjs",
+      "sha256": "71e74e7c4065b1ff8dd196bdfa936c75b54234dea068db6832932831fc4ffeb2"
+    },
+    {
+      "path": "abcd-readiness-r7/gold.json",
+      "sha256": "0260a68be5a4ca4e95e18fd74870eebb3f2950925e25b9f86f05dbd5febc3c0f"
+    },
+    {
+      "path": "abcd-readiness-r7/protocol.json",
+      "sha256": "08d9c43a0bfc01c77fce2ac3df18c9aa81dde72a7ec99875366d6cff7920b68c"
+    },
+    {
+      "path": "abcd-readiness-r7/suite.json",
+      "sha256": "bb3f6aecb1a0a57223e4464a58c889bb78036efd674c14a2cd2ed9d347e56344"
+    },
+    {
+      "path": "abcd-readiness-r8/fixtures.cjs",
+      "sha256": "71e74e7c4065b1ff8dd196bdfa936c75b54234dea068db6832932831fc4ffeb2"
+    },
+    {
+      "path": "abcd-readiness-r8/gold.json",
+      "sha256": "1a9790b75aec0a725e891f8c7d0659ab2c12c520bb62997e288e9c8e9f5657ed"
+    },
+    {
+      "path": "abcd-readiness-r8/protocol.json",
+      "sha256": "ca0b1232c0a4aa8b1560b0cb35eae466d757f83657d582d7b6a176a6e153640a"
+    },
+    {
+      "path": "abcd-readiness-r8/suite.json",
+      "sha256": "732bc707c566306b8df5bacfb168e24810b26d35457dc48af092189fed53831c"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/docs/evaluations/abcd-readiness-r5b/gold.json",
+      "sha256": "f05ab1f0832c789f22a5cee6e52fac278d040b64c8d4c94cf6579a44291c734a"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/docs/evaluations/abcd-readiness-r5b/protocol.json",
+      "sha256": "3e0378568c92de396ef4ed0a982b953e50eee9843c9ad50ca24562da1313e23c"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/docs/evaluations/abcd-readiness-r5b/suite.json",
+      "sha256": "df69e405683b894114958c19803c8d6c7c2f8712d6c0e50612296fcac2d50adb"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/docs/evaluations/abcd-readiness-r6-live/gold.json",
+      "sha256": "38f5317d5ad72f75c88f593d33580bc7e64f55b6606be9f44ccad8efa1a11840"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/docs/evaluations/abcd-readiness-r6-live/protocol.json",
+      "sha256": "2541324a8e73f59d64bb16bbe5604f6a6dc030593a872f8d6733e7bd3835ee14"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/docs/evaluations/abcd-readiness-r6-live/suite.json",
+      "sha256": "a8642004c20bf46f5496301a4a246ea8855d975cfe12bf831285355d63b88b8f"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/docs/evaluations/abcd-readiness-r7-live/gold.json",
+      "sha256": "0260a68be5a4ca4e95e18fd74870eebb3f2950925e25b9f86f05dbd5febc3c0f"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/docs/evaluations/abcd-readiness-r7-live/protocol.json",
+      "sha256": "08d9c43a0bfc01c77fce2ac3df18c9aa81dde72a7ec99875366d6cff7920b68c"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/docs/evaluations/abcd-readiness-r7-live/suite.json",
+      "sha256": "bb3f6aecb1a0a57223e4464a58c889bb78036efd674c14a2cd2ed9d347e56344"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/scripts/grounding-eval-cases.cjs",
+      "sha256": "bdb965bfd423d42a84c5b04b7281650b81f097b7ff2b29397c8c3cecee2d69cc"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/scripts/grounding-v3-eval-cases.cjs",
+      "sha256": "765542e51d33fde68536926d6a6a3ac4f72e4b048fa0c87970394c0bcd817bbd"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/scripts/grounding-v4-holdout-cases.cjs",
+      "sha256": "9c4e7a450f4a667623b8d772859a7920cd8e6a8578f046d24b51a319d66ff4a1"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/scripts/grounding-v5-holdout-cases.cjs",
+      "sha256": "25c69a579b430ff930b264ee76aef54569ef870f6d2e87ff00423ea99b34713e"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/scripts/protocol-v3-package-verify.cjs",
+      "sha256": "f0ce7bfa27cfd64185b7761c6a83c726882905cf02736308b9bd3e6dd4d2c1e0"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/scripts/readiness/fixtures.cjs",
+      "sha256": "71e74e7c4065b1ff8dd196bdfa936c75b54234dea068db6832932831fc4ffeb2"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/access-policy-protocol-v3.test.cjs",
+      "sha256": "fd66600682c6988897b68b8b373a265a44b07f5e020d1487d9ddd1a98b0b6228"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/context-protocol-v3.test.cjs",
+      "sha256": "4243a7a6407f55a43c78e6de6d33bf80046f2f2589cf0a4daea572a7e2d6ebb3"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/deadline-protocol-v3.test.cjs",
+      "sha256": "6bf84f372e60013e946ce1e061cfaa30ee600d2789952a5cf6ba477ae85132ee"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/decisions-protocol-v3.test.cjs",
+      "sha256": "f2fc9594588f105d81567198ba23a07fb5bb6cf89986b820ac009494f8e823fe"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/helpers/windows-fixtures.cjs",
+      "sha256": "e5ce84dcd085f2ea381ed27450baa6735a5737d89773354d7ab52f41e81d3f6c"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/lifecycle-protocol-v3.test.cjs",
+      "sha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/model-context-protocol-v3.test.cjs",
+      "sha256": "c094c7578668faae947cee465490690b79f156e647c809cffcc066dc052f5c99"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/platform-permission-protocol.test.cjs",
+      "sha256": "6734321e7f75ae0cae1a1ea869deafbf678c61845179610b705232fd38f0eb20"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/protocol-rule-policy.test.cjs",
+      "sha256": "bcd35422f01f3748a331a8922211496cb6fe760479b11c5405df2d114a19aafc"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/protocol-v3-independent-review.test.cjs",
+      "sha256": "ccd3ebc3b271e9507ae7d83ca08ef741da6c052d830bf5ba1e1812c40765a0c2"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/public-context-protocol-v3.test.cjs",
+      "sha256": "3544167764e9e0b522b5e6316bf827566e9fd8f8909758dc49b10124e498a7f2"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/revision-protocol.test.cjs",
+      "sha256": "949993eeabcd5e37b1ed42b727a46b1b4edf5c897fe80ad304aa04d6043fe582"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/subscription-protocol.test.cjs",
+      "sha256": "4df66778575508310f0766d2a54978f3e1be31736a972d36e8b9e58babf49dc1"
+    },
+    {
+      "path": "abcd-readiness-r9/baseline/tests/tool-protocol.test.cjs",
+      "sha256": "7180748a07bd86cf8da8cba2959e70df269fadf8529c6ab3b4189900d4c75c03"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/docs/evaluations/abcd-readiness-r5b/gold.json",
+      "sha256": "f05ab1f0832c789f22a5cee6e52fac278d040b64c8d4c94cf6579a44291c734a"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/docs/evaluations/abcd-readiness-r5b/protocol.json",
+      "sha256": "3e0378568c92de396ef4ed0a982b953e50eee9843c9ad50ca24562da1313e23c"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/docs/evaluations/abcd-readiness-r5b/suite.json",
+      "sha256": "df69e405683b894114958c19803c8d6c7c2f8712d6c0e50612296fcac2d50adb"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/docs/evaluations/abcd-readiness-r6-live/gold.json",
+      "sha256": "38f5317d5ad72f75c88f593d33580bc7e64f55b6606be9f44ccad8efa1a11840"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/docs/evaluations/abcd-readiness-r6-live/protocol.json",
+      "sha256": "2541324a8e73f59d64bb16bbe5604f6a6dc030593a872f8d6733e7bd3835ee14"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/docs/evaluations/abcd-readiness-r6-live/suite.json",
+      "sha256": "a8642004c20bf46f5496301a4a246ea8855d975cfe12bf831285355d63b88b8f"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/docs/evaluations/abcd-readiness-r7-live/gold.json",
+      "sha256": "0260a68be5a4ca4e95e18fd74870eebb3f2950925e25b9f86f05dbd5febc3c0f"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/docs/evaluations/abcd-readiness-r7-live/protocol.json",
+      "sha256": "08d9c43a0bfc01c77fce2ac3df18c9aa81dde72a7ec99875366d6cff7920b68c"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/docs/evaluations/abcd-readiness-r7-live/suite.json",
+      "sha256": "bb3f6aecb1a0a57223e4464a58c889bb78036efd674c14a2cd2ed9d347e56344"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/scripts/grounding-eval-cases.cjs",
+      "sha256": "bdb965bfd423d42a84c5b04b7281650b81f097b7ff2b29397c8c3cecee2d69cc"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/scripts/grounding-v3-eval-cases.cjs",
+      "sha256": "765542e51d33fde68536926d6a6a3ac4f72e4b048fa0c87970394c0bcd817bbd"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/scripts/grounding-v4-holdout-cases.cjs",
+      "sha256": "9c4e7a450f4a667623b8d772859a7920cd8e6a8578f046d24b51a319d66ff4a1"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/scripts/grounding-v5-holdout-cases.cjs",
+      "sha256": "25c69a579b430ff930b264ee76aef54569ef870f6d2e87ff00423ea99b34713e"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/scripts/protocol-v3-package-verify.cjs",
+      "sha256": "f0ce7bfa27cfd64185b7761c6a83c726882905cf02736308b9bd3e6dd4d2c1e0"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/scripts/readiness/fixtures.cjs",
+      "sha256": "71e74e7c4065b1ff8dd196bdfa936c75b54234dea068db6832932831fc4ffeb2"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/scripts/verification-protocol-measure.cjs",
+      "sha256": "0e54772dea2754c07a72175462b7f6d1385d660168f6edb43e7133859141a85e"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/access-policy-protocol-v3.test.cjs",
+      "sha256": "fd66600682c6988897b68b8b373a265a44b07f5e020d1487d9ddd1a98b0b6228"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/context-protocol-v3.test.cjs",
+      "sha256": "4243a7a6407f55a43c78e6de6d33bf80046f2f2589cf0a4daea572a7e2d6ebb3"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/deadline-protocol-v3.test.cjs",
+      "sha256": "6bf84f372e60013e946ce1e061cfaa30ee600d2789952a5cf6ba477ae85132ee"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/decisions-protocol-v3.test.cjs",
+      "sha256": "f2fc9594588f105d81567198ba23a07fb5bb6cf89986b820ac009494f8e823fe"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/helpers/windows-fixtures.cjs",
+      "sha256": "e5ce84dcd085f2ea381ed27450baa6735a5737d89773354d7ab52f41e81d3f6c"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/lifecycle-protocol-v3.test.cjs",
+      "sha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/model-context-protocol-v3.test.cjs",
+      "sha256": "c094c7578668faae947cee465490690b79f156e647c809cffcc066dc052f5c99"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/platform-permission-protocol.test.cjs",
+      "sha256": "6734321e7f75ae0cae1a1ea869deafbf678c61845179610b705232fd38f0eb20"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/protocol-rule-policy.test.cjs",
+      "sha256": "bcd35422f01f3748a331a8922211496cb6fe760479b11c5405df2d114a19aafc"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/protocol-v3-independent-review.test.cjs",
+      "sha256": "ccd3ebc3b271e9507ae7d83ca08ef741da6c052d830bf5ba1e1812c40765a0c2"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/public-context-protocol-v3.test.cjs",
+      "sha256": "3544167764e9e0b522b5e6316bf827566e9fd8f8909758dc49b10124e498a7f2"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/revision-protocol.test.cjs",
+      "sha256": "949993eeabcd5e37b1ed42b727a46b1b4edf5c897fe80ad304aa04d6043fe582"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/subscription-protocol.test.cjs",
+      "sha256": "4df66778575508310f0766d2a54978f3e1be31736a972d36e8b9e58babf49dc1"
+    },
+    {
+      "path": "abcd-readiness-r9/candidate/tests/tool-protocol.test.cjs",
+      "sha256": "7180748a07bd86cf8da8cba2959e70df269fadf8529c6ab3b4189900d4c75c03"
+    },
+    {
+      "path": "abcd-readiness-r9/fixtures.cjs",
+      "sha256": "71e74e7c4065b1ff8dd196bdfa936c75b54234dea068db6832932831fc4ffeb2"
+    },
+    {
+      "path": "abcd-readiness-r9/gold.json",
+      "sha256": "91ce17638f55fbb9886bc91d01a466d6ca65b113db38e145060b64758de73b3b"
+    },
+    {
+      "path": "abcd-readiness-r9/holdout-history/v1/gold.json",
+      "sha256": "5bf7f2a25700f71926c7a92da2957285e65b4b460e13b8823cc531c284cf2934"
+    },
+    {
+      "path": "abcd-readiness-r9/protocol.json",
+      "sha256": "a6650de21d4b9e5ea890c014e27213479df8cf898a9bbb32831106556ab5d5ae"
+    },
+    {
+      "path": "abcd-readiness-r9/suite.json",
+      "sha256": "edbdc4c0d7754f2dc8e40c5e4ddfe545bd9551bdc50fc800e3c8e7de800ff257"
+    },
+    {
+      "path": "abcd-repair/tests/access-policy-protocol-v3.test.cjs",
+      "sha256": "fd66600682c6988897b68b8b373a265a44b07f5e020d1487d9ddd1a98b0b6228"
+    },
+    {
+      "path": "abcd-repair/tests/context-protocol-v3.test.cjs",
+      "sha256": "4243a7a6407f55a43c78e6de6d33bf80046f2f2589cf0a4daea572a7e2d6ebb3"
+    },
+    {
+      "path": "abcd-repair/tests/deadline-protocol-v3.test.cjs",
+      "sha256": "6bf84f372e60013e946ce1e061cfaa30ee600d2789952a5cf6ba477ae85132ee"
+    },
+    {
+      "path": "abcd-repair/tests/decisions-protocol-v3.test.cjs",
+      "sha256": "f2fc9594588f105d81567198ba23a07fb5bb6cf89986b820ac009494f8e823fe"
+    },
+    {
+      "path": "abcd-repair/tests/helpers/windows-fixtures.cjs",
+      "sha256": "e5ce84dcd085f2ea381ed27450baa6735a5737d89773354d7ab52f41e81d3f6c"
+    },
+    {
+      "path": "abcd-repair/tests/lifecycle-protocol-v3.test.cjs",
+      "sha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7"
+    },
+    {
+      "path": "abcd-repair/tests/model-context-protocol-v3.test.cjs",
+      "sha256": "c094c7578668faae947cee465490690b79f156e647c809cffcc066dc052f5c99"
+    },
+    {
+      "path": "abcd-repair/tests/platform-permission-protocol.test.cjs",
+      "sha256": "6734321e7f75ae0cae1a1ea869deafbf678c61845179610b705232fd38f0eb20"
+    },
+    {
+      "path": "abcd-repair/tests/protocol-rule-policy.test.cjs",
+      "sha256": "bcd35422f01f3748a331a8922211496cb6fe760479b11c5405df2d114a19aafc"
+    },
+    {
+      "path": "abcd-repair/tests/protocol-v3-independent-review.test.cjs",
+      "sha256": "ccd3ebc3b271e9507ae7d83ca08ef741da6c052d830bf5ba1e1812c40765a0c2"
+    },
+    {
+      "path": "abcd-repair/tests/public-context-protocol-v3.test.cjs",
+      "sha256": "3544167764e9e0b522b5e6316bf827566e9fd8f8909758dc49b10124e498a7f2"
+    },
+    {
+      "path": "abcd-repair/tests/revision-protocol.test.cjs",
+      "sha256": "949993eeabcd5e37b1ed42b727a46b1b4edf5c897fe80ad304aa04d6043fe582"
+    },
+    {
+      "path": "abcd-repair/tests/subscription-protocol.test.cjs",
+      "sha256": "4df66778575508310f0766d2a54978f3e1be31736a972d36e8b9e58babf49dc1"
+    },
+    {
+      "path": "abcd-repair/tests/tool-protocol.test.cjs",
+      "sha256": "7180748a07bd86cf8da8cba2959e70df269fadf8529c6ab3b4189900d4c75c03"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/scripts/grounding-eval-cases.cjs",
+      "sha256": "bdb965bfd423d42a84c5b04b7281650b81f097b7ff2b29397c8c3cecee2d69cc"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/scripts/grounding-v3-eval-cases.cjs",
+      "sha256": "765542e51d33fde68536926d6a6a3ac4f72e4b048fa0c87970394c0bcd817bbd"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/scripts/grounding-v4-holdout-cases.cjs",
+      "sha256": "9c4e7a450f4a667623b8d772859a7920cd8e6a8578f046d24b51a319d66ff4a1"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/scripts/grounding-v5-holdout-cases.cjs",
+      "sha256": "25c69a579b430ff930b264ee76aef54569ef870f6d2e87ff00423ea99b34713e"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/scripts/protocol-v3-package-verify.cjs",
+      "sha256": "f0ce7bfa27cfd64185b7761c6a83c726882905cf02736308b9bd3e6dd4d2c1e0"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/access-policy-protocol-v3.test.cjs",
+      "sha256": "fd66600682c6988897b68b8b373a265a44b07f5e020d1487d9ddd1a98b0b6228"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/context-protocol-v3.test.cjs",
+      "sha256": "4243a7a6407f55a43c78e6de6d33bf80046f2f2589cf0a4daea572a7e2d6ebb3"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/deadline-protocol-v3.test.cjs",
+      "sha256": "6bf84f372e60013e946ce1e061cfaa30ee600d2789952a5cf6ba477ae85132ee"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/decisions-protocol-v3.test.cjs",
+      "sha256": "f2fc9594588f105d81567198ba23a07fb5bb6cf89986b820ac009494f8e823fe"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/helpers/windows-fixtures.cjs",
+      "sha256": "e5ce84dcd085f2ea381ed27450baa6735a5737d89773354d7ab52f41e81d3f6c"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/lifecycle-protocol-v3.test.cjs",
+      "sha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/model-context-protocol-v3.test.cjs",
+      "sha256": "c094c7578668faae947cee465490690b79f156e647c809cffcc066dc052f5c99"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/platform-permission-protocol.test.cjs",
+      "sha256": "6734321e7f75ae0cae1a1ea869deafbf678c61845179610b705232fd38f0eb20"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/protocol-rule-policy.test.cjs",
+      "sha256": "bcd35422f01f3748a331a8922211496cb6fe760479b11c5405df2d114a19aafc"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/protocol-v3-independent-review.test.cjs",
+      "sha256": "ccd3ebc3b271e9507ae7d83ca08ef741da6c052d830bf5ba1e1812c40765a0c2"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/public-context-protocol-v3.test.cjs",
+      "sha256": "3544167764e9e0b522b5e6316bf827566e9fd8f8909758dc49b10124e498a7f2"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/revision-protocol.test.cjs",
+      "sha256": "949993eeabcd5e37b1ed42b727a46b1b4edf5c897fe80ad304aa04d6043fe582"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/subscription-protocol.test.cjs",
+      "sha256": "4df66778575508310f0766d2a54978f3e1be31736a972d36e8b9e58babf49dc1"
+    },
+    {
+      "path": "abcd-round2/abcd-candidate/tests/tool-protocol.test.cjs",
+      "sha256": "7180748a07bd86cf8da8cba2959e70df269fadf8529c6ab3b4189900d4c75c03"
+    },
+    {
+      "path": "abcd-round2/development-probe-1-snapshot/protocol.json",
+      "sha256": "005dbee14dea1b37688e919f334947a9953dc6dc04445e903ee959501d4f3536"
+    },
+    {
+      "path": "abcd-round2/development-probe-2-snapshot/protocol.json",
+      "sha256": "005dbee14dea1b37688e919f334947a9953dc6dc04445e903ee959501d4f3536"
+    },
+    {
+      "path": "abcd-round2/development-probe-3-snapshot/protocol.json",
+      "sha256": "005dbee14dea1b37688e919f334947a9953dc6dc04445e903ee959501d4f3536"
+    },
+    {
+      "path": "abcd-round2/development-probe-4-snapshot/protocol.json",
+      "sha256": "005dbee14dea1b37688e919f334947a9953dc6dc04445e903ee959501d4f3536"
+    },
+    {
+      "path": "abcd-round2/protocol.json",
+      "sha256": "953afde15af40b0b986b8e5e2312e76c17e50445e958a5d0f128d37cfaef5d8e"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/scripts/grounding-eval-cases.cjs",
+      "sha256": "bdb965bfd423d42a84c5b04b7281650b81f097b7ff2b29397c8c3cecee2d69cc"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/scripts/grounding-v3-eval-cases.cjs",
+      "sha256": "765542e51d33fde68536926d6a6a3ac4f72e4b048fa0c87970394c0bcd817bbd"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/scripts/grounding-v4-holdout-cases.cjs",
+      "sha256": "9c4e7a450f4a667623b8d772859a7920cd8e6a8578f046d24b51a319d66ff4a1"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/scripts/grounding-v5-holdout-cases.cjs",
+      "sha256": "25c69a579b430ff930b264ee76aef54569ef870f6d2e87ff00423ea99b34713e"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/scripts/protocol-v3-package-verify.cjs",
+      "sha256": "f0ce7bfa27cfd64185b7761c6a83c726882905cf02736308b9bd3e6dd4d2c1e0"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/access-policy-protocol-v3.test.cjs",
+      "sha256": "fd66600682c6988897b68b8b373a265a44b07f5e020d1487d9ddd1a98b0b6228"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/context-protocol-v3.test.cjs",
+      "sha256": "4243a7a6407f55a43c78e6de6d33bf80046f2f2589cf0a4daea572a7e2d6ebb3"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/deadline-protocol-v3.test.cjs",
+      "sha256": "6bf84f372e60013e946ce1e061cfaa30ee600d2789952a5cf6ba477ae85132ee"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/decisions-protocol-v3.test.cjs",
+      "sha256": "f2fc9594588f105d81567198ba23a07fb5bb6cf89986b820ac009494f8e823fe"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/helpers/windows-fixtures.cjs",
+      "sha256": "e5ce84dcd085f2ea381ed27450baa6735a5737d89773354d7ab52f41e81d3f6c"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/lifecycle-protocol-v3.test.cjs",
+      "sha256": "3756587dca54a5b7146c7d2c2775d1f9a6d95c8ad41c02801193b20ccab3e2a7"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/model-context-protocol-v3.test.cjs",
+      "sha256": "c094c7578668faae947cee465490690b79f156e647c809cffcc066dc052f5c99"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/platform-permission-protocol.test.cjs",
+      "sha256": "6734321e7f75ae0cae1a1ea869deafbf678c61845179610b705232fd38f0eb20"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/protocol-rule-policy.test.cjs",
+      "sha256": "bcd35422f01f3748a331a8922211496cb6fe760479b11c5405df2d114a19aafc"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/protocol-v3-independent-review.test.cjs",
+      "sha256": "ccd3ebc3b271e9507ae7d83ca08ef741da6c052d830bf5ba1e1812c40765a0c2"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/public-context-protocol-v3.test.cjs",
+      "sha256": "3544167764e9e0b522b5e6316bf827566e9fd8f8909758dc49b10124e498a7f2"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/revision-protocol.test.cjs",
+      "sha256": "949993eeabcd5e37b1ed42b727a46b1b4edf5c897fe80ad304aa04d6043fe582"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/subscription-protocol.test.cjs",
+      "sha256": "4df66778575508310f0766d2a54978f3e1be31736a972d36e8b9e58babf49dc1"
+    },
+    {
+      "path": "abcd-round3/abcd-candidate/tests/tool-protocol.test.cjs",
+      "sha256": "7180748a07bd86cf8da8cba2959e70df269fadf8529c6ab3b4189900d4c75c03"
+    },
+    {
+      "path": "abcd-round3/abcd-holdout-gold.json",
+      "sha256": "c734fa76170ea7f3c9f05728d11c594d38fb467fbbe461fae74178c0d9a6608d"
+    },
+    {
+      "path": "abcd-round3/development-revision-suite.json",
+      "sha256": "7cf2ea7ef5cb8bc462a1c9fee3a03dae09f02f9571ec7410ff25d70377f31cf5"
+    },
+    {
+      "path": "abcd-round3/development-secondary-revision-suite.json",
+      "sha256": "11bfdc8052a3450d9aa8c4688a5121a3911a14eb7e4507e7752da3acad7680a5"
+    },
+    {
+      "path": "abcd-round3/protocol.json",
+      "sha256": "9d97787a8a17f3f52df38687a6f6aea116108733dd3825b44ac83f67c2d56c9f"
+    },
+    {
+      "path": "abcd-round3/update-protocol.cjs",
+      "sha256": "4400dadbce301c3805429c54c93e50c115fe44fbcc3bcbfc0cd6d598f5cda834"
+    },
+    {
+      "path": "grounding-live-eval-A/implementation-snapshot/scripts/grounding-eval-cases.cjs",
+      "sha256": "bdb965bfd423d42a84c5b04b7281650b81f097b7ff2b29397c8c3cecee2d69cc"
+    },
+    {
+      "path": "grounding-live-eval-B/implementation-snapshot/scripts/grounding-eval-cases.cjs",
+      "sha256": "bdb965bfd423d42a84c5b04b7281650b81f097b7ff2b29397c8c3cecee2d69cc"
+    }
+  ]
+}

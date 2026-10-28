@@ -1,0 +1,123 @@
+{
+  "reviewer": "foundation_offline_review",
+  "date": "2026-10-28",
+  "package": "foundation-acceptance-20261028",
+  "preparationRevision": 4,
+  "sealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "sealFileSha256": "184d75e6befab9d87386826966d4820f59868fa5b3f73a78014afc14350c05c4",
+  "approvedForPreparationSeal": true,
+  "approvedForLiveExecution": false,
+  "liveExecutionReady": false,
+  "newBudgetAuthorized": false,
+  "liveModelCallsByReviewer": 0,
+  "productionChanged": false,
+  "installedAsarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+  "remainingBlockingFindings": [],
+  "resolvedFindings": [
+    {
+      "priority": "P2",
+      "issue": "Seal verification omitted aggregate identity, exact file inventory and authorization checks",
+      "resolution": "Exact nine-file inventory, recomputed identity, liveAuthorized=false and liveModelCalls=0 are verified"
+    },
+    {
+      "priority": "P2",
+      "issue": "F03 initial required assertions omitted the initial prohibition on claiming collection already occurred",
+      "resolution": "initialRequiredAssertions now includes a1, a2, a5"
+    },
+    {
+      "priority": "clarification",
+      "issue": "Zero denominators, historical-file independence and offline reference draft handling needed precise boundaries",
+      "resolution": "README specifies N/A, 256 candidate paths / 58 unique contents, and reference-draft sizing is offline only"
+    }
+  ],
+  "independentChecks": [
+    "Executed preflight.cjs --verify successfully for this exact identity",
+    "Independently recomputed aggregate identity and all nine file hashes",
+    "All 25 UTF-16 source anchors and source SHA256 values match",
+    "All six input projections preserve the allowlist and exclude injected gold/workflow/budget canaries",
+    "Six cases comprise four generated workflows and two immutable known-invalid verifier cases",
+    "F03 initial and final gold criteria now agree with the business requirements",
+    "Business attempts sum to 32 and business token stop thresholds to 600000; protocol adds 4 attempts and 100000",
+    "All 12 recorded sizing reservations equal serialized input bytes plus outer schema plus 32768 output allowance plus 4096 framing allowance",
+    "Historical inventory has 256 paths / 58 unique content hashes; all hashes match and all six case ID/business markers have zero matches",
+    "Production desktop/src/dist/package files have no diff against frozen base",
+    "Installed ASAR hash matches frozen identity"
+  ],
+  "preparerSealMutationChecks": {
+    "source": "seal-checks.json",
+    "independentlyRerun": false,
+    "inspected": true,
+    "tests": 5,
+    "pass": 5,
+    "sealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7"
+  },
+  "budgetAssessment": {
+    "applicationAttempts": 36,
+    "reportedTokenStopThreshold": 700000,
+    "serverEnforcedCap": false,
+    "priorBudgetReusable": false,
+    "tokenEstimateIsActualUsage": false,
+    "futureInputsMeasured": false,
+    "maxObservedInitialVisibleBytes": 15329,
+    "maxObservedInitialReservation": 53028
+  },
+  "requiredBeforeAnyLiveAttempt": [
+    "Separate explicit user authorization for the new budget and its non-hard-cap limitation",
+    "Unchanged approved stimulus/gold/plan seal and frozen package identity",
+    "Implement and independently audit live runner; it is absent from this package",
+    "Zero-live-call actual EXE/ASAR lifecycle, persistence, cancellation, usage accounting, budget rejection and fail-closed rehearsal",
+    "Enforce business-input allowlist, fixed-negative immutability and no gold/reference/rubric leakage",
+    "Keep real human acceptance separate from scripted UI/IPC acceptance"
+  ],
+  "limits": [
+    "Preparation approval is not live-run authorization",
+    "Sizing captures first requests at source level, not the complete installed-package lifecycle",
+    "700000 is an admission/stop threshold; subscription CLI lacks a server-enforced per-request token cap",
+    "Application attempt counts do not count opaque CLI internal network retries",
+    "False-block denominator is all independently adjudicated qualified drafts, not a fixed four tasks",
+    "Two planned negative cases may not be replaced; invalid/unattempted cases cannot establish 0/2 or pass",
+    "All zero denominators are N/A and unresolved/unattempted counts remain visible",
+    "Single-version six-case synthetic acceptance does not establish comparative improvement, population hallucination rate or model availability",
+    "Human acceptance remains pending until a human explicitly accepts after reading",
+    "Historical exact-marker novelty is not semantic independence",
+    "No new full Agent, external automation or macOS certification"
+  ],
+  "reviewedFiles": [
+    {
+      "path": "README.md",
+      "sha256": "8c68640a58e6ba4303eaa901b09825662db0b1a7ef6429f8987a53b294f01ba7"
+    },
+    {
+      "path": "plan.json",
+      "sha256": "cac3a882f73a2744a41629693ac4287fd6cb09140e18c5704a06da663a146f57"
+    },
+    {
+      "path": "stimuli.json",
+      "sha256": "c3538fd99eb55207a2c5a555671a8e8880392a43b7ea687f629d3d2f2e453632"
+    },
+    {
+      "path": "gold.json",
+      "sha256": "2c12855313a15221859d221b768f867402213456ffbfd9c2e139c71b68e0bab7"
+    },
+    {
+      "path": "inputs.cjs",
+      "sha256": "eb42b1f19903a96a6376a405a6b79d72a964e2539ea18327b3b1a8a91e535dd6"
+    },
+    {
+      "path": "preflight.cjs",
+      "sha256": "9b3576a7fbd04e984cea16c9713139b6a36b330c92283b0981a4e4238ba3546f"
+    },
+    {
+      "path": "anchors.json",
+      "sha256": "d88369cd057a749c5451c59a2fc5054f2f41731f3cea20eeb1f4fb8a5b7b8b04"
+    },
+    {
+      "path": "novelty.json",
+      "sha256": "b111c566242f7f2095ad73814f69f560b293d3e14cdd4d365a5398b08a950d25"
+    },
+    {
+      "path": "preflight.json",
+      "sha256": "f04e985a7e8d54095806f07d946ce99b731798af205871e78b2f6d8b28002da2"
+    }
+  ]
+}

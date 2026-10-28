@@ -1,0 +1,31 @@
+{
+  "schema":1,
+  "id":"foundation-acceptance-20261028",
+  "preparationRevision":4,
+  "supersedesSealIdentity":"45e3507ee9b514ecf31bbdc4645a9e9b599ebde9e5f12deaaf8ba0667b1c2bcf",
+  "status":"offline-preparation-only",
+  "liveAuthorized":false,
+  "scope":"single-version-foundation-readiness-not-formal-main-evaluation",
+  "syntheticSources":true,
+  "baseCommit":"cba955e4b5826ae72ad8f3d414214b5a548fdb6e",
+  "installedVersion":"0.42.4",
+  "asarSha256":"75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+  "model":{"id":"gpt-6.1-sol","reasoning":"medium","provider":"existing-subscription","availability":"not-probed"},
+  "settings":{"evidenceGrounding":true,"automatic":false,"autoComplete":false,"concurrency":1,"retries":0,"fallback":false},
+  "budget":{"applicationAttempts":36,"reportedTokenStopThreshold":700000,"protocolAttempts":4,"protocolTokenStopThreshold":100000,"businessAttempts":32,"businessTokenStopThreshold":600000,"perCallTimeoutMs":180000,"perCallIdleMs":120000,"dispatchWindowMinutes":45,"maxVisibleRequestBytes":70000,"reservationOutputAllowance":32768,"reservationFramingAllowance":4096,"serverEnforcedTokenCap":false,"priorBudgetsReusable":false},
+  "caseLimits":[
+    {"id":"F01-lanqiao-tour","attempts":6,"tokenStopThreshold":100000},
+    {"id":"F02-chengdao-disagreement","attempts":6,"tokenStopThreshold":100000},
+    {"id":"F03-wenshan-revision","attempts":8,"tokenStopThreshold":140000},
+    {"id":"F04-xingpu-restart","attempts":6,"tokenStopThreshold":100000},
+    {"id":"F05-tangyu-missing-approval","attempts":3,"tokenStopThreshold":80000},
+    {"id":"F06-qichuan-unjustified-choice","attempts":3,"tokenStopThreshold":80000}
+  ],
+  "protocolGate":{"id":"G00-ronglan","title":"容澜资料袋登记摘要","description":"仅根据记录写一句摘要，不查询外部信息。","criteria":"写明袋号K-314、共7袋、仅供档案组复核且尚未向外移交。","sources":[{"key":"s1","title":"容澜资料袋登记","content":"截至2025年3月2日09:00，容澜资料袋的登记袋号为K-314，共7袋，仅供档案组复核，尚未向外移交。"}],"passRequires":["normal_generation_and_strict_verification_complete","evidence_quotes_bound_to_original_source","all_dispatched_usage_known","no_protocol_rejection","no_host_tool_attempt","no_external_action","within_all_budgets"],"includedInBusinessMetrics":false},
+  "order":["G00-ronglan","F01-lanqiao-tour","F02-chengdao-disagreement","F03-wenshan-revision","F04-xingpu-restart","F05-tangyu-missing-approval","F06-qichuan-unjustified-choice"],
+  "globalStopOn":["unknown_or_conflicting_usage","protocol_or_schema_rejection","transport_failure","host_tool_attempt","global_or_stage_budget_admission_failure","reported_budget_or_reservation_overage","frozen_identity_changed","gold_or_rubric_leak","unexpected_external_action","user_stop"],
+  "caseStopOn":["case_budget_admission_failure","first_terminal_business_failure","fixed_candidate_changed","unplanned_retry_or_revision"],
+  "manualAcceptance":{"humanRequired":true,"scriptedAcceptCountsAsHuman":false,"pendingHumanIsNotFailure":true,"qualityMustPassBeforeOfferingAccept":true},
+  "executionPrerequisites":["new_explicit_user_budget_approval","independently_reviewed_seal_intact","offline_executor_lifecycle_and_budget_checks_pass","actual_frozen_package_and_isolated_profile_verified","model_route_confirmed_without_extra_paid_probe","case_and_gold_allowlist_enforced"],
+  "runnerStatus":"live-runner-not-implemented-by-this-preparation-package"
+}

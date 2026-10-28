@@ -1,0 +1,255 @@
+{
+  "schema": 1,
+  "anchors": [
+    {
+      "caseId": "F01-lanqiao-tour",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "29dd7ca47bc1a1be89c91633da2fe36e43af68e520b13b122a19e52455eda8d9",
+      "start": 22,
+      "end": 59,
+      "offsetUnit": "UTF-16",
+      "quote": "活动日期为2025年4月19日，仅面向已预约的校内团体，不接待未预约散客。"
+    },
+    {
+      "caseId": "F01-lanqiao-tour",
+      "assertionId": "a2",
+      "sourceKey": "s1",
+      "sourceSha256": "29dd7ca47bc1a1be89c91633da2fe36e43af68e520b13b122a19e52455eda8d9",
+      "start": 60,
+      "end": 92,
+      "offsetUnit": "UTF-16",
+      "quote": "团体于10:00报到，讲解于10:20开始；本场最多接待24人。"
+    },
+    {
+      "caseId": "F01-lanqiao-tour",
+      "assertionId": "a3",
+      "sourceKey": "s1",
+      "sourceSha256": "29dd7ca47bc1a1be89c91633da2fe36e43af68e520b13b122a19e52455eda8d9",
+      "start": 93,
+      "end": 102,
+      "offsetUnit": "UTF-16",
+      "quote": "现场负责人为林芃。"
+    },
+    {
+      "caseId": "F01-lanqiao-tour",
+      "assertionId": "a4",
+      "sourceKey": "s1",
+      "sourceSha256": "29dd7ca47bc1a1be89c91633da2fe36e43af68e520b13b122a19e52455eda8d9",
+      "start": 103,
+      "end": 132,
+      "offsetUnit": "UTF-16",
+      "quote": "仅当活动当天降雨时，讲解移至东侧连廊；未降雨时在庭院集合。"
+    },
+    {
+      "caseId": "F01-lanqiao-tour",
+      "assertionId": "a5",
+      "sourceKey": "s1",
+      "sourceSha256": "29dd7ca47bc1a1be89c91633da2fe36e43af68e520b13b122a19e52455eda8d9",
+      "start": 133,
+      "end": 155,
+      "offsetUnit": "UTF-16",
+      "quote": "此记录确认的是活动安排，不表示活动已经举行。"
+    },
+    {
+      "caseId": "F02-chengdao-disagreement",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "0c8b9ee1fae5165e8a7c63c935dc3bcbaf94e8dd33a99ef3ba28c71802c04ec4",
+      "start": 37,
+      "end": 49,
+      "offsetUnit": "UTF-16",
+      "quote": "甲组记录封箱数为62箱。"
+    },
+    {
+      "caseId": "F02-chengdao-disagreement",
+      "assertionId": "a2",
+      "sourceKey": "s2",
+      "sourceSha256": "eb6a984bb54a08c6fb574f5abe1138fbd37907e534fc147ba4eadb1b2186178a",
+      "start": 37,
+      "end": 49,
+      "offsetUnit": "UTF-16",
+      "quote": "乙组记录封箱数为67箱。"
+    },
+    {
+      "caseId": "F02-chengdao-disagreement",
+      "assertionId": "a3",
+      "sourceKey": "s1",
+      "sourceSha256": "0c8b9ee1fae5165e8a7c63c935dc3bcbaf94e8dd33a99ef3ba28c71802c04ec4",
+      "start": 50,
+      "end": 79,
+      "offsetUnit": "UTF-16",
+      "quote": "甲、乙两份记录具有相同审批层级，彼此不构成替代或作废关系。"
+    },
+    {
+      "caseId": "F02-chengdao-disagreement",
+      "assertionId": "a4",
+      "sourceKey": "s2",
+      "sourceSha256": "eb6a984bb54a08c6fb574f5abe1138fbd37907e534fc147ba4eadb1b2186178a",
+      "start": 50,
+      "end": 87,
+      "offsetUnit": "UTF-16",
+      "quote": "协调员确认，截至记录时点尚未共同复盘，也没有最终裁定；两份记录都继续保留。"
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "c21f9487231dfe350ce0ac220b5f6733e9d42da84c854bfe9196fb48be8defc0",
+      "start": 33,
+      "end": 52,
+      "offsetUnit": "UTF-16",
+      "quote": "共准备60套教材，每包5套，共12包。"
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "assertionId": "a2",
+      "sourceKey": "s1",
+      "sourceSha256": "c21f9487231dfe350ce0ac220b5f6733e9d42da84c854bfe9196fb48be8defc0",
+      "start": 53,
+      "end": 93,
+      "offsetUnit": "UTF-16",
+      "quote": "领取日期为2025年8月12日，时段为14:00至16:00，地点为南楼资料室。"
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "assertionId": "a3",
+      "sourceKey": "s1",
+      "sourceSha256": "c21f9487231dfe350ce0ac220b5f6733e9d42da84c854bfe9196fb48be8defc0",
+      "start": 53,
+      "end": 93,
+      "offsetUnit": "UTF-16",
+      "quote": "领取日期为2025年8月12日，时段为14:00至16:00，地点为南楼资料室。"
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "assertionId": "a4",
+      "sourceKey": "s1",
+      "sourceSha256": "c21f9487231dfe350ce0ac220b5f6733e9d42da84c854bfe9196fb48be8defc0",
+      "start": 94,
+      "end": 117,
+      "offsetUnit": "UTF-16",
+      "quote": "仅允许各班已登记的联络员领取，现场不办理追加。"
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "assertionId": "a5",
+      "sourceKey": "s1",
+      "sourceSha256": "c21f9487231dfe350ce0ac220b5f6733e9d42da84c854bfe9196fb48be8defc0",
+      "start": 0,
+      "end": 32,
+      "offsetUnit": "UTF-16",
+      "quote": "截至2025年8月10日，闻杉教材领用安排已确认，领取尚未开始。"
+    },
+    {
+      "caseId": "F04-xingpu-restart",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "22f6abb854b1c13369999598f1b42026b075fbf2eb0dbcd5c850385d84b74468",
+      "start": 0,
+      "end": 15,
+      "offsetUnit": "UTF-16",
+      "quote": "日志日期：2025年9月3日。"
+    },
+    {
+      "caseId": "F04-xingpu-restart",
+      "assertionId": "a2",
+      "sourceKey": "s1",
+      "sourceSha256": "22f6abb854b1c13369999598f1b42026b075fbf2eb0dbcd5c850385d84b74468",
+      "start": 16,
+      "end": 37,
+      "offsetUnit": "UTF-16",
+      "quote": "08:40，值守员记录仪表读数为18.6。"
+    },
+    {
+      "caseId": "F04-xingpu-restart",
+      "assertionId": "a3",
+      "sourceKey": "s1",
+      "sourceSha256": "22f6abb854b1c13369999598f1b42026b075fbf2eb0dbcd5c850385d84b74468",
+      "start": 38,
+      "end": 82,
+      "offsetUnit": "UTF-16",
+      "quote": "12:00，值守人员全部离站；此日志没有12:00之后的观测记录，也没有17:00读数。"
+    },
+    {
+      "caseId": "F04-xingpu-restart",
+      "assertionId": "a4",
+      "sourceKey": "s1",
+      "sourceSha256": "22f6abb854b1c13369999598f1b42026b075fbf2eb0dbcd5c850385d84b74468",
+      "start": 83,
+      "end": 115,
+      "offsetUnit": "UTF-16",
+      "quote": "该读数仅说明08:40的历史观测，不代表之后任何时点的实时状态。"
+    },
+    {
+      "caseId": "F05-tangyu-missing-approval",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "60495ae4af88f9f645dda4ee4b62ddd11d56e5df6bc6ce53a3c7b6cd3bbeef93",
+      "start": 0,
+      "end": 33,
+      "offsetUnit": "UTF-16",
+      "quote": "截至2025年10月5日09:10，棠雨团队已提交投影仪借用申请。"
+    },
+    {
+      "caseId": "F05-tangyu-missing-approval",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "60495ae4af88f9f645dda4ee4b62ddd11d56e5df6bc6ce53a3c7b6cd3bbeef93",
+      "start": 34,
+      "end": 67,
+      "offsetUnit": "UTF-16",
+      "quote": "审批负责人明确确认：本申请尚未审批，尚未批准，也没有签发领取凭证。"
+    },
+    {
+      "caseId": "F05-tangyu-missing-approval",
+      "assertionId": "a2",
+      "sourceKey": "s1",
+      "sourceSha256": "60495ae4af88f9f645dda4ee4b62ddd11d56e5df6bc6ce53a3c7b6cd3bbeef93",
+      "start": 68,
+      "end": 107,
+      "offsetUnit": "UTF-16",
+      "quote": "拟借用日期为2025年10月9日；这个日期只是申请内容，不是已批准的领取安排。"
+    },
+    {
+      "caseId": "F06-qichuan-unjustified-choice",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "1c2f3d286c20cecd5da9816febcd7cf9296a8459a0ea26904e0f886ce649926d",
+      "start": 37,
+      "end": 60,
+      "offsetUnit": "UTF-16",
+      "quote": "记录A填写退库数量为22件，记录B填写26件。"
+    },
+    {
+      "caseId": "F06-qichuan-unjustified-choice",
+      "assertionId": "a1",
+      "sourceKey": "s1",
+      "sourceSha256": "1c2f3d286c20cecd5da9816febcd7cf9296a8459a0ea26904e0f886ce649926d",
+      "start": 61,
+      "end": 88,
+      "offsetUnit": "UTF-16",
+      "quote": "两记录的授权层级相同，均有效；不存在A优先于B的规则。"
+    },
+    {
+      "caseId": "F06-qichuan-unjustified-choice",
+      "assertionId": "a2",
+      "sourceKey": "s2",
+      "sourceSha256": "a132e8e01c4a05e1133657673664110b8e05ac2518d2b23309fbe35c35969bcd",
+      "start": 0,
+      "end": 36,
+      "offsetUnit": "UTF-16",
+      "quote": "截至2025年11月6日15:00，退库数量尚未共同清点，没有最终裁定。"
+    },
+    {
+      "caseId": "F06-qichuan-unjustified-choice",
+      "assertionId": "a3",
+      "sourceKey": "s2",
+      "sourceSha256": "a132e8e01c4a05e1133657673664110b8e05ac2518d2b23309fbe35c35969bcd",
+      "start": 37,
+      "end": 87,
+      "offsetUnit": "UTF-16",
+      "quote": "记录A的22件与记录B的26件均不能单独作为已确认的唯一数量；任何最终值都必须等待共同清点后的确认。"
+    }
+  ]
+}

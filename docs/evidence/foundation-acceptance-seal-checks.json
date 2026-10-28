@@ -1,0 +1,38 @@
+{
+  "sealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "liveModelCalls": 0,
+  "tests": 5,
+  "pass": 5,
+  "results": [
+    {
+      "mutation": "none",
+      "exitCode": 0,
+      "expectedPass": true,
+      "passed": true
+    },
+    {
+      "mutation": "source-file",
+      "exitCode": 1,
+      "expectedPass": false,
+      "passed": true
+    },
+    {
+      "mutation": "identity",
+      "exitCode": 1,
+      "expectedPass": false,
+      "passed": true
+    },
+    {
+      "mutation": "omitted-file",
+      "exitCode": 1,
+      "expectedPass": false,
+      "passed": true
+    },
+    {
+      "mutation": "live-authorized",
+      "exitCode": 1,
+      "expectedPass": false,
+      "passed": true
+    }
+  ]
+}

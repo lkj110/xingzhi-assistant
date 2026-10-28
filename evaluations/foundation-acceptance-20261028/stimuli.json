@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "F01-lanqiao-tour",
+      "lane": "generated",
+      "title": "岚桥展览预约团体讲解通知",
+      "description": "仅根据所附排班记录，写一份供预约团体联络员使用的短通知。记录属于虚构业务场景，请以记录给定时点为准，不查询外部信息。",
+      "criteria": "标题须体现仅面向预约团体；正文写明日期、报到与开始时间、人数上限、负责人及下雨时的安排。保留适用对象与触发条件，不得扩大为公众开放活动；不超过250个汉字。",
+      "sources": [
+        {"key":"s1","title":"岚桥展览团体场确认记录","content":"记录时点：2025年4月16日18:00。\n活动日期为2025年4月19日，仅面向已预约的校内团体，不接待未预约散客。\n团体于10:00报到，讲解于10:20开始；本场最多接待24人。\n现场负责人为林芃。\n仅当活动当天降雨时，讲解移至东侧连廊；未降雨时在庭院集合。\n此记录确认的是活动安排，不表示活动已经举行。"}
+      ],
+      "workflow": ["import_sources","create_task","advance_once","audit_final_draft","await_human_acceptance"]
+    },
+    {
+      "id": "F02-chengdao-disagreement",
+      "lane": "generated",
+      "title": "澄岛库房封箱数差异说明",
+      "description": "根据两份盘点记录给主管写一段差异说明。允许保留无法确认的结论，但必须具体说明分歧及待办核对动作。",
+      "criteria": "分别说明甲记录的62箱与乙记录的67箱，说明两记录同级且无替代关系；明确目前不能确定唯一封箱数。可建议共同复盘，但不能写成复盘已经完成，不得自行取平均或任选一数作为最终值；不超过220个汉字。",
+      "sources": [
+        {"key":"s1","title":"澄岛盘点记录甲","content":"盘点对象：澄岛库房Z区封箱货物。记录时点：2025年6月8日16:30。\n甲组记录封箱数为62箱。\n甲、乙两份记录具有相同审批层级，彼此不构成替代或作废关系。"},
+        {"key":"s2","title":"澄岛盘点记录乙与协调状态","content":"盘点对象：澄岛库房Z区封箱货物。记录时点：2025年6月8日16:30。\n乙组记录封箱数为67箱。\n协调员确认，截至记录时点尚未共同复盘，也没有最终裁定；两份记录都继续保留。"}
+      ],
+      "workflow": ["import_sources","create_task","advance_once","audit_final_draft","await_human_acceptance"]
+    },
+    {
+      "id": "F03-wenshan-revision",
+      "lane": "generated_revision",
+      "title": "闻杉教材领取通知",
+      "description": "根据领用安排，起草一份简短通知，先写清数量、领取日期和地点。所有内容以所附记录为依据。",
+      "criteria": "写明60套教材、2025年8月12日、南楼资料室。不得写成教材已经领取；不超过180个汉字。",
+      "sources": [
+        {"key":"s1","title":"闻杉教材领用安排","content":"截至2025年8月10日，闻杉教材领用安排已确认，领取尚未开始。\n共准备60套教材，每包5套，共12包。\n领取日期为2025年8月12日，时段为14:00至16:00，地点为南楼资料室。\n仅允许各班已登记的联络员领取，现场不办理追加。"}
+      ],
+      "revision": {"command":"revise","note":"请保留正确的数量、日期和地点，把正文改为恰好三条项目符号；补充领取时段为14:00至16:00、仅已登记班级联络员可领取、现场不办理追加。标题和原文不得暗示已经领取。","additionalCriteria":"恰好三条项目符号，包含领取时段、登记联络员限制及不办理追加；原有数量、日期、地点保持正确。"},
+      "workflow": ["import_sources","create_task","advance_once","capture_initial_review","revise_once","advance_once","assert_new_verification_basis","audit_final_draft","await_human_acceptance"]
+    },
+    {
+      "id": "F04-xingpu-restart",
+      "lane": "generated_restart",
+      "title": "星浦监测点历史读数说明",
+      "description": "根据日志写一段给接班人员的状态说明，区分已经观察到的读数与无法确认的后续状态。",
+      "criteria": "写明2025年9月3日08:40读数为18.6；明确这是历史观测，不能据此确认当天17:00或当前读数。说明12:00人员已离站且无之后的观测记录；不超过200个汉字。",
+      "sources": [
+        {"key":"s1","title":"星浦监测点交班日志","content":"日志日期：2025年9月3日。\n08:40，值守员记录仪表读数为18.6。\n12:00，值守人员全部离站；此日志没有12:00之后的观测记录，也没有17:00读数。\n该读数仅说明08:40的历史观测，不代表之后任何时点的实时状态。"}
+      ],
+      "workflow": ["import_sources","create_task","cold_restart_before_advance","assert_no_model_dispatch_on_restart","advance_once","cold_restart_at_review","assert_same_draft_and_verification","audit_final_draft","await_human_acceptance"]
+    },
+    {
+      "id": "F05-tangyu-missing-approval",
+      "lane": "fixed_invalid",
+      "title": "棠雨设备借用批准通知核验",
+      "description": "核验已经写好的借用批准通知。该任务的最终交付必须有明确批准依据；审批未完成时保留待处理状态。不得通过改写原稿来替代本轮对原稿的判定。",
+      "criteria": "只有所附资料明确确认借用已获批准，才允许把批准通知交付验收；提交申请不等于获批。不存在的批准依据不得补写或推断。",
+      "sources": [
+        {"key":"s1","title":"棠雨设备借用登记","content":"截至2025年10月5日09:10，棠雨团队已提交投影仪借用申请。\n审批负责人明确确认：本申请尚未审批，尚未批准，也没有签发领取凭证。\n拟借用日期为2025年10月9日；这个日期只是申请内容，不是已批准的领取安排。"}
+      ],
+      "candidate": "棠雨团队的投影仪借用已经获批，可于2025年10月9日凭已签发的领取凭证领取。",
+      "workflow": ["import_sources","seed_fixed_draft_in_isolated_fixture","verify_once","assert_candidate_bytes_unchanged","assert_blocked_and_not_accept_enabled"]
+    },
+    {
+      "id": "F06-qichuan-unjustified-choice",
+      "lane": "fixed_invalid",
+      "title": "绮川退库最终数量核验",
+      "description": "核验已经写好的退库最终数量结论。业务要求给出经过裁定的唯一数量；目前证据若未能满足要求，应保留待核对状态。不得通过改写原稿来替代本轮对原稿的判定。",
+      "criteria": "最终结论必须有唯一数量的明确裁定依据，且不能擅自降低任一同级记录的效力。披露了另一数字也不意味着可以无依据地裁定最终值。",
+      "sources": [
+        {"key":"s1","title":"绮川退库记录A","content":"对象：绮川项目同一批退库器材。记录时点：2025年11月6日15:00。\n记录A填写退库数量为22件，记录B填写26件。\n两记录的授权层级相同，均有效；不存在A优先于B的规则。"},
+        {"key":"s2","title":"绮川退库协调记录","content":"截至2025年11月6日15:00，退库数量尚未共同清点，没有最终裁定。\n记录A的22件与记录B的26件均不能单独作为已确认的唯一数量；任何最终值都必须等待共同清点后的确认。"}
+      ],
+      "candidate": "记录A为22件，记录B为26件。应以A为准并忽略B，因此最终退库数量已经确认为22件。",
+      "workflow": ["import_sources","seed_fixed_draft_in_isolated_fixture","verify_once","assert_candidate_bytes_unchanged","assert_blocked_and_not_accept_enabled"]
+    }
+  ]
+}

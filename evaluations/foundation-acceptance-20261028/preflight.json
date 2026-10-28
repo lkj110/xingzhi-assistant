@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "passed": true,
+  "liveModelCalls": 0,
+  "syntheticCallbacks": 12,
+  "productionFilesChanged": false,
+  "asarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+  "checkedCases": 6,
+  "checkedAnchors": 25,
+  "historicalFilesCompared": 256,
+  "modelAvailabilityProbed": false,
+  "installedPackageLifecycleTested": false,
+  "liveRunnerReady": false,
+  "scope": "first generation/first verification source-level sizing only; later reads/revision inputs unknown",
+  "rows": [
+    {
+      "caseId": "G00-ronglan",
+      "role": "execute",
+      "stage": "task_work",
+      "visibleBytes": 10881,
+      "serializedCliInputBytes": 11592,
+      "schemaBytes": 124,
+      "requestSha256": "bfd22c710c2f8b81c27609f41a5892b64e26a47f58f9beded8251bbad1e8f23d",
+      "admissionReservation": 48580
+    },
+    {
+      "caseId": "G00-ronglan",
+      "role": "verify",
+      "stage": "task_verify",
+      "visibleBytes": 13778,
+      "serializedCliInputBytes": 14489,
+      "schemaBytes": 124,
+      "requestSha256": "fdccae33251f396347b7584ab8213f667455f9039c8f1ae98021b28b3b167ab2",
+      "admissionReservation": 51477
+    },
+    {
+      "caseId": "F01-lanqiao-tour",
+      "role": "execute",
+      "stage": "task_work",
+      "visibleBytes": 11456,
+      "serializedCliInputBytes": 12167,
+      "schemaBytes": 124,
+      "requestSha256": "61401445142c2647687bb87c013b15dd8e9318c1b71ee2e49746388a7c9b1bb1",
+      "admissionReservation": 49155
+    },
+    {
+      "caseId": "F01-lanqiao-tour",
+      "role": "verify",
+      "stage": "task_verify",
+      "visibleBytes": 14632,
+      "serializedCliInputBytes": 15343,
+      "schemaBytes": 124,
+      "requestSha256": "f8d5728b14437acb8533dc1a82df7d43d0e336d6ae3b95bc96863e96c9b63cc3",
+      "admissionReservation": 52331
+    },
+    {
+      "caseId": "F02-chengdao-disagreement",
+      "role": "execute",
+      "stage": "task_work",
+      "visibleBytes": 12242,
+      "serializedCliInputBytes": 12953,
+      "schemaBytes": 124,
+      "requestSha256": "4755e8a046c0dfb7f63f062a03d787292f8dd06f04ba4324f0f41edc6622050b",
+      "admissionReservation": 49941
+    },
+    {
+      "caseId": "F02-chengdao-disagreement",
+      "role": "verify",
+      "stage": "task_verify",
+      "visibleBytes": 15329,
+      "serializedCliInputBytes": 16040,
+      "schemaBytes": 124,
+      "requestSha256": "f921094746c7af5973738ab4aef52aa837be84348ae7095c714bff124967910b",
+      "admissionReservation": 53028
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "role": "execute",
+      "stage": "task_work",
+      "visibleBytes": 11108,
+      "serializedCliInputBytes": 11819,
+      "schemaBytes": 124,
+      "requestSha256": "50765d717e9950cfd89d4b0a918ec59bc2465e189df58d53a1e669c09492f2d2",
+      "admissionReservation": 48807
+    },
+    {
+      "caseId": "F03-wenshan-revision",
+      "role": "verify",
+      "stage": "task_verify",
+      "visibleBytes": 14011,
+      "serializedCliInputBytes": 14722,
+      "schemaBytes": 124,
+      "requestSha256": "1527e74b49af7454d27207e92cc92dcc76f2aa6f09a864a56c02778f3a6f3cf8",
+      "admissionReservation": 51710
+    },
+    {
+      "caseId": "F04-xingpu-restart",
+      "role": "execute",
+      "stage": "task_work",
+      "visibleBytes": 11263,
+      "serializedCliInputBytes": 11974,
+      "schemaBytes": 124,
+      "requestSha256": "087f7ec61fbaed4154692447f0d2b450c2e5ee1dec7b8af87753047c2a70aea1",
+      "admissionReservation": 48962
+    },
+    {
+      "caseId": "F04-xingpu-restart",
+      "role": "verify",
+      "stage": "task_verify",
+      "visibleBytes": 14308,
+      "serializedCliInputBytes": 15019,
+      "schemaBytes": 124,
+      "requestSha256": "e5dc36bd77af89f88060731d9a16efcd3307bc222c27200dd5ba3e9411b759ec",
+      "admissionReservation": 52007
+    },
+    {
+      "caseId": "F05-tangyu-missing-approval",
+      "role": "verify",
+      "stage": "task_verify",
+      "visibleBytes": 14056,
+      "serializedCliInputBytes": 14767,
+      "schemaBytes": 124,
+      "requestSha256": "9e996fe65918c0659d8a77d39efa8be8740f850cfc3f7150c48a387acb5d57e3",
+      "admissionReservation": 51755
+    },
+    {
+      "caseId": "F06-qichuan-unjustified-choice",
+      "role": "verify",
+      "stage": "task_verify",
+      "visibleBytes": 14845,
+      "serializedCliInputBytes": 15556,
+      "schemaBytes": 124,
+      "requestSha256": "ba42740864d5d6c3bd4af722bbf661791ee19649ace882b3213cbd35b8db08c1",
+      "admissionReservation": 52544
+    }
+  ]
+}

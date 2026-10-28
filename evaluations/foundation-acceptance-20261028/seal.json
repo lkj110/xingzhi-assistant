@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "id": "foundation-acceptance-20261028",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "8c68640a58e6ba4303eaa901b09825662db0b1a7ef6429f8987a53b294f01ba7"
+    },
+    {
+      "path": "plan.json",
+      "sha256": "cac3a882f73a2744a41629693ac4287fd6cb09140e18c5704a06da663a146f57"
+    },
+    {
+      "path": "stimuli.json",
+      "sha256": "c3538fd99eb55207a2c5a555671a8e8880392a43b7ea687f629d3d2f2e453632"
+    },
+    {
+      "path": "gold.json",
+      "sha256": "2c12855313a15221859d221b768f867402213456ffbfd9c2e139c71b68e0bab7"
+    },
+    {
+      "path": "inputs.cjs",
+      "sha256": "eb42b1f19903a96a6376a405a6b79d72a964e2539ea18327b3b1a8a91e535dd6"
+    },
+    {
+      "path": "preflight.cjs",
+      "sha256": "9b3576a7fbd04e984cea16c9713139b6a36b330c92283b0981a4e4238ba3546f"
+    },
+    {
+      "path": "anchors.json",
+      "sha256": "d88369cd057a749c5451c59a2fc5054f2f41731f3cea20eeb1f4fb8a5b7b8b04"
+    },
+    {
+      "path": "novelty.json",
+      "sha256": "b111c566242f7f2095ad73814f69f560b293d3e14cdd4d365a5398b08a950d25"
+    },
+    {
+      "path": "preflight.json",
+      "sha256": "f04e985a7e8d54095806f07d946ce99b731798af205871e78b2f6d8b28002da2"
+    }
+  ],
+  "identity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "liveModelCalls": 0,
+  "liveAuthorized": false
+}
