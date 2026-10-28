@@ -4,7 +4,7 @@
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),crypto=require('node:crypto'),assert=require('node:assert/strict');
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const inside=(root,file)=>file.startsWith(root+path.sep);
-const expectedAsar=require('../foundation-acceptance-20261028/plan.json').asarSha256;
+const installedAsar=require('../foundation-acceptance-20261028/plan.json').asarSha256;
 function validateInput(input){
  assert.ok(input&&typeof input==='object'&&!Array.isArray(input));
  assert.deepEqual(Object.keys(input).sort(),['candidate','criteria','description','sources','title']);
@@ -12,7 +12,9 @@ function validateInput(input){
  assert.ok(Array.isArray(input.sources)&&input.sources.length>0);
  for(const s of input.sources){assert.deepEqual(Object.keys(s).sort(),['content','title']);assert.ok(typeof s.title==='string'&&s.title.trim());assert.ok(typeof s.content==='string'&&s.content.trim());}
 }
-async function createNegative({app,asar,directory,input,provider}){
+async function createNegative({app,asar,directory,input,provider,packageIdentity}){
+ const expectedAsar=packageIdentity?.asar?packageIdentity.plan.asarSha256:installedAsar;
+ if(packageIdentity)assert.equal(packageIdentity.asar,asar);
  validateInput(input);
  // The caller creates its private run directory first; this adapter only adds
  // a unique child after resolving and checking the real temporary-directory path.

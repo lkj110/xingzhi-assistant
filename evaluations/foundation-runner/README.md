@@ -2,6 +2,10 @@
 
 本目录是评测工具；当前安装包保持冻结，候选产品修复另做离线回归，不由本执行器自动部署。配套样本为已经独立审核的 `../foundation-acceptance-20261028`，不改题、不更换金标准。Windows Foundation 0.42.4 的真实 EXE 经 renderer → IPC → Worker → 原 Codex 订阅适配器运行。临时 PATH 中的薄 CLI 转接程序只连随机 nonce 保护的 loopback 端点；实际模型边界前先做持久预算准入。固定反例单独在冻结 ASAR 的隔离 Worker 中一次初始化，后续不能改稿或接受。
 
+显式传入 `--candidate` 时，同一执行器只切换到固定的 `../foundation-candidate-20261028`，不接受任意样本目录或实现覆盖。该封存包须含 plan、stimuli、gold、inputs 和 package-manifest；候选 EXE/ASAR/helper、来源 grounding 和启动/重启时的完整包文件表须与封存一致。正常 UI Worker 与固定反例 Worker 还须报告实际已加载 grounding 的实现哈希。当前安装目录不被写入。共享输入投影的实际依赖也列入候选执行器依赖封存，避免只封存转发包装文件。
+
+候选的 runner-seal.json 和 runner-review.json 位于候选样本包内，与旧记录分开；它们不参与样本封存以避免循环哈希。真实准入同时绑定新样本身份、执行器身份及新的单次用户预算授权；离线选用候选包不是授权真实调用。`--offline --candidate` 才会加载候选 gold 作为合成回复，并显式产生通知 proposal、来源分歧 unknown 等核验结构；不得把通知全改为 fact、修改已封存样本或省去预期失败来让候选通过。候选或旧 gold 哨兵进入请求均在转发前拒绝。
+
 ## 离线预演
 
 使用系统临时目录和全新 profile。`--offline` 不发现或运行官方 Codex CLI，不探测登录，不读取用户模型配置。它明确返回合成回复及用量；这些数字不能作为真实成本或幻觉率。完整预演覆盖门检、四个生成流程（含精确修改及两次冷启动）和两个固定错误稿。错误外层 JSON、错误内层 JSON、未知用量三项故障均须在门检停止且不追加格式修复调用。另在 F05 注入与实测同类的 `conflicts` 对象数组：必须当场停整轮，保留已知用量、原始响应及 `RUNNER_EVIDENCE_FORMAT` 字段诊断，F06 不得建立或分发。

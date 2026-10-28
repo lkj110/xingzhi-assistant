@@ -13,11 +13,11 @@ function invocation(body,plan){
  assert.deepEqual(args,expected,'CLI protocol changed');
  const pathProof=capturePaths({temporaryRoot:os.tmpdir(),cwd:body.cwd,schema:args[si+1],output:args[oi+1]}),schemaBytes=pathProof.schemaBytes;assert.deepEqual(JSON.parse(schemaBytes),schema);
  const prefix=protocol.instructions+'\nAPPLICATION MESSAGES:\n';assert.ok(body.input.startsWith(prefix));const messages=JSON.parse(body.input.slice(prefix.length));
- assert.equal(protocol.serialize(messages),body.input);assert.ok(!body.input.includes('FOUNDATION_GOLD_ONLY_'));
+ assert.equal(protocol.serialize(messages),body.input);assert.ok(!/(?:FOUNDATION_GOLD_ONLY_|FOUNDATION_CANDIDATE_GOLD_ONLY_)/.test(body.input));
  const payload=JSON.parse(messages[1].content),role=payload.groundingReviewRequest?'verify':'execute';
  return {messages,payload,role,stage:role==='verify'?'task_verify':'task_work',output:pathProof.output,cwd:pathProof.cwd,pathProof,schemaBytes:schemaBytes.length,serializedInputBytes:Buffer.byteLength(body.input),visibleBytes:Buffer.byteLength(JSON.stringify(messages))};
 }
-async function createBroker({directory,plan,mode,sealIdentity,authorization,realCli,fixture,identityGuard,fault}){
+async function createBroker({directory,plan,mode,sealIdentity,authorization,realCli,fixture,identityGuard,fault,faultCaseId='F05-tangyu-missing-approval'}){
  assert.ok(['offline','live'].includes(mode));if(mode==='live'){assert.ok(realCli&&path.isAbsolute(realCli));assert.equal(fixture,undefined);}
  assert.ok(!fault||mode==='offline');assert.equal(typeof identityGuard,'function');
  const nonce=crypto.randomBytes(32).toString('hex'),ledger=new Ledger({dir:path.join(directory,'ledger'),plan,mode,sealIdentity,authorization,conservativeAttemptSlot:true});
@@ -57,7 +57,7 @@ async function createBroker({directory,plan,mode,sealIdentity,authorization,real
     const response=await fixture({context,...call});
     // Reproduce the observed F05 nested-type violation only after prior cases
     // complete. No model or application prompt is changed by this offline fault.
-    if(fault==='malformed-evidence'&&context.id==='F05-tangyu-missing-approval'&&response.groundingReview)
+    if(fault==='malformed-evidence'&&context.id===faultCaseId&&response.groundingReview)
      response.groundingReview.conflicts=[{claimIds:['c1'],citationIds:['e0'],reason:'OFFLINE SYNTHETIC: 格式错误的冲突对象'}];
     call.pathProof.revalidate({output:'absent'});
     const usage={inputTokens:Math.ceil(call.serializedInputBytes/3),outputTokens:200,cachedInputTokens:0};

@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "id": "foundation-candidate-20261028",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "b1b32d9f00492a811a24ada23fa623a4bcdacb482e49291fd8de9aae7c96dc0c"
+    },
+    {
+      "path": "plan.json",
+      "sha256": "9c309d0fe56dafe588039759649e2a876ce9d6d8e28261d187b78268c6b52455"
+    },
+    {
+      "path": "stimuli.json",
+      "sha256": "63fdd4ee78b7d5723956324879af3a33f3d9001461cc9c422d1a38f038ab9a91"
+    },
+    {
+      "path": "gold.json",
+      "sha256": "d11fd1df855c12a7d453f29a1a7da04fccf15f470918e195e1622dc34a1f7680"
+    },
+    {
+      "path": "anchors.json",
+      "sha256": "e5de226550f37bcab6a3262c571ba31b08dafb97e2193da5bade9757cf3392c1"
+    },
+    {
+      "path": "inputs.cjs",
+      "sha256": "d332f40bf2afdafe36b34722a817b69bd3a470fd3cce8f99803536fc03c45d87"
+    },
+    {
+      "path": "preflight.cjs",
+      "sha256": "e6042ed1214081bf4c260e03a197bc65293f4b76b9c022d124718db697a7b1ee"
+    },
+    {
+      "path": "preflight.json",
+      "sha256": "31c7a7bc4d2488dedbacae4e51d624ab2d40b3cb514c1d8557a957a98178410f"
+    },
+    {
+      "path": "package-manifest.json",
+      "sha256": "e128237c896ac3f773062bf21e4b513c43580b9a5723f098a51e4faa00caba96"
+    }
+  ],
+  "identity": "e94f05ad1660d333553448207a3fbf14a28b71ba08398b54b7a610f5f9cb0977",
+  "liveModelCalls": 0,
+  "liveAuthorized": false,
+  "note": "Authored independently after product freeze; sealing does not assert candidate readiness."
+}

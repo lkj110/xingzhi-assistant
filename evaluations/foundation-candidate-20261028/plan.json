@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "id": "foundation-candidate-20261028",
+  "preparationRevision": 1,
+  "status": "offline-candidate-preparation",
+  "liveAuthorized": false,
+  "scope": "single-candidate-foundation-readiness-not-formal-main-evaluation",
+  "syntheticSources": true,
+  "baseCommit": "657cffddf5d72a89b2ef7315d272dac081de18bd",
+  "installedVersion": "0.42.4",
+  "asarSha256": "53c1a77e502d5461200b400f518495cc9d53d5c9e8bcddf6b15b148bd3aa6715",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "reasoning": "medium",
+    "provider": "existing-subscription",
+    "availability": "not-probed"
+  },
+  "settings": {
+    "evidenceGrounding": true,
+    "automatic": false,
+    "autoComplete": false,
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false
+  },
+  "budget": {
+    "applicationAttempts": 36,
+    "reportedTokenStopThreshold": 700000,
+    "protocolAttempts": 4,
+    "protocolTokenStopThreshold": 100000,
+    "businessAttempts": 32,
+    "businessTokenStopThreshold": 600000,
+    "perCallTimeoutMs": 180000,
+    "perCallIdleMs": 120000,
+    "dispatchWindowMinutes": 45,
+    "maxVisibleRequestBytes": 70000,
+    "reservationOutputAllowance": 32768,
+    "reservationFramingAllowance": 4096,
+    "serverEnforcedTokenCap": false,
+    "priorBudgetsReusable": false
+  },
+  "caseLimits": [
+    {
+      "id": "N01-yunhe-notice",
+      "attempts": 6,
+      "tokenStopThreshold": 100000
+    },
+    {
+      "id": "N02-qinglu-disagreement",
+      "attempts": 6,
+      "tokenStopThreshold": 100000
+    },
+    {
+      "id": "N03-lansui-revision",
+      "attempts": 8,
+      "tokenStopThreshold": 140000
+    },
+    {
+      "id": "N04-heqiao-restart",
+      "attempts": 6,
+      "tokenStopThreshold": 100000
+    },
+    {
+      "id": "N05-jinzhu-missing-approval",
+      "attempts": 3,
+      "tokenStopThreshold": 80000
+    },
+    {
+      "id": "N06-senwan-unjustified-choice",
+      "attempts": 3,
+      "tokenStopThreshold": 80000
+    }
+  ],
+  "protocolGate": {
+    "id": "G00-xilan",
+    "title": "希岚抽样封袋归档摘要",
+    "description": "依据收件记录，给档案岗写一句简明摘要；只使用附件信息。",
+    "criteria": "说明批号M-586、9封，交代只供内部复核且尚未寄出。",
+    "sources": [
+      {
+        "key": "s1",
+        "title": "希岚抽样封袋收件记录",
+        "content": "2026年1月9日11:35，档案岗收到希岚抽样封袋9封，统一登记在批号M-586下。\n这批封袋只供内部复核，尚未寄出。"
+      }
+    ],
+    "passRequires": [
+      "normal_generation_and_strict_verification_complete",
+      "evidence_quotes_bound_to_original_source",
+      "all_dispatched_usage_known",
+      "no_protocol_rejection",
+      "no_host_tool_attempt",
+      "no_external_action",
+      "within_all_budgets"
+    ],
+    "includedInBusinessMetrics": false
+  },
+  "order": [
+    "G00-xilan",
+    "N01-yunhe-notice",
+    "N02-qinglu-disagreement",
+    "N03-lansui-revision",
+    "N04-heqiao-restart",
+    "N05-jinzhu-missing-approval",
+    "N06-senwan-unjustified-choice"
+  ],
+  "globalStopOn": [
+    "unknown_or_conflicting_usage",
+    "protocol_or_schema_rejection",
+    "transport_failure",
+    "host_tool_attempt",
+    "global_or_stage_budget_admission_failure",
+    "reported_budget_or_reservation_overage",
+    "frozen_identity_changed",
+    "gold_or_rubric_leak",
+    "unexpected_external_action",
+    "user_stop"
+  ],
+  "caseStopOn": [
+    "case_budget_admission_failure",
+    "first_terminal_business_failure",
+    "fixed_candidate_changed",
+    "unplanned_retry_or_revision"
+  ],
+  "manualAcceptance": {
+    "humanRequired": true,
+    "scriptedAcceptCountsAsHuman": false,
+    "pendingHumanIsNotFailure": true,
+    "qualityMustPassBeforeOfferingAccept": true
+  },
+  "executionPrerequisites": [
+    "new_explicit_user_budget_approval",
+    "independently_reviewed_seal_intact",
+    "offline_executor_lifecycle_and_budget_checks_pass",
+    "isolated_candidate_package_and_profile_verified",
+    "model_route_confirmed_without_extra_paid_probe",
+    "case_and_gold_allowlist_enforced"
+  ],
+  "runnerStatus": "shared-runner-candidate-mode-under-offline-review",
+  "packageManifest": "package-manifest.json",
+  "candidateInstalled": false,
+  "installedFoundationFrozen": true
+}

@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "passed": true,
+  "scope": "sample structure, anchors, allowlist and budget arithmetic only; not candidate runtime readiness",
+  "businessCases": 6,
+  "protocolGate": "G00-xilan",
+  "anchors": 25,
+  "sharedProjectionSha256": "eb42b1f19903a96a6376a405a6b79d72a964e2539ea18327b3b1a8a91e535dd6",
+  "productModificationPerformed": false,
+  "liveModelCalls": 0,
+  "modelAvailabilityProbed": false,
+  "liveAuthorized": false
+}

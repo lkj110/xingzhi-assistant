@@ -35,31 +35,31 @@ function cleanEnvironment(temp){
  for(const key of ['ELECTRON_RUN_AS_NODE','NODE_OPTIONS','FOUNDATION_PATH_TEMP_LONG'])delete env[key];
  return env;
 }
-async function child({executable,output,variant,temp}){
+async function child({executable,output,variant,temp,candidate=false}){
  assert.equal(process.platform,'win32');assert.ok(['short','long'].includes(variant));assert.ok(path.isAbsolute(temp));
  assert.equal(process.env.TEMP,temp);assert.equal(process.env.TMP,temp);assert.equal(os.tmpdir(),temp);
  const evidence={schema:1,variant,temp:process.env.TEMP,tmp:process.env.TMP,observedTmpdir:os.tmpdir(),canonicalTmpdir:fs.realpathSync.native(os.tmpdir()),fileIdentity:identity(os.tmpdir()),nodeVersion:process.version,nodeExecutableSha256:sha(process.execPath),mode:'offline',realModelCalls:0};
  write(path.join(path.dirname(output),variant+'-environment.json'),evidence);
- await require('./integration-test.cjs').test({executable,output});
+ await require('./integration-test.cjs').test({executable,output,candidate});
 }
-async function execute({executable,output,variant,temp}){
+async function execute({executable,output,variant,temp,candidate=false}){
  const stdoutPath=path.join(path.dirname(output),variant+'-stdout.log'),stderrPath=path.join(path.dirname(output),variant+'-stderr.log');
  const stdout=fs.openSync(stdoutPath,'wx'),stderr=fs.openSync(stderrPath,'wx');
  try{
   const result=await new Promise((resolve,reject)=>{
-   const childProcess=cp.spawn(process.execPath,[__filename,'--child','--executable',executable,'--output',output,'--variant',variant,'--temp',temp],{cwd:path.resolve(__dirname,'../..'),env:cleanEnvironment(temp),windowsHide:true,stdio:['ignore',stdout,stderr]});
+   const childProcess=cp.spawn(process.execPath,[__filename,'--child','--executable',executable,'--output',output,'--variant',variant,'--temp',temp,...(candidate?['--candidate']:[])],{cwd:path.resolve(__dirname,'../..'),env:cleanEnvironment(temp),windowsHide:true,stdio:['ignore',stdout,stderr]});
    childProcess.on('error',reject);childProcess.on('close',(code,signal)=>resolve({code,signal}));
   });
   return {...result,stdoutPath,stderrPath};
  }finally{fs.closeSync(stdout);fs.closeSync(stderr);}
 }
-async function test({executable,output}){
+async function test({executable,output,candidate=false}){
  assert.equal(process.platform,'win32');assert.ok(typeof executable==='string'&&path.isAbsolute(executable));assert.ok(typeof output==='string'&&path.isAbsolute(output)&&!fs.existsSync(output),'Use a new absolute output directory');
  const discovered=aliases();fs.mkdirSync(output,{recursive:true});write(path.join(output,'path-aliases.json'),{schema:1,...discovered,mode:'offline',realModelCalls:0});
  const result={schema:1,kind:'windows-temp-alias-offline-integration',mode:'offline',passed:false,tests:0,realModelCalls:0,variants:[]};
  try{
   for(const variant of ['short','long']){
-   const directory=path.join(output,variant),run=await execute({executable,output:directory,variant,temp:discovered[variant]});
+   const directory=path.join(output,variant),run=await execute({executable,output:directory,variant,temp:discovered[variant],candidate});
    const entry={variant,exitCode:run.code,signal:run.signal,passed:false,evidenceSha256:{stdout:sha(run.stdoutPath),stderr:sha(run.stderrPath)}};result.variants.push(entry);
    assert.equal(run.code,0,'Offline integration failed for '+variant+' TEMP; inspect retained stderr log');
    const environmentFile=path.join(output,variant+'-environment.json'),environment=read(environmentFile),resultsFile=path.join(directory,'integration-results.json'),integration=read(resultsFile);
@@ -79,7 +79,7 @@ async function test({executable,output}){
 }
 module.exports={test,aliases};
 if(require.main===module){
- const {values}=require('node:util').parseArgs({options:{executable:{type:'string'},output:{type:'string'},child:{type:'boolean'},variant:{type:'string'},temp:{type:'string'}}});
- const task=values.child?child({executable:values.executable,output:values.output,variant:values.variant,temp:values.temp}):test({executable:values.executable,output:values.output});
+ const {values}=require('node:util').parseArgs({options:{executable:{type:'string'},output:{type:'string'},child:{type:'boolean'},variant:{type:'string'},temp:{type:'string'},candidate:{type:'boolean'}}});
+ const task=values.child?child({executable:values.executable,output:values.output,variant:values.variant,temp:values.temp,candidate:values.candidate||false}):test({executable:values.executable,output:values.output,candidate:values.candidate||false});
  task.catch(error=>{console.error(error.stack);process.exitCode=1;});
 }

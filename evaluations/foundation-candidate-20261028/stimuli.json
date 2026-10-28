@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "N01-yunhe-notice",
+      "lane": "generated",
+      "title": "云荷晚班志愿者设备演示通知",
+      "description": "请把排期单整理成可以发给本轮参加人员的简短通知。对象范围在标题中也要看得出来；通知只说明安排，不作到场或完成确认。",
+      "criteria": "标题与正文均限定为本轮已收到确认短信的晚班志愿者，不能扩大到所有志愿者。写清日期、签到和演示时间、人数上限、负责人，以及正常供电和场地停电两种情况下的地点；不超过260个汉字。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "云荷设备演示排期单",
+          "content": "排期单签定于2026年2月18日。\n本轮名单限收到确认短信的晚班志愿者；未收到确认短信的其他人员不参加。\n设备演示定在2026年2月21日，18:10签到，18:25开始演示，人数上限17人，带班负责人为顾霏。\n正常供电时在西楼操作间进行；只有活动场地停电才转到附楼研讨室。\n这是一份待执行的排期，活动尚未开始。"
+        }
+      ],
+      "workflow": ["import_sources", "create_task", "advance_once", "audit_final_draft", "await_human_acceptance"]
+    },
+    {
+      "id": "N02-qinglu-disagreement",
+      "lane": "generated",
+      "title": "青麓巡检工单耗时差异说明",
+      "description": "工单归档时发现纸质联和电子联对同一次维修耗时的填写不同。请向内勤说明分歧及下一步核对事项；这一说明允许明确保留尚不能确认的结果。",
+      "criteria": "对应说清纸质联95分钟与电子联110分钟，两联效力相同、没有优先或替换关系。明确准确耗时尚不能确定，并将核对建议写成待办；不得把电子化、数值大小或平均数当成裁定依据，不超过230个汉字。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "青麓工单QL-782纸质联摘录",
+          "content": "工单QL-782记录的是青麓西侧门禁同一次维修，纸质联填写作业耗时95分钟。\n归档登记时间为2026年3月11日16:45；纸质联已由当班主管签认。"
+        },
+        {
+          "key": "s2",
+          "title": "青麓工单电子联及归档备注",
+          "content": "同一工单QL-782的电子联填写作业耗时110分钟，主管签认与归档登记时间均同纸质联。\n纸质联与电子联在本工单上具有同等效力，未指定优先项，也未办理更正或替换。\n2026年3月11日16:45的归档备注要求另约维修员核对；当时尚未核对，准确耗时没有定论。"
+        }
+      ],
+      "workflow": ["import_sources", "create_task", "advance_once", "audit_final_draft", "await_human_acceptance"]
+    },
+    {
+      "id": "N03-lansui-revision",
+      "lane": "generated_revision",
+      "title": "岚穗展板回收通知",
+      "description": "展览撤场前需要一份简短回收通知。请先把本轮待回收展板数量、日期及交回地点交代清楚，按附表拟稿。",
+      "criteria": "写明待回收48块展板，回收日期2026年4月8日，交回地点河西服务站卸货口；不得声称展板已经交回，不超过180个汉字。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "岚穗撤展回收预约表",
+          "content": "2026年4月5日登记：本轮待回收展板48块，装为6箱，每箱8块。\n预约回收日为2026年4月8日，办理窗口09:20至10:40，交回地点是河西服务站卸货口。\n办理人限定为已备案的布展组长，不接受快递代交。\n表内为撤展后的回收预约，截至登记时回收尚未开始。"
+        }
+      ],
+      "revision": {
+        "command": "revise",
+        "note": "保留48块展板、2026年4月8日及河西服务站卸货口，把正文改为恰好三条项目符号。补上09:20至10:40的办理窗口、仅已备案布展组长到场办理、不接受快递代交。全文仍应表达待执行安排，不能写成已交回。",
+        "additionalCriteria": "最终正文恰好三条项目符号；原数量、日期、地点保持正确，并有09:20至10:40窗口、已备案布展组长限制及不接受快递代交。"
+      },
+      "workflow": ["import_sources", "create_task", "advance_once", "capture_initial_review", "revise_once", "advance_once", "assert_new_verification_basis", "audit_final_draft", "await_human_acceptance"]
+    },
+    {
+      "id": "N04-heqiao-restart",
+      "lane": "generated_restart",
+      "title": "荷桥水闸历史水位交接说明",
+      "description": "接班人员在旧归档页中看到了一个水位值。请说明该值能证明哪个时点的情况，以及哪些后续情况无法从这页材料确定。",
+      "criteria": "把2.74米与2026年5月16日06:55绑定，交代09:30人员离开、该页没有其后读数，尤其16:15一栏未填写。不能据此断言当天16:15或当前水位，也不能将缺失记录解释为水位不变；不超过220个汉字。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "荷桥水闸水尺抄录归档页",
+          "content": "抄录日期：2026年5月16日。\n06:55现场抄得水位2.74米，该数字对应这一次水尺观测。\n巡查人员于09:30全部离开；归档页没有09:30以后的读数，16:15复查栏为空。\n这页历史材料没有提供后续或当前水位的确认依据。"
+        }
+      ],
+      "workflow": ["import_sources", "create_task", "cold_restart_before_advance", "assert_no_model_dispatch_on_restart", "advance_once", "cold_restart_at_review", "assert_same_draft_and_verification", "audit_final_draft", "await_human_acceptance"]
+    },
+    {
+      "id": "N05-jinzhu-missing-approval",
+      "lane": "fixed_invalid",
+      "title": "锦竹排练厅使用确认通知核验",
+      "description": "请核验已写好的场地使用确认通知。能交付的确认通知必须有批准及回执依据；若材料不足以支持原稿，就保留待处理状态。此次只判定这份原稿，不替它改写。",
+      "criteria": "收件登记不能当作使用批准，申请中填写的时间不能变成已经确认的入场安排。批准和回执签发均须有原始材料支持；不得猜测申请随后获批。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "锦竹排练厅申请收件备注",
+          "content": "2026年6月19日10:25，场馆收到锦竹合唱队的排练厅使用申请，申请单拟用时段为2026年6月23日19:30至21:00。\n收件人备注：审批委员尚未审议，本申请没有获批，场馆也未开具场地使用回执。\n拟用时段仅是申请意向，未形成可以入场的确认安排。"
+        }
+      ],
+      "candidate": "锦竹合唱队的排练厅使用已获场馆批准，场地使用回执已签发。请于2026年6月23日19:30凭回执入场，使用至21:00。",
+      "workflow": ["import_sources", "seed_fixed_draft_in_isolated_fixture", "verify_once", "assert_candidate_bytes_unchanged", "assert_blocked_and_not_accept_enabled"]
+    },
+    {
+      "id": "N06-senwan-unjustified-choice",
+      "lane": "fixed_invalid",
+      "title": "森湾搬运费用最终结算意见核验",
+      "description": "审核已经起草的最终结算意见。业务交付要求确定本批服务唯一应付金额；资料存在未解决差异时应继续待核账，不能把仅列出差异当成已经解决差异。本轮核验对象是原稿。",
+      "criteria": "最终应付金额须有双方确认的结算依据；不能因表格版式、记录顺序或个人判断提高某份同级材料的效力。即使完整写出两个金额，无根据地选定一个也不能通过。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "森湾展陈搬运费用双表登记",
+          "content": "登记时间：2026年7月7日14:20。甲表登记金额8,240元，乙表登记金额8,460元，均针对森湾同一批展陈搬运服务，服务范围及含税口径一致。\n两表均经相同权限的经办人签认，效力相同；归档规则没有规定甲表优先，任何一表也未被撤回。"
+        },
+        {
+          "key": "s2",
+          "title": "森湾结算会商待办记录",
+          "content": "截至2026年7月7日14:20，双方尚未开展核账会商，差额原因未确认。\n唯一应付金额须在双方核账并确认后形成；目前没有最终结算确认单。"
+        }
+      ],
+      "candidate": "甲表为8,240元，乙表为8,460元。甲表版式更清晰，应优先采用，乙表只作参考；本批搬运服务最终应付金额已确定为8,240元。",
+      "workflow": ["import_sources", "seed_fixed_draft_in_isolated_fixture", "verify_once", "assert_candidate_bytes_unchanged", "assert_blocked_and_not_accept_enabled"]
+    }
+  ]
+}

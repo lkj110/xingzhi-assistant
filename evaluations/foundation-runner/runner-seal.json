@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "sampleSealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
-  "supersedesIdentity": "717a27c303bd26ea5b5c4dbcbf18228d9dc8c010a07b52d535e6912e30e8c515",
+  "supersedesIdentity": "6a843f5f8cc95ab19c90444ddc21985f595512293fa8dbcf1f28f9f64cab169d",
   "files": [
     {
       "path": "Bridge.cs",
@@ -9,7 +9,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "8950b5093f4799e6b7a55b1d005633368866a6c0f84ca421a1f3c1875d8d221f"
+      "sha256": "306f384fea73f09aee436e167368de995872d676178800d6516914dce26ad16c"
     },
     {
       "path": "authorization.cjs",
@@ -25,7 +25,15 @@
     },
     {
       "path": "broker.cjs",
-      "sha256": "400b48a75f9f7ce07dbcc2e8e0ac6a5ca083c038d2f5d69e23e38a218597f8ee"
+      "sha256": "ed07e7bdc22d3e2fdaef302e57aa79ff0845084fc64521bea7533a94721aa3ec"
+    },
+    {
+      "path": "candidate-identity.cjs",
+      "sha256": "4a84ea6aba4198d8120d6c92caad701ebc6128dda66ac831a00dc1f4b99afb2d"
+    },
+    {
+      "path": "candidate-identity.test.cjs",
+      "sha256": "529adb3db9d24379b5e520c06d932e860892882d58c195dd01ceb0b6de09f7e9"
     },
     {
       "path": "checkpoints.cjs",
@@ -37,7 +45,7 @@
     },
     {
       "path": "common.cjs",
-      "sha256": "0fa4bc7c305b65e0703244405e607243590f14f0e79441ac0bc138af65774b71"
+      "sha256": "30d7d5b67622e3c014332c20992161caece66df36b246316ca92250d29b1dedd"
     },
     {
       "path": "evidence-protocol.cjs",
@@ -49,7 +57,7 @@
     },
     {
       "path": "integration-test.cjs",
-      "sha256": "6daf127b255f7f2d67580b46fb11af8535115a85d7d75f378da6337fcb657ce7"
+      "sha256": "5eddc87af8e15d454f95dff67cc7c988b6a3b84a1e616b5421ef1df2fe82e0b9"
     },
     {
       "path": "ledger.cjs",
@@ -65,15 +73,19 @@
     },
     {
       "path": "negative.cjs",
-      "sha256": "e185f25aa5e48d8bdbf489d899fa04d6a44fb4db56a196b6f505c6d7aa79810a"
+      "sha256": "34ffc8648c15f7e80061b1741e9db6de5934e3131834000ea644a07e65c6c736"
     },
     {
       "path": "offline-fixture.cjs",
-      "sha256": "278681ee85f301161e70398c2387c3d98c034f39d0fcd35949d05e95baf06355"
+      "sha256": "0633ac714ab85ae11ddce5f9d1073f8b618ff07955c5ec62537cbccb10fcc76e"
+    },
+    {
+      "path": "offline-fixture.test.cjs",
+      "sha256": "2938d85e6851e4b48313f2b9fad7508e06d7960301f435c4fb56111def51d9c8"
     },
     {
       "path": "path-integration-test.cjs",
-      "sha256": "c02969d82ded69ff8e91ba851afa88ef7af165385b6192a1f1e53a5c71c68507"
+      "sha256": "330151a68a724d3c89fe45fd0240e2355907b635d8505b842be8c4c6b84770ec"
     },
     {
       "path": "paths.cjs",
@@ -89,11 +101,11 @@
     },
     {
       "path": "protocol-guard.test.cjs",
-      "sha256": "01bea71f589be243f6966c09ed35c57d24b8aaffbc72042bde8047bc33b32d10"
+      "sha256": "d96fca2d9cfb9ba874ef84df07bbcf8f15629999a4d2970438032c8fc72a6cfa"
     },
     {
       "path": "run.cjs",
-      "sha256": "e2daa32c9b15b930a1d40e11017e844cf4c57cb1c7d42941acc7b3e4fdae53fd"
+      "sha256": "f7dcfe3c34f1258fad861849467d398ed74f95ae3d53f96ab0397bf900e7c1cf"
     },
     {
       "path": "transport.cjs",
@@ -146,7 +158,7 @@
       "sha256": "91f11ecbe6673b3f017541dab9f1d2bdb8c464b7eea25839148b8867dff41b0a"
     }
   ],
-  "identity": "6a843f5f8cc95ab19c90444ddc21985f595512293fa8dbcf1f28f9f64cab169d",
+  "identity": "704212e2e081440292d5c9445bb14543550e471d23fc44d9f5ad0ff9e0941969",
   "liveAuthorized": false,
   "realModelCalls": 0
 }

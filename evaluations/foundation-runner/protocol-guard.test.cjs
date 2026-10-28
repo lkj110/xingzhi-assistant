@@ -59,7 +59,7 @@ test('actual invocation accepts the fixed outer schema and exact subscription se
  const f=invocationFixture(t),call=invocation(f.body,plan);assert.equal(call.role,'execute');assert.equal(call.payload.task.id,f.context.taskId);assert.equal(call.serializedInputBytes,Buffer.byteLength(f.body.input));assert.equal(call.schemaBytes,fs.statSync(f.schemaPath).size);guard.request(call.messages,call.payload,f.context);
 });
 test('gold canary anywhere in application input is rejected before the request guard',t=>{
- const f=invocationFixture(t);for(const index of [0,1]){const messages=copy(f.messages);messages[index].content+=' FOUNDATION_GOLD_ONLY_SYNTHETIC';assert.throws(()=>invocation({...f.body,input:protocol.serialize(messages)},plan));}
+ const f=invocationFixture(t);for(const marker of ['FOUNDATION_GOLD_ONLY_SYNTHETIC','FOUNDATION_CANDIDATE_GOLD_ONLY_SYNTHETIC'])for(const index of [0,1]){const messages=copy(f.messages);messages[index].content+=' '+marker;assert.throws(()=>invocation({...f.body,input:protocol.serialize(messages)},plan));}
 });
 test('outer CLI schema or invocation drift is rejected',t=>{
  const f=invocationFixture(t);

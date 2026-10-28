@@ -1,0 +1,228 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-28T08:21:20.310Z",
+  "reviewer": "independent-subagent",
+  "reviewTask": "candidate_preparation_review",
+  "baselineCommit": "657cffddf5d72a89b2ef7315d272dac081de18bd",
+  "status": "reviewed-not-ready-accurate-failure-upload-approved",
+  "approvedForUpload": true,
+  "approvedForBudgetExecutionProposal": false,
+  "approvedForLiveReadiness": false,
+  "approvedForLiveExecution": false,
+  "candidateReady": false,
+  "realModelCalls": 0,
+  "officialCliProbePerformed": false,
+  "newBudgetAuthorized": false,
+  "candidateInstalled": false,
+  "installedFoundationFrozen": true,
+  "productSourceChanged": false,
+  "userWorkspaceTouched": false,
+  "manualAcceptancePerformed": false,
+  "runnerIdentity": "a7cbb9a585270331956b961a65c4e7d9149c7870fe3bb1551c8cf168c01e92e4",
+  "sampleSealIdentity": "e94f05ad1660d333553448207a3fbf14a28b71ba08398b54b7a610f5f9cb0977",
+  "approvalMeaning": "允许上传候选准备工具、封存材料及如实失败报告；不允许启动真实评测或安装发布。36次/70万tokens仅为未启用草案。",
+  "readinessBlockingFindings": [
+    {
+      "id": "NOTICE-REQUEST-PATTERN",
+      "cases": [
+        "N01-yunhe-notice",
+        "N03-lansui-revision"
+      ],
+      "finding": "有可信当前用户通知要求和有效原文支持，但请求表达为“整理成通知”或“需要通知、按附表拟稿”，不匹配指定动词正则，局部marker仍误拦。",
+      "status": "open-product-frozen"
+    },
+    {
+      "id": "NOTICE-PUNCTUATION",
+      "cases": [
+        "N01-yunhe-notice"
+      ],
+      "finding": "逗号连接两个合法待办安排的通知片段被当作不能豁免的混合表达；单靠标点不能区分事实断言与通知动作。",
+      "status": "open-product-frozen"
+    },
+    {
+      "id": "OFFLINE-ARTIFACT-TITLE",
+      "cases": [
+        "N01-yunhe-notice"
+      ],
+      "finding": "实际包离线fixture把artifact.title设为事项标题，缺短信确认限定；不能据该实际包输出计算整稿误拦率。独立纯源码重放另以完整gold标题核对后仍出现marker误拦。",
+      "status": "open-fixture-limitation-retained-no-rerun"
+    }
+  ],
+  "closedPreparationFindings": [
+    {
+      "id": "RUNNER-IMPORT",
+      "resolution": "集成驱动已导入frozen。"
+    },
+    {
+      "id": "LEGACY-REVISION-FIXTURE",
+      "resolution": "旧修改流程没有notificationClaims时正确使用空列表，保留旧fixture兼容。"
+    },
+    {
+      "id": "SEALED-PROJECTION",
+      "resolution": "先验证所选样本封存，再加载对应inputs；共享旧白名单的真实依赖哈希列入candidate执行器。"
+    },
+    {
+      "id": "GOLD-CANARY",
+      "resolution": "旧及候选gold哨兵均在转发前拒绝，离线测试覆盖两个前缀。"
+    }
+  ],
+  "independentChecks": {
+    "unit": {
+      "tests": 157,
+      "passed": 156,
+      "failed": 0,
+      "skipped": 1,
+      "executedByReviewer": true,
+      "skipReason": "Windows file symlink creation privilege unavailable; existing skip"
+    },
+    "bundle": {
+      "outerFiles": 86,
+      "archiveEntries": 10447,
+      "archiveFiles": 9665,
+      "changedOuterFiles": [
+        "resources/app.asar"
+      ],
+      "changedArchiveFiles": [
+        "desktop/grounding.cjs"
+      ],
+      "allContentAndUnpackedExecutableMetadataCompared": true,
+      "candidateAsarSha256": "53c1a77e502d5461200b400f518495cc9d53d5c9e8bcddf6b15b148bd3aa6715",
+      "manifestSha256": "e128237c896ac3f773062bf21e4b513c43580b9a5723f098a51e4faa00caba96"
+    },
+    "samples": {
+      "cases": 6,
+      "gate": 1,
+      "anchorsVerified": 25,
+      "projectionAllowlistVerified": true,
+      "goldSemanticallyReviewed": true,
+      "baselineBusinessNamesAndIdsMatched": 0,
+      "samplesUnchangedAfterIssueDiscovery": true
+    },
+    "identity": {
+      "runnerFiles": 28,
+      "candidateSampleFiles": 9,
+      "legacySampleFiles": 9,
+      "candidateDependencies": 10,
+      "sourceBeforeAfterVerified": true,
+      "installedExeAndAsarUnchanged": true,
+      "actualLoadedWorkerGroundingVerified": true
+    },
+    "singleCandidateLifecycle": {
+      "executedByReviewer": false,
+      "independentAccountingRecomputed": true,
+      "passed": false,
+      "requestRecords": 19,
+      "terminalRecords": 19,
+      "syntheticApplicationAttempts": 19,
+      "ledgerChecksumAndKnownUsageVerified": true,
+      "requestAndOutputHashesVerified": true,
+      "unexpectedAttempts": 0,
+      "unknownUsage": 0,
+      "pendingUsage": 0,
+      "caseOutcomes": [
+        {
+          "caseId": "G00-xilan",
+          "status": "review",
+          "technicalPassed": true,
+          "applicationAttempts": 3
+        },
+        {
+          "caseId": "N01-yunhe-notice",
+          "status": "blocked",
+          "technicalPassed": false,
+          "applicationAttempts": 3
+        },
+        {
+          "caseId": "N02-qinglu-disagreement",
+          "status": "review",
+          "technicalPassed": true,
+          "applicationAttempts": 3
+        },
+        {
+          "caseId": "N03-lansui-revision",
+          "status": "blocked",
+          "technicalPassed": false,
+          "applicationAttempts": 3
+        },
+        {
+          "caseId": "N04-heqiao-restart",
+          "status": "review",
+          "technicalPassed": true,
+          "applicationAttempts": 3
+        },
+        {
+          "caseId": "N05-jinzhu-missing-approval",
+          "status": "blocked",
+          "technicalPassed": true,
+          "applicationAttempts": 2
+        },
+        {
+          "caseId": "N06-senwan-unjustified-choice",
+          "status": "blocked",
+          "technicalPassed": true,
+          "applicationAttempts": 2
+        }
+      ],
+      "fixedNegativeBytesUnchanged": [
+        {
+          "caseId": "N05-jinzhu-missing-approval",
+          "originalCandidateUnchanged": true
+        },
+        {
+          "caseId": "N06-senwan-unjustified-choice",
+          "originalCandidateUnchanged": true
+        }
+      ],
+      "restartChecksVerified": 2,
+      "plannedRevisionExecuted": false,
+      "additionalFaultMatrixExecuted": false
+    },
+    "titleBoundSourceReplay": [
+      {
+        "caseId": "N01-yunhe-notice",
+        "draftTitle": "云荷设备演示通知（限本轮已获短信确认的晚班志愿者）",
+        "titleTakenFromGoldenReference": true,
+        "fullReferenceContentUnchanged": true,
+        "candidatePassed": false,
+        "issues": [
+          "推断、建议或未知未在正文标明：p1"
+        ],
+        "trustedUserDescription": true,
+        "realModelCalls": 0
+      },
+      {
+        "caseId": "N03-lansui-revision",
+        "draftTitle": "岚穗展板回收通知",
+        "titleTakenFromGoldenReference": true,
+        "fullReferenceContentUnchanged": true,
+        "candidatePassed": false,
+        "issues": [
+          "推断、建议或未知未在正文标明：p1"
+        ],
+        "trustedUserDescription": true,
+        "realModelCalls": 0
+      }
+    ],
+    "liveModelMetricsCalculated": false
+  },
+  "evidenceSha256": {
+    "independentUnit": "ad927bc73df69a54ae438c0134c8bf33865e5442132a738f5e3b5aa25465d64d",
+    "bundleAudit": "c348a42a8bc138ba582141cb3937a20a7f7115aa114d8f64fb7031eb5c33a0c9",
+    "sampleAudit": "10f192abfeab32f7a0b65b2eb045a062ef05986396d1984536af90efda28c90a",
+    "titleBoundReplay": "4a4d9d83540cce91546dea28ddec6bb052319424df13b22a3921bba905361b54",
+    "lifecycleAudit": "c652a2f56d30e6e41b09e77260d3b054b51ba6a2702181ddc27bab82d0c3ac1e",
+    "additionalLifecycleAudit": "a24dde6bb335781b7f30513c51e84dba3b15b5997ca12f24f7b58922e5bbdfbd",
+    "independentAuditScript": "5e14fd2e55798652de447842adcefa3296a8a0999e6cd79ab3b7ee520805f3cd",
+    "publicVerification": "68d247860d6744d06d99b18e34f3d7fadbd060a9671f34ed1a09b3c82f666c63",
+    "candidateRunnerSeal": "347a3d72ac44556f723a0f677cfa766b448c4b3b725d5c5d327d4558886ce644",
+    "candidateSampleSeal": "c4a39e077b326f9a3f345b8a61110b1a88c3aabcc6c8298c3a56f307109add04",
+    "builder": "301608e12d0b5c5cac83b9ec36470f951a3fc645211f32af1818afaa2a57aad6"
+  },
+  "nextStep": "先重设按用户要求、证据和表达语义识别通知的规则，并补充离线fixture referenceTitle；本轮不再修产品或重跑。若据本包修改产品，本包改作已暴露回归，下一轮真实复测需新独立样本与新批准。",
+  "limitations": [
+    "本轮仅离线合成回复，不能报告真实幻觉率、误拦率、错误放行率或模型token改善。",
+    "一次candidate生命周期未通过；没有把未执行的修改流程或故障矩阵算作通过。",
+    "当前安装版未更新；candidate包准备成功不等于产品效果通过。",
+    "旧模式只回归了单元/fixture与冻结身份，本轮未另跑旧包完整生命周期。"
+  ]
+}

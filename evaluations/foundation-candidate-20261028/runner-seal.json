@@ -1,0 +1,173 @@
+{
+  "schema": 1,
+  "sampleSealIdentity": "e94f05ad1660d333553448207a3fbf14a28b71ba08398b54b7a610f5f9cb0977",
+  "files": [
+    {
+      "path": "Bridge.cs",
+      "sha256": "582556e1c6f3b58a497340191cbf84db3c78cb1bfcfa9a5480a7a3ca145eaa0a"
+    },
+    {
+      "path": "README.md",
+      "sha256": "306f384fea73f09aee436e167368de995872d676178800d6516914dce26ad16c"
+    },
+    {
+      "path": "authorization.cjs",
+      "sha256": "561987eee03aec56cb1295d04c480ba067272c51ebbdab5936b2493cd1939246"
+    },
+    {
+      "path": "authorization.test.cjs",
+      "sha256": "1ff27f91a16b9dd5f5b31bf70a75f2dcf4a6d8494c2cc14caea4c443962de455"
+    },
+    {
+      "path": "broker-paths.test.cjs",
+      "sha256": "10019c3fbaf6dac8e6e06886871f357b944af1638863a16bf3701c014bf552f9"
+    },
+    {
+      "path": "broker.cjs",
+      "sha256": "ed07e7bdc22d3e2fdaef302e57aa79ff0845084fc64521bea7533a94721aa3ec"
+    },
+    {
+      "path": "candidate-identity.cjs",
+      "sha256": "4a84ea6aba4198d8120d6c92caad701ebc6128dda66ac831a00dc1f4b99afb2d"
+    },
+    {
+      "path": "candidate-identity.test.cjs",
+      "sha256": "529adb3db9d24379b5e520c06d932e860892882d58c195dd01ceb0b6de09f7e9"
+    },
+    {
+      "path": "checkpoints.cjs",
+      "sha256": "d97f9a719e3199cbf9b5a05e118ddb82a91a7acd00666ebbbdbf7b3dc623f198"
+    },
+    {
+      "path": "checkpoints.test.cjs",
+      "sha256": "537aed526f07139779e72ce4504919eabe22b5e44d3dbe192ff9e50f8c9f0d61"
+    },
+    {
+      "path": "common.cjs",
+      "sha256": "30d7d5b67622e3c014332c20992161caece66df36b246316ca92250d29b1dedd"
+    },
+    {
+      "path": "evidence-protocol.cjs",
+      "sha256": "ecde327c706c1d850b848434dfd624ff549cbf8905f3e852e3d91f85e33cd372"
+    },
+    {
+      "path": "evidence-protocol.test.cjs",
+      "sha256": "5a60bc859f8ee8a1bcaee12133e2e67649037f44c8ac47dfe772a93afdd97f43"
+    },
+    {
+      "path": "integration-test.cjs",
+      "sha256": "5eddc87af8e15d454f95dff67cc7c988b6a3b84a1e616b5421ef1df2fe82e0b9"
+    },
+    {
+      "path": "ledger.cjs",
+      "sha256": "227c62bd172d05bd68385a3f75118f401a5664dbce9506f026b3c7c52447fa7b"
+    },
+    {
+      "path": "ledger.test.cjs",
+      "sha256": "29162e2ad968112ed96bee583c3e8eef0af8338e6f7a45d9dae71508a1ed0d5c"
+    },
+    {
+      "path": "negative-fixture.cjs",
+      "sha256": "6d0874ee69522e9d9ea096d24f41ec1d49d165d4d3562cdc13a3c23849747178"
+    },
+    {
+      "path": "negative.cjs",
+      "sha256": "34ffc8648c15f7e80061b1741e9db6de5934e3131834000ea644a07e65c6c736"
+    },
+    {
+      "path": "offline-fixture.cjs",
+      "sha256": "0633ac714ab85ae11ddce5f9d1073f8b618ff07955c5ec62537cbccb10fcc76e"
+    },
+    {
+      "path": "offline-fixture.test.cjs",
+      "sha256": "2938d85e6851e4b48313f2b9fad7508e06d7960301f435c4fb56111def51d9c8"
+    },
+    {
+      "path": "path-integration-test.cjs",
+      "sha256": "330151a68a724d3c89fe45fd0240e2355907b635d8505b842be8c4c6b84770ec"
+    },
+    {
+      "path": "paths.cjs",
+      "sha256": "51bc74fd7a4af808070d67dfd679705433ced776798f4f2a81f1ddb4cfb7810c"
+    },
+    {
+      "path": "paths.test.cjs",
+      "sha256": "fc50ec4b93a112eecd5cf41b61415d78fd5ef0e758d74ffbb8341bf3e4d160c7"
+    },
+    {
+      "path": "protocol-guard.cjs",
+      "sha256": "eb7dea72002d232f4c466f0048400d35a475f6cdbe84b4681e7268d54d34c878"
+    },
+    {
+      "path": "protocol-guard.test.cjs",
+      "sha256": "d96fca2d9cfb9ba874ef84df07bbcf8f15629999a4d2970438032c8fc72a6cfa"
+    },
+    {
+      "path": "run.cjs",
+      "sha256": "f7dcfe3c34f1258fad861849467d398ed74f95ae3d53f96ab0397bf900e7c1cf"
+    },
+    {
+      "path": "transport.cjs",
+      "sha256": "5491662cedcd4d36cc9012bd0e459f95a60802a6e7e9b1f2999794242bcc7ad6"
+    },
+    {
+      "path": "transport.test.cjs",
+      "sha256": "dccc1343b8b4732d5280790cdfe6bca640ec1fd76b9ebf57513901c7a5d388c8"
+    }
+  ],
+  "dependencies": [
+    {
+      "scope": "repo",
+      "path": "desktop/subscription-protocol.cjs",
+      "sha256": "fea01658938b1f1d4b51470a1761f5baf04732b46bf65796fcb3f4976b41f5b2"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/host-process.cjs",
+      "sha256": "5e8748dd41c2f29eed2ac79642a20b0d856082a43c88037715ebd0040bdd744c"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/windows-process.cjs",
+      "sha256": "bda530f963e3b315c0b89d976711e8f43e67e42725f7bef6407de10a1b565d16"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/windows-native.cjs",
+      "sha256": "4d425a6aed6722bae89bfe2a691ed19694b80a284aa62bdd61c9916db3410f9a"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/model-errors.cjs",
+      "sha256": "4d486ecda4feb57ffd5c09d6b35862029c5382dd0abc86e2ee51a7b6f65e67f9"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/model-json.cjs",
+      "sha256": "91a089e6f4e353a75d2d59f9d05b346914e543e0d8160de29e71afd664377fc4"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/native/bin/windows-process.exe",
+      "sha256": "dac0dffef0e84a9c18e11ac190b408fdec75a5b8502ebaeaf3d790f2aadb259e"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/grounding.cjs",
+      "sha256": "845a3c2f67b1a88fe9d02a3c3e0f65ff8ce644c8a7ac446a6cb6bec0f98bbb9c"
+    },
+    {
+      "scope": "repo",
+      "path": "evaluations/foundation-acceptance-20261028/inputs.cjs",
+      "sha256": "eb42b1f19903a96a6376a405a6b79d72a964e2539ea18327b3b1a8a91e535dd6"
+    },
+    {
+      "scope": "installed",
+      "path": "resources/app.asar.unpacked/desktop/native/bin/windows-process.exe",
+      "sha256": "91f11ecbe6673b3f017541dab9f1d2bdb8c464b7eea25839148b8867dff41b0a"
+    }
+  ],
+  "identity": "a7cbb9a585270331956b961a65c4e7d9149c7870fe3bb1551c8cf168c01e92e4",
+  "liveAuthorized": false,
+  "realModelCalls": 0
+}

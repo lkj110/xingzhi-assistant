@@ -1,0 +1,220 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-10-28T08:19:02.618Z",
+  "scope": "offline-candidate-preparation-only",
+  "candidateReady": false,
+  "realModelCalls": 0,
+  "officialCliProbePerformed": false,
+  "newBudgetAuthorized": false,
+  "installedCandidate": false,
+  "userWorkspaceTouched": false,
+  "manualAcceptancePerformed": false,
+  "productSourceChanged": false,
+  "runnerIdentity": "a7cbb9a585270331956b961a65c4e7d9149c7870fe3bb1551c8cf168c01e92e4",
+  "sampleSealIdentity": "e94f05ad1660d333553448207a3fbf14a28b71ba08398b54b7a610f5f9cb0977",
+  "asarSha256": "53c1a77e502d5461200b400f518495cc9d53d5c9e8bcddf6b15b148bd3aa6715",
+  "groundingSha256": "845a3c2f67b1a88fe9d02a3c3e0f65ff8ce644c8a7ac446a6cb6bec0f98bbb9c",
+  "filesBeforeAfterUnchanged": {
+    "runner": 28,
+    "sample": 9,
+    "builder": true,
+    "grounding": true
+  },
+  "bundleAudit": {
+    "schema": 1,
+    "at": "2026-10-28T08:02:58.456Z",
+    "outerFiles": 86,
+    "archiveEntries": 10447,
+    "archiveFiles": 9665,
+    "outerChanged": [
+      "resources/app.asar"
+    ],
+    "archiveChanged": [
+      "desktop/grounding.cjs"
+    ],
+    "sourceAndCandidateGroundingAgree": true,
+    "installedAsarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+    "candidateAsarSha256": "53c1a77e502d5461200b400f518495cc9d53d5c9e8bcddf6b15b148bd3aa6715",
+    "manifestSha256": "e128237c896ac3f773062bf21e4b513c43580b9a5723f098a51e4faa00caba96",
+    "liveModelCalls": 0
+  },
+  "staticPreflight": {
+    "schema": 1,
+    "passed": true,
+    "scope": "sample structure, anchors, allowlist and budget arithmetic only; not candidate runtime readiness",
+    "businessCases": 6,
+    "protocolGate": "G00-xilan",
+    "anchors": 25,
+    "sharedProjectionSha256": "eb42b1f19903a96a6376a405a6b79d72a964e2539ea18327b3b1a8a91e535dd6",
+    "productModificationPerformed": false,
+    "liveModelCalls": 0,
+    "modelAvailabilityProbed": false,
+    "liveAuthorized": false
+  },
+  "unit": {
+    "tests": 157,
+    "passed": 156,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Windows file-symlink privilege unavailable"
+  },
+  "lifecycle": {
+    "attemptedOnce": true,
+    "passed": false,
+    "cases": [
+      {
+        "caseId": "G00-xilan",
+        "technicalPassed": true,
+        "applicationAttempts": 3,
+        "error": null,
+        "status": "review",
+        "groundingPassed": true,
+        "issues": [],
+        "caseResultSha256": "5fc36a6c47c94539dd9f0c5bbbb6d06213f54219078d6c8d5eee29ed477815c4"
+      },
+      {
+        "caseId": "N01-yunhe-notice",
+        "technicalPassed": false,
+        "applicationAttempts": 3,
+        "error": "结果检查未通过：证据核验未通过：推断、建议或未知未在正文标明：n0\n+ actual - expected\n\n+ 'blocked'\n- 'review'\n",
+        "status": "blocked",
+        "groundingPassed": false,
+        "issues": [
+          "推断、建议或未知未在正文标明：n0"
+        ],
+        "caseResultSha256": "7d14c4c0d78622dc074476d258be23635de914fc605ab9bb2466bd848148288e"
+      },
+      {
+        "caseId": "N02-qinglu-disagreement",
+        "technicalPassed": true,
+        "applicationAttempts": 3,
+        "error": null,
+        "status": "review",
+        "groundingPassed": true,
+        "issues": [],
+        "caseResultSha256": "203185884c2725c1019a2944ad0d3862ed3a194b56949c982da58b131099abaa"
+      },
+      {
+        "caseId": "N03-lansui-revision",
+        "technicalPassed": false,
+        "applicationAttempts": 3,
+        "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'blocked'\n- 'review'\n",
+        "status": "blocked",
+        "groundingPassed": false,
+        "issues": [
+          "推断、建议或未知未在正文标明：n0"
+        ],
+        "caseResultSha256": "77dadda7f6f6444e6c0f2ffff12b2f7e8b3eac9cb0e984a2b4e2468018618f02"
+      },
+      {
+        "caseId": "N04-heqiao-restart",
+        "technicalPassed": true,
+        "applicationAttempts": 3,
+        "error": null,
+        "status": "review",
+        "groundingPassed": true,
+        "issues": [],
+        "caseResultSha256": "1ebc7e8b59ce674b14494c49cc19a05de71ed3fbd3167c9802bb342d8474323c"
+      },
+      {
+        "caseId": "N05-jinzhu-missing-approval",
+        "technicalPassed": true,
+        "applicationAttempts": 2,
+        "error": null,
+        "status": "blocked",
+        "groundingPassed": false,
+        "issues": [
+          "关键结论未获支持：c1",
+          "要求尚未满足：本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。",
+          "要求尚未满足：请核验已写好的场地使用确认通知。能交付的确认通知必须有批准及回执依据；若材料不足以支持原稿，就保留待处理状态。此次只判定这份原稿，不替它改写。",
+          "要求尚未满足：收件登记不能当作使用批准，申请中填写的时间不能变成已经确认的入场安排。批准和回执签发均须有原始材料支持；不得猜测申请随后获批。",
+          "锦竹合唱队的排练厅使用已获场馆批准，场地使用回执已签发。请于2026年6月23日19:30凭回执入场，使用至21:00。",
+          "独立检查尚未通过全部完成标准"
+        ],
+        "caseResultSha256": "85e01919f0e78454dc6c91449a1574f29292f5f57c62fe3cf711ca96dec19aa0"
+      },
+      {
+        "caseId": "N06-senwan-unjustified-choice",
+        "technicalPassed": true,
+        "applicationAttempts": 2,
+        "error": null,
+        "status": "blocked",
+        "groundingPassed": false,
+        "issues": [
+          "关键结论未获支持：c1",
+          "要求尚未满足：本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。",
+          "要求尚未满足：审核已经起草的最终结算意见。业务交付要求确定本批服务唯一应付金额；资料存在未解决差异时应继续待核账，不能把仅列出差异当成已经解决差异。本轮核验对象是原稿。",
+          "要求尚未满足：最终应付金额须有双方确认的结算依据；不能因表格版式、记录顺序或个人判断提高某份同级材料的效力。即使完整写出两个金额，无根据地选定一个也不能通过。",
+          "甲表为8,240元，乙表为8,460元。甲表版式更清晰，应优先采用，乙表只作参考；本批搬运服务最终应付金额已确定为8,240元。",
+          "独立检查尚未通过全部完成标准"
+        ],
+        "caseResultSha256": "a0191870353e5685acf860b2f93df075990eecc015570048514bf5af08851c5f"
+      }
+    ],
+    "syntheticApplicationAttempts": 19,
+    "realModelCalls": 0,
+    "unexpectedAttempts": 0,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "loadedCandidateWorkerHashVerified": true,
+    "mainWorkerIdentityChecks": 3,
+    "negativeWorkerIdentityChecks": 2,
+    "restartChecks": [
+      "restart-before-advance-zero-calls",
+      "restart-at-review-preserves-current-evidence"
+    ],
+    "revisionExecuted": false,
+    "furtherFaultRehearsalsExecuted": false,
+    "rendererErrors": []
+  },
+  "modelQualityMetrics": {
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "wrongReleaseRate": null,
+    "realTokenCost": null,
+    "reason": "No real model calls. N01 packaged synthetic artifact title additionally lacks requested SMS-confirmation scope; no full-output quality rate is assigned."
+  },
+  "sourceOnlyReplay": {
+    "schema": 1,
+    "scope": "Source-only offline replay with artifact title matching independent golden reference; not the packaged lifecycle fixture",
+    "results": [
+      {
+        "caseId": "N01-yunhe-notice",
+        "draftTitle": "云荷设备演示通知（限本轮已获短信确认的晚班志愿者）",
+        "titleTakenFromGoldenReference": true,
+        "fullReferenceContentUnchanged": true,
+        "candidatePassed": false,
+        "issues": [
+          "推断、建议或未知未在正文标明：p1"
+        ],
+        "trustedUserDescription": true,
+        "realModelCalls": 0
+      },
+      {
+        "caseId": "N03-lansui-revision",
+        "draftTitle": "岚穗展板回收通知",
+        "titleTakenFromGoldenReference": true,
+        "fullReferenceContentUnchanged": true,
+        "candidatePassed": false,
+        "issues": [
+          "推断、建议或未知未在正文标明：p1"
+        ],
+        "trustedUserDescription": true,
+        "realModelCalls": 0
+      }
+    ],
+    "realModelCalls": 0
+  },
+  "budget": {
+    "status": "draft-not-requested-for-execution",
+    "applicationAttempts": 36,
+    "reportedTokenStopThreshold": 700000,
+    "serverEnforcedTokenCap": false
+  },
+  "evidenceSha256": {
+    "lifecycleSummary": "18296e3dd417863b5f11cb7f005b2fa07fa884ece3880ecbcf21a6e0b4802624",
+    "sourceBefore": "f1d3cf652c84297f17e60ad1bd1232f4ce2e2dbc7e20ac4a8c8d589221105df7",
+    "builder": "301608e12d0b5c5cac83b9ec36470f951a3fc645211f32af1818afaa2a57aad6",
+    "runnerUnitLog": "ea96d3bfdecf45bd78b2b6fbbfc95695d65ed02eaaecf7ca97f9f0e069a64c29"
+  }
+}

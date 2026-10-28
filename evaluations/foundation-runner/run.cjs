@@ -1,21 +1,25 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),cp=require('node:child_process'),assert=require('node:assert/strict');
-const {root,pack,IDENTITY,sha,read,write,frozen,inside,dependencies}=require('./common.cjs');
+const {root,sha,read,write,frozen,inside,dependencies}=require('./common.cjs');
 const {createCheckpoint}=require('./checkpoints.cjs');
-const {project}=require('../foundation-acceptance-20261028/inputs.cjs'),{createBroker}=require('./broker.cjs');
+const {createBroker}=require('./broker.cjs');
 const {createNegative}=require('./negative.cjs');
-async function run({executable,output,mode='offline',authorization,authorizationPath,realCli,fault}){
+async function run({executable,output,mode='offline',authorization,authorizationPath,realCli,fault,candidate=false}){
  assert.equal(process.platform,'win32');assert.ok(path.isAbsolute(output)&&!fs.existsSync(output),'Output must be a new absolute directory');
- const identity=frozen(executable),{plan,asar}=identity,dependencyIdentity=dependencies(executable);let runnerManifest;
+ const identity=frozen(executable,{candidate,complete:true}),{plan,asar,pack}=identity,IDENTITY=identity.seal.identity,dependencyIdentity=dependencies(executable,{candidate});let runnerManifest;
+ const {project}=require(path.join(pack,'inputs.cjs'));
+ const suite=read(path.join(pack,'stimuli.json')),firstCase=suite.cases[0].id,negativeCases=suite.cases.filter(s=>s.lane==='fixed_invalid');
+ assert.equal(suite.cases.length,6);assert.equal(negativeCases.length,2);
  if(fault==='case-budget'){
-  assert.equal(mode,'offline');plan.caseLimits.find(c=>c.id==='F01-lanqiao-tour').tokenStopThreshold=50000;
+  assert.equal(mode,'offline');plan.caseLimits.find(c=>c.id===firstCase).tokenStopThreshold=50000;
   plan.budget.businessTokenStopThreshold=plan.caseLimits.reduce((n,c)=>n+c.tokenStopThreshold,0);plan.budget.reportedTokenStopThreshold=plan.budget.protocolTokenStopThreshold+plan.budget.businessTokenStopThreshold;
  }
- const identityGuard=()=>{frozen(executable);assert.deepEqual(dependencies(executable),dependencyIdentity);if(runnerManifest){for(const f of runnerManifest.files)assert.equal(sha(fs.readFileSync(path.join(__dirname,f.path))),f.sha256);assert.equal(sha(fs.readFileSync(realCli)),authorization.realCliSha256);}};
+ const identityGuard=()=>{const current=frozen(executable,{candidate});assert.equal(current.seal.identity,IDENTITY,'Sample/candidate seal changed');assert.deepEqual(dependencies(executable,{candidate}),dependencyIdentity);if(runnerManifest){for(const f of runnerManifest.files)assert.equal(sha(fs.readFileSync(path.join(__dirname,f.path))),f.sha256);assert.equal(sha(fs.readFileSync(realCli)),authorization.realCliSha256);}};
  if(mode==='live'){
   // A new explicit approval and reviewed runner identity are required; never generate either here.
   assert.ok(authorization,'New user budget approval required');
-  const manifest=read(path.join(__dirname,'runner-seal.json')),review=read(path.join(__dirname,'runner-review.json'));
+  const manifest=read(path.join(identity.runnerDirectory,'runner-seal.json')),review=read(path.join(identity.runnerDirectory,'runner-review.json'));
+  assert.equal(manifest.sampleSealIdentity,IDENTITY);assert.equal(review.sampleSealIdentity,IDENTITY);
   assert.equal(manifest.identity,sha(JSON.stringify({files:manifest.files,dependencies:manifest.dependencies})));assert.equal(review.runnerIdentity,manifest.identity);assert.equal(review.approvedForLiveReadiness,true);
   assert.deepEqual(manifest.files.map(f=>f.path).sort(),fs.readdirSync(__dirname).filter(f=>/\.(cjs|cs|md)$/.test(f)).sort());
   assert.deepEqual(manifest.dependencies,dependencyIdentity);
@@ -28,7 +32,7 @@ async function run({executable,output,mode='offline',authorization,authorization
  const shim=path.join(directory,'shim');fs.mkdirSync(shim);const profile=path.join(directory,'profile');
  const csc=path.join(process.env.SystemRoot,'Microsoft.NET/Framework64/v4.0.30319/csc.exe');
  cp.execFileSync(csc,['/nologo','/target:exe','/optimize+','/out:'+path.join(shim,'codex.exe'),'/reference:System.Web.Extensions.dll',path.join(__dirname,'Bridge.cs')],{windowsHide:true,timeout:60000});
- const broker=await createBroker({directory:output,plan,mode,sealIdentity:IDENTITY,authorization,realCli,identityGuard,fault,fixture:mode==='offline'?require('./offline-fixture.cjs').createFixture():undefined});
+ const broker=await createBroker({directory:output,plan,mode,sealIdentity:IDENTITY,authorization,realCli,identityGuard,fault,faultCaseId:negativeCases[0].id,fixture:mode==='offline'?require('./offline-fixture.cjs').createFixture({pack,plan}):undefined});
  write(path.join(shim,'bridge.json'),broker.bridgeConfig);
  const env={...process.env,PATH:shim+path.delimiter+process.env.PATH,CODEX_HOME:path.join(directory,'synthetic-codex-home')};
  for(const key of ['ELECTRON_RUN_AS_NODE','NODE_OPTIONS','ASSISTANT_TEST_DATA_DIR','ASSISTANT_DESKTOP_FIXTURE','ASSISTANT_ENGINE_FIXTURE'])delete env[key];
@@ -37,14 +41,16 @@ async function run({executable,output,mode='offline',authorization,authorization
  const provider={type:'codex',name:mode==='offline'?'Offline synthetic CLI':'Guarded subscription evaluation',model:plan.model.id,reasoning:plan.model.reasoning,inputPrice:0,outputPrice:0,requestPolicy:{idleMinutes:2,totalMinutes:3,retries:0}};
  const control=new AbortController();const signalStop=()=>{control.abort();broker.cancel('USER_PROCESS_SIGNAL');};process.on('SIGINT',signalStop);process.on('SIGTERM',signalStop);
  async function launch(){
-  identityGuard();
+  identityGuard();if(candidate)frozen(executable,{candidate,complete:true});
   app=await electron.launch({executablePath:executable,args:['--user-data-dir='+profile],env,timeout:45000});page=await app.firstWindow();page.on('pageerror',e=>appErrors.push(e.message));await page.waitForFunction(()=>!!window.assistant);
   const proof=await app.evaluate(({app},names)=>({packaged:app.isPackaged,profile:app.getPath('userData'),version:app.getVersion(),asar:app.getAppPath(),modules:names.map(n=>({name:n,hash:process.getBuiltinModule('node:crypto').createHash('sha256').update(process.getBuiltinModule('node:fs').readFileSync(process.getBuiltinModule('node:path').join(app.getAppPath(),'desktop',n))).digest('hex')}))}),['subscription.cjs','subscription-protocol.cjs','host-process.cjs']);
   assert.equal(proof.packaged,true);assert.equal(proof.profile,profile);assert.equal(proof.version,plan.installedVersion);assert.equal(proof.asar,asar);
-  for(const m of proof.modules)assert.equal(m.hash,sha(fs.readFileSync(path.join(root,'desktop',m.name))));checks.push({kind:'installed-package-identity',proof});
+  for(const m of proof.modules)assert.equal(m.hash,sha(fs.readFileSync(path.join(root,'desktop',m.name))));
+  const groundingStatus=await api('groundingStatus');assert.equal(groundingStatus.implementationHash,identity.groundingSha256,'Loaded Worker grounding implementation differs');
+  checks.push({kind:candidate?'candidate-package-identity':'installed-package-identity',proof,groundingStatus});
  }
  async function api(action,input={}){
-  assert.ok(['state','export','settings','saveProvider','captureSave','createTask','advance','taskAction','stop','acceptanceSnapshot'].includes(action),'Unplanned UI command');
+  assert.ok(['state','export','settings','saveProvider','captureSave','createTask','advance','taskAction','stop','acceptanceSnapshot','groundingStatus'].includes(action),'Unplanned UI command');
   if(action==='taskAction')assert.equal(input.command,'revise','Runner cannot perform human acceptance');
   const r=await page.evaluate(({action,input})=>window.assistant.call(action,input),{action,input});if(r.error)throw Object.assign(Error(r.error),{code:r.code});return r.data;
  }
@@ -89,11 +95,11 @@ async function run({executable,output,mode='offline',authorization,authorization
  try{
   await launch();const before=await api('state');assert.equal(before.providers.length,0);assert.equal(before.tasks.length,0);
   await api('settings',{automatic:false,autoComplete:false,evidenceGrounding:true});await api('saveProvider',provider);
-  const suite=read(path.join(pack,'stimuli.json'));
   for(const spec of [{...plan.protocolGate,lane:'generated'},...suite.cases]){
    if(broker.stopped)break;const input=project(spec),start=broker.rows.length;let taskId,context,initial,final,caseError;
    if(spec.lane==='fixed_invalid'){
-    fs.mkdirSync(path.join(directory,spec.id));negative=await createNegative({app,asar,directory:path.join(directory,spec.id),input,provider});taskId=negative.seedIdentity.taskId;
+    fs.mkdirSync(path.join(directory,spec.id));negative=await createNegative({app,asar,directory:path.join(directory,spec.id),input,provider,packageIdentity:identity});taskId=negative.seedIdentity.taskId;
+    const status=await negative.api('groundingStatus');assert.equal(status.implementationHash,identity.groundingSha256);checks.push({kind:'negative-worker-grounding-identity',caseId:spec.id,implementationHash:status.implementationHash});
     const state=await negative.snapshot();context={id:spec.id,taskId,title:input.title,description:input.description,criteria:input.criteria,lane:spec.lane,candidate:input.candidate,sources:state.sources};broker.setContext(context);
    }else{
     for(const source of input.sources)await api('captureSave',{organize:false,textItems:[source]});const state=await api('state');
@@ -145,10 +151,10 @@ async function run({executable,output,mode='offline',authorization,authorization
   try{await negative?.close();await app?.close();}catch(e){failed ||=e;}await broker.close();
   process.off('SIGINT',signalStop);process.off('SIGTERM',signalStop);
  }
- const summary={passed:!failed,mode,fault:fault||null,liveModelCalls:mode==='offline'?0:broker.rows.filter(r=>r.transportDispatched).length,syntheticUsage:mode==='offline',sealIdentity:IDENTITY,asarSha256:plan.asarSha256,executableSha256:identity.executableSha256,shimSha256:sha(fs.readFileSync(path.join(shim,'codex.exe'))),isolatedDirectory:directory,userWorkspaceTouched:false,manualAcceptancePerformed:false,results,checks,ledger:broker.ledger.snapshot(),errors:[...(failed?[failed.stack]:[]),...broker.errors],appErrors};
+ const summary={passed:!failed,mode,candidate,packageKind:candidate?'isolated-candidate':'frozen-installed',groundingSha256:identity.groundingSha256,fault:fault||null,liveModelCalls:mode==='offline'?0:broker.rows.filter(r=>r.transportDispatched).length,syntheticUsage:mode==='offline',sealIdentity:IDENTITY,asarSha256:plan.asarSha256,executableSha256:identity.executableSha256,shimSha256:sha(fs.readFileSync(path.join(shim,'codex.exe'))),isolatedDirectory:directory,userWorkspaceTouched:false,manualAcceptancePerformed:false,results,checks,ledger:broker.ledger.snapshot(),errors:[...(failed?[failed.stack]:[]),...broker.errors],appErrors};
  try{identityGuard();}catch(e){failed ||=e;summary.passed=false;summary.errors.push(e.stack);}summary.dependencies=dependencyIdentity;
  write(path.join(output,'summary.json'),summary);console.log(JSON.stringify({passed:summary.passed,mode,liveModelCalls:summary.liveModelCalls,cases:results.length,output,error:failed?.message}));if(failed)throw failed;return summary;
 }
 module.exports={run};
-if(require.main===module){const {values}=require('node:util').parseArgs({options:{executable:{type:'string'},output:{type:'string'},offline:{type:'boolean'},live:{type:'boolean'},authorization:{type:'string'},'real-cli':{type:'string'},fault:{type:'string'}}});
- assert.notEqual(!!values.offline,!!values.live,'Choose exactly --offline or --live');assert.ok(!values.fault||values.offline&&['malformed-envelope','malformed-inner','malformed-evidence','unknown-usage','case-budget'].includes(values.fault));run({executable:values.executable,output:values.output,mode:values.live?'live':'offline',authorization:values.authorization?read(values.authorization):undefined,authorizationPath:values.authorization,realCli:values['real-cli'],fault:values.fault}).catch(e=>{console.error(e.stack);process.exitCode=1;});}
+if(require.main===module){const {values}=require('node:util').parseArgs({options:{executable:{type:'string'},output:{type:'string'},offline:{type:'boolean'},live:{type:'boolean'},authorization:{type:'string'},'real-cli':{type:'string'},fault:{type:'string'},candidate:{type:'boolean'}}});
+ assert.notEqual(!!values.offline,!!values.live,'Choose exactly --offline or --live');assert.ok(!values.fault||values.offline&&['malformed-envelope','malformed-inner','malformed-evidence','unknown-usage','case-budget'].includes(values.fault));run({executable:values.executable,output:values.output,mode:values.live?'live':'offline',authorization:values.authorization?read(values.authorization):undefined,authorizationPath:values.authorization,realCli:values['real-cli'],fault:values.fault,candidate:values.candidate||false}).catch(e=>{console.error(e.stack);process.exitCode=1;});}
