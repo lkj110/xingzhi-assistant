@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "reviewedAt": "2026-10-28T06:24:38.407Z",
+  "reviewer": "independent-subagent",
+  "reviewTask": "runner_path_independent_review",
+  "scope": "Path-only Foundation evaluation-runner repair, frozen product and offline evidence; baseline f116713a1128f74d3bc7be98f2fc0a563a4df9c5",
+  "runnerIdentity": "717a27c303bd26ea5b5c4dbcbf18228d9dc8c010a07b52d535e6912e30e8c515",
+  "sampleSealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "approvedForLiveReadiness": true,
+  "approvedForUpload": true,
+  "approvedForLiveExecution": false,
+  "realModelCalls": 0,
+  "newBudgetAuthorized": false,
+  "productPatchRequired": false,
+  "manualAcceptancePerformed": false,
+  "approvalMeaning": "The reviewed runner and sanitized reports may be uploaded and a fresh budget requested. Live execution still requires new explicit user authorization bound to this identity; this review does not grant it.",
+  "remainingBlockingFindings": [],
+  "closedFindings": [
+    {
+      "id": "PATH-R1",
+      "issue": "The new integration driver read realModelCalls from an existing integration summary that provides liveModelCalls.",
+      "resolution": "Corrected field verified. The failed first summary is retained; the final sealed revision was rerun in both TEMP environments and all ten scenarios met expectations."
+    }
+  ],
+  "independentChecks": {
+    "sealedRunnerFilesVerified": 23,
+    "stagedGitBlobHashesVerified": 23,
+    "dependenciesVerified": 8,
+    "sealedSampleFilesVerified": 9,
+    "installedExecutableAndAsarVerified": true,
+    "productionSourceDiffEmpty": true,
+    "integrationSourceBeforeAfterMatchesSeal": true,
+    "unitTests": {
+      "tests": 144,
+      "passed": 143,
+      "failed": 0,
+      "skipped": 1,
+      "cancelled": 0,
+      "executedByReviewer": true
+    },
+    "integration": {
+      "tests": 10,
+      "shortPassed": 5,
+      "longPassed": 5,
+      "syntheticApplicationAttempts": 92,
+      "requestRecordsVerified": 90,
+      "terminalRecordsVerified": 92,
+      "shortMixedSpellingRequests": 45,
+      "longUnifiedSpellingRequests": 45,
+      "rawInputAndOutputHashesVerified": true,
+      "ledgerChecksumsAndUsageRecomputed": true,
+      "evidenceFilesHashed": 280
+    },
+    "additionalSyntheticRefusalScenarios": 3,
+    "pathBoundary": "Native canonicalization and directory/file identities accept equivalent aliases while rejecting out-of-bound parents, cwd/leaf links, hardlinks, premature output and observed replacements. Schema content and original CLI parameters remain bound.",
+    "refusalAccounting": "Before-dispatch schema refusal produced one admitted attempt with known zero usage and usageSource=not_dispatched; external-output and raw-audit hardlink refusals retained raw/canonical diagnostics and stages. Hardlink raw output was not read; known synthetic usage was retained.",
+    "protocolEvidenceBindingUnchanged": true,
+    "publicVerificationAndDocumentationChecked": true,
+    "officialCliProbePerformed": false
+  },
+  "evidenceSha256": {
+    "runnerSeal": "3c172bffd75bafc30e331033d7343f4e17653dd884b504e47b9b701fdfd54b78",
+    "independentUnitFinal": "9329f5e0ad04da3859d8e86a35e433e137bcaeeaea25f7e1f5eb0df0bcef6974",
+    "integrationFinal": "827dcaf4c50224f9fe6d10df483c5d1030f0f47c967fc33f01814a95c85e5166",
+    "independentIntegrationCheck": "3d2fd3b42989bb647c47ec5c29d276760056d91f339e1f23a449355c87aba359",
+    "integrationEvidenceManifest": "4876f5482ad5936a117bcbce6974f844066000c7b45c6e997c9269b01e53a611",
+    "independentPathRefusals": "0c650d95f7c8eece0d99a1daf26e279ce7116b0187d29626616086703f4fb09a",
+    "independentSealCheck": "de4b564b3d43c48bbef279d18b8b91a840f0273d29e43ffaf2c3d5f5bdebd58c",
+    "publicVerification": "0623ae84ca84cf2cee88d78f1ad71c92ea72f82f7b9dc36d63df4602ddbfa32d",
+    "pathFixReport": "7bd3cfd5119b105c4f1ec29465e5097d6cb2fac0c0496f52dab2f2d546dfad1c"
+  },
+  "limitations": [
+    "One actual file-symlink test was skipped because Windows denied creation with EPERM; junction and hardlink cases ran.",
+    "Path checks do not guarantee atomic protection against concurrent filesystem mutation by a process with equal permissions.",
+    "All model replies and usage in this repair stage are synthetic; model quality, availability, live cost and human acceptance remain unmeasured.",
+    "The proposed 36 attempts and 700000-token stop threshold are not authorized by this review; the token threshold is not a provider-enforced hard cap."
+  ]
+}

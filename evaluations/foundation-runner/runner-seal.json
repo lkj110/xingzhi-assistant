@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "sampleSealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
-  "supersedesIdentity": "1bbb1c57b5e9309a04fd3d04b082b30e8f7ff89504ebd3a558e5b05e76106f9c",
+  "supersedesIdentity": "9eaa05b43cc36fd2f2362a53e3023369449af7015e74bcad67ef0cdfd6919374",
   "files": [
     {
       "path": "Bridge.cs",
@@ -9,7 +9,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "34bcd04d15c7340ad23f69e753838249d00efaf1b379de10eb1317ca20eb0dd9"
+      "sha256": "b5e0cf930a9dbdca8d06d91e26ce53c9ec6e7765ab3639caaf5751b2611be888"
     },
     {
       "path": "authorization.cjs",
@@ -20,8 +20,12 @@
       "sha256": "1ff27f91a16b9dd5f5b31bf70a75f2dcf4a6d8494c2cc14caea4c443962de455"
     },
     {
+      "path": "broker-paths.test.cjs",
+      "sha256": "10019c3fbaf6dac8e6e06886871f357b944af1638863a16bf3701c014bf552f9"
+    },
+    {
       "path": "broker.cjs",
-      "sha256": "ce89e40952ae2298404f198349eb847a93a59a64856e0ca2baae70aa5c1d1a32"
+      "sha256": "806f070d1d7c816ebc187cda574590d60e3921bcaaff6dd11b4a3c814767c0a6"
     },
     {
       "path": "checkpoints.cjs",
@@ -58,6 +62,18 @@
     {
       "path": "offline-fixture.cjs",
       "sha256": "23848a5aad71f2a79392e444b714732a7cbd05bf3a3659e2ae47588679c6db22"
+    },
+    {
+      "path": "path-integration-test.cjs",
+      "sha256": "55305f93acc4f3b4aa4087a7ec27c6f96c31a2bdd2493433f845207f6128d41b"
+    },
+    {
+      "path": "paths.cjs",
+      "sha256": "51bc74fd7a4af808070d67dfd679705433ced776798f4f2a81f1ddb4cfb7810c"
+    },
+    {
+      "path": "paths.test.cjs",
+      "sha256": "fc50ec4b93a112eecd5cf41b61415d78fd5ef0e758d74ffbb8341bf3e4d160c7"
     },
     {
       "path": "protocol-guard.cjs",
@@ -122,7 +138,7 @@
       "sha256": "91f11ecbe6673b3f017541dab9f1d2bdb8c464b7eea25839148b8867dff41b0a"
     }
   ],
-  "identity": "9eaa05b43cc36fd2f2362a53e3023369449af7015e74bcad67ef0cdfd6919374",
+  "identity": "717a27c303bd26ea5b5c4dbcbf18228d9dc8c010a07b52d535e6912e30e8c515",
   "liveAuthorized": false,
   "realModelCalls": 0
 }

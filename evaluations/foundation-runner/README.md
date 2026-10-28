@@ -9,7 +9,12 @@
 ```powershell
 node --test evaluations/foundation-runner/*.test.cjs
 node evaluations/foundation-runner/integration-test.cjs --executable <冻结EXE绝对路径> --output <全新输出目录绝对路径>
+node evaluations/foundation-runner/path-integration-test.cjs --executable <冻结EXE绝对路径> --output <另一个全新输出目录绝对路径>
 ```
+
+路径驱动在两个独立进程中使用实际等价的Windows短/长TEMP，各执行完整流程和四项故障预演，共10项；不能取得真实短路径别名时明确失败，不静默跳过。单元回归另覆盖路径混用、越界、目录和文件替换、junction及hardlink。宿主未授权创建文件symlink时，该单项明确报告skip，不能宣称已经实测。
+
+路径校验用native realpath解析短/长别名，并比较目录和文件身份；保留原始CLI参数与请求，不改产品协议。固定叶名仍是schema.json与response.json。分发前复核工作目录、schema身份/内容及输出尚不存在；读结果前复核并绑定普通输出文件，拒绝可观测的换址与替换。此校验不声称可原子抵御具有同等文件权限的并发恶意修改。请求和终态记录保留原始/规范化路径及存在状态，拒绝记录另含发生阶段和稳定错误码；不把完整argv、环境或登录凭证写入路径诊断。准入后尚未执行即拒绝的请求保持一次应用尝试，按已证明未分发记录0用量。
 
 另有案例预算故障：仅在 offline 克隆预算中把 F01 阈值降至50000并同步总额度，验证首次生成后核验准入被拒绝、其余案例仍继续；封存计划和样本不改，live 不允许此注入。预演保留合成工作空间和原始审计，便于复核。无生产数据迁移、安装更新或真人验收。正例的公开验收快照必须 ready，负例不可 ready；脚本禁止 `accept` 与 `acceptanceAccept`。
 
