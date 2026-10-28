@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "reviewer": "independent-subagent",
+  "reviewTask": "foundation_offline_review",
+  "scope": "Frozen Windows Foundation acceptance runner readiness; offline evidence only",
+  "runnerIdentity": "9eaa05b43cc36fd2f2362a53e3023369449af7015e74bcad67ef0cdfd6919374",
+  "sampleSealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "approvedForLiveReadiness": true,
+  "approvedForLiveExecution": false,
+  "approvedForUpload": true,
+  "realModelCalls": 0,
+  "newBudgetAuthorized": false,
+  "manualAcceptancePerformed": false,
+  "productPatchRequired": false,
+  "approvalMeaning": "May request the separately authorized one-time budget. This review does not grant live execution, create user authorization, approve model availability or count as human acceptance.",
+  "remainingBlockingFindings": [],
+  "independentChecks": {
+    "codeReviewed": [
+      "authorization",
+      "ledger",
+      "transport",
+      "broker",
+      "protocol-guard",
+      "checkpoints",
+      "run",
+      "negative and negative-fixture",
+      "offline-fixture",
+      "Bridge.cs",
+      "integration-test"
+    ],
+    "runnerFiles": 19,
+    "dependencies": 8,
+    "runnerHashRecomputed": true,
+    "allSealedFileHashesVerified": true,
+    "dependencyHashesVerified": true,
+    "sampleSealAndAllFilesVerified": true,
+    "installedExecutableAndAsarVerified": true,
+    "productionDiffAgainstBaseEmpty": true,
+    "baseCommit": "cba955e4b5826ae72ad8f3d414214b5a548fdb6e",
+    "installedVersion": "0.42.4",
+    "executableSha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a",
+    "asarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+    "unitTestsExecutedByReviewer": {
+      "tests": 114,
+      "passed": 114,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "concurrency": 1,
+      "realModelCalls": 0
+    },
+    "integrationEvidenceIndependentlyRecomputed": true,
+    "integrationScenarios": [
+      {
+        "name": "full-lifecycle",
+        "passed": true,
+        "applicationAttempts": 22,
+        "cases": 7,
+        "normalGeneratedCases": 4,
+        "unchangedFixedNegativeCases": 2,
+        "manualAccept": false,
+        "executedUnderRunnerIdentity": "1bbb1c57b5e9309a04fd3d04b082b30e8f7ff89504ebd3a558e5b05e76106f9c"
+      },
+      {
+        "name": "malformed-envelope",
+        "passed": true,
+        "applicationAttempts": 1,
+        "businessCasesStarted": 0,
+        "knownUsageRetained": true,
+        "executedUnderRunnerIdentity": "1bbb1c57b5e9309a04fd3d04b082b30e8f7ff89504ebd3a558e5b05e76106f9c"
+      },
+      {
+        "name": "malformed-inner",
+        "passed": true,
+        "applicationAttempts": 1,
+        "businessCasesStarted": 0,
+        "knownUsageRetained": true,
+        "executedUnderRunnerIdentity": "1bbb1c57b5e9309a04fd3d04b082b30e8f7ff89504ebd3a558e5b05e76106f9c"
+      },
+      {
+        "name": "unknown-usage",
+        "passed": true,
+        "applicationAttempts": 1,
+        "businessCasesStarted": 0,
+        "totalTokens": null,
+        "unknownUsage": 1,
+        "executedUnderRunnerIdentity": "1bbb1c57b5e9309a04fd3d04b082b30e8f7ff89504ebd3a558e5b05e76106f9c"
+      },
+      {
+        "name": "case-budget",
+        "passed": true,
+        "applicationAttempts": 21,
+        "deniedCase": "F01-lanqiao-tour",
+        "deniedCaseAttempts": 2,
+        "deniedCaseAdmitted": 1,
+        "followingBusinessCasesPassed": 5,
+        "offlineBudgetOverrideOnly": true,
+        "testedBranchRunnerIdentity": "9eaa05b43cc36fd2f2362a53e3023369449af7015e74bcad67ef0cdfd6919374"
+      }
+    ],
+    "differentialValidation": "The first four integration scenarios ran under v1. Final v2 changes only README.md, integration-test.cjs and the narrow case-budget refusal branch/offline injection in run.cjs; that branch was separately exercised with the actual EXE. No claim that all five scenarios were rerun under one final identity.",
+    "rawTerminalRecordsAndApplicationAttemptCountsVerified": true,
+    "fixedNegativeBytesAndUnreadyAcceptanceVerified": true,
+    "syntheticUsageTotalsRecomputedAgainstLedger": true
+  },
+  "closedFindings": [
+    {
+      "id": "R1",
+      "result": "Application attempts including observed local failures are reconciled to durable accounting; budget refusals retain their boundary identity."
+    },
+    {
+      "id": "R2",
+      "result": "Known usage survives errors, unknown/conflicting usage stops and remains null; bounded terminal evidence persists raw usage and response/error details."
+    },
+    {
+      "id": "R3",
+      "result": "Cancellation is durable and waits for the managed Windows process tree; synthetic descendant, timeout and signal tests pass."
+    },
+    {
+      "id": "R4",
+      "result": "Malformed JSON/protocol is stopped before implicit JSON repair. RevisionRecovery is rejected. Valid read aliases, incremental full expansion, cached evidence and frozen JSON decoding remain compatible."
+    },
+    {
+      "id": "R5",
+      "result": "Strict command allowlist excludes scripted accept/acceptanceAccept. Fixed drafts remain byte-identical and cannot become ready for acceptance."
+    },
+    {
+      "id": "R6",
+      "result": "Explicit approval binds one runId/output and matching identities; exclusive durable consumption rejects reuse and changed output."
+    },
+    {
+      "id": "R7",
+      "result": "Per-admission/restart identity checks cover frozen product, runner, calling/cancellation dependencies and future approved CLI hash."
+    },
+    {
+      "id": "R8",
+      "result": "G00 and F03 content checkpoints omit system verdict/gold, bind the current content, reject stale/missing approval and retain the original deadline; they never count as human acceptance."
+    },
+    {
+      "id": "R9",
+      "result": "Only a fully matched, unforwarded, case-scoped LEDGER_CASE_BUDGET refusal may avoid global stop; actual EXE injection proves later cases continue."
+    }
+  ],
+  "limitations": [
+    "All replies/usage in this stage are synthetic. Hallucination, false-block, false-release rates and actual token cost remain unmeasured.",
+    "Live mode requires a new explicit user budget approval, a one-time matching authorization file and official CLI binary hash; none was generated or consumed here.",
+    "The 700000 input+output token value is an admission/stop threshold, not a provider-enforced hard cap; an in-flight call may exceed it.",
+    "The live protocol gate and independent checkpoint verdicts remain mandatory. Offline integration intentionally skipped semantic decisions and unit-tested their waiting/refusal logic.",
+    "Future checkpoint reviewers must receive only the projected content before viewing system outcomes. AI independent review is not human acceptance.",
+    "Actual model availability/authentication and the official live CLI route remain unprobed; no credentials or user model configuration were read by this review.",
+    "No platform-wide regression, full Agent/A-D acceptance, macOS acceptance or comparative historical token-saving claim is established."
+  ],
+  "evidenceSha256": {
+    "unitTests": "ab8bd013731aa8b458d286900695030f0a45222c7b3e405d31a2b437d096033a",
+    "independentUnitTests": "a2701824ec3b1e040aa1db4af16ea4b94244442d69384a933b469f76f6abf40f",
+    "integrationResultsV1": "e2e4bb7e89b731858ead3b50391dce5e9c4591e523d58fdbd4bfbb0d9572e2fb",
+    "normalSummaryV1": "bf527839120f7eda927485054d3683cee0d17b5b39f6932a138f42c2fbe85365",
+    "malformedEnvelopeSummaryV1": "9edbb341c11ecd02f3abccffacea5e0ba403f1d7236fd98b3ce4ed948e0eaac6",
+    "malformedInnerSummaryV1": "3a2f39a9c85b9495ca5b83c7bf6d31c5511fc0bb88638051283ef8aa7cf49b1c",
+    "unknownUsageSummaryV1": "14f9d4b2c17abb35d93297c13e3fddd74fa0a57c72d96f7663830476fcff54e3",
+    "caseBudgetSummaryV2": "63485e6624fa48e73d0d0b033b00fb7520517652fd5b3a25e0a87d317e2b4601",
+    "publicVerification": "5da922ea9bb208db058b4568596dcc5c322827f6846aea1fd14645b4bbbbec66",
+    "runnerSeal": "2b66f473d0167baa8dcdf8cbfe620a4e55ff848629afd47cce93eb8492b16d7e"
+  },
+  "reviewedAt": "2026-10-28T05:10:19.531Z"
+}

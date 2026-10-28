@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-28",
+  "runnerIdentity": "9eaa05b43cc36fd2f2362a53e3023369449af7015e74bcad67ef0cdfd6919374",
+  "sampleSealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "scope": "offline-evaluator-readiness-only",
+  "realModelCalls": 0,
+  "userWorkspaceTouched": false,
+  "manualAcceptancePerformed": false,
+  "productFilesChanged": false,
+  "asarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+  "executableSha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a",
+  "unit": {
+    "tests": 114,
+    "pass": 114,
+    "fail": 0,
+    "independentlyRerun": true,
+    "reportSha256": "ab8bd013731aa8b458d286900695030f0a45222c7b3e405d31a2b437d096033a",
+    "independentReportSha256": "a2701824ec3b1e040aa1db4af16ea4b94244442d69384a933b469f76f6abf40f"
+  },
+  "integration": {
+    "tests": 5,
+    "pass": 5,
+    "fullLifecycle": {
+      "cases": 7,
+      "businessCases": 6,
+      "applicationAttempts": 22,
+      "synthetic": true,
+      "results": [
+        {
+          "caseId": "G00-ronglan",
+          "technicalPassed": true,
+          "applicationAttempts": 3,
+          "error": null
+        },
+        {
+          "caseId": "F01-lanqiao-tour",
+          "technicalPassed": true,
+          "applicationAttempts": 3,
+          "error": null
+        },
+        {
+          "caseId": "F02-chengdao-disagreement",
+          "technicalPassed": true,
+          "applicationAttempts": 3,
+          "error": null
+        },
+        {
+          "caseId": "F03-wenshan-revision",
+          "technicalPassed": true,
+          "applicationAttempts": 6,
+          "error": null
+        },
+        {
+          "caseId": "F04-xingpu-restart",
+          "technicalPassed": true,
+          "applicationAttempts": 3,
+          "error": null
+        },
+        {
+          "caseId": "F05-tangyu-missing-approval",
+          "technicalPassed": true,
+          "applicationAttempts": 2,
+          "error": null
+        },
+        {
+          "caseId": "F06-qichuan-unjustified-choice",
+          "technicalPassed": true,
+          "applicationAttempts": 2,
+          "error": null
+        }
+      ],
+      "checkpointRequests": [
+        {
+          "kind": "independent-content-checkpoint",
+          "caseId": "G00-ronglan",
+          "stage": "protocol-gate",
+          "identity": "6664c2ec22304edefbe17ec29c1da1cc56c8b82ec91999f6072d3566847ed7fc",
+          "syntheticSkipped": true
+        },
+        {
+          "kind": "independent-content-checkpoint",
+          "caseId": "F03-wenshan-revision",
+          "stage": "initial-draft",
+          "identity": "5f28522ee91e45e0aa4e0defcf87cb438f90dbf394b1694d499ab742a9c3bb17",
+          "syntheticSkipped": true
+        }
+      ],
+      "summarySha256": "bf527839120f7eda927485054d3683cee0d17b5b39f6932a138f42c2fbe85365",
+      "executedUnderRunnerIdentity": "1bbb1c57b5e9309a04fd3d04b082b30e8f7ff89504ebd3a558e5b05e76106f9c"
+    },
+    "protocolFaults": [
+      {
+        "name": "malformed-envelope",
+        "passed": true,
+        "applicationAttempts": 1,
+        "businessCasesStarted": 0,
+        "usageKnown": true,
+        "summarySha256": "9edbb341c11ecd02f3abccffacea5e0ba403f1d7236fd98b3ce4ed948e0eaac6",
+        "executedUnderRunnerIdentity": "1bbb1c57b5e9309a04fd3d04b082b30e8f7ff89504ebd3a558e5b05e76106f9c"
+      },
+      {
+        "name": "malformed-inner",
+        "passed": true,
+        "applicationAttempts": 1,
+        "businessCasesStarted": 0,
+        "usageKnown": true,
+        "summarySha256": "3a2f39a9c85b9495ca5b83c7bf6d31c5511fc0bb88638051283ef8aa7cf49b1c",
+        "executedUnderRunnerIdentity": "1bbb1c57b5e9309a04fd3d04b082b30e8f7ff89504ebd3a558e5b05e76106f9c"
+      },
+      {
+        "name": "unknown-usage",
+        "passed": true,
+        "applicationAttempts": 1,
+        "businessCasesStarted": 0,
+        "usageKnown": false,
+        "summarySha256": "14f9d4b2c17abb35d93297c13e3fddd74fa0a57c72d96f7663830476fcff54e3",
+        "executedUnderRunnerIdentity": "1bbb1c57b5e9309a04fd3d04b082b30e8f7ff89504ebd3a558e5b05e76106f9c"
+      }
+    ],
+    "caseBudget": {
+      "passed": true,
+      "offlineBudgetOverrideOnly": true,
+      "deniedCase": "F01-lanqiao-tour",
+      "applicationAttempts": 2,
+      "admitted": 1,
+      "followingBusinessCasesCompleted": 5,
+      "totalSyntheticAttempts": 21,
+      "summarySha256": "63485e6624fa48e73d0d0b033b00fb7520517652fd5b3a25e0a87d317e2b4601",
+      "testedBranchRunnerIdentity": "9eaa05b43cc36fd2f2362a53e3023369449af7015e74bcad67ef0cdfd6919374"
+    },
+    "coverageNote": "Four scenarios ran before the final narrow case-budget scope fix; the changed branch was then exercised in the separate actual-package case-budget scenario. No result claims an unchanged aggregate code identity across these runs."
+  },
+  "metrics": {
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "falseReleaseRate": null,
+    "actualTokens": null,
+    "reason": "Offline replies and usage are synthetic; real-model quality/cost remain unmeasured"
+  },
+  "newBudgetAuthorized": false,
+  "formalMainEvaluationStarted": false
+}

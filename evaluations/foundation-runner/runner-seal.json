@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "sampleSealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "supersedesIdentity": "1bbb1c57b5e9309a04fd3d04b082b30e8f7ff89504ebd3a558e5b05e76106f9c",
+  "files": [
+    {
+      "path": "Bridge.cs",
+      "sha256": "582556e1c6f3b58a497340191cbf84db3c78cb1bfcfa9a5480a7a3ca145eaa0a"
+    },
+    {
+      "path": "README.md",
+      "sha256": "34bcd04d15c7340ad23f69e753838249d00efaf1b379de10eb1317ca20eb0dd9"
+    },
+    {
+      "path": "authorization.cjs",
+      "sha256": "561987eee03aec56cb1295d04c480ba067272c51ebbdab5936b2493cd1939246"
+    },
+    {
+      "path": "authorization.test.cjs",
+      "sha256": "1ff27f91a16b9dd5f5b31bf70a75f2dcf4a6d8494c2cc14caea4c443962de455"
+    },
+    {
+      "path": "broker.cjs",
+      "sha256": "ce89e40952ae2298404f198349eb847a93a59a64856e0ca2baae70aa5c1d1a32"
+    },
+    {
+      "path": "checkpoints.cjs",
+      "sha256": "d97f9a719e3199cbf9b5a05e118ddb82a91a7acd00666ebbbdbf7b3dc623f198"
+    },
+    {
+      "path": "checkpoints.test.cjs",
+      "sha256": "537aed526f07139779e72ce4504919eabe22b5e44d3dbe192ff9e50f8c9f0d61"
+    },
+    {
+      "path": "common.cjs",
+      "sha256": "0fa4bc7c305b65e0703244405e607243590f14f0e79441ac0bc138af65774b71"
+    },
+    {
+      "path": "integration-test.cjs",
+      "sha256": "bc5c7549118c12b3c7a896b61fa55f364089746acb8adffc97a3c85f9808e9c5"
+    },
+    {
+      "path": "ledger.cjs",
+      "sha256": "227c62bd172d05bd68385a3f75118f401a5664dbce9506f026b3c7c52447fa7b"
+    },
+    {
+      "path": "ledger.test.cjs",
+      "sha256": "29162e2ad968112ed96bee583c3e8eef0af8338e6f7a45d9dae71508a1ed0d5c"
+    },
+    {
+      "path": "negative-fixture.cjs",
+      "sha256": "6d0874ee69522e9d9ea096d24f41ec1d49d165d4d3562cdc13a3c23849747178"
+    },
+    {
+      "path": "negative.cjs",
+      "sha256": "e185f25aa5e48d8bdbf489d899fa04d6a44fb4db56a196b6f505c6d7aa79810a"
+    },
+    {
+      "path": "offline-fixture.cjs",
+      "sha256": "23848a5aad71f2a79392e444b714732a7cbd05bf3a3659e2ae47588679c6db22"
+    },
+    {
+      "path": "protocol-guard.cjs",
+      "sha256": "673e08c4793c56b5edb1c9ee6090c5a38dc7102dc1ad3379b584e153496ff3e6"
+    },
+    {
+      "path": "protocol-guard.test.cjs",
+      "sha256": "01bea71f589be243f6966c09ed35c57d24b8aaffbc72042bde8047bc33b32d10"
+    },
+    {
+      "path": "run.cjs",
+      "sha256": "ba2d240827be1e23587222d05073cd503f11066cb30a2d0c36939fbddb5c3b4f"
+    },
+    {
+      "path": "transport.cjs",
+      "sha256": "5491662cedcd4d36cc9012bd0e459f95a60802a6e7e9b1f2999794242bcc7ad6"
+    },
+    {
+      "path": "transport.test.cjs",
+      "sha256": "dccc1343b8b4732d5280790cdfe6bca640ec1fd76b9ebf57513901c7a5d388c8"
+    }
+  ],
+  "dependencies": [
+    {
+      "scope": "repo",
+      "path": "desktop/subscription-protocol.cjs",
+      "sha256": "fea01658938b1f1d4b51470a1761f5baf04732b46bf65796fcb3f4976b41f5b2"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/host-process.cjs",
+      "sha256": "5e8748dd41c2f29eed2ac79642a20b0d856082a43c88037715ebd0040bdd744c"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/windows-process.cjs",
+      "sha256": "bda530f963e3b315c0b89d976711e8f43e67e42725f7bef6407de10a1b565d16"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/windows-native.cjs",
+      "sha256": "4d425a6aed6722bae89bfe2a691ed19694b80a284aa62bdd61c9916db3410f9a"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/model-errors.cjs",
+      "sha256": "4d486ecda4feb57ffd5c09d6b35862029c5382dd0abc86e2ee51a7b6f65e67f9"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/model-json.cjs",
+      "sha256": "91a089e6f4e353a75d2d59f9d05b346914e543e0d8160de29e71afd664377fc4"
+    },
+    {
+      "scope": "repo",
+      "path": "desktop/native/bin/windows-process.exe",
+      "sha256": "dac0dffef0e84a9c18e11ac190b408fdec75a5b8502ebaeaf3d790f2aadb259e"
+    },
+    {
+      "scope": "installed",
+      "path": "resources/app.asar.unpacked/desktop/native/bin/windows-process.exe",
+      "sha256": "91f11ecbe6673b3f017541dab9f1d2bdb8c464b7eea25839148b8867dff41b0a"
+    }
+  ],
+  "identity": "9eaa05b43cc36fd2f2362a53e3023369449af7015e74bcad67ef0cdfd6919374",
+  "liveAuthorized": false,
+  "realModelCalls": 0
+}
