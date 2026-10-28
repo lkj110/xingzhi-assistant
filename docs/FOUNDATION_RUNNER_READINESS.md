@@ -1,5 +1,7 @@
 # 基础版真实验收执行器就绪检查
 
+后续状态（2026-10-28）：获准启动的一轮验收在推理转发前被Windows短/长路径比较误拦，0次模型推理调用。本报告保留为当时的离线审核记录；真实执行就绪结论已被该新证据限制，须修复执行器并重新审核。见[本轮结果](FOUNDATION_LIVE_ACCEPTANCE_20261028.md)。
+
 日期：2026-10-28。范围为冻结 Windows Foundation 0.42.4 的一次小规模验收，产品源码、安装包、六例封存材料和金标准均不变。执行器在独立临时 profile 上运行实际 EXE；两个固定反例在同一 ASAR 的独立 Worker 中初始化。没有新增真实模型调用，也没有执行真人接受。
 
 实现与准入说明：[执行器](../evaluations/foundation-runner/README.md)。六例、指标分母和通过条件继续使用[已封存验收方案](../evaluations/foundation-acceptance-20261028/README.md)。

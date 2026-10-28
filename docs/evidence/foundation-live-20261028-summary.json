@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "date": "2026-10-28",
+  "runId": "947338fa-5b5e-4d50-865f-3201c1f92bc5",
+  "runnerCommit": "e81bccd0ad2367f78e056fbd645b6064a2703b4a",
+  "runnerIdentity": "9eaa05b43cc36fd2f2362a53e3023369449af7015e74bcad67ef0cdfd6919374",
+  "sealIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+  "result": "stopped-before-model-exec-local-path-rejection",
+  "protocolGate": {
+    "attempted": 1,
+    "passed": 0,
+    "reason": "Local temporary path containment assertion before admission and transport"
+  },
+  "businessAttempted": 0,
+  "businessPlanned": 6,
+  "plannedGeneratedFlow": {
+    "numerator": 0,
+    "denominator": 4,
+    "rate": 0,
+    "unattempted": 4
+  },
+  "attemptedGeneratedFlow": {
+    "numerator": 0,
+    "denominator": 0,
+    "rate": null
+  },
+  "initialDraftHallucination": {
+    "numerator": 0,
+    "denominator": 0,
+    "rate": null
+  },
+  "finalDraftHallucination": {
+    "numerator": 0,
+    "denominator": 0,
+    "rate": null
+  },
+  "releasedDraftHallucination": {
+    "numerator": 0,
+    "denominator": 0,
+    "rate": null
+  },
+  "falseBlock": {
+    "numerator": 0,
+    "denominator": 0,
+    "rate": null
+  },
+  "wrongRelease": {
+    "numerator": 0,
+    "denominator": 0,
+    "rate": null,
+    "unattempted": 2
+  },
+  "humanAcceptance": {
+    "accepted": 0,
+    "planned": 4,
+    "status": "pending-no-drafts"
+  },
+  "applicationAttempts": 1,
+  "modelInferenceExecForwarded": 0,
+  "productLoginStatusForwarded": true,
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0,
+    "basis": "proven-not-dispatched-at-evaluation-boundary",
+    "productCancelledCallUsage": "unknown",
+    "perQualifiedDraft": null,
+    "businessPerQualifiedReview": {
+      "tokens": 0,
+      "qualifiedTasks": 0,
+      "value": null
+    },
+    "includingGatePerQualifiedReview": {
+      "tokens": 0,
+      "qualifiedTasks": 0,
+      "value": null
+    }
+  },
+  "retryPerformed": false,
+  "roundClosed": true,
+  "unusedBudgetReusable": false,
+  "formalMainEvaluationStarted": false,
+  "contentCheckpointsCreated": 0,
+  "manualAcceptancePerformed": false,
+  "installedVersion": "0.42.4",
+  "productPatchRequiredByThisEvidence": false,
+  "productAndSamplesChanged": false,
+  "offlineReproduction": {
+    "realModelCalls": 0,
+    "sameDirectory": true,
+    "defaultPathCheckPassed": false,
+    "parentOnlyNormalizationPassed": false,
+    "allLongPathSpellingPassed": true,
+    "originalRequestCwdPersisted": false
+  },
+  "independentReview": "foundation-live-20261028-review.json",
+  "evidenceSha256": {
+    "summary": "9bfe5fe7ff15ad7e4042e44399da64a4a32182cc44ec2f55938c114740b62199",
+    "ledger": "79952fab0ff10891bdab42b04fbe54b2198fa81ac48bdfcd2ded13f91ef71d04",
+    "gate": "dc1731e0578463ba23b730990b27164977cf02dca3d7fca7051af3a8541a3b5f",
+    "terminal": "120d0df9e997fd09d8dca9a3ece5e5c3f94b20217cdca88170e6b851e21445dc",
+    "authorization": "0d466918ee7e4d3a93cbb1152c8316bc045181683b3b8324c485ead716b10f15",
+    "consumption": "01e373d876ca851b321f0c9688b997d97832418a87e1cff6cdf3db4464461498",
+    "offlineDiagnostic": "dde74dbb62748a53a3339929d0c730167b620a1d68bd85138f54792d39d16b53"
+  },
+  "limitations": [
+    "No generated draft or business case ran; all semantic rates are N/A.",
+    "Original request cwd was not recorded. Alias mechanism was locally reproduced with the exact sealed shim.",
+    "Product unknown call usage is not a provider usage reading; evaluation zero is established by no inference dispatch.",
+    "This report does not establish model quality, token savings, full Agent, macOS or manual acceptance."
+  ],
+  "F03Stages": {
+    "initialDraft": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null,
+      "attempted": false
+    },
+    "revisedDraft": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null,
+      "attempted": false
+    },
+    "independentTasks": 1
+  }
+}

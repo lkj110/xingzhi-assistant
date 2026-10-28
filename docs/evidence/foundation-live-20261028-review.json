@@ -1,0 +1,275 @@
+{
+  "schema": 1,
+  "kind": "independent-post-stop-live-audit",
+  "auditedAt": "2026-10-28T05:31:52.062Z",
+  "runId": "947338fa-5b5e-4d50-865f-3201c1f92bc5",
+  "reviewer": "Independent AI subagent /root/foundation_live_audit; separate read-only metric crosscheck",
+  "verdict": "Round closed after evaluator preflight failure; product acceptance remains unestablished",
+  "result": {
+    "technicalAcceptancePassed": false,
+    "approvedForPublishingSanitizedReports": true,
+    "approvedForResumingOrNewLiveCalls": false,
+    "formalMainEvaluationStarted": false
+  },
+  "rootCause": {
+    "directlyObserved": "broker.cjs:11 invocation() temporary-directory assertion failed before ledger.admit and runTransport",
+    "attribution": "evaluation-runner",
+    "productFailureEstablished": false,
+    "mechanism": "Windows short temp path and .NET long current-directory spelling compared as strings; parent local reproduction with the same sealed Bridge reproduces the assertion. Normalizing only the parent additionally fails strict schema path argument comparison.",
+    "confidence": "Strong support from source and parent local reproduction; original cwd was not persisted",
+    "secondaryProductError": "MODEL_CANCELLED is downstream of runner stop",
+    "evidence": [
+      "terminal record",
+      "ledger.json",
+      "summary.json",
+      "broker.cjs:11,49,60-61,74",
+      "common.cjs:15",
+      "subscription.cjs:135,140-151",
+      "foundation-live-20261028-947338fa-path-diagnostic.json"
+    ]
+  },
+  "accounting": {
+    "applicationAttempts": 1,
+    "budgetAttempts": 36,
+    "unusedSlots": 35,
+    "unusedSlotsReusable": false,
+    "protocolAttempts": 1,
+    "businessAttempts": 0,
+    "shimExecRequests": 1,
+    "inferenceExecForwarded": 0,
+    "admitted": 0,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "totalTokens": 0,
+    "usageBasis": "not_dispatched, not a provider usage receipt",
+    "providerUsageReceipts": 0,
+    "dispatchedUnknownUsage": 0,
+    "pendingUsage": 0,
+    "pendingReservation": 0,
+    "rawModelOutput": null,
+    "productUsage": {
+      "reportedCalls": 0,
+      "unknownCalls": 1,
+      "usageReported": false
+    },
+    "productLoginStatusForwarded": true,
+    "loginStatusBasis": "Frozen subscription.chat calls login status before exec; broker live branch forwards to realCli and rejects failures. Reaching exec implies successful login status.",
+    "loginStatusSeparateDurableReceipt": false
+  },
+  "lifecycle": {
+    "installedPackageLaunched": true,
+    "isolatedProfileVerified": true,
+    "gateTaskCreated": 1,
+    "gateAdvanceStarted": 1,
+    "drafts": 0,
+    "strictVerificationCompleted": 0,
+    "contentCheckpoints": 0,
+    "businessExecuted": 0,
+    "generatedCasesUnattempted": 4,
+    "fixedNegativeCasesUnattempted": 2,
+    "revisionPerformed": false,
+    "plannedRestartChecksPerformed": false,
+    "manualAcceptancePerformed": false,
+    "finalGateStatus": "blocked",
+    "automatic": false,
+    "autoComplete": false,
+    "paused": true
+  },
+  "metrics": [
+    {
+      "id": "protocolGate",
+      "numerator": 0,
+      "denominator": 1,
+      "value": 0,
+      "note": "Evaluator preflight failure; excluded from business metrics"
+    },
+    {
+      "id": "businessExecutionCoverage",
+      "numerator": 0,
+      "denominator": 6,
+      "value": 0,
+      "note": "Six unattempted"
+    },
+    {
+      "id": "plannedAutomaticFlow",
+      "numerator": 0,
+      "denominator": 4,
+      "value": 0,
+      "note": "Four unattempted; 0% completion coverage, not four observed product failures"
+    },
+    {
+      "id": "attemptedAutomaticFlow",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A"
+    },
+    {
+      "id": "plannedHumanAcceptance",
+      "numerator": 0,
+      "denominator": 4,
+      "value": 0,
+      "note": "Four not ready/pending; zero human rejections"
+    },
+    {
+      "id": "readyHumanAcceptance",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A"
+    },
+    {
+      "id": "initialDraftHallucination",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A; four generated tasks unattempted"
+    },
+    {
+      "id": "finalDraftHallucination",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A"
+    },
+    {
+      "id": "F03InitialHallucination",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A; stage unattempted"
+    },
+    {
+      "id": "F03RevisedHallucination",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A; stage unattempted, not an additional independent task"
+    },
+    {
+      "id": "releasedGeneratedDraftHallucination",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A"
+    },
+    {
+      "id": "semanticFalseBlock",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A; evaluator preflight rejection excluded"
+    },
+    {
+      "id": "fixedNegativeWrongRelease",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A; two unattempted, zero valid original-candidate executions"
+    },
+    {
+      "id": "businessTokensPerQualifiedReview",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A"
+    },
+    {
+      "id": "includingGateTokensPerQualifiedReview",
+      "numerator": 0,
+      "denominator": 0,
+      "value": null,
+      "note": "N/A"
+    }
+  ],
+  "authorization": {
+    "oneMatchingConsumedMarker": true,
+    "consumedAt": "2026-10-28T05:24:41.872Z",
+    "identitiesMatch": true,
+    "fileBytesSha256": "0d466918ee7e4d3a93cbb1152c8316bc045181683b3b8324c485ead716b10f15",
+    "canonicalJsonSha256": "50ea9942b1054c15d65ef4402e2be0df65ce942b2781a085e8995f59c202f725",
+    "consumedMarkerUsesFileBytes": true,
+    "ledgerUsesCanonicalJson": true,
+    "hashDefinitionsVerified": true,
+    "singleUseMechanism": "authorization.cjs:32 wx exclusive creation; run.cjs:25 consumes before broker and app launch; code does not delete marker",
+    "reclaimAttemptedByAuditor": false,
+    "limitation": "Current evidence supports a single consumed run; no global history or deleted-marker forensic guarantee"
+  },
+  "stopAndRetry": {
+    "rejectedAfterStop": 0,
+    "ledgerAttempts": 1,
+    "productCallRows": 1,
+    "productAttemptNumbers": [
+      1
+    ],
+    "businessResultFiles": 0,
+    "noRetryObserved": true,
+    "processSnapshot": {
+      "checkedAt": "2026-10-28T05:27:48.7744458Z",
+      "matchingRunOrInstalledFoundationProcesses": 0,
+      "originalBrokerListeners": 0,
+      "method": "Read-only Win32_Process and local TCP listener inventory; no command line contents published"
+    },
+    "basis": "One ledger/product attempt, four unchanged raw files, stopped/paused state and no current process/listener",
+    "limitation": "Not an exhaustive network trace or all-session history. Empty rejectedAfterStop alone is insufficient because stopped HTTP requests can fail before applicationEntry is set."
+  },
+  "integrity": {
+    "sampleFilesVerified": 9,
+    "runnerFilesVerified": 19,
+    "dependencyHashesVerified": 8,
+    "allSealedHashesMatch": true,
+    "sampleIdentity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7",
+    "runnerIdentity": "9eaa05b43cc36fd2f2362a53e3023369449af7015e74bcad67ef0cdfd6919374",
+    "installedAsarHashMatches": true,
+    "installedExeHashMatches": true,
+    "shimHashMatches": true,
+    "ledgerChecksumValid": true,
+    "ledgerStateMatchesSummary": true,
+    "originalHashes": {
+      "summary.json": "9bfe5fe7ff15ad7e4042e44399da64a4a32182cc44ec2f55938c114740b62199",
+      "G00-ronglan.json": "dc1731e0578463ba23b730990b27164977cf02dca3d7fca7051af3a8541a3b5f",
+      "ledger/ledger.json": "79952fab0ff10891bdab42b04fbe54b2198fa81ac48bdfcd2ded13f91ef71d04",
+      "calls/89e7add4-9279-4502-bbbe-5d85d3321762-terminal.json": "120d0df9e997fd09d8dca9a3ece5e5c3f94b20217cdca88170e6b851e21445dc"
+    },
+    "consumptionSha256": "01e373d876ca851b321f0c9688b997d97832418a87e1cff6cdf3db4464461498",
+    "diagnosticSha256": "dde74dbb62748a53a3339929d0c730167b620a1d68bd85138f54792d39d16b53"
+  },
+  "publicReportReview": {
+    "files": [
+      {
+        "path": "docs/FOUNDATION_LIVE_ACCEPTANCE_20261028.md",
+        "sha256": "ef959339669181cd7a9e86617cf16cbcba9120a7ea6d018f688a9e31f3b41a40"
+      },
+      {
+        "path": "docs/evidence/foundation-live-20261028-summary.json",
+        "sha256": "ef5a3416da133a800bcfdd68ec38dd4194955ad433db789db0b829096a040175"
+      },
+      {
+        "path": "docs/FOUNDATION_RUNNER_READINESS.md",
+        "sha256": "9c387c17f709d7ac0512550c462a8a541c2b4bf5c0a152d059d2b0baef6c5e31"
+      }
+    ],
+    "coreClaimsSupported": true,
+    "denominatorCorrectionsIncorporated": true,
+    "noCredentialOrRawProfileContentFound": true,
+    "readinessNoteAppropriate": true,
+    "publicationScope": "Reviewed public reports plus sanitized audit within existing user authorization; exclude full authorization, bridge config, isolated profile and full workspace",
+    "approvalIsNotNewExecutionAuthorization": true
+  },
+  "actions": {
+    "onlyWrites": "Two new sibling audit reports",
+    "sealedRunnerProductSamplesModified": false,
+    "liveRetryPerformed": false,
+    "modelOrCliProbePerformed": false,
+    "testsOrReproductionsExecutedByAuditor": false,
+    "nextStep": "Only recommend a new evaluator revision with robust path identity and diagnostic persistence, offline validation and independent review. No reuse of unused slots; any future live round needs its own authorization."
+  },
+  "limitations": [
+    "Original cwd/arguments were not durably recorded; parent diagnostic is a local reproduction, not replay.",
+    "Product-owned login status lacks its own durable receipt; successful forwarding follows from frozen control flow.",
+    "No provider inference usage, draft or semantic adjudication exists; model availability, quality and savings remain unmeasured.",
+    "Isolation evidence is not an OS-wide file-write trace or unrelated-session audit.",
+    "AI audit is not human draft acceptance.",
+    "Historical test counts and unresolved historical timeouts were not re-executed or re-investigated."
+  ]
+}
