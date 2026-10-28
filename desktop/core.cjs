@@ -490,7 +490,7 @@ analysis/draft 仅适用于阅读、分析、文本产出；发信、联系别�
       project: projects.context(this,job?.projectId || task.projectId),
       workMemory:memory.context(this,job?.projectId || task.projectId),
       task: {id:task.id,title:task.title,description:task.description,objective:task.objective,criteria:task.criteria,priority:task.priority,dueAt:task.dueAt,primaryArtifactId:task.primaryArtifactId,evidenceRequest:require('./evidence-request.cjs').view(task.evidenceRequest),
-        steps:task.steps.map(({evidence,checkpoint,checkpointHistory,inputBasis,outputHash,...step})=>verification?{...step,evidence}:step),notes:task.notes.slice(-8),waitingOn:task.waitingOn},
+        steps:task.steps.map(({evidence,checkpoint,checkpointHistory,inputBasis,outputHash,...step})=>verification?{...step,evidence}:step),notes:task.notes.slice(-8),waitingOn:task.markerReviewHold?'':task.waitingOn},
       delegation: job ? {...require('./execution-contract.cjs').context(job),feedback:job.feedback.filter(f=>!job.executionContract||f.at>job.executionContract.updatedAt).slice(-8),output:{folder:job.outputFolder,fileMode:job.fileMode},
         followups:job.followups.filter(f=>!f.taskId||f.taskId===task.id).map(f=>({key:f.key,reason:f.reason,expected:f.expected,status:f.status,deadlineAt:f.deadlineAt,sourceId:f.sourceId,evidence:f.evidence}))} : null,
       ...(verification ? {deliveryEvidence:this.data.agentActions.filter(r=>r.jobId===job?.id&&r.taskId===task.id&&r.status==='done').map(r=>require('./revision-protocol.cjs').deliveryContext(this,task,r,protocol))} : {}),
@@ -507,6 +507,7 @@ analysis/draft 仅适用于阅读、分析、文本产出；发信、联系别�
   async advance(id) {
     const task = this.task(id);
     projectLifecycle.assertTaskActive(this.data,task);
+    require('./marker-confirmation.cjs').assertRunnable(this,task);
     if(task.agentJobId)agentPlan.assertReady(this,task);
     const linkedJob=this.data.delegations.find(j=>j.id===task.agentJobId);
     require('./evidence-consumption.cjs').assertAdvance(this,linkedJob,task);
@@ -608,13 +609,17 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
         if(linkedJob){const covered=require('./relation-obligations.cjs').validateCoverage(this,linkedJob,task,verification,checkingBasis);verification=covered.result;require('./relation-obligations.cjs').record(linkedJob,covered.receipts);}
         if(grounding.enabled(this)&&verification.grounding)task.grounding=verification.grounding;
         checkCache.remember(this,task,verification,prepared);
-        task.verification = { basisVersion:2,mode:prepared.mode,reusedChunks:prepared.reusedChunks,checkedChunks:prepared.checkedChunks,...(prepared.mode==='exact'?{avoidedModelCalls:1}:{}), passed: verification.passed, summary: short(verification.summary, 5000), gaps: verification.gaps.map(s => short(s, 1000)).slice(0, 20), gapDetails:verification.gapDetails,relationCoverage:verification.relationCoverage,snapshot:fullContext.verificationSnapshot,at: now(), basis:acceptance.basis(this,task) };
+        // Marker confirmation binds every listed issue. Truncating this local
+        // list would make a valid >20-claim review impossible to confirm.
+        const savedGaps=require('./marker-confirmation.cjs').pendingResult(verification)?[...verification.gaps]:verification.gaps.map(s => short(s, 1000)).slice(0, 20);
+        task.verification = { basisVersion:2,mode:prepared.mode,reusedChunks:prepared.reusedChunks,checkedChunks:prepared.checkedChunks,...(prepared.mode==='exact'?{avoidedModelCalls:1}:{}), passed: verification.passed, summary: short(verification.summary, 5000), gaps: savedGaps, gapDetails:verification.gapDetails,relationCoverage:verification.relationCoverage,snapshot:fullContext.verificationSnapshot,at: now(), basis:acceptance.basis(this,task) };
         task.status = verification.passed ? 'review' : 'blocked';
+        const markerWaiting=require('./marker-confirmation.cjs').route(this,task,verification);
         if(linkedJob)require('./continuation-control.cjs').noteCheck(this,linkedJob,task,task.verification,{phase:'result'});
-        task.lastError = verification.passed ? '' : `结果检查未通过：${verification.summary}`;
+        task.lastError = verification.passed||markerWaiting ? '' : `结果检查未通过：${verification.summary}`;
         const acceptIntermediate=linkedJob?.autoAccept===true&&acceptance.activeTasks(this,linkedJob).some(other=>other.id!==task.id&&other.status!=='completed');
-        if(verification.passed&&(acceptIntermediate||!linkedJob&&this.data.settings.autoComplete))acceptance.acceptTask(this,{id:task.id},{actor:'policy'});
-        this.event(verification.passed ? '产出通过模型检查' : '结果需要调整', verification.summary, id, verification.passed ? 'success' : 'warning');
+        if(verification.passed&&!require('./marker-confirmation.cjs').requiresManualAcceptance(this,task)&&(acceptIntermediate||!linkedJob&&this.data.settings.autoComplete))acceptance.acceptTask(this,{id:task.id},{actor:'policy'});
+        this.event(verification.passed ? '产出通过模型检查' : markerWaiting ? '表达标记待人工确认' : '结果需要调整', verification.summary, id, verification.passed ? 'success' : 'warning');
       }
     } catch (error) {
       if(error.committed)throw error;
@@ -653,7 +658,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
     for (let i = 0; i < this.data.settings.maxActions; i++) {
       if (this.controller?.signal.aborted) break;
       const priorityRank = { high: 0, normal: 1, low: 2 };
-      const next = this.data.tasks.filter(t => t.status === 'todo' && projectLifecycle.isActive(this.data,t.projectId) && !t.agentJobId && !processed.has(t.id)).sort((a, b) => priorityRank[a.priority] - priorityRank[b.priority] || (a.dueAt || 'z').localeCompare(b.dueAt || 'z') || a.createdAt.localeCompare(b.createdAt))[0];
+      const next = this.data.tasks.filter(t => t.status === 'todo' && !t.markerReviewHold && projectLifecycle.isActive(this.data,t.projectId) && !t.agentJobId && !processed.has(t.id)).sort((a, b) => priorityRank[a.priority] - priorityRank[b.priority] || (a.dueAt || 'z').localeCompare(b.dueAt || 'z') || a.createdAt.localeCompare(b.createdAt))[0];
       if (!next) break;
       processed.add(next.id); await this.advance(next.id);
     }
@@ -667,7 +672,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
     const fresh=this.data.sources.filter(s=>s.state==='new'&&!heldCaptureIds.has(s.id)&&!s.projectId&&!s.agentJobId&&s.routing?.status!=='conflict'&&!s.deleted&&!s.projectExcluded&&!this.data.sources.some(n=>!n.projectExcluded&&n.previousSourceId===s.id));
     if(this.data.settings.autoExtract&&fresh.length&&!this.operation){this.launch('整理新材料',async()=>{this.data.settings.lastCycleAt=now();try{await this.extract(fresh.slice(0,6).map(s=>s.id));}catch(error){if(error.automaticRetry===false)this.data.settings.automatic=false;throw error;}});return true;}
     let started=false;
-    for(const task of this.data.tasks.filter(t=>t.status==='todo'&&!t.agentJobId&&projectLifecycle.isTaskActive(this.data,t))){
+    for(const task of this.data.tasks.filter(t=>t.status==='todo'&&!t.markerReviewHold&&!t.agentJobId&&projectLifecycle.isTaskActive(this.data,t))){
       if((task.dependsOn||[]).some(id=>this.data.tasks.find(t=>t.id===id)?.status!=='completed')||execution.conflict(this,{taskId:task.id}))continue;
       execution.launch(this,{taskId:task.id},'推进事项 · '+task.title,a=>a.advance(task.id));started=true;
     }
@@ -723,6 +728,8 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
     if(action==='uiCommand')return require('./workspace-view.cjs').command(this,input);
     if(typeof action==='string'&&action.startsWith('taskTrash'))return require('./task-trash.cjs').dispatch(this,action,input);
     require('./task-trash.cjs').assertDispatch(this,action,input);
+    if(action==='confirmGroundingMarkers')return require('./marker-confirmation.cjs').confirm(this,input);
+    if(action==='recheckGroundingMarkers')return require('./marker-confirmation.cjs').recheck(this,input);
     if(action==='taskIntake')return require('./task-intake.cjs').submit(this,input);
     if(action==='guideDismiss')return require('./onboarding.cjs').dismiss(this);
     if(typeof action==='string'&&action.startsWith('capability'))return require('./capabilities.cjs').dispatch(this,action,input);
@@ -785,7 +792,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
     if (action === 'stop') { this.stop(); return this.publicState(); }
     if (action === 'import') return this.addSources(input.items);
     if (action === 'extract') { this.available('organize'); return this.launch('整理材料并拆解事项', () => this.extract(input.ids)); }
-    if (action === 'advance') { this.available('execute'); this.available('verify'); return require('./execution.cjs').launch(this,{taskId:input.id},'推进事项 · '+this.task(input.id).title, a => a.advance(input.id)); }
+    if (action === 'advance') { require('./marker-confirmation.cjs').assertRunnable(this,this.task(input.id)); this.available('execute'); this.available('verify'); return require('./execution.cjs').launch(this,{taskId:input.id},'推进事项 · '+this.task(input.id).title, a => a.advance(input.id)); }
     if (action === 'cycle') { this.available('execute'); this.available('verify'); this.parallelTasks(); return this.publicState(); }
     if (action === 'export') {
       const data = this.publicState({full:true}); delete data.storagePath; delete data.operation; delete data.operations; delete data.exclusiveOperation; delete data.accessSessions;
@@ -912,7 +919,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
       if(deadlineInput)require('./deadline-events.cjs').setPolicy(this,{taskId:task.id,input:deadlineInput,expectedRevision:input.expectedDeadlineRevision});
       require('./requirements.cjs').edit(task,changes);
       Object.assign(task, changes);
-      if (meaningChanged) {this.requeue(task);if(task.agentJobId)agentPlan.invalidateDependents(this,task);this.continueTaskJob(task);}
+      if (meaningChanged) {this.requeue(task);require('./marker-confirmation.cjs').invalidateForUserEdit(this,task);if(task.agentJobId)agentPlan.invalidateDependents(this,task);this.continueTaskJob(task);}
       this.event('更新事项', meaningChanged ? `${task.title}：目标或完成标准已变更，需要重新检查。` : task.title, task.id);
       task.updatedAt = now();
     } else if (action === 'taskAction') {
@@ -952,6 +959,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
           if(primary)require('./revision-protocol.cjs').queue(this,task,{artifactId:primary.id,note,origin:'user',existingNote:task.notes.findLast(n=>n.kind==='revise')});
         }
         this.requeue(task);
+        require('./marker-confirmation.cjs').invalidateForUserEdit(this,task);
         if(task.agentJobId)agentPlan.invalidateDependents(this,task);
         this.event('收到事项反馈', note, task.id);
       } else throw new Error('不支持的事项操作');

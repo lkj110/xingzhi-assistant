@@ -54,6 +54,7 @@ function contentRequest(a,job,task,{prefetch=false}={}){
  return {context:{...a.context(task,{verification:true,prefetch}),requirements:obligations.requirements(a,job),verificationSnapshot:require('./revision-protocol.cjs').snapshot(a,task),verificationPhase:'content',businessObligations:require('./relation-obligations.cjs').context(a,job,task),pendingDelivery:task.steps.filter(s=>s.kind==='external'&&!s.done).map(s=>s.title)},system:require('./relation-obligations.cjs').instruction+'\n'+require('./revision-protocol.cjs').verificationInstruction+'独立检查当前文稿内容是否满足已确认的用户范围。返回 {"passed":true或false,"summary":"结论","gaps":["具体未满足要求"],"gapDetails":[{"requirementId":"对应要求 ID","text":"与 gaps 一致","sourceIds":["实际使用的来源 ID"]}]}。只能依据给定 requirements 指出缺口，不添加用户没有要求的范围。当前只做内容检查：pendingDelivery 是随后由 App 执行的交付，不因尚未写入、创建或回读而判内容失败。缺失事实如已按用户决定保留边界，核对说明即可。需要原文时使用 read_context。'};
 }
 async function verifyContent(a,job,task){
+ require('./marker-confirmation.cjs').assertRunnable(a,task);
  require('./agent-plan.cjs').assertReady(a,task);
  const consumption=require('./evidence-consumption.cjs');
  if(consumption.draftOnly(a,task)&&(!consumption.coverage(a,job,task)||consumption.view(a,job,task)?.remaining>0))throw Object.assign(Error('当前主稿已纳入部分证据，全部类型的覆盖或事实纳入尚未完成；请继续补证并纳入新增事实，不重复生成旧内容或发起最终内容检查'),{code:'EVIDENCE_REQUIRED',taskId:task.id,businessObligations:require('./relation-obligations.cjs').context(a,job,task)});
@@ -68,7 +69,9 @@ async function verifyContent(a,job,task){
    if(contentBasis(a,job,task)!==before)throw Object.assign(Error('提交内容检查前依据变化，需要重新核对'),{code:'PLAN_RECONCILE_REQUIRED',taskId:task.id});
    if(consumption.draftOnly(a,task)&&(!consumption.coverage(a,job,task)||consumption.view(a,job,task)?.remaining>0))throw Object.assign(Error('检查期间证据覆盖或事实纳入已变化，增量草稿保持待补证'),{code:'EVIDENCE_REQUIRED',taskId:task.id});
    if(result.grounding)task.grounding=result.grounding;
-   task.contentVerification={...result,basis:before,snapshot:context.verificationSnapshot,at:now()};require('./continuation-control.cjs').noteCheck(a,job,task,task.contentVerification,{phase:'content'});require('./relation-obligations.cjs').record(job,coverage.receipts);
+   task.contentVerification={...result,basis:before,snapshot:context.verificationSnapshot,at:now()};
+   require('./marker-confirmation.cjs').route(a,task,result);
+   require('./continuation-control.cjs').noteCheck(a,job,task,task.contentVerification,{phase:'content'});require('./relation-obligations.cjs').record(job,coverage.receipts);
    if(result.passed&&consumption.draftOnly(a,task)){
     const artifact=require('./deliverables.cjs').primary(a,task);artifact.draftOnly=false;
     for(const receipt of task.evidenceConsumption?.receipts||[])if(receipt.artifactId===artifact.id&&receipt.artifactHash===evidence.hash(artifact.content))Object.assign(receipt,{verified:true,verifiedAt:task.contentVerification.at,checkBasis:before});

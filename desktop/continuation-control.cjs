@@ -220,6 +220,9 @@ function currentEpisode(a,job,task){const s=state(job);return s?.activeTaskId===
 function noteCheck(a,job,task,check,{phase='content'}={}){
  if(!job||!check||typeof check.passed!=='boolean')return;
  require('./pending-check.cjs').noteCheck(a,job,task,check,{phase});
+ // The original check has settled without passing. An expression question is
+ // not a failed automatic repair attempt and must not spend its retry allowance.
+ if(task.markerReviewHold)return;
  validation().noteCheck(a,job,task,check,{phase});
  let e=currentEpisode(a,job,task);
  if(!e&&!check.passed&&allowed(a,job,task))e=activate(a,job,task,{code:'CONTENT_REPAIR_REQUIRED'});
@@ -240,6 +243,7 @@ function settled(a,job,step){
  }
  const id=step.args?.taskId||step.args?.existingTaskId||(step.tool==='complete'?state(job)?.activeTaskId:null),task=tasks(a,job).find(t=>t.id===id),e=task&&(state(job)?.episodes?.[step.continuation?.basis]||currentEpisode(a,job,task));if(!e||e.complete)return;
  step.continuation ||= {handled:engaged(a,job),tracked:true,kind:'execution'};
+ if(task.markerReviewHold)return;
  if(acquisition().settled(a,job,task,e,step))return;
  if(e.validationGrantId){const outcome=validation().after(a,job,step);if(outcome?.outcome==='failed'){block(a,job,e,'一次修复验证已停止：'+outcome.outcomeReason+'。已有结果和累计费用保留。');return;}}
  const check=step.result?.verification;

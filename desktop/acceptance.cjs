@@ -201,6 +201,7 @@ function finishEvent(a, job, selectedIds, at) {
   return eventFor(job,'job',mode(job)==='continuous'?'watching':'completed',{executionPaused:job.status==='paused'||job.executionPaused===true},'system',at);
 }
 function acceptanceEvents(a, tasks, {actor='user',at=now()}={}) {
+  if(actor==='policy'&&tasks.some(task=>require('./marker-confirmation.cjs').requiresManualAcceptance(a,task)))throw Object.assign(Error('表达标记曾经人工确认的当前稿件须由用户验收，不能自动完成'),{code:'MANUAL_ACCEPTANCE_REQUIRED'});
   const ids=new Set(tasks.map(t=>t.id)), jobs=[...new Set(tasks.map(t=>jobOf(a,t)).filter(Boolean))];
   for(const job of jobs) {
     const blocked=finalAcceptanceReasons(a,job,ids);
@@ -231,6 +232,7 @@ function markManualComplete(a, input) {
   require('./work-journal.cjs').beforeSave(a);
   const task=rows(a.data.tasks).find(t=>t.id===input.id);
   if(!task)throw Error('事项不存在');
+  if(task.markerReviewHold||require('./marker-confirmation.cjs').requiresManualAcceptance(a,task))throw Object.assign(Error('表达标记确认不能替代完整核验，请重新核验后使用正常验收'),{code:'MANUAL_ACCEPTANCE_REQUIRED'});
   require('./evidence-consumption.cjs').assertDelivery(a,jobOf(a,task),task);
   require('./project-lifecycle.cjs').assertTaskActive(a.data,task);
   a.ensureIdle?.({taskId:task.id});

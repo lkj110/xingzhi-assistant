@@ -7,6 +7,7 @@ function taskPhase(task) {
   if(task.status==='completed') return 'completed';
   if(task.agentCancelled) return 'cancelled';
   if(task.status==='paused') return 'paused';
+  if(task.markerReviewHold) return 'waiting';
   if(task.needsReplan) return 'reconcile';
   if(task.status==='review'&&task.verification?.passed) return 'review';
   if(task.status==='waiting') return 'waiting';
@@ -22,6 +23,7 @@ function blocksTask(record, task) {
 }
 function blockingReasons(a, job, task) {
   const reasons=[], belongs=r=>r.scope==='workspace'||job&&r.jobId===job.id||task&&(r.taskId===task.id||rows(r.taskIds).includes(task.id));
+  for(const held of rows(a.data.tasks).filter(t=>!t.deletedAt&&!t.agentCancelled&&t.markerReviewHold&&(task?t.id===task.id:job&&rows(job.taskIds).includes(t.id))))reasons.push({code:'marker_confirmation',id:held.id,scope:'task',needsHuman:true,message:held.waitingOn||'表达标记待人工确认及显式重新核验'});
   const spend=require('./spend-guard.cjs').inspect(a,job,task);if(spend)reasons.push(spend);
   for(const d of rows(a.data.decisions).filter(r=>r.status==='open'&&r.blocking!==false&&belongs(r)&&(!task||blocksTask(r,task)))) reasons.push({code:'decision',id:d.id,scope:d.scope|| (d.taskId||d.taskIds?.length?'task':'job'),needsHuman:true,message:d.question||'待处理决定'});
   for(const f of rows(job?.followups).filter(r=>r.status==='waiting'&&(!task||blocksTask(r,task)))) reasons.push({code:'followup',id:f.key,scope:f.scope||(f.taskId?'task':'job'),needsHuman:false,message:f.expected||'等待结果'});

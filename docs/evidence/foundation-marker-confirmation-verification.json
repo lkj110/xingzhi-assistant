@@ -1,0 +1,151 @@
+{
+  "schema": 1,
+  "at": "2026-10-28T10:56:12.705Z",
+  "scope": "offline-marker-confirmation-source-patch",
+  "baseCommit": "30dceb8e77d7aa1dcd11fde014968c63984487ea",
+  "realModelCalls": 0,
+  "modelTokensMeasured": false,
+  "installed": false,
+  "candidateRebuilt": false,
+  "formalMainEvaluationStarted": false,
+  "contract": {
+    "waitingIsPassed": false,
+    "confirmationStartsModel": false,
+    "confirmationConfirmsFacts": false,
+    "explicitRecheckRequired": true,
+    "policyAcceptanceAllowed": false,
+    "manualCompletionBypassAllowed": false,
+    "stableConfirmationIdentity": [
+      "complete grounding basis",
+      "artifact ID",
+      "exact proposal text"
+    ],
+    "modelClaimIdsAuditOnly": true,
+    "evidenceHardGatesPreserved": true,
+    "semanticWordListsAdded": false,
+    "newModelPhaseAdded": false
+  },
+  "regression": {
+    "relatedSuite": {
+      "testFiles": 25,
+      "tests": 526,
+      "passed": 526,
+      "failed": 0,
+      "skipped": 0,
+      "note": "Before final marker-gap persistence, duplicate-feedback recovery and cumulative-confirmation changes"
+    },
+    "finalFlow": {
+      "tests": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    },
+    "newGroundingBoundaryTests": 25,
+    "newUiTest": 1,
+    "independentNewTests": {
+      "totalDistinct": 42,
+      "passed": 42,
+      "runs": [
+        40,
+        1,
+        1
+      ]
+    },
+    "frontendBuild": {
+      "modules": 1843,
+      "passed": true,
+      "privateOutput": true,
+      "visualReviewPassed": true
+    },
+    "notBusinessCompletionRate": true,
+    "finalBoundary": {
+      "tests": 41,
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "includes": {
+        "grounding": 25,
+        "flow": 16
+      }
+    }
+  },
+  "fixedReviewFindings": [
+    "Edited requirements clearing verification could strand an old hold",
+    "Model-local claim IDs caused repeated confirmation of identical text",
+    "Agent autoAccept threw before normal review state",
+    "Long marker lists and IDs were truncated during result persistence",
+    "Duplicate user feedback cleared a check without changing the deduplicated basis",
+    "Final root review: later confirmations on the same basis replaced earlier confirmed fragments"
+  ],
+  "protocol": {
+    "prompts": {
+      "instruction": {
+        "beforeBytes": 472,
+        "afterBytes": 472,
+        "deltaBytes": 0,
+        "sha256": "31243e31f4462ee11f95ae31c1b85d2899ee4b042ff75cc897675afc9de73291"
+      },
+      "reviewInstruction": {
+        "beforeBytes": 2341,
+        "afterBytes": 2341,
+        "deltaBytes": 0,
+        "sha256": "d11d9e068bf4bd417dc7ac15a0fa9d3d1758f279254a5d4d89accd24b176f734"
+      }
+    },
+    "protocolFilesUnchanged": [
+      "desktop/generation-context.cjs",
+      "desktop/model-input.cjs",
+      "desktop/subscription-protocol.cjs",
+      "desktop/model-protocols.cjs"
+    ],
+    "confirmationModelCalls": 0,
+    "extraModelPhaseAdded": false,
+    "explicitRecheckMayConsumeTokens": true,
+    "liveTokensMeasured": false
+  },
+  "freeze": {
+    "at": "2026-10-28T10:52:09.814Z",
+    "installedUnchanged": true,
+    "installedFiles": 86,
+    "isolatedCandidateUnchanged": true,
+    "candidateFiles": 86,
+    "historicalUnchanged": true,
+    "historical": {
+      "foundation-acceptance-20261028": {
+        "files": 10,
+        "identity": "7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7"
+      },
+      "foundation-candidate-20261028": {
+        "files": 12,
+        "identity": "e94f05ad1660d333553448207a3fbf14a28b71ba08398b54b7a610f5f9cb0977"
+      },
+      "foundation-notice-regression-20261028": {
+        "files": 12,
+        "identity": "3ca62ae7e9048ba2d74b51737c446a340d6ae83cd43205ddcc6420be8a21a85c"
+      },
+      "foundation-notice-acceptance-20261028": {
+        "files": 13,
+        "identity": "a168f20515e2a79061793f11a6a51b3298e340113f9e0b2b6a60d2ee90e3c8f4"
+      }
+    },
+    "installedExeSha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a",
+    "installedAsarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+    "candidateAsarSha256": "56916f8062b2384df6de2fbb3a8d976b9ae8bf6c7e4ff0c29f8d841ed0c5b1af",
+    "noRebuildOrInstall": true
+  },
+  "limitations": [
+    "Offline synthetic verifier responses do not measure real model semantic accuracy",
+    "Pending human confirmation is not a passed check or successful delivery",
+    "Explicit rechecks consume normal verifier resources and may include multiple calls",
+    "Installed foundation and old candidate remain frozen; this source patch is not deployed"
+  ],
+  "evidenceSha256": {
+    "relatedSuiteLog": "e8bbc6336d5afb5c1c1843ac2692e63ad160e2da79be5007eea075e152358f03",
+    "finalFlowLog": "d4d0027821d3a4e205922cf621da71703c03e2423b3499cd0f9bcdcf1dd66e16",
+    "freezeRecord": "de9fac16213f2ed10b65d0d544734abe866a05368c58e6d9b3e715e3bfac4a8b",
+    "protocolRecord": "7b5611730c9f046b92f1ffc89a7466f581fb7959255f59e41c05690d5482370b",
+    "uiScreenshot": "ef318d740070e7c90d5605f6d97822e2421cfff44d2fbcbde5ca585e6bea7939",
+    "frontendBuildLog": "42edf80d2e0027963f93fa61170e19302b21bf1e8f536f213f658ac741cafe30",
+    "finalBoundaryLog": "555e82e0c5112da8f3d11cf3169587e507f0a13ee927864f97b24184273aec43"
+  }
+}

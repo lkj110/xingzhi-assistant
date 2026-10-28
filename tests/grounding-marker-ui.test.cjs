@@ -1,0 +1,35 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+
+test('marker UI separates human expression confirmation from explicit recheck and acceptance',{timeout:60000},async t=>{
+ const {build,preview}=await import('vite'),{chromium}=require('playwright'),{expect}=require('playwright/test');
+ const tempRoot=fs.realpathSync(os.tmpdir()),directory=fs.mkdtempSync(path.join(tempRoot,'xingzhi-marker-ui-'));let server,browser;
+ t.after(async()=>{await browser?.close();if(server)await new Promise(resolve=>server.httpServer.close(resolve));const relative=path.relative(tempRoot,fs.realpathSync(directory));assert.ok(relative&&!relative.startsWith('..')&&!path.isAbsolute(relative));fs.rmSync(directory,{recursive:true,force:true,maxRetries:5,retryDelay:50});});
+ const entry=path.join(__dirname,'grounding-marker-ui.fixture.jsx').replaceAll('\\','/');
+ fs.writeFileSync(path.join(directory,'index.html'),`<div id="root"></div><script type="module" src="/@fs/${entry}"></script>`);
+ await build({root:directory,configFile:false,logLevel:'error',build:{outDir:path.join(directory,'dist')}});
+ server=await preview({root:directory,configFile:false,logLevel:'error',build:{outDir:path.join(directory,'dist')},preview:{host:'127.0.0.1',port:0}});
+ browser=await chromium.launch({headless:true});const page=await browser.newPage({viewport:{width:900,height:1000}}),errors=[];page.setDefaultTimeout(5000);page.on('pageerror',e=>errors.push(e.message));
+ await page.route('**/*',route=>new URL(route.request().url()).hostname==='127.0.0.1'?route.continue():route.abort());
+ await page.goto(server.resolvedUrls.local[0]);
+ const confirm=page.getByRole('button',{name:'确认这些表达已清楚',exact:true}),recheck=page.getByRole('button',{name:'重新核验',exact:true});
+ await expect(confirm).toBeEnabled();await expect(page.getByText('入口关闭时改在北侧等候，其他情况在原处。',{exact:true})).toBeVisible();
+ assert.deepEqual(await page.evaluate(()=>window.commands),[],'Rendering the record must not dispatch any work');
+ assert.equal(await page.getByRole('button',{name:/验收|完成/}).count(),0);
+ await page.evaluate(()=>{window.defer=true;});await confirm.click();
+ await expect(page.getByRole('button',{name:'正在记录…'})).toBeDisabled();await expect(recheck).toBeDisabled();
+ assert.deepEqual(await page.evaluate(()=>window.commands),[{action:'confirmGroundingMarkers',input:{id:'notice-task',expectedReportHash:'review-1'}}]);
+ await page.evaluate(()=>{window.defer=false;window.pending.shift()();});
+ await expect(page.getByRole('heading',{name:'表达确认已记录，等待重新核验'})).toBeVisible();await expect(confirm).toHaveCount(0);
+ assert.equal((await page.evaluate(()=>window.commands)).length,1,'Confirmation must not automatically recheck');
+ await recheck.click();await expect(recheck).toBeEnabled();
+ assert.deepEqual((await page.evaluate(()=>window.commands)).at(-1),{action:'recheckGroundingMarkers',input:{id:'notice-task',expectedReportHash:'review-1'}});
+ await page.evaluate(()=>{window.fail='依据已变化，请重新核验';window.renderMarkerCase({});});await expect(confirm).toBeEnabled();await confirm.click();
+ await expect(page.getByRole('alert')).toHaveText('依据已变化，请重新核验');await expect(confirm).toBeEnabled();await expect(recheck).toBeEnabled();
+ await expect(page.getByRole('heading',{name:'表达确认已记录，等待重新核验'})).toHaveCount(0);
+ await page.evaluate(()=>{window.fail='';window.renderMarkerCase({groundingMarkerConfirmation:{actor:'user',reportHash:'obsolete',basis:'basis-1',confirmedAt:'2026-10-28'}});});await expect(confirm).toBeEnabled();
+ await page.evaluate(()=>window.renderMarkerCase({status:'paused'}));await expect(confirm).toBeDisabled();await expect(recheck).toBeDisabled();
+ await page.evaluate(()=>window.renderMarkerCase({busy:true}));await expect(confirm).toBeDisabled();await expect(recheck).toBeDisabled();
+ await page.evaluate(()=>window.renderMarkerCase({markerReviewHold:null}));await expect(page.getByRole('region',{name:'表达标记人工确认'})).toHaveCount(0);
+ assert.deepEqual(errors,[]);
+});

@@ -1,0 +1,206 @@
+{
+  "schema": 1,
+  "at": "2026-10-28T11:01:44.997Z",
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/marker_contract_review",
+  "approvedCode": true,
+  "approvedForUpload": true,
+  "readyForInstall": false,
+  "readyForLive": false,
+  "scope": "Offline source patch, local UI, deterministic verifier regression, frozen-artifact identities and publication claims",
+  "baseCommit": "30dceb8e77d7aa1dcd11fde014968c63984487ea",
+  "blockingFindings": [],
+  "resolvedFindings": [
+    {
+      "id": "R1",
+      "finding": "User edit clears verification and strands a hold",
+      "resolution": "Trusted explicit edits release the obsolete hold, preserve manual acceptance and validate later confirmation by complete basis"
+    },
+    {
+      "id": "R2",
+      "finding": "Model-local claim ID changes repeat human confirmation",
+      "resolution": "Match exact proposal text and artifact under complete basis; keep original IDs for audit only"
+    },
+    {
+      "id": "R3",
+      "finding": "Agent autoAccept throws before normal review state",
+      "resolution": "Normal completion skips policy acceptance for affected tasks; central policy guard remains"
+    },
+    {
+      "id": "R4",
+      "finding": "Marker list or long issue IDs truncated during persistence",
+      "resolution": "Keep full marker-only gap list for hash-bound confirmation; 21-item and >1000-character ID regressions pass"
+    },
+    {
+      "id": "R5",
+      "finding": "Repeated feedback leaves unchanged grounding basis but clears saved verification",
+      "resolution": "Explicit user feedback releases hold even when deduplicated requirements are unchanged; manual acceptance restriction remains"
+    },
+    {
+      "id": "R6",
+      "foundBy": "root-final-check",
+      "finding": "Later same-basis expression confirmation replaced earlier confirmed fragments",
+      "resolution": "Merge only hash-valid user confirmations on the same complete basis, deduplicate artifact/text, never inherit across changed bases; independently reviewed and regression passed"
+    }
+  ],
+  "verification": {
+    "independentlyRunNewTests": {
+      "distinct": 42,
+      "passed": 42,
+      "runs": [
+        40,
+        1,
+        1
+      ],
+      "failed": 0,
+      "skipped": 0
+    },
+    "rootRelatedRegression": {
+      "files": 25,
+      "passed": 526,
+      "failed": 0,
+      "ranBeforeLastPersistenceAndFeedbackFixes": true,
+      "ranBeforeFinalThreeBoundaryFixes": true
+    },
+    "rootFinalFlow": {
+      "passed": 16,
+      "failed": 0
+    },
+    "frontendScreenshotInspected": true,
+    "freeze": {
+      "at": "2026-10-28T10:55:05.661Z",
+      "independentlyVerified": true,
+      "installedFilesUnchanged": 86,
+      "candidateFilesUnchanged": 86,
+      "historicalPacksUnchanged": 4,
+      "historicalFilesUnchanged": 47,
+      "promptsUnchanged": {
+        "instruction": {
+          "bytes": 472,
+          "sha256": "31243e31f4462ee11f95ae31c1b85d2899ee4b042ff75cc897675afc9de73291"
+        },
+        "reviewInstruction": {
+          "bytes": 2341,
+          "sha256": "d11d9e068bf4bd417dc7ac15a0fa9d3d1758f279254a5d4d89accd24b176f734"
+        }
+      },
+      "protocolFilesUnchanged": [
+        "desktop/generation-context.cjs",
+        "desktop/model-input.cjs",
+        "desktop/subscription-protocol.cjs",
+        "desktop/model-protocols.cjs"
+      ],
+      "realModelCalls": 0,
+      "installationPerformed": false
+    },
+    "realModelCalls": 0,
+    "installed": false,
+    "candidateRebuilt": false,
+    "finalFrontendBuild": {
+      "passed": true,
+      "modules": 1843,
+      "logVerified": true
+    },
+    "rootFinalBoundary": {
+      "passed": 41,
+      "failed": 0,
+      "grounding": 25,
+      "flow": 16,
+      "afterAllFinalFixes": true
+    }
+  },
+  "limitations": [
+    "No real model semantic accuracy, hallucination, false-block or false-release rates measured",
+    "Waiting for human expression confirmation remains passed:false and is not successful delivery",
+    "Explicit recheck uses normal model resources and may involve multiple calls",
+    "Affected tasks retain manual acceptance even after later revisions",
+    "Installed foundation and old candidate stay frozen"
+  ],
+  "pendingPublicationChecks": [],
+  "reviewedFiles": [
+    {
+      "path": "desktop/acceptance.cjs",
+      "sha256": "3e52ae3c3d8af71284ff68f417dc8880faacd88731f5d1910e7fe317e310aaab"
+    },
+    {
+      "path": "desktop/agent.cjs",
+      "sha256": "de02eb553fbb40e88dd5cba655d8784bcf4e2382217cd9c1f43215daee0b84fe"
+    },
+    {
+      "path": "desktop/continuation-control.cjs",
+      "sha256": "04efd681faa4cba09b228dffd47d240f06b216e85600f7bc09a8b89b05543052"
+    },
+    {
+      "path": "desktop/core.cjs",
+      "sha256": "03978413e5c93dba188c2ce0f7aedef963db61f17a792b4ce0d33e7b355a741b"
+    },
+    {
+      "path": "desktop/execution-control.cjs",
+      "sha256": "960c34be4e63223e7882bd7126e9ae0f8482da45f3ff8814f7ab8418baae0b30"
+    },
+    {
+      "path": "desktop/execution-facts.cjs",
+      "sha256": "449b9295e6ba3151d44f8852b50e75164f882270166d4f47a1eca870001caa6f"
+    },
+    {
+      "path": "desktop/grounding.cjs",
+      "sha256": "ac89ce673dd30b9adfbc3b6d459f13979b8a7a5a0e9513ecd463aa688c2a3d40"
+    },
+    {
+      "path": "desktop/marker-confirmation.cjs",
+      "sha256": "7e5b61f012e2eaeffef3262599dc2f09e0e9b1df3a8c96f7c86457320b9ffcc5"
+    },
+    {
+      "path": "docs/FOUNDATION_MARKER_CONFIRMATION_20261028.md",
+      "sha256": "12e42e87d8359613f9600ce5c755c9dfb409ae566f016dac0e6ce2d23fa0c452"
+    },
+    {
+      "path": "docs/evidence/foundation-marker-confirmation-review.md",
+      "sha256": "cf428bda1c42cd914a8ecfcba0b69ae8f7a8155d4a626eabab24cb2a8b00ef08"
+    },
+    {
+      "path": "docs/evidence/foundation-marker-confirmation-verification.json",
+      "sha256": "d980d54db99c064cc4e484b53978eb0535feb65f0beb2aceeb978b0e7c27b3b9"
+    },
+    {
+      "path": "src/App.jsx",
+      "sha256": "6070f0042294973ff2b5d65bfdf0cf054246988c6f275fe8cd413a4e263594ed"
+    },
+    {
+      "path": "src/MarkerConfirmation.css",
+      "sha256": "bfdb51c63f61b5842d8d76281d074730778f01003f1036aa66f84a1da110c4f6"
+    },
+    {
+      "path": "src/MarkerConfirmation.jsx",
+      "sha256": "85b7c509fffda4f71d05d4f7cf7452c1d321c3399c8728fc141dba3a4d01c106"
+    },
+    {
+      "path": "tests/grounding-marker-confirmation.test.cjs",
+      "sha256": "36ab6f61c697a26eab7c27e4d3ca47c7a4c8daf20ce5923751d277a21c0694b9"
+    },
+    {
+      "path": "tests/grounding-marker-flow.test.cjs",
+      "sha256": "473a8a6d0226f0f958cd328c6c503fae4ea0c77ec0eba83dba0de26341ecd9d4"
+    },
+    {
+      "path": "tests/grounding-marker-ui.fixture.jsx",
+      "sha256": "d55e5fac0a36abc2d1f81577dc4ed211d76b522a23ae2dae45513b1a4582f8f2"
+    },
+    {
+      "path": "tests/grounding-marker-ui.test.cjs",
+      "sha256": "9bbb6b9ac6e1c4e285275274d20ede5e13edf86cd755dae5b30ebde75261c2b7"
+    }
+  ],
+  "reviewedFilesPathBase": "repository-root",
+  "evidenceSha256": {
+    "../foundation-marker-confirmation-audit-20261028/new-tests-final.tap": "31b188f2bf079753e17914aff85da0f374309363689d1b9f027424a84c6bbdc3",
+    "../foundation-marker-confirmation-audit-20261028/duplicate-feedback.tap": "fed9ef07d5b0d7cd9e7274f22652fcf84beb07653776c3fc2b7d4f5515a450ed",
+    "../foundation-marker-confirmation-audit-20261028/freeze-and-protocol.json": "353d35a160eb97477df9a7259e9e88a1be3618a5f4f0195afb79d9396d4fb368",
+    "../foundation-marker-confirmation-20261028/regression.tap": "e8bbc6336d5afb5c1c1843ac2692e63ad160e2da79be5007eea075e152358f03",
+    "../foundation-marker-confirmation-20261028/flow-final.tap": "d4d0027821d3a4e205922cf621da71703c03e2423b3499cd0f9bcdcf1dd66e16",
+    "../foundation-marker-ui-20261028/marker-confirmation.png": "ef318d740070e7c90d5605f6d97822e2421cfff44d2fbcbde5ca585e6bea7939",
+    "../foundation-marker-confirmation-20261028/frontend-build.log": "42edf80d2e0027963f93fa61170e19302b21bf1e8f536f213f658ac741cafe30",
+    "../foundation-marker-confirmation-20261028/boundary-final.tap": "555e82e0c5112da8f3d11cf3169587e507f0a13ee927864f97b24184273aec43",
+    "../foundation-marker-confirmation-audit-20261028/incremental-confirmation.tap": "6dae1d607f7389aa341c8d6b07ef70f2177ec4a92e98a388ec2a1fd07725f6d7"
+  }
+}

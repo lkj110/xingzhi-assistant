@@ -405,7 +405,7 @@ async function executeAction(a,job,tool,args) {
     require('./auto-recovery.cjs').succeeded(a,{stage:'goal_verify',taskId:null});
     require('./acceptance.cjs').recordCompletionCheck(a,job,checked,{basis:checkingBasis});
     if(!checked.passed||checked.gaps.length)return {complete:false,summary:checked.summary,gaps:checked.gaps,gapDetails:checked.gapDetails};
-    if(job.autoAccept)for(const id of active){const task=a.task(id);if(task.status==='review')require('./acceptance.cjs').acceptTask(a,{id},{actor:'policy'});}
+    if(job.autoAccept)for(const id of active){const task=a.task(id);if(task.status==='review'&&!require('./marker-confirmation.cjs').requiresManualAcceptance(a,task))require('./acceptance.cjs').acceptTask(a,{id},{actor:'policy'});}
     const awaitingReview=active.some(id=>a.task(id).status==='review');
     job.status=awaitingReview?'review':job.mode==='continuous'?'watching':'completed';job.summary=checked.summary+(awaitingReview?'；关联事项等待你验收':'');
     if(!awaitingReview&&job.mode!=='continuous')job.completedAt=now();

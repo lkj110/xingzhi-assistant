@@ -1,0 +1,8 @@
+.marker-confirmation{padding:16px;border:1px solid #eadfc8;border-radius:7px;background:#fffaf0}
+.marker-confirmation>p{font-size:12px;line-height:1.8;margin:10px 0}
+.marker-confirmation-item{margin:14px 0;padding:12px;background:#fff;border:1px solid #ece6d9;border-radius:5px}
+.marker-confirmation-item h4{font-size:12px;margin:0 0 8px}
+.marker-confirmation-item blockquote{margin:8px 0;padding-left:10px;border-left:2px solid #d8c99e;white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.8}
+.marker-confirmation-item figure{margin:12px 0 0}
+.marker-confirmation-item figcaption{font-size:11px;color:#78806e}
+.marker-confirmation-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
