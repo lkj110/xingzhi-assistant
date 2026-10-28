@@ -3,11 +3,18 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const root=path.resolve(__dirname,'../..'),pack=path.join(root,'evaluations/foundation-acceptance-20261028');
 const IDENTITY='7055d464d6b39a6711cda0bb6bb4e5085f5b2610079f50840ee91f7cc30e31d7';
 const candidatePack=path.join(root,'evaluations/foundation-notice-regression-20261028');
+const noticeAcceptancePack=path.join(root,'evaluations/foundation-notice-acceptance-20261028');
+function selectPack({candidate=false,noticeAcceptance=false}={}){
+ assert.equal(typeof candidate,'boolean');assert.equal(typeof noticeAcceptance,'boolean');
+ assert.ok(!(candidate&&noticeAcceptance),'Choose only one fixed candidate profile');
+ return {pack:noticeAcceptance?noticeAcceptancePack:candidate?candidatePack:pack,candidate:candidate||noticeAcceptance};
+}
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex'),read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const write=(f,v)=>fs.writeFileSync(f,JSON.stringify(v,null,2)+'\n',{flag:'wx'});
-function frozen(executable,{candidate=false,complete=false}={}){
- assert.equal(typeof candidate,'boolean');assert.equal(typeof complete,'boolean');
- const selected=candidate?candidatePack:pack,seal=read(path.join(selected,'seal.json'));
+function frozen(executable,{candidate=false,noticeAcceptance=false,complete=false}={}){
+ assert.equal(typeof complete,'boolean');
+ const selection=selectPack({candidate,noticeAcceptance});candidate=selection.candidate;
+ const selected=selection.pack,seal=read(path.join(selected,'seal.json'));
  if(!candidate)assert.equal(seal.identity,IDENTITY);assert.equal(sha(JSON.stringify(seal.files)),seal.identity);
  assert.ok(/^[a-f0-9]{64}$/.test(seal.identity));
  for(const f of seal.files){assert.ok(typeof f.path==='string'&&!path.isAbsolute(f.path)&&inside(selected,path.resolve(selected,f.path)));assert.equal(sha(fs.readFileSync(path.join(selected,f.path))),f.sha256,f.path);}
@@ -26,4 +33,4 @@ function dependencies(executable,{candidate=false}={}){
  const installed=['resources/app.asar.unpacked/desktop/native/bin/windows-process.exe'];
  return [...repo.map(p=>({scope:'repo',path:p,sha256:sha(fs.readFileSync(path.join(root,p)))})),...installed.map(p=>({scope:'installed',path:p,sha256:sha(fs.readFileSync(path.join(path.dirname(executable),p)))}))];
 }
-module.exports={root,pack,candidatePack,IDENTITY,sha,read,write,frozen,inside,dependencies};
+module.exports={root,pack,candidatePack,noticeAcceptancePack,selectPack,IDENTITY,sha,read,write,frozen,inside,dependencies};

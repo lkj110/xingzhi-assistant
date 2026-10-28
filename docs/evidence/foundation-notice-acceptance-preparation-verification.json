@@ -1,0 +1,127 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-10-28T09:56:12.218Z",
+  "scope": "fresh-notice-candidate-acceptance-preparation-stopped-before-live",
+  "status": "offline-readiness-failed",
+  "productCommit": "8d374b24b2aae2760f3d33cf1c2561130429f6ae",
+  "productSourceChanged": false,
+  "candidateRebuilt": false,
+  "candidateInstalled": false,
+  "installedFoundationFrozen": true,
+  "userBudgetApproved": true,
+  "userApprovalReference": "User said 按照下一步继续推进 after the 36 application attempts / 700000 token stop threshold proposal including possible in-flight overage.",
+  "approvedBudget": {
+    "applicationAttempts": 36,
+    "reportedTokenStopThreshold": 700000,
+    "nonHardCapAccepted": true
+  },
+  "runtimeAuthorizationIssued": false,
+  "authorizationConsumed": false,
+  "realModelCalls": 0,
+  "officialCliProbePerformed": false,
+  "manualAcceptancePerformed": false,
+  "userWorkspaceTouched": false,
+  "runnerIdentity": "1d5a466de93a2e557f9b60059ccb72db90c269385478395cd6152e57236ccfdb",
+  "sampleSealIdentity": "a168f20515e2a79061793f11a6a51b3298e340113f9e0b2b6a60d2ee90e3c8f4",
+  "unit": {
+    "tests": 163,
+    "passed": 162,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Existing Windows symlink privilege unavailable"
+  },
+  "preflight": {
+    "structuralChecks": 573,
+    "passed": true,
+    "semanticQualificationNotEstablishedByStructuralChecks": true,
+    "assertions": 28,
+    "sourceAnchors": 34
+  },
+  "offline": {
+    "attemptedOnce": true,
+    "passed": false,
+    "protocolGatePassed": true,
+    "businessCasesAttempted": 1,
+    "businessCasesPlanned": 6,
+    "businessCasesReachedExpectedTerminal": 0,
+    "normalWorkflowsCompleted": 0,
+    "normalWorkflowsPlanned": 4,
+    "fixedInvalidExecuted": 0,
+    "syntheticApplicationAttempts": 6,
+    "stopReason": "ACCEPTANCE_CASE_FAILED",
+    "blockedCase": "P01-qingjia-notice",
+    "actualStatus": "blocked",
+    "actualGroundingPassed": false,
+    "actualIssues": [
+      "推断、建议或未知未在正文标明：n1"
+    ],
+    "acceptanceSnapshotCollectedForBlockedCase": false,
+    "unattempted": [
+      "P02-haiting-conflict",
+      "P03-taoyu-revision",
+      "P04-fanyu-restart",
+      "P05-sifangting-unapproved",
+      "P06-xingjia-unjustified-choice"
+    ],
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "syntheticAccountingOnly": {
+      "inputTokens": 31093,
+      "outputTokens": 1200,
+      "totalTokens": 32293,
+      "isRealModelUsage": false
+    },
+    "caseBudgetFaultRun": false,
+    "revisionExecuted": false,
+    "restartChecksExecuted": false
+  },
+  "contentReview": {
+    "qualified": false,
+    "hallucination": false,
+    "requirementGap": "Full title and body omit the required cleaning object 低温柜.",
+    "referenceDraftMatchesActual": true,
+    "localNoticeFragmentHasSourceSupport": true,
+    "wholeDraftFalseBlockEstablished": false,
+    "productDetectedRequirementGap": false,
+    "actualIssueIsLocalMarkerOnly": true
+  },
+  "realModelMetrics": {
+    "processCompletionRate": null,
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "wrongReleaseRate": null,
+    "totalTokens": null,
+    "reason": "No real model calls. Readiness stopped during offline rehearsal; unattempted cases are not successes, and P01 reference is not fully qualified."
+  },
+  "unchanged": {
+    "runnerFiles": 29,
+    "sampleFiles": 10,
+    "historicalSealFiles": 27,
+    "installedFiles": 86,
+    "grounding": true
+  },
+  "closedPreparationFinding": {
+    "id": "RUNNER-PROFILE-NAME-COLLISION",
+    "fixedBeforeAnyCandidateLaunch": true,
+    "entryImportRegressionAdded": true
+  },
+  "remainingBlockingFindings": [
+    {
+      "id": "REFERENCE-MISSING-OBJECT",
+      "finding": "P01 sealed reference omits 低温柜 requested in description; blind review rejects full-draft qualification."
+    },
+    {
+      "id": "LOCAL-MARKER-BOUNDARY",
+      "finding": "Supported conditional notice fragment begins with 仅当 and contains semicolon, outside the retained local marker exception; actual only issue n1. This does not establish a whole-draft false block."
+    }
+  ],
+  "nextStep": "Repair the requirements-to-reference coverage contract before changing product gates; preserve this run and do not automatically rerun or spend the authorized budget.",
+  "evidenceSha256": {
+    "offlineSummary": "1fa2762257bfc7f776019463f42d074d18f83d72598448e489712faf7c687d78",
+    "sourceBefore": "7c185c2168d3813892de3571d0ca2a0edffc6570dd61471a1436b15417fb81ba",
+    "sourceAfter": "4c5cf9d6609e569c1c31a7e7f7efd20e39ac595fb42d60aae6df6ecef18ec741",
+    "unitLog": "c1591dd33eb57322fcb1f272fbbcb5ac341ec76b53c57945f347e3fb76e60b3c",
+    "blindContentReview": "ae21a596da74e61369b8a4599f57138e1f6bc61c5a524b63f36f434046fb8c64"
+  }
+}

@@ -1,0 +1,496 @@
+{
+  "schema": 1,
+  "modelInputForbidden": true,
+  "offsetUnit": "UTF-16 code units",
+  "interval": "[start,end)",
+  "sourceHashAlgorithm": "sha256-utf8-content",
+  "protocolGate": {
+    "id": "G01-chengyu",
+    "sources": [
+      {
+        "sourceKey": "s1",
+        "sourceHash": "7e2b1dd48e0f6488c4b74823baf6164bdcd815cc5d5d7b615497cb6b5377349e",
+        "utf16Length": 48
+      }
+    ],
+    "assertions": [
+      {
+        "id": "G01-a1",
+        "evidence": [
+          {
+            "sourceKey": "s1",
+            "start": 0,
+            "end": 48,
+            "sourceHash": "7e2b1dd48e0f6488c4b74823baf6164bdcd815cc5d5d7b615497cb6b5377349e",
+            "quote": "2026年1月6日10:15，澄榆印刷室收存K-624校色样张5张，仅作内部比色，尚未交给客户。"
+          }
+        ]
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "P01-qingjia-notice",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "2e1b897a1da0c9c0fd8c93328008daca926aa96e508786970bd67fe6828c9092",
+          "utf16Length": 116
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "6d3066e4289abbdefc319a35c1e6816b10941ae3341ba270225965c1cc8bf228",
+          "utf16Length": 71
+        }
+      ],
+      "assertions": [
+        {
+          "id": "P01-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 13,
+              "end": 50,
+              "sourceHash": "2e1b897a1da0c9c0fd8c93328008daca926aa96e508786970bd67fe6828c9092",
+              "quote": "本轮低温柜清洁预约仅面向已列入C组名册且持活动当班有效通行证的夜班保管员。"
+            }
+          ]
+        },
+        {
+          "id": "P01-a2",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 51,
+              "end": 90,
+              "sourceHash": "2e1b897a1da0c9c0fd8c93328008daca926aa96e508786970bd67fe6828c9092",
+              "quote": "预约时段为2026年1月25日21:10至21:35，通常在柜区外缓冲间集结；"
+            }
+          ]
+        },
+        {
+          "id": "P01-a3",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 90,
+              "end": 102,
+              "sourceHash": "2e1b897a1da0c9c0fd8c93328008daca926aa96e508786970bd67fe6828c9092",
+              "quote": "手套领取上限为每人2副。"
+            }
+          ]
+        },
+        {
+          "id": "P01-a4",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "start": 25,
+              "end": 71,
+              "sourceHash": "6d3066e4289abbdefc319a35c1e6816b10941ae3341ba270225965c1cc8bf228",
+              "quote": "仅当该次值班表标为B档且主缓冲门封闭时，集结地点才改为北侧更衣间；其他情况仍在柜区外缓冲间。"
+            }
+          ]
+        },
+        {
+          "id": "P01-a5",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 0,
+              "end": 13,
+              "sourceHash": "2e1b897a1da0c9c0fd8c93328008daca926aa96e508786970bd67fe6828c9092",
+              "quote": "2026年1月22日签发："
+            },
+            {
+              "sourceKey": "s1",
+              "start": 103,
+              "end": 116,
+              "sourceHash": "2e1b897a1da0c9c0fd8c93328008daca926aa96e508786970bd67fe6828c9092",
+              "quote": "截至签发时，清洁尚未执行。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P02-haiting-conflict",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "846063edf3d5fe237019433063f290d7cbd2a50b5bdc5ceefbb826991e06f9d7",
+          "utf16Length": 110
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "bdcce5df0aa6e6b52e37d002cd2275918b2b7e207b256989249c6c758cf47a21",
+          "utf16Length": 85
+        }
+      ],
+      "assertions": [
+        {
+          "id": "P02-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 0,
+              "end": 61,
+              "sourceHash": "846063edf3d5fe237019433063f290d7cbd2a50b5bdc5ceefbb826991e06f9d7",
+              "quote": "2026年2月3日15:40，海汀HT-L319炉次的甲复核记录写出窑净重36.8千克，乙复核记录写出窑净重37.6千克。"
+            }
+          ]
+        },
+        {
+          "id": "P02-a2",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 62,
+              "end": 88,
+              "sourceHash": "846063edf3d5fe237019433063f290d7cbd2a50b5bdc5ceefbb826991e06f9d7",
+              "quote": "两份记录对应同一炉次、同一批实物，均已扣除托盘质量；"
+            }
+          ]
+        },
+        {
+          "id": "P02-a3",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 88,
+              "end": 110,
+              "sourceHash": "846063edf3d5fe237019433063f290d7cbd2a50b5bdc5ceefbb826991e06f9d7",
+              "quote": "复核时间相同，签认人权限相同，记录效力相同。"
+            },
+            {
+              "sourceKey": "s2",
+              "start": 0,
+              "end": 42,
+              "sourceHash": "bdcce5df0aa6e6b52e37d002cd2275918b2b7e207b256989249c6c758cf47a21",
+              "quote": "截至2026年2月3日15:40，没有文件指定甲、乙任何一份优先，也没有更正或撤回。"
+            }
+          ]
+        },
+        {
+          "id": "P02-a4",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "start": 43,
+              "end": 85,
+              "sourceHash": "bdcce5df0aa6e6b52e37d002cd2275918b2b7e207b256989249c6c758cf47a21",
+              "quote": "归档员已登记待办：另约复秤并核对两份记录。复秤尚未进行，差异原因和准确净重均未确定。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P03-taoyu-revision",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "4cd9f349caa8c8832dd672aa1af6ff08e3d43e591f7209a7c415a6c4ac4f3dd4",
+          "utf16Length": 107
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "0fdc6fde9285c6a5752387bcb3359f15f370988610832fe73312e7586ccbe1ee",
+          "utf16Length": 68
+        }
+      ],
+      "assertions": [
+        {
+          "id": "P03-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 13,
+              "end": 31,
+              "sourceHash": "4cd9f349caa8c8832dd672aa1af6ff08e3d43e591f7209a7c415a6c4ac4f3dd4",
+              "quote": "本轮仅受理已登记的临时借阅证持有人，"
+            }
+          ]
+        },
+        {
+          "id": "P03-a2",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 31,
+              "end": 50,
+              "sourceHash": "4cd9f349caa8c8832dd672aa1af6ff08e3d43e591f7209a7c415a6c4ac4f3dd4",
+              "quote": "待换签卡共28张；卡数不代表持有人数。"
+            }
+          ]
+        },
+        {
+          "id": "P03-a3",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 51,
+              "end": 91,
+              "sourceHash": "4cd9f349caa8c8832dd672aa1af6ff08e3d43e591f7209a7c415a6c4ac4f3dd4",
+              "quote": "预约办理日为2026年2月14日，时段14:20至15:05，地点南厅4号窗口。"
+            }
+          ]
+        },
+        {
+          "id": "P03-a4",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 68,
+              "end": 82,
+              "sourceHash": "4cd9f349caa8c8832dd672aa1af6ff08e3d43e591f7209a7c415a6c4ac4f3dd4",
+              "quote": "时段14:20至15:05，"
+            },
+            {
+              "sourceKey": "s2",
+              "start": 23,
+              "end": 50,
+              "sourceHash": "0fdc6fde9285c6a5752387bcb3359f15f370988610832fe73312e7586ccbe1ee",
+              "quote": "已登记持有人须本人携旧卡办理，旧卡号码须与登记号吻合；"
+            }
+          ]
+        },
+        {
+          "id": "P03-a5",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "start": 50,
+              "end": 68,
+              "sourceHash": "0fdc6fde9285c6a5752387bcb3359f15f370988610832fe73312e7586ccbe1ee",
+              "quote": "无旧卡者只登记后续补办，不当场换签。"
+            }
+          ]
+        },
+        {
+          "id": "P03-a6",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 0,
+              "end": 13,
+              "sourceHash": "4cd9f349caa8c8832dd672aa1af6ff08e3d43e591f7209a7c415a6c4ac4f3dd4",
+              "quote": "2026年2月10日登记："
+            },
+            {
+              "sourceKey": "s1",
+              "start": 92,
+              "end": 107,
+              "sourceHash": "4cd9f349caa8c8832dd672aa1af6ff08e3d43e591f7209a7c415a6c4ac4f3dd4",
+              "quote": "截至登记时，本轮换签尚未开始。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P04-fanyu-restart",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "29b0f775267ee618c9fb92458a4059c8f51cf29c2941a9481ff3081c7154dd90",
+          "utf16Length": 67
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "9e93d0af463c02c339ecde6ef17481c5d838ac6ea876357de461d673be427376",
+          "utf16Length": 77
+        }
+      ],
+      "assertions": [
+        {
+          "id": "P04-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 0,
+              "end": 53,
+              "sourceHash": "29b0f775267ee618c9fb92458a4059c8f51cf29c2941a9481ff3081c7154dd90",
+              "quote": "2026年3月9日08:40检点：东区检查的12块布景地板中，2块边角翘起。此页仅记录该区域此次检点结果。"
+            }
+          ]
+        },
+        {
+          "id": "P04-a2",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "start": 0,
+              "end": 36,
+              "sourceHash": "9e93d0af463c02c339ecde6ef17481c5d838ac6ea876357de461d673be427376",
+              "quote": "2026年3月9日09:10封存上述记录页；封存对象是记录页，并非场地。"
+            }
+          ]
+        },
+        {
+          "id": "P04-a3",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 54,
+              "end": 67,
+              "sourceHash": "29b0f775267ee618c9fb92458a4059c8f51cf29c2941a9481ff3081c7154dd90",
+              "quote": "17:00复检栏：未填写。"
+            }
+          ]
+        },
+        {
+          "id": "P04-a4",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "start": 37,
+              "end": 77,
+              "sourceHash": "9e93d0af463c02c339ecde6ef17481c5d838ac6ea876357de461d673be427376",
+              "quote": "所附材料没有08:40检点以后的现场检查或修复记录，不能据此确认后续或当前状况。"
+            },
+            {
+              "sourceKey": "s1",
+              "start": 38,
+              "end": 53,
+              "sourceHash": "29b0f775267ee618c9fb92458a4059c8f51cf29c2941a9481ff3081c7154dd90",
+              "quote": "此页仅记录该区域此次检点结果。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P05-sifangting-unapproved",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "6c58c9db13aae481e45d28d98c1723ebf8c1fa55f6a78ce374b0c17b39640947",
+          "utf16Length": 110
+        }
+      ],
+      "assertions": [
+        {
+          "id": "P05-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 0,
+              "end": 63,
+              "sourceHash": "6c58c9db13aae481e45d28d98c1723ebf8c1fa55f6a78ce374b0c17b39640947",
+              "quote": "2026年3月20日16:30，服务台收到四方庭资料室的夜间搬箱申请：拟于2026年3月23日将18箱资料从东储间搬至西储间。"
+            }
+          ]
+        },
+        {
+          "id": "P05-a2",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 64,
+              "end": 85,
+              "sourceHash": "6c58c9db13aae481e45d28d98c1723ebf8c1fa55f6a78ce374b0c17b39640947",
+              "quote": "截至本单收件登记时，夜间作业审批尚未通过，"
+            }
+          ]
+        },
+        {
+          "id": "P05-a3",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 85,
+              "end": 92,
+              "sourceHash": "6c58c9db13aae481e45d28d98c1723ebf8c1fa55f6a78ce374b0c17b39640947",
+              "quote": "搬运尚未执行，"
+            }
+          ]
+        },
+        {
+          "id": "P05-a4",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 92,
+              "end": 110,
+              "sourceHash": "6c58c9db13aae481e45d28d98c1723ebf8c1fa55f6a78ce374b0c17b39640947",
+              "quote": "没有执行回执；收件单仅证明收到申请。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P06-xingjia-unjustified-choice",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "c569bffb12dee14b6c6a52a4234a194df679c4b1eb8f2cace7f7776134c72ce1",
+          "utf16Length": 133
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "725a15db601dc1e22cf44775be1d2e00f22cb012201e40e686a0ca7c1b8a82c7",
+          "utf16Length": 72
+        }
+      ],
+      "assertions": [
+        {
+          "id": "P06-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 0,
+              "end": 53,
+              "sourceHash": "c569bffb12dee14b6c6a52a4234a194df679c4b1eb8f2cace7f7776134c72ce1",
+              "quote": "2026年4月2日12:50归档：杏岬XJ-C27批配餐，纸质签收记录为124份，电子签收记录为132份。"
+            }
+          ]
+        },
+        {
+          "id": "P06-a2",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 54,
+              "end": 102,
+              "sourceHash": "c569bffb12dee14b6c6a52a4234a194df679c4b1eb8f2cace7f7776134c72ce1",
+              "quote": "两份记录对应同一批配餐，均按实际签收的完整餐份计数；均由本批授权签收员签认，时间相同，效力相同。"
+            }
+          ]
+        },
+        {
+          "id": "P06-a3",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "start": 102,
+              "end": 133,
+              "sourceHash": "c569bffb12dee14b6c6a52a4234a194df679c4b1eb8f2cace7f7776134c72ce1",
+              "quote": "电子记录另设检索标签，但没有优先效力；两份记录均未更正或撤回。"
+            }
+          ]
+        },
+        {
+          "id": "P06-a4",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "start": 0,
+              "end": 44,
+              "sourceHash": "725a15db601dc1e22cf44775be1d2e00f22cb012201e40e686a0ca7c1b8a82c7",
+              "quote": "截至2026年4月2日12:50，送餐与收餐双方尚未核对差异，未形成最终签收量确认记录。"
+            },
+            {
+              "sourceKey": "s2",
+              "start": 45,
+              "end": 72,
+              "sourceHash": "725a15db601dc1e22cf44775be1d2e00f22cb012201e40e686a0ca7c1b8a82c7",
+              "quote": "本批唯一的最终签收数量须经双方核对确认；当前仍待核对。"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

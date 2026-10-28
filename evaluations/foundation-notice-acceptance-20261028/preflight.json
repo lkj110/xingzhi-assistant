@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "checks": 573,
+  "gate": "G01-chengyu",
+  "businessCases": 6,
+  "callsDispatched": 0,
+  "scope": "offline structure, verbatim source anchors, and projection allowlist only",
+  "files": {
+    "stimuli.json": "93e371156baa1118359ac2dd5061fae9c3e80fd8b7fa93c9b541be6b58c8dd81",
+    "gate.json": "11ee545e642198a049f4e4c1131a3ef057cc7afce65f0a6302cf29dacffa2fef",
+    "gold.json": "1afa21a832e9d7aa985855e6f55161fb4f0dc94c08c8b956fe61896c3fbec343",
+    "anchors.json": "a942795ee7a6a80afe24a73c3f14e5ed017645918ad83c6cd1c138edc76e75bf",
+    "inputs.cjs": "2c0d1d673641a687a4de8aa386eab49e52153bc3e093f0369723d3ab803688fe",
+    "preflight.cjs": "ddb127b6436a2db2a69bf6fd64ca2d8b0098a7850f1bd940ec6dcd6d5d3aed92",
+    "README.md": "dafb59a404c0cf4fc43086cb26bd3e522e4250d2af7749f15c5af9e56a4a35b8"
+  }
+}

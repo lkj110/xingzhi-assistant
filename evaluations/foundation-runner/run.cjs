@@ -4,9 +4,10 @@ const {root,sha,read,write,frozen,inside,dependencies}=require('./common.cjs');
 const {createCheckpoint}=require('./checkpoints.cjs');
 const {createBroker}=require('./broker.cjs');
 const {createNegative}=require('./negative.cjs');
-async function run({executable,output,mode='offline',authorization,authorizationPath,realCli,fault,candidate=false}){
+async function run({executable,output,mode='offline',authorization,authorizationPath,realCli,fault,candidate=false,noticeAcceptance=false}){
  assert.equal(process.platform,'win32');assert.ok(path.isAbsolute(output)&&!fs.existsSync(output),'Output must be a new absolute directory');
- const identity=frozen(executable,{candidate,complete:true}),{plan,asar,pack}=identity,IDENTITY=identity.seal.identity,dependencyIdentity=dependencies(executable,{candidate});let runnerManifest;
+ const packageProfile={candidate,noticeAcceptance},identity=frozen(executable,{...packageProfile,complete:true});candidate=identity.candidate;
+ const {plan,asar,pack}=identity,IDENTITY=identity.seal.identity,dependencyIdentity=dependencies(executable,{candidate});let runnerManifest;
  assert.ok(mode==='offline'||mode==='live','Unknown execution mode');
  assert.ok(mode==='offline'||plan.offlineOnly!==true,'Exposed regression pack is offline-only');
  const {project}=require(path.join(pack,'inputs.cjs'));
@@ -16,7 +17,7 @@ async function run({executable,output,mode='offline',authorization,authorization
   assert.equal(mode,'offline');plan.caseLimits.find(c=>c.id===firstCase).tokenStopThreshold=50000;
   plan.budget.businessTokenStopThreshold=plan.caseLimits.reduce((n,c)=>n+c.tokenStopThreshold,0);plan.budget.reportedTokenStopThreshold=plan.budget.protocolTokenStopThreshold+plan.budget.businessTokenStopThreshold;
  }
- const identityGuard=()=>{const current=frozen(executable,{candidate});assert.equal(current.seal.identity,IDENTITY,'Sample/candidate seal changed');assert.deepEqual(dependencies(executable,{candidate}),dependencyIdentity);if(runnerManifest){for(const f of runnerManifest.files)assert.equal(sha(fs.readFileSync(path.join(__dirname,f.path))),f.sha256);assert.equal(sha(fs.readFileSync(realCli)),authorization.realCliSha256);}};
+ const identityGuard=()=>{const current=frozen(executable,packageProfile);assert.equal(current.seal.identity,IDENTITY,'Sample/candidate seal changed');assert.deepEqual(dependencies(executable,{candidate}),dependencyIdentity);if(runnerManifest){for(const f of runnerManifest.files)assert.equal(sha(fs.readFileSync(path.join(__dirname,f.path))),f.sha256);assert.equal(sha(fs.readFileSync(realCli)),authorization.realCliSha256);}};
  if(mode==='live'){
   // A new explicit approval and reviewed runner identity are required; never generate either here.
   assert.ok(authorization,'New user budget approval required');
@@ -43,7 +44,7 @@ async function run({executable,output,mode='offline',authorization,authorization
  const provider={type:'codex',name:mode==='offline'?'Offline synthetic CLI':'Guarded subscription evaluation',model:plan.model.id,reasoning:plan.model.reasoning,inputPrice:0,outputPrice:0,requestPolicy:{idleMinutes:2,totalMinutes:3,retries:0}};
  const control=new AbortController();const signalStop=()=>{control.abort();broker.cancel('USER_PROCESS_SIGNAL');};process.on('SIGINT',signalStop);process.on('SIGTERM',signalStop);
  async function launch(){
-  identityGuard();if(candidate)frozen(executable,{candidate,complete:true});
+  identityGuard();if(candidate)frozen(executable,{...packageProfile,complete:true});
   app=await electron.launch({executablePath:executable,args:['--user-data-dir='+profile],env,timeout:45000});page=await app.firstWindow();page.on('pageerror',e=>appErrors.push(e.message));await page.waitForFunction(()=>!!window.assistant);
   const proof=await app.evaluate(({app},names)=>({packaged:app.isPackaged,profile:app.getPath('userData'),version:app.getVersion(),asar:app.getAppPath(),modules:names.map(n=>({name:n,hash:process.getBuiltinModule('node:crypto').createHash('sha256').update(process.getBuiltinModule('node:fs').readFileSync(process.getBuiltinModule('node:path').join(app.getAppPath(),'desktop',n))).digest('hex')}))}),['subscription.cjs','subscription-protocol.cjs','host-process.cjs']);
   assert.equal(proof.packaged,true);assert.equal(proof.profile,profile);assert.equal(proof.version,plan.installedVersion);assert.equal(proof.asar,asar);
@@ -145,7 +146,7 @@ async function run({executable,output,mode='offline',authorization,authorization
    const result={caseId:spec.id,lane:spec.lane,taskId,technicalPassed:!caseError,error:caseError||null,applicationAttempts:calls.length,cliExecRequests:actual.length,manualAcceptance:'pending-human',semanticAdjudication:mode==='offline'?'not-applicable-synthetic':'pending-independent-review',initial,final,...(negative?{seedIdentity:negative.seedIdentity}:{})};
    write(path.join(output,spec.id+'.json'),result);results.push({caseId:spec.id,technicalPassed:!caseError,applicationAttempts:calls.length,error:caseError||null});
    if(negative){await negative.close();negative=null;}
-   if(caseError&&spec.id===plan.protocolGate.id){broker.cancel('PROTOCOL_GATE_FAILED');throw Error(caseError);}
+   if(caseError&&(spec.id===plan.protocolGate.id||noticeAcceptance)){broker.cancel(spec.id===plan.protocolGate.id?'PROTOCOL_GATE_FAILED':'ACCEPTANCE_CASE_FAILED');throw Error(caseError);}
    if(broker.stopped)throw Error('GLOBAL_STOP_AFTER_CASE');
   }
   assert.equal(results.length,7);assert.ok(results.every(r=>r.technicalPassed));assert.deepEqual(appErrors,[]);assert.ok(!broker.stopped);
@@ -153,10 +154,10 @@ async function run({executable,output,mode='offline',authorization,authorization
   try{await negative?.close();await app?.close();}catch(e){failed ||=e;}await broker.close();
   process.off('SIGINT',signalStop);process.off('SIGTERM',signalStop);
  }
- const summary={passed:!failed,mode,candidate,packageKind:candidate?'isolated-candidate':'frozen-installed',groundingSha256:identity.groundingSha256,fault:fault||null,liveModelCalls:mode==='offline'?0:broker.rows.filter(r=>r.transportDispatched).length,syntheticUsage:mode==='offline',sealIdentity:IDENTITY,asarSha256:plan.asarSha256,executableSha256:identity.executableSha256,shimSha256:sha(fs.readFileSync(path.join(shim,'codex.exe'))),isolatedDirectory:directory,userWorkspaceTouched:false,manualAcceptancePerformed:false,results,checks,ledger:broker.ledger.snapshot(),errors:[...(failed?[failed.stack]:[]),...broker.errors],appErrors};
+ const summary={passed:!failed,mode,candidate,noticeAcceptance,packageKind:candidate?'isolated-candidate':'frozen-installed',groundingSha256:identity.groundingSha256,fault:fault||null,liveModelCalls:mode==='offline'?0:broker.rows.filter(r=>r.transportDispatched).length,syntheticUsage:mode==='offline',sealIdentity:IDENTITY,asarSha256:plan.asarSha256,executableSha256:identity.executableSha256,shimSha256:sha(fs.readFileSync(path.join(shim,'codex.exe'))),isolatedDirectory:directory,userWorkspaceTouched:false,manualAcceptancePerformed:false,results,checks,ledger:broker.ledger.snapshot(),errors:[...(failed?[failed.stack]:[]),...broker.errors],appErrors};
  try{identityGuard();}catch(e){failed ||=e;summary.passed=false;summary.errors.push(e.stack);}summary.dependencies=dependencyIdentity;
  write(path.join(output,'summary.json'),summary);console.log(JSON.stringify({passed:summary.passed,mode,liveModelCalls:summary.liveModelCalls,cases:results.length,output,error:failed?.message}));if(failed)throw failed;return summary;
 }
 module.exports={run};
-if(require.main===module){const {values}=require('node:util').parseArgs({options:{executable:{type:'string'},output:{type:'string'},offline:{type:'boolean'},live:{type:'boolean'},authorization:{type:'string'},'real-cli':{type:'string'},fault:{type:'string'},candidate:{type:'boolean'}}});
- assert.notEqual(!!values.offline,!!values.live,'Choose exactly --offline or --live');assert.ok(!values.fault||values.offline&&['malformed-envelope','malformed-inner','malformed-evidence','unknown-usage','case-budget'].includes(values.fault));run({executable:values.executable,output:values.output,mode:values.live?'live':'offline',authorization:values.authorization?read(values.authorization):undefined,authorizationPath:values.authorization,realCli:values['real-cli'],fault:values.fault,candidate:values.candidate||false}).catch(e=>{console.error(e.stack);process.exitCode=1;});}
+if(require.main===module){const {values}=require('node:util').parseArgs({options:{executable:{type:'string'},output:{type:'string'},offline:{type:'boolean'},live:{type:'boolean'},authorization:{type:'string'},'real-cli':{type:'string'},fault:{type:'string'},candidate:{type:'boolean'},'notice-acceptance':{type:'boolean'}}});
+ assert.notEqual(!!values.offline,!!values.live,'Choose exactly --offline or --live');assert.ok(!values.fault||values.offline&&['malformed-envelope','malformed-inner','malformed-evidence','unknown-usage','case-budget'].includes(values.fault));run({executable:values.executable,output:values.output,mode:values.live?'live':'offline',authorization:values.authorization?read(values.authorization):undefined,authorizationPath:values.authorization,realCli:values['real-cli'],fault:values.fault,candidate:values.candidate||false,noticeAcceptance:values['notice-acceptance']||false}).catch(e=>{console.error(e.stack);process.exitCode=1;});}

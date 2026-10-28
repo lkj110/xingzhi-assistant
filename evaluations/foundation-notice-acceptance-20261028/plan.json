@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "id": "foundation-notice-acceptance-20261028",
+  "preparationRevision": 1,
+  "status": "fresh-candidate-acceptance-preparation",
+  "liveAuthorized": false,
+  "scope": "single-fresh-foundation-candidate-acceptance-not-formal-main-evaluation",
+  "syntheticSources": true,
+  "baseCommit": "8d374b24b2aae2760f3d33cf1c2561130429f6ae",
+  "installedVersion": "0.42.4",
+  "asarSha256": "56916f8062b2384df6de2fbb3a8d976b9ae8bf6c7e4ff0c29f8d841ed0c5b1af",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "reasoning": "medium",
+    "provider": "existing-subscription",
+    "availability": "not-probed"
+  },
+  "settings": {
+    "evidenceGrounding": true,
+    "automatic": false,
+    "autoComplete": false,
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false
+  },
+  "budget": {
+    "applicationAttempts": 36,
+    "reportedTokenStopThreshold": 700000,
+    "protocolAttempts": 4,
+    "protocolTokenStopThreshold": 100000,
+    "businessAttempts": 32,
+    "businessTokenStopThreshold": 600000,
+    "perCallTimeoutMs": 180000,
+    "perCallIdleMs": 120000,
+    "dispatchWindowMinutes": 45,
+    "maxVisibleRequestBytes": 70000,
+    "reservationOutputAllowance": 32768,
+    "reservationFramingAllowance": 4096,
+    "serverEnforcedTokenCap": false,
+    "priorBudgetsReusable": false
+  },
+  "caseLimits": [
+    {
+      "id": "P01-qingjia-notice",
+      "attempts": 6,
+      "tokenStopThreshold": 100000
+    },
+    {
+      "id": "P02-haiting-conflict",
+      "attempts": 6,
+      "tokenStopThreshold": 100000
+    },
+    {
+      "id": "P03-taoyu-revision",
+      "attempts": 8,
+      "tokenStopThreshold": 140000
+    },
+    {
+      "id": "P04-fanyu-restart",
+      "attempts": 6,
+      "tokenStopThreshold": 100000
+    },
+    {
+      "id": "P05-sifangting-unapproved",
+      "attempts": 3,
+      "tokenStopThreshold": 80000
+    },
+    {
+      "id": "P06-xingjia-unjustified-choice",
+      "attempts": 3,
+      "tokenStopThreshold": 80000
+    }
+  ],
+  "protocolGate": {
+    "id": "G01-chengyu",
+    "title": "澄榆印刷室K-624校色样张留档摘要",
+    "description": "请仅依据收存记录，为档案员写一句简短摘要。",
+    "criteria": "一句话准确说明2026年1月6日10:15收存的K-624校色样张共5张，仅作内部比色且尚未交给客户。",
+    "sources": [
+      {
+        "key": "s1",
+        "title": "澄榆印刷室校色样张收存记录",
+        "content": "2026年1月6日10:15，澄榆印刷室收存K-624校色样张5张，仅作内部比色，尚未交给客户。"
+      }
+    ],
+    "passRequires": [
+      "normal_generation_and_strict_verification_complete",
+      "evidence_quotes_bound_to_original_source",
+      "all_dispatched_usage_known",
+      "no_protocol_rejection",
+      "no_host_tool_attempt",
+      "no_external_action",
+      "within_all_budgets"
+    ],
+    "includedInBusinessMetrics": false
+  },
+  "order": [
+    "G01-chengyu",
+    "P01-qingjia-notice",
+    "P02-haiting-conflict",
+    "P03-taoyu-revision",
+    "P04-fanyu-restart",
+    "P05-sifangting-unapproved",
+    "P06-xingjia-unjustified-choice"
+  ],
+  "globalStopOn": [
+    "unknown_or_conflicting_usage",
+    "protocol_or_schema_rejection",
+    "transport_failure",
+    "host_tool_attempt",
+    "global_or_stage_budget_admission_failure",
+    "reported_budget_or_reservation_overage",
+    "frozen_identity_changed",
+    "gold_or_rubric_leak",
+    "unexpected_external_action",
+    "user_stop",
+    "first_case_failure"
+  ],
+  "caseStopOn": [
+    "case_budget_admission_failure",
+    "first_terminal_business_failure",
+    "fixed_candidate_changed",
+    "unplanned_retry_or_revision"
+  ],
+  "manualAcceptance": {
+    "humanRequired": true,
+    "scriptedAcceptCountsAsHuman": false,
+    "pendingHumanIsNotFailure": true,
+    "qualityMustPassBeforeOfferingAccept": true
+  },
+  "executionPrerequisites": [
+    "new_explicit_user_budget_approval",
+    "independently_reviewed_seal_intact",
+    "offline_executor_lifecycle_and_budget_checks_pass",
+    "isolated_candidate_package_and_profile_verified",
+    "model_route_confirmed_without_extra_paid_probe",
+    "case_and_gold_allowlist_enforced"
+  ],
+  "runnerStatus": "new-fixed-profile-under-review",
+  "packageManifest": "package-manifest.json",
+  "candidateInstalled": false,
+  "installedFoundationFrozen": true,
+  "offlineOnly": false,
+  "samplesPreviouslyExposed": false,
+  "caseFailureEndsRound": true
+}

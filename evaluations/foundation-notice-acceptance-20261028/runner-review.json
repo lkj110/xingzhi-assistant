@@ -1,0 +1,262 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-28T10:00:03.604Z",
+  "reviewer": "independent-subagent",
+  "reviewTask": "notice_acceptance_audit",
+  "baselineCommit": "f86249924e43d624f085e1606f4cdb870a2b9183",
+  "status": "reviewed-preparation-failed-accurate-upload-approved",
+  "approvedForUpload": true,
+  "remainingUploadBlockingFindings": [],
+  "candidateOfflineReady": false,
+  "approvedForLiveReadiness": false,
+  "approvedForLiveExecution": false,
+  "approvedForInstallation": false,
+  "userBudgetApproved": true,
+  "userApprovalReference": "User said 按照下一步继续推进 after the 36 application attempts / 700000 token stop threshold proposal including possible in-flight overage.",
+  "approvedBudget": {
+    "applicationAttempts": 36,
+    "reportedTokenStopThreshold": 700000,
+    "nonHardCapAccepted": true
+  },
+  "runtimeAuthorizationIssued": false,
+  "authorizationConsumed": false,
+  "realModelCalls": 0,
+  "officialCliProbePerformed": false,
+  "candidateInstalled": false,
+  "installedFoundationFrozen": true,
+  "manualAcceptancePerformed": false,
+  "userWorkspaceTouched": false,
+  "productSourceChanged": false,
+  "runnerIdentity": "1d5a466de93a2e557f9b60059ccb72db90c269385478395cd6152e57236ccfdb",
+  "sampleSealIdentity": "a168f20515e2a79061793f11a6a51b3298e340113f9e0b2b6a60d2ee90e3c8f4",
+  "approvalMeaning": "只批准上传本轮准备失败、审题纠正及如实证据。用户预算已批准，但准备门槛失败，未发出或消费运行授权；不得据此启动真实模型、修改封存题目后续跑或安装发布。",
+  "independentChecks": {
+    "unit": {
+      "executedByReviewer": true,
+      "tests": 163,
+      "passed": 162,
+      "failed": 0,
+      "skipped": 1,
+      "skipReason": "Existing Windows file symlink creation privilege unavailable",
+      "driverSyntaxChecked": true
+    },
+    "code": {
+      "fixedProfilesOnly": true,
+      "oldRegressionOfflineOnlyPreserved": true,
+      "newProfileFirstBusinessFailureEndsRound": true,
+      "productAndProtocolUnchanged": true,
+      "profileNameCollisionFixedBeforeLaunch": true,
+      "driverImportAndMixedProfileRejectionCovered": true
+    },
+    "sample": {
+      "files": 10,
+      "structuralChecks": 573,
+      "sourceAnchors": 34,
+      "sourceCount": 12,
+      "budgetArithmeticVerified": true,
+      "projectionAllowlistVerified": true,
+      "initialSemanticPassCorrected": true,
+      "correctionPreservesOriginalAudit": true,
+      "fullReferenceQualification": false,
+      "reason": "P01 reference and actual full title/body omit the explicitly requested cleaning object 低温柜."
+    },
+    "freeze": {
+      "installedFiles": 86,
+      "candidateFiles": 86,
+      "installedAndCandidateBeforeAfterIdentical": true,
+      "groundingSha256": "687bf5f3078a86cd360cc0c6971f4e9edc9f672236910f623b7744f87b799310",
+      "candidateAsarSha256": "56916f8062b2384df6de2fbb3a8d976b9ae8bf6c7e4ff0c29f8d841ed0c5b1af",
+      "historicalPacksPreserved": 3,
+      "historicalSealFilesUnchanged": 27,
+      "runnerFilesUnchanged": 29,
+      "newSampleFilesUnchanged": 10
+    },
+    "offline": {
+      "executedByReviewer": false,
+      "rawRecordsIndependentlyAudited": true,
+      "attemptedOnce": true,
+      "passed": false,
+      "gatePassed": true,
+      "businessCasesAttempted": 1,
+      "businessCasesPlanned": 6,
+      "actualCase": "P01-qingjia-notice",
+      "actualStatus": "blocked",
+      "actualIssue": "推断、建议或未知未在正文标明：n1",
+      "requestRecords": 6,
+      "terminalRecords": 6,
+      "ledgerAttempts": 6,
+      "unknownUsage": 0,
+      "pendingUsage": 0,
+      "unexpectedAttempts": 0,
+      "stopReason": "ACCEPTANCE_CASE_FAILED",
+      "laterCasesNotRun": [
+        "P02-haiting-conflict",
+        "P03-taoyu-revision",
+        "P04-fanyu-restart",
+        "P05-sifangting-unapproved",
+        "P06-xingjia-unjustified-choice"
+      ],
+      "acceptanceSnapshotCollectedForP01": false,
+      "caseBudgetFaultExecuted": false,
+      "additionalCaseProbesExecuted": false,
+      "syntheticAccountingOnly": {
+        "inputTokens": 31093,
+        "outputTokens": 1200,
+        "totalTokens": 32293,
+        "isRealModelUsage": false
+      }
+    },
+    "content": {
+      "independentBlindReviewBy": "notice_content_judge",
+      "blindProjectionBoundToActualDraft": true,
+      "qualified": false,
+      "hallucination": false,
+      "requirementGap": "低温柜 cleaning object omitted from full title and body.",
+      "localConditionalFragmentHasSourceSupport": true,
+      "actualSyntheticRequirementsMarkedSatisfied": true,
+      "wholeDraftFalseBlockEstablished": false,
+      "productDetectedRequirementGap": false,
+      "earlierSemanticApprovalRetracted": true
+    },
+    "publicReportMatchesRecords": true,
+    "gitDiffCheckPassed": true,
+    "realModelMetricsCalculated": false
+  },
+  "closedPreparationFindings": [
+    {
+      "id": "RUNNER-PROFILE-NAME-COLLISION",
+      "status": "fixed-before-any-candidate-launch",
+      "resolution": "Selection object renamed packageProfile; actual run import and mixed-profile rejection regression added."
+    },
+    {
+      "id": "FAIL-FAST-POLICY-MISMATCH",
+      "status": "fixed-before-run",
+      "resolution": "Fresh acceptance profile stops whole round at first business case error, verified by P01 halt and no later attempts; legacy behavior retained."
+    }
+  ],
+  "readinessBlockingFindings": [
+    {
+      "id": "REFERENCE-MISSING-OBJECT",
+      "finding": "P01 sealed reference omits 低温柜 requested in description; blind review rejects full-draft qualification."
+    },
+    {
+      "id": "LOCAL-MARKER-BOUNDARY",
+      "finding": "Supported conditional notice fragment begins with 仅当 and contains semicolon, outside the retained local marker exception; actual only issue n1. This does not establish a whole-draft false block."
+    }
+  ],
+  "unexecutedCoverageLimitations": [
+    {
+      "caseId": "P03-taoyu-revision",
+      "finding": "Static notice-format coverage concern only; final revision was not executed and no product outcome is claimed."
+    },
+    {
+      "caseId": "P04-fanyu-restart",
+      "finding": "Unknown-text fixture conflict mapping is unvalidated; no restart or real source-conflict outcome is claimed."
+    }
+  ],
+  "evidenceSha256": {
+    "independentUnit": "32e4c03036845b2f576bab4bb8b9eb7ac896615c8a507a94b2f0c7576841992c",
+    "independentSampleStructure": "c30b4ccc72e94630c443800cb597aaaa5e39b3e7d09a40f6224bc34e2a35ab5d",
+    "initialSampleAudit": "0195f4206efec9d6429a472cba808f502dd2fcd3cbea05c7b21eab5003929a2a",
+    "contentCorrectionAudit": "17980e594c930f5a96a5ea2d2590328033a8a3a20cc465ce43b5fdc6c181f7bc",
+    "independentOfflineAccounting": "213fd7797990ba8199c049b8704bf99017f619809520955e75837fb4afe39494",
+    "auditRunScript": "bec4994729fa74b85aa522dfa3aeec639e89c8a5ae92ff1f92901e60c3791619",
+    "independentFreezeBefore": "5ee2d1fca6a8ae7bb925a47d92ea20eb169e7b9f351950e8e67fc2d18b28a881",
+    "independentFreezeAfter": "07d846a06cb6424a349ea9f80609e02e57953c311dd80fe92d5d02310bd7ceeb",
+    "offlineSummary": "1fa2762257bfc7f776019463f42d074d18f83d72598448e489712faf7c687d78",
+    "publicVerification": "8c0b3f0b9227c034b000352d5febdf800cdd09b398ec5c1ac92cff3c738a2bfd",
+    "blindContentReview": "ae21a596da74e61369b8a4599f57138e1f6bc61c5a524b63f36f434046fb8c64",
+    "mainReport": "1f5c0e287a13291a4cef4fd75bdbccce9d8dcb05d52be2891aa957dcdc43ec9d"
+  },
+  "reviewedFiles": [
+    {
+      "path": "desktop/grounding.cjs",
+      "sha256": "687bf5f3078a86cd360cc0c6971f4e9edc9f672236910f623b7744f87b799310"
+    },
+    {
+      "path": "evaluations/foundation-runner/common.cjs",
+      "sha256": "6396f05dacab91850902fac157f12d9ca2bd793cedb1459fd5bc2edece0c77cf"
+    },
+    {
+      "path": "evaluations/foundation-runner/run.cjs",
+      "sha256": "816a5e797a5f6b136a946ea7968a6aa5862cc806d328bc9f95c111a4db55e947"
+    },
+    {
+      "path": "evaluations/foundation-runner/profile.test.cjs",
+      "sha256": "3d487ab53c14794343692554609ed8e9797aa5661e9a5b82e21d48c106d27ec4"
+    },
+    {
+      "path": "evaluations/foundation-runner/README.md",
+      "sha256": "348be859a6376da98cbfa76be314a22658cee3e43458867f1950a521c3607ad4"
+    },
+    {
+      "path": "docs/FOUNDATION_NOTICE_ACCEPTANCE_PREPARATION_20261028.md",
+      "sha256": "1f5c0e287a13291a4cef4fd75bdbccce9d8dcb05d52be2891aa957dcdc43ec9d"
+    },
+    {
+      "path": "docs/evidence/foundation-notice-acceptance-preparation-verification.json",
+      "sha256": "8c0b3f0b9227c034b000352d5febdf800cdd09b398ec5c1ac92cff3c738a2bfd"
+    },
+    {
+      "path": "docs/evidence/foundation-notice-acceptance-content-review.json",
+      "sha256": "ae21a596da74e61369b8a4599f57138e1f6bc61c5a524b63f36f434046fb8c64"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/README.md",
+      "sha256": "dafb59a404c0cf4fc43086cb26bd3e522e4250d2af7749f15c5af9e56a4a35b8"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/plan.json",
+      "sha256": "0710c02d8066930e81d78540dec4fc1305c5874d338ee1c696771a14f97b3a07"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/gate.json",
+      "sha256": "11ee545e642198a049f4e4c1131a3ef057cc7afce65f0a6302cf29dacffa2fef"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/stimuli.json",
+      "sha256": "93e371156baa1118359ac2dd5061fae9c3e80fd8b7fa93c9b541be6b58c8dd81"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/gold.json",
+      "sha256": "1afa21a832e9d7aa985855e6f55161fb4f0dc94c08c8b956fe61896c3fbec343"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/anchors.json",
+      "sha256": "a942795ee7a6a80afe24a73c3f14e5ed017645918ad83c6cd1c138edc76e75bf"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/inputs.cjs",
+      "sha256": "2c0d1d673641a687a4de8aa386eab49e52153bc3e093f0369723d3ab803688fe"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/preflight.cjs",
+      "sha256": "ddb127b6436a2db2a69bf6fd64ca2d8b0098a7850f1bd940ec6dcd6d5d3aed92"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/preflight.json",
+      "sha256": "b0a4c9fe2446ac4ef5faf3d418ab88dc0cac1d58d731245678ee756bbaf9a408"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/package-manifest.json",
+      "sha256": "d0e9e31aa28a9f42ecdae5ae80d6fe86480da3eec0a3e1d6c1bd48c843b0985a"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/seal.json",
+      "sha256": "ffccb439431786b426dc7e47ccbd816ebf53fe61441dbc66843367deb4365621"
+    },
+    {
+      "path": "evaluations/foundation-notice-acceptance-20261028/runner-seal.json",
+      "sha256": "c6780ea3316cddc909029daa56998b4842952adf81865dd1dc279f893ba54c4c"
+    }
+  ],
+  "nextStep": "First repair full user-requirement to reference coverage and independently recheck task descriptions as well as criteria; preserve current seals. Do not change product gates based on this unqualified reference. If a later fully qualified draft is still blocked by style, decide a bounded hard-evidence-versus-human-review contract instead of adding more wording regexes.",
+  "limitations": [
+    "No real model calls; quality rates and real token consumption are not measured.",
+    "Gate success and structural preflight do not establish full-draft correctness.",
+    "P01 reveals a supported local notice fragment rejected by marker rules, but whole-draft false block is not established because the reference has a requirement omission.",
+    "The system did not independently detect that omission: its sole issue was the marker and the offline fixture marked all requirements satisfied.",
+    "Five business cases and the additional case-budget rehearsal were not run after the first failure.",
+    "Human acceptance, deployment, official CLI probing and live authorization consumption did not occur."
+  ]
+}

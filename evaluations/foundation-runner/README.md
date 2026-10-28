@@ -45,3 +45,7 @@ node evaluations/foundation-runner/path-integration-test.cjs --executable <冻�
 ## 本次通知回归候选
 
 当前 `--candidate` 固定选择已暴露的通知回归包 `foundation-notice-regression-20261028`。原候选样本与历史 seal/review 保留原样；新的包与执行器身份分别封存。该包的 `offlineOnly:true` 在执行入口拒绝 live，即使提供授权文件也不可用于真实验收。离线夹具从多行参考稿首行传递完整 artifact.title，正文原字节及修改 patch 保持不变；单行摘要继续沿用事项标题。本轮只运行一次完整主流程和一次 malformed-evidence 停止回归，其他故障不重复运行。
+
+## 全新样本通知候选验收入口
+
+`--notice-acceptance` 固定选择 `../foundation-notice-acceptance-20261028`，不能与 `--candidate` 合用，不接收任意样本路径。它使用同一个已审候选EXE，并独立绑定新样本、runner身份、检查点和本轮一次性用户授权。旧 `--candidate` 仍固定为已暴露回归包且offlineOnly；不得取消该限制。新入口遇任何案例失败即停整轮，正确拒绝固定错误稿不属于案例失败；旧入口仍保留既有逐例停止行为。首次真实请求前先完成新包离线主流程和首业务预算拒绝停止检查，始终不修改产品或封存计划。

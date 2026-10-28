@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "id": "foundation-notice-acceptance-20261028",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "dafb59a404c0cf4fc43086cb26bd3e522e4250d2af7749f15c5af9e56a4a35b8"
+    },
+    {
+      "path": "plan.json",
+      "sha256": "0710c02d8066930e81d78540dec4fc1305c5874d338ee1c696771a14f97b3a07"
+    },
+    {
+      "path": "gate.json",
+      "sha256": "11ee545e642198a049f4e4c1131a3ef057cc7afce65f0a6302cf29dacffa2fef"
+    },
+    {
+      "path": "stimuli.json",
+      "sha256": "93e371156baa1118359ac2dd5061fae9c3e80fd8b7fa93c9b541be6b58c8dd81"
+    },
+    {
+      "path": "gold.json",
+      "sha256": "1afa21a832e9d7aa985855e6f55161fb4f0dc94c08c8b956fe61896c3fbec343"
+    },
+    {
+      "path": "anchors.json",
+      "sha256": "a942795ee7a6a80afe24a73c3f14e5ed017645918ad83c6cd1c138edc76e75bf"
+    },
+    {
+      "path": "inputs.cjs",
+      "sha256": "2c0d1d673641a687a4de8aa386eab49e52153bc3e093f0369723d3ab803688fe"
+    },
+    {
+      "path": "preflight.cjs",
+      "sha256": "ddb127b6436a2db2a69bf6fd64ca2d8b0098a7850f1bd940ec6dcd6d5d3aed92"
+    },
+    {
+      "path": "preflight.json",
+      "sha256": "b0a4c9fe2446ac4ef5faf3d418ab88dc0cac1d58d731245678ee756bbaf9a408"
+    },
+    {
+      "path": "package-manifest.json",
+      "sha256": "d0e9e31aa28a9f42ecdae5ae80d6fe86480da3eec0a3e1d6c1bd48c843b0985a"
+    }
+  ],
+  "identity": "a168f20515e2a79061793f11a6a51b3298e340113f9e0b2b6a60d2ee90e3c8f4",
+  "liveModelCalls": 0,
+  "liveAuthorized": false,
+  "note": "Independently authored after candidate freeze; model quality unmeasured; live requires readiness review and current one-use user authorization."
+}

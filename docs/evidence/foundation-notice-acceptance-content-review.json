@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "reviewer": "independent-subagent",
+  "reviewTask": "notice_content_judge",
+  "scope": "blind-quality-review-of-offline-current-draft-not-real-model",
+  "caseId": "P01-qingjia-notice",
+  "stage": "offline-current-draft",
+  "sealIdentity": "a168f20515e2a79061793f11a6a51b3298e340113f9e0b2b6a60d2ee90e3c8f4",
+  "checkpointIdentity": "8e3b7fde7ffb319b996de619621eac1421ec74ece1670060d55bb728efbff17e",
+  "systemOutcomeHidden": true,
+  "goldHidden": true,
+  "qualified": false,
+  "hallucination": false,
+  "factualErrors": [],
+  "requirementGaps": [
+    {
+      "requirement": "拟一份可发给本轮对象的低温柜清洁预约通知",
+      "evidence": "input.description明确指定低温柜；预约单也明确本轮低温柜清洁。draft.title及draft.content均未出现低温柜，仅写清洁预约、清洁。",
+      "explanation": "完整通知没有明确清洁的设备对象，未完全实现用户指定的通知主题。"
+    }
+  ],
+  "explanation": "所表达的具体事实均可由两份来源支持，关键范围、条件、时点、数量及待执行状态保持准确；因全文遗漏低温柜这一作业对象，严格按全部用户要求裁定为不合格。此项属于要求遗漏，不属于幻觉或事实错误。",
+  "checks": [
+    {
+      "item": "标题对象限制",
+      "passed": true,
+      "evidence": "标题含本轮C组名册内、且持活动当班有效通行证、夜班保管员，三个限制同时保留，与预约单一致。"
+    },
+    {
+      "item": "正文对象范围",
+      "passed": true,
+      "evidence": "本轮仅面向上述夜班保管员引用完整标题中的限定，没有扩大对象范围。"
+    },
+    {
+      "item": "时点与时段",
+      "passed": true,
+      "evidence": "2026年1月25日21:10至21:35与预约单完全一致；未按当前实际日期推断执行情况。"
+    },
+    {
+      "item": "通常集结地点",
+      "passed": true,
+      "evidence": "柜区外缓冲间与预约单一致。"
+    },
+    {
+      "item": "变更条件、备用地点及其他情况",
+      "passed": true,
+      "evidence": "仅当该次值班表为B档且主缓冲门封闭才改北侧更衣间；其他情况仍在柜区外缓冲间，与附记的合取条件和例外范围一致。"
+    },
+    {
+      "item": "数量、单位与上限",
+      "passed": true,
+      "evidence": "手套每人最多领取2副保留每人、最多和副，未转成人数或固定领取数。"
+    },
+    {
+      "item": "待执行状态",
+      "passed": true,
+      "evidence": "请于、请改表达预约安排；截至签发时清洁尚未执行，与2026年1月22日来源状态一致，未声称已完成。"
+    },
+    {
+      "item": "篇幅",
+      "passed": true,
+      "evidence": "draft.content已含完整标题，汉字计数为129，不超过260个汉字。"
+    },
+    {
+      "item": "低温柜作业对象",
+      "passed": false,
+      "evidence": "用户描述和预约单指定低温柜，但完整标题、正文均未写明这一对象。"
+    },
+    {
+      "item": "额外断言的来源支持",
+      "passed": true,
+      "evidence": "按2026年1月22日预约单拟定及截至签发时尚未执行均有预约单直接支持；未发现来源外新增事实。"
+    }
+  ],
+  "decisionSha256": "b9d3d45dac1e637aac70fe7866495633e556f6d2107f22c6fadddd8de19ab51b",
+  "requestSha256": "93744cbbae912c87672fffe14d9a5b154581785aa53d87621627c4f3dbe0d757"
+}
