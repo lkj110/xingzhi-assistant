@@ -19,7 +19,12 @@ test('Waiting resets on activity, total deadline does not reset, and timers clea
   const unlimited=policy.watch();t.mock.timers.tick(100000000);assert.equal(unlimited.signal.aborted,false);unlimited.close();
 });
 test('Codex subprocess activity extends idle window without a total deadline',async()=>{
-  let updates=0;const r=await processCall(process.execPath,['-e','let i=0;const t=setInterval(()=>{console.log(++i);if(i===6){clearInterval(t);}},50)'],{timeoutMs:0,idleTimeoutMs:200,onProgress:()=>updates++});assert.equal(r.code,0);assert.ok(updates>=7);
+  // Include Windows Job supervisor + Node startup in the idle budget. Keep the
+  // stream longer than that budget so disabling activity resets still fails.
+  const idleTimeoutMs=1000,started=performance.now();let updates=0;
+  const r=await processCall(process.execPath,['-e','let i=0;const t=setInterval(()=>{console.log(++i);if(i===16){clearInterval(t);}},100)'],{timeoutMs:0,idleTimeoutMs,onProgress:()=>updates++});
+  assert.equal(r.code,0);assert.ok(updates>=7);assert.ok(performance.now()-started>idleTimeoutMs);
+  assert.deepEqual(r.output.trim().split(/\r?\n/).map(Number),Array.from({length:16},(_,i)=>i+1));
 });
 test('Codex subprocess distinguishes idle timeout from explicit total deadline',async()=>{
   await assert.rejects(processCall(process.execPath,['-e','setTimeout(()=>{},10000)'],{timeoutMs:0,idleTimeoutMs:100}),e=>e.code==='MODEL_TIMEOUT'&&e.timeoutKind==='idle');

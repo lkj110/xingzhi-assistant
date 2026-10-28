@@ -1,0 +1,243 @@
+{
+  "actualProcessCall": true,
+  "liveModelCalls": 0,
+  "runs": [
+    {
+      "idleTimeoutMs": 200,
+      "events": [
+        {
+          "kind": "activity",
+          "ms": 639.9131
+        },
+        {
+          "kind": "spawn",
+          "ms": 640.6462
+        },
+        {
+          "kind": "stdout",
+          "ms": 1169.2791,
+          "text": "1\n2\n3\n4\n5\n6"
+        },
+        {
+          "kind": "activity",
+          "ms": 1169.4694
+        },
+        {
+          "kind": "close",
+          "ms": 1170.6537,
+          "code": 0,
+          "signal": null
+        }
+      ],
+      "filteredEnvironmentKeys": [
+        "APPDATA",
+        "ComSpec",
+        "LANG",
+        "LC_ALL",
+        "LOCALAPPDATA",
+        "PATH",
+        "PATHEXT",
+        "SYSTEMROOT",
+        "SystemRoot",
+        "TEMP",
+        "TMP",
+        "USERPROFILE",
+        "WINDIR"
+      ],
+      "error": {
+        "code": "MODEL_TIMEOUT",
+        "timeoutKind": "idle"
+      },
+      "elapsedMs": 1170.7569
+    },
+    {
+      "idleTimeoutMs": 200,
+      "events": [
+        {
+          "kind": "activity",
+          "ms": 18.292999999999893
+        },
+        {
+          "kind": "spawn",
+          "ms": 18.379599999999982
+        },
+        {
+          "kind": "stdout",
+          "ms": 308.3572999999999,
+          "text": "1"
+        },
+        {
+          "kind": "activity",
+          "ms": 308.41689999999994
+        },
+        {
+          "kind": "close",
+          "ms": 316.90419999999995,
+          "code": 130,
+          "signal": null
+        }
+      ],
+      "filteredEnvironmentKeys": [
+        "APPDATA",
+        "ComSpec",
+        "LANG",
+        "LC_ALL",
+        "LOCALAPPDATA",
+        "PATH",
+        "PATHEXT",
+        "SYSTEMROOT",
+        "SystemRoot",
+        "TEMP",
+        "TMP",
+        "USERPROFILE",
+        "WINDIR"
+      ],
+      "error": {
+        "code": "MODEL_TIMEOUT",
+        "timeoutKind": "idle"
+      },
+      "elapsedMs": 316.9517000000001
+    },
+    {
+      "idleTimeoutMs": 200,
+      "events": [
+        {
+          "kind": "activity",
+          "ms": 16.269700000000057
+        },
+        {
+          "kind": "spawn",
+          "ms": 16.34360000000015
+        },
+        {
+          "kind": "stdout",
+          "ms": 298.7336,
+          "text": "1\n2"
+        },
+        {
+          "kind": "activity",
+          "ms": 298.80730000000017
+        },
+        {
+          "kind": "close",
+          "ms": 319.9367,
+          "code": 130,
+          "signal": null
+        }
+      ],
+      "filteredEnvironmentKeys": [
+        "APPDATA",
+        "ComSpec",
+        "LANG",
+        "LC_ALL",
+        "LOCALAPPDATA",
+        "PATH",
+        "PATHEXT",
+        "SYSTEMROOT",
+        "SystemRoot",
+        "TEMP",
+        "TMP",
+        "USERPROFILE",
+        "WINDIR"
+      ],
+      "error": {
+        "code": "MODEL_TIMEOUT",
+        "timeoutKind": "idle"
+      },
+      "elapsedMs": 320.0028
+    },
+    {
+      "idleTimeoutMs": 1000,
+      "events": [
+        {
+          "kind": "activity",
+          "ms": 16.726799999999912
+        },
+        {
+          "kind": "spawn",
+          "ms": 16.791400000000067
+        },
+        {
+          "kind": "stdout",
+          "ms": 287.3428000000001,
+          "text": "1"
+        },
+        {
+          "kind": "activity",
+          "ms": 287.42060000000015
+        },
+        {
+          "kind": "stdout",
+          "ms": 344.35839999999985,
+          "text": "2"
+        },
+        {
+          "kind": "activity",
+          "ms": 344.44550000000004
+        },
+        {
+          "kind": "stdout",
+          "ms": 409.9696999999999,
+          "text": "3"
+        },
+        {
+          "kind": "activity",
+          "ms": 410.1016000000002
+        },
+        {
+          "kind": "stdout",
+          "ms": 470.19049999999993,
+          "text": "4"
+        },
+        {
+          "kind": "activity",
+          "ms": 470.2771
+        },
+        {
+          "kind": "stdout",
+          "ms": 532.9390000000001,
+          "text": "5"
+        },
+        {
+          "kind": "activity",
+          "ms": 533.001
+        },
+        {
+          "kind": "stdout",
+          "ms": 594.1793,
+          "text": "6"
+        },
+        {
+          "kind": "activity",
+          "ms": 594.2436999999998
+        },
+        {
+          "kind": "close",
+          "ms": 611.3974999999998,
+          "code": 0,
+          "signal": null
+        }
+      ],
+      "filteredEnvironmentKeys": [
+        "APPDATA",
+        "ComSpec",
+        "LANG",
+        "LC_ALL",
+        "LOCALAPPDATA",
+        "PATH",
+        "PATHEXT",
+        "SYSTEMROOT",
+        "SystemRoot",
+        "TEMP",
+        "TMP",
+        "USERPROFILE",
+        "WINDIR"
+      ],
+      "result": {
+        "code": 0,
+        "output": "1\n2\n3\n4\n5\n6\n"
+      },
+      "elapsedMs": 611.4696000000001
+    }
+  ]
+}

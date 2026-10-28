@@ -1,0 +1,104 @@
+{
+  "reviewer": "foundation_offline_review",
+  "date": "2026-10-28",
+  "approvedForTestOnlyUpload": true,
+  "productPatchRequired": false,
+  "globalRegressionPassed": false,
+  "fullRegressionRerun": false,
+  "remainingBlockingFindings": [],
+  "resolvedFindings": [
+    {
+      "priority": "P2",
+      "issue": "Concurrent non-atomic audit JSON read could escape timeout callback",
+      "resolution": "Non-throwing auditSnapshot preserves observation failure"
+    },
+    {
+      "priority": "P2",
+      "issue": "Diagnostic parse failure could skip Worker teardown",
+      "resolution": "finally guarantees close and temporary-directory cleanup"
+    }
+  ],
+  "verified": [
+    "All eight public log SHA256 values match original local logs",
+    "127 tests / 111 pass / 16 fail / 0 cancelled in extended six-file batch",
+    "All 42 listed Windows dependency cases occur once as passing top-level TAP results",
+    "The same 16 macOS harness failure names recur against frozen baseline",
+    "Original Windows test plan already excludes system-package-worker",
+    "Startup first-output intervals independently recomputed as 529.366 / 290.0643 / 282.4639 ms, 1000 ms control 270.616 ms",
+    "Worker target retest has 63 observation replies; maximum 3351.8495 ms",
+    "No tracked product change in desktop, src, or dist",
+    "Installed ASAR SHA256 matches frozen release",
+    "Stable worktree is clean; local stable branch and remote stable branch/tag remain at base",
+    "Original experimental branch dirty-file set is unchanged"
+  ],
+  "baseCommit": "cba955e4b5826ae72ad8f3d414214b5a548fdb6e",
+  "installedAsarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+  "issueConclusions": [
+    {
+      "id": 1,
+      "cause": "Test first-output deadline shorter than observed Windows startup",
+      "confirmed": true,
+      "productChange": false
+    },
+    {
+      "id": 2,
+      "cause": "Historical readiness timeout not reproduced",
+      "confirmed": false,
+      "productChange": false
+    },
+    {
+      "id": 3,
+      "cause": "Historical full-delivery timeout not reproduced",
+      "confirmed": false,
+      "productChange": false
+    },
+    {
+      "id": 4,
+      "cause": "Immediate synthetic transport promises starved Worker observation port; complete-chain helper budget also shorter than measured run",
+      "confirmed": true,
+      "scope": "Synthetic fixture only",
+      "originalConditionPassed": false,
+      "productChange": false
+    }
+  ],
+  "limits": [
+    "No real model, external connector or macOS package certification",
+    "No product responsiveness guarantee for all cached/local computation paths",
+    "Issue 2 and 3 historical root causes remain unresolved",
+    "Original global regression remains failed; new extended batch also exits 1",
+    "Only test, fixture, diagnostic and documentation upload approved; no binary replacement",
+    "Independent reviewer inspected code and evidence but did not rerun heavy tests or access user workspace/configuration"
+  ],
+  "reviewedFiles": [
+    {
+      "path": "scripts/root-delivery-fixture.cjs",
+      "sha256": "571ba331d8f06851b5f841dd9ecb4feece76d3bd3b225cd67f1f7f1476baf675"
+    },
+    {
+      "path": "scripts/foundation-startup-probe.cjs",
+      "sha256": "b1f08429aa25c83fa8962d5d75f5af3bb68c72310b5b6f2d6d6eac55b0165833"
+    },
+    {
+      "path": "tests/long-generation.test.cjs",
+      "sha256": "bd9fd861ffcd5e0aebc33f54886678ca48c50554f92d06af544aea1aeaf8b8eb"
+    },
+    {
+      "path": "tests/p1-b2-lark-identity.test.cjs",
+      "sha256": "2065a8a8d889ed573385eb7dd94f951e0f0e85a602ae6d60f88ff9e56a2c7c20"
+    },
+    {
+      "path": "tests/system-controlled-worker.test.cjs",
+      "sha256": "05f37e0fb1cfbf7434f6aee616cf08af45fc18701c9128d12d111f66497fb063"
+    },
+    {
+      "path": "docs/FOUNDATION_OFFLINE_AUDIT.md",
+      "sha256": "f09a1a8e19dea6efa5840e8bd8b7aba8cfb369b9214cf3b010ed29b7fc68f99f"
+    },
+    {
+      "path": "docs/evidence/foundation-offline-startup.json",
+      "sha256": "c6c759a6fa7155feb800540ab6993ee97ad90c4c778f36d41940791d99b7b9e8"
+    }
+  ],
+  "publicSummaryBeforeApprovalSha256": "4606bbdbccc1ced88e979e682d57c51494edda87e0bc6965ccafb8b169fb0347",
+  "allowedFinalization": "Parent may add this accurate approval summary to independentReview, commit and push reviewed branch; preserve all failures and scope limits"
+}

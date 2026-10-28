@@ -21,10 +21,15 @@ async function setup(t,scenario,repairVariant){
   return dispatch(action,input);
  };return f.a;
  };`);
- let engine;const start=async()=>{engine=new EngineClient({dir:workspace,fixtureModule:module,safeStorage:{isEncryptionAvailable:()=>false},native:async()=>({supported:false})});await engine.ready;return engine;};
- await start();t.after(async()=>{await engine.close().catch(()=>{});fs.rmSync(dir,{recursive:true,force:true});});
+ // Diagnostics race with the Worker's non-atomic fixture audit writes. A partial
+ // snapshot must never replace the test error or prevent teardown.
+ const auditSnapshot=()=>{try{const audit=JSON.parse(fs.readFileSync(auditFile));return {lastEvents:audit.events.slice(-6).map(e=>e.kind),modelInputs:audit.modelInputs.length};}catch(error){return {auditUnavailable:error.code||error.name};}};
+ let engine;const stages=[],started=performance.now(),stage=(name,detail={})=>{stages.push({name,ms:performance.now()-started,...detail});if(stages.length>256)stages.shift();};
+ const start=async()=>{stage('worker-start');engine=new EngineClient({dir:workspace,fixtureModule:module,safeStorage:{isEncryptionAvailable:()=>false},native:async()=>({supported:false})});await engine.ready;stage('worker-ready',{threadId:engine.worker.threadId});return engine;};
+ await start();t.after(async()=>{try{t.diagnostic(JSON.stringify({scenario,...auditSnapshot()}));}finally{try{await engine.close().catch(()=>{});}finally{fs.rmSync(dir,{recursive:true,force:true});}}});
  let sequence=0;
- const observe=(action='snapshot')=>new Promise((resolve,reject)=>{const id=++sequence,timer=setTimeout(()=>{engine.worker.off('message',listener);reject(Error('observation timeout'));},15000),listener=m=>{if(m.type!=='controlledObservationResult'||m.id!==id)return;clearTimeout(timer);engine.worker.off('message',listener);m.error?reject(Error(m.error)):resolve(m.result);};engine.worker.on('message',listener);engine.worker.postMessage({type:'controlledObservation',id,action});});
+ t.after(()=>t.diagnostic(JSON.stringify({scenario,stages})));
+ const observe=(action='snapshot')=>new Promise((resolve,reject)=>{const id=++sequence;stage('observe-send',{id,action});const timer=setTimeout(()=>{engine.worker.off('message',listener);stage('observe-timeout',{id,action,...auditSnapshot()});reject(Error('observation timeout: '+JSON.stringify(stages)));},15000),listener=m=>{if(m.type!=='controlledObservationResult'||m.id!==id)return;clearTimeout(timer);engine.worker.off('message',listener);stage('observe-reply',{id,action});m.error?reject(Error(m.error)):resolve(m.result);};engine.worker.on('message',listener);engine.worker.postMessage({type:'controlledObservation',id,action});});
  return {get engine(){return engine;},audit:()=>JSON.parse(fs.readFileSync(auditFile)),observe,restart:async()=>{const old=engine.worker.threadId;await engine.close();await start();assert.notEqual(engine.worker.threadId,old,'must start a distinct formal Worker');},workspace};
 }
 for(const [scenario,title] of [['success','full-delivery check-revise'],['read_reorder','read-reorder'],['read_mixed','read-mixed']])test('controlled formal Worker: '+title,async t=>{
@@ -44,8 +49,10 @@ test('controlled formal Worker: readback-mismatch stays unaccepted across restar
 async function repairCommand(f){const {state}=await f.observe();assert.equal(state.view?.kind,'internal_context_authorization');const input={action:'agentCheckResume',input:{id:state.jobId,...state.view}};await f.engine.dispatch('uiCommand',input);return input;}
 async function completeRepair(f,before){
  await f.engine.control('resume');
- const until=Date.now()+15000;
- while(Date.now()<until){const s=await f.observe();if(s.runs>before&&!s.busy)return f.observe('complete');await new Promise(r=>setTimeout(r,25));}
+  // Individual RPCs retain their 15 s deadline. A full 19-source delivery is a
+  // different budget; keep it bounded within the original outer 60 s test.
+  const until=Date.now()+45000;let observedBusy=false;
+  while(Date.now()<until){const s=await f.observe();observedBusy ||= s.busy;if(s.runs>before&&!s.busy){assert.ok(observedBusy,'observation port must respond during repair');return f.observe('complete');}await new Promise(r=>setTimeout(r,25));}
  assert.fail('normal Worker RPC did not settle: '+JSON.stringify(await f.observe()));
 }
 test('controlled/notproduction formal Worker: context authorization repair uses normal RPC across upgrade and committed-repair cold restarts',async t=>{

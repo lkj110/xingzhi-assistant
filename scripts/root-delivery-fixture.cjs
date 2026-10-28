@@ -162,7 +162,10 @@ async function setup({Assistant=require('../desktop/core.cjs').Assistant,options
   const readOrder=scenario==='read_reorder'?[...batches].reverse().map(batch=>[...batch].reverse()):batches;
   const saveAudit=()=>{if(reportFile)fs.writeFileSync(reportFile,JSON.stringify({...audit,remote,transportState:{pendingBatch,readIndex,generated},baseline:f?.baseline,ids:f?{jobId:f.job.id,taskId:f.task.id,oldId:f.old.id,unrelatedId:f.unrelated.id}:null},null,2));};
   const event=(kind,detail={})=>{audit.events.push({kind,...detail});saveAudit();};
-  const checked=async(fn)=>{try{return await fn();}catch(e){if(!e.expectedFixtureFailure)audit.violations.push(e.message);saveAudit();throw e;}};
+  // A transport response must cross an event-loop turn, just as real I/O does.
+  // Immediately fulfilled synthetic promises otherwise monopolize the Worker
+  // across the entire delivery chain and starve its observation/control port.
+  const checked=async(fn)=>{await new Promise(resolve=>setImmediate(resolve));try{return await fn();}catch(e){if(!e.expectedFixtureFailure)audit.violations.push(e.message);saveAudit();throw e;}};
   const connectorRequest=async(args,opts={})=>checked(async()=>{
     audit.connectorCalls.push({args,input:opts.input,baseline:seeding});saveAudit();
     if(args[1]==='status')return {verified:true,identities:{user:{available:true,status:'ready',verified:true,openId:'ou_root_fixture',userName:'测试人',scope:access.scopes('my_library').join(' ')}}};

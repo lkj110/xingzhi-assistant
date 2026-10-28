@@ -1,0 +1,442 @@
+{
+  "date": "2026-10-28",
+  "baseCommit": "cba955e4b5826ae72ad8f3d414214b5a548fdb6e",
+  "branch": "codex/foundation-offline-audit",
+  "liveModelCalls": 0,
+  "productionFilesChanged": [],
+  "installedAsarSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+  "globalRegressionPassed": false,
+  "fullRegressionRerun": false,
+  "productPatchRequired": false,
+  "issues": [
+    {
+      "id": 1,
+      "result": "test-fixture-timing-corrected",
+      "rootCauseConfirmed": true,
+      "originalIdleMs": 200,
+      "correctedIdleMs": 1000,
+      "correctedStreamMs": 1600
+    },
+    {
+      "id": 2,
+      "result": "passed-this-run-historical-cause-unresolved",
+      "rootCauseConfirmed": false,
+      "readinessDeadlineMs": 5000
+    },
+    {
+      "id": 3,
+      "result": "passed-this-run-historical-cause-unresolved",
+      "rootCauseConfirmed": false,
+      "outerDeadlineMs": 60000
+    },
+    {
+      "id": 4,
+      "result": "synthetic-transport-starvation-corrected",
+      "rootCauseConfirmed": true,
+      "originalConditionPass": false,
+      "observationDeadlineMs": 15000,
+      "originalCompletionDeadlineMs": 15000,
+      "correctedCompletionDeadlineMs": 45000,
+      "outerDeadlineMs": 60000,
+      "requireBusyObservation": true,
+      "scope": "synthetic transport fixture only"
+    }
+  ],
+  "logs": [
+    {
+      "file": "long-generation-retest.log",
+      "sha256": "e2c9f7be6a810743e5d8e8fd696d083dcb4dab0fc5548a5b66483016a6d21dc2",
+      "tests": 18,
+      "pass": 18,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "lark-diagnostic.log",
+      "sha256": "f5685ee22be3f19d51d864d9538e12f2d3880d2dc650eb5d0782695e172abfc1",
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "lark-phases.log",
+      "sha256": "5bd464ceb373bc553d9e2f7f9246db258ed7c397efb68c4672d0dfe43c668dd5",
+      "tests": 4,
+      "pass": 4,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "worker-diagnostic.log",
+      "sha256": "91d12a588ad1639a47a72f31a01e5ae77ff059217051918440e3f35b2fa759cf",
+      "tests": 2,
+      "pass": 1,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "worker-phases.log",
+      "sha256": "6dd77d2c905ae3b18c5b1f2e088e703ca3987e498781c5b9c936353b1300e0f8",
+      "tests": 1,
+      "pass": 0,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "worker-retest.log",
+      "sha256": "1b7fec18d0876fafa45f7902a231fe29978c5908a557991ba9febbdf86438348",
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "dependency-regression.log",
+      "sha256": "23034c69a0f60d6970f2d4753d84c7b8b8a84a9162e20c909e309d00207dcbc9",
+      "tests": 127,
+      "pass": 111,
+      "fail": 16,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "file": "macos-baseline-comparison.log",
+      "sha256": "09069377674bb5a7ceb058b3f6b88aa4d291ef78bf5877912e829af4a6349a9f",
+      "tests": 16,
+      "pass": 0,
+      "fail": 16,
+      "cancelled": 0,
+      "skipped": 0
+    }
+  ],
+  "dependencyRegressionExit": 1,
+  "windowsDependencyCases": {
+    "tests": 42,
+    "pass": 42,
+    "fail": 0,
+    "cases": [
+      {
+        "name": "controlled/notproduction: persisted false permission cold upgrade -> trusted command -> bounded original check -> same-target delivery",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction: manual pause survives repair and cold load with zero new requests",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction: consumed historical failure cannot obtain repair or dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction: unknown historical failure cannot obtain repair or dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction: unknown_before_check historical failure cannot obtain repair or dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction: usage_conflict historical failure cannot obtain repair or dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction: later_owner historical failure cannot obtain repair or dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "persisted old failure → cold upgraded load → automatic preflight → original primary check → one same-target update/readback → review",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "content and post-delivery result conclusions have independent bounded slots across a cold restart",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass paused",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass workspace_paused",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass budget",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass unknown_usage",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass uncertain",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass permission",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass accepted",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass exhausted",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass generic_config",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass same_policy",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "upgrade does not bypass missing_diagnostic",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "oversized immutable profile fails preflight without transport, charges or repeated upgrade attempts across restart",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "revoked current primary cannot be restored by an upgrade, and preflight is free",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "real Agent loop: old Lark receipt → failed check → 19 sources → atomic rebind/reopen → six consumed reads → revise → verify → same Lark readback → review",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "uncertain update keeps the original action and reconciles with reads, never a second write",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "mismatched remote body never reaches review and never silently republishes",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled formal Worker: full-delivery check-revise",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled formal Worker: read-reorder",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled formal Worker: read-mixed",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled formal Worker: restart-content retains checkpoint and resumes same delivery",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled formal Worker: restart-result retains checkpoint and resumes same delivery",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled formal Worker: write-response-lost reconciles original action after process restart",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled formal Worker: readback-mismatch stays unaccepted across restart without duplicate write",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction formal Worker: context authorization repair uses normal RPC across upgrade and committed-repair cold restarts",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction formal Worker: paused repair records intent but normal resume RPC cannot dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction formal Worker: consumed denies repair and normal runtime dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction formal Worker: unknown denies repair and normal runtime dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction formal Worker: unknown_before_check denies repair and normal runtime dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction formal Worker: usage_conflict denies repair and normal runtime dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction formal Worker: later_owner denies repair and normal runtime dispatch",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction formal Worker: storage method large result claim, association, original revision and same-target delivery survive cold restarts",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "controlled/notproduction formal Worker: storage method changed revised body remains false and exhausts without publication",
+        "passed": true,
+        "failed": false
+      },
+      {
+        "name": "C13 controlled: pause during revised content check, cold restore, same-target delivery without old-counter handoff",
+        "passed": true,
+        "failed": false
+      }
+    ]
+  },
+  "macosHarnessComparison": {
+    "excludedByOriginalWindowsPlan": true,
+    "baselineSameFailures": true,
+    "failures": [
+      "mechanism only: Electron Node mode loads a synthetic ASAR in an eval Worker with external preload, no App/runtime",
+      "output guards reject overwriting the app, source or existing evidence",
+      "phase 0 requires access-policy-store.cjs",
+      "phase 0 requires data-platform.cjs",
+      "phase 0 requires evidence-recovery.cjs",
+      "phase 0 requires evidence-storage-method.cjs",
+      "phase 0 requires platform-result.cjs",
+      "phase 1 requires access-policy-store.cjs",
+      "phase 1 requires data-platform.cjs",
+      "phase 1 requires evidence-recovery.cjs",
+      "phase 1 requires evidence-storage-method.cjs",
+      "phase 1 requires platform-result.cjs",
+      "source/package identities cover changes, additions, ASAR, unpacked and native bytes",
+      "storage package summary cannot omit actual query-stage module proof",
+      "storage scenario external fixture redirects every product dependency to selected final ASAR",
+      "tmp fixture rewrites every runtime import into ASAR and rejects drift/unreviewed dependencies"
+    ]
+  },
+  "workerEvidence": {
+    "beforeTimeout": {
+      "name": "observe-timeout",
+      "ms": 17766.121,
+      "id": 7,
+      "action": "snapshot",
+      "lastEvents": [
+        "lark_readback",
+        "lark_readback",
+        "lark_update",
+        "lark_readback"
+      ],
+      "modelInputs": 17
+    },
+    "afterObservationReplies": 63,
+    "afterMaxReplyMs": 3351.849500000004
+  },
+  "larkReadiness": [
+    {
+      "mode": "close",
+      "phases": [
+        {
+          "op": "api",
+          "ms": 909.6139000000003
+        },
+        {
+          "op": "im",
+          "ms": 2301.8651
+        }
+      ],
+      "readyMs": 3579.0288999999993
+    },
+    {
+      "mode": "abort",
+      "phases": [
+        {
+          "op": "api",
+          "ms": 1397.8352999999988
+        },
+        {
+          "op": "im",
+          "ms": 3039.2333
+        }
+      ],
+      "readyMs": 4260.921399999999
+    },
+    {
+      "mode": "abort-transient-probe",
+      "phases": [
+        {
+          "op": "api",
+          "ms": 1152.594000000001
+        },
+        {
+          "op": "im",
+          "ms": 2849.831900000001
+        }
+      ],
+      "readyMs": 4041.0274000000027
+    }
+  ],
+  "independentReview": {
+    "status": "approved-for-test-only-upload",
+    "reviewer": "foundation_offline_review",
+    "approvedForTestOnlyUpload": true,
+    "productPatchRequired": false,
+    "globalRegressionPassed": false,
+    "remainingBlockingFindings": [],
+    "resolvedFindings": [
+      {
+        "priority": "P2",
+        "issue": "Concurrent non-atomic audit JSON read could escape timeout callback",
+        "resolution": "Non-throwing auditSnapshot preserves observation failure"
+      },
+      {
+        "priority": "P2",
+        "issue": "Diagnostic parse failure could skip Worker teardown",
+        "resolution": "finally guarantees close and temporary-directory cleanup"
+      }
+    ],
+    "report": "foundation-offline-review.json",
+    "reportSha256": "0a544ae270e14c1dae39e6278a63e5c2cb232e9ddedbbfb570ec49f1873e3bf4"
+  }
+}

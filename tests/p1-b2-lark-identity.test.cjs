@@ -114,7 +114,11 @@ async function waitFor(test,ms=5000){const end=Date.now()+ms;while(!test()){if(D
 for(const mode of ['close','abort','abort-transient-probe'])test('I13 actual same-group descendant ignores TERM; '+mode+' waits for group exit before session cleanup',async t=>{
  const f=await fixture(t);await bind(f);f.change({descendant:mode});
  const controller=new AbortController();f.a.controller=controller;
- const running=connectors.sync(f.a,f.c.id);await waitFor(()=>fs.existsSync(path.join(f.root,'child-ready'))&&fs.existsSync(path.join(f.root,'group.json')));
+ const started=performance.now(),phases=[];f.a.connectorRequest=(args,options)=>{phases.push({op:args[0],ms:performance.now()-started});return lark.request(args,options);};
+ const running=connectors.sync(f.a,f.c.id);
+ try{await waitFor(()=>fs.existsSync(path.join(f.root,'child-ready'))&&fs.existsSync(path.join(f.root,'group.json')));}
+ catch(error){controller.abort();await running.catch(()=>{});throw Object.assign(error,{diagnostic:{phases,elapsedMs:performance.now()-started,health:f.c.health,error:f.c.error,childReady:fs.existsSync(path.join(f.root,'child-ready')),groupReady:fs.existsSync(path.join(f.root,'group.json'))}});}
+ t.diagnostic(JSON.stringify({mode,phases,readyMs:performance.now()-started}));
  const group=JSON.parse(fs.readFileSync(path.join(f.root,'group.json')));
  assert.ok(Number.isSafeInteger(group.pid)&&group.pid>0);assert.ok(Number.isSafeInteger(group.child)&&group.child>0);assert.equal(Number(fs.readFileSync(path.join(f.root,'child-ready'),'utf8')),group.child);assert.ok(path.isAbsolute(group.configDir));assert.ok(fs.lstatSync(group.configDir).isDirectory(),'private config must exist before cancellation');
  const originalKill=process.kill,windowsProcess=require('../desktop/windows-process.cjs'),originalConfirmed=windowsProcess.confirmed;let interruptedProbes=0;
