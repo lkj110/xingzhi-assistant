@@ -14,16 +14,23 @@ function identity(a,task,context,snapshot,phase){
  });
  const basis={taskId:task.id,phase,inputBasis:snapshot.inputBasis,deliveryBasis:phase==='result'?snapshot.deliveryBasis:null,artifacts,
   checkBasis:phase==='content'?require('./execution-control.cjs').contentBasis(a,job,task):require('./acceptance.cjs').basis(a,task)};
+ const sourceTitles=require('./grounding.cjs').enabled(a)?require('./citation-fields.cjs').titleBasis(snapshot.readableCatalog):undefined;
+ if(sourceTitles)basis.sourceTitles=sourceTitles;
  const markerRecheck=require('./marker-confirmation.cjs').checkAuthorization(a,task,phase);
  if(markerRecheck)basis.markerRecheck=markerRecheck;
- const legacyKey=hash({policy:READ_POLICY_VERSION,role:'verify',checkPhase:phase,taskId:task.id,input:snapshot.inputBasis,delivery:phase==='result'?snapshot.deliveryBasis:undefined,artifact:context.artifacts,revision:context.revision,workingDraft:context.workingDraft,...(markerRecheck?{markerRecheck}:{})});
- return {semanticCheckId:hash(basis),legacyKey,phase,basis};
+ const compatibility={policy:READ_POLICY_VERSION,role:'verify',checkPhase:phase,taskId:task.id,input:snapshot.inputBasis,delivery:phase==='result'?snapshot.deliveryBasis:undefined,artifact:context.artifacts,revision:context.revision,workingDraft:context.workingDraft,...(markerRecheck?{markerRecheck}:{})};
+ const compatibilityKey=hash(compatibility),legacyKey=sourceTitles?hash({...compatibility,sourceTitles}):compatibilityKey;
+ return {semanticCheckId:hash(basis),legacyKey,...(sourceTitles?{compatibilityKey}:{}),phase,basis};
 }
 function state(task,identity){
- const {semanticCheckId,legacyKey,phase,basis}=identity;
+ const {semanticCheckId,legacyKey,compatibilityKey,phase,basis}=identity;
  const result=(available,reason)=>({semanticCheckId,legacyKey,available,reason});
  const records=Object.entries(task.contextFinalizations||{});
  if(records.some(([key,r])=>key===legacyKey||r?.legacyKey===legacyKey))return result(false,'legacy_consumed');
+ if(!basis.sourceTitles&&records.some(([,r])=>r?.compatibilityKey===legacyKey))return result(false,'legacy_consumed');
+ // An older record cannot prove which title was consumed. A protocol upgrade
+ // alone never grants another request; only new records bind exact title bytes.
+ if(compatibilityKey&&records.some(([key,r])=>(key===compatibilityKey||r?.legacyKey===compatibilityKey||r?.compatibilityKey===compatibilityKey)&&!r?.basis?.sourceTitles))return result(false,'legacy_consumed');
  if(records.some(([,r])=>r?.semanticCheckId===semanticCheckId))return result(false,'semantic_consumed');
  for(const [,r] of records){
   const recordedPhase=r?.phase||r?.checkPhase,consistent=!r?.phase||!r?.checkPhase||r.phase===r.checkPhase;

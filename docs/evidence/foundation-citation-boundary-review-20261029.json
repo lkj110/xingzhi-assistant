@@ -1,0 +1,300 @@
+{
+  "schema": 1,
+  "at": "2026-10-29T09:10:35.717Z",
+  "reviewer": "/root/recheck_protocol_review",
+  "status": "approved-for-upload-and-new-budget-proposal-only",
+  "approvedForUpload": true,
+  "approvedForUserReview": true,
+  "approvedForRelease": false,
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "installedVersionFrozen": true,
+  "oldCandidatesAndEvidenceFrozen": true,
+  "oldAuthorizationReusable": false,
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "actualHumanAcceptances": 0,
+  "realBusinessAcceptancePassed": false,
+  "realQualityMetrics": null,
+  "baseCommit": "86b02e8cef379924a0be258d090936e8bfc01ff3",
+  "candidateAsarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+  "reviewedFiles": [
+    {
+      "path": "desktop/check-finalization.cjs",
+      "sha256": "4c3bf4d378028d5ce41b884afffcaed88165680630495a5948a15fb7e18c6ad8"
+    },
+    {
+      "path": "desktop/citation-fields.cjs",
+      "sha256": "15e6d099095ef4d6bdd47dc8b61fb151b68d049b8e505fc4364bf3562fe1b8ca"
+    },
+    {
+      "path": "desktop/generation-context.cjs",
+      "sha256": "1341ea3257c8b8c525ad1c1010b227b8b845184a8719c7c70df92a55c905d4db"
+    },
+    {
+      "path": "desktop/grounding.cjs",
+      "sha256": "495aaa4f719814ad39bb078777b7b12f634839ad2395746fcc8cad04afb445c7"
+    },
+    {
+      "path": "docs/evidence/foundation-citation-boundary-result-20261029.json",
+      "sha256": "2cf29f91c3d933c43bf2f2ab5b336a2b084298341f3711fbf8db63ce2b100a15"
+    },
+    {
+      "path": "docs/evidence/foundation-citation-gate-preparation-20261029.json",
+      "sha256": "512f1826c1b6632f5cd215e41f543045e577e2935f71371218d9a1486f3b2f93"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/broker.cjs",
+      "sha256": "5e42bf6e1512cdb5e9ea567a5a030bde4f705bf4bf1194b2539e85b1ac8d62e1"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/broker.test.cjs",
+      "sha256": "0aaef2c17bff3c5ac6ff737f2fa8a095caf80012d9013a97f85208029d706042"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/identity.cjs",
+      "sha256": "8125117feb62eedd431f0ab5cb43073d6410ca0d638ac98ee4330b962aa1ba70"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/integration.cjs",
+      "sha256": "71b4a9728d92595570faf3ebb637966cc7308705154ad94df630f9e2b2828c35"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/plan.json",
+      "sha256": "4d1814929ebf7cbbe81b0f99b0ebe8c183ad0a4e2d4d70cfb74f5a700498ffed"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/preflight.test.cjs",
+      "sha256": "0f6629ad7364b192ad6aca8a961bcc85b84bc401a7151828707ba8aca473eb03"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/run.cjs",
+      "sha256": "dd0680c4908d1229fa5fbdef1c8a34cc1e9459bf6fa406a236607f2a96e836c9"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/runner-seal.json",
+      "sha256": "287fef390869caf648a4d531dd19522bff159cdba2bb1584a78984ac0fd2d1d9"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/budget.cjs",
+      "sha256": "fb905ee71bc21202f0ec123343fb4c032d447868ccbaec9ea9f3bb8c1c5bb66c"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/coverage.cjs",
+      "sha256": "1173e45f3fd1a688b83a842c86dcdcc37444f9d44fc0e22e4d589c8657a13206"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/handoff-proof.cjs",
+      "sha256": "7f08207cd56c7b2b55b5d9883c509a6f47abb977d4966b9c3fd1da6a47d48e5e"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/identity.cjs",
+      "sha256": "e9b6eeb27a9abb08914664c932cf06b03d32b9bac9b0cfdaef23d84418e5ffd6"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/integration.cjs",
+      "sha256": "e28ca1d7d42f9c7543153e81fa9ac52ecade30b806cce6cdf153c3d62b90b13e"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/package-manifest.json",
+      "sha256": "1c0b61bdfb6859ad9722bcca0b2587482c4ae7f342d5972fae6df57be43cb89b"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/plan.json",
+      "sha256": "6ff2ce6fde40e03347724f58267021e9e1181e35b97d1de95fbb3ac6f7825196"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/report.cjs",
+      "sha256": "94589e6399856ce4b7e71b5e5c5232767ff46dbbc0d41c1a2b450efeeb1cb339"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/restart-proof.cjs",
+      "sha256": "3b6378ac7fce285477bbd6bb9cbd36bdba5a0726b36350e39674f7ce6245b117"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/run.cjs",
+      "sha256": "84ac7a7fbbed891aeb355e724557e453024b31798e1aec4ebcae11bab8bb1eb2"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/runner-seal.json",
+      "sha256": "7db9abba3ab7988ea255afe503a55e66464f8ac95ba6e77739c4e02a8674c5c5"
+    },
+    {
+      "path": "scripts/prepare-citation-candidate.cjs",
+      "sha256": "c3452885545e92b2c1c2b23fda37710548b7d7ce2980becca7d3e930928d39cc"
+    },
+    {
+      "path": "scripts/replay-citation-boundary.cjs",
+      "sha256": "f6d592232c9e52b82e2b1b06905af45bc1ae3d4f107c1a33f4e6ff3f84a5f0c5"
+    },
+    {
+      "path": "src/CitationLabel.jsx",
+      "sha256": "912fcf0a82e6f6e295ac2b063da22ce714f48def2282243868163cfc88aeb1ee"
+    },
+    {
+      "path": "src/GroundingPanel.jsx",
+      "sha256": "8c8c0f667518770a9290048168c80a3e126396dc57de259f4b657a9a5638997c"
+    },
+    {
+      "path": "src/MarkerConfirmation.jsx",
+      "sha256": "8091f4dd23d75c0a718d4121ca524f2414bc4626ff6479652750ab845c3f1dfa"
+    },
+    {
+      "path": "tests/citation-fields.test.cjs",
+      "sha256": "a8c28d738ee0a87dcbe64ca9bc164c1284cf8a8e8d6d5056ce8c4187362d669d"
+    },
+    {
+      "path": "tests/grounding-marker-confirmation.test.cjs",
+      "sha256": "5d8a7552c17f5930e5a258e8d7cc8e7a4ef0336b411d8c53f4d82f84f71c5d7c"
+    },
+    {
+      "path": "tests/grounding-marker-flow.test.cjs",
+      "sha256": "97e3e16db76da9a5ddf5f3a93ea3c30693e63e896eed48c58a3dc35b6d62476b"
+    },
+    {
+      "path": "tests/grounding-marker-ui.test.cjs",
+      "sha256": "c44a9e6c79259623f598984e7f2d8b7c6a05fc9afafb2c18c67de9bf70054ef0"
+    }
+  ],
+  "findings": [
+    {
+      "id": "CB-R1",
+      "priority": 1,
+      "path": "desktop/check-finalization.cjs",
+      "issue": "Turning evidenceGrounding from true to false reopens an already consumed bounded finalization for unchanged task, sources and draft.",
+      "cause": "The current identity without sourceTitles lacks compatibilityKey. The matching record's compatibilityKey is not compared against the current legacyKey, and the fallback accepts the different semantic hash as evidence of changed input.",
+      "observed": "A strict reservation returns available=false while strict remains enabled; changing only the setting to false returns available=true.",
+      "evidence": "reviewer-policy-toggle-probe.json",
+      "requiredFix": "Conservatively match title-unaware current identities against stored compatibility keys; cover true-false-true and reload without reopening, while preserving distinct genuine input/draft changes.",
+      "resolved": true,
+      "resolution": "The title-unaware current identity now compares legacyKey against prior compatibilityKey. Six independent checks passed: true/false/true replay rejected, false/true replay rejected after reload, real draft edit remains eligible.",
+      "resolutionEvidence": "reviewer-policy-toggle-regression.json",
+      "reviewedModuleSha256": "4c3bf4d378028d5ce41b884afffcaed88165680630495a5948a15fb7e18c6ad8"
+    }
+  ],
+  "unresolvedFindings": [],
+  "validation": {
+    "codeRegression": {
+      "passed": 303,
+      "total": 303,
+      "failed": 0,
+      "skipped": 0,
+      "independentlyRerun": false,
+      "evidence": {
+        "path": "regression-final.log",
+        "sha256": "0fbfe169e4aa9a82e8b6d1f4766e6ef1316c143bbb111bd9ec2701dbaf2d7f14"
+      }
+    },
+    "gateUnit": {
+      "passed": 12,
+      "total": 12,
+      "failed": 0,
+      "skipped": 0,
+      "independentlyRerun": false,
+      "evidence": {
+        "path": "gate-unit.log",
+        "sha256": "307156113e08661be7e3be1c55e8e6bbe0c3a3c558ebd0ad86f768b26134f50a"
+      }
+    },
+    "independentToggleProbes": 6,
+    "sealedF03": {
+      "originalStillBlocked": true,
+      "derivedExplicitTitlePassed": true,
+      "rawEvidenceUnchanged": true,
+      "semanticVerdictUnchanged": true,
+      "notRealAcceptance": true,
+      "evidence": {
+        "path": "reviewer-sealed-f03-replay.json",
+        "sha256": "39b33be6fa657ff97e8fe65da5ed27f368534e8719fd33b6c670a5e53b5d97b8"
+      }
+    },
+    "package": {
+      "outerFiles": 86,
+      "archiveFiles": 9667,
+      "exactSourceModules": true,
+      "evidence": {
+        "path": "reviewer-package-verification.json",
+        "sha256": "9a1d413ff6ec4daf069c7fcaffcd30b73cbe52cc35324145601e58f36613852c"
+      }
+    },
+    "offlineBusiness": {
+      "cases": 6,
+      "completeLocalCalls": 29,
+      "stopScenarios": 5,
+      "matrixApplicationAttempts": 54,
+      "matrixLocalTransports": 53,
+      "f05": {
+        "oldRevisionBoundedRecordPreserved": true,
+        "sameUnderlyingBasis": true,
+        "distinctSemanticIds": true,
+        "oneUseAuthorizations": 2,
+        "boundedRecords": 3
+      },
+      "f06ColdRestarts": 2,
+      "stageOutcomes": 5,
+      "qualityMetrics": null,
+      "evidence": {
+        "path": "reviewer-results.json",
+        "sha256": "24626f034e3fb2cd1a5013d8580e20088fb17acdee77a4c73fbbf78b40923d5a"
+      }
+    },
+    "offlineGate": {
+      "scenarios": 6,
+      "matrixApplicationAttempts": 17,
+      "matrixLocalTransports": 15,
+      "businessCases": 0,
+      "evidence": {
+        "path": "reviewer-gate-results.json",
+        "sha256": "e14ceb788b3fff004d664ec6aa87ee22e0c05c15242c9db411db3b957e46f4cc"
+      }
+    },
+    "inputImpact": {
+      "messageBytes": 249,
+      "completeSerializedBytes": 249,
+      "reviewInstructionChars": 110,
+      "schemaBytesUnchanged": 124,
+      "sourceTitlesNotDuplicated": true,
+      "extraModelRounds": 0,
+      "realTokens": null,
+      "evidence": {
+        "path": "reviewer-input-impact.json",
+        "sha256": "fafed32a6d1fea85068eb03908eb52127e5f127f997c03a6a5ea405058ef097e"
+      }
+    },
+    "freeze": {
+      "rootCount": 32,
+      "oldRepoRootFileCount": 13,
+      "allUnchanged": true,
+      "before": {
+        "path": "reviewer-freeze-before.json",
+        "sha256": "c7230b557da65d4f979c5f0936c4ce52ead5a58877796488e4779e821ffcfce4"
+      },
+      "after": {
+        "path": "reviewer-freeze-after.json",
+        "sha256": "108566ec1483a64befdeb673944093a58a5868cefb9b6cd5ed1f487ede80680d"
+      }
+    }
+  },
+  "boundaries": [
+    "Title citations must be explicit, complete, exact, same-source/current-version and actually sent to this checker. Omitted field remains content-only; no malformed citation is silently repaired or dropped.",
+    "Title is auxiliary identity only. Body or trusted user-input premise and the existing independent semantic verifier remain required; title does not satisfy two-sided conflict evidence or a title-only notice shortcut.",
+    "Raw title changes invalidate old reports, confirmation and relevant check identities; legacy records, restarts and strict-mode toggles do not grant new calls.",
+    "Offline deterministic fixtures and simulated UI actions do not demonstrate live hallucination rate, false-block rate, erroneous release rate, human completion or token efficiency.",
+    "The old G01 pass and closed business authorization do not transfer to this new candidate."
+  ],
+  "nextProposal": {
+    "scope": "Only previously exposed G01 protocol gate; no six-case business acceptance or formal main evaluation",
+    "runnerIdentity": "b9db8073bda6e09ac84e44bd060760c985fe72455292d07d683479a368a3ebcc",
+    "applicationAttempts": 5,
+    "maximumModelDispatches": 4,
+    "inputOutputTokenStopThreshold": 120000,
+    "windowMinutes": 45,
+    "maximumKnownPrefixBeforeFourthObservedDispatch": 64957,
+    "hardServerCap": false,
+    "inFlightMayExceed": true,
+    "newExplicitUserApprovalRequired": true,
+    "rawPlanFileSha256": "4d1814929ebf7cbbe81b0f99b0ebe8c183ad0a4e2d4d70cfb74f5a700498ffed",
+    "canonicalPlanSha256": "168b2c818f77148a97c3d39fbb104bcb1f08dae9efe3cfb5516afa3c1e510b73"
+  },
+  "conclusion": "Offline implementation, regression evidence and narrowly bounded gate proposal are approved. This is not live authorization, installation approval or real business acceptance."
+}

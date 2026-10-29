@@ -235,6 +235,10 @@ function contextBatch(a,task,{verification=false,prefetch=true}={}){
  });
 }
 function assertUsed(a,scope,snapshot,used,role){
+ if(role==='verify'&&require('./grounding.cjs').enabled(a))protocol.withContext(a,scope,op=>{
+  const {titleBasis}=require('./citation-fields.cjs');
+  if(titleBasis(snapshot.readableCatalog)!==titleBasis(op.context().readableCatalog))throw contextError('CONTEXT_VERSION_CHANGED',{message:'本轮核验的来源标题已变化，请保留原稿并重新核验。'});
+ });
  return protocol.assertReadsCurrent(a,scope,snapshot,used,{delivery:role==='verify'});
 }
 module.exports={call,finalizationState,systemPrompt,prepare,read,readBatch,sections,validRead,validateReads,contextBatch,READ_POLICY_VERSION};

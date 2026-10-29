@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './MarkerConfirmation.css';
+import CitationLabel from './CitationLabel.jsx';
 
 const rows=value=>Array.isArray(value)?value:[];
 export const hasMarkerHold=task=>!!task?.markerReviewHold?.reportHash;
@@ -27,7 +28,7 @@ export default function MarkerConfirmation({task,act,busy=false,enabled=true}){
       const claim=claims.find(c=>c.id===marker.claimId&&c.artifactId===marker.artifactId&&c.text===marker.text);
       return <article className="marker-confirmation-item" key={marker.claimId||index}>
         <h4>待确认表达 {index+1}</h4><blockquote>{marker.text}</blockquote>
-        {rows(claim?.citations).map((citation,i)=><figure key={i}><figcaption>{citation.title||'原始资料'}</figcaption><blockquote>{citation.quote}</blockquote></figure>)}
+        {rows(claim?.citations).map((citation,i)=><figure key={i}><figcaption><CitationLabel citation={citation}/></figcaption><blockquote>{citation.quote}</blockquote></figure>)}
         {!rows(claim?.citations).length&&<p className="help-text">当前页面缺少对应引用，请刷新并重新核验后再确认。</p>}
       </article>;
     })}

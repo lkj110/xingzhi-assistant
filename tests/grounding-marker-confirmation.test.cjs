@@ -65,7 +65,7 @@ test('confirmation follows exact artifact/text when model-local claim IDs change
  f.claim.id='model-renumbered';for(const r of f.response.groundingReview.requirements)r.claimIds=r.claimIds.map(id=>id==='n1'?f.claim.id:id);
  assert.equal(finish(f).passed,true);
 });
-for(const [name,change]of Object.entries({draft:f=>{f.artifact.content+='\n新增安排';},title:f=>{f.artifact.title+='修订';},requirement:f=>{f.task.criteria+='\n核对新增条件';},source:f=>{f.a.data.sources[0].content+='\n新增原文';},withdrawal:f=>{f.a.data.sources[0].deleted=true;}}))test('changed '+name+' invalidates the old human confirmation',async t=>{
+for(const [name,change]of Object.entries({draft:f=>{f.artifact.content+='\n新增安排';},title:f=>{f.artifact.title+='修订';},sourceTitle:f=>{f.a.data.sources[0].title+=' ';},requirement:f=>{f.task.criteria+='\n核对新增条件';},source:f=>{f.a.data.sources[0].content+='\n新增原文';},withdrawal:f=>{f.a.data.sources[0].deleted=true;}}))test('changed '+name+' invalidates the old human confirmation',async t=>{
  const f=await setup(t);hold(f);await confirm(f);change(f);assert.equal(m.confirmedFor(f.task,g.snapshot(f.a,f.task)),null);await assert.rejects(confirm(f),/变化/);
 });
 test('a later independent refusal stays hard despite a human expression confirmation',async t=>{

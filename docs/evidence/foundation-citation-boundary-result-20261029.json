@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "createdAt": "2026-10-29T09:08:35.5241163Z",
+  "kind": "citation-field-boundary-offline-result",
+  "baselineCommit": "86b02e8cef379924a0be258d090936e8bfc01ff3",
+  "scope": [
+    "Explicit source title/content citation field; omitted field stays content",
+    "Exact title observation and same source/version binding",
+    "Title only auxiliary; substantive body or trusted user-input premise still required",
+    "Raw title changes invalidate grounding/cache/confirmation and bounded identities",
+    "Legacy reservations and strict-mode toggles cannot grant new calls",
+    "Clear title/body labels in both evidence and confirmation UI"
+  ],
+  "semanticJudgment": "Existing independent verifier standards unchanged; local binding is not semantic entailment",
+  "reviewFinding": {
+    "fixed": true,
+    "issue": "Strict-mode toggle could reopen a consumed bounded identity",
+    "independentToggleProbesPassed": 6,
+    "id": "CB-R1"
+  },
+  "codeRegression": {
+    "passed": 303,
+    "logSha256": "0fbfe169e4aa9a82e8b6d1f4766e6ef1316c143bbb111bd9ec2701dbaf2d7f14",
+    "failed": 0
+  },
+  "gateUnitTests": {
+    "failed": 0,
+    "passed": 12
+  },
+  "sealedF03Replay": {
+    "schema": 1,
+    "kind": "offline-sealed-citation-replay",
+    "createdAt": "2026-10-29T08:50:02.217Z",
+    "sourceRun": "c16483ef-c4ab-4fff-97d5-6335ade71431",
+    "sourceCall": "91afdab6-c562-4e14-9cea-2b545b43ea9e",
+    "sourceFiles": [
+      {
+        "path": "F03-botang-notice.json",
+        "sha256": "34e521250c7ef4dea6171b6624435a74bc6c9f8bde8bf68f8129033afd5a7d0a"
+      },
+      {
+        "path": "calls/91afdab6-c562-4e14-9cea-2b545b43ea9e-request.json",
+        "sha256": "cd26747834d073a088a3bfca8a2936eb480f8b3d589977e74ee26debb615fbe9"
+      },
+      {
+        "path": "calls/91afdab6-c562-4e14-9cea-2b545b43ea9e-terminal.json",
+        "sha256": "927bb61d8a52d493a70b664f90eb31287d1baea5d1a2a316484911f07ef35929"
+      }
+    ],
+    "localReadGrants": "reconstructed in disposable fixture; not original authorization evidence",
+    "originalBlocked": true,
+    "originalIssues": [
+      "引用与原文不匹配：e3",
+      "共享引用不存在或无效：c1/e3",
+      "共享引用不存在或无效：c5/e3"
+    ],
+    "derivedPassed": true,
+    "derivedModification": {
+      "citationId": "e3",
+      "addedField": {
+        "field": "title"
+      }
+    },
+    "derivedResponseSha256": "93baaa7762ce8ed65bc0cdf22319cddb1a12424d6a0e4759e7ba7277c441924d",
+    "semanticVerdictUnchanged": true,
+    "draftAndSourcesUnchanged": true,
+    "rawEvidenceUnchanged": true,
+    "realModelCalls": 0,
+    "realAcceptancePassed": false
+  },
+  "candidate": {
+    "asarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+    "installed": false,
+    "outerFiles": 86,
+    "archiveFilesVerified": 9667,
+    "manifestPath": "evaluations/foundation-citation-offline-runner/package-manifest.json"
+  },
+  "offlineBusiness": {
+    "matrixLocalTransportExecutions": 53.0,
+    "markerHandoffs": 3,
+    "cases": 6,
+    "matrixApplicationAttempts": 54.0,
+    "coldRestarts": 2,
+    "simulatedAcceptances": 4,
+    "faultScenarios": 5,
+    "applicationAttempts": 29,
+    "passed": true,
+    "scenarios": [
+      {
+        "name": "complete",
+        "passed": true,
+        "syntheticAttempts": 29,
+        "syntheticTransportExecutions": 29
+      },
+      {
+        "name": "cli-rejection",
+        "passed": true,
+        "syntheticAttempts": 6,
+        "syntheticTransportExecutions": 6
+      },
+      {
+        "name": "unknown-usage",
+        "passed": true,
+        "syntheticAttempts": 7,
+        "syntheticTransportExecutions": 7
+      },
+      {
+        "name": "case-extra-request",
+        "passed": true,
+        "syntheticAttempts": 3,
+        "syntheticTransportExecutions": 2
+      },
+      {
+        "name": "human-timeout",
+        "passed": true,
+        "syntheticAttempts": 8,
+        "syntheticTransportExecutions": 8
+      },
+      {
+        "name": "malformed-inner",
+        "passed": true,
+        "syntheticAttempts": 1,
+        "syntheticTransportExecutions": 1
+      }
+    ],
+    "fullLifecyclePassed": true,
+    "matrixSha256": "0d3f9e5a512ff81070d1a0ec5d05973e449441052461177bbe7fe33516227571"
+  },
+  "offlineGate": {
+    "realModelCalls": 0,
+    "passed": true,
+    "applicationAttempts": 17,
+    "scenarios": 6,
+    "localTransportExecutions": 15
+  },
+  "inputCostImpact": {
+    "kind": "offline-input-projection-not-token-measurement",
+    "sourceCall": "91afdab6-c562-4e14-9cea-2b545b43ea9e",
+    "beforeMessageBytes": 18901,
+    "afterMessageBytes": 19150,
+    "deltaMessageBytes": 249,
+    "beforeReviewInstructionChars": 1279,
+    "afterReviewInstructionChars": 1389,
+    "wrapperSchemaBytes": 124,
+    "wrapperSchemaChanged": false,
+    "sourceTitlesDuplicated": false,
+    "extraModelCalls": 0,
+    "realTokens": null,
+    "beforeCompleteSerializedInputBytes": 19612,
+    "afterCompleteSerializedInputBytes": 19861
+  },
+  "realModelCalls": 0,
+  "actualHumanAcceptances": 0,
+  "realBusinessAcceptancePassed": false,
+  "realQualityMetrics": null,
+  "installedBaseFrozen": true,
+  "nextProposal": "docs/evidence/foundation-citation-gate-preparation-20261029.json",
+  "releaseAuthorized": false
+}

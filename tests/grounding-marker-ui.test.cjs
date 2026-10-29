@@ -24,6 +24,9 @@ test('marker UI separates human expression confirmation from explicit recheck an
  assert.equal((await page.evaluate(()=>window.commands)).length,1,'Confirmation must not automatically recheck');
  await recheck.click();await expect(recheck).toBeEnabled();
  assert.deepEqual((await page.evaluate(()=>window.commands)).at(-1),{action:'recheckGroundingMarkers',input:{id:'notice-task',expectedReportHash:'review-1'}});
+  await page.evaluate(()=>window.renderMarkerCase({grounding:{passed:false,basis:'basis-1',reportHash:'review-1',reviewDisposition:'marker_confirmation',markerReview:[{claimId:'c',artifactId:'draft',text:'安排表达'}],claims:[{id:'c',artifactId:'draft',text:'安排表达',citations:[{title:'资料标题',field:'title',quote:'资料标题',start:0,end:4},{title:'资料标题',quote:'安排正文',start:0,end:4}]}]}}));
+  await expect(page.getByText('资料标题 · 来源标题（仅辅助标识）',{exact:true})).toBeVisible();
+  await expect(page.getByText('资料标题 · 正文 · 字符 1–4',{exact:true})).toBeVisible();
  await page.evaluate(()=>{window.fail='依据已变化，请重新核验';window.renderMarkerCase({});});await expect(confirm).toBeEnabled();await confirm.click();
  await expect(page.getByRole('alert')).toHaveText('依据已变化，请重新核验');await expect(confirm).toBeEnabled();await expect(recheck).toBeEnabled();
  await expect(page.getByRole('heading',{name:'表达确认已记录，等待重新核验'})).toHaveCount(0);

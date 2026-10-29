@@ -104,7 +104,7 @@ test('successful direct verdict still consumes authorization without requiring b
  await assert.rejects(command(f,'recheckGroundingMarkers'),/已登记/);assert.equal(f.checks,2);
 });
 
-for(const [name,mutate]of Object.entries({draft:f=>{f.draft.content+='新增';},source:f=>{f.source.content+='新增';},criteria:f=>{f.task.criteria+='新增';},report:f=>{f.task.grounding.summary='篡改';},confirmation:f=>{f.task.groundingMarkerConfirmation.actor='model';}}))test('stale or forged '+name+' cannot authorize a fresh check',async t=>{
+for(const [name,mutate]of Object.entries({draft:f=>{f.draft.content+='新增';},source:f=>{f.source.content+='新增';},sourceTitle:f=>{f.source.title+=' ';},criteria:f=>{f.task.criteria+='新增';},report:f=>{f.task.grounding.summary='篡改';},confirmation:f=>{f.task.groundingMarkerConfirmation.actor='model';}}))test('stale or forged '+name+' cannot authorize a fresh check',async t=>{
  const f=fixture(t);await f.a.advance(f.task.id);await command(f,'confirmGroundingMarkers');mutate(f);
  await assert.rejects(command(f,'recheckGroundingMarkers'));assert.equal(f.checks,1);assert.equal(f.task.markerRechecks,undefined);
 });

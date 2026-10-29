@@ -1,0 +1,380 @@
+{
+  "schema": 1,
+  "at": "2026-10-29T09:15:44.289Z",
+  "reviewer": "/root/recheck_protocol_review",
+  "scope": "Narrow Git exact-byte storage exception for four sealed CRLF JSON files",
+  "approvedForUpload": true,
+  "productChanges": false,
+  "additionalModelCalls": 0,
+  "officialCliInvocations": 0,
+  "liveAuthorized": false,
+  "installationAuthorized": false,
+  "realBusinessAcceptancePassed": false,
+  "priorReviewUnchanged": true,
+  "priorReview": {
+    "path": "docs/evidence/foundation-citation-boundary-review-20261029.json",
+    "sha256": "badb88ba8a366fd3216f3c0f28e0a5c72b9be1e188e7f9d367a84e78b19fd0ad"
+  },
+  "reviewedAttributes": {
+    "path": ".gitattributes",
+    "sha256": "1d97ce84b96a4688b8da5a029d4a5d7317e8c1354962488c8e3cf612cb0ddb82",
+    "exactlyScopedJsonExceptions": [
+      "docs/evidence/foundation-citation-boundary-result-20261029.json",
+      "docs/evidence/foundation-citation-gate-preparation-20261029.json",
+      "evaluations/foundation-citation-gate-runner/plan.json",
+      "evaluations/foundation-citation-offline-runner/plan.json"
+    ],
+    "otherJsonTextPolicyUnchanged": true,
+    "attributeFileLf": true
+  },
+  "stagedFileCountBeforeSupplement": 38,
+  "indexAndWorkingBytesMatch": true,
+  "prior37FileHashesUnchanged": true,
+  "reviewedFiles": [
+    {
+      "path": ".gitattributes",
+      "sha256": "1d97ce84b96a4688b8da5a029d4a5d7317e8c1354962488c8e3cf612cb0ddb82",
+      "indexBlobSha256": "1d97ce84b96a4688b8da5a029d4a5d7317e8c1354962488c8e3cf612cb0ddb82",
+      "byteLength": 859
+    },
+    {
+      "path": "desktop/check-finalization.cjs",
+      "sha256": "4c3bf4d378028d5ce41b884afffcaed88165680630495a5948a15fb7e18c6ad8",
+      "indexBlobSha256": "4c3bf4d378028d5ce41b884afffcaed88165680630495a5948a15fb7e18c6ad8",
+      "byteLength": 6050
+    },
+    {
+      "path": "desktop/citation-fields.cjs",
+      "sha256": "15e6d099095ef4d6bdd47dc8b61fb151b68d049b8e505fc4364bf3562fe1b8ca",
+      "indexBlobSha256": "15e6d099095ef4d6bdd47dc8b61fb151b68d049b8e505fc4364bf3562fe1b8ca",
+      "byteLength": 1425
+    },
+    {
+      "path": "desktop/generation-context.cjs",
+      "sha256": "1341ea3257c8b8c525ad1c1010b227b8b845184a8719c7c70df92a55c905d4db",
+      "indexBlobSha256": "1341ea3257c8b8c525ad1c1010b227b8b845184a8719c7c70df92a55c905d4db",
+      "byteLength": 23491
+    },
+    {
+      "path": "desktop/grounding.cjs",
+      "sha256": "495aaa4f719814ad39bb078777b7b12f634839ad2395746fcc8cad04afb445c7",
+      "indexBlobSha256": "495aaa4f719814ad39bb078777b7b12f634839ad2395746fcc8cad04afb445c7",
+      "byteLength": 25648
+    },
+    {
+      "path": "docs/evidence/foundation-citation-boundary-result-20261029.json",
+      "sha256": "2cf29f91c3d933c43bf2f2ab5b336a2b084298341f3711fbf8db63ce2b100a15",
+      "indexBlobSha256": "2cf29f91c3d933c43bf2f2ab5b336a2b084298341f3711fbf8db63ce2b100a15",
+      "byteLength": 5405
+    },
+    {
+      "path": "docs/evidence/foundation-citation-boundary-review-20261029.json",
+      "sha256": "badb88ba8a366fd3216f3c0f28e0a5c72b9be1e188e7f9d367a84e78b19fd0ad",
+      "indexBlobSha256": "badb88ba8a366fd3216f3c0f28e0a5c72b9be1e188e7f9d367a84e78b19fd0ad",
+      "byteLength": 12617
+    },
+    {
+      "path": "docs/evidence/foundation-citation-gate-preparation-20261029.json",
+      "sha256": "512f1826c1b6632f5cd215e41f543045e577e2935f71371218d9a1486f3b2f93",
+      "indexBlobSha256": "512f1826c1b6632f5cd215e41f543045e577e2935f71371218d9a1486f3b2f93",
+      "byteLength": 2844
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/broker.cjs",
+      "sha256": "5e42bf6e1512cdb5e9ea567a5a030bde4f705bf4bf1194b2539e85b1ac8d62e1",
+      "indexBlobSha256": "5e42bf6e1512cdb5e9ea567a5a030bde4f705bf4bf1194b2539e85b1ac8d62e1",
+      "byteLength": 12537
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/broker.test.cjs",
+      "sha256": "0aaef2c17bff3c5ac6ff737f2fa8a095caf80012d9013a97f85208029d706042",
+      "indexBlobSha256": "0aaef2c17bff3c5ac6ff737f2fa8a095caf80012d9013a97f85208029d706042",
+      "byteLength": 2164
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/identity.cjs",
+      "sha256": "8125117feb62eedd431f0ab5cb43073d6410ca0d638ac98ee4330b962aa1ba70",
+      "indexBlobSha256": "8125117feb62eedd431f0ab5cb43073d6410ca0d638ac98ee4330b962aa1ba70",
+      "byteLength": 3437
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/integration.cjs",
+      "sha256": "71b4a9728d92595570faf3ebb637966cc7308705154ad94df630f9e2b2828c35",
+      "indexBlobSha256": "71b4a9728d92595570faf3ebb637966cc7308705154ad94df630f9e2b2828c35",
+      "byteLength": 3990
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/plan.json",
+      "sha256": "4d1814929ebf7cbbe81b0f99b0ebe8c183ad0a4e2d4d70cfb74f5a700498ffed",
+      "indexBlobSha256": "4d1814929ebf7cbbe81b0f99b0ebe8c183ad0a4e2d4d70cfb74f5a700498ffed",
+      "byteLength": 3100
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/preflight.test.cjs",
+      "sha256": "0f6629ad7364b192ad6aca8a961bcc85b84bc401a7151828707ba8aca473eb03",
+      "indexBlobSha256": "0f6629ad7364b192ad6aca8a961bcc85b84bc401a7151828707ba8aca473eb03",
+      "byteLength": 4866
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/run.cjs",
+      "sha256": "dd0680c4908d1229fa5fbdef1c8a34cc1e9459bf6fa406a236607f2a96e836c9",
+      "indexBlobSha256": "dd0680c4908d1229fa5fbdef1c8a34cc1e9459bf6fa406a236607f2a96e836c9",
+      "byteLength": 11198
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/runner-review.json",
+      "sha256": "deac5d53a4e2bea902a67c5516d313ecde2ca62fb867af00815605d593c75ad4",
+      "indexBlobSha256": "deac5d53a4e2bea902a67c5516d313ecde2ca62fb867af00815605d593c75ad4",
+      "byteLength": 6675
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/runner-seal.json",
+      "sha256": "287fef390869caf648a4d531dd19522bff159cdba2bb1584a78984ac0fd2d1d9",
+      "indexBlobSha256": "287fef390869caf648a4d531dd19522bff159cdba2bb1584a78984ac0fd2d1d9",
+      "byteLength": 53171
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/budget.cjs",
+      "sha256": "fb905ee71bc21202f0ec123343fb4c032d447868ccbaec9ea9f3bb8c1c5bb66c",
+      "indexBlobSha256": "fb905ee71bc21202f0ec123343fb4c032d447868ccbaec9ea9f3bb8c1c5bb66c",
+      "byteLength": 1173
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/coverage.cjs",
+      "sha256": "1173e45f3fd1a688b83a842c86dcdcc37444f9d44fc0e22e4d589c8657a13206",
+      "indexBlobSha256": "1173e45f3fd1a688b83a842c86dcdcc37444f9d44fc0e22e4d589c8657a13206",
+      "byteLength": 1639
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/handoff-proof.cjs",
+      "sha256": "7f08207cd56c7b2b55b5d9883c509a6f47abb977d4966b9c3fd1da6a47d48e5e",
+      "indexBlobSha256": "7f08207cd56c7b2b55b5d9883c509a6f47abb977d4966b9c3fd1da6a47d48e5e",
+      "byteLength": 2251
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/identity.cjs",
+      "sha256": "e9b6eeb27a9abb08914664c932cf06b03d32b9bac9b0cfdaef23d84418e5ffd6",
+      "indexBlobSha256": "e9b6eeb27a9abb08914664c932cf06b03d32b9bac9b0cfdaef23d84418e5ffd6",
+      "byteLength": 3558
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/integration.cjs",
+      "sha256": "e28ca1d7d42f9c7543153e81fa9ac52ecade30b806cce6cdf153c3d62b90b13e",
+      "indexBlobSha256": "e28ca1d7d42f9c7543153e81fa9ac52ecade30b806cce6cdf153c3d62b90b13e",
+      "byteLength": 5385
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/package-manifest.json",
+      "sha256": "1c0b61bdfb6859ad9722bcca0b2587482c4ae7f342d5972fae6df57be43cb89b",
+      "indexBlobSha256": "1c0b61bdfb6859ad9722bcca0b2587482c4ae7f342d5972fae6df57be43cb89b",
+      "byteLength": 30424
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/plan.json",
+      "sha256": "6ff2ce6fde40e03347724f58267021e9e1181e35b97d1de95fbb3ac6f7825196",
+      "indexBlobSha256": "6ff2ce6fde40e03347724f58267021e9e1181e35b97d1de95fbb3ac6f7825196",
+      "byteLength": 6038
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/report.cjs",
+      "sha256": "94589e6399856ce4b7e71b5e5c5232767ff46dbbc0d41c1a2b450efeeb1cb339",
+      "indexBlobSha256": "94589e6399856ce4b7e71b5e5c5232767ff46dbbc0d41c1a2b450efeeb1cb339",
+      "byteLength": 6065
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/restart-proof.cjs",
+      "sha256": "3b6378ac7fce285477bbd6bb9cbd36bdba5a0726b36350e39674f7ce6245b117",
+      "indexBlobSha256": "3b6378ac7fce285477bbd6bb9cbd36bdba5a0726b36350e39674f7ce6245b117",
+      "byteLength": 2486
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/run.cjs",
+      "sha256": "84ac7a7fbbed891aeb355e724557e453024b31798e1aec4ebcae11bab8bb1eb2",
+      "indexBlobSha256": "84ac7a7fbbed891aeb355e724557e453024b31798e1aec4ebcae11bab8bb1eb2",
+      "byteLength": 23317
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/runner-review.json",
+      "sha256": "36d8b0869c4a4bba10c0a38348dbf0c696d3db18b8292a753096b0e7cfe9cb73",
+      "indexBlobSha256": "36d8b0869c4a4bba10c0a38348dbf0c696d3db18b8292a753096b0e7cfe9cb73",
+      "byteLength": 6605
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/runner-seal.json",
+      "sha256": "7db9abba3ab7988ea255afe503a55e66464f8ac95ba6e77739c4e02a8674c5c5",
+      "indexBlobSha256": "7db9abba3ab7988ea255afe503a55e66464f8ac95ba6e77739c4e02a8674c5c5",
+      "byteLength": 48761
+    },
+    {
+      "path": "scripts/prepare-citation-candidate.cjs",
+      "sha256": "c3452885545e92b2c1c2b23fda37710548b7d7ce2980becca7d3e930928d39cc",
+      "indexBlobSha256": "c3452885545e92b2c1c2b23fda37710548b7d7ce2980becca7d3e930928d39cc",
+      "byteLength": 6136
+    },
+    {
+      "path": "scripts/replay-citation-boundary.cjs",
+      "sha256": "f6d592232c9e52b82e2b1b06905af45bc1ae3d4f107c1a33f4e6ff3f84a5f0c5",
+      "indexBlobSha256": "f6d592232c9e52b82e2b1b06905af45bc1ae3d4f107c1a33f4e6ff3f84a5f0c5",
+      "byteLength": 4097
+    },
+    {
+      "path": "src/CitationLabel.jsx",
+      "sha256": "912fcf0a82e6f6e295ac2b063da22ce714f48def2282243868163cfc88aeb1ee",
+      "indexBlobSha256": "912fcf0a82e6f6e295ac2b063da22ce714f48def2282243868163cfc88aeb1ee",
+      "byteLength": 361
+    },
+    {
+      "path": "src/GroundingPanel.jsx",
+      "sha256": "8c8c0f667518770a9290048168c80a3e126396dc57de259f4b657a9a5638997c",
+      "indexBlobSha256": "8c8c0f667518770a9290048168c80a3e126396dc57de259f4b657a9a5638997c",
+      "byteLength": 4634
+    },
+    {
+      "path": "src/MarkerConfirmation.jsx",
+      "sha256": "8091f4dd23d75c0a718d4121ca524f2414bc4626ff6479652750ab845c3f1dfa",
+      "indexBlobSha256": "8091f4dd23d75c0a718d4121ca524f2414bc4626ff6479652750ab845c3f1dfa",
+      "byteLength": 3842
+    },
+    {
+      "path": "tests/citation-fields.test.cjs",
+      "sha256": "a8c28d738ee0a87dcbe64ca9bc164c1284cf8a8e8d6d5056ce8c4187362d669d",
+      "indexBlobSha256": "a8c28d738ee0a87dcbe64ca9bc164c1284cf8a8e8d6d5056ce8c4187362d669d",
+      "byteLength": 10753
+    },
+    {
+      "path": "tests/grounding-marker-confirmation.test.cjs",
+      "sha256": "5d8a7552c17f5930e5a258e8d7cc8e7a4ef0336b411d8c53f4d82f84f71c5d7c",
+      "indexBlobSha256": "5d8a7552c17f5930e5a258e8d7cc8e7a4ef0336b411d8c53f4d82f84f71c5d7c",
+      "byteLength": 9839
+    },
+    {
+      "path": "tests/grounding-marker-flow.test.cjs",
+      "sha256": "97e3e16db76da9a5ddf5f3a93ea3c30693e63e896eed48c58a3dc35b6d62476b",
+      "indexBlobSha256": "97e3e16db76da9a5ddf5f3a93ea3c30693e63e896eed48c58a3dc35b6d62476b",
+      "byteLength": 26651
+    },
+    {
+      "path": "tests/grounding-marker-ui.test.cjs",
+      "sha256": "c44a9e6c79259623f598984e7f2d8b7c6a05fc9afafb2c18c67de9bf70054ef0",
+      "indexBlobSha256": "c44a9e6c79259623f598984e7f2d8b7c6a05fc9afafb2c18c67de9bf70054ef0",
+      "byteLength": 4876
+    }
+  ],
+  "attributeResults": [
+    {
+      "path": "docs/evidence/foundation-citation-boundary-result-20261029.json",
+      "attribute": "text",
+      "value": "unset"
+    },
+    {
+      "path": "docs/evidence/foundation-citation-boundary-result-20261029.json",
+      "attribute": "eol",
+      "value": "lf"
+    },
+    {
+      "path": "docs/evidence/foundation-citation-boundary-result-20261029.json",
+      "attribute": "whitespace",
+      "value": "blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol"
+    },
+    {
+      "path": "docs/evidence/foundation-citation-gate-preparation-20261029.json",
+      "attribute": "text",
+      "value": "unset"
+    },
+    {
+      "path": "docs/evidence/foundation-citation-gate-preparation-20261029.json",
+      "attribute": "eol",
+      "value": "lf"
+    },
+    {
+      "path": "docs/evidence/foundation-citation-gate-preparation-20261029.json",
+      "attribute": "whitespace",
+      "value": "blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/plan.json",
+      "attribute": "text",
+      "value": "unset"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/plan.json",
+      "attribute": "eol",
+      "value": "lf"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/plan.json",
+      "attribute": "whitespace",
+      "value": "blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/plan.json",
+      "attribute": "text",
+      "value": "unset"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/plan.json",
+      "attribute": "eol",
+      "value": "lf"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/plan.json",
+      "attribute": "whitespace",
+      "value": "blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol"
+    },
+    {
+      "path": ".gitattributes",
+      "attribute": "text",
+      "value": "set"
+    },
+    {
+      "path": ".gitattributes",
+      "attribute": "eol",
+      "value": "lf"
+    },
+    {
+      "path": ".gitattributes",
+      "attribute": "whitespace",
+      "value": "unspecified"
+    },
+    {
+      "path": "desktop/grounding.cjs",
+      "attribute": "text",
+      "value": "set"
+    },
+    {
+      "path": "desktop/grounding.cjs",
+      "attribute": "eol",
+      "value": "lf"
+    },
+    {
+      "path": "desktop/grounding.cjs",
+      "attribute": "whitespace",
+      "value": "unspecified"
+    },
+    {
+      "path": "package.json",
+      "attribute": "text",
+      "value": "set"
+    },
+    {
+      "path": "package.json",
+      "attribute": "eol",
+      "value": "lf"
+    },
+    {
+      "path": "package.json",
+      "attribute": "whitespace",
+      "value": "unspecified"
+    }
+  ],
+  "gitCachedDiffCheckPassed": true,
+  "runnerSealsUnchanged": true,
+  "frozenEvidence": {
+    "path": "reviewer-freeze-git-storage.json",
+    "sha256": "d7850cf546af43b049d7e08e2b02b56f95a2ed7eb609452796451cd9e9124c70",
+    "all32RootsAnd13OldRepoRootFilesUnchanged": true,
+    "oldRepoAttributesSha256": "2fa716e5e53c773df467f0011217c1a275002a1959d108d9ed540a58a5b7ee63"
+  },
+  "testDecision": "No product, runner, schema, package or model-input byte changed. Product/model retesting is unnecessary for this Git storage-only adjustment.",
+  "conclusion": "The four exact-path -text overrides retain already sealed CRLF bytes in Git; ordinary JSON files remain text/eol=lf. Upload is approved after adding this LF supplement and verifying its index bytes. No real run, installation or release is authorized."
+}

@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "id": "foundation-citation-candidate-gate-20261029",
+  "scope": "one-exposed-protocol-gate-on-citation-candidate-only",
+  "liveAuthorized": false,
+  "baseCommit": "86b02e8cef379924a0be258d090936e8bfc01ff3",
+  "installedVersion": "0.42.4",
+  "asarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "reasoning": "medium",
+    "provider": "existing-subscription",
+    "availability": "not-probed"
+  },
+  "settings": {
+    "evidenceGrounding": true,
+    "automatic": false,
+    "autoExtract": false,
+    "autoComplete": false,
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false
+  },
+  "budget": {
+    "applicationAttempts": 5,
+    "reportedTokenStopThreshold": 120000,
+    "protocolAttempts": 5,
+    "protocolTokenStopThreshold": 120000,
+    "businessAttempts": 0,
+    "businessTokenStopThreshold": 0,
+    "perCallTimeoutMs": 180000,
+    "perCallIdleMs": 120000,
+    "dispatchWindowMinutes": 45,
+    "maxVisibleRequestBytes": 70000,
+    "reservationOutputAllowance": 32768,
+    "reservationFramingAllowance": 4096,
+    "serverEnforcedTokenCap": false,
+    "priorBudgetsReusable": false,
+    "maximumModelDispatches": 4
+  },
+  "caseLimits": [],
+  "protocolGate": {
+    "id": "G01-muju",
+    "title": "暮榉书目台MJ-K9目录索引备份状态摘要",
+    "description": "请依据登记写一句简短状态摘要，区分本地备份与公开发布。",
+    "criteria": "准确写出截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条条目，尚未公开发布；不要把条目数写成文件数。",
+    "sources": [
+      {
+        "key": "s1",
+        "title": "暮榉MJ-K9索引保存登记",
+        "content": "截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条目录条目；该索引尚未公开发布。条目数不表示文件数。"
+      }
+    ],
+    "passRequires": [
+      "normal_generation_and_strict_verification_complete",
+      "evidence_quotes_bound_to_original_source",
+      "all_dispatched_usage_known",
+      "no_protocol_rejection",
+      "no_host_tool_attempt",
+      "no_external_action",
+      "within_all_budgets"
+    ],
+    "includedInBusinessMetrics": false
+  },
+  "order": [
+    "G01-muju"
+  ],
+  "sourceSampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "exposedProtocolGate": true,
+  "qualityEvaluation": false,
+  "businessCasesEnabled": false,
+  "priorBudgetsReusable": false,
+  "authorizationStatus": "proposal-only-awaiting-new-explicit-user-approval",
+  "cli": {
+    "sha256": "5c1b55966bf9f757dcbf00065c9a6cb862ead55d34b015f1be1939ff18e43943",
+    "identitySource": "read-only-file-hash-no-execution",
+    "availability": "not-probed"
+  },
+  "gateLimitations": [
+    "not-a-fresh-quality-sample",
+    "does-not-live-test-marker-confirmation-or-replay",
+    "no-six-case-business-acceptance",
+    "no-final-human-acceptance",
+    "historical-G01-pass-does-not-transfer"
+  ]
+}

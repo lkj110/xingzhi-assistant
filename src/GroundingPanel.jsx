@@ -1,6 +1,7 @@
 import React from 'react';
 import {BookOpen,ShieldCheck} from 'lucide-react';
 import './GroundingPanel.css';
+import CitationLabel from './CitationLabel.jsx';
 
 const list=value=>Array.isArray(value)?value:[];
 const kinds={fact:'事实',inference:'推断',unknown:'尚未确认',proposal:'建议'};
@@ -47,7 +48,7 @@ export default function GroundingPanel({task,enabled=false}){
         <span className="grounding-label">{kinds[claim.kind]||'待核对的结论'}</span>
         <p><strong>{claim.text}</strong></p>{specificReason(claim.reason)&&<p>{claim.reason}</p>}
         {list(claim.citations).map((citation,citationIndex)=><figure className="grounding-citation" key={citationIndex}>
-          <figcaption>{citation.title||'原始资料'}{Number.isSafeInteger(citation.start)&&Number.isSafeInteger(citation.end)?` · 字符 ${citation.start+1}–${citation.end}`:''}</figcaption>
+          <figcaption><CitationLabel citation={citation}/></figcaption>
           <blockquote>{citation.quote}</blockquote>
         </figure>)}
         {!list(claim.citations).length&&<small>未保存原文引用。建议或未知事项不代表已核实的事实。</small>}

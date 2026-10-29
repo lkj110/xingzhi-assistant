@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "createdAt": "2026-10-29T09:07:36.2725806Z",
+  "kind": "citation-candidate-single-gate-proposal",
+  "liveAuthorized": false,
+  "candidateAsarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+  "candidateInstalled": false,
+  "installedBaseFrozen": true,
+  "runnerIdentity": "b9db8073bda6e09ac84e44bd060760c985fe72455292d07d683479a368a3ebcc",
+  "planPath": "evaluations/foundation-citation-gate-runner/plan.json",
+  "scope": "Only exposed G01 protocol gate; no business cases or formal main evaluation",
+  "budget": {
+    "applicationAttempts": 5,
+    "reportedTokenStopThreshold": 120000,
+    "protocolAttempts": 5,
+    "protocolTokenStopThreshold": 120000,
+    "businessAttempts": 0,
+    "businessTokenStopThreshold": 0,
+    "perCallTimeoutMs": 180000,
+    "perCallIdleMs": 120000,
+    "dispatchWindowMinutes": 45,
+    "maxVisibleRequestBytes": 70000,
+    "reservationOutputAllowance": 32768,
+    "reservationFramingAllowance": 4096,
+    "serverEnforcedTokenCap": false,
+    "priorBudgetsReusable": false,
+    "maximumModelDispatches": 4
+  },
+  "oldAuthorizationReusable": false,
+  "newUserApprovalRequired": true,
+  "budgetMeaning": "input+output stopping threshold; in-flight requests may exceed it; not a server enforced cap",
+  "stopOn": [
+    "protocol_or_schema_rejection",
+    "unknown_or_conflicting_usage",
+    "transport_failure_or_request_timeout",
+    "budget_admission_failure_or_threshold",
+    "unplanned_repair_or_retry",
+    "host_tool_or_external_action",
+    "frozen_identity_change",
+    "user_stop",
+    "fixed_45_minute_window_expired"
+  ],
+  "offlinePreparation": {
+    "gateMatrix": {
+      "realModelCalls": 0,
+      "localTransportExecutions": 15,
+      "scenarios": 6,
+      "applicationAttempts": 17,
+      "passed": true
+    },
+    "readinessIsNotLiveAcceptance": true,
+    "gateUnitTests": {
+      "failed": 0,
+      "passed": 12
+    },
+    "codeRegression": {
+      "failed": 0,
+      "passed": 303
+    }
+  },
+  "completionCriteria": [
+    "Same candidate and sealed runner identities",
+    "G01 generated draft and strict evidence check pass",
+    "All dispatched usage known; no protocol rejection",
+    "Independent review agrees; one round closed, no automatic retry or budget renewal"
+  ],
+  "nextDecision": "Only if G01 passes, prepare/reconfirm the six-case real business budget for this exact candidate; otherwise stop and report the exact failure",
+  "realModelCalls": 0,
+  "realAcceptancePassed": false,
+  "rawPlanFileSha256": "4d1814929ebf7cbbe81b0f99b0ebe8c183ad0a4e2d4d70cfb74f5a700498ffed",
+  "canonicalPlanSha256": "168b2c818f77148a97c3d39fbb104bcb1f08dae9efe3cfb5516afa3c1e510b73",
+  "authorizationPlanHashUses": "canonicalPlanSha256 (ledger.planHash), not rawPlanFileSha256"
+}
