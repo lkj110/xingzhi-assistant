@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "id": "foundation-diagnostic-gate-20261029",
+  "scope": "one-exposed-protocol-recovery-gate-only",
+  "liveAuthorized": false,
+  "baseCommit": "0deafb5a65113ec907f33a9635e12a0e00c9dd14",
+  "installedVersion": "0.42.4",
+  "asarSha256": "9fe3cc8b865a37fa063fec7cce7158e4e9a07f682f6556fd08a844f6e89dec2b",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "reasoning": "medium",
+    "provider": "existing-subscription",
+    "availability": "not-probed"
+  },
+  "settings": {
+    "evidenceGrounding": true,
+    "automatic": false,
+    "autoExtract": false,
+    "autoComplete": false,
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false
+  },
+  "budget": {
+    "applicationAttempts": 5,
+    "reportedTokenStopThreshold": 120000,
+    "protocolAttempts": 5,
+    "protocolTokenStopThreshold": 120000,
+    "businessAttempts": 0,
+    "businessTokenStopThreshold": 0,
+    "perCallTimeoutMs": 180000,
+    "perCallIdleMs": 120000,
+    "dispatchWindowMinutes": 45,
+    "maxVisibleRequestBytes": 70000,
+    "reservationOutputAllowance": 32768,
+    "reservationFramingAllowance": 4096,
+    "serverEnforcedTokenCap": false,
+    "priorBudgetsReusable": false
+  },
+  "caseLimits": [],
+  "protocolGate": {
+    "id": "G01-muju",
+    "title": "暮榉书目台MJ-K9目录索引备份状态摘要",
+    "description": "请依据登记写一句简短状态摘要，区分本地备份与公开发布。",
+    "criteria": "准确写出截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条条目，尚未公开发布；不要把条目数写成文件数。",
+    "sources": [
+      {
+        "key": "s1",
+        "title": "暮榉MJ-K9索引保存登记",
+        "content": "截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条目录条目；该索引尚未公开发布。条目数不表示文件数。"
+      }
+    ],
+    "passRequires": [
+      "normal_generation_and_strict_verification_complete",
+      "evidence_quotes_bound_to_original_source",
+      "all_dispatched_usage_known",
+      "no_protocol_rejection",
+      "no_host_tool_attempt",
+      "no_external_action",
+      "within_all_budgets"
+    ],
+    "includedInBusinessMetrics": false
+  },
+  "order": [
+    "G01-muju"
+  ],
+  "sourceSampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "exposedProtocolGate": true,
+  "qualityEvaluation": false,
+  "businessCasesEnabled": false,
+  "priorBudgetsReusable": false
+}

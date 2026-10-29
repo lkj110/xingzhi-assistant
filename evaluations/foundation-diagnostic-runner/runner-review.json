@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "at": "2026-10-29T03:48:53.007Z",
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/marker_package_audit",
+  "scope": "Offline diagnostic collection and single already-exposed protocol-gate preparation only",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "runnerIdentity": "f70ee5d9000c66cb175b71bd0a7821def7d77e58a2de5b4e464dd7ad26aaf5e7",
+  "approvedForLiveReadiness": true,
+  "approvedForUpload": true,
+  "liveAuthorized": false,
+  "approvedForInstall": false,
+  "realModelCalls": 0,
+  "realCliExecutions": 0,
+  "loginProbes": 0,
+  "businessCasesStarted": 0,
+  "actualHumanAcceptances": 0,
+  "productChanged": false,
+  "semanticStandardsChanged": false,
+  "remainingFindings": [],
+  "tests": {
+    "unit": {
+      "passed": 16,
+      "total": 16,
+      "skipped": 0,
+      "logSha256": "9358208a2e50ee6234bf9cce98210b1c88b9b6bb611f44c7a75754772f4f935b",
+      "independentSubsetExecuted": 14
+    },
+    "actualCandidateOfflineMatrix": {
+      "passed": 6,
+      "total": 6,
+      "expectedStops": 5,
+      "applicationAttempts": 17,
+      "localSyntheticTransportExecutions": 15,
+      "afterStopUnexpectedAttempts": 0,
+      "realModelCalls": 0,
+      "resultSha256": "2a807e5fd1d8e2643727232bd5177d2a780fdb3cd482dd96cfd4a66add5009a2"
+    },
+    "earlierDevelopmentSmokePreserved": {
+      "candidateProtocolRunPassed": true,
+      "matrixAssertionFailed": true,
+      "reason": "UUID filename sort did not preserve call order; ledger-order and field assertions corrected before the complete final rerun."
+    }
+  },
+  "reviewedBehaviors": [
+    "Bounded error-event whitelist, sensitive suffix/escaped JSON/request-echo redaction before clipping",
+    "Original transport frames, stop policy, process-tree confirmation and authoritative usage retained",
+    "No invented usage; known prefix plus dispatched unknown leaves total null",
+    "Only exposed G01 input; zero business lane and no final-human-acceptance route",
+    "Four permitted dispatches plus fifth locally recorded refusal; no retry or budget reuse",
+    "Independent checkpoint draft/source/requirements/report identity rechecked on return",
+    "Missing and foreign context requests stop with durable local refusal",
+    "Actual packaged executable with isolated profiles; raw requests, app modelCalls and persistent spend ledger reconciled"
+  ],
+  "costInterpretation": {
+    "qualityMetrics": null,
+    "syntheticUsageIsCostEstimate": false,
+    "oldRealFailureRootCause": "unknown",
+    "historicalMagnitudeReceipt12101IsSyntheticReplay": true,
+    "localBudgetRefusal": "Proven not dispatched, with raw provider usage null; app may separately mark its failed receipt unknown. Broker excludes refused transport from unknown totals."
+  },
+  "proposedGate": {
+    "applicationAttempts": 5,
+    "maximumRemoteDispatches": 4,
+    "localRefusalSlots": 1,
+    "inputOutputTokenStopThreshold": 120000,
+    "dispatchWindowMinutes": 45,
+    "exposedSample": true,
+    "freshQualityClaim": false,
+    "businessCases": 0,
+    "priorBudgetReusable": false,
+    "liveAuthorized": false,
+    "inFlightMayExceed": true,
+    "completionGuaranteed": false,
+    "reservations": [
+      48839,
+      50023,
+      53401,
+      54794
+    ],
+    "fourthDispatchKnownPrefixAt100k": 45206,
+    "fourthDispatchKnownPrefixAt120k": 65206,
+    "oldBudgetTestProves": "Four application-attempt slots leave only three dispatch slots; does not prove the 100000-token threshold is insufficient."
+  },
+  "freeze": {
+    "allFrozenIdentitiesUnchanged": true,
+    "beforeSha256": "9bc0532f2b447b7bc740d6aca76b0e27b49093454c9297e61f093f66b91c202f",
+    "afterSha256": "e17883c25a6f4094a680d7d2efb8b4cc1fb75e4707d7cde8e0e34ec21169b162",
+    "installedFiles": 86,
+    "oldCandidateFiles": 86,
+    "markerCandidateFiles": 86,
+    "productFiles": 334,
+    "historicalPackFiles": 47,
+    "oldRunnerFiles": 31,
+    "markerPackFiles": 16,
+    "markerRunnerFiles": 15,
+    "previousLiveReportFiles": 3
+  },
+  "privateEvidence": [
+    {
+      "path": "foundation-diagnostic-audit-20261029/result-audit.json",
+      "sha256": "27152ce890fda99bd251f4143eab583fafed63dd83c296b7e1bc0be1b5c409aa"
+    },
+    {
+      "path": "foundation-diagnostic-audit-20261029/freeze-after.json",
+      "sha256": "e17883c25a6f4094a680d7d2efb8b4cc1fb75e4707d7cde8e0e34ec21169b162"
+    }
+  ],
+  "conclusion": "Offline preparation and reporting are approved for upload. This record is not user spending authorization, a business-quality pass, an installation approval, or permission to resume any ended round.",
+  "reviewedFiles": [
+    {
+      "path": "docs/FOUNDATION_DIAGNOSTIC_GATE_PREPARATION_20261029.md",
+      "sha256": "95256b127eea51262eff42fb3344fbe3e24a1ef765e954860cde271c35af49ca"
+    },
+    {
+      "path": "docs/evidence/foundation-diagnostic-preparation-20261029.json",
+      "sha256": "cfc15f29671293aff2a8d8a9b88662099b4d16055ef027ce7b5f8c3be283ed06"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/README.md",
+      "sha256": "5b733585b3e9f06a91761083a13d351a9c78fb878e5a3a3035767f1c932658dd"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/broker.cjs",
+      "sha256": "b46b72b871a3d9eb3ecf8f383b5d6a404370405f10e96fe44b03b04f28fd504f"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/broker.test.cjs",
+      "sha256": "40f19d713443cd060c37cec113d893c567ad4c976f70d69600228bd5c7a82248"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/checkpoint-binding.cjs",
+      "sha256": "c57cc9311792dd636701ded92f7523fa73c5b1fe05d10817dcba39d187b9b899"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/checkpoint-binding.test.cjs",
+      "sha256": "b6ce48f507ae69943e773e093bc6eb3036f4983b7c61332cd425fd17809c1e67"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/diagnostics.cjs",
+      "sha256": "38756716cc352d4d27bba9385056eb574d88b2cf1b9ed10e8e81fa07b6ef78e8"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/diagnostics.test.cjs",
+      "sha256": "4430de626039e585c6588e63ab0e07468425bd9288e389a911724bf64946c5de"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/fixture.cjs",
+      "sha256": "cf48a8b141f65310378e11bc0bae2db3321774d21f9a5f03373071eb1ad5b7f5"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/identity.cjs",
+      "sha256": "be4d09896a3ebec0cbecefa9012d06655c34fd48eb0b5c36f2405dd2485f0873"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/integration.cjs",
+      "sha256": "18d9928eeeca0087dc551e1db373ec94baaa073200e94b3e8159e84c98ea8de1"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/ledger.cjs",
+      "sha256": "38b28ebb6205b2be1b831f1ebc9c05b9ffee50a84b463a72f685ec1ff288d385"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/ledger.test.cjs",
+      "sha256": "ad63848b84301963fa4d085b70c132626dc6f68053c57799e2f97a4ab4b812ec"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/plan.json",
+      "sha256": "68429f4accb40bd8a5816bbe34db399d50784fc810a98787a54e8ea41da27780"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/run.cjs",
+      "sha256": "6a61f41efbe1e0679cc11c479d30405211bf7fb3c897f9a0ab3823db897c32df"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/runner-seal.json",
+      "sha256": "fbc01822ec351fd75d50fb1f61787744a28791ee3789e58e1b396670347d40c4"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/transport.cjs",
+      "sha256": "20b98a0e5ec1753d04d4fca96b1d7dc6ef4cfab44f06e5907c15ad19557016c3"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/transport.test.cjs",
+      "sha256": "717759622036bccca895910baaee2a913b863f69301fbb7e5899ef4499af2340"
+    }
+  ]
+}

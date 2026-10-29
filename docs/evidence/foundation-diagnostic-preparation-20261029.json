@@ -1,0 +1,336 @@
+{
+  "schema": 1,
+  "date": "2026-10-29",
+  "scope": "offline-single-protocol-gate-diagnostics",
+  "baseCommit": "0deafb5a65113ec907f33a9635e12a0e00c9dd14",
+  "runnerIdentity": "f70ee5d9000c66cb175b71bd0a7821def7d77e58a2de5b4e464dd7ad26aaf5e7",
+  "runnerSealSha256": "fbc01822ec351fd75d50fb1f61787744a28791ee3789e58e1b396670347d40c4",
+  "runnerFiles": 16,
+  "dependencyFiles": 245,
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "unitTests": {
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "logSha256": "9358208a2e50ee6234bf9cce98210b1c88b9b6bb611f44c7a75754772f4f935b"
+  },
+  "integration": {
+    "passed": 6,
+    "failed": 0,
+    "resultSha256": "2a807e5fd1d8e2643727232bd5177d2a780fdb3cd482dd96cfd4a66add5009a2",
+    "rows": [
+      {
+        "name": "complete",
+        "assertionsPassed": true,
+        "runPassed": true,
+        "expectedStop": false,
+        "runnerIdentity": "f70ee5d9000c66cb175b71bd0a7821def7d77e58a2de5b4e464dd7ad26aaf5e7",
+        "summarySha256": "e2c7bbf44cee23a1589ed1959de6dedbc713fe23bc1412c75e98b1dce59fefe1",
+        "finalStateSha256": "4a46d71bde23e7a36d213f4aeb448fdc4bb1e97ab70b1d742b6abf295b4e40cf",
+        "applicationAttempts": 4,
+        "localNodeExecutions": 4,
+        "realModelCalls": 0,
+        "unknownUsage": 0,
+        "syntheticKnownTokenSubtotal": 20503,
+        "syntheticTotalTokens": 20503,
+        "stop": null,
+        "terminalState": "review",
+        "applicationCallCount": 4,
+        "afterStopUnexpectedAttempts": 0,
+        "terminalHashes": [
+          "6ccd57263d8e3a3348b4fde6c99023c1bcd9b294d0eb9e262e1684bcedcfe1e5",
+          "0f38cbb343c27651fc006ca74100abe379ca5dfe814802082ddb0b379d5ff986",
+          "d36432a031cf3d75110b1849e9e805fbbee6c9d6e6e2b9de2eeba02c3fe65f32",
+          "b907a8ca43b17d7750963010bebe482b111218fd5e48160d9e7e81e90e6b4928"
+        ],
+        "reservations": [
+          {
+            "role": "execute",
+            "reservedTokens": 48839,
+            "serializedInputBytes": 11851,
+            "schemaBytes": 124
+          },
+          {
+            "role": "execute",
+            "reservedTokens": 50023,
+            "serializedInputBytes": 13035,
+            "schemaBytes": 124
+          },
+          {
+            "role": "verify",
+            "reservedTokens": 53401,
+            "serializedInputBytes": 16413,
+            "schemaBytes": 124
+          },
+          {
+            "role": "verify",
+            "reservedTokens": 54794,
+            "serializedInputBytes": 17806,
+            "schemaBytes": 124
+          }
+        ]
+      },
+      {
+        "name": "old-budget",
+        "assertionsPassed": true,
+        "runPassed": false,
+        "expectedStop": true,
+        "runnerIdentity": "f70ee5d9000c66cb175b71bd0a7821def7d77e58a2de5b4e464dd7ad26aaf5e7",
+        "summarySha256": "1315c3f44ee08eeec8990f7dac41d80a680e04ae844bfd3678b4f42305292642",
+        "finalStateSha256": "c34deb04bd03badad8567be838ef1ae84b6a27d33112efaf14b3acbb48fda428",
+        "applicationAttempts": 4,
+        "localNodeExecutions": 3,
+        "realModelCalls": 0,
+        "unknownUsage": 0,
+        "syntheticKnownTokenSubtotal": 14367,
+        "syntheticTotalTokens": 14367,
+        "stop": {
+          "code": "LEDGER_GLOBAL_BUDGET",
+          "reason": "Global admission budget exhausted"
+        },
+        "terminalState": "blocked",
+        "applicationCallCount": 4,
+        "afterStopUnexpectedAttempts": 0,
+        "terminalHashes": [
+          "d2f8da65d9da999b2df6253b5a24dfd4e4687ba2355d157490d3f11e1cf621cb",
+          "6b817c6295677cedb13c7b7f86e3f0857d2b8c7fd89ec1219706b597d2ee24f2",
+          "dc0b6e2d60d4da1e0eea18fdf0f60f449cf099d73588a299b346662b60bcfe9a",
+          "d46934711d792fde6e65f2097bb489795accf7836a93e0eeeedc2cacd0b7950a"
+        ],
+        "reservations": [
+          {
+            "role": "execute",
+            "reservedTokens": 48839,
+            "serializedInputBytes": 11851,
+            "schemaBytes": 124
+          },
+          {
+            "role": "execute",
+            "reservedTokens": 50023,
+            "serializedInputBytes": 13035,
+            "schemaBytes": 124
+          },
+          {
+            "role": "verify",
+            "reservedTokens": 53401,
+            "serializedInputBytes": 16413,
+            "schemaBytes": 124
+          },
+          {
+            "role": "verify",
+            "reservedTokens": 54794,
+            "serializedInputBytes": 17806,
+            "schemaBytes": 124
+          }
+        ]
+      },
+      {
+        "name": "cli-rejection",
+        "assertionsPassed": true,
+        "runPassed": false,
+        "expectedStop": true,
+        "runnerIdentity": "f70ee5d9000c66cb175b71bd0a7821def7d77e58a2de5b4e464dd7ad26aaf5e7",
+        "summarySha256": "bdf10e644aa627c0c784acdfbb2bb9f45bdbdd6b5443094b8b2c45ece31d9228",
+        "finalStateSha256": "0007c6380b30df557490d8172495fa4b759d6ab9dfa2426bcc12c01765887f8a",
+        "applicationAttempts": 2,
+        "localNodeExecutions": 2,
+        "realModelCalls": 0,
+        "unknownUsage": 1,
+        "syntheticKnownTokenSubtotal": 12101,
+        "syntheticTotalTokens": null,
+        "stop": {
+          "code": "LEDGER_FAILURE",
+          "reason": "CLI_PROTOCOL_REJECTION"
+        },
+        "terminalState": "blocked",
+        "applicationCallCount": 2,
+        "afterStopUnexpectedAttempts": 0,
+        "terminalHashes": [
+          "7c0a855a0a51a217902b09c9df7eaeb66ac606ae06805e427bd6d7fa57d32eed",
+          "164bbe8211e632f0256ba59012b72b598b846bd280dd21666111076640476a41"
+        ],
+        "reservations": [
+          {
+            "role": "execute",
+            "reservedTokens": 48839,
+            "serializedInputBytes": 11851,
+            "schemaBytes": 124
+          },
+          {
+            "role": "execute",
+            "reservedTokens": 50023,
+            "serializedInputBytes": 13035,
+            "schemaBytes": 124
+          }
+        ]
+      },
+      {
+        "name": "fifth-request",
+        "assertionsPassed": true,
+        "runPassed": false,
+        "expectedStop": true,
+        "runnerIdentity": "f70ee5d9000c66cb175b71bd0a7821def7d77e58a2de5b4e464dd7ad26aaf5e7",
+        "summarySha256": "3dc51d5cc07296ab26c9aac637df1c12a2470e40b03b19d0432f970aa764e6ff",
+        "finalStateSha256": "b1b6066f085f50d6d99028770e72972e1db890f421c395d51a40568c4b841025",
+        "applicationAttempts": 5,
+        "localNodeExecutions": 4,
+        "realModelCalls": 0,
+        "unknownUsage": 0,
+        "syntheticKnownTokenSubtotal": 20503,
+        "syntheticTotalTokens": 20503,
+        "stop": {
+          "code": "LEDGER_GLOBAL_BUDGET",
+          "reason": "Global admission budget exhausted"
+        },
+        "terminalState": "blocked",
+        "applicationCallCount": 5,
+        "afterStopUnexpectedAttempts": 0,
+        "terminalHashes": [
+          "f9a7127ed6266b11ead1a5481715be7fc7e38d18568f2c88f2caa4cb8393d728",
+          "2f23b27f97b72c7e3a3d949b153a4c3e604313c624f56c791e9bf49bf4cf2dd7",
+          "dd3e7de8f1697d35faa2cd3349b38eb9b25f6d0ab8e18e7b9193e7dbb858dd39",
+          "030057927da2ecc7ed53541ffe7e3fa9fd5831853b35911b684a57c7788c61f8",
+          "39b42b44dcb61d35022a35fce831ccb3cdcfebe41cb59786dd64c78bed251330"
+        ],
+        "reservations": [
+          {
+            "role": "execute",
+            "reservedTokens": 48839,
+            "serializedInputBytes": 11851,
+            "schemaBytes": 124
+          },
+          {
+            "role": "execute",
+            "reservedTokens": 50023,
+            "serializedInputBytes": 13035,
+            "schemaBytes": 124
+          },
+          {
+            "role": "verify",
+            "reservedTokens": 53401,
+            "serializedInputBytes": 16413,
+            "schemaBytes": 124
+          },
+          {
+            "role": "verify",
+            "reservedTokens": 54794,
+            "serializedInputBytes": 17806,
+            "schemaBytes": 124
+          },
+          {
+            "role": "verify",
+            "reservedTokens": 54806,
+            "serializedInputBytes": 17818,
+            "schemaBytes": 124
+          }
+        ]
+      },
+      {
+        "name": "unknown-usage",
+        "assertionsPassed": true,
+        "runPassed": false,
+        "expectedStop": true,
+        "runnerIdentity": "f70ee5d9000c66cb175b71bd0a7821def7d77e58a2de5b4e464dd7ad26aaf5e7",
+        "summarySha256": "cce2032c0bc99c33a6d6253e6cb7a10849c3d1102e0033f2fa63da491f0ffa83",
+        "finalStateSha256": "b95943853afd8fa4350b570492f9072f5a81071c7cbb939b0a978b851d005d49",
+        "applicationAttempts": 1,
+        "localNodeExecutions": 1,
+        "realModelCalls": 0,
+        "unknownUsage": 1,
+        "syntheticKnownTokenSubtotal": 0,
+        "syntheticTotalTokens": null,
+        "stop": {
+          "code": "LEDGER_FAILURE",
+          "reason": "CLI_INVALID_USAGE"
+        },
+        "terminalState": "blocked",
+        "applicationCallCount": 1,
+        "afterStopUnexpectedAttempts": 0,
+        "terminalHashes": [
+          "bb57782fd8bae8e85af7694f9a86a3c39d376b432b9f190f47e6e887cc69baf1"
+        ],
+        "reservations": [
+          {
+            "role": "execute",
+            "reservedTokens": 48839,
+            "serializedInputBytes": 11851,
+            "schemaBytes": 124
+          }
+        ]
+      },
+      {
+        "name": "malformed-inner",
+        "assertionsPassed": true,
+        "runPassed": false,
+        "expectedStop": true,
+        "runnerIdentity": "f70ee5d9000c66cb175b71bd0a7821def7d77e58a2de5b4e464dd7ad26aaf5e7",
+        "summarySha256": "9ec981cffc804a6e2fe22105393eabc8d3703d31dfb19d618b95f2d1d1030f3c",
+        "finalStateSha256": "5e301853c42e6584466a7a41aeb1697db92c5d568c170db9936934446ea0a11d",
+        "applicationAttempts": 1,
+        "localNodeExecutions": 1,
+        "realModelCalls": 0,
+        "unknownUsage": 0,
+        "syntheticKnownTokenSubtotal": 4151,
+        "syntheticTotalTokens": 4151,
+        "stop": {
+          "code": "LEDGER_FAILURE",
+          "reason": "MODEL_INVALID_RESPONSE"
+        },
+        "terminalState": "blocked",
+        "applicationCallCount": 1,
+        "afterStopUnexpectedAttempts": 0,
+        "terminalHashes": [
+          "b158919ad74b4a634c7cad8245c116a441eb4f5921b3636c7e266f3eb3517e3e"
+        ],
+        "reservations": [
+          {
+            "role": "execute",
+            "reservedTokens": 48839,
+            "serializedInputBytes": 11851,
+            "schemaBytes": 124
+          }
+        ]
+      }
+    ]
+  },
+  "developmentSmoke": {
+    "candidateGatePassed": true,
+    "attempts": 4,
+    "realModelCalls": 0,
+    "summarySha256": "d9f8e39d8592911151f3d4295904d208c9719e5d5ac4f1bd4a35ef81f69ea4fb",
+    "harnessAssertionFailed": "UUID filename order was incorrectly used for call ordering; corrected to durable ledger order before final matrix"
+  },
+  "realModelCalls": 0,
+  "realCliExecutions": 0,
+  "loginProbes": 0,
+  "businessCasesStarted": 0,
+  "actualHumanAcceptances": 0,
+  "qualityMetrics": null,
+  "historicalProviderRootCause": "unknown",
+  "diagnosticRedaction": "private bounded whitelist; known labels and request echoes redacted; unknown formats not guaranteed",
+  "freezeBaselineSha256": "9bc0532f2b447b7bc740d6aca76b0e27b49093454c9297e61f093f66b91c202f",
+  "productPatchRequired": false,
+  "liveAuthorized": false,
+  "proposedGate": {
+    "exposedSample": true,
+    "freshQualityClaim": false,
+    "applicationAttempts": 5,
+    "maximumForwardedAttempts": 4,
+    "localRefusalSlots": 1,
+    "tokenStopThreshold": 120000,
+    "dispatchWindowMinutes": 45,
+    "inFlightMayExceed": true,
+    "unknownUsageStops": true,
+    "protocolFailureStops": true,
+    "businessCases": 0,
+    "priorBudgetReusable": false
+  },
+  "budgetExplanation": {
+    "fourthReservation": 54794,
+    "knownPriorMaximumAt100k": 45206,
+    "knownPriorMaximumAt120k": 65206,
+    "afterHistoricalFirst12101At100k": 33105,
+    "afterHistoricalFirst12101At120k": 53105,
+    "reservationsAreNotProviderTokenForecasts": true
+  }
+}
