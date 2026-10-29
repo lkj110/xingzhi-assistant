@@ -1,0 +1,242 @@
+{
+  "schema": 1,
+  "id": "foundation-citation-business-acceptance-20261029",
+  "preparationRevision": 1,
+  "status": "sealed-proposal-requires-independent-review-and-new-user-approval",
+  "liveAuthorized": false,
+  "scope": "six-sealed-business-regressions-on-citation-candidate",
+  "syntheticSources": true,
+  "baseCommit": "30437a8becdf740620b84a5598bec8fb6bab2da1",
+  "installedVersion": "0.42.4",
+  "asarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "reasoning": "medium",
+    "provider": "existing-subscription",
+    "availability": "not-probed"
+  },
+  "settings": {
+    "evidenceGrounding": true,
+    "automatic": false,
+    "autoExtract": false,
+    "autoComplete": false,
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false
+  },
+  "budget": {
+    "applicationAttempts": 40,
+    "reportedTokenStopThreshold": 1000000,
+    "protocolAttempts": 0,
+    "protocolTokenStopThreshold": 0,
+    "businessAttempts": 40,
+    "businessTokenStopThreshold": 1000000,
+    "perCallTimeoutMs": 180000,
+    "perCallIdleMs": 120000,
+    "dispatchWindowMinutes": 45,
+    "maxVisibleRequestBytes": 70000,
+    "reservationOutputAllowance": 32768,
+    "reservationFramingAllowance": 4096,
+    "serverEnforcedTokenCap": false,
+    "priorBudgetsReusable": false,
+    "maximumModelDispatches": 34
+  },
+  "caseLimits": [
+    {
+      "id": "F01-huaizhi-approval",
+      "attempts": 3,
+      "tokenStopThreshold": 80000
+    },
+    {
+      "id": "F02-luzhong-version",
+      "attempts": 3,
+      "tokenStopThreshold": 80000
+    },
+    {
+      "id": "F03-botang-notice",
+      "attempts": 7,
+      "tokenStopThreshold": 170000
+    },
+    {
+      "id": "F04-cenwan-direction",
+      "attempts": 7,
+      "tokenStopThreshold": 170000
+    },
+    {
+      "id": "F05-jianping-revision",
+      "attempts": 13,
+      "tokenStopThreshold": 330000
+    },
+    {
+      "id": "F06-yunshu-restart",
+      "attempts": 7,
+      "tokenStopThreshold": 170000
+    }
+  ],
+  "protocolGate": {
+    "id": "G01-muju",
+    "title": "暮榉书目台MJ-K9目录索引备份状态摘要",
+    "description": "请依据登记写一句简短状态摘要，区分本地备份与公开发布。",
+    "criteria": "准确写出截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条条目，尚未公开发布；不要把条目数写成文件数。",
+    "sources": [
+      {
+        "key": "s1",
+        "title": "暮榉MJ-K9索引保存登记",
+        "content": "截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条目录条目；该索引尚未公开发布。条目数不表示文件数。"
+      }
+    ],
+    "passRequires": [
+      "normal_generation_and_strict_verification_complete",
+      "evidence_quotes_bound_to_original_source",
+      "all_dispatched_usage_known",
+      "no_protocol_rejection",
+      "no_host_tool_attempt",
+      "no_external_action",
+      "within_all_budgets"
+    ],
+    "includedInBusinessMetrics": false
+  },
+  "order": [
+    "F01-huaizhi-approval",
+    "F02-luzhong-version",
+    "F03-botang-notice",
+    "F04-cenwan-direction",
+    "F05-jianping-revision",
+    "F06-yunshu-restart"
+  ],
+  "globalStopOn": [
+    "unknown_or_conflicting_usage",
+    "protocol_or_schema_rejection",
+    "transport_failure_or_request_timeout",
+    "host_tool_attempt",
+    "any_budget_admission_failure_or_threshold",
+    "reported_budget_or_reservation_overage",
+    "frozen_identity_changed",
+    "gold_or_rubric_leak",
+    "unexpected_external_action",
+    "user_stop",
+    "first_terminal_case_failure",
+    "dispatch_window_expired",
+    "second_marker_wait_for_same_planned_draft_stage"
+  ],
+  "caseStopOn": [
+    "fixed_candidate_changed",
+    "unplanned_retry_or_revision"
+  ],
+  "manualAcceptance": {
+    "humanRequired": true,
+    "scriptedAcceptCountsAsHuman": false,
+    "pendingHumanIsNotPass": true,
+    "qualityMustPassBeforeOfferingAccept": true
+  },
+  "markerConfirmation": {
+    "humanRequired": true,
+    "runnerMayConfirm": false,
+    "runnerMayRecheckWithoutExplicitHumanAction": false,
+    "maxConfirmationsPerPlannedDraftStage": 1,
+    "maxExplicitRechecksPerPlannedDraftStage": 1,
+    "initialAndRevisedStagesSeparate": true,
+    "waitDoesNotResetDispatchWindow": true,
+    "noNaturalTriggerDisposition": "not_triggered_not_live_validated",
+    "atLeastOneNaturalHumanClosedLoopRequiredForMarkerBranchClaim": true,
+    "forcedClaimKindsForbiddenInLive": true
+  },
+  "executionPrerequisites": [
+    "new_explicit_user_budget_approval",
+    "independently_reviewed_seal_intact",
+    "full_input_to_reference_coverage_reviewed",
+    "offline_interactive_executor_and_stop_checks_pass",
+    "isolated_candidate_package_and_profile_verified",
+    "model_route_confirmed_without_extra_paid_probe",
+    "gold_and_rubric_input_exclusion_enforced"
+  ],
+  "runnerStatus": "readiness-recorded-in-external-runner-review",
+  "packageManifest": "evaluations/foundation-citation-offline-runner/package-manifest.json",
+  "candidateInstalled": false,
+  "installedFoundationFrozen": true,
+  "offlineOnly": false,
+  "samplesPreviouslyExposed": true,
+  "caseFailureEndsRound": true,
+  "gatePrerequisite": {
+    "required": true,
+    "executions": 0,
+    "authorizationReusable": false,
+    "runId": "ec03bffb-e8d9-4f1d-97b7-67ddf8494a5c",
+    "runnerIdentity": "b9db8073bda6e09ac84e44bd060760c985fe72455292d07d683479a368a3ebcc",
+    "realCliSha256": "5c1b55966bf9f757dcbf00065c9a6cb862ead55d34b015f1be1939ff18e43943",
+    "evidencePath": "docs/evidence/foundation-citation-gate-live-20261029.json",
+    "evidenceSha256": "9be174966c461d0e64ad3b65f99f4075f91eaa0b9f789cea9b97c8767f09bf21",
+    "reviewPath": "docs/evidence/foundation-citation-gate-live-review-20261029.json",
+    "reviewSha256": "761c0a8066bae93f71e0796677dc0cb0a463f6db6adfd40a0342cb4ce5672e9c",
+    "localEvidence": [
+      {
+        "sha256": "99536c35c636725dcb374c2c1d4a92dcd895378cf38473816a2c1ef23a3e21b7",
+        "kind": "summary",
+        "path": "../foundation-marker-runs-20261029/citation-gate-live-ec03bffb/summary.json"
+      },
+      {
+        "sha256": "3eee8a31be35eeca5e30eab9acc46f5a9b3cf07a2193aac14a216cd7cd1a6c95",
+        "kind": "state",
+        "path": "../foundation-marker-runs-20261029/citation-gate-live-ec03bffb/final-state.json"
+      },
+      {
+        "sha256": "07ba5a543dcb483ce51629130cea43776fa89323202da2f93c8d2547a9334f28",
+        "kind": "decision",
+        "path": "../foundation-marker-runs-20261029/citation-gate-live-ec03bffb/checkpoints/G01-muju--protocol-gate/decision.json"
+      },
+      {
+        "sha256": "8fe7c3a44b5e7fd8a59b4aadd8df31c6f1f077cb96882338fcbfa2029af724d1",
+        "kind": "authorization",
+        "path": "../foundation-citation-gate-live-control-20261029-ec03bffb/authorization.json"
+      },
+      {
+        "sha256": "95cab74ee6e5e3c5274e63091733bd106dcb1a5ba8b31e5b0b9e48513059236b",
+        "kind": "consumption",
+        "path": "../foundation-citation-gate-live-control-20261029-ec03bffb/authorization.json.consumed.json"
+      },
+      {
+        "sha256": "73b44b39f823185ef27f2bb3fcedafece39f0f96a2fd9025ad006198ea182d05",
+        "kind": "closure",
+        "path": "../foundation-citation-gate-live-control-20261029-ec03bffb/round-closed.json"
+      }
+    ]
+  },
+  "preparationStatus": "see-preparation-evidence",
+  "budgetStatus": "proposal-only-new-user-approval-required",
+  "samplesParticipatedOfflineRegression": true,
+  "freshBlindEvaluation": false,
+  "humanParticipationRequired": true,
+  "targetBranchPolicy": {
+    "noTrigger": "not-covered",
+    "noAutomaticExtraRound": true,
+    "naturalTriggerOnly": true,
+    "requiredForMarkerRevisionClaim": "F05-revision-human-confirmation-and-explicit-recheck",
+    "boundedCollisionClaimRequires": "old-and-new-bounded-records-on-same-base-basis",
+    "separateFromSixCaseCompletion": true
+  },
+  "sourceCodeCommit": "4e79390466c9c033d35302a9aa7946cb31e7a0d3",
+  "citationFieldCoverage": {
+    "naturalTriggerOnly": true,
+    "case": "F03-botang-notice",
+    "modelCitationRequired": "explicit field:title",
+    "validBindingRequired": true,
+    "bodyOnlyAllowed": true,
+    "notObserved": "not-covered",
+    "noForcedCitationOrExtraCalls": true,
+    "separateFromBusinessOutcome": true,
+    "stageBoundToUnchangedDraft": true
+  },
+  "acceptanceDecision": {
+    "sixCasePass": "Two fixed invalid drafts blocked unchanged; four generated tasks independently qualified and accepted by the human; all required stages and known usage within the original limits",
+    "targetCoverage": "Title citations, human rechecks, revision and restart reported separately; no natural trigger is not-covered",
+    "release": "This evaluation does not authorize installation or publication",
+    "failure": "First terminal case failure ends the round; no automatic extra round"
+  },
+  "windowIncludes": [
+    "all model requests",
+    "human expression confirmation and explicit recheck",
+    "independent content review",
+    "revision and two cold restarts",
+    "final human acceptance"
+  ]
+}

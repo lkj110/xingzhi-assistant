@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-29T09:55:34.396Z",
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/recheck_protocol_review",
+  "baseCommit": "30437a8becdf740620b84a5598bec8fb6bab2da1",
+  "sourceCodeCommit": "4e79390466c9c033d35302a9aa7946cb31e7a0d3",
+  "runnerIdentity": "e77c8aba830ca1fe6cc34aebf7d26337fa6d505347468e4552b44f989d4c4136",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "candidateAsarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+  "approvedForUserReview": true,
+  "approvedForLiveReadiness": true,
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "newUserApprovalRequired": true,
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "newBusinessLifecycleExecutions": 0,
+  "productCodeChanged": false,
+  "candidateInstalled": false,
+  "installedBaseFrozen": true,
+  "priorAuthorizationReusable": false,
+  "unresolvedFindings": [],
+  "approvalMeaning": "Ready to present this exact proposal for new explicit user budget approval. This review does not authorize real calls, installation, release or formal evaluation.",
+  "independentReviewPath": "docs/evidence/foundation-citation-business-review-20261029.json",
+  "independentReviewSha256": "4921a29354573fd932fbb1096e1dc57df16767618bef6e1da74f73dfef7ab261",
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-citation-business-preparation-20261029.json",
+      "sha256": "c13f795eaf59704f6de92442156d1fb5e7da25adbd44b9caa7616420e2281643"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/budget.cjs",
+      "sha256": "a504ea75746f1a696fbf427a8a80854be41f8a376cf2632691d68bd00603ee26"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/coverage.cjs",
+      "sha256": "6f7a2ac8e53056091a4a83a4d32af06754eb1a4692689ba7c5d31866d0bb4b2b"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/handoff-proof.cjs",
+      "sha256": "61eb35ff25581debede7ae8ebb0ee05915a8c89a39f90c406ff87fcdfe340811"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/identity.cjs",
+      "sha256": "19eced14754d40ed576ac7fcc5249591c965d0e3c1e10fe2c7573ca4032262e5"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/integration.cjs",
+      "sha256": "e28ca1d7d42f9c7543153e81fa9ac52ecade30b806cce6cdf153c3d62b90b13e"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/plan.json",
+      "sha256": "495fa7c504168d0d85826a3af49a92a1a4f99c9428927b237dc49ed6fd02da80"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/report.cjs",
+      "sha256": "dec0382b2b645ecc3cd43abe08194cd7542afcd03e7430c438e1e60c0a282c6f"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/restart-proof.cjs",
+      "sha256": "85e3bcd23631ac627d13d3658d2ac266c6b6d1146b18c98a379968af1025684a"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/run.cjs",
+      "sha256": "a8cbf77aae631f6c24bad8f16023d76ca852865a89ec63d7c55f91d5b3810334"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/runner-seal.json",
+      "sha256": "a91117b6fedd21d6d31b02d20f1eb6637a6dad4a03b98256ac10765af9beef1f"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/runner.test.cjs",
+      "sha256": "7d7785593b7c8d0ecd8e37a4d69d7897d7c276c0a740f04be0ecb4c984380abc"
+    }
+  ],
+  "evidence": {
+    "reviewer-freeze-before.json": "bcecae0493255b258b286b2472540b425d831e57e2e7899e63f5845cb9baa394",
+    "reviewer-freeze-after.json": "81e05b4d605b89493281bbbc1287024d4dc0ebfa0dbb29e9213f4eb758185d55",
+    "reviewer-reuse-and-budget.json": "b47171138b41fddc52f3f5356ff0ec1a654c984483f0a48b8f76881a51ce4228",
+    "reviewer-final-report-probe.json": "4117a790230d395e3670300fd417442966f0dcf7e9a09ed4998f90aee91e6d5c",
+    "reviewer-final-validation.json": "bef5a6d02d779140fd3924d6f95925f04b186d293ceb4d53744295ce54ec00ea",
+    "unit-02.log": "ab787f724a857662ada5d4f923eddb09dd15c8cefcccc4a37ab51d2733cf390c"
+  },
+  "offlineTestsPassed": true,
+  "unitTestsPassed": 20,
+  "independentCoverageProbesPassed": 15,
+  "historicalSixCaseAndFiveStopScenariosReused": true,
+  "fullCandidatePackageVerified": true,
+  "oldGateBudgetReusable": false,
+  "protocolExecutionsAuthorized": 0,
+  "budgetProposal": {
+    "applicationAttempts": 40,
+    "maximumModelDispatches": 34,
+    "inputOutputStopThreshold": 1000000,
+    "fixedWindowMinutes": 45,
+    "serverEnforcedCap": false,
+    "inFlightMayExceedThreshold": true
+  },
+  "businessAcceptanceNotRunThisPreparation": true,
+  "formalEvaluationAuthorized": false,
+  "installationAuthorized": false
+}

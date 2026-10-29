@@ -1,0 +1,326 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-29T09:55:34.396Z",
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/recheck_protocol_review",
+  "baseCommit": "30437a8becdf740620b84a5598bec8fb6bab2da1",
+  "sourceCodeCommit": "4e79390466c9c033d35302a9aa7946cb31e7a0d3",
+  "runnerIdentity": "e77c8aba830ca1fe6cc34aebf7d26337fa6d505347468e4552b44f989d4c4136",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "candidateAsarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+  "approvedForUserReview": true,
+  "approvedForLiveReadiness": true,
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "newUserApprovalRequired": true,
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "newBusinessLifecycleExecutions": 0,
+  "productCodeChanged": false,
+  "candidateInstalled": false,
+  "installedBaseFrozen": true,
+  "priorAuthorizationReusable": false,
+  "unresolvedFindings": [],
+  "kind": "independent-offline-business-preparation-review",
+  "approvedForUpload": true,
+  "approvalMeaning": "Ready to present this exact proposal for new explicit user budget approval. This review does not authorize real calls, installation, release or formal evaluation.",
+  "scope": "Six previously exposed sealed business regressions on the unchanged citation candidate; no repeat protocol gate.",
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-citation-business-preparation-20261029.json",
+      "sha256": "c13f795eaf59704f6de92442156d1fb5e7da25adbd44b9caa7616420e2281643"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/budget.cjs",
+      "sha256": "a504ea75746f1a696fbf427a8a80854be41f8a376cf2632691d68bd00603ee26"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/coverage.cjs",
+      "sha256": "6f7a2ac8e53056091a4a83a4d32af06754eb1a4692689ba7c5d31866d0bb4b2b"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/handoff-proof.cjs",
+      "sha256": "61eb35ff25581debede7ae8ebb0ee05915a8c89a39f90c406ff87fcdfe340811"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/identity.cjs",
+      "sha256": "19eced14754d40ed576ac7fcc5249591c965d0e3c1e10fe2c7573ca4032262e5"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/integration.cjs",
+      "sha256": "e28ca1d7d42f9c7543153e81fa9ac52ecade30b806cce6cdf153c3d62b90b13e"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/plan.json",
+      "sha256": "495fa7c504168d0d85826a3af49a92a1a4f99c9428927b237dc49ed6fd02da80"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/report.cjs",
+      "sha256": "dec0382b2b645ecc3cd43abe08194cd7542afcd03e7430c438e1e60c0a282c6f"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/restart-proof.cjs",
+      "sha256": "85e3bcd23631ac627d13d3658d2ac266c6b6d1146b18c98a379968af1025684a"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/run.cjs",
+      "sha256": "a8cbf77aae631f6c24bad8f16023d76ca852865a89ec63d7c55f91d5b3810334"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/runner-seal.json",
+      "sha256": "a91117b6fedd21d6d31b02d20f1eb6637a6dad4a03b98256ac10765af9beef1f"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/runner.test.cjs",
+      "sha256": "7d7785593b7c8d0ecd8e37a4d69d7897d7c276c0a740f04be0ecb4c984380abc"
+    }
+  ],
+  "evidence": {
+    "reviewer-freeze-before.json": "bcecae0493255b258b286b2472540b425d831e57e2e7899e63f5845cb9baa394",
+    "reviewer-freeze-after.json": "81e05b4d605b89493281bbbc1287024d4dc0ebfa0dbb29e9213f4eb758185d55",
+    "reviewer-reuse-and-budget.json": "b47171138b41fddc52f3f5356ff0ec1a654c984483f0a48b8f76881a51ce4228",
+    "reviewer-final-report-probe.json": "4117a790230d395e3670300fd417442966f0dcf7e9a09ed4998f90aee91e6d5c",
+    "reviewer-final-validation.json": "bef5a6d02d779140fd3924d6f95925f04b186d293ceb4d53744295ce54ec00ea",
+    "unit-02.log": "ab787f724a857662ada5d4f923eddb09dd15c8cefcccc4a37ab51d2733cf390c"
+  },
+  "gatePrerequisite": {
+    "runId": "ec03bffb-e8d9-4f1d-97b7-67ddf8494a5c",
+    "evidenceSha256": "9be174966c461d0e64ad3b65f99f4075f91eaa0b9f789cea9b97c8767f09bf21",
+    "reviewSha256": "761c0a8066bae93f71e0796677dc0cb0a463f6db6adfd40a0342cb4ce5672e9c",
+    "executions": 0,
+    "authorizationReusable": false,
+    "passed": true,
+    "sameCandidateVerified": true,
+    "publicIndependentReviewVerified": true,
+    "rawSummaryStateDecisionVerified": true,
+    "consumptionAndClosureVerified": true,
+    "oldBudgetClosed": true,
+    "newGateExecutions": 0
+  },
+  "offlineValidation": {
+    "newUnitTests": {
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0
+    },
+    "independentCoverageProbes": 15,
+    "fullCandidatePackageVerified": true,
+    "executionEquivalence": "run.cjs equals the reviewed citation offline executor after removing exactly its offline-only entry guard; integration.cjs is byte-identical.",
+    "sharedLogicUnchanged": [
+      "broker",
+      "ledger",
+      "phases",
+      "transport",
+      "handoff-proof",
+      "restart-proof",
+      "budget",
+      "business quality metrics"
+    ],
+    "historicalEvidenceReused": {
+      "sourceRunnerIdentity": "afab7fd0e7a67cb09836987a05afef58996f2b676dbaa41b2d187560aa334ff7",
+      "sourceMatrixSha256": "0d3f9e5a512ff81070d1a0ec5d05973e449441052461177bbe7fe33516227571",
+      "sourceCompleteSummarySha256": "1043086ad3a0e2b40ec30c36d94c340e703c3b5925579dd4a8d92692c60c0557",
+      "executionEquivalentExceptOfflineEntryGuard": true,
+      "integrationByteIdentical": true,
+      "budgetHandoffRestartModulesIdentical": true,
+      "businessQualityFunctionsIdentical": true,
+      "sharedBrokerLedgerPhasesTransportUnmodified": true,
+      "scenarios": [
+        {
+          "name": "complete",
+          "summarySha256": "1043086ad3a0e2b40ec30c36d94c340e703c3b5925579dd4a8d92692c60c0557",
+          "applicationAttempts": 29,
+          "oldBusinessReportAndCostUnchanged": true,
+          "citationStageCount": 5,
+          "liveTitleCoverage": false
+        },
+        {
+          "name": "cli-rejection",
+          "summarySha256": "6b08f0727af2c47edae872920fd676e5afe8a92d4d77a7f0142f7a15f36d4757",
+          "applicationAttempts": 6,
+          "oldBusinessReportAndCostUnchanged": true,
+          "citationStageCount": 0,
+          "liveTitleCoverage": false
+        },
+        {
+          "name": "unknown-usage",
+          "summarySha256": "da81e758a615a33999c42fcc5137dd824e5815a30a5764f24d58ec46a6b4c347",
+          "applicationAttempts": 7,
+          "oldBusinessReportAndCostUnchanged": true,
+          "citationStageCount": 1,
+          "liveTitleCoverage": false
+        },
+        {
+          "name": "case-extra-request",
+          "summarySha256": "c9a74ef6ced8ba3b34ef13db11d878cdf5da7d4f08081fb4dbb8eadeb7f83c7e",
+          "applicationAttempts": 3,
+          "oldBusinessReportAndCostUnchanged": true,
+          "citationStageCount": 0,
+          "liveTitleCoverage": false
+        },
+        {
+          "name": "human-timeout",
+          "summarySha256": "3adbb62a69636739d7c3698ac99e2e61939bc2b937ccd2dbfb327de6d7cf8f75",
+          "applicationAttempts": 8,
+          "oldBusinessReportAndCostUnchanged": true,
+          "citationStageCount": 1,
+          "liveTitleCoverage": false
+        },
+        {
+          "name": "malformed-inner",
+          "summarySha256": "beded0e15f6b7d9d07487e9b318085ffc2772d16daf4dd316bf0cab185bcd9d5",
+          "applicationAttempts": 1,
+          "oldBusinessReportAndCostUnchanged": true,
+          "citationStageCount": 0,
+          "liveTitleCoverage": false
+        }
+      ],
+      "completeSixCasesPassed": true,
+      "completeLocalDispatches": 29,
+      "completeCaseDispatches": [
+        2,
+        2,
+        6,
+        4,
+        11,
+        4
+      ],
+      "stopScenarios": 5,
+      "totalHistoricalApplicationAttempts": 54,
+      "totalHistoricalLocalTransports": 53,
+      "newLifecycleRuns": 0,
+      "newRealModelCalls": 0,
+      "finalReporterReparsedScenarios": 6,
+      "businessOutcomeAndCostUnchanged": true
+    },
+    "readinessIsNotRealAcceptance": true
+  },
+  "resolvedReviewPoints": [
+    {
+      "id": "CB-BIZ-OBS-1",
+      "issue": "An unrelated or earlier title citation must not establish current-draft coverage.",
+      "resolution": "Coverage binds the final successful verifier response to the exact saved claim, source, quote, version and unchanged draft; later failures and body-only responses do not count."
+    },
+    {
+      "id": "CB-BIZ-OBS-2",
+      "issue": "Invalid raw title offsets and reused grounding must not count as fresh title validation.",
+      "resolution": "Only omitted or zero raw offsets qualify; reused grounding is excluded; synthetic transport never counts as live coverage."
+    },
+    {
+      "id": "CB-BIZ-OBS-3",
+      "issue": "Malformed claim rows must not crash the coverage observer.",
+      "resolution": "Malformed or null claims fail closed; independent pure probes and the new unit suite passed."
+    }
+  ],
+  "budget": {
+    "proposalOnly": true,
+    "applicationAttempts": 40,
+    "maximumModelDispatches": 34,
+    "inputOutputStopThreshold": 1000000,
+    "fixedWindowMinutes": 45,
+    "method": "For every preceding request assume usage=serializedInputBytes+1024. Fill each unused dispatch slot with its case maximum observed input and reservation. Peak=known assumed prefix+next reservation. This is a conditional audit, not a token forecast or completion guarantee.",
+    "cases": [
+      {
+        "caseId": "F01-huaizhi-approval",
+        "observedDispatches": 2,
+        "maximumDispatches": 2,
+        "conditionalExtendedPeak": 72768,
+        "assumedUsage": 36804,
+        "tokenStopThreshold": 80000,
+        "margin": 7232
+      },
+      {
+        "caseId": "F02-luzhong-version",
+        "observedDispatches": 2,
+        "maximumDispatches": 2,
+        "conditionalExtendedPeak": 73553,
+        "assumedUsage": 37589,
+        "tokenStopThreshold": 80000,
+        "margin": 6447
+      },
+      {
+        "caseId": "F03-botang-notice",
+        "observedDispatches": 6,
+        "maximumDispatches": 6,
+        "conditionalExtendedPeak": 156662,
+        "assumedUsage": 120698,
+        "tokenStopThreshold": 170000,
+        "margin": 13338
+      },
+      {
+        "caseId": "F04-cenwan-direction",
+        "observedDispatches": 4,
+        "maximumDispatches": 6,
+        "conditionalExtendedPeak": 158488,
+        "assumedUsage": 122524,
+        "tokenStopThreshold": 170000,
+        "margin": 11512
+      },
+      {
+        "caseId": "F05-jianping-revision",
+        "observedDispatches": 11,
+        "maximumDispatches": 12,
+        "conditionalExtendedPeak": 301599,
+        "assumedUsage": 265635,
+        "tokenStopThreshold": 330000,
+        "margin": 28401
+      },
+      {
+        "caseId": "F06-yunshu-restart",
+        "observedDispatches": 4,
+        "maximumDispatches": 6,
+        "conditionalExtendedPeak": 157451,
+        "assumedUsage": 121487,
+        "tokenStopThreshold": 170000,
+        "margin": 12549
+      }
+    ],
+    "globalConditionalPeak": 740701,
+    "conditionalUsage": 704737,
+    "globalMargin": 259299,
+    "tokenForecast": false,
+    "guaranteesCompletion": false,
+    "additionalGateCalls": 0,
+    "extraRealAuthorizationRequired": true,
+    "unusedPriorBudgetReusable": false,
+    "windowIncludesHumanActionsAndIndependentReview": true,
+    "windowNeverResets": true,
+    "serverEnforcedCap": false,
+    "inFlightMayExceedThreshold": true
+  },
+  "coverageAndInterpretation": {
+    "samplesPreviouslyExposed": true,
+    "freshBlindEvaluation": false,
+    "sixCaseCompletionSeparateFromTargetCoverage": true,
+    "naturalTitleCitationRequiredForTitleClaim": true,
+    "naturalHumanConfirmationAndExplicitRecheckRequiredForMarkerClaim": true,
+    "revisionStageAndHistoricalBoundedCollisionSeparatelyReported": true,
+    "untriggeredBranches": "not-covered; no forced output or extra calls",
+    "humanAcceptanceCannotBeSubstitutedByReviewerOrScript": true,
+    "qualityMetricsThisPreparation": null,
+    "realBusinessAcceptancePassed": false,
+    "zeroDenominators": "not estimable",
+    "limits": "Historical synthetic runs prove execution and stop behavior only; six exposed business samples cannot establish broad production quality rates."
+  },
+  "unchangedStandards": {
+    "evidenceBinding": true,
+    "semanticVerdicts": true,
+    "acceptanceCriteria": true,
+    "qualityDenominators": true,
+    "productSource": true,
+    "candidatePackage": true,
+    "sealedSamples": true
+  },
+  "frozenState": {
+    "protectedRoots": 47,
+    "trackedFiles": 1134,
+    "allFrozenIdentitiesUnchanged": true,
+    "changedFrozenFiles": [],
+    "unexpectedAdditions": [],
+    "installedBaseUnchanged": true,
+    "oldCandidatesAndRunnersUnchanged": true,
+    "closedGateRunControlAndAuditUnchanged": true,
+    "onlyNewPreparationFilesAdded": true
+  },
+  "conclusion": "Offline preparation is approved for upload and user budget review. A separate matching approval is still required before any real business run; no automatic additional round, installation or formal main evaluation."
+}
