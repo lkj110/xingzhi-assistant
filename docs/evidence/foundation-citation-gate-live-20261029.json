@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "createdAt": "2026-10-29T09:28:00.4197412Z",
+  "kind": "citation-candidate-G01-live-result",
+  "runId": "ec03bffb-e8d9-4f1d-97b7-67ddf8494a5c",
+  "sourceCodeCommit": "4e79390466c9c033d35302a9aa7946cb31e7a0d3",
+  "candidateAsarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+  "runnerIdentity": "b9db8073bda6e09ac84e44bd060760c985fe72455292d07d683479a368a3ebcc",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "result": {
+    "taskStatus": "review",
+    "unknownUsage": 0,
+    "unexpectedAttempts": 0,
+    "actualHumanAcceptances": 0,
+    "formalEvaluationStarted": false,
+    "pendingUsage": 0,
+    "realModelDispatches": 3,
+    "verificationPassed": true,
+    "protocolGatePassed": true,
+    "applicationAttempts": 3,
+    "candidateInstalled": false,
+    "groundingPassed": true,
+    "protocolRejections": 0,
+    "gateId": "G01-muju",
+    "businessCasesStarted": 0
+  },
+  "cost": {
+    "outputTokens": 603,
+    "inputTokens": 38337,
+    "cachedInputTokensIncludedInInput": 7552,
+    "authoritativeUsageComplete": true,
+    "serverEnforcedCap": false,
+    "totalTokens": 38940,
+    "stopThreshold": 120000
+  },
+  "contentReview": {
+    "checkpointIdentity": "304cfef4808b8bc47061e7c8167d092e6f927bb4f30e2e59dc8d1b8409d9c71c",
+    "qualified": true,
+    "hallucinationObserved": false,
+    "interpretation": "Single exposed gate content judgment; not a business quality rate",
+    "approved": true
+  },
+  "coverage": {
+    "explicitTitleCitationObserved": false,
+    "legacyContentCitation": true,
+    "humanConfirmationRecheckRevisionRestartTestedLive": false,
+    "generationAndStrictVerification": true,
+    "F03FailureCaseRetestedLive": false
+  },
+  "qualityMetrics": null,
+  "businessAcceptanceStatus": "not-run",
+  "realBusinessAcceptancePassed": false,
+  "roundClosed": true,
+  "authorizationReusable": false,
+  "unusedBudgetReusable": false,
+  "installedBaseFrozen": true,
+  "freezeReview": {
+    "afterSha256": "6a3d20680a0f1ebff988fd454fa87a41cf11578249863b48893cd183961eec55",
+    "rootsVerified": 44,
+    "sourceFilesVerified": 39
+  },
+  "evidence": {
+    "summarySha256": "99536c35c636725dcb374c2c1d4a92dcd895378cf38473816a2c1ef23a3e21b7",
+    "checkpointDecisionSha256": "07ba5a543dcb483ce51629130cea43776fa89323202da2f93c8d2547a9334f28",
+    "stateSha256": "3eee8a31be35eeca5e30eab9acc46f5a9b3cf07a2193aac14a216cd7cd1a6c95",
+    "authorizationClosureSha256": "73b44b39f823185ef27f2bb3fcedafece39f0f96a2fd9025ad006198ea182d05",
+    "independentPrivateReviewSha256": "f27b18dc713719e8422b1936b421e20eb425246aea41ad0d4183903053ea772a"
+  },
+  "nextStep": "Prepare a separately reviewed six-case business acceptance proposal on this exact candidate; prioritize F03 title citation and real human confirmation/recheck/revision/restart. Do not repeat G01 or reuse this closed budget."
+}

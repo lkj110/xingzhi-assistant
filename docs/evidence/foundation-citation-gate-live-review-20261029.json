@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "at": "2026-10-29T09:29:23.072Z",
+  "reviewer": "/root/recheck_protocol_review",
+  "runId": "ec03bffb-e8d9-4f1d-97b7-67ddf8494a5c",
+  "status": "result-audit-approved-round-closed",
+  "approvedForResultReport": true,
+  "approvedForUpload": true,
+  "protocolGatePassed": true,
+  "realBusinessAcceptancePassed": false,
+  "installationAuthorized": false,
+  "additionalLiveCallsAuthorized": false,
+  "formalEvaluationAuthorized": false,
+  "roundClosed": true,
+  "authorizationReusable": false,
+  "unusedBudgetReusable": false,
+  "sourceCodeCommit": "4e79390466c9c033d35302a9aa7946cb31e7a0d3",
+  "candidateAsarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+  "runnerIdentity": "b9db8073bda6e09ac84e44bd060760c985fe72455292d07d683479a368a3ebcc",
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-citation-gate-live-20261029.json",
+      "sha256": "9be174966c461d0e64ad3b65f99f4075f91eaa0b9f789cea9b97c8767f09bf21"
+    }
+  ],
+  "callAudit": {
+    "applicationAttempts": 3,
+    "modelDispatches": 3,
+    "reviewerModelCalls": 0,
+    "reviewerOfficialCliInvocations": 0,
+    "allOriginalTerminalsAndProviderUsageAndAppCallsMatched": true,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "protocolRejections": 0,
+    "repairOrFallbackCalls": 0,
+    "businessCases": 0,
+    "actualHumanAcceptances": 0
+  },
+  "cost": {
+    "inputTokens": 38337,
+    "outputTokens": 603,
+    "totalTokens": 38940,
+    "cachedInputTokens": 7552,
+    "cachedAlreadyIncludedInInput": true,
+    "usageComplete": true,
+    "priceNotAssessed": true
+  },
+  "content": {
+    "independentlyApproved": true,
+    "qualified": true,
+    "hallucinationObserved": false,
+    "checkpointIdentity": "304cfef4808b8bc47061e7c8167d092e6f927bb4f30e2e59dc8d1b8409d9c71c",
+    "sourceRequirementsAndFinalDraftBindingVerified": true,
+    "finalTaskStatus": "review",
+    "humanAccepted": false
+  },
+  "coverage": {
+    "generationAndStrictVerification": true,
+    "legacyBodyCitation": true,
+    "explicitTitleCitation": false,
+    "F03BusinessRetest": false,
+    "humanConfirmationAndRecheck": false,
+    "revisionAndRestart": false
+  },
+  "qualityRates": null,
+  "qualityReason": "Only the previously exposed G01 protocol gate ran; no business positive/negative denominators or efficacy comparison.",
+  "window": {
+    "startedAt": "2026-10-29T09:22:54.691Z",
+    "originalDeadline": "2026-10-29T10:07:54.691Z",
+    "checkpointReviewedAt": "2026-10-29T09:25:06.157Z",
+    "allDispatchesAndReviewAndSummaryWithinOriginalWindow": true,
+    "reset": false
+  },
+  "freeze": {
+    "rootsVerified": 44,
+    "originalCommitFilesVerified": 39,
+    "frozenFilesRechecked": 3598,
+    "allOldFilesUnchanged": true,
+    "installedAndOldCandidatesUnchanged": true,
+    "beforeSha256": "6fe343ceaeb93f04b34d6a049116fe27bdf4aad86d54a8968e65109f5139badb",
+    "afterSha256": "6a3d20680a0f1ebff988fd454fa87a41cf11578249863b48893cd183961eec55",
+    "onlyNewReportAndThisReviewAddedAfterFreeze": true
+  },
+  "evidence": {
+    "summarySha256": "99536c35c636725dcb374c2c1d4a92dcd895378cf38473816a2c1ef23a3e21b7",
+    "stateSha256": "3eee8a31be35eeca5e30eab9acc46f5a9b3cf07a2193aac14a216cd7cd1a6c95",
+    "checkpointDecisionSha256": "07ba5a543dcb483ce51629130cea43776fa89323202da2f93c8d2547a9334f28",
+    "authorizationClosureSha256": "73b44b39f823185ef27f2bb3fcedafece39f0f96a2fd9025ad006198ea182d05",
+    "independentPrivateReviewSha256": "f27b18dc713719e8422b1936b421e20eb425246aea41ad0d4183903053ea772a",
+    "ledgerSha256": "ffd4c139d991ae82bcd851e6f78e484e4f0ffd566fddc37c51d66390b1f266f4",
+    "authorizationSha256": "8fe7c3a44b5e7fd8a59b4aadd8df31c6f1f077cb96882338fcbfa2029af724d1",
+    "consumedAuthorizationSha256": "95cab74ee6e5e3c5274e63091733bd106dcb1a5ba8b31e5b0b9e48513059236b",
+    "checkpointRequestSha256": "21c62a632ca637065f06d3d4de7afda47c52074759e788c25d8886f000780e40"
+  },
+  "unresolvedFindings": [],
+  "nextStepBoundary": "A separately prepared and independently reviewed business-acceptance proposal may be presented for new user approval. This closed G01 budget cannot be reused, and no further calls or installation are authorized.",
+  "conclusion": "The new candidate passed its single protocol gate with complete authoritative usage and independent content review. This does not prove the title-citation repair or full business lifecycle in real model use."
+}
