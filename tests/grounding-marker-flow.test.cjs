@@ -6,6 +6,7 @@ const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {Assistant}=require('../desktop/core.cjs'),grounding=require('../desktop/grounding.cjs');
 const marker=require('../desktop/marker-confirmation.cjs'),acceptance=require('../desktop/acceptance.cjs');
 const control=require('../desktop/execution-control.cjs'),facts=require('../desktop/execution-facts.cjs');
+const generationCall=require('../desktop/generation-context.cjs').call;
 const notice='仅当东门关闭时，请在西门集合；其他情况仍在东门。';
 const input='当日安排：仅当东门关闭时，集合地点改到西门；其他情况仍在东门。本通知只说明已有安排，尚未执行。';
 
@@ -31,15 +32,97 @@ function fixture(t,{linked=false,noticeCount=1}={}){
  });
  a.save();return state;
 }
-function checked(f,{assistant=f.a,task=f.task,phase='result'}={}){
+function checked(f,{assistant=f.a,task=f.task,phase='result',raw=false}={}){
  const s=grounding.snapshot(assistant,task),seen=new Set();
  grounding.observe(seen,{artifacts:[f.draft],contextReads:[{result:{sourceId:f.source.id,version:s.sources[0].version,content:f.source.content}}]});
  grounding.observe(seen,grounding.context(assistant,task,{},'verify'));
  const claims=f.claimTexts.map((text,i)=>({id:f.claimIds?.[i]||'p'+(i+1),artifactId:f.draft.id,text,kind:'proposal',supported:true,citationIds:['e1']}));
- return grounding.finish(assistant,task,{passed:true,summary:'OFFLINE: independent verifier supports the bound notice',gaps:[],groundingReview:{format:'compact-v3',scannedArtifactIds:[f.draft.id],citations:[{id:'e1',sourceId:f.source.id,quote:f.source.content,start:0}],requirements:s.requirements.map(r=>({id:r.id,status:'satisfied',claimIds:claims.map(c=>c.id)})),claims,unsupportedClaims:[],conflicts:[]}},{seen,phase});
+ const result={passed:true,summary:'OFFLINE: independent verifier supports the bound notice',gaps:[],groundingReview:{format:'compact-v3',scannedArtifactIds:[f.draft.id],citations:[{id:'e1',sourceId:f.source.id,quote:f.source.content,start:0}],requirements:s.requirements.map(r=>({id:r.id,status:'satisfied',claimIds:claims.map(c=>c.id)})),claims,unsupportedClaims:[],conflicts:[]}};
+ return raw?result:grounding.finish(assistant,task,result,{seen,phase});
 }
 const command=(f,action)=>f.a.dispatch('uiCommand',{action,input:{id:f.task.id,expectedReportHash:f.task.grounding.reportHash}});
 async function confirmAndRecheck(f){await command(f,'confirmGroundingMarkers');await command(f,'recheckGroundingMarkers');await f.a.runPromise;}
+
+test('consumed bounded verdict receives one distinct confirmed check, preserving both histories',async t=>{
+ const f=fixture(t);t.mock.restoreAll();t.mock.method(require('../desktop/generation-context.cjs'),'call',generationCall);let calls=0,finals=0;
+ f.a.call=async(_role,system)=>{
+  calls++;assert.ok(calls<15);
+  if(system.includes('本轮改为形成检查结论')){finals++;return checked(f,{raw:true});}
+  return {kind:'read_context',requests:[{tool:'read_source',sourceId:f.source.id}]};
+ };
+ await f.a.advance(f.task.id);assert.equal(f.task.status,'waiting',f.task.lastError);assert.equal(finals,1);
+ const old=structuredClone(f.task.contextFinalizations);await confirmAndRecheck(f);
+ assert.equal(f.task.status,'review',f.task.lastError);assert.equal(finals,2);assert.equal(f.task.acceptedAt,undefined);
+ assert.equal(Object.keys(f.task.contextFinalizations).length,2);
+ for(const [key,record]of Object.entries(old))assert.deepEqual(f.task.contextFinalizations[key],record);
+ const [authorization]=Object.values(f.task.markerRechecks);assert.equal(authorization.status,'finished');
+ const latest=Object.values(f.task.contextFinalizations).find(r=>r.basis.markerRecheck);assert.equal(latest.basis.markerRecheck,authorization.id);
+ assert.notEqual(latest.semanticCheckId,Object.values(old)[0].semanticCheckId);
+});
+
+test('uncertain recheck without bounded record is persisted, concurrent click and cold replay cannot renew it',async t=>{
+ const f=fixture(t);await f.a.advance(f.task.id);await command(f,'confirmGroundingMarkers');
+ const snapshot=structuredClone({grounding:f.task.grounding,verification:f.task.verification,markerReviewHold:f.task.markerReviewHold});
+ let release;const blocked=new Promise(resolve=>{release=resolve;});
+ t.mock.method(require('../desktop/generation-context.cjs'),'call',async()=>{
+  f.checks++;const saved=JSON.parse(fs.readFileSync(f.a.file)).tasks.find(t=>t.id===f.task.id);
+  assert.equal(Object.values(saved.markerRechecks)[0].status,'started');await blocked;throw Error('OFFLINE uncertain result');
+ });
+ await command(f,'recheckGroundingMarkers');await assert.rejects(command(f,'recheckGroundingMarkers'),/正在推进|已登记/);release();await f.a.runPromise;
+ assert.equal(f.checks,2);assert.equal(f.task.contextFinalizations,undefined);
+ Object.assign(f.task,snapshot,{status:'waiting'});f.a.save();
+ const cold=new Assistant({dir:f.dir,chat:f.prohibited});f.assistants.push(cold);const resumed={...f,a:cold,task:cold.task(f.task.id)};
+ await command(resumed,'confirmGroundingMarkers');await assert.rejects(command(resumed,'recheckGroundingMarkers'),/已登记/);
+ assert.equal(f.checks,2);assert.equal(Object.keys(resumed.task.markerRechecks).length,1);
+});
+
+test('save failure consumes in memory without starting a check',async t=>{
+ const f=fixture(t);await f.a.advance(f.task.id);await command(f,'confirmGroundingMarkers');
+ const save=t.mock.method(f.a,'save',()=>{throw Error('OFFLINE disk unavailable');});
+ await assert.rejects(command(f,'recheckGroundingMarkers'),/disk unavailable/);save.mock.restore();
+ await new Promise(resolve=>setImmediate(resolve));assert.equal(f.checks,1);assert.equal(f.a.executions.size,0);
+ await assert.rejects(command(f,'recheckGroundingMarkers'),/已登记/);
+});
+
+test('launch save failure leaves durable consumption and aborts its queued callback across restart',async t=>{
+ const f=fixture(t);await f.a.advance(f.task.id);await command(f,'confirmGroundingMarkers');
+ const original=f.a.save;let writes=0;
+ const save=t.mock.method(f.a,'save',function(){if(++writes===2)throw Error('OFFLINE launch save failed');return original.call(this);});
+ await assert.rejects(command(f,'recheckGroundingMarkers'),/launch save failed/);await new Promise(resolve=>setImmediate(resolve));save.mock.restore();
+ assert.equal(f.checks,1);assert.equal(f.a.executions.size,0);
+ const cold=new Assistant({dir:f.dir,chat:f.prohibited});f.assistants.push(cold);const resumed={...f,a:cold,task:cold.task(f.task.id)};
+ assert.equal(Object.values(resumed.task.markerRechecks)[0].status,'started');
+ await assert.rejects(command(resumed,'recheckGroundingMarkers'),/已登记/);assert.equal(f.checks,1);
+});
+
+test('successful direct verdict still consumes authorization without requiring bounded-finalization history',async t=>{
+ const f=fixture(t);await f.a.advance(f.task.id);await command(f,'confirmGroundingMarkers');
+ const waiting=structuredClone({grounding:f.task.grounding,verification:f.task.verification,markerReviewHold:f.task.markerReviewHold});
+ await command(f,'recheckGroundingMarkers');await f.a.runPromise;
+ assert.equal(f.task.verification.passed,true);assert.equal(f.task.contextFinalizations,undefined);assert.equal(Object.values(f.task.markerRechecks)[0].status,'finished');
+ Object.assign(f.task,waiting,{status:'waiting'});f.a.save();
+ await assert.rejects(command(f,'recheckGroundingMarkers'),/已登记/);assert.equal(f.checks,2);
+});
+
+for(const [name,mutate]of Object.entries({draft:f=>{f.draft.content+='新增';},source:f=>{f.source.content+='新增';},criteria:f=>{f.task.criteria+='新增';},report:f=>{f.task.grounding.summary='篡改';},confirmation:f=>{f.task.groundingMarkerConfirmation.actor='model';}}))test('stale or forged '+name+' cannot authorize a fresh check',async t=>{
+ const f=fixture(t);await f.a.advance(f.task.id);await command(f,'confirmGroundingMarkers');mutate(f);
+ await assert.rejects(command(f,'recheckGroundingMarkers'));assert.equal(f.checks,1);assert.equal(f.task.markerRechecks,undefined);
+});
+
+test('one explicit check rejects generation reentry and retains opaque legacy protection',async t=>{
+ const f=fixture(t);await f.a.advance(f.task.id);await command(f,'confirmGroundingMarkers');
+ t.mock.restoreAll();t.mock.method(require('../desktop/generation-context.cjs'),'call',generationCall);let calls=0;
+ f.a.call=async()=>{calls++;return {retryFull:true};};
+ t.mock.method(f.a,'advance',async function(){
+  const generation=require('../desktop/generation-context.cjs'),context=this.context(f.task,{verification:true});
+  assert.deepEqual(await generation.call(this,f.task,'',context,'verify'),{retryFull:true});
+  await assert.rejects(generation.call(this,f.task,'',context,'verify'),/重放/);
+ });
+ await command(f,'recheckGroundingMarkers');await f.a.runPromise;assert.equal(calls,1,JSON.stringify(f.a.data.events.slice(-3)));
+ const g=fixture(t);await g.a.advance(g.task.id);await command(g,'confirmGroundingMarkers');g.task.contextFinalizations={old:{status:'returned'}};
+ t.mock.restoreAll();t.mock.method(require('../desktop/generation-context.cjs'),'call',generationCall);let blockedCalls=0;g.a.call=async()=>{blockedCalls++;return checked(g,{raw:true});};
+ await command(g,'recheckGroundingMarkers');await g.a.runPromise;assert.equal(blockedCalls,0);assert.match(g.task.lastError,/身份不明/);
+});
 
 test('result check enters explicit waiting without passed cache or automatic acceptance',async t=>{
  const f=fixture(t),original=f.draft.content;await f.a.advance(f.task.id);

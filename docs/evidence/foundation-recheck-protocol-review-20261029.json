@@ -1,0 +1,337 @@
+{
+  "schema": 1,
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/recheck_protocol_review",
+  "date": "2026-10-29",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "runnerIdentity": "5265a349c04b0cdcf6af099cd1770f8ffd9d40caaf180c87ce6a5dc554271f13",
+  "candidateAsarSha256": "982717eb093bf7606804abc88f17a45ecd0a6b32b6337e7b185638c6109016a3",
+  "approvedForUpload": true,
+  "uploadScope": "Three-module offline recheck protocol patch, related regression test, separate candidate preparation script, offline-only six-case runner, and exact reviewed documentation/evidence",
+  "approvedForLiveReadiness": false,
+  "liveAuthorized": false,
+  "approvedForInstall": false,
+  "approvedForRelease": false,
+  "realModelCalls": 0,
+  "officialCliProbes": 0,
+  "actualHumanAcceptances": 0,
+  "readiness": "offline-regression-passed; changed candidate has no live gate or business acceptance",
+  "remainingFindings": [],
+  "reviewedFiles": [
+    {
+      "path": "desktop/check-finalization.cjs",
+      "sha256": "7fa72a76caf303da18f6efacc9a557d72240a53c297bdde29b53333a4d224a07"
+    },
+    {
+      "path": "desktop/generation-context.cjs",
+      "sha256": "3354b18b0251973ff695c867aefce2c0a802e000244d22557366244da381425b"
+    },
+    {
+      "path": "desktop/marker-confirmation.cjs",
+      "sha256": "938765d5328bdfacbde8d219989c1077ed1e5f8837dd25abfe8b2e1f5fe26688"
+    },
+    {
+      "path": "docs/FOUNDATION_RECHECK_PROTOCOL_20261029.md",
+      "sha256": "4ebc0664d7515231da512e482ef250a8eb07efbd3915656f6c8407d0317df4fa"
+    },
+    {
+      "path": "docs/evidence/foundation-recheck-protocol-20261029.json",
+      "sha256": "cffc9683fd6004b0f4d078a1c1147438921198342ae04ea92f35d25c5fa44bb4"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/identity.cjs",
+      "sha256": "ed917699e8ff10f1cc973644feb5b2ed4b25636cb961f5d1c8f1d6effdef32df"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/integration.cjs",
+      "sha256": "6c26e2eb55456207aafa2ce41fc8b5d0e113fed8f10ae1ad2c2ade62d9fdddd8"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/package-manifest.json",
+      "sha256": "694b6a597889f35bc85b24a73d9d1fcbd56b3fe75d8fe97e6ca1262403eb2804"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/plan.json",
+      "sha256": "f0c7804328c94a2a8ec5394881f3c64c5b8091a4b1524a3a727643764737e9c8"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/run.cjs",
+      "sha256": "95919fda5d69c2c99a292f2d08acb4cfe05d52dafae7856bf2686ae59dac197a"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/runner-seal.json",
+      "sha256": "da19206bba6c136a257cd0bc9afdba6fcaf8b592109933af6c316bbee94184a0"
+    },
+    {
+      "path": "scripts/prepare-recheck-candidate.cjs",
+      "sha256": "fb041dd3cb7f4f4a535c04dca11118f33aca3dcb0494c088c34c78888415cd83"
+    },
+    {
+      "path": "tests/grounding-marker-flow.test.cjs",
+      "sha256": "a9957779cdb636d792928f95d2b5956dc926aadd309febc10bf7e204e7493f6a"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/runner-review.json",
+      "sha256": "142bae1223f9551d6e0c0ca63ff0f6b7aeb315d0d6461e4dd384e338e948faaa"
+    }
+  ],
+  "privateEvidence": [
+    {
+      "path": "../foundation-recheck-audit-20261029/reviewer-freeze-before.json",
+      "sha256": "f951ef0b8b53104217d3077f4bdc94d120f0a3aef2bcd33cd890bb2a247a7c3c"
+    },
+    {
+      "path": "../foundation-recheck-audit-20261029/reviewer-freeze-after.json",
+      "sha256": "412b82ba675830f0d95d6e07748bfc65358442a37a04e48e2d839f11ae460312"
+    },
+    {
+      "path": "../foundation-recheck-audit-20261029/reviewer-package.json",
+      "sha256": "35da2bea6fb0b714a648532cdbd59a37b5a994443befba687eba442fdfef66f4"
+    },
+    {
+      "path": "../foundation-recheck-audit-20261029/reviewer-results.json",
+      "sha256": "eef7323d606c8ca2187677552185b8605019cd2c9414f303f807080609a90222"
+    },
+    {
+      "path": "../foundation-recheck-audit-20261029/unit-regression.tap",
+      "sha256": "3acdc65d33bf1752d6541bbbd4b4dd1c4509c5b2025c5fbbf141c605c77145c3"
+    }
+  ],
+  "reviewMethod": "Independent source/diff review, complete candidate archive and outer-file hash comparison, independent reconciliation of preserved case/ledger/terminal evidence; no model or official CLI invocation",
+  "resolvedReviewRecommendations": [
+    {
+      "id": "STARTUP-SAVE-WINDOW",
+      "resolution": "Regression proves consumption is durable before launch, second save failure aborts queued callback, and cold replay adds no check."
+    },
+    {
+      "id": "DIRECT-VERDICT-CONSUMPTION",
+      "resolution": "Separate successful direct-verdict and uncertain-result tests prove durable replay protection without bounded-finalization records."
+    },
+    {
+      "id": "FINISHED-IS-NOT-PASSED",
+      "resolution": "Public documentation states finished marks lifecycle termination only; verdict remains determined by verification and grounding."
+    }
+  ],
+  "protocolAssessment": {
+    "trustedUiCommandRequired": true,
+    "currentTaskPhaseEvidenceReportAndConfirmationBound": true,
+    "durableConsumptionBeforeLaunch": true,
+    "oneRuntimeCheckLifecycle": true,
+    "readContinuationRetainsIdentity": true,
+    "reentryAndColdReplayRejected": true,
+    "staleAndForgedConfirmationRejected": true,
+    "oldBoundedRecordsPreserved": true,
+    "opaqueLegacyRecordsRemainFailClosed": true,
+    "evidenceAndSemanticStandardsUnchanged": true,
+    "manualFinalAcceptanceRequired": true,
+    "newAuthorizationAbsentFromModelTaskContext": true
+  },
+  "validation": {
+    "unitEvidenceReviewed": {
+      "passed": 89,
+      "total": 89,
+      "failed": 0,
+      "skipped": 0,
+      "independentlyRerun": false,
+      "evidenceSha256": "3acdc65d33bf1752d6541bbbd4b4dd1c4509c5b2025c5fbbf141c605c77145c3"
+    },
+    "sixCaseFullLifecycle": {
+      "passed": 6,
+      "total": 6,
+      "applicationAttempts": 29,
+      "syntheticTransportExecutions": 29,
+      "perCaseAttempts": [
+        2,
+        2,
+        6,
+        4,
+        11,
+        4
+      ],
+      "simulatedFinalAcceptances": 4,
+      "actualHumanAcceptances": 0,
+      "markerHandoffs": 3,
+      "coldRestarts": 2,
+      "cases": [
+        {
+          "caseId": "F01-huaizhi-approval",
+          "applicationAttempts": 2,
+          "technicalPassed": true,
+          "semanticMetricsApplicable": false,
+          "resultSha256": "53c3120be712989138d6d009bdd1abcd521527b9a966fbe0ed80e9cee573789b"
+        },
+        {
+          "caseId": "F02-luzhong-version",
+          "applicationAttempts": 2,
+          "technicalPassed": true,
+          "semanticMetricsApplicable": false,
+          "resultSha256": "57ee698dcced3e85c5ed40445b7a6694da60a56dcdb4f6f297d63e498f306709"
+        },
+        {
+          "caseId": "F03-botang-notice",
+          "applicationAttempts": 6,
+          "technicalPassed": true,
+          "semanticMetricsApplicable": false,
+          "resultSha256": "a05cd9bc713d4fff89038393114ee279407f46e0b2bbb95a4c7ffdd15d2af3e5"
+        },
+        {
+          "caseId": "F04-cenwan-direction",
+          "applicationAttempts": 4,
+          "technicalPassed": true,
+          "semanticMetricsApplicable": false,
+          "resultSha256": "7eab453126097e95728d2e87b9022bed41acd999126fe0ad22582ecd6a138367"
+        },
+        {
+          "caseId": "F05-jianping-revision",
+          "applicationAttempts": 11,
+          "technicalPassed": true,
+          "semanticMetricsApplicable": false,
+          "resultSha256": "3a90813440c30d3e83f66ec6a9f8b2a846526f2ef53b43b4104d4e216c33ddae"
+        },
+        {
+          "caseId": "F06-yunshu-restart",
+          "applicationAttempts": 4,
+          "technicalPassed": true,
+          "semanticMetricsApplicable": false,
+          "resultSha256": "b4c28ee859e9474482ce90a5372b6411e54a0018d6bafe3fa4242bb80097a52d"
+        }
+      ]
+    },
+    "f05": {
+      "oldRevisionBoundedRecordPreserved": true,
+      "sameUnderlyingBasis": true,
+      "distinctSemanticIds": true,
+      "oneUseAuthorizations": 2,
+      "boundedRecords": 3,
+      "oldSemanticCheckId": "aa6852b7aef062c2dd04ac99caeb1166e3bc76c5fcfd31c396c1e0931435ea77",
+      "newSemanticCheckId": "9f69d27cbc1409272f97656e9553196f03c95d614f5478c9b1af7bf5560f0869"
+    },
+    "stopGuards": {
+      "passed": 5,
+      "total": 5,
+      "applicationAttempts": 25,
+      "syntheticTransportExecutions": 24,
+      "unknownUsagePreservedAsNull": true,
+      "noRequestsAfterExpectedStop": true,
+      "scenarios": [
+        {
+          "name": "cli-rejection",
+          "passed": true,
+          "applicationAttempts": 6,
+          "syntheticTransportExecutions": 6,
+          "stop": {
+            "code": "LEDGER_FAILURE",
+            "reason": "CLI_PROTOCOL_REJECTION"
+          },
+          "unknownUsage": 1,
+          "summarySha256": "5e72ce0c0e101cd035ee42accd31dbd1924c0d364edd06ba619db89cb8b3cb00"
+        },
+        {
+          "name": "unknown-usage",
+          "passed": true,
+          "applicationAttempts": 7,
+          "syntheticTransportExecutions": 7,
+          "stop": {
+            "code": "LEDGER_FAILURE",
+            "reason": "CLI_INVALID_USAGE"
+          },
+          "unknownUsage": 1,
+          "summarySha256": "6739376e4d85d147d5ffd921dfbc7ba8f2714d7c73eb741b1af6cc62f601ed8b"
+        },
+        {
+          "name": "case-extra-request",
+          "passed": true,
+          "applicationAttempts": 3,
+          "syntheticTransportExecutions": 2,
+          "stop": {
+            "code": "LEDGER_HALTED",
+            "reason": "LEDGER_CASE_BUDGET"
+          },
+          "unknownUsage": 0,
+          "summarySha256": "c7b08bcb640674c75a95f7338278bc17288e1e0c57425bc6068685cc79affc86"
+        },
+        {
+          "name": "human-timeout",
+          "passed": true,
+          "applicationAttempts": 8,
+          "syntheticTransportExecutions": 8,
+          "stop": {
+            "code": "LEDGER_HALTED",
+            "reason": "HUMAN_PENDING"
+          },
+          "unknownUsage": 0,
+          "summarySha256": "a4fec66291bf41466a4024b7d85b7f252d8cc1574856f7827ccc412ced6eec6a"
+        },
+        {
+          "name": "malformed-inner",
+          "passed": true,
+          "applicationAttempts": 1,
+          "syntheticTransportExecutions": 1,
+          "stop": {
+            "code": "LEDGER_FAILURE",
+            "reason": "MODEL_INVALID_RESPONSE"
+          },
+          "unknownUsage": 0,
+          "summarySha256": "77cecf2acda91c7ae6cc44832662ab06c2aa9ab14afb56db088ac97c67db37ed"
+        }
+      ]
+    },
+    "package": {
+      "archiveFilesVerified": 9666,
+      "onlyThreeArchiveFilesChanged": true,
+      "changedArchiveFiles": [
+        {
+          "path": "desktop/check-finalization.cjs",
+          "before": "7dbd4fa6a2255f06ae6dcf24d444492efe70dc4ee5d5a8422e401fab5f816ba7",
+          "after": "7fa72a76caf303da18f6efacc9a557d72240a53c297bdde29b53333a4d224a07"
+        },
+        {
+          "path": "desktop/generation-context.cjs",
+          "before": "2e177eee6737ee22f0834909a5de7181642ef41939fe7c96e4d88134261afc36",
+          "after": "3354b18b0251973ff695c867aefce2c0a802e000244d22557366244da381425b"
+        },
+        {
+          "path": "desktop/marker-confirmation.cjs",
+          "before": "7e5b61f012e2eaeffef3262599dc2f09e0e9b1df3a8c96f7c86457320b9ffcc5",
+          "after": "938765d5328bdfacbde8d219989c1077ed1e5f8837dd25abfe8b2e1f5fe26688"
+        }
+      ],
+      "outerFiles": 86,
+      "manifestSha256": "694b6a597889f35bc85b24a73d9d1fcbd56b3fe75d8fe97e6ca1262403eb2804"
+    },
+    "freeze": {
+      "allFrozenIdentitiesUnchanged": true,
+      "counts": {
+        "installed": 86,
+        "oldCandidate": 86,
+        "markerCandidate": 86,
+        "oldRunner": 31,
+        "markerPack": 16,
+        "markerRunner": 15,
+        "diagnosticRunner": 18,
+        "businessRunner": 20,
+        "passedGateRun": 11,
+        "passedGateControl": 4
+      },
+      "otherHistoricalFiles": 47,
+      "historicalReportFiles": 9,
+      "onlyThreeAuthorizedProductFilesChanged": true
+    },
+    "qualityMetrics": null,
+    "liveTokenConsumption": null
+  },
+  "evidence": {
+    "integrationSha256": "71ea266b75a940f6660ed69a0ac45769db74953a113411fc430cfdba43d4581c",
+    "fullSummarySha256": "cda6399ad8b202c6be797d143342bcb7a6c46158571ede32737c496b7967949b",
+    "independentPackageSha256": "35da2bea6fb0b714a648532cdbd59a37b5a994443befba687eba442fdfef66f4",
+    "independentResultAuditSha256": "eef7323d606c8ca2187677552185b8605019cd2c9414f303f807080609a90222",
+    "freezeBeforeSha256": "f951ef0b8b53104217d3077f4bdc94d120f0a3aef2bcd33cd890bb2a247a7c3c",
+    "freezeAfterSha256": "412b82ba675830f0d95d6e07748bfc65358442a37a04e48e2d839f11ae460312"
+  },
+  "limitations": [
+    "Offline deterministic fixtures and simulated UI acceptance do not establish live model quality, token savings, or actual human acceptance.",
+    "Historical G01 passed only for the preserved old candidate and cannot authorize this changed candidate.",
+    "Current installation remains frozen; upload approval does not approve installation, release, a real-model call, or spending.",
+    "The offline runner is intentionally unable to enter live mode; a later gate must use a newly reviewed candidate-bound plan and separate user budget."
+  ]
+}

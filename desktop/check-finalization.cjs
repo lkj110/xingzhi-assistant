@@ -14,7 +14,9 @@ function identity(a,task,context,snapshot,phase){
  });
  const basis={taskId:task.id,phase,inputBasis:snapshot.inputBasis,deliveryBasis:phase==='result'?snapshot.deliveryBasis:null,artifacts,
   checkBasis:phase==='content'?require('./execution-control.cjs').contentBasis(a,job,task):require('./acceptance.cjs').basis(a,task)};
- const legacyKey=hash({policy:READ_POLICY_VERSION,role:'verify',checkPhase:phase,taskId:task.id,input:snapshot.inputBasis,delivery:phase==='result'?snapshot.deliveryBasis:undefined,artifact:context.artifacts,revision:context.revision,workingDraft:context.workingDraft});
+ const markerRecheck=require('./marker-confirmation.cjs').checkAuthorization(a,task,phase);
+ if(markerRecheck)basis.markerRecheck=markerRecheck;
+ const legacyKey=hash({policy:READ_POLICY_VERSION,role:'verify',checkPhase:phase,taskId:task.id,input:snapshot.inputBasis,delivery:phase==='result'?snapshot.deliveryBasis:undefined,artifact:context.artifacts,revision:context.revision,workingDraft:context.workingDraft,...(markerRecheck?{markerRecheck}:{})});
  return {semanticCheckId:hash(basis),legacyKey,phase,basis};
 }
 function state(task,identity){

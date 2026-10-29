@@ -4,7 +4,14 @@
 const {hash}=require('./evidence-basis.cjs');
 const rows=v=>Array.isArray(v)?v:[];
 const rechecks=new WeakMap();
-const explicitRecheck=(a,task)=>rechecks.get(a)===task.id;
+const explicitRecheck=(a,task)=>rechecks.get(a)?.task===task;
+function checkAuthorization(a,task,phase,{claim=false}={}){
+ const active=rechecks.get(a);if(!active)return null;
+ const {record}=active,s=require('./grounding.cjs').snapshot(a,task);
+ if(active.task!==task||record.phase!==phase||task.markerRechecks?.[record.id]!==record||record.status!=='started'||record.basis!==s.basis||task.grounding?.reportHash!==record.reportHash||!reportValid(task.grounding)||confirmedFor(task,s)!==record.confirmationHash||claim&&active.claimed)throw Error('人工重检授权已使用或依据已变化，不能重放检查');
+ if(claim)active.claimed=true;
+ return record.id;
+}
 const reportValid=r=>r&&r.reportHash===hash({...r,reportHash:undefined});
 function confirmedFor(task,s){
  const c=task.groundingMarkerConfirmation;
@@ -52,7 +59,7 @@ function invalidateForUserEdit(_a,task){
   delete task.markerReviewHold;task.waitingOn='';
  }
 }
-function commandState(a,input,action,{allowStale=false}={}){
+function commandState(a,input,action){
  if(!require('./workspace-view.cjs').trustedCommand(a,action))throw Error('表达确认与重新核验只能由事项详情中的明确操作发起');
  a.ensureIdle({taskId:input.id});
  const task=a.task(input.id);require('./project-lifecycle.cjs').assertTaskActive(a.data,task);
@@ -63,10 +70,8 @@ function commandState(a,input,action,{allowStale=false}={}){
  if(!hold||hold.reportHash!==input.expectedReportHash||report?.reportHash!==hold.reportHash||!reportValid(report))throw Error('待确认报告已变化，请刷新后核对');
  const s=require('./grounding.cjs').snapshot(a,task);
  const check=hold.phase==='content'?task.contentVerification:task.verification;
- // Ordinary user edits invalidate the saved check. A stale, hash-bound hold
- // may request a fresh check, but can never authorize the old expression.
- if(!(allowStale&&s.basis!==report.basis)&&!pendingResult({...check,grounding:report}))throw Error('当前还有其他核验缺口，不能仅确认表达标记');
- if(!allowStale&&s.basis!==report.basis)throw Error('稿件、要求或证据已变化，请先重新核验');
+ if(s.basis!==report.basis)throw Error('稿件、要求或证据已变化，请先重新核验');
+ if(!pendingResult({...check,grounding:report}))throw Error('当前还有其他核验缺口，不能仅确认表达标记');
  return {task,job,report,s};
 }
 function confirm(a,input){
@@ -82,19 +87,27 @@ function confirm(a,input){
  });
 }
 function recheck(a,input){
- const {task,job,report,s}=commandState(a,input,'recheckGroundingMarkers',{allowStale:true});
- if(s.basis===report.basis&&!(confirmedFor(task,s)&&report.markerReview.every(c=>authorizes(task,s,{id:c.claimId,artifactId:c.artifactId,text:c.text,kind:'proposal'}))))throw Error('请先逐项核对并确认表达标记，或修改稿件后重新核验');
+ const {task,job,report,s}=commandState(a,input,'recheckGroundingMarkers');
+ if(!(confirmedFor(task,s)&&task.groundingMarkerConfirmation.reportHash===report.reportHash&&report.markerReview.every(c=>authorizes(task,s,{id:c.claimId,artifactId:c.artifactId,text:c.text,kind:'proposal'}))))throw Error('请先逐项核对并确认表达标记，或修改稿件后重新核验');
  if(report.phase==='content'&&!job)throw Error('内容检查所属委托已变化，请刷新');
  if(report.phase!=='content'&&(!task.steps.length||task.steps.some(s=>!s.done)))throw Error('当前仍有未完成步骤，请先完成已安排的修订；重新核验不会生成或改写正文');
  a.available('verify');
  if(report.phase!=='content')a.available('execute');
+ const binding={taskId:task.id,phase:report.phase,basis:s.basis,reportHash:report.reportHash,confirmationHash:confirmedFor(task,s)},id=hash(binding);
+ if(task.markerRechecks?.[id])throw Error('此人工确认的重检已登记，不能重复调用；请核对原检查结果');
+ const record={...binding,id,status:'started',startedAt:new Date().toISOString()};
+ (task.markerRechecks ||= {})[id]=record;
+ // Persist consumption before launch. A failed save never dispatches; a crash
+ // or uncertain outcome keeps the record consumed, including direct verdicts.
+ a.save();
  return require('./execution.cjs').launch(a,{taskId:task.id,automatic:false},'人工请求重新核验 · '+task.title,async view=>{
-  rechecks.set(view,task.id);
+  rechecks.set(view,{task,record,claimed:false});
   const prior=view.activeAgentJob;
   try{
+   checkAuthorization(view,task,report.phase);
    if(report.phase==='content'){view.activeAgentJob=job;return await require('./execution-control.cjs').verifyContent(view,job,task);}
    return await view.advance(task.id);
-  }finally{view.activeAgentJob=prior;rechecks.delete(view);}
+  }finally{record.status='finished';record.finishedAt=new Date().toISOString();view.activeAgentJob=prior;rechecks.delete(view);view.save();}
  });
 }
-module.exports={confirmedFor,authorizes,pendingResult,route,assertRunnable,requiresManualAcceptance,invalidateForUserEdit,explicitRecheck,confirm,recheck};
+module.exports={confirmedFor,authorizes,pendingResult,route,assertRunnable,requiresManualAcceptance,invalidateForUserEdit,explicitRecheck,checkAuthorization,confirm,recheck};

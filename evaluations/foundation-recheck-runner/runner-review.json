@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/recheck_protocol_review",
+  "date": "2026-10-29",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "runnerIdentity": "5265a349c04b0cdcf6af099cd1770f8ffd9d40caaf180c87ce6a5dc554271f13",
+  "candidateAsarSha256": "982717eb093bf7606804abc88f17a45ecd0a6b32b6337e7b185638c6109016a3",
+  "approvedForUpload": true,
+  "uploadScope": "Three-module offline recheck protocol patch, related regression test, separate candidate preparation script, offline-only six-case runner, and exact reviewed documentation/evidence",
+  "approvedForLiveReadiness": false,
+  "liveAuthorized": false,
+  "approvedForInstall": false,
+  "approvedForRelease": false,
+  "realModelCalls": 0,
+  "officialCliProbes": 0,
+  "actualHumanAcceptances": 0,
+  "readiness": "offline-regression-passed; changed candidate has no live gate or business acceptance",
+  "remainingFindings": [],
+  "reviewedFiles": [
+    {
+      "path": "desktop/check-finalization.cjs",
+      "sha256": "7fa72a76caf303da18f6efacc9a557d72240a53c297bdde29b53333a4d224a07"
+    },
+    {
+      "path": "desktop/generation-context.cjs",
+      "sha256": "3354b18b0251973ff695c867aefce2c0a802e000244d22557366244da381425b"
+    },
+    {
+      "path": "desktop/marker-confirmation.cjs",
+      "sha256": "938765d5328bdfacbde8d219989c1077ed1e5f8837dd25abfe8b2e1f5fe26688"
+    },
+    {
+      "path": "docs/FOUNDATION_RECHECK_PROTOCOL_20261029.md",
+      "sha256": "4ebc0664d7515231da512e482ef250a8eb07efbd3915656f6c8407d0317df4fa"
+    },
+    {
+      "path": "docs/evidence/foundation-recheck-protocol-20261029.json",
+      "sha256": "cffc9683fd6004b0f4d078a1c1147438921198342ae04ea92f35d25c5fa44bb4"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/identity.cjs",
+      "sha256": "ed917699e8ff10f1cc973644feb5b2ed4b25636cb961f5d1c8f1d6effdef32df"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/integration.cjs",
+      "sha256": "6c26e2eb55456207aafa2ce41fc8b5d0e113fed8f10ae1ad2c2ade62d9fdddd8"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/package-manifest.json",
+      "sha256": "694b6a597889f35bc85b24a73d9d1fcbd56b3fe75d8fe97e6ca1262403eb2804"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/plan.json",
+      "sha256": "f0c7804328c94a2a8ec5394881f3c64c5b8091a4b1524a3a727643764737e9c8"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/run.cjs",
+      "sha256": "95919fda5d69c2c99a292f2d08acb4cfe05d52dafae7856bf2686ae59dac197a"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/runner-seal.json",
+      "sha256": "da19206bba6c136a257cd0bc9afdba6fcaf8b592109933af6c316bbee94184a0"
+    },
+    {
+      "path": "scripts/prepare-recheck-candidate.cjs",
+      "sha256": "fb041dd3cb7f4f4a535c04dca11118f33aca3dcb0494c088c34c78888415cd83"
+    },
+    {
+      "path": "tests/grounding-marker-flow.test.cjs",
+      "sha256": "a9957779cdb636d792928f95d2b5956dc926aadd309febc10bf7e204e7493f6a"
+    }
+  ],
+  "privateEvidence": [
+    {
+      "path": "../foundation-recheck-audit-20261029/reviewer-freeze-before.json",
+      "sha256": "f951ef0b8b53104217d3077f4bdc94d120f0a3aef2bcd33cd890bb2a247a7c3c"
+    },
+    {
+      "path": "../foundation-recheck-audit-20261029/reviewer-freeze-after.json",
+      "sha256": "412b82ba675830f0d95d6e07748bfc65358442a37a04e48e2d839f11ae460312"
+    },
+    {
+      "path": "../foundation-recheck-audit-20261029/reviewer-package.json",
+      "sha256": "35da2bea6fb0b714a648532cdbd59a37b5a994443befba687eba442fdfef66f4"
+    },
+    {
+      "path": "../foundation-recheck-audit-20261029/reviewer-results.json",
+      "sha256": "eef7323d606c8ca2187677552185b8605019cd2c9414f303f807080609a90222"
+    },
+    {
+      "path": "../foundation-recheck-audit-20261029/unit-regression.tap",
+      "sha256": "3acdc65d33bf1752d6541bbbd4b4dd1c4509c5b2025c5fbbf141c605c77145c3"
+    }
+  ],
+  "scope": "offline-only-six-case-protocol-regression",
+  "fullLifecyclePassed": true,
+  "offlineStopGuardsPassed": 5,
+  "qualityMetrics": null,
+  "historicalG01Applicable": false,
+  "reviewMethod": "Independent source/diff review, complete candidate archive and outer-file hash comparison, independent reconciliation of preserved case/ledger/terminal evidence; no model or official CLI invocation"
+}

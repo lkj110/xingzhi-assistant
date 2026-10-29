@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "id": "foundation-recheck-offline-20261029",
+  "liveAuthorized": false,
+  "scope": "offline-only-six-case-protocol-regression",
+  "installedVersion": "0.42.4",
+  "asarSha256": "982717eb093bf7606804abc88f17a45ecd0a6b32b6337e7b185638c6109016a3",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "reasoning": "medium",
+    "provider": "existing-subscription",
+    "availability": "not-probed"
+  },
+  "settings": {
+    "evidenceGrounding": true,
+    "automatic": false,
+    "autoExtract": false,
+    "autoComplete": false,
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false
+  },
+  "budget": {
+    "applicationAttempts": 40,
+    "reportedTokenStopThreshold": 700000,
+    "protocolAttempts": 0,
+    "protocolTokenStopThreshold": 0,
+    "businessAttempts": 40,
+    "businessTokenStopThreshold": 700000,
+    "perCallTimeoutMs": 180000,
+    "perCallIdleMs": 120000,
+    "dispatchWindowMinutes": 45,
+    "maxVisibleRequestBytes": 70000,
+    "reservationOutputAllowance": 32768,
+    "reservationFramingAllowance": 4096,
+    "serverEnforcedTokenCap": false,
+    "priorBudgetsReusable": false
+  },
+  "caseLimits": [
+    {
+      "id": "F01-huaizhi-approval",
+      "attempts": 3,
+      "tokenStopThreshold": 80000
+    },
+    {
+      "id": "F02-luzhong-version",
+      "attempts": 3,
+      "tokenStopThreshold": 80000
+    },
+    {
+      "id": "F03-botang-notice",
+      "attempts": 7,
+      "tokenStopThreshold": 130000
+    },
+    {
+      "id": "F04-cenwan-direction",
+      "attempts": 7,
+      "tokenStopThreshold": 100000
+    },
+    {
+      "id": "F05-jianping-revision",
+      "attempts": 13,
+      "tokenStopThreshold": 210000
+    },
+    {
+      "id": "F06-yunshu-restart",
+      "attempts": 7,
+      "tokenStopThreshold": 100000
+    }
+  ],
+  "protocolGate": {
+    "id": "G01-muju",
+    "executions": 0
+  },
+  "order": [
+    "F01-huaizhi-approval",
+    "F02-luzhong-version",
+    "F03-botang-notice",
+    "F04-cenwan-direction",
+    "F05-jianping-revision",
+    "F06-yunshu-restart"
+  ],
+  "gatePrerequisite": {
+    "executions": 0,
+    "historicalGateNotApplicable": true,
+    "required": false
+  },
+  "offlineOnly": true,
+  "candidateInstalled": false,
+  "installedFoundationFrozen": true,
+  "budgetStatus": "synthetic-ledger-limits-only-no-live-budget"
+}

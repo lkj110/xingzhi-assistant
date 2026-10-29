@@ -1,0 +1,210 @@
+{
+  "schema": 1,
+  "date": "2026-10-29",
+  "scope": "offline-human-confirmation-recheck-identity-and-replay-protection",
+  "rootCause": "F05 revised draft had already consumed its bounded conclusion. Explicit human confirmation did not distinguish the recheck identity, so the next check collided with the durable old record before any model dispatch.",
+  "implementation": {
+    "modules": [
+      "desktop/check-finalization.cjs",
+      "desktop/generation-context.cjs",
+      "desktop/marker-confirmation.cjs"
+    ],
+    "binding": [
+      "task",
+      "phase",
+      "grounding basis",
+      "full report hash",
+      "exact user confirmation hash"
+    ],
+    "consumption": "saved before launch; one in-memory lifecycle capability; persistent records survive success, failure, restart and uncertain outcome",
+    "oldFinalizationsDeleted": false,
+    "semanticStandardsChanged": false,
+    "evidenceBindingChanged": false,
+    "automaticAcceptanceEnabled": false,
+    "tokenPromptsOrSchemasChanged": false
+  },
+  "candidate": {
+    "asarSha256": "982717eb093bf7606804abc88f17a45ecd0a6b32b6337e7b185638c6109016a3",
+    "baseAsarSha256": "9fe3cc8b865a37fa063fec7cce7158e4e9a07f682f6556fd08a844f6e89dec2b",
+    "archiveFilesVerified": 9666,
+    "archiveChangedFiles": [
+      {
+        "path": "desktop/check-finalization.cjs",
+        "beforeSha256": "7dbd4fa6a2255f06ae6dcf24d444492efe70dc4ee5d5a8422e401fab5f816ba7",
+        "sha256": "7fa72a76caf303da18f6efacc9a557d72240a53c297bdde29b53333a4d224a07"
+      },
+      {
+        "path": "desktop/generation-context.cjs",
+        "beforeSha256": "2e177eee6737ee22f0834909a5de7181642ef41939fe7c96e4d88134261afc36",
+        "sha256": "3354b18b0251973ff695c867aefce2c0a802e000244d22557366244da381425b"
+      },
+      {
+        "path": "desktop/marker-confirmation.cjs",
+        "beforeSha256": "7e5b61f012e2eaeffef3262599dc2f09e0e9b1df3a8c96f7c86457320b9ffcc5",
+        "sha256": "938765d5328bdfacbde8d219989c1077ed1e5f8837dd25abfe8b2e1f5fe26688"
+      }
+    ],
+    "outerChangedFiles": [
+      "resources/app.asar"
+    ],
+    "installed": false,
+    "groundingSha256": "ac89ce673dd30b9adfbc3b6d459f13979b8a7a5a0e9513ecd463aa688c2a3d40",
+    "packageManifestSha256": "694b6a597889f35bc85b24a73d9d1fcbd56b3fe75d8fe97e6ca1262403eb2804"
+  },
+  "identity": {
+    "runnerIdentity": "5265a349c04b0cdcf6af099cd1770f8ffd9d40caaf180c87ce6a5dc554271f13",
+    "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+    "historicalG01Applicable": false
+  },
+  "regression": {
+    "unit": {
+      "passed": 89,
+      "failed": 0,
+      "evidenceSha256": "3acdc65d33bf1752d6541bbbd4b4dd1c4509c5b2025c5fbbf141c605c77145c3"
+    },
+    "fullLifecycle": {
+      "passed": 6,
+      "planned": 6,
+      "syntheticApplicationAttempts": 29,
+      "actualHumanAcceptances": 0,
+      "simulatedFinalAcceptances": 4,
+      "markerHandoffs": 3,
+      "coldRestarts": 2,
+      "cases": [
+        {
+          "caseId": "F01-huaizhi-approval",
+          "applicationAttempts": 2,
+          "technicalPassed": true,
+          "status": "blocked",
+          "verificationPassed": false,
+          "groundingPassed": false,
+          "recheckAuthorizations": 0,
+          "finalizationRecords": 0
+        },
+        {
+          "caseId": "F02-luzhong-version",
+          "applicationAttempts": 2,
+          "technicalPassed": true,
+          "status": "blocked",
+          "verificationPassed": false,
+          "groundingPassed": false,
+          "recheckAuthorizations": 0,
+          "finalizationRecords": 0
+        },
+        {
+          "caseId": "F03-botang-notice",
+          "applicationAttempts": 6,
+          "technicalPassed": true,
+          "status": "completed",
+          "verificationPassed": true,
+          "groundingPassed": true,
+          "recheckAuthorizations": 1,
+          "finalizationRecords": 1
+        },
+        {
+          "caseId": "F04-cenwan-direction",
+          "applicationAttempts": 4,
+          "technicalPassed": true,
+          "status": "completed",
+          "verificationPassed": true,
+          "groundingPassed": true,
+          "recheckAuthorizations": 0,
+          "finalizationRecords": 0
+        },
+        {
+          "caseId": "F05-jianping-revision",
+          "applicationAttempts": 11,
+          "technicalPassed": true,
+          "status": "completed",
+          "verificationPassed": true,
+          "groundingPassed": true,
+          "recheckAuthorizations": 2,
+          "finalizationRecords": 3
+        },
+        {
+          "caseId": "F06-yunshu-restart",
+          "applicationAttempts": 4,
+          "technicalPassed": true,
+          "status": "completed",
+          "verificationPassed": true,
+          "groundingPassed": true,
+          "recheckAuthorizations": 0,
+          "finalizationRecords": 0
+        }
+      ]
+    },
+    "stopGuards": [
+      {
+        "name": "cli-rejection",
+        "passed": true,
+        "syntheticAttempts": 6,
+        "syntheticTransportExecutions": 6,
+        "summarySha256": "5e72ce0c0e101cd035ee42accd31dbd1924c0d364edd06ba619db89cb8b3cb00"
+      },
+      {
+        "name": "unknown-usage",
+        "passed": true,
+        "syntheticAttempts": 7,
+        "syntheticTransportExecutions": 7,
+        "summarySha256": "6739376e4d85d147d5ffd921dfbc7ba8f2714d7c73eb741b1af6cc62f601ed8b"
+      },
+      {
+        "name": "case-extra-request",
+        "passed": true,
+        "syntheticAttempts": 3,
+        "syntheticTransportExecutions": 2,
+        "summarySha256": "c7b08bcb640674c75a95f7338278bc17288e1e0c57425bc6068685cc79affc86"
+      },
+      {
+        "name": "human-timeout",
+        "passed": true,
+        "syntheticAttempts": 8,
+        "syntheticTransportExecutions": 8,
+        "summarySha256": "a4fec66291bf41466a4024b7d85b7f252d8cc1574856f7827ccc412ced6eec6a"
+      },
+      {
+        "name": "malformed-inner",
+        "passed": true,
+        "syntheticAttempts": 1,
+        "syntheticTransportExecutions": 1,
+        "summarySha256": "77cecf2acda91c7ae6cc44832662ab06c2aa9ab14afb56db088ac97c67db37ed"
+      }
+    ],
+    "f05": {
+      "technicalPassed": true,
+      "revisedDraftExplicitRecheckCompleted": true,
+      "distinctFinalizationIdentities": 3,
+      "explicitAuthorizations": 2,
+      "allFinalizationsReturned": true
+    }
+  },
+  "cost": {
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "syntheticApplicationAttempts": 54,
+    "syntheticTransportExecutions": 53,
+    "liveTokenUsage": null,
+    "syntheticUsageIsNotModelCost": true
+  },
+  "quality": {
+    "liveFlowCompletionRate": null,
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "falseReleaseRate": null,
+    "reason": "Offline deterministic fixtures verify control flow, not live model quality."
+  },
+  "evidence": {
+    "fullSummarySha256": "cda6399ad8b202c6be797d143342bcb7a6c46158571ede32737c496b7967949b",
+    "matrixSha256": "71ea266b75a940f6660ed69a0ac45769db74953a113411fc430cfdba43d4581c",
+    "f05Sha256": "3a90813440c30d3e83f66ec6a9f8b2a846526f2ef53b43b4104d4e216c33ddae",
+    "ledgerSha256": "f5e8f266fcddb1c3629e5ff8088996de033e4b62df2b8726fd227e9e88042fa0"
+  },
+  "release": {
+    "currentInstallationFrozen": true,
+    "candidateInstalled": false,
+    "liveAuthorized": false,
+    "formalEvaluationStarted": false,
+    "readyForRelease": false,
+    "next": "Independently review and upload this offline patch. Any live gate must bind the new candidate and obtain a separate budget; prior G01 is historical only."
+  }
+}

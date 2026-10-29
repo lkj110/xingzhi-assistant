@@ -116,6 +116,7 @@ async function call(a,task,system,initial,role='execute'){
  const checkPhase=role==='verify'?(initial.verificationPhase==='content'?'content':'result'):role;
  const gate=()=>require('./execution-gate.cjs').assert(a,{job,task,readOnly:true});
  gate();
+ if(role==='verify')require('./marker-confirmation.cjs').checkAuthorization(a,task,checkPhase,{claim:true});
  const checkClaim=role==='verify'?require('./pending-check.cjs').claim(a,job,task,{phase:checkPhase}):null;
  const force=checkClaim?.forceFinalization;
  const guardOptions={task,phase:checkPhase,claim:checkClaim,stage:role==='verify'?'task_verify':'task_work'};
@@ -150,6 +151,7 @@ async function call(a,task,system,initial,role='execute'){
  while(true){
   a.controller?.signal.throwIfAborted();
   gate();
+  if(role==='verify')require('./marker-confirmation.cjs').checkAuthorization(a,task,checkPhase);
   assertUsed(a,scope,snapshot,used,role);
   require('./relation-context-page.cjs').assertCurrent(a,scope,coverageReads);
   const work=require('./work-efficiency.cjs');
