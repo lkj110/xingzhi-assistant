@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "at": "2026-10-29T03:09:11.065Z",
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/marker_package_audit",
+  "scope": "Independent review of the completed, gate-stopped live round and its two public result files; upload approval only.",
+  "runId": "20223dc7-28c8-453c-b347-7be9275d12aa",
+  "preparationCommit": "2b4fdfe7653e64275a0f46e37be440caea6185cc",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "runnerIdentity": "44854ad3eb4fe2fa4a5f5ed79d045a13d81b0a1181ad38d52a06a465656b2bf0",
+  "candidateAsarSha256": "9fe3cc8b865a37fa063fec7cce7158e4e9a07f682f6556fd08a844f6e89dec2b",
+  "approvedForUpload": true,
+  "acceptancePassed": false,
+  "approvedForInstall": false,
+  "approvedForNewLiveRun": false,
+  "realCalls": 2,
+  "applicationAttempts": 2,
+  "cliExecDispatches": 2,
+  "realCallsDefinition": "Application model calls and CLI exec dispatches; CLI-internal physical HTTP requests are not established by this count.",
+  "noFurtherRealCalls": true,
+  "additionalAttemptsAfterStop": 0,
+  "stopPolicyObserved": true,
+  "contentCheckpoints": 0,
+  "generatedDrafts": 0,
+  "businessCasesStarted": 0,
+  "actualHumanAcceptances": 0,
+  "cost": {
+    "knownInputTokens": 12040,
+    "knownOutputTokens": 61,
+    "knownTokenSubtotal": 12101,
+    "authoritativeUsageCalls": 1,
+    "unknownUsageCalls": 1,
+    "totalTokens": null,
+    "withinTokenStopThreshold": null,
+    "canConfirmUnder800000": false,
+    "remainingBudgetReusable": false
+  },
+  "metrics": {
+    "gateCompletion": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "plannedBusinessCompletion": {
+      "numerator": 0,
+      "denominator": 6
+    },
+    "plannedGeneratedCompletion": {
+      "numerator": 0,
+      "denominator": 4
+    },
+    "attemptedGeneratedCompletion": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "wrongReleaseRate": null,
+    "interpretation": "Six business cases were not started. No draft exists for quality assessment; rates with denominator zero are unavailable, not zero and not semantic failures."
+  },
+  "failure": {
+    "category": "CLI_PROTOCOL_REJECTION",
+    "applicationDiagnosticKind": "turn_failed",
+    "applicationDiagnosticFingerprint": "32345e9426600708",
+    "firstCall": "Valid source-read request; not a draft.",
+    "secondCall": "Normal execute continuation after successful requested source read, not a retry.",
+    "underlyingRootCause": null,
+    "limitation": "Original non-usage CLI failure payload and raw stderr were not retained; category/fingerprint cannot identify schema, network, service, account, or verifier-semantic cause."
+  },
+  "reconciliation": {
+    "rawCallsAndUsageReviewed": true,
+    "applicationAndPersistentLedgerReviewed": true,
+    "authorizationBoundAndConsumedOnce": true,
+    "processTreeExitConfirmedBoth": true,
+    "unknownUsagePreserved": true,
+    "noPostStopDispatch": true
+  },
+  "freeze": {
+    "allFrozenIdentitiesUnchanged": true,
+    "installedFiles": 86,
+    "oldCandidateFiles": 86,
+    "markerCandidateFiles": 86,
+    "historicalFiles": 47,
+    "oldRunnerFiles": 31,
+    "productFiles": 334,
+    "preparationReviewedFiles": 32,
+    "preparationReviewSha256": "6c0523a274ff344c1e87fe820b0ad88bd2b9c086e466afc563834e3ad4f9ca43",
+    "baselineSha256": "c3a0379e8c3985c75636246c9dd90286b918ae929ff9615e75eee6f544665a5b"
+  },
+  "nextStepReview": {
+    "proposalOnly": true,
+    "scope": "A bounded sanitized CLI diagnostic record and offline generation-to-source-read-to-continuation budget regression in a new runner version, followed by independent review and a separately approved small protocol gate.",
+    "notImplementedInThisRound": true,
+    "semanticChangesAuthorized": false,
+    "extraModelCallsAuthorized": false,
+    "existingInstallationRemainsFrozen": true,
+    "unexposedBusinessCasesMayBeRetained": true,
+    "exposedG01MayNotBeDescribedAsFresh": true
+  },
+  "privateEvidence": [
+    {
+      "path": "C:/Users/liukongjie/Documents/Codex/2026-10-21/new-chat/work/foundation-marker-live-audit-20261029-20223dc7/result-audit.json",
+      "sha256": "c2ff8536008318bc490d855e31bb24cc87d07090cef0b4d7009a97b32e1708a0"
+    },
+    {
+      "path": "C:/Users/liukongjie/Documents/Codex/2026-10-21/new-chat/work/foundation-marker-live-audit-20261029-20223dc7/freeze-check.json",
+      "sha256": "59d27191c23d2778694af20e1a650906d3448cc253ca51751e9caa7dde399555"
+    }
+  ],
+  "reviewedFiles": [
+    {
+      "path": "docs/FOUNDATION_MARKER_LIVE_ACCEPTANCE_20261029.md",
+      "sha256": "4bd387e1fef3288de731d7fc956aa53345f2704a0cc96c54174088ee712e1d9e"
+    },
+    {
+      "path": "docs/evidence/foundation-marker-live-acceptance-20261029.json",
+      "sha256": "e158412f0ea4af8002867281af0dbedef51801cfa0d921c0a784a6c2d688d315"
+    }
+  ],
+  "remainingFindings": [],
+  "conclusion": "The two public reports accurately distinguish a technical gate stop from model-quality results, preserve unknown total usage, and do not authorize installation, budget reuse, or further real calls. Approved for uploading this result record and the two bound reports."
+}

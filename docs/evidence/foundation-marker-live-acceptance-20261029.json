@@ -1,0 +1,176 @@
+{
+  "schema": 1,
+  "scope": "one-approved-marker-foundation-live-acceptance-stopped-at-gate",
+  "runId": "20223dc7-28c8-453c-b347-7be9275d12aa",
+  "preparationCommit": "2b4fdfe7653e64275a0f46e37be440caea6185cc",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "runnerIdentity": "44854ad3eb4fe2fa4a5f5ed79d045a13d81b0a1181ad38d52a06a465656b2bf0",
+  "asarSha256": "9fe3cc8b865a37fa063fec7cce7158e4e9a07f682f6556fd08a844f6e89dec2b",
+  "cli": {
+    "version": "0.165.0-alpha.1.2",
+    "sha256": "5c1b55966bf9f757dcbf00065c9a6cb862ead55d34b015f1be1939ff18e43943"
+  },
+  "budget": {
+    "applicationAttempts": 40,
+    "reportedTokenStopThreshold": 800000,
+    "nonHardCapAccepted": true,
+    "authorizationConsumed": true,
+    "stoppedRoundMayNotResume": true
+  },
+  "result": {
+    "gatePassed": false,
+    "gateCompleted": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "plannedGeneratedCompletion": {
+      "numerator": 0,
+      "denominator": 4,
+      "rate": 0
+    },
+    "attemptedGeneratedCompletion": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "businessCasesStarted": 0,
+    "businessCasesPlanned": 6,
+    "fixedInvalidCasesStarted": 0,
+    "fixedInvalidCasesPlanned": 2,
+    "actualHumanAcceptances": 0,
+    "markerBranch": "not-triggered-unverified",
+    "draftsProduced": 0,
+    "evidenceVerificationStarted": false,
+    "formalMainEvaluationStarted": false
+  },
+  "quality": {
+    "hallucination": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "hardFalseBlock": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "humanHandoff": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "finalNonRelease": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "fixedInvalidWrongRelease": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "invalidGeneratedWrongRelease": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "interpretation": "Not evaluable: no business case or draft reached assessment; no zero-error claim."
+  },
+  "cost": {
+    "applicationAttempts": 2,
+    "cliExecutions": 2,
+    "knownInputTokens": 12040,
+    "knownOutputTokens": 61,
+    "knownCachedInputTokens": 0,
+    "knownTokenSubtotal": 12101,
+    "totalTokens": null,
+    "unknownUsageCalls": 1,
+    "pendingUsageCalls": 0,
+    "unexpectedApplicationAttempts": 0,
+    "attributionStage": "G01-muju/initial",
+    "moneyCost": null,
+    "moneyCostReason": "Subscription configuration zero price is not authoritative monetary billing.",
+    "remainingBudgetReusable": false,
+    "withinTokenStopThreshold": null,
+    "cannotConfirmUnderTokenThreshold": true
+  },
+  "failure": {
+    "stopCode": "CLI_PROTOCOL_REJECTION",
+    "applicationDiagnosticKind": "turn_failed",
+    "applicationDiagnosticFingerprint": "32345e9426600708",
+    "firstResponse": "valid read_context/read_source",
+    "secondRequest": "normal execute continuation after requested source read; not a retry",
+    "localizedLayer": "CLI/transport before artifact generation and evidence verification",
+    "specificRootCause": null,
+    "rawFailurePayloadRetained": false,
+    "knownLimitation": "Transport saved failure class and usage events but not the raw CLI failed/error payload; the product retained only a safe fingerprint. Cannot attribute to schema, network, service, account or verifier semantics from these records."
+  },
+  "calls": [
+    {
+      "attemptId": "5a2947bd-1c25-40c4-9082-fdca55344cb6",
+      "caseId": "G01-muju",
+      "role": "execute",
+      "stage": "task_work",
+      "evaluationPhase": "initial",
+      "status": "settled",
+      "transportDispatched": true,
+      "processTreeConfirmed": true,
+      "inputSha256": "9566614d63dcbb3bb9c70f6a2096dc2f96433755246174d7f227b216189d15fc",
+      "serializedInputBytes": 11851,
+      "usage": {
+        "inputTokens": 12040,
+        "outputTokens": 61,
+        "cachedInputTokens": 0,
+        "totalTokens": 12101
+      },
+      "rawUsageEvents": [
+        {
+          "type": "turn.completed",
+          "usage": {
+            "input_tokens": 12040,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 61,
+            "reasoning_output_tokens": 0
+          }
+        }
+      ],
+      "error": null,
+      "errorDetail": null,
+      "failureStage": null,
+      "rawOutput": "{\"response_json\":\"{\\\"kind\\\":\\\"read_context\\\",\\\"requests\\\":[{\\\"tool\\\":\\\"read_source\\\",\\\"sourceId\\\":\\\"446ffe48-a6b3-4f6c-8198-afe15086f34b\\\",\\\"start\\\":0}]}\"}",
+      "terminalSha256": "4d8a98e528836b774c29c09433d238fa546e72dd6c5c7f24b9e2140652223b55"
+    },
+    {
+      "attemptId": "a9a4e1f4-ca5a-4d49-ac7c-462393d8c3b6",
+      "caseId": "G01-muju",
+      "role": "execute",
+      "stage": "task_work",
+      "evaluationPhase": "initial",
+      "status": "failed-unknown-usage",
+      "transportDispatched": true,
+      "processTreeConfirmed": true,
+      "inputSha256": "ec2d5ac3d3dac248c1634a151aa52f6fb5e624285cf483aa09465e68a2b91052",
+      "serializedInputBytes": 13035,
+      "usage": null,
+      "rawUsageEvents": [],
+      "error": "CLI_PROTOCOL_REJECTION",
+      "errorDetail": "CLI reported a failed turn or protocol error",
+      "failureStage": "transport",
+      "rawOutput": null,
+      "terminalSha256": "341e5f10cce20862a728b66c116f278fb1fb53bba2f44922d80bf3e944b14498"
+    }
+  ],
+  "evidence": {
+    "runDirectory": "foundation-marker-runs-20261029/live-20223dc7",
+    "summarySha256": "c52784fee13cde6e18a768fab8861aab32ace226af7f4adfd275920d9331efd0",
+    "ledgerSha256": "5b9651d5f57cb161b9f04ce1d1f2c8cb76feb6d8d7ce4b3cd1d6fbb14d2d3dbb",
+    "costReportSha256": "0e47e06333a47e2332092821fe3ec352c9bc26788cafe6e85e921d1a5720c67f",
+    "preflightSha256": "1764877831b27a1e2942ccff1b373c05c405d90c3672b5c76ca772e6e740b121",
+    "authorizationSha256": "545fc89c3066b76f68ea864f98bb041c32ea8fee20bbf6049980eb77fa9f0ac5",
+    "consumptionSha256": "04becb430f90cc2b7a6116856c74a39b9dcc220585027cbb61c0eca7c4a22dcf"
+  },
+  "productModified": false,
+  "candidateInstalled": false,
+  "realModelCallsAfterStop": 0
+}
