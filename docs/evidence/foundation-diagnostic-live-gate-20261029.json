@@ -1,0 +1,197 @@
+{
+  "schema": 1,
+  "date": "2026-10-29",
+  "scope": "one-exposed-protocol-recovery-gate-only",
+  "sourceCommit": "bbfc43f8f1eb5f19f6bd0aec1b57bcbd8e2d0398",
+  "runId": "31bf1e3b-7b37-4732-b9b0-0705145b02b0",
+  "runnerIdentity": "f70ee5d9000c66cb175b71bd0a7821def7d77e58a2de5b4e464dd7ad26aaf5e7",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "planSha256": "31d92cded546a418a29323417b0a08ba37487f4ce83629e513ba0cee29e3dd93",
+  "authorization": {
+    "reference": "User reply to request_user_input_async call_230727f00fde40cba8fa278df833e96c question 0: 批准本次门检，接受停止阈值限制",
+    "applicationAttempts": 5,
+    "maximumModelDispatches": 4,
+    "reportedTokenStopThreshold": 120000,
+    "nonHardCapAccepted": true,
+    "sha256": "41e5999a65bcd2532a3060dc07f95313f7d81dda87de3bf6d3fe10772e8b119a",
+    "consumedReceiptSha256": "4b4f886f6c147dabdfe70d01e59e08365ceb72ec7d815a24bb89ccd533e0d1c8",
+    "reusable": false
+  },
+  "result": {
+    "protocolGatePassed": true,
+    "protocolGateCompletion": {
+      "numerator": 1,
+      "denominator": 1,
+      "rate": 1
+    },
+    "finalProductState": "review",
+    "groundingPassed": true,
+    "verificationPassed": true,
+    "independentCheckpointApproved": true,
+    "actualHumanAcceptances": 0,
+    "fullBusinessAcceptance": false,
+    "applicationAttempts": 3,
+    "realModelDispatches": 3,
+    "businessCasesStarted": 0,
+    "protocolRejections": 0,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "ledgerStop": null,
+    "errors": []
+  },
+  "cost": {
+    "inputTokens": 38202,
+    "outputTokens": 603,
+    "totalTokens": 38805,
+    "cachedInputTokens": 0,
+    "generationAndReadTokens": 24677,
+    "verificationTokens": 14128,
+    "authoritativeUsageComplete": true,
+    "providerCurrencyCost": null,
+    "costReductionComparisonAvailable": false
+  },
+  "stages": [
+    {
+      "sequence": 1,
+      "attemptId": "2a7be5b0-9d19-444b-a08b-11d81625075b",
+      "role": "execute",
+      "stage": "task_work",
+      "status": "settled",
+      "responseKind": "read_context",
+      "transportDispatched": true,
+      "usage": {
+        "inputTokens": 12052,
+        "outputTokens": 59,
+        "cachedInputTokens": 0,
+        "totalTokens": 12111
+      },
+      "serializedInputBytes": 11851,
+      "schemaBytes": 124,
+      "visibleBytes": 11140,
+      "reservedTokens": 48839,
+      "requestSha256": "1fd63c64a2b6944b8bafb393ddcf81d4d4cb2ad35731f592ce01eb0ab2e069d2",
+      "terminalSha256": "0c6e7ec86bb18b3ddc4564f69ea8aa9de7375ee20f8ffabb4033aeb9f7ac8627",
+      "diagnosticErrorEvents": 0,
+      "diagnosticTerminal": {
+        "finishedAt": "2026-10-29T03:54:29.335Z",
+        "outcome": "completed",
+        "failureCode": null,
+        "started": true,
+        "exitCode": 0,
+        "exitSignal": null,
+        "processTreeConfirmed": true,
+        "authoritativeUsagePresent": true,
+        "usageUnknown": false,
+        "usageEvents": 1
+      }
+    },
+    {
+      "sequence": 2,
+      "attemptId": "301d6580-d74f-4b7a-924c-d17d349c4fd5",
+      "role": "execute",
+      "stage": "task_work",
+      "status": "settled",
+      "responseKind": "artifact",
+      "transportDispatched": true,
+      "usage": {
+        "inputTokens": 12451,
+        "outputTokens": 115,
+        "cachedInputTokens": 0,
+        "totalTokens": 12566
+      },
+      "serializedInputBytes": 13035,
+      "schemaBytes": 124,
+      "visibleBytes": 12324,
+      "reservedTokens": 50023,
+      "requestSha256": "763a998e59a8df41e0eeb1a1d12e661343b04225a9c0d10f1fb94f8cefaa18a0",
+      "terminalSha256": "1bca275e188bf756ab53410288673bb0875f5ee11b327a8ba3a5a1986412a307",
+      "diagnosticErrorEvents": 0,
+      "diagnosticTerminal": {
+        "finishedAt": "2026-10-29T03:54:49.055Z",
+        "outcome": "completed",
+        "failureCode": null,
+        "started": true,
+        "exitCode": 0,
+        "exitSignal": null,
+        "processTreeConfirmed": true,
+        "authoritativeUsagePresent": true,
+        "usageUnknown": false,
+        "usageEvents": 1
+      }
+    },
+    {
+      "sequence": 3,
+      "attemptId": "39773494-6bf2-4c56-909b-c0beb4eae68f",
+      "role": "verify",
+      "stage": "task_verify",
+      "status": "settled",
+      "responseKind": "verification",
+      "transportDispatched": true,
+      "usage": {
+        "inputTokens": 13699,
+        "outputTokens": 429,
+        "cachedInputTokens": 0,
+        "totalTokens": 14128
+      },
+      "serializedInputBytes": 16362,
+      "schemaBytes": 124,
+      "visibleBytes": 15651,
+      "reservedTokens": 53350,
+      "requestSha256": "0088d5c2c561e2c7a5ddba6cfa6038fe8f32fec9180cde464cba5f7e62388f20",
+      "terminalSha256": "0b647aae2e550a77e5c4d42a62ebf48806800f2e8ad772e262143ab64cb53b9a",
+      "diagnosticErrorEvents": 0,
+      "diagnosticTerminal": {
+        "finishedAt": "2026-10-29T03:55:12.552Z",
+        "outcome": "completed",
+        "failureCode": null,
+        "started": true,
+        "exitCode": 0,
+        "exitSignal": null,
+        "processTreeConfirmed": true,
+        "authoritativeUsagePresent": true,
+        "usageUnknown": false,
+        "usageEvents": 1
+      }
+    }
+  ],
+  "contentReview": {
+    "requirements": 3,
+    "claims": 1,
+    "citations": 1,
+    "unsupportedClaims": 0,
+    "conflicts": 0,
+    "checkpointIdentity": "5667475fc43bd1d0962f5be04d9b633ae5bcbc2a68c3ee1a4f8c8ddaf7fa57f8",
+    "decisionSha256": "f51b181f30c9ab6142a01013652c8554614f433569f9cba012a7ac79ddf55cb4",
+    "requestSha256": "ed16f3a6e1486a146911f767b32089909811b51f077cea9dbcba7783312032cb",
+    "contentBinding": "7c77b24364ccb3b0cbad66b265cba56d36e7bc52ccdbea60dc403518b06a568a"
+  },
+  "metrics": {
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "falseReleaseRate": null,
+    "businessFlowCompletionRate": null,
+    "reason": "Exposed protocol gate only; no fresh positive/negative business evaluation or human final acceptance"
+  },
+  "historicalFailureRootCause": "unknown",
+  "fixedWindowStartedAt": "2026-10-29T03:54:14.618Z",
+  "summarySha256": "a9f5356c18ca458b2704dec6ac237adabf062f27e36675b7423c9a41efaea19e",
+  "finalStateSha256": "66bbc43715e4f7ecce3628e1064e174f60a67f024af63e262d8fc576f53a09ac",
+  "ledgerSha256": "65993a4b13afea68f0795eb39dc4ed437a14703d93f0608f492d3ea30aeb41e8",
+  "runLogSha256": "a75f01ca11828fe67ef96add21b9fcdd74791c5d77aaca2b3ce9aed76e20ed1f",
+  "installedChanged": false,
+  "productChanged": false,
+  "promptsSchemasSemanticStandardsChanged": false,
+  "nextStep": {
+    "sixCasesRemainSealed": true,
+    "liveAuthorized": false,
+    "scope": "prepare separate six-case business entrance offline; carry diagnostics and bind this passed gate; independently check full lifecycle and per-case admission limits before proposing new authorization",
+    "budgetBaselineOnly": {
+      "applicationAttempts": 36,
+      "reportedTokenStopThreshold": 700000
+    },
+    "baselineNotApprovedOrValidatedForNewEntrance": true,
+    "formalMainEvaluation": false,
+    "unusedCurrentBudgetReusable": false
+  }
+}

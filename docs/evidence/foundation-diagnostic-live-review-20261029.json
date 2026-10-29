@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "at": "2026-10-29T04:03:09.374Z",
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/marker_package_audit",
+  "scope": "Independent result and frozen-state audit of the one approved exposed G01 live gate",
+  "runId": "31bf1e3b-7b37-4732-b9b0-0705145b02b0",
+  "sourceCommit": "bbfc43f8f1eb5f19f6bd0aec1b57bcbd8e2d0398",
+  "runnerIdentity": "f70ee5d9000c66cb175b71bd0a7821def7d77e58a2de5b4e464dd7ad26aaf5e7",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "approvedForUpload": true,
+  "approvedForInstall": false,
+  "newLiveSpendingAuthorized": false,
+  "protocolGatePassed": true,
+  "businessAcceptancePassed": false,
+  "realCalls": 3,
+  "applicationAttempts": 3,
+  "realCliExecDispatches": 3,
+  "providerInternalHttpCount": null,
+  "noFurtherRealCalls": true,
+  "actualHumanAcceptances": 0,
+  "businessCasesStarted": 0,
+  "finalTaskStatus": "review",
+  "contentReview": {
+    "approved": true,
+    "fullInputAndSourceReviewedBeforeModelVerdict": true,
+    "requirements": 3,
+    "claims": 1,
+    "citations": 1,
+    "sourceAndArtifactIdsChecked": true,
+    "originalQuoteExact": true,
+    "postCheckpointBindingUnchanged": true,
+    "checkpointIdentity": "5667475fc43bd1d0962f5be04d9b633ae5bcbc2a68c3ee1a4f8c8ddaf7fa57f8",
+    "decisionSha256": "f51b181f30c9ab6142a01013652c8554614f433569f9cba012a7ac79ddf55cb4",
+    "notHumanFinalAcceptance": true
+  },
+  "cost": {
+    "inputTokens": 38202,
+    "outputTokens": 603,
+    "cachedInputTokens": 0,
+    "totalTokens": 38805,
+    "authoritativeUsageCalls": 3,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "within120000StopThreshold": true,
+    "within45MinuteWindow": true,
+    "actualPhaseSequence": [
+      "execute/read_source",
+      "execute/artifact",
+      "verify/verdict"
+    ],
+    "generationAndReadTokens": 24677,
+    "verificationTokens": 14128,
+    "providerCurrencyCost": null,
+    "comparisonWithPriorFailedRoundAvailable": false
+  },
+  "quality": {
+    "protocolCompletion": {
+      "numerator": 1,
+      "denominator": 1,
+      "rate": 1
+    },
+    "businessFlowCompletionRate": null,
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "wrongReleaseRate": null,
+    "reason": "The exposed protocol gate is excluded from business quality evaluation; no fresh positive/negative cases or human final acceptance occurred."
+  },
+  "authorization": {
+    "runAndOutputBound": true,
+    "runnerSamplePlanBound": true,
+    "consumedOnce": true,
+    "roundClosed": true,
+    "unusedNominalBudgetReusable": false,
+    "independentCrossReviewer": "/root/marker_package_audit/runner_dependency_review"
+  },
+  "oldProviderFailureRootCause": "unknown",
+  "freeze": {
+    "allFrozenIdentitiesUnchanged": true,
+    "beforeSha256": "37d503d9dc010a3e6e60b321c3a6c7fc0bb11e23d91d9aae17fc38ad98150a8a",
+    "afterSha256": "d3b3e02ec249cbed55256f84f5867a25699d8513cc97bf6c27f296ca0c2fcff9",
+    "installedFiles": 86,
+    "oldCandidateFiles": 86,
+    "markerCandidateFiles": 86,
+    "productFiles": 334,
+    "historicalPackFiles": 47,
+    "oldRunnerFiles": 31,
+    "markerPackFiles": 16,
+    "markerRunnerFiles": 15,
+    "diagnosticRunnerFiles": 18,
+    "previousResultAndPreparationDocuments": 6,
+    "residualCandidateProcesses": 0
+  },
+  "nextStepReview": {
+    "scope": "Offline preparation of a separate six-case business entrance followed by independent review and a new budget proposal.",
+    "newModelCallsAuthorized": false,
+    "formalMainEvaluationAuthorized": false,
+    "productOrSemanticChangesAuthorized": false,
+    "oldBusinessBudgetBaseline": {
+      "applicationAttempts": 36,
+      "inputOutputTokenStopThreshold": 700000
+    },
+    "baselineNotValidatedForNewEntrance": true
+  },
+  "privateEvidence": [
+    {
+      "path": "foundation-diagnostic-live-audit-20261029-31bf1e3b/content-review.json",
+      "sha256": "f55d84fd1422e220fba12980282dc06a2a13ff7490ace1340a6886bbc1f02382"
+    },
+    {
+      "path": "foundation-diagnostic-live-audit-20261029-31bf1e3b/result-audit.json",
+      "sha256": "29df16750972960f6563b4af332e6b81795cc28b2a5f40d3ecc9c938393efb3a"
+    },
+    {
+      "path": "foundation-diagnostic-live-audit-20261029-31bf1e3b/freeze-after.json",
+      "sha256": "d3b3e02ec249cbed55256f84f5867a25699d8513cc97bf6c27f296ca0c2fcff9"
+    }
+  ],
+  "reviewedFiles": [
+    {
+      "path": "docs/FOUNDATION_DIAGNOSTIC_LIVE_GATE_20261029.md",
+      "sha256": "c8f6782cdbb7c499f4322e82989b2e6a92a71432a0877cc093d7e55e7aa78dd7"
+    },
+    {
+      "path": "docs/evidence/foundation-diagnostic-live-gate-20261029.json",
+      "sha256": "fdbd1c94fe4b894b560dd03d5127a5c3a3dadf4a812a4745b40907db1490bf87"
+    }
+  ],
+  "remainingFindings": [],
+  "conclusion": "The two reports accurately describe a successful three-call protocol gate, fully known token use and preserved freeze. Approval covers uploading this result record and the two bound reports only; no business-quality, historical-root-cause or cost-improvement claim is established."
+}
