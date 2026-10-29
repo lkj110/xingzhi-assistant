@@ -1,0 +1,23 @@
+{
+  "id": "G01-muju",
+  "title": "暮榉书目台MJ-K9目录索引备份状态摘要",
+  "description": "请依据登记写一句简短状态摘要，区分本地备份与公开发布。",
+  "criteria": "准确写出截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条条目，尚未公开发布；不要把条目数写成文件数。",
+  "sources": [
+    {
+      "key": "s1",
+      "title": "暮榉MJ-K9索引保存登记",
+      "content": "截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条目录条目；该索引尚未公开发布。条目数不表示文件数。"
+    }
+  ],
+  "passRequires": [
+    "normal_generation_and_strict_verification_complete",
+    "evidence_quotes_bound_to_original_source",
+    "all_dispatched_usage_known",
+    "no_protocol_rejection",
+    "no_host_tool_attempt",
+    "no_external_action",
+    "within_all_budgets"
+  ],
+  "includedInBusinessMetrics": false
+}

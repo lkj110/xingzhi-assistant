@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "id": "foundation-marker-acceptance-20261029",
+  "preparationRevision": 1,
+  "status": "draft-awaiting-independent-review-and-runner",
+  "liveAuthorized": false,
+  "scope": "single-fresh-foundation-candidate-acceptance-not-formal-main-evaluation",
+  "syntheticSources": true,
+  "baseCommit": "0d448e264c87a6e65638b330141408335c33c6c1",
+  "installedVersion": "0.42.4",
+  "asarSha256": "9fe3cc8b865a37fa063fec7cce7158e4e9a07f682f6556fd08a844f6e89dec2b",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "reasoning": "medium",
+    "provider": "existing-subscription",
+    "availability": "not-probed"
+  },
+  "settings": {
+    "evidenceGrounding": true,
+    "automatic": false,
+    "autoExtract": false,
+    "autoComplete": false,
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false
+  },
+  "budget": {
+    "applicationAttempts": 40,
+    "reportedTokenStopThreshold": 800000,
+    "protocolAttempts": 4,
+    "protocolTokenStopThreshold": 100000,
+    "businessAttempts": 36,
+    "businessTokenStopThreshold": 700000,
+    "perCallTimeoutMs": 180000,
+    "perCallIdleMs": 120000,
+    "dispatchWindowMinutes": 45,
+    "maxVisibleRequestBytes": 70000,
+    "reservationOutputAllowance": 32768,
+    "reservationFramingAllowance": 4096,
+    "serverEnforcedTokenCap": false,
+    "priorBudgetsReusable": false
+  },
+  "caseLimits": [
+    {
+      "id": "F01-huaizhi-approval",
+      "attempts": 3,
+      "tokenStopThreshold": 80000
+    },
+    {
+      "id": "F02-luzhong-version",
+      "attempts": 3,
+      "tokenStopThreshold": 80000
+    },
+    {
+      "id": "F03-botang-notice",
+      "attempts": 6,
+      "tokenStopThreshold": 130000
+    },
+    {
+      "id": "F04-cenwan-direction",
+      "attempts": 6,
+      "tokenStopThreshold": 100000
+    },
+    {
+      "id": "F05-jianping-revision",
+      "attempts": 12,
+      "tokenStopThreshold": 210000
+    },
+    {
+      "id": "F06-yunshu-restart",
+      "attempts": 6,
+      "tokenStopThreshold": 100000
+    }
+  ],
+  "protocolGate": {
+    "id": "G01-muju",
+    "title": "暮榉书目台MJ-K9目录索引备份状态摘要",
+    "description": "请依据登记写一句简短状态摘要，区分本地备份与公开发布。",
+    "criteria": "准确写出截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条条目，尚未公开发布；不要把条目数写成文件数。",
+    "sources": [
+      {
+        "key": "s1",
+        "title": "暮榉MJ-K9索引保存登记",
+        "content": "截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条目录条目；该索引尚未公开发布。条目数不表示文件数。"
+      }
+    ],
+    "passRequires": [
+      "normal_generation_and_strict_verification_complete",
+      "evidence_quotes_bound_to_original_source",
+      "all_dispatched_usage_known",
+      "no_protocol_rejection",
+      "no_host_tool_attempt",
+      "no_external_action",
+      "within_all_budgets"
+    ],
+    "includedInBusinessMetrics": false
+  },
+  "order": [
+    "G01-muju",
+    "F01-huaizhi-approval",
+    "F02-luzhong-version",
+    "F03-botang-notice",
+    "F04-cenwan-direction",
+    "F05-jianping-revision",
+    "F06-yunshu-restart"
+  ],
+  "globalStopOn": [
+    "unknown_or_conflicting_usage",
+    "protocol_or_schema_rejection",
+    "transport_failure_or_request_timeout",
+    "host_tool_attempt",
+    "any_budget_admission_failure_or_threshold",
+    "reported_budget_or_reservation_overage",
+    "frozen_identity_changed",
+    "gold_or_rubric_leak",
+    "unexpected_external_action",
+    "user_stop",
+    "first_terminal_case_failure",
+    "dispatch_window_expired",
+    "second_marker_wait_for_same_planned_draft_stage"
+  ],
+  "caseStopOn": [
+    "fixed_candidate_changed",
+    "unplanned_retry_or_revision"
+  ],
+  "manualAcceptance": {
+    "humanRequired": true,
+    "scriptedAcceptCountsAsHuman": false,
+    "pendingHumanIsNotPass": true,
+    "qualityMustPassBeforeOfferingAccept": true
+  },
+  "markerConfirmation": {
+    "humanRequired": true,
+    "runnerMayConfirm": false,
+    "runnerMayRecheckWithoutExplicitHumanAction": false,
+    "maxConfirmationsPerPlannedDraftStage": 1,
+    "maxExplicitRechecksPerPlannedDraftStage": 1,
+    "initialAndRevisedStagesSeparate": true,
+    "waitDoesNotResetDispatchWindow": true,
+    "noNaturalTriggerDisposition": "not_triggered_not_live_validated",
+    "atLeastOneNaturalHumanClosedLoopRequiredForMarkerBranchClaim": true,
+    "forcedClaimKindsForbiddenInLive": true
+  },
+  "executionPrerequisites": [
+    "new_explicit_user_budget_approval",
+    "independently_reviewed_seal_intact",
+    "full_input_to_reference_coverage_reviewed",
+    "offline_interactive_executor_and_stop_checks_pass",
+    "isolated_candidate_package_and_profile_verified",
+    "model_route_confirmed_without_extra_paid_probe",
+    "gold_and_rubric_input_exclusion_enforced"
+  ],
+  "runnerStatus": "not-yet-sealed-or-reviewed",
+  "packageManifest": "package-manifest.json",
+  "candidateInstalled": false,
+  "installedFoundationFrozen": true,
+  "offlineOnly": false,
+  "samplesPreviouslyExposed": false,
+  "caseFailureEndsRound": true
+}

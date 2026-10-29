@@ -1,0 +1,1790 @@
+{
+  "schema": 1,
+  "modelInputForbidden": true,
+  "offsetUnit": "UTF-16 code units",
+  "structuralOnly": true,
+  "semanticReviewRequired": true,
+  "bindings": [
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R01",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 20,
+          "quote": "暮榉书目台MJ-K9目录索引备份状态摘要"
+        }
+      ],
+      "reason": "参考稿标题明确同一机构、批次和业务对象；负例这里只确认对象相同，不表示错误完成断言合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R02",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 53,
+          "quote": "截至2026年5月6日11:42，暮榉MJ-K9目录索引已保存到本地校对区，含7条目录条目，尚未公开发布。"
+        }
+      ],
+      "reason": "参考稿只有一句，分别说明本地校对区已保存与尚未公开，没有把备份当发布。",
+      "assertionIds": [
+        "G01-a1"
+      ]
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R03",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 53,
+          "quote": "截至2026年5月6日11:42，暮榉MJ-K9目录索引已保存到本地校对区，含7条目录条目，尚未公开发布。"
+        }
+      ],
+      "reason": "时点11:42、编号MJ-K9、本地校对区、7条目录条目与尚未公开均逐项出现。",
+      "assertionIds": [
+        "G01-a1"
+      ]
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R04",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 53,
+          "quote": "截至2026年5月6日11:42，暮榉MJ-K9目录索引已保存到本地校对区，含7条目录条目，尚未公开发布。"
+        }
+      ],
+      "reason": "数量明确修饰目录条目，没有声称7个文件。",
+      "assertionIds": [
+        "G01-a1"
+      ]
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R05",
+      "stage": "gate",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 53,
+          "quote": "截至2026年5月6日11:42，暮榉MJ-K9目录索引已保存到本地校对区，含7条目录条目，尚未公开发布。"
+        }
+      ],
+      "reason": "参考稿保持材料时点；未借当前日期补写后续进展。固定F02虽然未虚构后来时点，仍因无据唯一版本裁定而整稿不合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R06",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R07",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R08",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R09",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R10",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R11",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "G01-muju",
+      "requirementId": "G01-R12",
+      "stage": "gate",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R01",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 17,
+          "quote": "槐沚HZ-P8展牌批量替换完成确认"
+        }
+      ],
+      "reason": "参考稿标题明确同一机构、批次和业务对象；负例这里只确认对象相同，不表示错误完成断言合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R02",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "需要实际核验固定原稿三个声称，参考稿本身不能证明执行器已完成核验。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R03",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "只核验而不另写修正版属于执行行为；固定稿字节需运行时另查。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R04",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 99,
+          "quote": "槐沚HZ-P8展牌批量替换完成确认\n截至2026年5月20日16:05，HZ-P8的样张版式已获批准且已打印，因此整批14块展牌的量产审批也已通过；14块均已安装并完成安装验收，本轮展牌替换已完成。"
+        }
+      ],
+      "reason": "原稿以一张样张版式批准推出整批量产批准，违反批准范围限制。",
+      "assertionIds": [
+        "F01-a1",
+        "F01-a2"
+      ]
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R05",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 99,
+          "quote": "槐沚HZ-P8展牌批量替换完成确认\n截至2026年5月20日16:05，HZ-P8的样张版式已获批准且已打印，因此整批14块展牌的量产审批也已通过；14块均已安装并完成安装验收，本轮展牌替换已完成。"
+        }
+      ],
+      "reason": "原稿以样张已打印推出14块安装完成，违反样张与整批安装的区分。",
+      "assertionIds": [
+        "F01-a1",
+        "F01-a2"
+      ]
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R06",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 99,
+          "quote": "槐沚HZ-P8展牌批量替换完成确认\n截至2026年5月20日16:05，HZ-P8的样张版式已获批准且已打印，因此整批14块展牌的量产审批也已通过；14块均已安装并完成安装验收，本轮展牌替换已完成。"
+        }
+      ],
+      "reason": "原稿在16:05无依据声称量产批准、安装及验收均完成，与当时记录相反。",
+      "assertionIds": [
+        "F01-a1",
+        "F01-a2"
+      ]
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R07",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "原稿字节是否保持需运行比对；文本违规不能通过换稿补救。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R08",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 99,
+          "quote": "槐沚HZ-P8展牌批量替换完成确认\n截至2026年5月20日16:05，HZ-P8的样张版式已获批准且已打印，因此整批14块展牌的量产审批也已通过；14块均已安装并完成安装验收，本轮展牌替换已完成。"
+        }
+      ],
+      "reason": "原稿明确以2026年5月20日16:05为时点，没有借现实日期推断后续进展；其审批、安装与验收事实错误已由F01-R04至R06独立列为违例，不能混入时间外推维度。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R09",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R10",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R11",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R12",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "requirementId": "F01-R13",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R01",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 18,
+          "quote": "鹭钟LZ-C5术语表最终签发版本确认"
+        }
+      ],
+      "reason": "参考稿标题明确同一机构、批次和业务对象；负例这里只确认对象相同，不表示错误完成断言合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R02",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "是否核验给定稿件属于执行行为，待运行记录证明。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R03",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 127,
+          "quote": "鹭钟LZ-C5术语表最终签发版本确认\n甲登记为v1.6，乙登记为v1.8；两份登记来自同次签发会议、同一术语表，时间与效力相同，原签发页尚未核对，也没有更正、撤回或优先指定。但v1.8版本号较大，应自动覆盖v1.6，因此唯一最终签发版本已确定为v1.8。"
+        }
+      ],
+      "reason": "候选声称唯一版本已定，但原签发页尚未核对，未达到业务唯一版本要求。",
+      "assertionIds": [
+        "F02-a1",
+        "F02-a2"
+      ]
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R04",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "固定原稿不得替换是运行约束。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R05",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 127,
+          "quote": "鹭钟LZ-C5术语表最终签发版本确认\n甲登记为v1.6，乙登记为v1.8；两份登记来自同次签发会议、同一术语表，时间与效力相同，原签发页尚未核对，也没有更正、撤回或优先指定。但v1.8版本号较大，应自动覆盖v1.6，因此唯一最终签发版本已确定为v1.8。"
+        }
+      ],
+      "reason": "候选虽披露分歧，仍无依据按较大版本号裁定；该限制被违反。",
+      "assertionIds": [
+        "F02-a1",
+        "F02-a2"
+      ]
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R06",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 127,
+          "quote": "鹭钟LZ-C5术语表最终签发版本确认\n甲登记为v1.6，乙登记为v1.8；两份登记来自同次签发会议、同一术语表，时间与效力相同，原签发页尚未核对，也没有更正、撤回或优先指定。但v1.8版本号较大，应自动覆盖v1.6，因此唯一最终签发版本已确定为v1.8。"
+        }
+      ],
+      "reason": "候选如实保留同次会议、同表、同时间同效力事实，这一局部事实本身满足。",
+      "assertionIds": [
+        "F02-a1",
+        "F02-a2"
+      ]
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R07",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 127,
+          "quote": "鹭钟LZ-C5术语表最终签发版本确认\n甲登记为v1.6，乙登记为v1.8；两份登记来自同次签发会议、同一术语表，时间与效力相同，原签发页尚未核对，也没有更正、撤回或优先指定。但v1.8版本号较大，应自动覆盖v1.6，因此唯一最终签发版本已确定为v1.8。"
+        }
+      ],
+      "reason": "候选明确用v1.8编号较大推导自动覆盖，违反不得用编号赋权的限制。",
+      "assertionIds": [
+        "F02-a1",
+        "F02-a2"
+      ]
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R08",
+      "stage": "fixed",
+      "disposition": "expected_violation",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 127,
+          "quote": "鹭钟LZ-C5术语表最终签发版本确认\n甲登记为v1.6，乙登记为v1.8；两份登记来自同次签发会议、同一术语表，时间与效力相同，原签发页尚未核对，也没有更正、撤回或优先指定。但v1.8版本号较大，应自动覆盖v1.6，因此唯一最终签发版本已确定为v1.8。"
+        }
+      ],
+      "reason": "候选承认原签发页尚未核对，却断言唯一最终版本v1.8，违反唯一裁定依据限制。",
+      "assertionIds": [
+        "F02-a1",
+        "F02-a2"
+      ]
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R09",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "原稿字节保持是执行义务，必须另查。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R10",
+      "stage": "fixed",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 127,
+          "quote": "鹭钟LZ-C5术语表最终签发版本确认\n甲登记为v1.6，乙登记为v1.8；两份登记来自同次签发会议、同一术语表，时间与效力相同，原签发页尚未核对，也没有更正、撤回或优先指定。但v1.8版本号较大，应自动覆盖v1.6，因此唯一最终签发版本已确定为v1.8。"
+        }
+      ],
+      "reason": "参考稿保持材料时点；未借当前日期补写后续进展。固定F02虽然未虚构后来时点，仍因无据唯一版本裁定而整稿不合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R11",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R12",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R13",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R14",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "requirementId": "F02-R15",
+      "stage": "fixed",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R01",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 26,
+          "quote": "泊棠本轮PT-R08波形校对值班编辑声景片段复听通知"
+        }
+      ],
+      "reason": "参考稿标题明确同一机构、批次和业务对象；负例这里只确认对象相同，不表示错误完成断言合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R02",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 181,
+          "quote": "泊棠本轮PT-R08波形校对值班编辑声景片段复听通知\n请本轮负责PT-R08波形校对的值班编辑，于2026年6月17日09:25至09:55在监听台2号席，对三个声景采样段各复听一次。发现缺帧或时间戳跳变的采样段，先登记异常，不进入拼接；两项均未出现的采样段才进入拼接。本通知依据2026年6月15日安排，截至安排时复听和拼接均未开始，处理条件不表示已发现异常。"
+        }
+      ],
+      "reason": "标题和正文明确PT-R08声景片段复听，正文对象为本轮负责该批次波形校对的值班编辑；两份安排的条件均被保留。",
+      "assertionIds": [
+        "F03-a1",
+        "F03-a2",
+        "F03-a3"
+      ]
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R03",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 181,
+          "quote": "泊棠本轮PT-R08波形校对值班编辑声景片段复听通知\n请本轮负责PT-R08波形校对的值班编辑，于2026年6月17日09:25至09:55在监听台2号席，对三个声景采样段各复听一次。发现缺帧或时间戳跳变的采样段，先登记异常，不进入拼接；两项均未出现的采样段才进入拼接。本通知依据2026年6月15日安排，截至安排时复听和拼接均未开始，处理条件不表示已发现异常。"
+        }
+      ],
+      "reason": "标题写明PT-R08与波形校对值班编辑，正文仍为预约和条件安排，并明示尚未开始。",
+      "assertionIds": [
+        "F03-a1",
+        "F03-a2",
+        "F03-a3"
+      ]
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R04",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 181,
+          "quote": "泊棠本轮PT-R08波形校对值班编辑声景片段复听通知\n请本轮负责PT-R08波形校对的值班编辑，于2026年6月17日09:25至09:55在监听台2号席，对三个声景采样段各复听一次。发现缺帧或时间戳跳变的采样段，先登记异常，不进入拼接；两项均未出现的采样段才进入拼接。本通知依据2026年6月15日安排，截至安排时复听和拼接均未开始，处理条件不表示已发现异常。"
+        }
+      ],
+      "reason": "正文写三个采样段各复听一次，未缩成整批一次。",
+      "assertionIds": [
+        "F03-a1",
+        "F03-a2",
+        "F03-a3"
+      ]
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R05",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 181,
+          "quote": "泊棠本轮PT-R08波形校对值班编辑声景片段复听通知\n请本轮负责PT-R08波形校对的值班编辑，于2026年6月17日09:25至09:55在监听台2号席，对三个声景采样段各复听一次。发现缺帧或时间戳跳变的采样段，先登记异常，不进入拼接；两项均未出现的采样段才进入拼接。本通知依据2026年6月15日安排，截至安排时复听和拼接均未开始，处理条件不表示已发现异常。"
+        }
+      ],
+      "reason": "正文保留完整年月日、09:25至09:55以及监听台2号席。",
+      "assertionIds": [
+        "F03-a1",
+        "F03-a2",
+        "F03-a3"
+      ]
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R06",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 181,
+          "quote": "泊棠本轮PT-R08波形校对值班编辑声景片段复听通知\n请本轮负责PT-R08波形校对的值班编辑，于2026年6月17日09:25至09:55在监听台2号席，对三个声景采样段各复听一次。发现缺帧或时间戳跳变的采样段，先登记异常，不进入拼接；两项均未出现的采样段才进入拼接。本通知依据2026年6月15日安排，截至安排时复听和拼接均未开始，处理条件不表示已发现异常。"
+        }
+      ],
+      "reason": "正文把缺帧或跳变的任一情况作为该段登记且不拼接条件；两项均无才拼接，或与全否定边界完整。",
+      "assertionIds": [
+        "F03-a1",
+        "F03-a2",
+        "F03-a3"
+      ]
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R07",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 181,
+          "quote": "泊棠本轮PT-R08波形校对值班编辑声景片段复听通知\n请本轮负责PT-R08波形校对的值班编辑，于2026年6月17日09:25至09:55在监听台2号席，对三个声景采样段各复听一次。发现缺帧或时间戳跳变的采样段，先登记异常，不进入拼接；两项均未出现的采样段才进入拼接。本通知依据2026年6月15日安排，截至安排时复听和拼接均未开始，处理条件不表示已发现异常。"
+        }
+      ],
+      "reason": "末句明示尚未开始且条件不代表已发生异常，未将安排写成完成。",
+      "assertionIds": [
+        "F03-a1",
+        "F03-a2",
+        "F03-a3"
+      ]
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R08",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 181,
+          "quote": "泊棠本轮PT-R08波形校对值班编辑声景片段复听通知\n请本轮负责PT-R08波形校对的值班编辑，于2026年6月17日09:25至09:55在监听台2号席，对三个声景采样段各复听一次。发现缺帧或时间戳跳变的采样段，先登记异常，不进入拼接；两项均未出现的采样段才进入拼接。本通知依据2026年6月15日安排，截至安排时复听和拼接均未开始，处理条件不表示已发现异常。"
+        }
+      ],
+      "reason": "按正文（不含标题）逐字计算汉字，低于230；全文没有额外未核对部分。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R09",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 181,
+          "quote": "泊棠本轮PT-R08波形校对值班编辑声景片段复听通知\n请本轮负责PT-R08波形校对的值班编辑，于2026年6月17日09:25至09:55在监听台2号席，对三个声景采样段各复听一次。发现缺帧或时间戳跳变的采样段，先登记异常，不进入拼接；两项均未出现的采样段才进入拼接。本通知依据2026年6月15日安排，截至安排时复听和拼接均未开始，处理条件不表示已发现异常。"
+        }
+      ],
+      "reason": "参考稿保持材料时点；未借当前日期补写后续进展。固定F02虽然未虚构后来时点，仍因无据唯一版本裁定而整稿不合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R10",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R11",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R12",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R13",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R14",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R15",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "requirementId": "F03-R16",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R01",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 19,
+          "quote": "岑碗CW-07展柜导览箭头朝向差异说明"
+        }
+      ],
+      "reason": "参考稿标题明确同一机构、批次和业务对象；负例这里只确认对象相同，不表示错误完成断言合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R02",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 161,
+          "quote": "岑碗CW-07展柜导览箭头朝向差异说明\n截至2026年7月8日10:12，甲记箭头向左，乙记向右；两者均指CW-07同一说明牌的同一箭头，采用观众正对说明牌阅读的同一视角，时间、权限及效力相同，无优先、更正或撤回关系。准确朝向及差异原因均未知；待核对现场箭头与原始照片，核对尚未进行，不能据此自行选边或猜测镜像、视角差异。"
+        }
+      ],
+      "reason": "正文逐一写左右记录、准确朝向未知和现场/照片核对待办，构成一段差异说明。",
+      "assertionIds": [
+        "F04-a1",
+        "F04-a2"
+      ]
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R03",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 161,
+          "quote": "岑碗CW-07展柜导览箭头朝向差异说明\n截至2026年7月8日10:12，甲记箭头向左，乙记向右；两者均指CW-07同一说明牌的同一箭头，采用观众正对说明牌阅读的同一视角，时间、权限及效力相同，无优先、更正或撤回关系。准确朝向及差异原因均未知；待核对现场箭头与原始照片，核对尚未进行，不能据此自行选边或猜测镜像、视角差异。"
+        }
+      ],
+      "reason": "正文把甲与向左、乙与向右一一对应。",
+      "assertionIds": [
+        "F04-a1",
+        "F04-a2"
+      ]
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R04",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 161,
+          "quote": "岑碗CW-07展柜导览箭头朝向差异说明\n截至2026年7月8日10:12，甲记箭头向左，乙记向右；两者均指CW-07同一说明牌的同一箭头，采用观众正对说明牌阅读的同一视角，时间、权限及效力相同，无优先、更正或撤回关系。准确朝向及差异原因均未知；待核对现场箭头与原始照片，核对尚未进行，不能据此自行选边或猜测镜像、视角差异。"
+        }
+      ],
+      "reason": "正文保留同一说明牌同一箭头同一读图视角，以及时间、权限、效力相同。",
+      "assertionIds": [
+        "F04-a1",
+        "F04-a2"
+      ]
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R05",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 161,
+          "quote": "岑碗CW-07展柜导览箭头朝向差异说明\n截至2026年7月8日10:12，甲记箭头向左，乙记向右；两者均指CW-07同一说明牌的同一箭头，采用观众正对说明牌阅读的同一视角，时间、权限及效力相同，无优先、更正或撤回关系。准确朝向及差异原因均未知；待核对现场箭头与原始照片，核对尚未进行，不能据此自行选边或猜测镜像、视角差异。"
+        }
+      ],
+      "reason": "正文明确无优先、更正或撤回关系。",
+      "assertionIds": [
+        "F04-a1",
+        "F04-a2"
+      ]
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R06",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 161,
+          "quote": "岑碗CW-07展柜导览箭头朝向差异说明\n截至2026年7月8日10:12，甲记箭头向左，乙记向右；两者均指CW-07同一说明牌的同一箭头，采用观众正对说明牌阅读的同一视角，时间、权限及效力相同，无优先、更正或撤回关系。准确朝向及差异原因均未知；待核对现场箭头与原始照片，核对尚未进行，不能据此自行选边或猜测镜像、视角差异。"
+        }
+      ],
+      "reason": "正文明确朝向和原因未知，现场及照片核对尚未进行。",
+      "assertionIds": [
+        "F04-a1",
+        "F04-a2"
+      ]
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R07",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 161,
+          "quote": "岑碗CW-07展柜导览箭头朝向差异说明\n截至2026年7月8日10:12，甲记箭头向左，乙记向右；两者均指CW-07同一说明牌的同一箭头，采用观众正对说明牌阅读的同一视角，时间、权限及效力相同，无优先、更正或撤回关系。准确朝向及差异原因均未知；待核对现场箭头与原始照片，核对尚未进行，不能据此自行选边或猜测镜像、视角差异。"
+        }
+      ],
+      "reason": "正文不选边，明确不能猜镜像或视角差异；没有将记录冲突擅自消解。",
+      "assertionIds": [
+        "F04-a1",
+        "F04-a2"
+      ]
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R08",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 161,
+          "quote": "岑碗CW-07展柜导览箭头朝向差异说明\n截至2026年7月8日10:12，甲记箭头向左，乙记向右；两者均指CW-07同一说明牌的同一箭头，采用观众正对说明牌阅读的同一视角，时间、权限及效力相同，无优先、更正或撤回关系。准确朝向及差异原因均未知；待核对现场箭头与原始照片，核对尚未进行，不能据此自行选边或猜测镜像、视角差异。"
+        }
+      ],
+      "reason": "正文汉字数低于230。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R09",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 161,
+          "quote": "岑碗CW-07展柜导览箭头朝向差异说明\n截至2026年7月8日10:12，甲记箭头向左，乙记向右；两者均指CW-07同一说明牌的同一箭头，采用观众正对说明牌阅读的同一视角，时间、权限及效力相同，无优先、更正或撤回关系。准确朝向及差异原因均未知；待核对现场箭头与原始照片，核对尚未进行，不能据此自行选边或猜测镜像、视角差异。"
+        }
+      ],
+      "reason": "参考稿保持材料时点；未借当前日期补写后续进展。固定F02虽然未虚构后来时点，仍因无据唯一版本裁定而整稿不合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R10",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R11",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R12",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R13",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R14",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R15",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "requirementId": "F04-R16",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R01",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 22,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知"
+        }
+      ],
+      "reason": "参考稿标题明确同一机构、批次和业务对象；负例这里只确认对象相同，不表示错误完成断言合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R01",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 22,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知"
+        }
+      ],
+      "reason": "参考稿标题明确同一机构、批次和业务对象；负例这里只确认对象相同，不表示错误完成断言合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R02",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 113,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n请本轮负责JP-A6纸质目录的索引员，于2026年8月12日到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。"
+        }
+      ],
+      "reason": "初稿和终稿标题、正文均明确本轮JP-A6纸质目录索引员及目录缺项补录。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R02",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "初稿和终稿标题、正文均明确本轮JP-A6纸质目录索引员及目录缺项补录。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R03",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 113,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n请本轮负责JP-A6纸质目录的索引员，于2026年8月12日到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。"
+        }
+      ],
+      "reason": "初终稿均写9册纸质目录、日期、地点，并明确登记时尚未开始。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R03",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "初终稿均写9册纸质目录、日期、地点，并明确登记时尚未开始。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R04",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 113,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n请本轮负责JP-A6纸质目录的索引员，于2026年8月12日到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。"
+        }
+      ],
+      "reason": "两阶段都明确该批9册纸质目录，并明示不代表9卷录音。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R04",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "两阶段都明确该批9册纸质目录，并明示不代表9卷录音。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R05",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 113,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n请本轮负责JP-A6纸质目录的索引员，于2026年8月12日到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。"
+        }
+      ],
+      "reason": "两阶段均保留2026年8月12日与档案西室6号桌；终稿新增时段不替换日期地点。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R05",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "两阶段均保留2026年8月12日与档案西室6号桌；终稿新增时段不替换日期地点。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R06",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 113,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n请本轮负责JP-A6纸质目录的索引员，于2026年8月12日到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。"
+        }
+      ],
+      "reason": "两阶段都明确登记时尚未开始，没有声称已完成。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R06",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "两阶段都明确登记时尚未开始，没有声称已完成。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R07",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 113,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n请本轮负责JP-A6纸质目录的索引员，于2026年8月12日到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。"
+        }
+      ],
+      "reason": "两阶段正文汉字数均低于220。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R07",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "两阶段正文汉字数均低于220。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R08",
+      "stage": "initial",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 113,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n请本轮负责JP-A6纸质目录的索引员，于2026年8月12日到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。"
+        }
+      ],
+      "reason": "参考稿保持材料时点；未借当前日期补写后续进展。固定F02虽然未虚构后来时点，仍因无据唯一版本裁定而整稿不合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R08",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "参考稿保持材料时点；未借当前日期补写后续进展。固定F02虽然未虚构后来时点，仍因无据唯一版本裁定而整稿不合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R09",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "终稿第一段保留人员、对象、数量、日期、地点和未开始；原稿各项没有被新格式丢掉。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R10",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "标题后有且仅有两个自然段，段间空行，行首没有项目符号。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R11",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "第一段含本轮范围、日期地点及新增完整时段09:35至10:20。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R12",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "第二段开头限定只用可辨认封套原件，不把旧录入表变成原件。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R13",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "第二段保留缺失或不清任一条件的待查处理，禁止据旧表猜填。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R14",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 187,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知\n本轮负责JP-A6纸质目录的索引员，请于2026年8月12日09:35至10:20到档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填；原目录编号须保留，不得重排。"
+        }
+      ],
+      "reason": "第二段末句同时要求保留原编号并禁止重排。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R15",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 22,
+          "quote": "涧屏本轮JP-A6纸质目录索引员缺项补录通知"
+        }
+      ],
+      "reason": "标题仍是本轮JP-A6纸质目录索引员缺项补录通知。",
+      "assertionIds": [
+        "F05-a1",
+        "F05-a2",
+        "F05-a3",
+        "F05-a4"
+      ]
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R16",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R17",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R18",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R19",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R20",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R21",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R22",
+      "stage": "initial",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R23",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R24",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R25",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R26",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R27",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R28",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "requirementId": "F05-R29",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R01",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "title",
+          "start": 0,
+          "end": 23,
+          "quote": "云枢渲染队列B的2026年9月4日历史快照摘要"
+        }
+      ],
+      "reason": "参考稿标题明确同一机构、批次和业务对象；负例这里只确认对象相同，不表示错误完成断言合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R02",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "云枢渲染队列B的2026年9月4日历史快照摘要\n2026年9月4日10:32，队列B有6项待处理、1项正在运行，仅代表该队列该时刻，不能说7项已完成或推及其他队列。15:08只是复制此快照归档，文件名后缀_final不表示作业完成或快照刷新。19:00处理结果栏为空，且无后续作业或清理日志，不能确认19:00或当前队列已清空、仍未变或已处理完。"
+        }
+      ],
+      "reason": "正文保留队列B历史快照状态和局限，明确复制归档及文件名不代表真实作业进度。",
+      "assertionIds": [
+        "F06-a1",
+        "F06-a2"
+      ]
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R03",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "云枢渲染队列B的2026年9月4日历史快照摘要\n2026年9月4日10:32，队列B有6项待处理、1项正在运行，仅代表该队列该时刻，不能说7项已完成或推及其他队列。15:08只是复制此快照归档，文件名后缀_final不表示作业完成或快照刷新。19:00处理结果栏为空，且无后续作业或清理日志，不能确认19:00或当前队列已清空、仍未变或已处理完。"
+        }
+      ],
+      "reason": "正文以10:32限定队列B六待处理一运行，并明示不是七项完成。",
+      "assertionIds": [
+        "F06-a1",
+        "F06-a2"
+      ]
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R04",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "云枢渲染队列B的2026年9月4日历史快照摘要\n2026年9月4日10:32，队列B有6项待处理、1项正在运行，仅代表该队列该时刻，不能说7项已完成或推及其他队列。15:08只是复制此快照归档，文件名后缀_final不表示作业完成或快照刷新。19:00处理结果栏为空，且无后续作业或清理日志，不能确认19:00或当前队列已清空、仍未变或已处理完。"
+        }
+      ],
+      "reason": "正文区分15:08归档复制及_final命名与作业完成/快照刷新。",
+      "assertionIds": [
+        "F06-a1",
+        "F06-a2"
+      ]
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R05",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "云枢渲染队列B的2026年9月4日历史快照摘要\n2026年9月4日10:32，队列B有6项待处理、1项正在运行，仅代表该队列该时刻，不能说7项已完成或推及其他队列。15:08只是复制此快照归档，文件名后缀_final不表示作业完成或快照刷新。19:00处理结果栏为空，且无后续作业或清理日志，不能确认19:00或当前队列已清空、仍未变或已处理完。"
+        }
+      ],
+      "reason": "正文保留19:00空栏及无后续日志，明确不能确认随后/当前清空、未变或完成。",
+      "assertionIds": [
+        "F06-a1",
+        "F06-a2"
+      ]
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R06",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "云枢渲染队列B的2026年9月4日历史快照摘要\n2026年9月4日10:32，队列B有6项待处理、1项正在运行，仅代表该队列该时刻，不能说7项已完成或推及其他队列。15:08只是复制此快照归档，文件名后缀_final不表示作业完成或快照刷新。19:00处理结果栏为空，且无后续作业或清理日志，不能确认19:00或当前队列已清空、仍未变或已处理完。"
+        }
+      ],
+      "reason": "正文没有推广到其他队列，并明确不能推及。",
+      "assertionIds": [
+        "F06-a1",
+        "F06-a2"
+      ]
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R07",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "云枢渲染队列B的2026年9月4日历史快照摘要\n2026年9月4日10:32，队列B有6项待处理、1项正在运行，仅代表该队列该时刻，不能说7项已完成或推及其他队列。15:08只是复制此快照归档，文件名后缀_final不表示作业完成或快照刷新。19:00处理结果栏为空，且无后续作业或清理日志，不能确认19:00或当前队列已清空、仍未变或已处理完。"
+        }
+      ],
+      "reason": "正文汉字数低于230。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R08",
+      "stage": "final",
+      "disposition": "covered",
+      "spans": [
+        {
+          "part": "content",
+          "start": 0,
+          "end": 173,
+          "quote": "云枢渲染队列B的2026年9月4日历史快照摘要\n2026年9月4日10:32，队列B有6项待处理、1项正在运行，仅代表该队列该时刻，不能说7项已完成或推及其他队列。15:08只是复制此快照归档，文件名后缀_final不表示作业完成或快照刷新。19:00处理结果栏为空，且无后续作业或清理日志，不能确认19:00或当前队列已清空、仍未变或已处理完。"
+        }
+      ],
+      "reason": "参考稿保持材料时点；未借当前日期补写后续进展。固定F02虽然未虚构后来时点，仍因无据唯一版本裁定而整稿不合格。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R09",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R10",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R11",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R12",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R13",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R14",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R15",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R16",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R17",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R18",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "requirementId": "F06-R19",
+      "stage": "final",
+      "disposition": "process_only",
+      "spans": [],
+      "reason": "须由实际应用、身份、账本及真人操作记录验证；本清单未执行该步骤，参考稿文字不能替代流程证据。",
+      "assertionIds": []
+    }
+  ]
+}

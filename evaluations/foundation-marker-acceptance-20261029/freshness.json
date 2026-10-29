@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "modelInputForbidden": true,
+  "authorTask": "/root/marker_live_plan",
+  "authoredAfterProductFreeze": "0d448e264c87a6e65638b330141408335c33c6c1",
+  "candidateAsarSha256": "9fe3cc8b865a37fa063fec7cce7158e4e9a07f682f6556fd08a844f6e89dec2b",
+  "authoredAt": "2026-10-29T01:52:22.655Z",
+  "privateOrPersonalData": false,
+  "allBusinessRecordsSynthetic": true,
+  "realModelCalls": 0,
+  "productChangedForTheseSamples": false,
+  "authorIndependentOfProductImplementation": true,
+  "authorHadReadPriorFormatsAndFailureReports": true,
+  "notClaimingBlindAuthoring": true,
+  "previousSamplesNotRewritten": true,
+  "newDimensions": {
+    "G01": "本地目录索引备份与公开发布、条目与文件单位。",
+    "F01": "局部样张版式审批/打印不得扩展成批量制作、安装与验收。",
+    "F02": "版本号大小不赋予同级签发登记优先权，目标是唯一签发版本。",
+    "F03": "声景采样段各一次，缺帧或跳变的或条件与两项均无才拼接。",
+    "F04": "同一读图视角的左右冲突，是非数值未知说明，不是净重或金额选值。",
+    "F05": "纸质目录补录的两自然段修改；原件可读性、字段待查、禁止旧表猜填和编号保留。",
+    "F06": "数字队列状态快照与文件复制时间、_final归档命名、空栏之间的边界。"
+  },
+  "allowedPreparationUse": "离线执行器/生命周期验证与独立内容审核；如据这些样本修改产品行为，须将其降为回归材料并重新编写真实样本。",
+  "liveExposureRule": "在本轮唯一真实验收启动后不再称未见过样本；不得自然未触发时修改正文或模型kind制造分支。",
+  "counts": {
+    "cases": 7,
+    "requirements": 120,
+    "allowances": 2,
+    "bindings": 128,
+    "covered": 59,
+    "expectedViolation": 7,
+    "processOnly": 62
+  },
+  "referenceCharacterChecks": [
+    {
+      "caseId": "G01-muju",
+      "stage": "gate",
+      "utf16": 53,
+      "hanBody": 32,
+      "sha256": "7604c2f83ebf74413c8809d0a4884e9c7cc3eb260ba6fda72514d0b9751ad8cc"
+    },
+    {
+      "caseId": "F01-huaizhi-approval",
+      "stage": "fixed",
+      "utf16": 99,
+      "hanBody": 55,
+      "sha256": "3a8204dad97e71ad974b6badfe9c8ff0e4961f83f7798baf6abdfdce62c05ce5"
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "stage": "fixed",
+      "utf16": 127,
+      "hanBody": 77,
+      "sha256": "1cd6795ab3d29f8d4bc187c899c47821325d0eff92ec6cf440df078585b40484"
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "stage": "final",
+      "utf16": 181,
+      "hanBody": 113,
+      "sha256": "36c0caf2c0742cdf6aca82754a6fa47781541e20e37ef0452be729d6e38daae0"
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "stage": "final",
+      "utf16": 161,
+      "hanBody": 111,
+      "sha256": "cd825dfdad3d5954d7505322e3811bbf5650948786c4ecbac7bc08a064c4573a"
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "stage": "initial",
+      "utf16": 113,
+      "hanBody": 62,
+      "sha256": "0e8f15160e5ed5ba7363aa20ba63613c9d5a40fc0f4167263645d0f78f0a941d"
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "stage": "final",
+      "utf16": 187,
+      "hanBody": 117,
+      "sha256": "5c54eb28ed57106fbad9965bf12c92cf30f31777a41171246c08af228ce03f4e"
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "stage": "final",
+      "utf16": 173,
+      "hanBody": 102,
+      "sha256": "fbe99fe52441b870121eff12da5e8e3fcde9496e7519f9248af718493cd7e6b3"
+    }
+  ],
+  "reviewStatus": "author-structural-checks-only-independent-review-pending",
+  "sealed": false
+}

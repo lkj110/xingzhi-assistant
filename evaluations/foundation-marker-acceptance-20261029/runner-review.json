@@ -1,0 +1,324 @@
+{
+  "schema": 1,
+  "at": "2026-10-29T02:27:45.401Z",
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/marker_package_audit",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "runnerIdentity": "44854ad3eb4fe2fa4a5f5ed79d045a13d81b0a1181ad38d52a06a465656b2bf0",
+  "approvedForLiveReadiness": true,
+  "approvedForUpload": true,
+  "liveAuthorized": false,
+  "notLiveAuthorization": true,
+  "approvedForInstall": false,
+  "approvedForBinaryRelease": false,
+  "realModelCalls": 0,
+  "actualHumanAcceptances": 0,
+  "approvalScope": "The frozen candidate, fresh samples and evaluator are ready to request one new user-approved acceptance budget. Approval covers this preparation upload only; it grants no model calls, installation or publication.",
+  "candidate": {
+    "sourceCommit": "0d448e264c87a6e65638b330141408335c33c6c1",
+    "asarSha256": "9fe3cc8b865a37fa063fec7cce7158e4e9a07f682f6556fd08a844f6e89dec2b",
+    "groundingSha256": "ac89ce673dd30b9adfbc3b6d459f13979b8a7a5a0e9513ecd463aa688c2a3d40",
+    "installed": false,
+    "productModifiedThisRound": false
+  },
+  "sampleReview": {
+    "path": "sample-review.json",
+    "sha256": "bfb4799e52508e302953a65f1d9a33634cc128c32112ec2c77b5a8b69fbd28fd",
+    "completeInputsRead": true,
+    "sourceDocuments": 13,
+    "sourceEvidenceSpans": 16,
+    "referenceAndFixedDraftVersions": 8,
+    "requirements": 120,
+    "allowances": 2,
+    "stageBindings": 128,
+    "covered": 59,
+    "expectedViolation": 7,
+    "processOnly": 62
+  },
+  "independentChecks": {
+    "newUnitTests": {
+      "total": 18,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sharedUnitTests": {
+      "total": 94,
+      "passed": 93,
+      "failed": 0,
+      "skipped": 1,
+      "skipReason": "Windows host does not permit creating a file symlink"
+    },
+    "actualCandidateOfflineSuite": {
+      "tests": 6,
+      "passed": 6,
+      "syntheticAttempts": 46,
+      "normalLifecycleAttempts": 25,
+      "normalLifecycleCases": 7,
+      "boots": 3,
+      "simulatedMarkerHandoffs": 3,
+      "simulatedAcceptances": 4,
+      "normalAppAndPersistedUsageReconciled": true,
+      "normalExactCitationSpans": 25,
+      "originalInputsAndDraftBytesVerified": true,
+      "revisionConfirmationNotReused": true,
+      "normalUnknownUsage": 0,
+      "normalPendingUsage": 0,
+      "unknownUsageFaultPreservesNullTotal": true,
+      "syntheticTotalsAreNotRealCost": true
+    },
+    "faultStops": [
+      {
+        "fault": "malformed-inner",
+        "attempts": 1
+      },
+      {
+        "fault": "malformed-evidence",
+        "attempts": 5
+      },
+      {
+        "fault": "unknown-usage",
+        "attempts": 1,
+        "unknownUsage": 1
+      },
+      {
+        "fault": "case-budget",
+        "attempts": 4
+      },
+      {
+        "fault": "human-timeout",
+        "attempts": 10,
+        "terminal": "waiting"
+      }
+    ],
+    "sealedRunnerFiles": 15,
+    "sealedDependencies": 214,
+    "hostNodeAndCompilerBound": true,
+    "shimBoundAtRuntime": true,
+    "optionalWebsocketNativeModulesDisabled": true,
+    "outputCannotEnterFrozenTrees": true,
+    "liveCannotImportOfflineHumanAutomationOnItsExecutionPath": true,
+    "allPublicEvidenceMatchesPrivateRecords": true
+  },
+  "accountingLayerDistinction": {
+    "scenario": "case-budget",
+    "application": {
+      "usageReported": false,
+      "spendMeterUnknownCalls": 1
+    },
+    "runner": {
+      "rejectedBeforeDispatch": true,
+      "transportDispatched": false,
+      "provenRemoteTokens": 0,
+      "unknownUsage": 0
+    },
+    "applicationLedgerRewritten": false,
+    "notAClaimOfIdenticalStatusAcrossLayers": true
+  },
+  "freeze": {
+    "allUnchanged": true,
+    "installedFiles": 86,
+    "oldCandidateFiles": 86,
+    "markerCandidateFiles": 86,
+    "historicalFiles": 47,
+    "oldRunnerFiles": 31,
+    "productFiles": 334,
+    "candidateProcessesObservedAfterSuite": 0
+  },
+  "preservedEarlierRuns": [
+    {
+      "name": "full-1",
+      "passed": false,
+      "syntheticAttempts": 3,
+      "reason": "Harness mixed native and non-native temporary path aliases before negative-worker creation",
+      "summarySha256": "a83f896e130f0169c095c11dd612b5d9cf6a195ba946a640199ab09c70c66255"
+    },
+    {
+      "name": "full-2",
+      "passed": false,
+      "syntheticAttempts": 10,
+      "reason": "First-run guide blocked an offline helper click before marker confirmation",
+      "summarySha256": "6dbdea082180a8ef75ec88208606cca8a158e1e10ae01562d95915aee8c505e5"
+    },
+    {
+      "name": "full-3",
+      "passed": true,
+      "syntheticAttempts": 25,
+      "reason": "Successful full rehearsal before adding the final bounded integration driver and documentation",
+      "summarySha256": "9bcfdd5b78bcfa4ab86bd015251e444bc1abb2bd8d49d549994e12771d3b3f72"
+    }
+  ],
+  "resolvedFindings": [
+    "Late human-wait success now rechecks original deadline and stop state.",
+    "Repeated generation and unplanned requests during human handoff are refused.",
+    "All budget admission failures stop the entire round; late requests remain counted.",
+    "Failure and refusal records retain their evaluation phase.",
+    "Output destinations reject frozen-tree writes before mutation.",
+    "Runtime dependencies include shared test input, optional native websocket policy, Node/compiler and generated shim identity.",
+    "Report retains late-entry stage attempts and counts completed invalid drafts as wrong releases even without a grounding result.",
+    "Historical-time coverage classification is consistent without changing any stimulus or reference body.",
+    "Temporary-path alias and first-run-guide harness failures were corrected without product changes."
+  ],
+  "remainingBlockingFindings": [],
+  "proposedBudget": {
+    "applicationAttempts": 40,
+    "inputPlusOutputTokenStopThreshold": 800000,
+    "dispatchWindowMinutes": 45,
+    "newExplicitUserApprovalRequired": true,
+    "uniqueRunIdAndOutputRequired": true,
+    "realCliIdentityRequired": true,
+    "notServerHardCap": true,
+    "inFlightMayExceed": true,
+    "priorBudgetsReusable": false,
+    "formalMainEvaluation": false
+  },
+  "limitations": [
+    "Offline fixtures test orchestration, not real model semantic quality, online CLI protocol or price.",
+    "No hallucination, false-block, wrong-release or token-efficiency improvement is inferred.",
+    "Simulated UI commands are not real human acceptance; live confirmation, explicit recheck and final acceptance must be performed by the user.",
+    "At least one natural marker handoff must close with a real user before claiming that live branch is verified; no forced trigger or rescue samples are allowed.",
+    "The unexecuted Windows file-symlink case remains explicitly skipped; no broader hostile same-user filesystem guarantee is claimed."
+  ],
+  "evidenceSha256": {
+    "freeze-before.json": "fd8503773a270be02e2fca23f06d9f31d88bb6de2f51834c8b3192c24b760b28",
+    "freeze-after.json": "c3a0379e8c3985c75636246c9dd90286b918ae929ff9615e75eee6f544665a5b",
+    "sample-structural-check.json": "8d1abdf40107a2778adbdb93c4b1484618e91d149b8c0f823fc540272c49ac53",
+    "shared-tests.tap": "cccb6919c55000bc8efc3ff51747739157acd3d3a925e4c7ca882c6770b783ed",
+    "marker-unit-tests-final.tap": "1228cca4cd075cc76b35b817edf6ef99a8a48b940427abd6cab9e5f8217c4e57",
+    "final-seal-check.json": "807f0eb20ef21e69b66c5a221d34cc88cab16dc037ae2e5dc27829d1d56751c5",
+    "full-3-review.json": "29f8fe9132d286f1f0b29eb86766382f61a39ce3a38f6a901ee34772631ca75f",
+    "final-suite-review.json": "a0d7ba64429be47d5e2c36409a8ca64a1dbebdf738afb162ac94661dce438c18",
+    "final-full-review.json": "1adff848881b8e37e063972689dd6f8553d1330e0a9e4ef944e092c4b10c754f"
+  },
+  "integrationArtifactSha256": "0ac8d931a61d2e904007c12cf7dc634f7166e7d30ac5c2c1e43be6549eccf5dc",
+  "reviewedFiles": [
+    {
+      "path": "docs/FOUNDATION_MARKER_ACCEPTANCE_PREPARATION_20261029.md",
+      "sha256": "986fabd513c08e89c19b2a326ce9c3c37a49d831ea46207334c02980a506012e"
+    },
+    {
+      "path": "docs/evidence/foundation-marker-preparation-verification.json",
+      "sha256": "69ea56f96cf93e5e5405ba1b3aa54b99687a991117ca089c8df512852a8c618f"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/README.md",
+      "sha256": "969ae37b18a7ac0b6f11c83be1afce52f1f6de1e62615592628b2cc965ca028d"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/anchors.json",
+      "sha256": "35ef8fcf50ddf3635ec33dd6edbd17bce00a8809388c31c35e6885d518a1470b"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/author-check.json",
+      "sha256": "b67efa1a477d2ddb2eec5cb20b5d0fe584a756a92667903d76c11b54c932b615"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/coverage.json",
+      "sha256": "76ec0e2317b90d9429223ff9548ef51d8ebf51da848bf2aa36d85b4c89f6e3e8"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/freshness.json",
+      "sha256": "58cab77b69ee79fa902916210042cf3efa52931c84fa3ad71c27c3fbd50c6b0c"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/gate.json",
+      "sha256": "01de4e13d76e1db031557f47545f2bd04e08daa39b1f3367dd6b8d3d381f7e6b"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/gold.json",
+      "sha256": "c04d36c6e0df8a26e6246cab3a5af6bf754a0be1328916b8b086a4390eeb4ab4"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/inputs.cjs",
+      "sha256": "696a8d241b4163d8f1e797dd005d303dd2797004cf2aa79ec6bae03ed2aa1137"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/package-manifest.json",
+      "sha256": "74099f520cc9305e57c337e074289ee693da29bc7bb84615e23495ff90b8ef2a"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/plan.json",
+      "sha256": "307f36942cf0d277c5ab47f9fb0af3b82a641712acb16ccb59a365b183e5612e"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/requirements.json",
+      "sha256": "2dfc8cbc6f9f48df48e3a2446d3b8d462d1ff3841a8cdca11778658fb01d48ce"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/runner-seal.json",
+      "sha256": "ac6dbd12f6f81c0f9190aed4c600794eaf4fdf43041d5c4fc2e1ada18103c454"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/sample-review.json",
+      "sha256": "bfb4799e52508e302953a65f1d9a33634cc128c32112ec2c77b5a8b69fbd28fd"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/seal.json",
+      "sha256": "a4aee2d7130b210b934c7a323223a40dca23c946284c5357aa4922204aeb7b75"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/stimuli.json",
+      "sha256": "ae39cdecee5e9d5e2f8dbd775688daee6051bba5b04f95d497674943e4071ccf"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/README.md",
+      "sha256": "89e11fbe0e559fbe24bdcfe48a266b5aa8001a93ba550b90164ce6d47ae55cf1"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/broker.cjs",
+      "sha256": "db9a6508c76093e43fb86b63a1803038993e5ab472533acea571904aaa147d9d"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/broker.test.cjs",
+      "sha256": "7bfff6b11d6eb2961c4ce9ceabc2938d3036130a6f3c8b80d41ecb3d1c40c082"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/checkpoints.cjs",
+      "sha256": "79f626ed4e2162a96f67efdc5e6577c845774cbc43ab3cfae4925b45c146ce47"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/identity.cjs",
+      "sha256": "6e86bb5a8a1587003368eeb36e58b2502826a2c55806a551e01693d0bfd1b159"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/integration.cjs",
+      "sha256": "a9bbf994ca3aa87fef690882414523f21025063fe07c6f449a2f888e24cbdaf6"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/offline-human.cjs",
+      "sha256": "f7880226beeb62031c6f327a5160a277b06060d08dd8bed534d512ee5e14cc2e"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/output.cjs",
+      "sha256": "ce2206f605869731766705034b1b29e69ef95909144d6981b4035a5c311a0b0f"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/output.test.cjs",
+      "sha256": "8e4047a1313a4a1300de606750980d54d8b9bd916fa5ff4c0844bfcbf7d90c8e"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/phases.cjs",
+      "sha256": "ff4d474b5b5af2dd62d38cf42372d25fc65caeaae8404957cdd5e0e777a6fe72"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/phases.test.cjs",
+      "sha256": "e70ae3f3515f31ce55dae4314003e75e5889a31e569efb9432894c7d1800fc44"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/report.cjs",
+      "sha256": "aacd01ff5780999ebfb4eb5161f03cbce272a3d9720f31adb17f7cdc95839aee"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/report.test.cjs",
+      "sha256": "1bfe30dc95d4f4d7c410284622e438edc3d321e0395eae2b7da6942ca748527a"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/run.cjs",
+      "sha256": "773c6b3fc3961e478006b312110f9e8ac2e4768340e64c093d465854ce6f35a4"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/seal.cjs",
+      "sha256": "36fdd7a6e64ca097101cc31f50d92b649219b91d1e771b3e1d9cb55063cc5188"
+    }
+  ]
+}

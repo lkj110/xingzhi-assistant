@@ -1,0 +1,315 @@
+{
+  "schema": 1,
+  "modelInputForbidden": true,
+  "offsetUnit": "UTF-16 code units",
+  "interval": "[start,end)",
+  "sourceHashAlgorithm": "sha256-utf8-content",
+  "protocolGate": {
+    "id": "G01-muju",
+    "sources": [
+      {
+        "sourceKey": "s1",
+        "sourceHash": "f8dbd4ce27e7742cf4b4f600539707431c315c84ec7ec0f327d0f552431391ab",
+        "utf16Length": 64
+      }
+    ],
+    "assertions": [
+      {
+        "id": "G01-a1",
+        "evidence": [
+          {
+            "sourceKey": "s1",
+            "quote": "截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条目录条目；该索引尚未公开发布。条目数不表示文件数。",
+            "start": 0,
+            "end": 64,
+            "sourceHash": "f8dbd4ce27e7742cf4b4f600539707431c315c84ec7ec0f327d0f552431391ab"
+          }
+        ]
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "F01-huaizhi-approval",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "67d15a70a67cb7441e5c5f49e3d657088824b986f18a577a5c205de7caca4b25",
+          "utf16Length": 73
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "aae28a15c7b220168b73f59961d7fa640dcf69ea18f434cfc04933a2a3d2f588",
+          "utf16Length": 61
+        }
+      ],
+      "assertions": [
+        {
+          "id": "F01-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "quote": "2026年5月20日15:10审批：本次批准范围仅为HZ-P8展牌一张样张的版式。\n批量制作14块展牌需另行审批，本批准不包含批量制作与现场安装。",
+              "start": 0,
+              "end": 73,
+              "sourceHash": "67d15a70a67cb7441e5c5f49e3d657088824b986f18a577a5c205de7caca4b25"
+            }
+          ]
+        },
+        {
+          "id": "F01-a2",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "quote": "截至2026年5月20日16:05，已打印一张样张供校色；批量制作审批尚未通过，14块展牌均未安装，也未形成安装验收记录。",
+              "start": 0,
+              "end": 61,
+              "sourceHash": "aae28a15c7b220168b73f59961d7fa640dcf69ea18f434cfc04933a2a3d2f588"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F02-luzhong-version",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "d42ff80a97a3b4a8c7165c2eb2c694d5971d969b4d2950fb21be2ac0d7be65bd",
+          "utf16Length": 102
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "782cd3cb0ab790a029316986100b680ff45c8ba35f32a157e11c3f1f3b2a46bd",
+          "utf16Length": 87
+        }
+      ],
+      "assertions": [
+        {
+          "id": "F02-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "quote": "2026年6月2日13:18登记：甲记录LZ-C5术语表签发版本为v1.6，乙记录为v1.8。\n两份登记均记录同一次签发会议、同一份术语表，时间相同，记录权限及效力相同。版本号本身不赋予任何登记优先效力。",
+              "start": 0,
+              "end": 102,
+              "sourceHash": "d42ff80a97a3b4a8c7165c2eb2c694d5971d969b4d2950fb21be2ac0d7be65bd"
+            }
+          ]
+        },
+        {
+          "id": "F02-a2",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "quote": "截至2026年6月2日13:18，原签发页尚未核对，甲乙两份登记均未更正或撤回，没有文件指定其中一份优先。\n唯一最终签发版本须核对原签发页后确认；当前未形成最终版本确认记录。",
+              "start": 0,
+              "end": 87,
+              "sourceHash": "782cd3cb0ab790a029316986100b680ff45c8ba35f32a157e11c3f1f3b2a46bd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F03-botang-notice",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "053648cea6335965b86c4fe4065cdb4abadc2671509bbec347bab106240efb51",
+          "utf16Length": 121
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "5de1e6f8118ccbcbb769e28b93d6261ceadde13f6ff24cf1347eb0f3dabc1ffd",
+          "utf16Length": 104
+        }
+      ],
+      "assertions": [
+        {
+          "id": "F03-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "quote": "本轮复听对象为PT-R08三个声景采样段，由本轮负责PT-R08波形校对的值班编辑执行，每个采样段各复听一次。",
+              "start": 13,
+              "end": 68,
+              "sourceHash": "053648cea6335965b86c4fe4065cdb4abadc2671509bbec347bab106240efb51"
+            }
+          ]
+        },
+        {
+          "id": "F03-a2",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "quote": "预约时段为2026年6月17日09:25至09:55，地点监听台2号席。截至安排时，复听和拼接均未开始。",
+              "start": 69,
+              "end": 121,
+              "sourceHash": "053648cea6335965b86c4fe4065cdb4abadc2671509bbec347bab106240efb51"
+            }
+          ]
+        },
+        {
+          "id": "F03-a3",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "quote": "本规则适用于本轮PT-R08复听。某采样段一旦发现缺帧或时间戳跳变中的任一情况，须先登记该段异常，该段不进入拼接；只有两项均未发现的采样段才进入拼接。\n本记录规定处理条件，不表示三个采样段中已经发现任何异常。",
+              "start": 0,
+              "end": 104,
+              "sourceHash": "5de1e6f8118ccbcbb769e28b93d6261ceadde13f6ff24cf1347eb0f3dabc1ffd"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F04-cenwan-direction",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "153fcd528c952973a1d05b2c465352ee362c7af329494c2b9b9a5c83cc82b516",
+          "utf16Length": 100
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "93e856575026ed57a4b1d84c656cb1996e994473654bd791886419f5c4cb8779",
+          "utf16Length": 81
+        }
+      ],
+      "assertions": [
+        {
+          "id": "F04-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "quote": "2026年7月8日10:12，甲记录写CW-07展柜说明牌的导览箭头向左，乙记录写同一箭头向右。\n两份记录均以观众正对说明牌阅读时的视角为准，对应同一块说明牌和同一箭头；抄录时间、记录权限及效力相同。",
+              "start": 0,
+              "end": 100,
+              "sourceHash": "153fcd528c952973a1d05b2c465352ee362c7af329494c2b9b9a5c83cc82b516"
+            }
+          ]
+        },
+        {
+          "id": "F04-a2",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "quote": "截至2026年7月8日10:12，没有材料指定甲或乙优先，两份记录均未更正或撤回。\n已登记待办：核对现场箭头与原始照片；该核对尚未进行，准确朝向及差异原因均未知。",
+              "start": 0,
+              "end": 81,
+              "sourceHash": "93e856575026ed57a4b1d84c656cb1996e994473654bd791886419f5c4cb8779"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F05-jianping-revision",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "2c41a2e3cd52d3ba205d5384b19efa6e0641116725f178d3b8c069e94a4b0c53",
+          "utf16Length": 114
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "2a81ecaa198e122a92940860c1b5a219aed1ce6c4082183d431cc4388958e953",
+          "utf16Length": 83
+        }
+      ],
+      "assertions": [
+        {
+          "id": "F05-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "quote": "本轮由负责JP-A6纸质目录的索引员，对该批次9册纸质目录进行缺项补录；册数不代表录音卷数。",
+              "start": 12,
+              "end": 58,
+              "sourceHash": "2c41a2e3cd52d3ba205d5384b19efa6e0641116725f178d3b8c069e94a4b0c53"
+            }
+          ]
+        },
+        {
+          "id": "F05-a2",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "quote": "办理日期为2026年8月12日，时段09:35至10:20，地点档案西室6号桌。",
+              "start": 59,
+              "end": 99,
+              "sourceHash": "2c41a2e3cd52d3ba205d5384b19efa6e0641116725f178d3b8c069e94a4b0c53"
+            }
+          ]
+        },
+        {
+          "id": "F05-a3",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "quote": "本轮只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填。\n原目录编号须保留，不得重排；本规则不要求补写无法由原件读出的内容。",
+              "start": 0,
+              "end": 83,
+              "sourceHash": "2a81ecaa198e122a92940860c1b5a219aed1ce6c4082183d431cc4388958e953"
+            }
+          ]
+        },
+        {
+          "id": "F05-a4",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "quote": "截至登记时，本轮补录尚未开始。",
+              "start": 99,
+              "end": 114,
+              "sourceHash": "2c41a2e3cd52d3ba205d5384b19efa6e0641116725f178d3b8c069e94a4b0c53"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F06-yunshu-restart",
+      "sources": [
+        {
+          "sourceKey": "s1",
+          "sourceHash": "03eb37ef9693c504bfde951d5f25b3e74636c042cc728bd9f91bdc0f92b3dd17",
+          "utf16Length": 74
+        },
+        {
+          "sourceKey": "s2",
+          "sourceHash": "a7089dcd5867d74855b61a5a71e07561b88f6ea7b17e23b9cffff84b761c6b82",
+          "utf16Length": 108
+        }
+      ],
+      "assertions": [
+        {
+          "id": "F06-a1",
+          "evidence": [
+            {
+              "sourceKey": "s1",
+              "quote": "2026年9月4日10:32监控快照：队列B有6项待处理、1项正在运行。\n此快照仅覆盖队列B的该时刻，不包含其他队列。19:00处理结果栏：未填写。",
+              "start": 0,
+              "end": 74,
+              "sourceHash": "03eb37ef9693c504bfde951d5f25b3e74636c042cc728bd9f91bdc0f92b3dd17"
+            }
+          ]
+        },
+        {
+          "id": "F06-a2",
+          "evidence": [
+            {
+              "sourceKey": "s2",
+              "quote": "2026年9月4日15:08，将上述10:32快照文件复制到归档目录，文件名添加_final后缀；这是归档命名，不表示作业完成或快照内容刷新。\n所附材料没有10:32以后的作业或清理日志，不能确认后续或当前队列状态。",
+              "start": 0,
+              "end": 108,
+              "sourceHash": "a7089dcd5867d74855b61a5a71e07561b88f6ea7b17e23b9cffff84b761c6b82"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

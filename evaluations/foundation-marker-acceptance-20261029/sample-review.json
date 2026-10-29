@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "at": "2026-10-29T02:00:59.442Z",
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/marker_package_audit",
+  "approvedForOfflinePreparation": true,
+  "approvedForLiveReadiness": false,
+  "notLiveAuthorization": true,
+  "realModelCalls": 0,
+  "productChangedForSamples": false,
+  "scope": "Independent full-input to reference semantic review, structural binding checks and offline-preparation approval only",
+  "requirementsCoverage": {
+    "completeInputsRead": true,
+    "sourceDocumentsRead": 13,
+    "sourceEvidenceSpansVerified": 16,
+    "requirements": 120,
+    "allowances": 2,
+    "stageBindings": 128,
+    "covered": 59,
+    "expectedViolation": 7,
+    "processOnlyNotYetExecuted": 62,
+    "referenceAndFixedDraftVersionsRead": 8,
+    "initialAndRevisionObligationsSeparated": true,
+    "allReferenceDraftsWithinLengthLimit": true,
+    "revisionFinalExactlyTwoParagraphs": true,
+    "interpretation": "Coverage locates text and distinguishes expected fixed-draft errors; neither process-only bindings nor pending human state are passes"
+  },
+  "semanticFindings": {
+    "G01": "One-sentence historical local-save summary preserves time, seven catalog entries and not-public state.",
+    "F01": "Fixed draft falsely extends one-sample approval/printing into batch approval, installation and acceptance; must remain unchanged and blocked.",
+    "F02": "Fixed draft discloses equal-authority disagreement but still invents a unique version from larger numbering; must remain unchanged and blocked.",
+    "F03": "Reference preserves personnel/batch/object, once per segment, exact time/location, either-anomaly exclusion and both-absent condition without inventing completion.",
+    "F04": "Reference preserves same-view left/right conflict, equal authority, absence of priority/correction, unknown direction/cause and pending inspection.",
+    "F05": "Initial reference meets original scope/date/location/not-started duties; final retains them and adds the planned time, two paragraphs, legible-original basis, pending fields and unchanged numbering.",
+    "F06": "Reference binds six pending/one running to the historical snapshot; archive time, filename suffix and empty result field do not imply later/current state."
+  },
+  "resolvedFindings": [
+    {
+      "id": "S01",
+      "issue": "Historical-time prefix coverage used inconsistent criteria between F01 and F02.",
+      "resolution": "F01-R08 now records temporal compliance consistently; unsupported approval/installation/acceptance remain independent expected violations. No stimulus or reference-body bytes changed."
+    }
+  ],
+  "remainingBlockingFindings": [],
+  "freshness": {
+    "independentAuthorAfterProductFreeze": true,
+    "notBlindAuthoringClaimed": true,
+    "comparedHistoricalTextPool": 53,
+    "newSourceAndDraftTextsCompared": 21,
+    "exactHistoricalTextReuse": 0,
+    "claimLimit": "Exact-text comparison supplements semantic review of new business facts; it does not establish statistical independence or model generalization."
+  },
+  "inputIsolation": {
+    "projectionAllowlistVerified": true,
+    "goldAndCoverageExcluded": true,
+    "revisionNoteOnlyAtPlannedRevision": true,
+    "notificationClaimKindsFixtureOnly": true
+  },
+  "budgetReviewed": {
+    "applicationAttempts": 40,
+    "inputOutputTokenStopThreshold": 800000,
+    "newApprovalRequired": true,
+    "hardProviderCap": false
+  },
+  "limitations": [
+    "No real model outcome, token-efficiency claim or quality-rate estimate follows from sample preparation.",
+    "This review does not approve the executor or authorize model spending, deployment or installation.",
+    "Any product tuning using these samples invalidates their fresh-acceptance status."
+  ],
+  "independentStructuralEvidenceSha256": "8d1abdf40107a2778adbdb93c4b1484618e91d149b8c0f823fc540272c49ac53",
+  "reviewedFiles": [
+    {
+      "path": "gate.json",
+      "sha256": "01de4e13d76e1db031557f47545f2bd04e08daa39b1f3367dd6b8d3d381f7e6b"
+    },
+    {
+      "path": "stimuli.json",
+      "sha256": "ae39cdecee5e9d5e2f8dbd775688daee6051bba5b04f95d497674943e4071ccf"
+    },
+    {
+      "path": "gold.json",
+      "sha256": "c04d36c6e0df8a26e6246cab3a5af6bf754a0be1328916b8b086a4390eeb4ab4"
+    },
+    {
+      "path": "inputs.cjs",
+      "sha256": "696a8d241b4163d8f1e797dd005d303dd2797004cf2aa79ec6bae03ed2aa1137"
+    },
+    {
+      "path": "anchors.json",
+      "sha256": "35ef8fcf50ddf3635ec33dd6edbd17bce00a8809388c31c35e6885d518a1470b"
+    },
+    {
+      "path": "plan.json",
+      "sha256": "307f36942cf0d277c5ab47f9fb0af3b82a641712acb16ccb59a365b183e5612e"
+    },
+    {
+      "path": "requirements.json",
+      "sha256": "2dfc8cbc6f9f48df48e3a2446d3b8d462d1ff3841a8cdca11778658fb01d48ce"
+    },
+    {
+      "path": "coverage.json",
+      "sha256": "76ec0e2317b90d9429223ff9548ef51d8ebf51da848bf2aa36d85b4c89f6e3e8"
+    },
+    {
+      "path": "freshness.json",
+      "sha256": "58cab77b69ee79fa902916210042cf3efa52931c84fa3ad71c27c3fbd50c6b0c"
+    },
+    {
+      "path": "README.md",
+      "sha256": "969ae37b18a7ac0b6f11c83be1afce52f1f6de1e62615592628b2cc965ca028d"
+    },
+    {
+      "path": "author-check.json",
+      "sha256": "b67efa1a477d2ddb2eec5cb20b5d0fe584a756a92667903d76c11b54c932b615"
+    },
+    {
+      "path": "package-manifest.json",
+      "sha256": "74099f520cc9305e57c337e074289ee693da29bc7bb84615e23495ff90b8ef2a"
+    }
+  ]
+}

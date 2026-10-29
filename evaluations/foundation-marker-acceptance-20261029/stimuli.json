@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "F01-huaizhi-approval",
+      "lane": "fixed_invalid",
+      "title": "槐沚HZ-P8展牌批量替换完成稿核验",
+      "description": "以2026年5月20日16:05为判断时点，核验给定原稿关于批量审批、安装及验收的说法；只核验原稿，不另写修正版。",
+      "criteria": "区分只对一张样张生效的版式批准与整批量产批准；不得以样张已打印证明14块展牌已安装；仅按登记时点的审批、施工、验收记录判定，不推测后续进展；候选原文须保持不变。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "槐沚HZ-P8样张版式审批摘录",
+          "content": "2026年5月20日15:10审批：本次批准范围仅为HZ-P8展牌一张样张的版式。\n批量制作14块展牌需另行审批，本批准不包含批量制作与现场安装。"
+        },
+        {
+          "key": "s2",
+          "title": "槐沚HZ-P8当日制作登记",
+          "content": "截至2026年5月20日16:05，已打印一张样张供校色；批量制作审批尚未通过，14块展牌均未安装，也未形成安装验收记录。"
+        }
+      ],
+      "candidate": "槐沚HZ-P8展牌批量替换完成确认\n截至2026年5月20日16:05，HZ-P8的样张版式已获批准且已打印，因此整批14块展牌的量产审批也已通过；14块均已安装并完成安装验收，本轮展牌替换已完成。",
+      "workflow": [
+        "import_sources",
+        "seed_fixed_draft_in_isolated_fixture",
+        "verify_once",
+        "assert_candidate_bytes_unchanged",
+        "assert_blocked_and_not_accept_enabled"
+      ]
+    },
+    {
+      "id": "F02-luzhong-version",
+      "lane": "fixed_invalid",
+      "title": "鹭钟LZ-C5术语表最终签发版本确认稿核验",
+      "description": "核验这份最终签发版本确认稿。业务交付要求确认LZ-C5术语表唯一的最终签发版本；只判定给定原稿，列出分歧不能代替最终版本的确认依据。",
+      "criteria": "甲、乙登记都对应同一次签发会议、同一份术语表，记录时间与效力相同；不能把版本号较大当作自动覆盖或优先效力；原签发页未核对且没有最终确认时，任何唯一版本裁定都不合格；候选原文须保持不变。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "鹭钟LZ-C5双份签发会议登记",
+          "content": "2026年6月2日13:18登记：甲记录LZ-C5术语表签发版本为v1.6，乙记录为v1.8。\n两份登记均记录同一次签发会议、同一份术语表，时间相同，记录权限及效力相同。版本号本身不赋予任何登记优先效力。"
+        },
+        {
+          "key": "s2",
+          "title": "鹭钟LZ-C5签发页待核对说明",
+          "content": "截至2026年6月2日13:18，原签发页尚未核对，甲乙两份登记均未更正或撤回，没有文件指定其中一份优先。\n唯一最终签发版本须核对原签发页后确认；当前未形成最终版本确认记录。"
+        }
+      ],
+      "candidate": "鹭钟LZ-C5术语表最终签发版本确认\n甲登记为v1.6，乙登记为v1.8；两份登记来自同次签发会议、同一术语表，时间与效力相同，原签发页尚未核对，也没有更正、撤回或优先指定。但v1.8版本号较大，应自动覆盖v1.6，因此唯一最终签发版本已确定为v1.8。",
+      "workflow": [
+        "import_sources",
+        "seed_fixed_draft_in_isolated_fixture",
+        "verify_once",
+        "assert_candidate_bytes_unchanged",
+        "assert_blocked_and_not_accept_enabled"
+      ]
+    },
+    {
+      "id": "F03-botang-notice",
+      "lane": "generated",
+      "title": "泊棠PT-R08波形校对值班编辑声景片段复听通知",
+      "description": "请依据两份安排记录，给本轮负责PT-R08波形校对的值班编辑写一份声景片段复听通知。标题须保留批次与人员范围，正文按待执行安排表达。",
+      "criteria": "PT-R08三个采样段须各复听一次，不能写成整批只复听一次；时段为2026年6月17日09:25至09:55，地点为监听台2号席；缺帧或时间戳跳变任一出现的采样段先登记异常且不进入拼接，两项均未出现的采样段才进入拼接；不得声称异常已出现、复听或拼接已完成；正文不超过230个汉字。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "泊棠PT-R08声景复听安排",
+          "content": "2026年6月15日安排：本轮复听对象为PT-R08三个声景采样段，由本轮负责PT-R08波形校对的值班编辑执行，每个采样段各复听一次。\n预约时段为2026年6月17日09:25至09:55，地点监听台2号席。截至安排时，复听和拼接均未开始。"
+        },
+        {
+          "key": "s2",
+          "title": "泊棠PT-R08采样段异常处理条件",
+          "content": "本规则适用于本轮PT-R08复听。某采样段一旦发现缺帧或时间戳跳变中的任一情况，须先登记该段异常，该段不进入拼接；只有两项均未发现的采样段才进入拼接。\n本记录规定处理条件，不表示三个采样段中已经发现任何异常。"
+        }
+      ],
+      "workflow": [
+        "import_sources",
+        "create_task",
+        "advance_once",
+        "audit_final_draft",
+        "human_marker_confirmation_if_naturally_required",
+        "explicit_recheck_after_human_confirmation_if_required",
+        "await_human_acceptance"
+      ]
+    },
+    {
+      "id": "F04-cenwan-direction",
+      "lane": "generated",
+      "title": "岑碗CW-07展柜导览箭头朝向差异说明",
+      "description": "请给归档员写一段CW-07导览箭头朝向差异说明，交代两份记录各自的内容、能否确定准确朝向，以及后续待办。允许以准确朝向未知结束本说明。",
+      "criteria": "分别写明甲记向左、乙记向右；两份记录均针对同一块说明牌、同一箭头，并采用观众正对说明牌阅读时的同一视角，时间、权限及效力相同；无优先、更正或撤回关系；明确准确朝向及差异原因均未知，核对现场和原始照片仍是待办；不得凭左或右、记录名称自行选边，也不能猜成镜像或不同视角导致；正文不超过230个汉字。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "岑碗CW-07导览箭头双份抄录",
+          "content": "2026年7月8日10:12，甲记录写CW-07展柜说明牌的导览箭头向左，乙记录写同一箭头向右。\n两份记录均以观众正对说明牌阅读时的视角为准，对应同一块说明牌和同一箭头；抄录时间、记录权限及效力相同。"
+        },
+        {
+          "key": "s2",
+          "title": "岑碗CW-07抄录差异待办",
+          "content": "截至2026年7月8日10:12，没有材料指定甲或乙优先，两份记录均未更正或撤回。\n已登记待办：核对现场箭头与原始照片；该核对尚未进行，准确朝向及差异原因均未知。"
+        }
+      ],
+      "workflow": [
+        "import_sources",
+        "create_task",
+        "advance_once",
+        "audit_final_draft",
+        "human_marker_confirmation_if_naturally_required",
+        "explicit_recheck_after_human_confirmation_if_required",
+        "await_human_acceptance"
+      ]
+    },
+    {
+      "id": "F05-jianping-revision",
+      "lane": "generated_revision",
+      "title": "涧屏JP-A6索引员纸质目录缺项补录通知",
+      "description": "请先给本轮负责JP-A6纸质目录的索引员写一份缺项补录通知，标题与正文都保留人员和业务对象。初稿须说明补录数量、日期、地点和未开始状态。",
+      "criteria": "本轮仅涉及JP-A6批次9册纸质目录，不代表9卷录音；办理日期为2026年8月12日，地点为档案西室6号桌；不能把补录安排说成已经完成；正文不超过220个汉字；初稿不要求两段正文。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "涧屏JP-A6纸质目录补录安排",
+          "content": "2026年8月9日登记：本轮由负责JP-A6纸质目录的索引员，对该批次9册纸质目录进行缺项补录；册数不代表录音卷数。\n办理日期为2026年8月12日，时段09:35至10:20，地点档案西室6号桌。截至登记时，本轮补录尚未开始。"
+        },
+        {
+          "key": "s2",
+          "title": "涧屏JP-A6补录依据和编号规则",
+          "content": "本轮只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填。\n原目录编号须保留，不得重排；本规则不要求补写无法由原件读出的内容。"
+        }
+      ],
+      "revision": {
+        "command": "revise",
+        "note": "保留本轮负责JP-A6纸质目录的索引员、9册纸质目录、2026年8月12日、档案西室6号桌和未开始状态。将正文改为恰好两个自然段，不用项目符号：第一段交代本轮范围与安排，并补充09:35至10:20；第二段说明只依据可辨认的封套原件补录，封套缺失或字迹不清的字段统一标为“待查”、不能凭旧录入表猜填，原目录编号须保留、不得重排。标题仍保留人员和业务对象。",
+        "additionalCriteria": "最终正文恰好两个自然段且无项目符号；初稿要求继续满足，第一段增加完整时段，第二段具备原件依据、缺失或模糊时待查、不得猜填和编号不得重排的限制。"
+      },
+      "workflow": [
+        "import_sources",
+        "create_task",
+        "advance_once",
+        "audit_initial_draft",
+        "human_marker_confirmation_if_naturally_required",
+        "explicit_recheck_after_human_confirmation_if_required",
+        "capture_initial_review",
+        "revise_once",
+        "advance_once",
+        "assert_new_verification_basis",
+        "audit_final_draft",
+        "human_marker_confirmation_if_naturally_required",
+        "explicit_recheck_after_human_confirmation_if_required",
+        "await_human_acceptance"
+      ]
+    },
+    {
+      "id": "F06-yunshu-restart",
+      "lane": "generated_restart",
+      "title": "云枢渲染队列B的2026年9月4日历史快照摘要",
+      "description": "请为查阅旧档的排版员写一段历史摘要，解释队列快照中的状态与适用范围，并区分文件归档信息和真实作业进度。",
+      "criteria": "将队列B待处理6项、正在运行1项绑定到2026年9月4日10:32，不能改成7项已完成；说明15:08只是复制文件归档，文件名后缀_final也不证明作业完成或快照刷新；19:00处理结果栏为空且没有后续作业或清理日志，不能推断19:00或当前队列已清空、仍未变或已处理完；不能推及其他队列；正文不超过230个汉字。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "云枢渲染队列B监控快照导出",
+          "content": "2026年9月4日10:32监控快照：队列B有6项待处理、1项正在运行。\n此快照仅覆盖队列B的该时刻，不包含其他队列。19:00处理结果栏：未填写。"
+        },
+        {
+          "key": "s2",
+          "title": "云枢队列B快照归档注记",
+          "content": "2026年9月4日15:08，将上述10:32快照文件复制到归档目录，文件名添加_final后缀；这是归档命名，不表示作业完成或快照内容刷新。\n所附材料没有10:32以后的作业或清理日志，不能确认后续或当前队列状态。"
+        }
+      ],
+      "workflow": [
+        "import_sources",
+        "create_task",
+        "cold_restart_before_advance",
+        "assert_no_model_dispatch_on_restart",
+        "advance_once",
+        "audit_final_draft",
+        "human_marker_confirmation_if_naturally_required",
+        "explicit_recheck_after_human_confirmation_if_required",
+        "cold_restart_at_review",
+        "assert_same_draft_and_verification",
+        "await_human_acceptance"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "scope": "offline-preparation-for-single-version-real-acceptance",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "runnerIdentity": "44854ad3eb4fe2fa4a5f5ed79d045a13d81b0a1181ad38d52a06a465656b2bf0",
+  "candidateAsarSha256": "9fe3cc8b865a37fa063fec7cce7158e4e9a07f682f6556fd08a844f6e89dec2b",
+  "groundingSha256": "ac89ce673dd30b9adfbc3b6d459f13979b8a7a5a0e9513ecd463aa688c2a3d40",
+  "realModelCalls": 0,
+  "actualHumanAcceptances": 0,
+  "installed": false,
+  "productModified": false,
+  "officialCliDiscovered": false,
+  "liveAuthorized": false,
+  "newUnitTests": {
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0
+  },
+  "sharedUnitTests": {
+    "total": 94,
+    "passed": 93,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Windows file symlink permission unavailable"
+  },
+  "integration": {
+    "schema": 1,
+    "passed": true,
+    "tests": [
+      {
+        "name": "full",
+        "passed": true,
+        "syntheticAttempts": 25,
+        "realModelCalls": 0,
+        "runnerIdentity": "44854ad3eb4fe2fa4a5f5ed79d045a13d81b0a1181ad38d52a06a465656b2bf0",
+        "summarySha256": "c1742632eee1e9caca172c66d7f4628b566bfbb2d195b9f8db69790fdc78a166"
+      },
+      {
+        "name": "malformed-inner",
+        "passed": true,
+        "syntheticAttempts": 1,
+        "realModelCalls": 0,
+        "runnerIdentity": "44854ad3eb4fe2fa4a5f5ed79d045a13d81b0a1181ad38d52a06a465656b2bf0",
+        "summarySha256": "6882d5d155cf218b184771ece9ad13bd0e96562ec36f667fdf8c7357224102d4"
+      },
+      {
+        "name": "malformed-evidence",
+        "passed": true,
+        "syntheticAttempts": 5,
+        "realModelCalls": 0,
+        "runnerIdentity": "44854ad3eb4fe2fa4a5f5ed79d045a13d81b0a1181ad38d52a06a465656b2bf0",
+        "summarySha256": "c797a417887b2171f78632af0364f071aa483a3356cade52ab86c8834d869db3"
+      },
+      {
+        "name": "unknown-usage",
+        "passed": true,
+        "syntheticAttempts": 1,
+        "realModelCalls": 0,
+        "runnerIdentity": "44854ad3eb4fe2fa4a5f5ed79d045a13d81b0a1181ad38d52a06a465656b2bf0",
+        "summarySha256": "37747d5edb16e0c14821330c80776726e068c3586fffc7695a3ae8890cac4c8c"
+      },
+      {
+        "name": "case-budget",
+        "passed": true,
+        "syntheticAttempts": 4,
+        "realModelCalls": 0,
+        "runnerIdentity": "44854ad3eb4fe2fa4a5f5ed79d045a13d81b0a1181ad38d52a06a465656b2bf0",
+        "summarySha256": "99a89058283961c09f0db433887d04bdefcab8658902c3741e286dfe66b6b1b3"
+      },
+      {
+        "name": "human-timeout",
+        "passed": true,
+        "syntheticAttempts": 10,
+        "realModelCalls": 0,
+        "runnerIdentity": "44854ad3eb4fe2fa4a5f5ed79d045a13d81b0a1181ad38d52a06a465656b2bf0",
+        "summarySha256": "607478b213bc8aeefb90b69a6c194050e1a85e1ac2a814bf3185130189d871b5"
+      }
+    ],
+    "realModelCalls": 0,
+    "actualHumanAcceptances": 0,
+    "artifact": "foundation-marker-runs-20261029/final-suite/integration-results.json",
+    "artifactSha256": "0ac8d931a61d2e904007c12cf7dc634f7166e7d30ac5c2c1e43be6549eccf5dc"
+  },
+  "fullLifecycle": {
+    "cases": 7,
+    "attempts": 25,
+    "boots": 3,
+    "syntheticMarkerHandoffs": 3,
+    "simulatedAcceptances": 4,
+    "usageComplete": true,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "syntheticTokenTotal": 151664,
+    "syntheticTokensAreNotRealCost": true
+  },
+  "failedPreparationRuns": [
+    {
+      "name": "full-1",
+      "syntheticAttempts": 3,
+      "reason": "Temp native/non-native path alias mismatch before negative-worker initialization",
+      "realModelCalls": 0
+    },
+    {
+      "name": "full-2",
+      "syntheticAttempts": 10,
+      "reason": "First-run guide blocked offline helper click; no confirmation performed",
+      "realModelCalls": 0
+    }
+  ],
+  "intermediateSuccessfulRun": {
+    "name": "full-3",
+    "syntheticAttempts": 25,
+    "independentAudit": "foundation-marker-preparation-audit-20261029/full-3-review.json",
+    "independentAuditSha256": "29f8fe9132d286f1f0b29eb86766382f61a39ce3a38f6a901ee34772631ca75f"
+  },
+  "proposedLiveBudget": {
+    "applicationAttempts": 40,
+    "inputPlusOutputTokenStopThreshold": 800000,
+    "notServerHardCap": true,
+    "inFlightMayExceed": true,
+    "priorBudgetsReusable": false,
+    "authorizationRequired": true
+  },
+  "qualityMetrics": {
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "wrongReleaseRate": null,
+    "reason": "No real model run; synthetic fixtures cannot establish model quality"
+  },
+  "costStagesArtifactSha256": "0eaf8b6a4a57e402232e73bffa6468d9574ddbef0a4ea03d9484e839fdcf8f28",
+  "accountingLayerDistinction": {
+    "scenario": "case-budget",
+    "application": {
+      "usageReported": false,
+      "spendMeterUnknownCalls": 1
+    },
+    "runner": {
+      "rejectedBeforeDispatch": true,
+      "transportDispatched": false,
+      "provenRemoteTokens": 0,
+      "unknownUsage": 0
+    },
+    "applicationLedgerRewritten": false,
+    "notAClaimOfIdenticalStatusAcrossLayers": true
+  }
+}

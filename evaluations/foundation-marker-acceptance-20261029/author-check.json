@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "authorTask": "/root/marker_live_plan",
+  "at": "2026-10-29T01:59:55.725Z",
+  "checks": 793,
+  "passed": true,
+  "scope": "author structural checks only; not independent semantic approval",
+  "realModelCalls": 0,
+  "allInputLetterAndNumberPositionsCovered": true,
+  "revisionAdditionalCriteriaIsScoringMetadata": true,
+  "budget": {
+    "attempts": 40,
+    "tokensStopThreshold": 800000
+  },
+  "requirements": 120,
+  "bindings": 128,
+  "structuralChecks": 773,
+  "terminalMetadataChecks": 16,
+  "draftImmutabilityChecks": 4,
+  "finalTerminal": "completed",
+  "waitingCountsAsPass": false,
+  "contentBindings": [
+    {
+      "file": "gate.json",
+      "sha256": "01de4e13d76e1db031557f47545f2bd04e08daa39b1f3367dd6b8d3d381f7e6b"
+    },
+    {
+      "file": "stimuli.json",
+      "sha256": "ae39cdecee5e9d5e2f8dbd775688daee6051bba5b04f95d497674943e4071ccf"
+    },
+    {
+      "file": "gold.json",
+      "sha256": "c04d36c6e0df8a26e6246cab3a5af6bf754a0be1328916b8b086a4390eeb4ab4"
+    },
+    {
+      "file": "inputs.cjs",
+      "sha256": "696a8d241b4163d8f1e797dd005d303dd2797004cf2aa79ec6bae03ed2aa1137"
+    },
+    {
+      "file": "anchors.json",
+      "sha256": "35ef8fcf50ddf3635ec33dd6edbd17bce00a8809388c31c35e6885d518a1470b"
+    },
+    {
+      "file": "plan.json",
+      "sha256": "307f36942cf0d277c5ab47f9fb0af3b82a641712acb16ccb59a365b183e5612e"
+    },
+    {
+      "file": "requirements.json",
+      "sha256": "2dfc8cbc6f9f48df48e3a2446d3b8d462d1ff3841a8cdca11778658fb01d48ce"
+    },
+    {
+      "file": "coverage.json",
+      "sha256": "76ec0e2317b90d9429223ff9548ef51d8ebf51da848bf2aa36d85b4c89f6e3e8"
+    },
+    {
+      "file": "freshness.json",
+      "sha256": "58cab77b69ee79fa902916210042cf3efa52931c84fa3ad71c27c3fbd50c6b0c"
+    },
+    {
+      "file": "README.md",
+      "sha256": "969ae37b18a7ac0b6f11c83be1afce52f1f6de1e62615592628b2cc965ca028d"
+    }
+  ]
+}

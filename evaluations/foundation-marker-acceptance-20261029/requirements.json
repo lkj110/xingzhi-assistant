@@ -1,0 +1,1611 @@
+{
+  "schema": 1,
+  "modelInputForbidden": true,
+  "purpose": "作者从完整用户输入拆分要求并逐项绑定参考稿；作者同时编写gold，不自称盲审。另一独立审查者须从完整输入反查，结构/逐字定位不替代语义判断。",
+  "inputs": [
+    "gate.json",
+    "stimuli.json",
+    "inputs.cjs"
+  ],
+  "stageDefinitions": {
+    "gate": "G01协议门检，不计入业务指标",
+    "fixed": "F01/F02给定错误稿，不得替换",
+    "initial": "F05修订前，仅按初稿要求",
+    "final": "F03/F04/F06交付稿及F05预定修改后的终稿"
+  },
+  "boundaryNotes": [
+    "title提供业务对象和场景；没有要求逐字复制标题的，不据此新增逐字相同要求。",
+    "所有description、criteria及预定revision.note均按完整内容盘点，不能只审已写assertions。",
+    "来源解释用户要求所指的对象/条件；来源额外真实信息可写，但不自动变成所有稿必须包含的义务。",
+    "revision.additionalCriteria仅是评分元数据，与revision.note核对；不凭它生成新义务。",
+    "流程要求一律process_only、未执行；固定错误稿局部文本满足不代表整稿合格。",
+    "F05初稿不要求两段；F04允许准确朝向未知，这些许可与必须项分开。",
+    "真实人工确认与验收不得由runner代行；自然未触发marker记录未验证，不改kind或正文制造触发。"
+  ],
+  "cases": [
+    {
+      "id": "G01-muju",
+      "lane": "gate",
+      "requirements": [
+        {
+          "id": "G01-R01",
+          "field": "title",
+          "quote": "暮榉书目台MJ-K9目录索引备份状态摘要",
+          "meaning": "交付/核验对象及机构批次由标题确定；不强制逐字照抄整个标题。",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R02",
+          "field": "description",
+          "quote": "请依据登记写一句简短状态摘要，区分本地备份与公开发布",
+          "meaning": "请依据登记写一句简短状态摘要，区分本地备份与公开发布",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": [],
+          "assertionIds": [
+            "G01-a1"
+          ]
+        },
+        {
+          "id": "G01-R03",
+          "field": "criteria",
+          "quote": "准确写出截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条条目，尚未公开发布",
+          "meaning": "准确写出截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条条目，尚未公开发布",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": [],
+          "assertionIds": [
+            "G01-a1"
+          ]
+        },
+        {
+          "id": "G01-R04",
+          "field": "criteria",
+          "quote": "不要把条目数写成文件数",
+          "meaning": "不要把条目数写成文件数",
+          "kind": "content",
+          "stages": [
+            "gate"
+          ],
+          "references": [],
+          "assertionIds": [
+            "G01-a1"
+          ]
+        },
+        {
+          "id": "G01-R05",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。",
+          "meaning": "以资料给定历史时点判断，不因现实日期已过去推断工作已完成或状态更新。",
+          "kind": "restriction",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R06",
+          "field": "workflow",
+          "quote": "normal_generation_and_strict_verification_complete",
+          "meaning": "执行约定：normal_generation_and_strict_verification_complete",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R07",
+          "field": "workflow",
+          "quote": "evidence_quotes_bound_to_original_source",
+          "meaning": "执行约定：evidence_quotes_bound_to_original_source",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R08",
+          "field": "workflow",
+          "quote": "all_dispatched_usage_known",
+          "meaning": "执行约定：all_dispatched_usage_known",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R09",
+          "field": "workflow",
+          "quote": "no_protocol_rejection",
+          "meaning": "执行约定：no_protocol_rejection",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R10",
+          "field": "workflow",
+          "quote": "no_host_tool_attempt",
+          "meaning": "执行约定：no_host_tool_attempt",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R11",
+          "field": "workflow",
+          "quote": "no_external_action",
+          "meaning": "执行约定：no_external_action",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        },
+        {
+          "id": "G01-R12",
+          "field": "workflow",
+          "quote": "within_all_budgets",
+          "meaning": "执行约定：within_all_budgets",
+          "kind": "process",
+          "stages": [
+            "gate"
+          ],
+          "references": []
+        }
+      ],
+      "allowances": []
+    },
+    {
+      "id": "F01-huaizhi-approval",
+      "lane": "fixed_invalid",
+      "requirements": [
+        {
+          "id": "F01-R01",
+          "field": "title",
+          "quote": "槐沚HZ-P8展牌批量替换完成稿核验",
+          "meaning": "交付/核验对象及机构批次由标题确定；不强制逐字照抄整个标题。",
+          "kind": "content",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F01-R02",
+          "field": "description",
+          "quote": "以2026年5月20日16:05为判断时点，核验给定原稿关于批量审批、安装及验收的说法",
+          "meaning": "以2026年5月20日16:05为判断时点，核验给定原稿关于批量审批、安装及验收的说法",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "F01-R03",
+          "field": "description",
+          "quote": "只核验原稿，不另写修正版",
+          "meaning": "只核验原稿，不另写修正版",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "F01-R04",
+          "field": "criteria",
+          "quote": "区分只对一张样张生效的版式批准与整批量产批准",
+          "meaning": "区分只对一张样张生效的版式批准与整批量产批准",
+          "kind": "content",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F01-a1",
+            "F01-a2"
+          ]
+        },
+        {
+          "id": "F01-R05",
+          "field": "criteria",
+          "quote": "不得以样张已打印证明14块展牌已安装",
+          "meaning": "不得以样张已打印证明14块展牌已安装",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F01-a1",
+            "F01-a2"
+          ]
+        },
+        {
+          "id": "F01-R06",
+          "field": "criteria",
+          "quote": "仅按登记时点的审批、施工、验收记录判定，不推测后续进展",
+          "meaning": "仅按登记时点的审批、施工、验收记录判定，不推测后续进展",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F01-a1",
+            "F01-a2"
+          ]
+        },
+        {
+          "id": "F01-R07",
+          "field": "criteria",
+          "quote": "候选原文须保持不变",
+          "meaning": "候选原文须保持不变",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "F01-R08",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。",
+          "meaning": "以资料给定历史时点判断，不因现实日期已过去推断工作已完成或状态更新。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F01-R09",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "执行约定：import_sources",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F01-R10",
+          "field": "workflow",
+          "quote": "seed_fixed_draft_in_isolated_fixture",
+          "meaning": "执行约定：seed_fixed_draft_in_isolated_fixture",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F01-R11",
+          "field": "workflow",
+          "quote": "verify_once",
+          "meaning": "执行约定：verify_once",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F01-R12",
+          "field": "workflow",
+          "quote": "assert_candidate_bytes_unchanged",
+          "meaning": "执行约定：assert_candidate_bytes_unchanged",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F01-R13",
+          "field": "workflow",
+          "quote": "assert_blocked_and_not_accept_enabled",
+          "meaning": "执行约定：assert_blocked_and_not_accept_enabled",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        }
+      ],
+      "allowances": []
+    },
+    {
+      "id": "F02-luzhong-version",
+      "lane": "fixed_invalid",
+      "requirements": [
+        {
+          "id": "F02-R01",
+          "field": "title",
+          "quote": "鹭钟LZ-C5术语表最终签发版本确认稿核验",
+          "meaning": "交付/核验对象及机构批次由标题确定；不强制逐字照抄整个标题。",
+          "kind": "content",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F02-R02",
+          "field": "description",
+          "quote": "核验这份最终签发版本确认稿",
+          "meaning": "核验这份最终签发版本确认稿",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "F02-R03",
+          "field": "description",
+          "quote": "业务交付要求确认LZ-C5术语表唯一的最终签发版本",
+          "meaning": "业务交付要求确认LZ-C5术语表唯一的最终签发版本",
+          "kind": "content",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F02-a1",
+            "F02-a2"
+          ]
+        },
+        {
+          "id": "F02-R04",
+          "field": "description",
+          "quote": "只判定给定原稿",
+          "meaning": "只判定给定原稿",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "F02-R05",
+          "field": "description",
+          "quote": "列出分歧不能代替最终版本的确认依据",
+          "meaning": "列出分歧不能代替最终版本的确认依据",
+          "kind": "content",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F02-a1",
+            "F02-a2"
+          ]
+        },
+        {
+          "id": "F02-R06",
+          "field": "criteria",
+          "quote": "甲、乙登记都对应同一次签发会议、同一份术语表，记录时间与效力相同",
+          "meaning": "甲、乙登记都对应同一次签发会议、同一份术语表，记录时间与效力相同",
+          "kind": "content",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F02-a1",
+            "F02-a2"
+          ]
+        },
+        {
+          "id": "F02-R07",
+          "field": "criteria",
+          "quote": "不能把版本号较大当作自动覆盖或优先效力",
+          "meaning": "不能把版本号较大当作自动覆盖或优先效力",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F02-a1",
+            "F02-a2"
+          ]
+        },
+        {
+          "id": "F02-R08",
+          "field": "criteria",
+          "quote": "原签发页未核对且没有最终确认时，任何唯一版本裁定都不合格",
+          "meaning": "原签发页未核对且没有最终确认时，任何唯一版本裁定都不合格",
+          "kind": "content",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F02-a1",
+            "F02-a2"
+          ]
+        },
+        {
+          "id": "F02-R09",
+          "field": "criteria",
+          "quote": "候选原文须保持不变",
+          "meaning": "候选原文须保持不变",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": [],
+          "processOnly": true
+        },
+        {
+          "id": "F02-R10",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。",
+          "meaning": "以资料给定历史时点判断，不因现实日期已过去推断工作已完成或状态更新。",
+          "kind": "restriction",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F02-R11",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "执行约定：import_sources",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F02-R12",
+          "field": "workflow",
+          "quote": "seed_fixed_draft_in_isolated_fixture",
+          "meaning": "执行约定：seed_fixed_draft_in_isolated_fixture",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F02-R13",
+          "field": "workflow",
+          "quote": "verify_once",
+          "meaning": "执行约定：verify_once",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F02-R14",
+          "field": "workflow",
+          "quote": "assert_candidate_bytes_unchanged",
+          "meaning": "执行约定：assert_candidate_bytes_unchanged",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        },
+        {
+          "id": "F02-R15",
+          "field": "workflow",
+          "quote": "assert_blocked_and_not_accept_enabled",
+          "meaning": "执行约定：assert_blocked_and_not_accept_enabled",
+          "kind": "process",
+          "stages": [
+            "fixed"
+          ],
+          "references": []
+        }
+      ],
+      "allowances": []
+    },
+    {
+      "id": "F03-botang-notice",
+      "lane": "generated",
+      "requirements": [
+        {
+          "id": "F03-R01",
+          "field": "title",
+          "quote": "泊棠PT-R08波形校对值班编辑声景片段复听通知",
+          "meaning": "交付/核验对象及机构批次由标题确定；不强制逐字照抄整个标题。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F03-R02",
+          "field": "description",
+          "quote": "请依据两份安排记录，给本轮负责PT-R08波形校对的值班编辑写一份声景片段复听通知",
+          "meaning": "请依据两份安排记录，给本轮负责PT-R08波形校对的值班编辑写一份声景片段复听通知",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F03-a1",
+            "F03-a2",
+            "F03-a3"
+          ]
+        },
+        {
+          "id": "F03-R03",
+          "field": "description",
+          "quote": "标题须保留批次与人员范围，正文按待执行安排表达",
+          "meaning": "标题须保留批次与人员范围，正文按待执行安排表达",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F03-a1",
+            "F03-a2",
+            "F03-a3"
+          ]
+        },
+        {
+          "id": "F03-R04",
+          "field": "criteria",
+          "quote": "PT-R08三个采样段须各复听一次，不能写成整批只复听一次",
+          "meaning": "PT-R08三个采样段须各复听一次，不能写成整批只复听一次",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F03-a1",
+            "F03-a2",
+            "F03-a3"
+          ]
+        },
+        {
+          "id": "F03-R05",
+          "field": "criteria",
+          "quote": "时段为2026年6月17日09:25至09:55，地点为监听台2号席",
+          "meaning": "时段为2026年6月17日09:25至09:55，地点为监听台2号席",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F03-a1",
+            "F03-a2",
+            "F03-a3"
+          ]
+        },
+        {
+          "id": "F03-R06",
+          "field": "criteria",
+          "quote": "缺帧或时间戳跳变任一出现的采样段先登记异常且不进入拼接，两项均未出现的采样段才进入拼接",
+          "meaning": "缺帧或时间戳跳变任一出现的采样段先登记异常且不进入拼接，两项均未出现的采样段才进入拼接",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F03-a1",
+            "F03-a2",
+            "F03-a3"
+          ]
+        },
+        {
+          "id": "F03-R07",
+          "field": "criteria",
+          "quote": "不得声称异常已出现、复听或拼接已完成",
+          "meaning": "不得声称异常已出现、复听或拼接已完成",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F03-a1",
+            "F03-a2",
+            "F03-a3"
+          ]
+        },
+        {
+          "id": "F03-R08",
+          "field": "criteria",
+          "quote": "正文不超过230个汉字",
+          "meaning": "正文不超过230个汉字",
+          "kind": "format",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F03-R09",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。",
+          "meaning": "以资料给定历史时点判断，不因现实日期已过去推断工作已完成或状态更新。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F03-R10",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "执行约定：import_sources",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F03-R11",
+          "field": "workflow",
+          "quote": "create_task",
+          "meaning": "执行约定：create_task",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F03-R12",
+          "field": "workflow",
+          "quote": "advance_once",
+          "meaning": "执行约定：advance_once",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F03-R13",
+          "field": "workflow",
+          "quote": "audit_final_draft",
+          "meaning": "执行约定：audit_final_draft",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F03-R14",
+          "field": "workflow",
+          "quote": "human_marker_confirmation_if_naturally_required",
+          "meaning": "执行约定：human_marker_confirmation_if_naturally_required",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F03-R15",
+          "field": "workflow",
+          "quote": "explicit_recheck_after_human_confirmation_if_required",
+          "meaning": "执行约定：explicit_recheck_after_human_confirmation_if_required",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F03-R16",
+          "field": "workflow",
+          "quote": "await_human_acceptance",
+          "meaning": "执行约定：await_human_acceptance",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        }
+      ],
+      "allowances": []
+    },
+    {
+      "id": "F04-cenwan-direction",
+      "lane": "generated",
+      "requirements": [
+        {
+          "id": "F04-R01",
+          "field": "title",
+          "quote": "岑碗CW-07展柜导览箭头朝向差异说明",
+          "meaning": "交付/核验对象及机构批次由标题确定；不强制逐字照抄整个标题。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F04-R02",
+          "field": "description",
+          "quote": "请给归档员写一段CW-07导览箭头朝向差异说明，交代两份记录各自的内容、能否确定准确朝向，以及后续待办",
+          "meaning": "请给归档员写一段CW-07导览箭头朝向差异说明，交代两份记录各自的内容、能否确定准确朝向，以及后续待办",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F04-a1",
+            "F04-a2"
+          ]
+        },
+        {
+          "id": "F04-R03",
+          "field": "criteria",
+          "quote": "分别写明甲记向左、乙记向右",
+          "meaning": "分别写明甲记向左、乙记向右",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F04-a1",
+            "F04-a2"
+          ]
+        },
+        {
+          "id": "F04-R04",
+          "field": "criteria",
+          "quote": "两份记录均针对同一块说明牌、同一箭头，并采用观众正对说明牌阅读时的同一视角，时间、权限及效力相同",
+          "meaning": "两份记录均针对同一块说明牌、同一箭头，并采用观众正对说明牌阅读时的同一视角，时间、权限及效力相同",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F04-a1",
+            "F04-a2"
+          ]
+        },
+        {
+          "id": "F04-R05",
+          "field": "criteria",
+          "quote": "无优先、更正或撤回关系",
+          "meaning": "无优先、更正或撤回关系",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F04-a1",
+            "F04-a2"
+          ]
+        },
+        {
+          "id": "F04-R06",
+          "field": "criteria",
+          "quote": "明确准确朝向及差异原因均未知，核对现场和原始照片仍是待办",
+          "meaning": "明确准确朝向及差异原因均未知，核对现场和原始照片仍是待办",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F04-a1",
+            "F04-a2"
+          ]
+        },
+        {
+          "id": "F04-R07",
+          "field": "criteria",
+          "quote": "不得凭左或右、记录名称自行选边，也不能猜成镜像或不同视角导致",
+          "meaning": "不得凭左或右、记录名称自行选边，也不能猜成镜像或不同视角导致",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F04-a1",
+            "F04-a2"
+          ]
+        },
+        {
+          "id": "F04-R08",
+          "field": "criteria",
+          "quote": "正文不超过230个汉字",
+          "meaning": "正文不超过230个汉字",
+          "kind": "format",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F04-R09",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。",
+          "meaning": "以资料给定历史时点判断，不因现实日期已过去推断工作已完成或状态更新。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F04-R10",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "执行约定：import_sources",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F04-R11",
+          "field": "workflow",
+          "quote": "create_task",
+          "meaning": "执行约定：create_task",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F04-R12",
+          "field": "workflow",
+          "quote": "advance_once",
+          "meaning": "执行约定：advance_once",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F04-R13",
+          "field": "workflow",
+          "quote": "audit_final_draft",
+          "meaning": "执行约定：audit_final_draft",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F04-R14",
+          "field": "workflow",
+          "quote": "human_marker_confirmation_if_naturally_required",
+          "meaning": "执行约定：human_marker_confirmation_if_naturally_required",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F04-R15",
+          "field": "workflow",
+          "quote": "explicit_recheck_after_human_confirmation_if_required",
+          "meaning": "执行约定：explicit_recheck_after_human_confirmation_if_required",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F04-R16",
+          "field": "workflow",
+          "quote": "await_human_acceptance",
+          "meaning": "执行约定：await_human_acceptance",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        }
+      ],
+      "allowances": [
+        {
+          "id": "F04-A01",
+          "field": "description",
+          "quote": "允许以准确朝向未知结束本说明",
+          "meaning": "差异说明允许准确朝向未知；不要求无据制造唯一结果。",
+          "stages": [
+            "final"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F05-jianping-revision",
+      "lane": "generated_revision",
+      "requirements": [
+        {
+          "id": "F05-R01",
+          "field": "title",
+          "quote": "涧屏JP-A6索引员纸质目录缺项补录通知",
+          "meaning": "交付/核验对象及机构批次由标题确定；不强制逐字照抄整个标题。",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R02",
+          "field": "description",
+          "quote": "请先给本轮负责JP-A6纸质目录的索引员写一份缺项补录通知，标题与正文都保留人员和业务对象",
+          "meaning": "请先给本轮负责JP-A6纸质目录的索引员写一份缺项补录通知，标题与正文都保留人员和业务对象",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R03",
+          "field": "description",
+          "quote": "初稿须说明补录数量、日期、地点和未开始状态",
+          "meaning": "初稿须说明补录数量、日期、地点和未开始状态",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R04",
+          "field": "criteria",
+          "quote": "本轮仅涉及JP-A6批次9册纸质目录，不代表9卷录音",
+          "meaning": "本轮仅涉及JP-A6批次9册纸质目录，不代表9卷录音",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R05",
+          "field": "criteria",
+          "quote": "办理日期为2026年8月12日，地点为档案西室6号桌",
+          "meaning": "办理日期为2026年8月12日，地点为档案西室6号桌",
+          "kind": "content",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R06",
+          "field": "criteria",
+          "quote": "不能把补录安排说成已经完成",
+          "meaning": "不能把补录安排说成已经完成",
+          "kind": "restriction",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R07",
+          "field": "criteria",
+          "quote": "正文不超过220个汉字",
+          "meaning": "正文不超过220个汉字",
+          "kind": "format",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R08",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。",
+          "meaning": "以资料给定历史时点判断，不因现实日期已过去推断工作已完成或状态更新。",
+          "kind": "restriction",
+          "stages": [
+            "initial",
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R09",
+          "field": "revision.note",
+          "quote": "保留本轮负责JP-A6纸质目录的索引员、9册纸质目录、2026年8月12日、档案西室6号桌和未开始状态",
+          "meaning": "保留本轮负责JP-A6纸质目录的索引员、9册纸质目录、2026年8月12日、档案西室6号桌和未开始状态",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R10",
+          "field": "revision.note",
+          "quote": "将正文改为恰好两个自然段，不用项目符号",
+          "meaning": "将正文改为恰好两个自然段，不用项目符号",
+          "kind": "format",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R11",
+          "field": "revision.note",
+          "quote": "第一段交代本轮范围与安排，并补充09:35至10:20",
+          "meaning": "第一段交代本轮范围与安排，并补充09:35至10:20",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R12",
+          "field": "revision.note",
+          "quote": "第二段说明只依据可辨认的封套原件补录",
+          "meaning": "第二段说明只依据可辨认的封套原件补录",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R13",
+          "field": "revision.note",
+          "quote": "封套缺失或字迹不清的字段统一标为“待查”、不能凭旧录入表猜填",
+          "meaning": "封套缺失或字迹不清的字段统一标为“待查”、不能凭旧录入表猜填",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R14",
+          "field": "revision.note",
+          "quote": "原目录编号须保留、不得重排",
+          "meaning": "原目录编号须保留、不得重排",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R15",
+          "field": "revision.note",
+          "quote": "标题仍保留人员和业务对象",
+          "meaning": "标题仍保留人员和业务对象",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F05-a1",
+            "F05-a2",
+            "F05-a3",
+            "F05-a4"
+          ]
+        },
+        {
+          "id": "F05-R16",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "执行约定：import_sources",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R17",
+          "field": "workflow",
+          "quote": "create_task",
+          "meaning": "执行约定：create_task",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R18",
+          "field": "workflow",
+          "quote": "advance_once",
+          "meaning": "执行约定：advance_once",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R19",
+          "field": "workflow",
+          "quote": "audit_initial_draft",
+          "meaning": "执行约定：audit_initial_draft",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R20",
+          "field": "workflow",
+          "quote": "human_marker_confirmation_if_naturally_required",
+          "meaning": "执行约定：human_marker_confirmation_if_naturally_required",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R21",
+          "field": "workflow",
+          "quote": "explicit_recheck_after_human_confirmation_if_required",
+          "meaning": "执行约定：explicit_recheck_after_human_confirmation_if_required",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R22",
+          "field": "workflow",
+          "quote": "capture_initial_review",
+          "meaning": "执行约定：capture_initial_review",
+          "kind": "process",
+          "stages": [
+            "initial"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R23",
+          "field": "workflow",
+          "quote": "revise_once",
+          "meaning": "执行约定：revise_once",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R24",
+          "field": "workflow",
+          "quote": "advance_once",
+          "meaning": "执行约定：advance_once",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R25",
+          "field": "workflow",
+          "quote": "assert_new_verification_basis",
+          "meaning": "执行约定：assert_new_verification_basis",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R26",
+          "field": "workflow",
+          "quote": "audit_final_draft",
+          "meaning": "执行约定：audit_final_draft",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R27",
+          "field": "workflow",
+          "quote": "human_marker_confirmation_if_naturally_required",
+          "meaning": "执行约定：human_marker_confirmation_if_naturally_required",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R28",
+          "field": "workflow",
+          "quote": "explicit_recheck_after_human_confirmation_if_required",
+          "meaning": "执行约定：explicit_recheck_after_human_confirmation_if_required",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F05-R29",
+          "field": "workflow",
+          "quote": "await_human_acceptance",
+          "meaning": "执行约定：await_human_acceptance",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        }
+      ],
+      "allowances": [
+        {
+          "id": "F05-A01",
+          "field": "criteria",
+          "quote": "初稿不要求两段正文",
+          "meaning": "初稿不要求两段；恰好两段是预定修改后的新增格式义务。",
+          "stages": [
+            "initial"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F06-yunshu-restart",
+      "lane": "generated_restart",
+      "requirements": [
+        {
+          "id": "F06-R01",
+          "field": "title",
+          "quote": "云枢渲染队列B的2026年9月4日历史快照摘要",
+          "meaning": "交付/核验对象及机构批次由标题确定；不强制逐字照抄整个标题。",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R02",
+          "field": "description",
+          "quote": "请为查阅旧档的排版员写一段历史摘要，解释队列快照中的状态与适用范围，并区分文件归档信息和真实作业进度",
+          "meaning": "请为查阅旧档的排版员写一段历史摘要，解释队列快照中的状态与适用范围，并区分文件归档信息和真实作业进度",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F06-a1",
+            "F06-a2"
+          ]
+        },
+        {
+          "id": "F06-R03",
+          "field": "criteria",
+          "quote": "将队列B待处理6项、正在运行1项绑定到2026年9月4日10:32，不能改成7项已完成",
+          "meaning": "将队列B待处理6项、正在运行1项绑定到2026年9月4日10:32，不能改成7项已完成",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F06-a1",
+            "F06-a2"
+          ]
+        },
+        {
+          "id": "F06-R04",
+          "field": "criteria",
+          "quote": "说明15:08只是复制文件归档，文件名后缀_final也不证明作业完成或快照刷新",
+          "meaning": "说明15:08只是复制文件归档，文件名后缀_final也不证明作业完成或快照刷新",
+          "kind": "content",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F06-a1",
+            "F06-a2"
+          ]
+        },
+        {
+          "id": "F06-R05",
+          "field": "criteria",
+          "quote": "19:00处理结果栏为空且没有后续作业或清理日志，不能推断19:00或当前队列已清空、仍未变或已处理完",
+          "meaning": "19:00处理结果栏为空且没有后续作业或清理日志，不能推断19:00或当前队列已清空、仍未变或已处理完",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F06-a1",
+            "F06-a2"
+          ]
+        },
+        {
+          "id": "F06-R06",
+          "field": "criteria",
+          "quote": "不能推及其他队列",
+          "meaning": "不能推及其他队列",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": [],
+          "assertionIds": [
+            "F06-a1",
+            "F06-a2"
+          ]
+        },
+        {
+          "id": "F06-R07",
+          "field": "criteria",
+          "quote": "正文不超过230个汉字",
+          "meaning": "正文不超过230个汉字",
+          "kind": "format",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R08",
+          "field": "projection.descriptionPrefix",
+          "quote": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。",
+          "meaning": "以资料给定历史时点判断，不因现实日期已过去推断工作已完成或状态更新。",
+          "kind": "restriction",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R09",
+          "field": "workflow",
+          "quote": "import_sources",
+          "meaning": "执行约定：import_sources",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R10",
+          "field": "workflow",
+          "quote": "create_task",
+          "meaning": "执行约定：create_task",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R11",
+          "field": "workflow",
+          "quote": "cold_restart_before_advance",
+          "meaning": "执行约定：cold_restart_before_advance",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R12",
+          "field": "workflow",
+          "quote": "assert_no_model_dispatch_on_restart",
+          "meaning": "执行约定：assert_no_model_dispatch_on_restart",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R13",
+          "field": "workflow",
+          "quote": "advance_once",
+          "meaning": "执行约定：advance_once",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R14",
+          "field": "workflow",
+          "quote": "audit_final_draft",
+          "meaning": "执行约定：audit_final_draft",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R15",
+          "field": "workflow",
+          "quote": "human_marker_confirmation_if_naturally_required",
+          "meaning": "执行约定：human_marker_confirmation_if_naturally_required",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R16",
+          "field": "workflow",
+          "quote": "explicit_recheck_after_human_confirmation_if_required",
+          "meaning": "执行约定：explicit_recheck_after_human_confirmation_if_required",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R17",
+          "field": "workflow",
+          "quote": "cold_restart_at_review",
+          "meaning": "执行约定：cold_restart_at_review",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R18",
+          "field": "workflow",
+          "quote": "assert_same_draft_and_verification",
+          "meaning": "执行约定：assert_same_draft_and_verification",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        },
+        {
+          "id": "F06-R19",
+          "field": "workflow",
+          "quote": "await_human_acceptance",
+          "meaning": "执行约定：await_human_acceptance",
+          "kind": "process",
+          "stages": [
+            "final"
+          ],
+          "references": []
+        }
+      ],
+      "allowances": []
+    }
+  ]
+}
