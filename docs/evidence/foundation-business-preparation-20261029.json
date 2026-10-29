@@ -1,0 +1,318 @@
+{
+  "schema": 1,
+  "date": "2026-10-29",
+  "scope": "offline-six-business-case-entrance-preparation",
+  "baseCommit": "1585354d180b2796d2bff519f67ef2a9181b2382",
+  "readiness": "not-ready",
+  "approvedForLiveReadiness": false,
+  "productPatchPerformed": false,
+  "realModelCalls": 0,
+  "officialCliProbes": 0,
+  "actualHumanAcceptances": 0,
+  "runnerIdentity": "8d5ed02e851f19f3b69b1d0414c41c3217ebe3e40316d5249a3f8be2b2449bce",
+  "runnerSealSha256": "695cbca45ec667d2c7669f5df11ad9a6dfcdc70a55bec67489f65997377be6a0",
+  "runnerFiles": 18,
+  "dependencies": 269,
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "passedGateReexecuted": false,
+  "unitTests": {
+    "passed": 17,
+    "total": 17,
+    "skipped": 0,
+    "logSha256": "06ea903a9f84da0b8afceafb89486f08e3259ece12a51bbee03cfa0f46744945"
+  },
+  "fullLifecycle": {
+    "passed": false,
+    "sourceRunnerIdentity": "823c04f4b5b21096890d37c424fbe958cbc48d4835636d95a61ea05cade43a4f",
+    "applicationAttempts": 23,
+    "localNodeExecutions": 23,
+    "simulatedAcceptances": 2,
+    "actualHumanAcceptances": 0,
+    "cases": [
+      {
+        "caseId": "F01-huaizhi-approval",
+        "attempts": 2,
+        "technicalPassed": true,
+        "error": null
+      },
+      {
+        "caseId": "F02-luzhong-version",
+        "attempts": 2,
+        "technicalPassed": true,
+        "error": null
+      },
+      {
+        "caseId": "F03-botang-notice",
+        "attempts": 6,
+        "technicalPassed": true,
+        "error": null
+      },
+      {
+        "caseId": "F04-cenwan-direction",
+        "attempts": 4,
+        "technicalPassed": true,
+        "error": null
+      },
+      {
+        "caseId": "F05-jianping-revision",
+        "attempts": 9,
+        "technicalPassed": false,
+        "error": "Recheck rejected the draft"
+      }
+    ],
+    "unattempted": [
+      "F06-yunshu-restart"
+    ],
+    "summarySha256": "412a73da771360db8879564d06dd7c058b0c7beafe5c7cde357081e65fbaa946",
+    "ledgerSha256": "1dde83c1549cb3083d0ac4195cb0c2638b66c593b1f0ccf6bf400eb4bd94f701",
+    "caseSha256": "cb0476eb61d1fca14732605c8369037abcfdbd2cce64ccb551aedc7915ce32c8",
+    "productError": "本检查的有界结论已登记或旧记录身份不明；请核对原请求，不能再次调用。"
+  },
+  "stopGuards": {
+    "assertionsPassed": 5,
+    "total": 5,
+    "scope": "stop-guards-only",
+    "fullLifecyclePassed": false,
+    "releaseReady": false,
+    "resultSha256": "03424e39b68bbfa5c68576bee212f2b08f839b6e9859a9fd049e2a171b5e1476",
+    "cases": [
+      {
+        "scenario": "cli-rejection",
+        "assertionsPassed": true,
+        "expectedStop": true,
+        "applicationAttempts": 6,
+        "localNodeExecutions": 6,
+        "knownSyntheticTokenSubtotal": 28528,
+        "syntheticTotalTokens": null,
+        "unknownUsage": 1,
+        "pendingUsage": 0,
+        "unexpectedAttempts": 0,
+        "realModelCalls": 0,
+        "summarySha256": "9b6e498382eac182ffd4f3051efaf3c7b1912ceb5810aabd192107a77727270f",
+        "stop": {
+          "code": "LEDGER_FAILURE",
+          "reason": "CLI_PROTOCOL_REJECTION"
+        }
+      },
+      {
+        "scenario": "unknown-usage",
+        "assertionsPassed": true,
+        "expectedStop": true,
+        "applicationAttempts": 7,
+        "localNodeExecutions": 7,
+        "knownSyntheticTokenSubtotal": 34030,
+        "syntheticTotalTokens": null,
+        "unknownUsage": 1,
+        "pendingUsage": 0,
+        "unexpectedAttempts": 0,
+        "realModelCalls": 0,
+        "summarySha256": "8df67023f2856f53a72db6bf6780aba0d73c171dbffbc8791f61a0b29078241b",
+        "stop": {
+          "code": "LEDGER_FAILURE",
+          "reason": "CLI_INVALID_USAGE"
+        }
+      },
+      {
+        "scenario": "case-extra-request",
+        "assertionsPassed": true,
+        "expectedStop": true,
+        "applicationAttempts": 3,
+        "localNodeExecutions": 2,
+        "knownSyntheticTokenSubtotal": 11820,
+        "syntheticTotalTokens": 11820,
+        "unknownUsage": 0,
+        "pendingUsage": 0,
+        "unexpectedAttempts": 0,
+        "realModelCalls": 0,
+        "summarySha256": "7ccb1a6e9765673aa0d59f562c198ad551ecc319c850182688620576b175d895",
+        "stop": {
+          "code": "LEDGER_HALTED",
+          "reason": "LEDGER_CASE_BUDGET"
+        }
+      },
+      {
+        "scenario": "human-timeout",
+        "assertionsPassed": true,
+        "expectedStop": true,
+        "applicationAttempts": 8,
+        "localNodeExecutions": 8,
+        "knownSyntheticTokenSubtotal": 48416,
+        "syntheticTotalTokens": 48416,
+        "unknownUsage": 0,
+        "pendingUsage": 0,
+        "unexpectedAttempts": 0,
+        "realModelCalls": 0,
+        "summarySha256": "96d6729eb1e34cbccd9baa68caa57ea3155b8adf8fb834682c2850dc9951ef1d",
+        "stop": {
+          "code": "LEDGER_HALTED",
+          "reason": "HUMAN_PENDING"
+        }
+      },
+      {
+        "scenario": "malformed-inner",
+        "assertionsPassed": true,
+        "expectedStop": true,
+        "applicationAttempts": 1,
+        "localNodeExecutions": 1,
+        "knownSyntheticTokenSubtotal": 5519,
+        "syntheticTotalTokens": 5519,
+        "unknownUsage": 0,
+        "pendingUsage": 0,
+        "unexpectedAttempts": 0,
+        "realModelCalls": 0,
+        "summarySha256": "fbbb4293248164eee77172f07efecd53ed324305d4bee8746d4e0acaf9c1ac03",
+        "stop": {
+          "code": "LEDGER_FAILURE",
+          "reason": "MODEL_INVALID_RESPONSE"
+        }
+      }
+    ]
+  },
+  "rootCause": {
+    "independent": true,
+    "privateEvidenceSha256": "c380baf213a383bd1b6e527f97f0e37fcd5dc4f0fd88005fd6714e59c5902c13",
+    "finding": {
+      "severity": "blocking",
+      "caseId": "F05-jianping-revision",
+      "stage": "revision-human-recheck",
+      "cause": "Current valid human marker confirmation is absent from bounded-finalization check identity; explicit recheck collides with prior completed bounded conclusion semanticCheckId",
+      "candidateAsarSha256": "9fe3cc8b865a37fa063fec7cce7158e4e9a07f682f6556fd08a844f6e89dec2b",
+      "semanticCheckId": "0585f3ee8f0b44440094c31d1d58b33ad46f5b62afdef758cdb6f8dcc38d9867",
+      "boundedConclusionStatus": "returned",
+      "boundedConclusionReason": "reading_exhausted",
+      "checkBasis": "fd851db69e8e22b083b1f97ab5fa9dcdf842f2f00c73223e99b477f51c75a616",
+      "reportHash": "4606337d0ad8f014d11b4a181f27dec3402dd71b570ca75032544d6d95700da6",
+      "confirmationRecordHash": "7f02675801b9de5138cdf0e9d9267c2797be72074cf0f4c80d061f68efe1dc38",
+      "confirmationCoversCurrentMarkers": true,
+      "artifactAndRequirementsUnchanged": true,
+      "reportUnchanged": true,
+      "applicationAttemptsBeforeAndAfterRecheck": 9,
+      "finalStatus": "blocked",
+      "lastError": "本检查的有界结论已登记或旧记录身份不明；请核对原请求，不能再次调用。",
+      "semanticState": {
+        "semanticCheckId": "0585f3ee8f0b44440094c31d1d58b33ad46f5b62afdef758cdb6f8dcc38d9867",
+        "legacyKey": "audit-distinct-legacy",
+        "available": false,
+        "reason": "semantic_consumed"
+      },
+      "notFixtureProtocolError": true
+    },
+    "staticDiagnosticIsNotAnotherApplicationRun": true
+  },
+  "budget": {
+    "status": "unfinalized-not-authorized",
+    "applicationAttemptDraft": 40,
+    "maximumForwardedCalls": 34,
+    "caseAttemptDraft": [
+      3,
+      3,
+      7,
+      7,
+      13,
+      7
+    ],
+    "tokenBaselineOnly": 700000,
+    "scenarioNotForecast": true,
+    "observedPrefixOnly": true,
+    "conditionAnalysis": {
+      "schema": 1,
+      "scope": "observed-prefix-only",
+      "formula": "scenario U_k = serializedInputBytes_k + 1024; reservation R_k = serializedInputBytes_k + schemaBytes_k + 32768 + 4096; peak = max(sum prior U + R_k)",
+      "notCostForecast": true,
+      "noRealCalls": true,
+      "rows": [
+        {
+          "caseId": "F01-huaizhi-approval",
+          "observedCalls": 2,
+          "lastReservation": 55290,
+          "oldTokenLimit": 80000,
+          "scenarioPeak": 72270,
+          "oldHeadroom": 7730,
+          "complete": true
+        },
+        {
+          "caseId": "F02-luzhong-version",
+          "observedCalls": 2,
+          "lastReservation": 55766,
+          "oldTokenLimit": 80000,
+          "scenarioPeak": 73055,
+          "oldHeadroom": 6945,
+          "complete": true
+        },
+        {
+          "caseId": "F03-botang-notice",
+          "observedCalls": 6,
+          "lastReservation": 59669,
+          "oldTokenLimit": 130000,
+          "scenarioPeak": 155666,
+          "oldHeadroom": -25666,
+          "complete": true
+        },
+        {
+          "caseId": "F04-cenwan-direction",
+          "observedCalls": 4,
+          "lastReservation": 59120,
+          "oldTokenLimit": 100000,
+          "scenarioPeak": 111180,
+          "oldHeadroom": -11180,
+          "complete": true
+        },
+        {
+          "caseId": "F05-jianping-revision",
+          "observedCalls": 9,
+          "lastReservation": 62472,
+          "oldTokenLimit": 210000,
+          "scenarioPeak": 222776,
+          "oldHeadroom": -12776,
+          "complete": false
+        },
+        {
+          "caseId": "F06-yunshu-restart",
+          "observedCalls": 0,
+          "lastReservation": null,
+          "oldTokenLimit": 100000,
+          "scenarioPeak": null,
+          "oldHeadroom": null,
+          "complete": false
+        }
+      ]
+    },
+    "conditionAnalysisSha256": "8093999ebec2fd98c91fd69ecbe49d85ff186aad9f46c604fef118d4cbd2427f"
+  },
+  "metrics": {
+    "businessFlowCompletionRate": null,
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "falseReleaseRate": null,
+    "reason": "Offline synthetic only; full lifecycle blocked and F06 unattempted"
+  },
+  "developmentEvidence": {
+    "forcedDuplicateReadRun": {
+      "attempts": 21,
+      "reason": "Fixture requested already complete revision evidence; product correctly refused",
+      "summarySha256": "f2df4817a39c653dd3c11c6cf6c3bd234b02d4b5c0f94f0adcc1a52bc20323e5"
+    },
+    "preflightOnlyFailure": {
+      "candidateLaunched": false,
+      "realModelCalls": 0,
+      "reason": "Unreviewed draft seal writer used exclusive creation; corrected without editing reviewed seals",
+      "logSha256": "1fb1bc1675d3f83587e1ea97efa22c0bd0354a30687080ca3caa95377430af39"
+    }
+  },
+  "freezeBaselineSha256": "882adba272c0fdf8d3c895d8288b526c0e94fb65d8fed2de7d0db4223f28e4be",
+  "nextStep": {
+    "scope": "single candidate protocol patch for trusted current confirmation plus explicit recheck",
+    "patchImplemented": false,
+    "installedBaseMustStayFrozen": true,
+    "newLiveBudgetRequested": false,
+    "acceptance": [
+      "Original F05 bounded-verdict then human-confirmation/recheck path completes",
+      "Full six-case offline lifecycle completes",
+      "Same confirmation replay or restart grants no additional call",
+      "Missing, forged or stale confirmation grants no call",
+      "Changed draft, requirements, source or report invalidates old confirmation",
+      "Fresh verification still rejects evidence gaps; final human acceptance remains required",
+      "Independent review and new candidate seal precede any new model budget; old G01 cannot authorize changed candidate"
+    ]
+  }
+}

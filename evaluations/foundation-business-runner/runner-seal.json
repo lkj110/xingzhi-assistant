@@ -1,0 +1,1165 @@
+{
+  "schema": 1,
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "cb531946c6938f108796a4064305dbbe1997818ef3626f6e831409f381245067"
+    },
+    {
+      "path": "binding.cjs",
+      "sha256": "ada7d601041a68ecb742a5cf1b48a582407257fe51b38a9ade95ac378d13e491"
+    },
+    {
+      "path": "binding.test.cjs",
+      "sha256": "10168d5f0dba750f08a46f4a3ba408edd2cf1ce140be847c87e17b4883e8e539"
+    },
+    {
+      "path": "broker.cjs",
+      "sha256": "d368dbcb0bab2ba7cae9dea6980a726c60fad238dd466ed72f06bb25e50d1781"
+    },
+    {
+      "path": "broker.test.cjs",
+      "sha256": "5e511dae6672605105edc81af70c120bbda830b49f65ce1c984f913de770c57f"
+    },
+    {
+      "path": "failed-draft.cjs",
+      "sha256": "aa80b551387cafce22c66ab94864dafdb674ab30b89392db1c44907ba365c964"
+    },
+    {
+      "path": "failed-draft.test.cjs",
+      "sha256": "78f2dadbc506d814dd5a0fca8b45bdbf5bd34f17aaf395f86a741372c65a171e"
+    },
+    {
+      "path": "fixture.cjs",
+      "sha256": "b38127e97d95ceb38b9e421be27aaceeb23e35f6edea0f5e3f3f61ab3d5675ca"
+    },
+    {
+      "path": "fixture.test.cjs",
+      "sha256": "2580b146393ef5d67b5d3f1b95ee03adc0569f610803db4795e5729c5aeedcfc"
+    },
+    {
+      "path": "identity.cjs",
+      "sha256": "f027db555988422af12f82aa70493bea196de832fa5d17ec1273eea72894530b"
+    },
+    {
+      "path": "identity.test.cjs",
+      "sha256": "c9f8acf20e80442ae5200d2f3c031960a90b1c8ba1fbdcbd43a25f086efc069c"
+    },
+    {
+      "path": "integration.cjs",
+      "sha256": "5cd0edd8ffad0ad158f12681fec766d2d0bfec5ed1e07c4314516ec7aa2d39c6"
+    },
+    {
+      "path": "ledger.cjs",
+      "sha256": "d9fc5957426add6e3e3ccb5fcb586551c96f2d026beb6969780a00ea7ae4c440"
+    },
+    {
+      "path": "ledger.test.cjs",
+      "sha256": "589011cf0ec4c2c83be7911ef1912da7a154489cec22b517604a04f5d90c40b8"
+    },
+    {
+      "path": "plan.json",
+      "sha256": "e67bcd80767f2ea52cc44cd809b8cf832debba56264eb6a88ac19020661859be"
+    },
+    {
+      "path": "report.cjs",
+      "sha256": "d9b82848181c58ad7d0ec00859f45e882a3063f82858404edf76aebd4b55545f"
+    },
+    {
+      "path": "report.test.cjs",
+      "sha256": "5cf6f0bc8cba40eaa3ed17d10e805da4932b91c96c7e9591720db6903eb4516a"
+    },
+    {
+      "path": "run.cjs",
+      "sha256": "c8af4d4f6e1fdbfff54708fa7daa73b3e23a231bd31f15a3a149857b51ea56e8"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/install_media_pack.ps1",
+      "sha256": "bc20f049badf021e3a53bdb4156603caa5ef482c9a9a251f927605e676a44171"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/install_webkit_wsl.ps1",
+      "sha256": "bc61beda37a808eef27d39ce684baa792f6d17737a25a432b1a84d3b591ab815"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_chrome_beta_linux.sh",
+      "sha256": "dc8c22b9dde76583cece2857575b88094299615f3136a3c598149710c45dee3a"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_chrome_beta_mac.sh",
+      "sha256": "a92eaeb4ebcf5633a4e9c981481e14c80764fc81b6fcbc0565398e50ff319433"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_chrome_beta_win.ps1",
+      "sha256": "b6d9e44742feafb98d5edc56fa20042949973cf30d141a1c5b4fb384096967c5"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_chrome_stable_linux.sh",
+      "sha256": "dc72ab3567a4ce43bd8353d4ecf41f1d9c03e870169367cd3ed9043aabf67dd1"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_chrome_stable_mac.sh",
+      "sha256": "bb43a96c192a6cc81524ade0264686fff7809c019a89f7db0a9849635879c3be"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_chrome_stable_win.ps1",
+      "sha256": "3d96c4e2f4ebbb3fad44cf3ba58d9cf90af1c9fb3073e3b27d45a74cf005515b"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_msedge_beta_linux.sh",
+      "sha256": "10b26f35dbc2000b94edf1172d803a29c5873a4eb8d523afbc687997b642767e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_msedge_beta_mac.sh",
+      "sha256": "0036d738bc90d686100d81f328ba0003bf07863f5500b792c8da391d149750fa"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_msedge_beta_win.ps1",
+      "sha256": "b173c378a59f0cc38033cee702de1f44f09276c9b2270d1a650ebe66ee312433"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_msedge_dev_linux.sh",
+      "sha256": "00e4947e7a4f8339c6db09c87976d808583c07f9179e4aa7694d88614b82fe95"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_msedge_dev_mac.sh",
+      "sha256": "6f899e3b311f742c24ca37ff9e32298e8290514ffc14bf588cc51556a29da4c0"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_msedge_dev_win.ps1",
+      "sha256": "46f7f98c81cb0abe687d7f4a5afea9b897a38d2a6dd6f6662fbd847f7a22bd51"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_msedge_stable_linux.sh",
+      "sha256": "ec0a31a5f09c565e108473a1850895a4458ab00c713ac1de3aa2001912e4668f"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_msedge_stable_mac.sh",
+      "sha256": "3af1e893527ff2257aa2dbc3b259a053b92f45c3eadb13e38eba46e87902655d"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/bin/reinstall_msedge_stable_win.ps1",
+      "sha256": "40bb5fcbfcebbbe2ce43c6e736e7c5deefc5be03b6e9c6914423c06ec1f591be"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/browsers.json",
+      "sha256": "545d52f8382c391e605562c330e9c1c534a16045898203037a49bb8bd769a946"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/cli.js",
+      "sha256": "f1c4075aef116c766092250d7f37b3249a7cee6465d953207fc38c8f6145becd"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/index.d.ts",
+      "sha256": "7a8ec10b0834eb7183e4bfcd929838ac77583828e343211bb73676d1e47f6f01"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/index.js",
+      "sha256": "a58fb2cec4293e7dcf73c58a179898a4f3986666451a19da4e731fa3af63265b"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/index.mjs",
+      "sha256": "3d36e2132d3c8b62397d23f0bb4177336aaee503203ae2a2c90fbeb5bf3317dd"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/bootstrap.js",
+      "sha256": "4637f4dbfef9cfc01baeb5f5d2cb63fa0901522c96915ea2227290558d27123e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/coreBundle.js",
+      "sha256": "549070af3acabb3efcc4f55bfe6210f9f7c2fcf633cf7eaa59bfe60719969171"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/entry/cliDaemon.js",
+      "sha256": "062f256fb29a7bf91793a014b9c3f1f9cf2dc6b12e40a8a2ebba88a630ae16a0"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/entry/dashboardApp.js",
+      "sha256": "209962c6eaeef11629f226d6a2ab33ec7a2480754242b6e19590a9e6eb71d126"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/entry/mcp.js",
+      "sha256": "cc87dc0020cb41caebbf04f50e42bc7835b033a6d80e9c3f0a3d0b3dbdf341c7"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/entry/oopBrowserDownload.js",
+      "sha256": "87567cdbd67dd2f50bb232d47d3784701ece7c81e39c0287bb7d1b466b68cf06"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/package.js",
+      "sha256": "9f938e1d44a0dd231b1660ca62f7dae964859b79cbdc370b8542c5d375ca3c05"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/server/chromium/appIcon.png",
+      "sha256": "6ba994f05c5cf18e22d9b6bef9898fbdec6ad4d4d77f5187d0609cb42d72d01e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/server/electron/loader.js",
+      "sha256": "699fb5564539da34ed72f49e9821af28f9fc06940adb639cac55dc9c477cfe7c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/serverRegistry.js",
+      "sha256": "38025f08f335705b099b9f188bf45b5908a56a722825fe895b1e90f56d5595b6"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/serverRegistry.js.LICENSE",
+      "sha256": "3098a6efcbc11752cbdf6075fa65480f5470f78c8d981fab9c0796dc9a41cefe"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/cli-client/channelSessions.js",
+      "sha256": "6b9c613e87340f48ad7182addd7495a8ff3fbe55feb1bbd0ce04f59f1552e126"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/cli-client/cli.js",
+      "sha256": "dfde8e9dfde30c4b3914eb25ba1c5a8524ec64651d866171d75cd7b41a827180"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/cli-client/help.json",
+      "sha256": "e78d7a22d059196e838d1f076b563eae185b851e3e36063fa4ae77a8dc1415b1"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/cli-client/minimist.js",
+      "sha256": "9430489ebc06fd02231dccfe844516f743e812a9ac4fe8e6748a67718738851c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/cli-client/output.js",
+      "sha256": "b4c3ebab965e73d621971cd3c76b60c22cf460a0921f14c5c6c51e46e06f02d2"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/cli-client/program.js",
+      "sha256": "55a9a10132c680ecdec25b5000afb12035745ac9e75dd9cc0ef3e5d5e08d7f3e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/cli-client/registry.js",
+      "sha256": "4976cd5b2b3a25572cc1a4b5f055a756dacd4cc1b19d48987ee3253428e759b8"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/cli-client/session.js",
+      "sha256": "a71e03ba6dc99d6d9cca4577d534daa6d0c20c32e50065311823f41caba29b46"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/dashboard/appIcon.png",
+      "sha256": "38037bcf18c7f9b950da2e1a2d8800d38fb27637ccda293d38368a3704b67f18"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/element-attributes.md",
+      "sha256": "bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/playwright-tests.md",
+      "sha256": "c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/request-mocking.md",
+      "sha256": "54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/running-code.md",
+      "sha256": "d95c539a5990b71d02d8bdf1d9414df16191eb6cff95b0063820518b7a13dcb2"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/session-management.md",
+      "sha256": "cd3e261b8763bf952f1e371b876cb78d054379afec85482f9250633e1b7e6c44"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/storage-state.md",
+      "sha256": "9ac47f9ae4a1aedcd2077f8ac9ab1ba6bee1962cb83ff51adcd36fb6d83b5ec6"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/test-generation.md",
+      "sha256": "12f54cfa718d9e559bad918120a4ca4f11c933167713d1b9c5f99872eddaf749"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/tracing.md",
+      "sha256": "ef73e71bee792e341df9cd4f60529c929ade48b538ac76e033f4f20843e8dbda"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-cli/references/video-recording.md",
+      "sha256": "8555ab5400df0d90e66318aacc0a8a4418fbf872e7463824d55d5c41615abd83"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-cli/SKILL.md",
+      "sha256": "1a609c93bff3eea9ab99fed93c0334c851fdc39fb6ac5335551bfb87c171d57c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-component-testing/references/gallery-spec.md",
+      "sha256": "0ca25dde6112eb379f56eb618585b64dc2dfd13c2f7f956ac7eabbd76a68912b"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-component-testing/references/migration.md",
+      "sha256": "bc3a336f7970bb7455fa5a38f937e45b35fb0c18d6c3b9f37916a4ff757b7acc"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-component-testing/references/react.md",
+      "sha256": "54af9cc1cdb6d4ccdb8e811c0abb29b960d5c9304f4df7d1dcf9b8df3f973102"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-component-testing/references/typing.md",
+      "sha256": "c511025b5c9b02d7f49034a5613c8b478193bf60c90ea6dddb3faf9c6985c82b"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-component-testing/references/vue.md",
+      "sha256": "d1b129f126c700702a3c00ad8eb6c86898bc941c29a656c1191eb7230650bf8b"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-component-testing/SKILL.md",
+      "sha256": "60f57b31767d562c30cc5332081418c2945f4d9c998efa6e09191333654dd429"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/skills/playwright-trace/SKILL.md",
+      "sha256": "4124dd790915bb76108377121d1e6ca93a5544c90485c090fa5655235efe22aa"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/utils/extension.js",
+      "sha256": "404ae19e57a7c7c5ed3e6ecf9df26a3fcf95867250732f954823078ccb879e63"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/tools/utils/socketConnection.js",
+      "sha256": "973c2bea70a1f1445f4673f99e9fa351e50a2ec9fd93d7381b2c41bb4de764dd"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/utilsBundle.js",
+      "sha256": "2d1ccc01d21b7d54ca99a6305991d7fb6e072ea4e725d7fec5eb6184188c52c9"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/utilsBundle.js.LICENSE",
+      "sha256": "2495f30be29620d54b58339821eda0ebabdfb6ee9b09455f7285a06fd46fb9f3"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/assets/codeMirrorModule--QdMvsKi.css",
+      "sha256": "20be824a82832b62cc04642d31da3c609fd280b23f1cdcb1e622c4f40aac5ab8"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/assets/codeMirrorModule-CQ8RZGBm.js",
+      "sha256": "56b9c6a50c09dfac28eea5ec3e76c8ae85a26009b20ebac9928959cf3c3312bb"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/assets/codicon-DCmgc-ay.ttf",
+      "sha256": "0f1d5219934e96e83b8db162d60b4d8c09b5de1e7d38031cbafe4a3c0f2889c9"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/assets/firefox-1bWoP6pv.svg",
+      "sha256": "3f3742d1e78c0db6c2d3531250f70c30675ee5310de32fa89befaf738c54efd0"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/assets/firefox-beta-k3eOH_eK.svg",
+      "sha256": "7eab5ffdc25903ba33a7202f7fffa1999f119c7be45a39e9e703c118904f917a"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/assets/firefox-nightly-Cp5nfeDT.svg",
+      "sha256": "f311c074b0fa999fcd6b73441301fb54ee87a48ff3bf05f318647928110476da"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/assets/index-AwgwcYie.css",
+      "sha256": "82d06f291a7d0860e1b1e1803ab6f2e49c637541779a37168652e10b062b67f9"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/assets/index-hRvO4yU2.js",
+      "sha256": "3a05ed0b026442a1459952df25b9a836d4fa1a917838cf6f9357daefc0e42285"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/assets/safari-na3_-uQk.svg",
+      "sha256": "80fd72ca5eb8545f1981277b31f4f92951d469d4efebd078e4086b676fe517dc"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/index.html",
+      "sha256": "202903aad66040604bc1a0c85615dda4bfc7e6f4a4674e60d9eda4d44f6faea7"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/dashboard/playwright-logo.svg",
+      "sha256": "511524a1c145819303a18fb71870a4307c3e740f9e9722f7686a2b42b0995b6c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/htmlReport/index.html",
+      "sha256": "ce7c098020a0eb9ce10edd416245ea6da50dfeaab18dfd0a2176979d22643be6"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/htmlReport/report.css",
+      "sha256": "d98a244bf950333ade383b109e97d396f970f650b20f2e5ef5ecc2740205dff7"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/htmlReport/report.js",
+      "sha256": "3db0c0291241102b14b62af4b80d84dd8169a281bb2ff360c986b9d7da57c339"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/recorder/assets/codeMirrorModule--QdMvsKi.css",
+      "sha256": "20be824a82832b62cc04642d31da3c609fd280b23f1cdcb1e622c4f40aac5ab8"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/recorder/assets/codeMirrorModule-CVQWJZAA.js",
+      "sha256": "45f900fd93bf33545e6915308a964c49ce342c2e175a54aaef0898f05b25fcf5"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/recorder/assets/codicon-DCmgc-ay.ttf",
+      "sha256": "0f1d5219934e96e83b8db162d60b4d8c09b5de1e7d38031cbafe4a3c0f2889c9"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/recorder/assets/index-BZpYJZ-P.css",
+      "sha256": "cc24563b96f286614b88f74da413e9984de263227971c4cdfabe1f73be095514"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/recorder/assets/index-hrlLqLtq.js",
+      "sha256": "f7f3dfd9113b0119821adf1f3fc873fa5dddba8b2c278014e0fb0ecc1b3f492b"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/recorder/index.html",
+      "sha256": "5783e9b7e2cc78dd8a1a409d84b44b2431bf60f8f54b8be36c6e433c6a1086ed"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/recorder/playwright-logo.svg",
+      "sha256": "6b0a4367bdeab10995bc239278f04c68c10e48adbec15e799e01909a0d66dcb9"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/assets/codeMirrorModule-BbkfBe3n.js",
+      "sha256": "274b964242426bf4e1c662a84f6345d8a99f67821caa508fb12c52e2d1dfd48c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/assets/defaultSettingsView-Ds6CBOo0.js",
+      "sha256": "0b48f13034cfa075338cc0839f212297d22cadab9219d9699d161d2b18c79019"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/assets/urlMatch-L3liM589.js",
+      "sha256": "1bc6321e32d11c31a452bc75896f0b344e6153321854d9f1658818be7f845c16"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/assets/xtermModule-DywYcAf8.js",
+      "sha256": "2546783e4f74a432bbccd88a6763cf78ac4e951686262cdf85b54d5a26ca3995"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/codeMirrorModule.-QdMvsKi.css",
+      "sha256": "20be824a82832b62cc04642d31da3c609fd280b23f1cdcb1e622c4f40aac5ab8"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/codicon.DCmgc-ay.ttf",
+      "sha256": "0f1d5219934e96e83b8db162d60b4d8c09b5de1e7d38031cbafe4a3c0f2889c9"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/defaultSettingsView.Bqk9acqE.css",
+      "sha256": "cd1d3c277d4962246ed92d7d42734c5ffed6bac5c499232693f9c8331b71801f"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/index.B_TqY17P.css",
+      "sha256": "08a212fcacae1866f44f065654afcc4c7d03409c68c74b3315c5bda17a0ca003"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/index.B4cLoZK3.js",
+      "sha256": "7b96efd541639738a8d46e4b6ba9780ffaf57a5c104db66764e0cec46d9f64e8"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/index.html",
+      "sha256": "139ac80123fb450cfc0631296e9f01463313ca2fec961b3a247ec6c9528447a2"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/manifest.webmanifest",
+      "sha256": "d8540500603a32a39fe7e5a0375dc0f9ebafd11118e06a846db7efc608223ab9"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/playwright-logo.svg",
+      "sha256": "6b0a4367bdeab10995bc239278f04c68c10e48adbec15e799e01909a0d66dcb9"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/snapshot.B_Jk1wbt.js",
+      "sha256": "d4d09e05451d107d8e1a6bbd041405fe518b9fd2833890e4ebaaad83b7f554f5"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/snapshot.html",
+      "sha256": "c608c8899c95c5a74d3f556e20146c3d852b9df85ae2854c659a7cc773c9b727"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/sw.bundle.js",
+      "sha256": "37b230329280e28e32b03df20738d2ed3bfd0ea45b408a69213158bb8400adb3"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/uiMode.CU5KtEkS.js",
+      "sha256": "0c0dc5e0c822c27e60420a5c1659683fda89398f1561e43608f9d829eafdc197"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/uiMode.CyMfwkXJ.css",
+      "sha256": "fb403cf0b07007bc1d771e29737f7408924da300e2fab8b289a3ef2e8fc08d7b"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/uiMode.html",
+      "sha256": "c6e92923ea7f2b617db3a2128ac8889c6c1461a77764651588e0111b729c3a3d"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/vite/traceViewer/xtermModule.kHJ-D0s7.css",
+      "sha256": "0dd60056134e6a2994a86b59a1e9789b9f04e92924da109aef8c923acaf08ce5"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/webp_codec.LICENSE",
+      "sha256": "995c7ee35aceb7666829b7a501ca89c0864e12b493c1174b155774ab1e03d831"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/webp_codec.wasm",
+      "sha256": "164cd9583a3e4d081f767d3b41ff0a730443dc7535fcc5caff83561463384b79"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/lib/xdg-open",
+      "sha256": "7d759d54f0d4ce1beeb34ee62c587985b5042374e8de237b0dcb8cd47aa698cf"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/LICENSE",
+      "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/NOTICE",
+      "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/package.json",
+      "sha256": "f061c58427e47e843e26d201f0a57076c734e57c734ecbbd87d4a23b7a20db9b"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/README.md",
+      "sha256": "d16ff7f8e38fa1fc954f695ad551cdc118d9c9bdd5f3d83203901f4c317d7d7e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/ThirdPartyNotices.txt",
+      "sha256": "a549d329bad8806fe279f0ecae0fc0270dec7e7c2dc8ec10f90e394f7c32b144"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/types/protocol.d.ts",
+      "sha256": "0410ed82a9ac63269dc1471ed249b280e2d461249a3a331e71cdb54cdf10db33"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/types/structs.d.ts",
+      "sha256": "c9b9179b7291c8562eb0fb781219ddbdcf36149ebd7bd355e5b4a553d6b60b81"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright-core/types/types.d.ts",
+      "sha256": "2806f6d7810fba0306066d500cd716a6d1128d90af2c3cf71723e3ea0a8904c4"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/cli.js",
+      "sha256": "5e79302a6aad7d835d92d5ae6b4244c91cf61b28e94d7917279090e6c231f7a1"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/index.d.ts",
+      "sha256": "b07f64ff6ec710998a62b07377fbda0ab4c313ba1f0055bfe9faa22cffedd47c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/index.js",
+      "sha256": "4e98f65f0a9d9bcab8cffc0c5cfdd87fd3f5b0be74fc494ff166a466b204cd44"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/index.mjs",
+      "sha256": "a0f5715ea22354f922791a9c53dc012d5d5c067ff9cc4cd35ffb7cd272071a9f"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/jsx-runtime.js",
+      "sha256": "2fefb7ec3a42dcf1cea35ca7e3eb107507c4d80821b1d6abf6cfc9bca36498f0"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/jsx-runtime.mjs",
+      "sha256": "a6ae8df3a36f154f433b01fe1592170500f5fbe7798f6dacdfea5b492f31d1a6"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/agents/agentParser.js",
+      "sha256": "a2f630c1c2c9eafa0a3ca9cdbeaa26e74801615bc572e3fce226acb662ceb0eb"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/agents/copilot-setup-steps.yml",
+      "sha256": "7483c252e2225d90cf7b66b461772a9e16e189cd45f689f48519872571e1a345"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/agents/generateAgents.js",
+      "sha256": "3bae7bde1d05c0fbaaa1a82ce7a39732ff52904de575fe88e69c391a6c41478e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/agents/playwright-test-coverage.prompt.md",
+      "sha256": "8e8a32e98c7069c8af29a088a91999c81dafbeb09a144b143ebe888b48b94355"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/agents/playwright-test-generate.prompt.md",
+      "sha256": "6031c3eacf1e55d527a0397066b64d134d9f925fd7286bcc78646e714611da10"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/agents/playwright-test-generator.agent.md",
+      "sha256": "0a61b313ff2573198fc89c7ab5b7e7db1c557193a470104ac90b2d6a0332be80"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/agents/playwright-test-heal.prompt.md",
+      "sha256": "19f2bea9648ddac89b90b40a3f87b50c276d416677f8bb2fbcdac894cdb6946b"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/agents/playwright-test-healer.agent.md",
+      "sha256": "b3e1d85219df5ead7e3ef0dc69959b0263cc16e885f71d5b64bafdf97e6f9215"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/agents/playwright-test-plan.prompt.md",
+      "sha256": "6ce2c51b356b4e89ac1e3c2b8b3ff0a390c7b518c1d4d24f019f9eb179cd6669"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/agents/playwright-test-planner.agent.md",
+      "sha256": "bf4baa68205aa04c4512a80bcc6a5362d3aaa76ae9165f05a9d5a29e1d34c0fd"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/cli/reportActions.js",
+      "sha256": "4eeceedf9588d69a153f018aa548e00b73e5f61cb39bb05f0fc87c06131af2b3"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/cli/testActions.js",
+      "sha256": "844ee2482212864404513729b51871f43d28693b5c98f260e6fbc5d7bf02827f"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/common/index.js",
+      "sha256": "f4a6b14f5ba21a118b58a6a25eb0b281a3acc4157023b014e0197145056124a4"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/common/index.js.txt",
+      "sha256": "07620a43f0b2a004d3b945369dea06ec73615d8a7e81ca024c89c000a20d075b"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/errorContext.js",
+      "sha256": "ffc1843cebb3e90e1674c07ee2607a4a63152eff609e5f9865bbb2f9eb02e9a1"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/globals.js",
+      "sha256": "f5922eb1fb6051900157492eb9c218e62d07378eed135bca4b2f173ed1184d1c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/index.js",
+      "sha256": "54bf5935cf339938408c656bde958047a1217bf77434acdf75a0c717cddaaeae"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/isomorphic.js",
+      "sha256": "3d61508f951aa9518adb4bf6594d61dfd1099c95a1a4f0af809a58ccebc59025"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/isomorphic.js.txt",
+      "sha256": "36c16ae5721dfe8ac2555e84d26b5895b7ca113e7304bd3735a16d56b5a71b3c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/loader/loaderProcessEntry.js",
+      "sha256": "45681332f4178770c204b33e5b8dcbba940baf3bc6fc86506bab24027cb513f3"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/loader/loaderProcessEntry.js.txt",
+      "sha256": "0fc4ad550d17a23e9f1cbc78f646e57461f4feb22253dd5220034ef44091005c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/matchers/expect.js",
+      "sha256": "5ef2a695e787386367f4b1e03c79b05100b5526121462b24d7730a731689d941"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/matchers/expect.js.LICENSE",
+      "sha256": "78b2f60563d28cb3f9ea17e4cdc0657681e641e2f72766771d9e2da9ca94c065"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/matchers/expect.js.txt",
+      "sha256": "278a0516fb0b18c3206903c5919ae1f3502dbcd6725b9aa2bd265767b7b9ebf2"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/mcp/test/browserBackend.js",
+      "sha256": "703f307d1c3e746291b625f886af3d3d28fc0a868b8b2a66173a75bd895ccddc"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/mcp/test/generatorTools.js",
+      "sha256": "3c53feaeb9fc2ff728f334cb31f9b7211e65b20c692c7585459c3c97bdd13a12"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/mcp/test/plannerTools.js",
+      "sha256": "715abc888d9ea30b532b75c6f09aa34101ab15c1eeb959c50cf9dedcf3a459ac"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/mcp/test/seed.js",
+      "sha256": "f36f7fb76d4ed33225e80be208cccc9757d363a9d1527cf560736c0f1e5edd31"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/mcp/test/streams.js",
+      "sha256": "8affc240a6a90ee2dbdedcde9927018efe426ec0d390bcd1ee4f0464e75adc0f"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/mcp/test/testBackend.js",
+      "sha256": "dcd8d09366617f13213ce544efb5fe47df5a87258ae93545d4d0738623f43ad1"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/mcp/test/testContext.js",
+      "sha256": "74ff4273ea12e6353d4860c9452387b643d7d8899fbd4951389ba94d18df5e37"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/mcp/test/testTool.js",
+      "sha256": "2a8f17d0a61ccb8a4ca9c52a3255d624deca989c0b06281d579629c664f8cc8e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/mcp/test/testTools.js",
+      "sha256": "14710b5f34246005d974762b83a2a50e5cc17130af841cd3bc447811d69c6af7"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/package.js",
+      "sha256": "544a18417ea51dd4c8a9f3dbc4e2b47e46c80f452e0cd23d55e9b3680bc6241e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/program.js",
+      "sha256": "dfbb7bae1431d99d330320040c03f7e9c6681184c8dcb59008a09da7ada0c409"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/runner/index.js",
+      "sha256": "7a2e4e1114d3237d61b87723b4d86a37944c9143f3ce2fb0b2e8867e0c612a5e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/runner/index.js.txt",
+      "sha256": "5c8cab04ad0150b8b62ee30309638e1aea520759a26dc287db17febbd6029be9"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/transform/babelBundle.js",
+      "sha256": "72363941e21434effbc8ce0484fa490d281154499957e0be244d31cee9a1d5a7"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/transform/babelBundle.js.LICENSE",
+      "sha256": "6e396aded640f0bd2671d57442575ce8172aa1371b2dece6c5d4048f2f38f34c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/transform/babelBundle.js.txt",
+      "sha256": "1f407f538c03daab08ec8c0dc594e93ba8eb9bed2203815091249472530e8bf7"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/transform/esmLoader.js",
+      "sha256": "51a0a75a3aee8ec1dcfd545ad5c45300c282b5c4fe6d0a74b5a6cdcb649ad0de"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/transform/esmLoader.js.LICENSE",
+      "sha256": "3cec0c446526a449e4613b0defee0adb585f88f1d7fdba919421226d69be078e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/transform/esmLoader.js.txt",
+      "sha256": "b6bc3e9508845f737014ac1745f4907f51f6a36d121b89ae79b66fb7aa4e7ff7"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/util.js",
+      "sha256": "874c55495773da8c5a2ec46551c2265937bf08446231c09a8b5966e8bea2b1f7"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/worker/workerProcessEntry.js",
+      "sha256": "3d6676ca271c075b1e7c8e2cd6ad5331430cf29a3332d1f621054ff7d8e06478"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/lib/worker/workerProcessEntry.js.txt",
+      "sha256": "7b4f3a6e64023f52319739dd1026636d0e769edecf1eccd4b7f03bf8a4b54865"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/LICENSE",
+      "sha256": "45873d00a0dd243596deb4aa23b2493b3d1f0671921bf2538ea431d7380220eb"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/NOTICE",
+      "sha256": "6d602191187b35b9b01d2cffa01c8469c2c8d9de8a96f1bf868e0f264f51c81d"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/package.json",
+      "sha256": "8bc2ddebe8d9b051b9ecb87d62c6c63877e59d08617f32c3215681ca8bb70998"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/README.md",
+      "sha256": "d195f41bed2845ab708a213675900fd3f80084268a637214495444a1b96e8e7a"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/test.d.ts",
+      "sha256": "3f00324f263189b385c3a9383b1f4dae6237697bcf0801f96aa35c340512d79c"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/test.js",
+      "sha256": "b97fa53a6ab864f51c9c48b5e4647d0acae45ba2948c5d78e38bfeb56755d974"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/test.mjs",
+      "sha256": "1deb265617d0e87b6d05bf8b3d5bf73cd4b788665c249c609a01b94ceff2eea1"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/ThirdPartyNotices.txt",
+      "sha256": "b17ac0bd6f4b8207e440639cc8e0ba1bf1d9eaf9b12236764ab93b346c7abd8e"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/types/test.d.ts",
+      "sha256": "0c45393d79498d440f99e8eb10d93609742f073dfc631feab5ab0f1a6b21c056"
+    },
+    {
+      "path": "../../xingzhi-assistant-windows/node_modules/playwright/types/testReporter.d.ts",
+      "sha256": "0304f69294f8221b82ec6b4c75511dd6d824f04b1a0999409c79931cd33219e3"
+    },
+    {
+      "path": "../foundation-diagnostic-live-control-20261029-31bf1e3b/authorization.json",
+      "sha256": "41e5999a65bcd2532a3060dc07f95313f7d81dda87de3bf6d3fe10772e8b119a"
+    },
+    {
+      "path": "../foundation-marker-runs-20261029/diagnostic-live-31bf1e3b/checkpoints/G01-muju--protocol-gate/decision.json",
+      "sha256": "f51b181f30c9ab6142a01013652c8554614f433569f9cba012a7ac79ddf55cb4"
+    },
+    {
+      "path": "../foundation-marker-runs-20261029/diagnostic-live-31bf1e3b/final-state.json",
+      "sha256": "66bbc43715e4f7ecce3628e1064e174f60a67f024af63e262d8fc576f53a09ac"
+    },
+    {
+      "path": "../foundation-marker-runs-20261029/diagnostic-live-31bf1e3b/summary.json",
+      "sha256": "a9f5356c18ca458b2704dec6ac237adabf062f27e36675b7423c9a41efaea19e"
+    },
+    {
+      "path": "desktop/grounding.cjs",
+      "sha256": "ac89ce673dd30b9adfbc3b6d459f13979b8a7a5a0e9513ecd463aa688c2a3d40"
+    },
+    {
+      "path": "desktop/host-process.cjs",
+      "sha256": "5e8748dd41c2f29eed2ac79642a20b0d856082a43c88037715ebd0040bdd744c"
+    },
+    {
+      "path": "desktop/model-errors.cjs",
+      "sha256": "4d486ecda4feb57ffd5c09d6b35862029c5382dd0abc86e2ee51a7b6f65e67f9"
+    },
+    {
+      "path": "desktop/model-json.cjs",
+      "sha256": "91a089e6f4e353a75d2d59f9d05b346914e543e0d8160de29e71afd664377fc4"
+    },
+    {
+      "path": "desktop/native/bin/windows-process.exe",
+      "sha256": "dac0dffef0e84a9c18e11ac190b408fdec75a5b8502ebaeaf3d790f2aadb259e"
+    },
+    {
+      "path": "desktop/subscription-protocol.cjs",
+      "sha256": "fea01658938b1f1d4b51470a1761f5baf04732b46bf65796fcb3f4976b41f5b2"
+    },
+    {
+      "path": "desktop/windows-native.cjs",
+      "sha256": "4d425a6aed6722bae89bfe2a691ed19694b80a284aa62bdd61c9916db3410f9a"
+    },
+    {
+      "path": "desktop/windows-process.cjs",
+      "sha256": "bda530f963e3b315c0b89d976711e8f43e67e42725f7bef6407de10a1b565d16"
+    },
+    {
+      "path": "docs/evidence/foundation-diagnostic-live-gate-20261029.json",
+      "sha256": "fdbd1c94fe4b894b560dd03d5127a5c3a3dadf4a812a4745b40907db1490bf87"
+    },
+    {
+      "path": "docs/evidence/foundation-diagnostic-live-review-20261029.json",
+      "sha256": "1046cd9d19ff40e564dc6856029465e452feb203558aec2c444f99a1ddcbf5cd"
+    },
+    {
+      "path": "evaluations/foundation-acceptance-20261028/inputs.cjs",
+      "sha256": "eb42b1f19903a96a6376a405a6b79d72a964e2539ea18327b3b1a8a91e535dd6"
+    },
+    {
+      "path": "evaluations/foundation-acceptance-20261028/plan.json",
+      "sha256": "cac3a882f73a2744a41629693ac4287fd6cb09140e18c5704a06da663a146f57"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/broker.cjs",
+      "sha256": "b46b72b871a3d9eb3ecf8f383b5d6a404370405f10e96fe44b03b04f28fd504f"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/broker.test.cjs",
+      "sha256": "40f19d713443cd060c37cec113d893c567ad4c976f70d69600228bd5c7a82248"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/checkpoint-binding.cjs",
+      "sha256": "c57cc9311792dd636701ded92f7523fa73c5b1fe05d10817dcba39d187b9b899"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/checkpoint-binding.test.cjs",
+      "sha256": "b6ce48f507ae69943e773e093bc6eb3036f4983b7c61332cd425fd17809c1e67"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/diagnostics.cjs",
+      "sha256": "38756716cc352d4d27bba9385056eb574d88b2cf1b9ed10e8e81fa07b6ef78e8"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/diagnostics.test.cjs",
+      "sha256": "4430de626039e585c6588e63ab0e07468425bd9288e389a911724bf64946c5de"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/fixture.cjs",
+      "sha256": "cf48a8b141f65310378e11bc0bae2db3321774d21f9a5f03373071eb1ad5b7f5"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/identity.cjs",
+      "sha256": "be4d09896a3ebec0cbecefa9012d06655c34fd48eb0b5c36f2405dd2485f0873"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/integration.cjs",
+      "sha256": "18d9928eeeca0087dc551e1db373ec94baaa073200e94b3e8159e84c98ea8de1"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/ledger.cjs",
+      "sha256": "38b28ebb6205b2be1b831f1ebc9c05b9ffee50a84b463a72f685ec1ff288d385"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/ledger.test.cjs",
+      "sha256": "ad63848b84301963fa4d085b70c132626dc6f68053c57799e2f97a4ab4b812ec"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/plan.json",
+      "sha256": "68429f4accb40bd8a5816bbe34db399d50784fc810a98787a54e8ea41da27780"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/README.md",
+      "sha256": "5b733585b3e9f06a91761083a13d351a9c78fb878e5a3a3035767f1c932658dd"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/run.cjs",
+      "sha256": "6a61f41efbe1e0679cc11c479d30405211bf7fb3c897f9a0ab3823db897c32df"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/runner-review.json",
+      "sha256": "41edaf58a3ea43d1b20c83925142560723df3c48b2849c6b9325aded9cd9f155"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/runner-seal.json",
+      "sha256": "fbc01822ec351fd75d50fb1f61787744a28791ee3789e58e1b396670347d40c4"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/transport.cjs",
+      "sha256": "20b98a0e5ec1753d04d4fca96b1d7dc6ef4cfab44f06e5907c15ad19557016c3"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/transport.test.cjs",
+      "sha256": "717759622036bccca895910baaee2a913b863f69301fbb7e5899ef4499af2340"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/anchors.json",
+      "sha256": "35ef8fcf50ddf3635ec33dd6edbd17bce00a8809388c31c35e6885d518a1470b"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/author-check.json",
+      "sha256": "b67efa1a477d2ddb2eec5cb20b5d0fe584a756a92667903d76c11b54c932b615"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/coverage.json",
+      "sha256": "76ec0e2317b90d9429223ff9548ef51d8ebf51da848bf2aa36d85b4c89f6e3e8"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/freshness.json",
+      "sha256": "58cab77b69ee79fa902916210042cf3efa52931c84fa3ad71c27c3fbd50c6b0c"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/gate.json",
+      "sha256": "01de4e13d76e1db031557f47545f2bd04e08daa39b1f3367dd6b8d3d381f7e6b"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/gold.json",
+      "sha256": "c04d36c6e0df8a26e6246cab3a5af6bf754a0be1328916b8b086a4390eeb4ab4"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/inputs.cjs",
+      "sha256": "696a8d241b4163d8f1e797dd005d303dd2797004cf2aa79ec6bae03ed2aa1137"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/package-manifest.json",
+      "sha256": "74099f520cc9305e57c337e074289ee693da29bc7bb84615e23495ff90b8ef2a"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/plan.json",
+      "sha256": "307f36942cf0d277c5ab47f9fb0af3b82a641712acb16ccb59a365b183e5612e"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/README.md",
+      "sha256": "969ae37b18a7ac0b6f11c83be1afce52f1f6de1e62615592628b2cc965ca028d"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/requirements.json",
+      "sha256": "2dfc8cbc6f9f48df48e3a2446d3b8d462d1ff3841a8cdca11778658fb01d48ce"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/runner-review.json",
+      "sha256": "6c0523a274ff344c1e87fe820b0ad88bd2b9c086e466afc563834e3ad4f9ca43"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/runner-seal.json",
+      "sha256": "ac6dbd12f6f81c0f9190aed4c600794eaf4fdf43041d5c4fc2e1ada18103c454"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/sample-review.json",
+      "sha256": "bfb4799e52508e302953a65f1d9a33634cc128c32112ec2c77b5a8b69fbd28fd"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/seal.json",
+      "sha256": "a4aee2d7130b210b934c7a323223a40dca23c946284c5357aa4922204aeb7b75"
+    },
+    {
+      "path": "evaluations/foundation-marker-acceptance-20261029/stimuli.json",
+      "sha256": "ae39cdecee5e9d5e2f8dbd775688daee6051bba5b04f95d497674943e4071ccf"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/broker.cjs",
+      "sha256": "db9a6508c76093e43fb86b63a1803038993e5ab472533acea571904aaa147d9d"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/broker.test.cjs",
+      "sha256": "7bfff6b11d6eb2961c4ce9ceabc2938d3036130a6f3c8b80d41ecb3d1c40c082"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/checkpoints.cjs",
+      "sha256": "79f626ed4e2162a96f67efdc5e6577c845774cbc43ab3cfae4925b45c146ce47"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/identity.cjs",
+      "sha256": "6e86bb5a8a1587003368eeb36e58b2502826a2c55806a551e01693d0bfd1b159"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/integration.cjs",
+      "sha256": "a9bbf994ca3aa87fef690882414523f21025063fe07c6f449a2f888e24cbdaf6"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/offline-human.cjs",
+      "sha256": "f7880226beeb62031c6f327a5160a277b06060d08dd8bed534d512ee5e14cc2e"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/output.cjs",
+      "sha256": "ce2206f605869731766705034b1b29e69ef95909144d6981b4035a5c311a0b0f"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/output.test.cjs",
+      "sha256": "8e4047a1313a4a1300de606750980d54d8b9bd916fa5ff4c0844bfcbf7d90c8e"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/phases.cjs",
+      "sha256": "ff4d474b5b5af2dd62d38cf42372d25fc65caeaae8404957cdd5e0e777a6fe72"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/phases.test.cjs",
+      "sha256": "e70ae3f3515f31ce55dae4314003e75e5889a31e569efb9432894c7d1800fc44"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/README.md",
+      "sha256": "89e11fbe0e559fbe24bdcfe48a266b5aa8001a93ba550b90164ce6d47ae55cf1"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/report.cjs",
+      "sha256": "aacd01ff5780999ebfb4eb5161f03cbce272a3d9720f31adb17f7cdc95839aee"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/report.test.cjs",
+      "sha256": "1bfe30dc95d4f4d7c410284622e438edc3d321e0395eae2b7da6942ca748527a"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/run.cjs",
+      "sha256": "773c6b3fc3961e478006b312110f9e8ac2e4768340e64c093d465854ce6f35a4"
+    },
+    {
+      "path": "evaluations/foundation-marker-runner/seal.cjs",
+      "sha256": "36fdd7a6e64ca097101cc31f50d92b649219b91d1e771b3e1d9cb55063cc5188"
+    },
+    {
+      "path": "evaluations/foundation-runner/authorization.cjs",
+      "sha256": "561987eee03aec56cb1295d04c480ba067272c51ebbdab5936b2493cd1939246"
+    },
+    {
+      "path": "evaluations/foundation-runner/authorization.test.cjs",
+      "sha256": "1ff27f91a16b9dd5f5b31bf70a75f2dcf4a6d8494c2cc14caea4c443962de455"
+    },
+    {
+      "path": "evaluations/foundation-runner/Bridge.cs",
+      "sha256": "582556e1c6f3b58a497340191cbf84db3c78cb1bfcfa9a5480a7a3ca145eaa0a"
+    },
+    {
+      "path": "evaluations/foundation-runner/broker-paths.test.cjs",
+      "sha256": "10019c3fbaf6dac8e6e06886871f357b944af1638863a16bf3701c014bf552f9"
+    },
+    {
+      "path": "evaluations/foundation-runner/broker.cjs",
+      "sha256": "ed07e7bdc22d3e2fdaef302e57aa79ff0845084fc64521bea7533a94721aa3ec"
+    },
+    {
+      "path": "evaluations/foundation-runner/candidate-identity.cjs",
+      "sha256": "4a84ea6aba4198d8120d6c92caad701ebc6128dda66ac831a00dc1f4b99afb2d"
+    },
+    {
+      "path": "evaluations/foundation-runner/candidate-identity.test.cjs",
+      "sha256": "529adb3db9d24379b5e520c06d932e860892882d58c195dd01ceb0b6de09f7e9"
+    },
+    {
+      "path": "evaluations/foundation-runner/checkpoints.cjs",
+      "sha256": "d97f9a719e3199cbf9b5a05e118ddb82a91a7acd00666ebbbdbf7b3dc623f198"
+    },
+    {
+      "path": "evaluations/foundation-runner/checkpoints.test.cjs",
+      "sha256": "537aed526f07139779e72ce4504919eabe22b5e44d3dbe192ff9e50f8c9f0d61"
+    },
+    {
+      "path": "evaluations/foundation-runner/common.cjs",
+      "sha256": "6396f05dacab91850902fac157f12d9ca2bd793cedb1459fd5bc2edece0c77cf"
+    },
+    {
+      "path": "evaluations/foundation-runner/evidence-protocol.cjs",
+      "sha256": "ecde327c706c1d850b848434dfd624ff549cbf8905f3e852e3d91f85e33cd372"
+    },
+    {
+      "path": "evaluations/foundation-runner/evidence-protocol.test.cjs",
+      "sha256": "5a60bc859f8ee8a1bcaee12133e2e67649037f44c8ac47dfe772a93afdd97f43"
+    },
+    {
+      "path": "evaluations/foundation-runner/integration-test.cjs",
+      "sha256": "5eddc87af8e15d454f95dff67cc7c988b6a3b84a1e616b5421ef1df2fe82e0b9"
+    },
+    {
+      "path": "evaluations/foundation-runner/ledger.cjs",
+      "sha256": "227c62bd172d05bd68385a3f75118f401a5664dbce9506f026b3c7c52447fa7b"
+    },
+    {
+      "path": "evaluations/foundation-runner/ledger.test.cjs",
+      "sha256": "29162e2ad968112ed96bee583c3e8eef0af8338e6f7a45d9dae71508a1ed0d5c"
+    },
+    {
+      "path": "evaluations/foundation-runner/negative-fixture.cjs",
+      "sha256": "6d0874ee69522e9d9ea096d24f41ec1d49d165d4d3562cdc13a3c23849747178"
+    },
+    {
+      "path": "evaluations/foundation-runner/negative.cjs",
+      "sha256": "34ffc8648c15f7e80061b1741e9db6de5934e3131834000ea644a07e65c6c736"
+    },
+    {
+      "path": "evaluations/foundation-runner/offline-fixture.cjs",
+      "sha256": "c12b35768344da9cc9d28b6881cea28afc0c38b238e66b8d2104ca7cee15fc34"
+    },
+    {
+      "path": "evaluations/foundation-runner/offline-fixture.test.cjs",
+      "sha256": "aaa3dfc1b910f40605519ea247fa5650cea4343e134e81ecdfbc1af2e3122421"
+    },
+    {
+      "path": "evaluations/foundation-runner/path-integration-test.cjs",
+      "sha256": "330151a68a724d3c89fe45fd0240e2355907b635d8505b842be8c4c6b84770ec"
+    },
+    {
+      "path": "evaluations/foundation-runner/paths.cjs",
+      "sha256": "51bc74fd7a4af808070d67dfd679705433ced776798f4f2a81f1ddb4cfb7810c"
+    },
+    {
+      "path": "evaluations/foundation-runner/paths.test.cjs",
+      "sha256": "fc50ec4b93a112eecd5cf41b61415d78fd5ef0e758d74ffbb8341bf3e4d160c7"
+    },
+    {
+      "path": "evaluations/foundation-runner/profile.test.cjs",
+      "sha256": "3d487ab53c14794343692554609ed8e9797aa5661e9a5b82e21d48c106d27ec4"
+    },
+    {
+      "path": "evaluations/foundation-runner/protocol-guard.cjs",
+      "sha256": "eb7dea72002d232f4c466f0048400d35a475f6cdbe84b4681e7268d54d34c878"
+    },
+    {
+      "path": "evaluations/foundation-runner/protocol-guard.test.cjs",
+      "sha256": "d96fca2d9cfb9ba874ef84df07bbcf8f15629999a4d2970438032c8fc72a6cfa"
+    },
+    {
+      "path": "evaluations/foundation-runner/run.cjs",
+      "sha256": "816a5e797a5f6b136a946ea7968a6aa5862cc806d328bc9f95c111a4db55e947"
+    },
+    {
+      "path": "evaluations/foundation-runner/transport.cjs",
+      "sha256": "5491662cedcd4d36cc9012bd0e459f95a60802a6e7e9b1f2999794242bcc7ad6"
+    },
+    {
+      "path": "evaluations/foundation-runner/transport.test.cjs",
+      "sha256": "dccc1343b8b4732d5280790cdfe6bca640ec1fd76b9ebf57513901c7a5d388c8"
+    }
+  ],
+  "host": {
+    "nodeVersion": "v24.19.0",
+    "nodeSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237",
+    "cscSha256": "aae1db57f898ca8bda18590c56f86ced6d0ead80c22033b76fdfe9119706f116",
+    "optionalWebsocketNativeModules": false
+  },
+  "identity": "8d5ed02e851f19f3b69b1d0414c41c3217ebe3e40316d5249a3f8be2b2449bce",
+  "liveAuthorized": false,
+  "realModelCalls": 0
+}

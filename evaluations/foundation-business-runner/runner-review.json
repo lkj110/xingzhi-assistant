@@ -1,0 +1,243 @@
+{
+  "schema": 1,
+  "reviewer": "independent-subagent",
+  "date": "2026-10-29",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "runnerIdentity": "8d5ed02e851f19f3b69b1d0414c41c3217ebe3e40316d5249a3f8be2b2449bce",
+  "approvedForUpload": true,
+  "uploadScope": "New offline business-runner preparation and its tests/evidence/plan only",
+  "approvedForLiveReadiness": false,
+  "liveAuthorized": false,
+  "approvedForInstall": false,
+  "approvedForRelease": false,
+  "realModelCalls": 0,
+  "officialCliProbes": 0,
+  "actualHumanAcceptances": 0,
+  "readiness": "not-ready",
+  "knownProductBlockerRetained": true,
+  "remainingFindings": [
+    {
+      "id": "F05-CONFIRMED-RECHECK-FINALIZATION-COLLISION",
+      "severity": "blocking-for-live-and-release",
+      "scope": "frozen-candidate-product",
+      "caseId": "F05-jianping-revision",
+      "stage": "revision-human-recheck",
+      "description": "A valid current human marker confirmation does not change the consumed bounded-finalization semantic check identity; explicit recheck is refused before transport.",
+      "fixedThisTurn": false,
+      "proposedNextStepOnly": true
+    }
+  ],
+  "validation": {
+    "newUnitTests": {
+      "passed": 17,
+      "total": 17,
+      "skipped": 0
+    },
+    "actualCandidateFullLifecycle": {
+      "passed": false,
+      "sourceRunnerIdentity": "823c04f4b5b21096890d37c424fbe958cbc48d4835636d95a61ea05cade43a4f",
+      "applicationAttempts": 23,
+      "syntheticTransportExecutions": 23,
+      "casesReached": 5,
+      "simulatedAcceptances": 2,
+      "F06Executed": false
+    },
+    "actualCandidateStopGuards": {
+      "passed": 5,
+      "total": 5,
+      "applicationAttempts": 25,
+      "syntheticTransportExecutions": 24,
+      "fullLifecyclePassed": false,
+      "releaseReady": false,
+      "unknownUsagePreservedAsNull": true,
+      "noAdditionalRequestsAfterStop": true
+    },
+    "earlyDevelopmentRuns": {
+      "forcedDuplicateReadAttempts": 21,
+      "productCorrectlyRejectedDuplicateGenerationRead": true,
+      "sealWriteFailure": {
+        "candidateBoots": 0,
+        "realCalls": 0
+      }
+    },
+    "qualityRates": null,
+    "qualityReason": "Offline synthetic only; no live semantic quality denominators",
+    "budget": {
+      "status": "unfinalized-unapproved",
+      "attemptDraft": 40,
+      "maxDispatchDraft": 34,
+      "oldTokenBaselineOnly": 700000,
+      "observedPrefixConditionMathIndependentlyRecomputed": true,
+      "missingF05CompletionAndF06Inputs": true
+    },
+    "freeze": {
+      "allFrozenIdentitiesUnchanged": true,
+      "counts": {
+        "installed": 86,
+        "oldCandidate": 86,
+        "candidate": 86,
+        "oldRunner": 31,
+        "markerPack": 16,
+        "markerRunner": 15,
+        "diagnosticRunner": 18,
+        "passedGateRun": 11,
+        "passedGateControl": 4,
+        "historical": 47,
+        "product": 334,
+        "liveReports": 3,
+        "diagnosticDocuments": 3,
+        "passedGateReports": 3
+      }
+    }
+  },
+  "limitations": [
+    "Stop-guard assertions do not substitute for complete business lifecycle acceptance.",
+    "F04 marker recheck and F06 lifecycle were not exercised in the failed complete run.",
+    "Later recheck technical failures remain separate technical cases; qualified-final-draft-not-released is an operational state metric, not semantic false-block rate.",
+    "Hypothetical U=serializedInputBytes+1024 is admission arithmetic, not a token forecast or a finalized spending budget.",
+    "The passed G01 evidence cannot authorize a changed candidate."
+  ],
+  "nextStep": {
+    "scope": "Separate minimal candidate protocol patch for trusted current marker confirmation plus explicit recheck identity",
+    "implemented": false,
+    "requirements": [
+      "Preserve historical bounded-finalization records and semantic/evidence checks",
+      "Persist and prevent replays across duplicate clicks and restart",
+      "Reject missing, forged or stale confirmation and changed draft/requirements/source/report",
+      "Fresh verification can still reject evidence gaps; manual final acceptance required",
+      "Complete original F05 and full six-case offline lifecycle, then independent review and reseal before new live budget"
+    ]
+  },
+  "reviewedFiles": [
+    {
+      "path": "evaluations/foundation-business-runner/README.md",
+      "sha256": "cb531946c6938f108796a4064305dbbe1997818ef3626f6e831409f381245067"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/binding.cjs",
+      "sha256": "ada7d601041a68ecb742a5cf1b48a582407257fe51b38a9ade95ac378d13e491"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/binding.test.cjs",
+      "sha256": "10168d5f0dba750f08a46f4a3ba408edd2cf1ce140be847c87e17b4883e8e539"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/broker.cjs",
+      "sha256": "d368dbcb0bab2ba7cae9dea6980a726c60fad238dd466ed72f06bb25e50d1781"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/broker.test.cjs",
+      "sha256": "5e511dae6672605105edc81af70c120bbda830b49f65ce1c984f913de770c57f"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/failed-draft.cjs",
+      "sha256": "aa80b551387cafce22c66ab94864dafdb674ab30b89392db1c44907ba365c964"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/failed-draft.test.cjs",
+      "sha256": "78f2dadbc506d814dd5a0fca8b45bdbf5bd34f17aaf395f86a741372c65a171e"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/fixture.cjs",
+      "sha256": "b38127e97d95ceb38b9e421be27aaceeb23e35f6edea0f5e3f3f61ab3d5675ca"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/fixture.test.cjs",
+      "sha256": "2580b146393ef5d67b5d3f1b95ee03adc0569f610803db4795e5729c5aeedcfc"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/identity.cjs",
+      "sha256": "f027db555988422af12f82aa70493bea196de832fa5d17ec1273eea72894530b"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/identity.test.cjs",
+      "sha256": "c9f8acf20e80442ae5200d2f3c031960a90b1c8ba1fbdcbd43a25f086efc069c"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/integration.cjs",
+      "sha256": "5cd0edd8ffad0ad158f12681fec766d2d0bfec5ed1e07c4314516ec7aa2d39c6"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/ledger.cjs",
+      "sha256": "d9fc5957426add6e3e3ccb5fcb586551c96f2d026beb6969780a00ea7ae4c440"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/ledger.test.cjs",
+      "sha256": "589011cf0ec4c2c83be7911ef1912da7a154489cec22b517604a04f5d90c40b8"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/plan.json",
+      "sha256": "e67bcd80767f2ea52cc44cd809b8cf832debba56264eb6a88ac19020661859be"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/report.cjs",
+      "sha256": "d9b82848181c58ad7d0ec00859f45e882a3063f82858404edf76aebd4b55545f"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/report.test.cjs",
+      "sha256": "5cf6f0bc8cba40eaa3ed17d10e805da4932b91c96c7e9591720db6903eb4516a"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/run.cjs",
+      "sha256": "c8af4d4f6e1fdbfff54708fa7daa73b3e23a231bd31f15a3a149857b51ea56e8"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/runner-seal.json",
+      "sha256": "695cbca45ec667d2c7669f5df11ad9a6dfcdc70a55bec67489f65997377be6a0"
+    },
+    {
+      "path": "docs/FOUNDATION_BUSINESS_PREPARATION_20261029.md",
+      "sha256": "2a97b4a4c971f57c6a7b02906a1e174834b4f351a7676e9dd753f6153a017beb"
+    },
+    {
+      "path": "docs/evidence/foundation-business-preparation-20261029.json",
+      "sha256": "0800814243b4648852b11d1ea282afdf946d528da09cd580ca29c1bea52fcb8f"
+    }
+  ],
+  "privateEvidence": [
+    {
+      "path": "../foundation-business-audit-20261029/freeze-before.json",
+      "sha256": "882adba272c0fdf8d3c895d8288b526c0e94fb65d8fed2de7d0db4223f28e4be"
+    },
+    {
+      "path": "../foundation-business-audit-20261029/freeze-after.json",
+      "sha256": "db76f20645b7598bd04f73629890ad7fb5e1e5c349b973e09c90b5af157dfb01"
+    },
+    {
+      "path": "../foundation-business-audit-20261029/independent-f05-rootcause.json",
+      "sha256": "c380baf213a383bd1b6e527f97f0e37fcd5dc4f0fd88005fd6714e59c5902c13"
+    },
+    {
+      "path": "../foundation-business-audit-20261029/result-audit.json",
+      "sha256": "18f707fc3b910ffee420e60f5675782058151a6aa9a1355fa7b25389f417c2c4"
+    },
+    {
+      "path": "../foundation-business-audit-20261029/budget-conditions.json",
+      "sha256": "8093999ebec2fd98c91fd69ecbe49d85ff186aad9f46c604fef118d4cbd2427f"
+    },
+    {
+      "path": "../foundation-business-audit-20261029/final-unit.tap",
+      "sha256": "06ea903a9f84da0b8afceafb89486f08e3259ece12a51bbee03cfa0f46744945"
+    },
+    {
+      "path": "../foundation-business-audit-20261029/matrix-01.log",
+      "sha256": "8737f482d353cc84012a442d58c5b061846e1f38367e1472de4ae02cda0ccf32"
+    },
+    {
+      "path": "../foundation-business-audit-20261029/matrix-02.log",
+      "sha256": "1fb1bc1675d3f83587e1ea97efa22c0bd0354a30687080ca3caa95377430af39"
+    },
+    {
+      "path": "../foundation-business-audit-20261029/matrix-03.log",
+      "sha256": "9356d8cee55414c7846eb500644232fe3e67e5ea675fa03e44b241cf06167ca1"
+    },
+    {
+      "path": "../foundation-business-audit-20261029/guards-04.log",
+      "sha256": "a844d956dead68e70bfd5f46ace0c8ada2a457f8efba9fa6936917684de051b1"
+    },
+    {
+      "path": "../foundation-marker-runs-20261029/business-offline-guards-04/integration-results.json",
+      "sha256": "03424e39b68bbfa5c68576bee212f2b08f839b6e9859a9fd049e2a171b5e1476"
+    }
+  ]
+}
