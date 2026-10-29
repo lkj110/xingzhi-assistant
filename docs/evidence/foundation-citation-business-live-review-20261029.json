@@ -1,0 +1,336 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-29T10:52:07.771Z",
+  "reviewer": "independent-subagent",
+  "reviewerTask": "/root/recheck_protocol_review",
+  "kind": "independent-closed-business-run-result-review",
+  "runId": "172cf200-1634-4ff6-880c-09dc91d75a1d",
+  "preparationCommit": "f996eb4300474b6301d8ae73383cb41a5742e757",
+  "sourceCodeCommit": "4e79390466c9c033d35302a9aa7946cb31e7a0d3",
+  "runnerIdentity": "e77c8aba830ca1fe6cc34aebf7d26337fa6d505347468e4552b44f989d4c4136",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "candidateAsarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+  "approvedForResultReport": true,
+  "approvedForUpload": true,
+  "businessAcceptancePassed": false,
+  "releaseReady": false,
+  "roundClosed": true,
+  "authorizationReusable": false,
+  "unusedBudgetReusable": false,
+  "followupModelCallsAuthorized": false,
+  "installationAuthorized": false,
+  "formalEvaluationAuthorized": false,
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-citation-business-live-20261029.json",
+      "sha256": "d37b7d3ed668dda4204b5c5406404e80936c0258c0a84c391c63cb612878c01b"
+    }
+  ],
+  "realModelCallsByReviewer": 0,
+  "officialCliInvocationsByReviewer": 0,
+  "uiOrApiAcceptanceCommandsByReviewer": 0,
+  "newCallsAfterClosure": 0,
+  "result": {
+    "sixCasesPassed": false,
+    "plannedCases": 6,
+    "attemptedCases": 4,
+    "workflowPassedCases": 3,
+    "plannedGeneratedTasks": 4,
+    "attemptedGeneratedTasks": 2,
+    "independentlyQualifiedGeneratedDrafts": 2,
+    "actualHumanAcceptances": 1,
+    "unattemptedCases": [
+      "F05-jianping-revision",
+      "F06-yunshu-restart"
+    ],
+    "stopCode": "HUMAN_PENDING",
+    "stopMeaning": "The original window expired while waiting for a persisted F04 final acceptance record; no semantic rejection or unknown model usage caused the stop."
+  },
+  "cost": {
+    "applicationAttempts": 10,
+    "realModelDispatches": 10,
+    "inputTokens": 137887,
+    "outputTokens": 7009,
+    "totalTokens": 144896,
+    "cachedInputTokens": 0,
+    "cachedTokensIncludedInInput": true,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "authoritativeUsageComplete": true,
+    "allApplicationRecordsMatched": true,
+    "allReservationsAndCaseCapsRespected": true,
+    "caseCosts": {
+      "F01-huaizhi-approval": {
+        "attempts": 2,
+        "inputTokens": 28070,
+        "outputTokens": 2080,
+        "totalTokens": 30150
+      },
+      "F02-luzhong-version": {
+        "attempts": 2,
+        "inputTokens": 28256,
+        "outputTokens": 1766,
+        "totalTokens": 30022
+      },
+      "F03-botang-notice": {
+        "attempts": 3,
+        "inputTokens": 40866,
+        "outputTokens": 1471,
+        "totalTokens": 42337
+      },
+      "F04-cenwan-direction": {
+        "attempts": 3,
+        "inputTokens": 40695,
+        "outputTokens": 1692,
+        "totalTokens": 42387
+      }
+    },
+    "roleCosts": {
+      "initial/verify": {
+        "attempts": 6,
+        "inputTokens": 86048,
+        "outputTokens": 6396,
+        "totalTokens": 92444
+      },
+      "initial/execute": {
+        "attempts": 4,
+        "inputTokens": 51839,
+        "outputTokens": 613,
+        "totalTokens": 52452
+      }
+    },
+    "currencyCost": null,
+    "currencyReason": "No authoritative monetary receipt; configured zero prices are not evidence of zero billed cost."
+  },
+  "callAudit": {
+    "rawTerminalUsageEventsVerified": 10,
+    "ledgerAndApplicationCallRecordsMatched": true,
+    "knownUsage": true,
+    "pendingRequests": 0,
+    "unknownUsage": 0,
+    "unexpectedAttempts": 0,
+    "allDispatchesAndCompletionsWithinOriginalWindow": true,
+    "noGateCalls": true,
+    "noAdditionalRound": true
+  },
+  "quality": {
+    "completionPlanned": {
+      "numerator": 1,
+      "denominator": 4,
+      "rate": 0.25
+    },
+    "completionAttempted": {
+      "numerator": 1,
+      "denominator": 2,
+      "rate": 0.5
+    },
+    "initialDraftHallucination": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "finalDraftHallucination": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "releasedDraftHallucination": {
+      "numerator": 0,
+      "denominator": 1,
+      "rate": 0
+    },
+    "qualifiedDraftHardFalseBlock": {
+      "numerator": 0,
+      "denominator": 1,
+      "rate": 0
+    },
+    "invalidGeneratedDraftRelease": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "fixedInvalidRelease": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "fixedInvalidCorrectlyBlocked": {
+      "numerator": 2,
+      "denominator": 2,
+      "rate": 1
+    },
+    "unscorableFixedInvalid": 0,
+    "technicalOrMissingDrafts": [
+      {
+        "caseId": "F03-botang-notice",
+        "stage": "initial"
+      }
+    ],
+    "humanPendingDrafts": [],
+    "uncertainDrafts": [],
+    "caseInterruptions": [
+      {
+        "caseId": "F04-cenwan-direction",
+        "error": "Original round dispatch window expired",
+        "errorCode": "HUMAN_PENDING"
+      }
+    ],
+    "costPerQualifiedHumanAcceptedTask": 144896
+  },
+  "outcomes": [
+    {
+      "caseId": "F03-botang-notice",
+      "stage": "initial",
+      "outcome": "technical-or-missing"
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "stage": "initial",
+      "outcome": "passed"
+    }
+  ],
+  "branchCoverage": {
+    "synthetic": false,
+    "sixCaseWorkflowCompleted": false,
+    "f05RevisionNewBasis": false,
+    "markerHandoffs": [],
+    "f05RevisionHumanConfirmationAndRecheck": false,
+    "f05RevisionAuthorizationObserved": false,
+    "f05RevisionOldBoundedRecordsPreserved": false,
+    "f05RevisionSameBasisBoundedCollisionObserved": false,
+    "f06RestartBeforeAdvance": false,
+    "f06RestartAtReview": false,
+    "targetBranchStatus": "not-covered",
+    "exactHistoricalCollisionLiveCovered": false,
+    "citationFields": {
+      "stages": [
+        {
+          "caseId": "F03-botang-notice",
+          "stage": "initial",
+          "modelTitleCitationEmitted": true,
+          "titleBindingValidated": false,
+          "liveTitleBindingValidated": false
+        },
+        {
+          "caseId": "F04-cenwan-direction",
+          "stage": "initial",
+          "modelTitleCitationEmitted": false,
+          "titleBindingValidated": false,
+          "liveTitleBindingValidated": false
+        }
+      ],
+      "synthetic": false,
+      "F03WorkflowCompleted": true,
+      "F03ModelTitleCitationEmitted": true,
+      "F03TitleBindingValidated": false,
+      "F03LiveTitleCitationCovered": false,
+      "status": "not-covered"
+    }
+  },
+  "sealedMetricsUnchanged": true,
+  "independentFindings": {
+    "F03": {
+      "contentQualified": true,
+      "originalGroundingAndTitleBindingValid": true,
+      "actualEvidenceDrift": false,
+      "exportDifference": "One user:description quote is cleared in public projection while the original reportHash remains.",
+      "sealedOutcome": "technical-or-missing",
+      "sealedTitleCoverage": false,
+      "sealedStatisticsNotOverridden": true
+    },
+    "F04": {
+      "contentQualified": true,
+      "exportedAndOriginalGroundingMatch": true,
+      "userReportedCompletionRetained": true,
+      "persistedAcceptanceObserved": false,
+      "nearDeadlineOrLateAcceptanceObserved": false,
+      "closedRawAndFinalAcceptanceFieldsMatch": true,
+      "reasonForMismatch": "undetermined",
+      "userErrorNotInferred": true
+    }
+  },
+  "timing": {
+    "startedAt": "2026-10-29T10:00:31.302Z",
+    "deadline": "2026-10-29T10:45:31.302Z",
+    "lastModelCompletion": "2026-10-29T10:35:28.602Z",
+    "processExitedAt": "2026-10-29T10:45:36.1562293Z",
+    "allModelRequestsCompletedBeforeDeadline": true,
+    "F03": {
+      "contentApprovedAt": "2026-10-29T10:05:27.402Z",
+      "humanAcceptedAt": "2026-10-29T10:33:43.852Z",
+      "secondsFromContentApprovalToRecordedAcceptance": 1696.45
+    },
+    "F04": {
+      "contentApprovedAt": "2026-10-29T10:35:59.648Z",
+      "recordedHumanAcceptance": null,
+      "secondsFromContentApprovalToDeadline": 571.654
+    },
+    "interpretation": "These intervals start at independent content approval, not when the human first saw the prompt; they do not establish why an acceptance was delayed or unrecorded. The original window includes the waiting time and was never reset.",
+    "promptFileBasedApproximateFinalAcceptanceWaitMs": 2267804,
+    "promptFileBasedWaitObservations": [
+      {
+        "caseId": "F03-botang-notice",
+        "promptFileModifiedAt": "2026-10-29T10:05:27.548Z",
+        "acceptedAt": "2026-10-29T10:33:43.852Z",
+        "observedWaitEnd": "2026-10-29T10:33:43.852Z",
+        "waitMs": 1696304,
+        "humanAcceptanceRecorded": true,
+        "startUsesPromptFileMtime": true
+      },
+      {
+        "caseId": "F04-cenwan-direction",
+        "promptFileModifiedAt": "2026-10-29T10:35:59.802Z",
+        "acceptedAt": null,
+        "observedWaitEnd": "2026-10-29T10:45:31.302Z",
+        "waitMs": 571500,
+        "humanAcceptanceRecorded": false,
+        "startUsesPromptFileMtime": true
+      }
+    ]
+  },
+  "limitations": [
+    "Only two exposed generated drafts were reviewed; no broad hallucination or cost-efficiency conclusion follows.",
+    "The sealed false-block denominator is one because F03 is excluded by the projection-hash mismatch.",
+    "The generated invalid-draft release denominator is zero and its rate is not estimable.",
+    "No real marker-confirmation/recheck branch, F05 revision, or F06 restart was covered.",
+    "A reported UI action is not replaced or contradicted by speculation; the missing F04 durable record remains an unresolved observation."
+  ],
+  "frozenState": {
+    "protectedRoots": 48,
+    "trackedFiles": 1148,
+    "allPreviouslyFrozenFilesUnchanged": true,
+    "onlyExpectedPublicResultAddedBeforeThisReview": true,
+    "candidateAndInstalledBaseUnchanged": true,
+    "sourceAndSealedRunnersUnchanged": true,
+    "oldGateAndHistoricalEvidenceUnchanged": true,
+    "terminalFreezeSha256": "c62d5e9f65d9ee6dbc47b6609b8a82d482b93ff0314efd69712b5fd236f481fe",
+    "finalFreezeSha256": "d6e537e41969c36e147abf38e506e6c07a90c19969e2a653b7e36cfd4c14cea8"
+  },
+  "evidence": {
+    "summarySha256": "41803795fdb296348842ea37b5edbe9ce8db36397573dd058f155f7f259fda41",
+    "ledgerSha256": "0b1c555894b25630ad1bb504f897bb94e5bc8dfb4f45a00931b41cbe9b2c4c21",
+    "authorizationSha256": "5e72e6ecc7d07c2b7a2ec2f699e23859da9fa9dafc7587acf7cf662250ebb650",
+    "consumptionSha256": "81ddca711793448011197fa8327c4c504e97e0ee31b242c2a24f3ad07342f706",
+    "closureSha256": "ec96699baa359200dbd8a4e8600b22507e76356ea113e85c3180cd3c1ec34250",
+    "adjudicationSha256": "37ba9d299f7bfb10abc33ce0f019ed5d78ab60b9d92ef8eaa7fb2c102d2e49b3",
+    "sealedReportSha256": "2f9e321d71c0a377245fbbeeee2ec6e70cbd39fc4246af17f3efb4ab083d77a4",
+    "independentResultsSha256": "60b518c47cdd4491f0dd0feee0a651c06b376d66fb608f39861d91132346bbab",
+    "acceptanceBoundarySha256": "7f4e3b6e3c568bee7d0619203d8af9860ade111ffcaf55b3d29014b43834afad",
+    "rawTitleProofSha256": "3b25208bc27b6acd2c325dcb3566e764ac8031f17bd9d05bde68896a2b177ea5",
+    "userReportSha256": "dfd9ba077ec0384f3e228c1d2c8c343fc6731b7d5507c829e66c6e49c1fd1d45",
+    "publicResultSha256": "d37b7d3ed668dda4204b5c5406404e80936c0258c0a84c391c63cb612878c01b"
+  },
+  "unresolvedProductOrReportingFindings": [
+    {
+      "id": "CB-LIVE-OBS-1",
+      "finding": "Public export redacts user:description quote without a matching verification projection, so sealed reporting excludes F03 from completed-verdict metrics and title coverage despite independently verified raw evidence."
+    },
+    {
+      "id": "CB-LIVE-HUMAN-1",
+      "finding": "User reports F04 completion after run exit, but the closed candidate database and journal contain no F04 acceptance. Whether a UI click failed or another cause intervened remains undetermined."
+    }
+  ],
+  "recordAuditFindings": [],
+  "conclusion": "The result record is accurate and may be uploaded. Business acceptance remains incomplete. Preserve the closed authorization; any next work is limited to a separately authorized offline investigation and a later new budget proposal."
+}

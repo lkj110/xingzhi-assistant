@@ -1,0 +1,439 @@
+{
+  "schema": 1,
+  "createdAt": "2026-10-29T10:49:38.456Z",
+  "kind": "closed-six-case-business-acceptance-result",
+  "runId": "172cf200-1634-4ff6-880c-09dc91d75a1d",
+  "sourceCodeCommit": "4e79390466c9c033d35302a9aa7946cb31e7a0d3",
+  "preparationCommit": "f996eb4300474b6301d8ae73383cb41a5742e757",
+  "runnerIdentity": "e77c8aba830ca1fe6cc34aebf7d26337fa6d505347468e4552b44f989d4c4136",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "candidateAsarSha256": "ae3d09f14c7ce325804e7c18f738e348d145fa08763b9bd421102271526a515c",
+  "scope": "Six exposed sealed business regressions, stopped in the original fixed window; no new G01, installation or formal main evaluation",
+  "businessAcceptancePassed": false,
+  "releaseReady": false,
+  "roundClosed": true,
+  "authorizationReusable": false,
+  "unusedBudgetReusable": false,
+  "newRoundStarted": false,
+  "installationPerformed": false,
+  "installedFoundationFrozen": true,
+  "sourceAndCandidateChanged": false,
+  "result": {
+    "plannedCases": 6,
+    "attemptedCases": 4,
+    "workflowPassedCases": 3,
+    "actualHumanAcceptances": 1,
+    "generatedDrafts": 2,
+    "unattemptedCases": [
+      "F05-jianping-revision",
+      "F06-yunshu-restart"
+    ],
+    "gateExecutions": 0,
+    "stopCode": "HUMAN_PENDING",
+    "stopReason": "The fixed 45-minute window expired while the runner was awaiting a persisted F04 final acceptance record.",
+    "processExitCode": 1,
+    "protocolRejections": 0,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0
+  },
+  "timing": {
+    "startedAt": "2026-10-29T10:00:31.302Z",
+    "originalDeadline": "2026-10-29T10:45:31.302Z",
+    "processExitedAt": "2026-10-29T10:45:36.1562293Z",
+    "windowReset": false,
+    "waitObservations": [
+      {
+        "caseId": "F03-botang-notice",
+        "promptFileModifiedAt": "2026-10-29T10:05:27.548Z",
+        "acceptedAt": "2026-10-29T10:33:43.852Z",
+        "observedWaitEnd": "2026-10-29T10:33:43.852Z",
+        "waitMs": 1696304,
+        "humanAcceptanceRecorded": true,
+        "startUsesPromptFileMtime": true
+      },
+      {
+        "caseId": "F04-cenwan-direction",
+        "promptFileModifiedAt": "2026-10-29T10:35:59.802Z",
+        "acceptedAt": null,
+        "observedWaitEnd": "2026-10-29T10:45:31.302Z",
+        "waitMs": 571500,
+        "humanAcceptanceRecorded": false,
+        "startUsesPromptFileMtime": true
+      }
+    ],
+    "approximateFinalAcceptanceWaitMs": 2267804,
+    "meaning": "Wait duration uses prompt-file modification time to recorded acceptance or original deadline. It describes waiting for a persisted record; it does not establish why a person did or did not act."
+  },
+  "cost": {
+    "applicationAttempts": 10,
+    "realModelDispatches": 10,
+    "inputTokens": 137887,
+    "outputTokens": 7009,
+    "totalTokens": 144896,
+    "cachedInputTokens": 0,
+    "cachedTokensAlreadyIncludedInInput": true,
+    "authoritativeUsageComplete": true,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "gateUsageIncluded": false,
+    "currencyCost": null,
+    "currencyReason": "No authoritative monetary receipt; configured zero prices do not prove zero billed cost.",
+    "perRole": {
+      "verify": { "attempts": 6, "inputTokens": 86048, "outputTokens": 6396, "totalTokens": 92444 },
+      "execute": { "attempts": 4, "inputTokens": 51839, "outputTokens": 613, "totalTokens": 52452 }
+    },
+    "comparisonClaim": "No token reduction claim: this is an incomplete regression run with different coverage, not an equal-workload on/off comparison.",
+    "perCase": {
+      "F01-huaizhi-approval/initial": {
+        "attempts": 2,
+        "inputTokens": 28070,
+        "outputTokens": 2080,
+        "knownTokenSubtotal": 30150,
+        "unknownUsage": 0,
+        "totalTokens": 30150
+      },
+      "F02-luzhong-version/initial": {
+        "attempts": 2,
+        "inputTokens": 28256,
+        "outputTokens": 1766,
+        "knownTokenSubtotal": 30022,
+        "unknownUsage": 0,
+        "totalTokens": 30022
+      },
+      "F03-botang-notice/initial": {
+        "attempts": 3,
+        "inputTokens": 40866,
+        "outputTokens": 1471,
+        "knownTokenSubtotal": 42337,
+        "unknownUsage": 0,
+        "totalTokens": 42337
+      },
+      "F04-cenwan-direction/initial": {
+        "attempts": 3,
+        "inputTokens": 40695,
+        "outputTokens": 1692,
+        "knownTokenSubtotal": 42387,
+        "unknownUsage": 0,
+        "totalTokens": 42387
+      }
+    }
+  },
+  "cases": [
+    {
+      "caseId": "F01-huaizhi-approval",
+      "lane": "fixed_invalid",
+      "workflowPassed": true,
+      "actualHumanAcceptance": false,
+      "applicationAttempts": 2,
+      "errorCode": null,
+      "error": null,
+      "fixedInvalidDraftBlockedUnchanged": true,
+      "cost": {
+        "attempts": 2,
+        "inputTokens": 28070,
+        "outputTokens": 2080,
+        "knownTokenSubtotal": 30150,
+        "unknownUsage": 0,
+        "totalTokens": 30150
+      }
+    },
+    {
+      "caseId": "F02-luzhong-version",
+      "lane": "fixed_invalid",
+      "workflowPassed": true,
+      "actualHumanAcceptance": false,
+      "applicationAttempts": 2,
+      "errorCode": null,
+      "error": null,
+      "fixedInvalidDraftBlockedUnchanged": true,
+      "cost": {
+        "attempts": 2,
+        "inputTokens": 28256,
+        "outputTokens": 1766,
+        "knownTokenSubtotal": 30022,
+        "unknownUsage": 0,
+        "totalTokens": 30022
+      }
+    },
+    {
+      "caseId": "F03-botang-notice",
+      "lane": "generated",
+      "workflowPassed": true,
+      "actualHumanAcceptance": true,
+      "applicationAttempts": 3,
+      "errorCode": null,
+      "error": null,
+      "independentlyQualified": true,
+      "hallucination": false,
+      "cost": {
+        "attempts": 3,
+        "inputTokens": 40866,
+        "outputTokens": 1471,
+        "knownTokenSubtotal": 42337,
+        "unknownUsage": 0,
+        "totalTokens": 42337
+      }
+    },
+    {
+      "caseId": "F04-cenwan-direction",
+      "lane": "generated",
+      "workflowPassed": false,
+      "actualHumanAcceptance": false,
+      "applicationAttempts": 3,
+      "errorCode": "HUMAN_PENDING",
+      "error": "Original round dispatch window expired",
+      "independentlyQualified": true,
+      "hallucination": false,
+      "cost": {
+        "attempts": 3,
+        "inputTokens": 40695,
+        "outputTokens": 1692,
+        "knownTokenSubtotal": 42387,
+        "unknownUsage": 0,
+        "totalTokens": 42387
+      }
+    }
+  ],
+  "sealedMetrics": {
+    "version": "stage-terminal-outcomes-v1",
+    "quality": {
+      "completionPlanned": {
+        "numerator": 1,
+        "denominator": 4,
+        "rate": 0.25
+      },
+      "completionAttempted": {
+        "numerator": 1,
+        "denominator": 2,
+        "rate": 0.5
+      },
+      "initialDraftHallucination": {
+        "numerator": 0,
+        "denominator": 2,
+        "rate": 0
+      },
+      "finalDraftHallucination": {
+        "numerator": 0,
+        "denominator": 2,
+        "rate": 0
+      },
+      "releasedDraftHallucination": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0
+      },
+      "qualifiedDraftHardFalseBlock": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0
+      },
+      "invalidGeneratedDraftRelease": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "fixedInvalidRelease": {
+        "numerator": 0,
+        "denominator": 2,
+        "rate": 0
+      },
+      "fixedInvalidCorrectlyBlocked": {
+        "numerator": 2,
+        "denominator": 2,
+        "rate": 1
+      },
+      "unscorableFixedInvalid": 0,
+      "technicalOrMissingDrafts": [
+        {
+          "caseId": "F03-botang-notice",
+          "stage": "initial"
+        }
+      ],
+      "humanPendingDrafts": [],
+      "uncertainDrafts": [],
+      "caseInterruptions": [
+        {
+          "caseId": "F04-cenwan-direction",
+          "error": "Original round dispatch window expired",
+          "errorCode": "HUMAN_PENDING"
+        }
+      ],
+      "costPerQualifiedHumanAcceptedTask": 144896
+    },
+    "outcomes": [
+      {
+        "caseId": "F03-botang-notice",
+        "stage": "initial",
+        "outcome": "technical-or-missing"
+      },
+      {
+        "caseId": "F04-cenwan-direction",
+        "stage": "initial",
+        "outcome": "passed"
+      }
+    ],
+    "branchCoverage": {
+      "synthetic": false,
+      "sixCaseWorkflowCompleted": false,
+      "f05RevisionNewBasis": false,
+      "markerHandoffs": [],
+      "f05RevisionHumanConfirmationAndRecheck": false,
+      "f05RevisionAuthorizationObserved": false,
+      "f05RevisionOldBoundedRecordsPreserved": false,
+      "f05RevisionSameBasisBoundedCollisionObserved": false,
+      "f06RestartBeforeAdvance": false,
+      "f06RestartAtReview": false,
+      "targetBranchStatus": "not-covered",
+      "exactHistoricalCollisionLiveCovered": false,
+      "citationFields": {
+        "stages": [
+          {
+            "caseId": "F03-botang-notice",
+            "stage": "initial",
+            "modelTitleCitationEmitted": true,
+            "titleBindingValidated": false,
+            "liveTitleBindingValidated": false
+          },
+          {
+            "caseId": "F04-cenwan-direction",
+            "stage": "initial",
+            "modelTitleCitationEmitted": false,
+            "titleBindingValidated": false,
+            "liveTitleBindingValidated": false
+          }
+        ],
+        "synthetic": false,
+        "F03WorkflowCompleted": true,
+        "F03ModelTitleCitationEmitted": true,
+        "F03TitleBindingValidated": false,
+        "F03LiveTitleCitationCovered": false,
+        "status": "not-covered"
+      }
+    },
+    "unchanged": true
+  },
+  "metricMeaning": {
+    "processCompletion": "1/4 planned generated tasks completed with independent qualification and actual human acceptance; 1/2 among generated tasks attempted. Fixed negative tests are reported separately.",
+    "hallucination": "0/2 independently reviewed generated drafts. Final saved drafts are not necessarily human-accepted deliveries. This small exposed sample does not estimate production prevalence.",
+    "falseBlock": "0/1 qualified draft with a scorable terminal verdict under the sealed reporter. F03 is excluded because its exported report fails the hash check.",
+    "falseRelease": "0/2 fixed invalid drafts released. No unqualified generated draft was observed, so generated-draft false-release rate is not estimable (0/0).",
+    "technicalOrMissing": "F03 technical-or-missing describes the sealed statistics projection, not absence of a valid original application check.",
+    "humanPending": "F04 final acceptance remained unrecorded at closure; this is not a semantic hard false block."
+  },
+  "F03ProjectionFinding": {
+    "status": "root-cause-proven-read-only",
+    "codePath": [
+      "desktop/core.cjs:797",
+      "desktop/core.cjs:212",
+      "desktop/public-context.cjs:20",
+      "desktop/public-context.cjs:37"
+    ],
+    "cause": "The public export sanitizer treats the user:description pseudo-source as absent from the sources table and clears its quote without recomputing reportHash. The original stored grounding report is intact and passes its hash check.",
+    "rawProof": "The only difference is the one user:description quote; restoring it only in audit memory exactly reproduces the original stored report and hash. Explicit title citation e3 is naturally present, bound to the same source title with matching fieldHash and offsets, together with body evidence.",
+    "applicationWorkflowPassed": true,
+    "rawTitleBindingIndependentlyProven": true,
+    "sealedTitleCoverageRemains": false,
+    "sealedOutcomeRemains": "technical-or-missing",
+    "metricsRewritten": false,
+    "productPatched": false
+  },
+  "F04AcceptanceDiscrepancy": {
+    "userReport": "已在应用中完成 F04 验收",
+    "reportReceivedAfterRunExit": true,
+    "clickTimeKnown": false,
+    "rawTaskStatus": "review",
+    "persistedAcceptedAt": null,
+    "persistedAcceptanceHistoryCount": 0,
+    "persistedAcceptedJournalEventCount": 0,
+    "rawAndFinalSnapshotAgree": true,
+    "lateOrBoundaryAcceptanceObserved": false,
+    "rootCause": "undetermined",
+    "conclusion": "The user report is retained. No persisted F04 acceptance was found; these records do not prove whether a click occurred, failed before persistence, or concerned another view. Do not substitute the chat report for the planned application record or infer user error."
+  },
+  "limitations": [
+    "F05 revision and F06 restart were not run.",
+    "No real human expression-confirmation/recheck branch was naturally triggered.",
+    "The sealed reporter does not count F03 title binding because of the export-integrity mismatch, although the original raw binding was independently proven.",
+    "No broad hallucination, false-block or cost-efficiency claim can be made from two exposed generated drafts."
+  ],
+  "nextSteps": [
+    {
+      "order": 1,
+      "scope": "offline-only",
+      "action": "Preserve this round, reproduce the F04 UI acknowledgement-to-persistence path in an isolated copy with visible task identity and durable receipt checks. Determine the reason before changing behavior; do not infer that the user did not click."
+    },
+    {
+      "order": 2,
+      "scope": "offline-only",
+      "action": "Resolve the original-report versus public-projection integrity contract using F03 and F04 frozen evidence, preserving evidence binding, semantic standards and access-policy redaction. Test valid projection, denied sources and tampering; independently review any correction."
+    },
+    {
+      "order": 3,
+      "scope": "proposal-only",
+      "action": "After offline review, propose only the remaining acceptance/recheck/revision/restart coverage and its new budget. Do not rerun models, install the candidate, or start formal evaluation under this closed authorization."
+    }
+  ],
+  "evidence": {
+    "summary": {
+      "path": "../foundation-marker-runs-20261029/citation-business-live-172cf200/summary.json",
+      "sha256": "41803795fdb296348842ea37b5edbe9ce8db36397573dd058f155f7f259fda41"
+    },
+    "adjudication": {
+      "path": "../foundation-marker-runs-20261029/citation-business-live-172cf200/adjudication.json",
+      "sha256": "37ba9d299f7bfb10abc33ce0f019ed5d78ab60b9d92ef8eaa7fb2c102d2e49b3"
+    },
+    "sealedReport": {
+      "path": "../foundation-citation-business-live-audit-20261029-172cf200/reviewer-sealed-report.json",
+      "sha256": "2f9e321d71c0a377245fbbeeee2ec6e70cbd39fc4246af17f3efb4ab083d77a4"
+    },
+    "F03RawTitleProof": {
+      "path": "../foundation-citation-business-live-audit-20261029-172cf200/reviewer-F03-title-raw-proof.json",
+      "sha256": "3b25208bc27b6acd2c325dcb3566e764ac8031f17bd9d05bde68896a2b177ea5"
+    },
+    "F03RawStage": {
+      "path": "../foundation-citation-business-live-audit-20261029-172cf200/raw-stage-F03-botang-notice-initial.json",
+      "sha256": "cbdbb48786e1eb9198969be9c6a0e3cfe3e00617708b2a1b28ae4b79ecb8d953"
+    },
+    "F04RawStage": {
+      "path": "../foundation-citation-business-live-audit-20261029-172cf200/raw-stage-F04-cenwan-direction-initial.json",
+      "sha256": "af6e042a7e627ba0dae48febc4d297b4938e608dc93e9e087907a8331cd6b4f9"
+    },
+    "acceptanceBoundary": {
+      "path": "../foundation-citation-business-live-audit-20261029-172cf200/reviewer-acceptance-boundary.json",
+      "sha256": "7f4e3b6e3c568bee7d0619203d8af9860ade111ffcaf55b3d29014b43834afad"
+    },
+    "authorization": {
+      "path": "../foundation-citation-business-live-control-20261029-172cf200/authorization.json",
+      "sha256": "5e72e6ecc7d07c2b7a2ec2f699e23859da9fa9dafc7587acf7cf662250ebb650"
+    },
+    "authorizationConsumed": {
+      "path": "../foundation-citation-business-live-control-20261029-172cf200/authorization.json.consumed.json",
+      "sha256": "81ddca711793448011197fa8327c4c504e97e0ee31b242c2a24f3ad07342f706"
+    },
+    "authorizationClosed": {
+      "path": "../foundation-citation-business-live-control-20261029-172cf200/round-closed.json",
+      "sha256": "ec96699baa359200dbd8a4e8600b22507e76356ea113e85c3180cd3c1ec34250"
+    },
+    "processExit": {
+      "path": "../foundation-citation-business-live-control-20261029-172cf200/process-exit.json",
+      "sha256": "d1fc6777d0e94ead4fa2c4b2118828abf4ece480cccb419fa63937531d6792d4"
+    },
+    "userF04Report": {
+      "path": "../foundation-citation-business-live-control-20261029-172cf200/post-run-user-report.json",
+      "sha256": "dfd9ba077ec0384f3e228c1d2c8c343fc6731b7d5507c829e66c6e49c1fd1d45"
+    },
+    "freezeBefore": {
+      "path": "../foundation-citation-business-live-audit-20261029-172cf200/reviewer-freeze-before.json",
+      "sha256": "654a40e0f43ffbc398b37c9a8abc02520ba4b7e5e798ccc80a0279bf1c02ba6a"
+    },
+    "independentResultsAudit": {
+      "path": "../foundation-citation-business-live-audit-20261029-172cf200/reviewer-results.json",
+      "sha256": "60b518c47cdd4491f0dd0feee0a651c06b376d66fb608f39861d91132346bbab"
+    },
+    "terminalFreeze": {
+      "path": "../foundation-citation-business-live-audit-20261029-172cf200/reviewer-freeze-after.json",
+      "sha256": "c62d5e9f65d9ee6dbc47b6609b8a82d482b93ff0314efd69712b5fd236f481fe"
+    }
+  }
+}
