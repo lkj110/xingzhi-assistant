@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "kind": "independent-F04-zero-model-human-result-review",
+  "reviewer": "independent-subagent",
+  "agent": "/root/recheck_protocol_review",
+  "reviewedAt": "2026-10-30T06:02:50.164Z",
+  "runId": "3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+  "sourceCommit": "4509c1582c211395e7ce40faca5fe6d369622790",
+  "runnerIdentity": "5fa822babbabe768760e0ea364586796f3c8b5c7bae7d9911b5c3b5bb57b6edb",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "approvedForUpload": true,
+  "resultRecordApproved": true,
+  "F04LocalWorkflowPassed": true,
+  "actualHumanAcceptances": 1,
+  "completedWithinOriginalWindow": true,
+  "elapsedMs": 2256651,
+  "roundClosed": true,
+  "authorizationReusable": false,
+  "additionalExecutionAuthorized": false,
+  "installationAuthorized": false,
+  "verification": {
+    "uniqueTrustedMainWindowAcceptance": true,
+    "originalNativeHandlerRetained": true,
+    "newJournalEventBound": true,
+    "persistedExportedReceiptBound": true,
+    "originalReportHashValid": true,
+    "coldRestartPreserved": true,
+    "originalDraftSourcesAndModelHistoryUnchanged": true,
+    "otherTasksNotAccepted": true,
+    "phaseDecisionIdentityAndRunIdBound": true,
+    "finalCompletionAndEvidenceHashesUnchanged": true
+  },
+  "usage": {
+    "newModelCalls": 0,
+    "modelDispatches": 0,
+    "officialCliInvocations": 0,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "totalTokens": 0,
+    "transportAttempts": 0
+  },
+  "qualityMetrics": null,
+  "coverage": {
+    "live": [
+      "F04 trusted main-window human acceptance",
+      "native receipt and journal/persisted/export agreement",
+      "cold restart and original evidence preservation",
+      "independent approval within original deadline"
+    ],
+    "notNaturallyTriggered": [
+      "capture-window commands",
+      "expected shutdown read exception"
+    ],
+    "offlineOnlyForThoseBranches": true,
+    "unstarted": [
+      "G01",
+      "F05",
+      "F06",
+      "formal main evaluation"
+    ],
+    "notSixCaseAcceptance": true
+  },
+  "freeze": {
+    "roots": 84,
+    "existingTrackedFiles": 1210,
+    "allFrozenIdentitiesUnchanged": true,
+    "baselineTiming": "Reviewer baseline created after this F04 phase started; uploaded tracked bytes and all prior freeze roots independently matched.",
+    "proofs": [
+      {
+        "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-live-audit-20261030-3416bcda\\reviewer-freeze-before.json",
+        "sha256": "11bff270916a4959ef7c694db4690bb1a553da41566d10ded79bf67c325e3683"
+      },
+      {
+        "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-live-audit-20261030-3416bcda\\reviewer-freeze-after.json",
+        "sha256": "3d14dcdcb6c1ec6609ba02e37d241536d760cac6785d524ba408812aa1b319dd"
+      }
+    ]
+  },
+  "nextStepBoundary": {
+    "recommendationReviewed": true,
+    "scope": "Only a recommendation to prepare G01 -> F05 -> F06 offline, independently review it and present a fresh minimal model execution plan and budget.",
+    "repeatPassedF04": false,
+    "realCallsAuthorized": false,
+    "oldBudgetReusable": false,
+    "installCandidate": false
+  },
+  "reviewedFiles": [
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-20261030\\docs\\evidence\\foundation-native-ui-f04-result-20261030.json",
+      "sha256": "d1440e32e79a60c854627603e1f995428e10ff575bb12a6f20e8d4751cc26985"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-20261030\\evaluations\\foundation-native-ui-runner\\runner-seal.json",
+      "sha256": "984f652daccb2692624962ef0e20a7a478bf2fae4ca104e4b73a1e638743ec9f"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-20261030\\evaluations\\foundation-native-ui-runner\\runner-review.json",
+      "sha256": "909d90d1c0aafb4685e6f12b5e7dce93f1098724876d6d1e86266ce47495bc38"
+    }
+  ],
+  "independentEvidence": [
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-live-audit-20261030-3416bcda\\reviewer-phase-result.json",
+      "sha256": "0110692c40b6efecde88a784b34ce6d2e251acab1c6c67e4dc440fba2bfa14dc"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-live-audit-20261030-3416bcda\\reviewer-completion.json",
+      "sha256": "f48c8554409d93b5335d67cb7559676886b95aaf5ee4c2457a8f5b4a727f52d7"
+    }
+  ],
+  "reviewerActions": {
+    "humanUiActions": 0,
+    "modelCalls": 0,
+    "officialModelCliInvocations": 0,
+    "productOrRunnerChanges": 0
+  },
+  "remainingFindings": []
+}

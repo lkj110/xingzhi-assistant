@@ -1,0 +1,171 @@
+{
+  "schema": 1,
+  "kind": "F04-zero-model-human-acceptance-result",
+  "date": "2026-10-30",
+  "sourceCommit": "4509c1582c211395e7ce40faca5fe6d369622790",
+  "runId": "3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+  "scope": "F04-native-ui-only",
+  "passed": true,
+  "runnerIdentity": "5fa822babbabe768760e0ea364586796f3c8b5c7bae7d9911b5c3b5bb57b6edb",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "timing": {
+    "startedAt": "2026-10-30T05:21:02.605Z",
+    "humanAcceptedAt": "2026-10-30T05:58:20.556Z",
+    "independentlyReviewedAt": "2026-10-30T05:58:39.108Z",
+    "finishedAt": "2026-10-30T05:58:39.256Z",
+    "deadline": "2026-10-30T06:06:02.605Z",
+    "elapsedMs": 2256651,
+    "originalFixedWindowMinutes": 45,
+    "windowReset": false
+  },
+  "outcome": {
+    "caseId": "F04-local",
+    "taskId": "93efb213-e312-4818-a534-02ef26f3b149",
+    "title": "岑碗CW-07展柜导览箭头朝向差异说明",
+    "actualHumanAcceptances": 1,
+    "syntheticAcceptances": 0,
+    "uniqueNewAcceptanceEvent": true,
+    "mainWindowTitle": "[F04 主窗口 3416bcda] 行知助手",
+    "originTrusted": true,
+    "originalNativeHandler": true,
+    "eventId": "5d7c7d8d-125f-4850-913c-51b559cd8d47",
+    "commitId": "15354e99-11a5-4e99-8c29-61472463e469",
+    "receiptJournalPersistedExportMatch": true,
+    "reportHash": "053292efb613ca8d7a8fa5b870f95355fbf6be11ead4b6ac016d55050891c9cb",
+    "coldRestartPreserved": true,
+    "independentReviewPassed": true
+  },
+  "metrics": {
+    "processCompletion": {
+      "completed": 1,
+      "planned": 1,
+      "rate": 1,
+      "scope": "Only this F04 human acceptance/persistence workflow; not six-case or model-quality acceptance."
+    },
+    "usage": {
+      "newModelCalls": 0,
+      "modelDispatches": 0,
+      "officialCliInvocations": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "totalTokens": 0,
+      "transportAttempts": 0
+    },
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "falseReleaseRate": null,
+    "qualityReason": "No fresh model output or semantic classification was generated in this zero-model round; these rates are not measured, not zero."
+  },
+  "unchanged": {
+    "draft": true,
+    "sources": true,
+    "artifacts": true,
+    "originalGrounding": true,
+    "historicalModelRecords": true,
+    "otherTaskAcceptance": true,
+    "originalJournalPrefix": true
+  },
+  "runtimeCoverage": {
+    "mainWindowHumanAcceptance": true,
+    "rawExportJournalReceipt": true,
+    "coldRestart": true,
+    "deniedCommands": 0,
+    "quickCaptureCommands": 0,
+    "expectedShutdownReads": 0,
+    "auxiliaryWindowAndShutdownBranches": "Covered by the sealed offline tests; not naturally exercised by this human run."
+  },
+  "freeze": {
+    "roots": 84,
+    "existingTrackedFiles": 1210,
+    "allFrozenIdentitiesUnchanged": true,
+    "baselineTiming": "Captured after this run started and checked against the uploaded commit and prior frozen hashes.",
+    "installedVersionFrozen": true,
+    "candidateInstalled": false,
+    "productSourceModified": false
+  },
+  "authorization": {
+    "singleUseConsumed": true,
+    "reusable": false,
+    "readinessReference": "call_55d5912b0511465495da12daa38ba6ba",
+    "humanReplyReference": "call_dc67bbb4119b4e97a4d5a5b12357da51",
+    "modelApplicationAttempts": 0,
+    "maximumModelDispatches": 0,
+    "inputPlusOutputTokens": 0
+  },
+  "evidence": {
+    "privateRunDirectory": "../foundation-native-ui-runs-20261030/live-3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+    "privateAuditDirectory": "../foundation-native-ui-live-audit-20261030-3416bcda",
+    "files": [
+      {
+        "path": "f04/final-state.json",
+        "sha256": "68e4f5cd1cf004c073c1bdd14771c8144b5f6189d203df814cbc860ca8b2fe12"
+      },
+      {
+        "path": "f04/human-request.json",
+        "sha256": "ac2149749aecb0301f7b34ddc0b4e1e42d2d213ab39e65c9be175997cf8affa1"
+      },
+      {
+        "path": "f04/native-commands.jsonl",
+        "sha256": "0ca8cb75841713211a31e455a7dacf62d27cd89482ee5f643f4630cb79adcd8b"
+      },
+      {
+        "path": "f04/persisted-state.json",
+        "sha256": "3cfd0035fedf470f2823997f7280fd06084c7815c3a21b592af8d69314cd2cc5"
+      },
+      {
+        "path": "f04/phase-review-request.json",
+        "sha256": "ab39654ba20603a67027668143f2733518dd07a3c4018da0db6f5436e8f80fd9"
+      },
+      {
+        "path": "f04/phase-review.json",
+        "sha256": "20890fc43253b58256d3ab7401e7f554066b4e2e0b4e8e7b5e37e8e42fbe747a"
+      },
+      {
+        "path": "f04/summary.json",
+        "sha256": "4e68a4e9b1543eab710fe6fe95bd830eb5c6fdbb08ec908016256e1ee31bed55"
+      },
+      {
+        "path": "f04.completed.json",
+        "sha256": "ef98164b3be4b8b6fd3e67bafb90589d6829f611c1476387530d1e2508aedae7"
+      },
+      {
+        "path": "f04.started.json",
+        "sha256": "c603300aaf7c7b13dce40e8c0a4c74c75020c746154753b42e362f5165da069c"
+      },
+      {
+        "path": "run.json",
+        "sha256": "4dda2c9cf37bd421f35e5eb5b9ed7be29fb5a6326a630b8e35a47129327048ae"
+      },
+      {
+        "path": "independent-audit/reviewer-phase-result.json",
+        "sha256": "0110692c40b6efecde88a784b34ce6d2e251acab1c6c67e4dc440fba2bfa14dc"
+      },
+      {
+        "path": "independent-audit/reviewer-completion.json",
+        "sha256": "f48c8554409d93b5335d67cb7559676886b95aaf5ee4c2457a8f5b4a727f52d7"
+      },
+      {
+        "path": "independent-audit/reviewer-freeze-before.json",
+        "sha256": "11bff270916a4959ef7c694db4690bb1a553da41566d10ded79bf67c325e3683"
+      },
+      {
+        "path": "independent-audit/reviewer-freeze-after.json",
+        "sha256": "3d14dcdcb6c1ec6609ba02e37d241536d760cac6785d524ba408812aa1b319dd"
+      }
+    ]
+  },
+  "limits": [
+    "This demonstrates the acceptance and persistence chain for the original qualified F04 draft.",
+    "Prior failed run 83131a99 remains failed and closed; its exact originating window remains unproven.",
+    "No G01, F05, F06 or formal main evaluation was started.",
+    "Do not aggregate different rounds into a six-of-six acceptance claim."
+  ],
+  "nextStep": {
+    "recommendation": "Prepare the remaining G01 -> F05 -> F06 executor offline, carry forward the tested window admission and origin checks, regress and independently review it, then present a minimal new execution plan and model budget.",
+    "repeatPassedF04": false,
+    "startModelsNow": false,
+    "reuseOldAuthorization": false,
+    "installCandidateNow": false
+  }
+}
