@@ -1,0 +1,262 @@
+{
+  "schema": 1,
+  "kind": "independent-minimal-candidate-runner-preparation-review",
+  "reviewer": "/root/recheck_protocol_review",
+  "createdAt": "2026-10-30T02:42:59.531Z",
+  "status": "approved-for-upload-and-user-budget-confirmation",
+  "approvedForUpload": true,
+  "approvedForUserReview": true,
+  "approvedForLiveReadiness": true,
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "installationAuthorized": false,
+  "formalEvaluationAuthorized": false,
+  "baseCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
+  "runnerIdentity": "29789a8cf0faea09bca3634bbc5fc35ccae40d90a0868a4d04c572756973e356",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-minimal-execution-plan-20261030.json",
+      "sha256": "68a46c00fbdf126d4a313a511ec069b19a28b6a00bbaf9483f7d638dc8c16cdc"
+    },
+    {
+      "path": "docs/evidence/foundation-minimal-preparation-20261030.json",
+      "sha256": "203f42e959858575d0da9c613b49794d51a3e360f33c056624208703ee7c6b36"
+    },
+    {
+      "path": "evaluations/foundation-minimal-preparation-20261030/.gitattributes",
+      "sha256": "667b93be6ede617192a0c6ac9e3664b1727402239531277b6cd47b53e73a6535"
+    },
+    {
+      "path": "evaluations/foundation-minimal-preparation-20261030/final-regression.txt",
+      "sha256": "ee8c56f048e979659acfb0cac951065d33a5a63d4ab13979807478d6f83f0ff9"
+    },
+    {
+      "path": "evaluations/foundation-minimal-preparation-20261030/independent-package-check.json",
+      "sha256": "7f0a708c9e90bac484b67be3873208141c5be7fdfbf496bf9ee637f441ec892d"
+    },
+    {
+      "path": "evaluations/foundation-minimal-preparation-20261030/sealed-rehearsal.json",
+      "sha256": "c6907940bb559d9b006436d875f816af598c39d6e84dbe3f3d1216860b75e356"
+    },
+    {
+      "path": "evaluations/foundation-minimal-preparation-20261030/synthetic-scoped-report.json",
+      "sha256": "18e2c96f9fa3bae32a73f31422ec6f5a6632e08676c8092fdce1da78d690083b"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/admission.cjs",
+      "sha256": "a1b65b0b7e0b0f4622da0e53ab6d53a741b017682ba2f0a286933dd392c3ba38"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/business-engine.cjs",
+      "sha256": "5c1a95849fc29876cd8e451ffa7c84b5bc43026df8ea23f898e47c483ab6d466"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/business-identity.cjs",
+      "sha256": "9db97b77cee3bd673ebceab615631c966177b52ec493cabba6575c8149628f41"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/f04-engine.cjs",
+      "sha256": "b3a92622eb6d418117e7a4519ca5ecd3288fc4292843e57ca564a952f5c227b5"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/gate-engine.cjs",
+      "sha256": "4802a3d3e55302def9e755504daab2fd393a62f01c2291fb7df7e396f6b912d3"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/gate-identity.cjs",
+      "sha256": "ed3f51af653273038bb50d45325ddf8f89fc69bb5bc5e4005e015a0934ce0a4a"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/identity.cjs",
+      "sha256": "b3b2cd5a508e860b779b2e26310d2fbad0c46be76c3cddc5294ae56036462657"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/native-receipts.cjs",
+      "sha256": "9f8c4c7969c29e8912793ff4c0183c11959945bd585b1785a387759c4454171e"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/package-manifest.json",
+      "sha256": "d649b0dd74069d1fd06e6bef6c86db8ea4c8ac53b459c2f3db2c3065a267d280"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/plan.json",
+      "sha256": "c9c0bc22777088da5c726500f3754924f329ffadf65edd1e060f07ac56c89653"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/report.cjs",
+      "sha256": "8a319b3d63af14bf70bd6b3c4503e0a5da8b03960cdab2e1094304ad53bb2321"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/run.cjs",
+      "sha256": "79a9cfc058504b6e64af740b7a43b04fbd8067b127252bba99c653459fa4f085"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/runner-seal.json",
+      "sha256": "578664371fd15f14b6d6835f9ae00b7e7fdd6be4b9a336760606f4a3ef7a83f7"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/session.cjs",
+      "sha256": "3ccf03b4111b5f5665db782b4a2d3d5db3b9e0b95c171d1242cd64f2ea8deab4"
+    },
+    {
+      "path": "scripts/prepare-export-candidate.cjs",
+      "sha256": "21b926d74e0472cf40eb361a8202019a57d64628343d32206ce15caea298ab47"
+    },
+    {
+      "path": "scripts/rehearse-minimal-runner.cjs",
+      "sha256": "2267d87768329c41f380b4b08affaa32bc20b2cf1ccdbb3e786a79df9930409e"
+    },
+    {
+      "path": "tests/foundation-minimal-runner.test.cjs",
+      "sha256": "6e9d63201fc0195a580680ab013996f6ff38ba3086999244b0339f653435ec60"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/runner-review.json",
+      "sha256": "bb2f838dce09369dcf82f293cfe042d86be66be7aacfb715bb8164ade2244e98"
+    }
+  ],
+  "blockingFindings": [],
+  "findingsResolved": [
+    {
+      "finding": "Live clock injection and phase re-entry could weaken a fixed window.",
+      "resolution": "Live clocks are fixed; started records are one-shot and cannot resume. Deadline, STOP and backward-clock regressions pass."
+    },
+    {
+      "finding": "Ledger and predecessor proof binding needed to be explicit.",
+      "resolution": "Mode, sample, derived authorization hashes, summary and ledger hashes bind each phase. The actual gate proof is recorded in business summary."
+    },
+    {
+      "finding": "Native errors needed arrival records and scheduled revision route compatibility.",
+      "resolution": "Received/response/exception records bind native IPC to the requested task, journal event, snapshot/export and cold restart. Live paths never synthesize user actions."
+    },
+    {
+      "finding": "Asynchronous admission could complete after a phase deadline.",
+      "resolution": "The shared admission module rechecks identity and deadline/STOP after all asynchronous phase and binding reads, before broker admission."
+    },
+    {
+      "finding": "Forwarding modules left actual proof helpers outside the new seal.",
+      "resolution": "Actual citation-offline proof implementations and evidence helpers are sealed with the runner."
+    },
+    {
+      "finding": "Old population metadata could misstate two-case quality statistics.",
+      "resolution": "Plan metadata and dedicated report use two generated workflows and zero fixed-invalid controls. Terminal semantic rules are reused; null denominators and synthetic quality null are preserved."
+    }
+  ],
+  "candidate": {
+    "independentArchiveFileCount": 9668,
+    "changedArchiveFiles": [
+      "desktop/public-context.cjs",
+      "desktop/public-user-citations.cjs"
+    ],
+    "onlyOuterChange": "resources/app.asar",
+    "sourceMatchesReviewedCommit": true,
+    "installed": false
+  },
+  "validation": {
+    "regression": {
+      "tests": 207,
+      "passed": 206,
+      "failed": 0,
+      "skipped": 1,
+      "skipReason": "Windows host does not grant file symlink creation"
+    },
+    "packagedRehearsal": {
+      "probes": 5,
+      "passed": 5,
+      "normalLocalFixtureCalls": 19,
+      "gateFixtureCalls": 4,
+      "businessFixtureCalls": 15,
+      "businessCaseFixtureCalls": {
+        "F05": 11,
+        "F06": 4
+      },
+      "syntheticTokenCount": 123194,
+      "syntheticCostsAreNotTokenPredictions": true,
+      "markerHandoffs": 2,
+      "revisionNewBasis": 1,
+      "businessColdRestarts": 2,
+      "nativeReceiptAndJournalAndRawExportVerified": true,
+      "f04LocalAcceptanceAndColdRestartVerified": true,
+      "stoppedOnAllFourInjectedFaults": true,
+      "unknownUsageRetainedAsNull": true
+    },
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "actualHumanAcceptances": 0,
+    "qualityMetrics": null
+  },
+  "freeze": {
+    "rootCount": 54,
+    "historicalTrackedFileCount": 1164,
+    "allHistoricalRootsUnchanged": true,
+    "allPreexistingActiveTrackedFilesUnchanged": true,
+    "installedBaseUnchanged": true,
+    "evidence": [
+      {
+        "path": "../foundation-minimal-preparation-audit-20261030/reviewer-freeze-before.json",
+        "sha256": "a13a79f315228cafa2dac667f03eafd2ecea3740f17e7e4ef1faceaeee124d3e"
+      },
+      {
+        "path": "../foundation-minimal-preparation-audit-20261030/reviewer-freeze-after.json",
+        "sha256": "5e5cb2d7a8f6b53d629de41c6a79fa82dccaa36582aed427c9c7089c7b41ae9d"
+      },
+      {
+        "path": "../foundation-minimal-preparation-audit-20261030/reviewer-package.json",
+        "sha256": "7f0a708c9e90bac484b67be3873208141c5be7fdfbf496bf9ee637f441ec892d"
+      },
+      {
+        "path": "../foundation-minimal-preparation-audit-20261030/reviewer-results.json",
+        "sha256": "15a9a9b6c05871f9ceb9530684ced6869f5248dc30d97f65cbabc0f7f60f5415"
+      }
+    ]
+  },
+  "budget": {
+    "modelAccountedApplicationAttempts": 25,
+    "maximumModelDispatches": 22,
+    "inputPlusOutputStopThreshold": 620000,
+    "cachedTokensIncludedInInput": true,
+    "inFlightExcessPossible": true,
+    "stages": [
+      {
+        "phase": "f04",
+        "modelCalls": 0,
+        "fixedWindowMinutes": 45
+      },
+      {
+        "phase": "gate",
+        "applicationAttempts": 5,
+        "maxDispatches": 4,
+        "tokenStopThreshold": 120000,
+        "fixedWindowMinutes": 45
+      },
+      {
+        "phase": "business",
+        "applicationAttempts": 20,
+        "maxDispatches": 18,
+        "tokenStopThreshold": 500000,
+        "sharedWindowMinutes": 45
+      }
+    ],
+    "perCaseApplicationAttempts": {
+      "F05": 13,
+      "F06": 7
+    },
+    "perCaseTokenStopThreshold": {
+      "F05": 330000,
+      "F06": 170000
+    },
+    "budgetsAreStopThresholdsNotPredictions": true,
+    "requiresFreshExplicitAuthorization": true
+  },
+  "limitations": [
+    "The one skipped test requires Windows file-symlink privileges; junction and path-replacement tests passed.",
+    "All current clicks and model responses are synthetic; actual human acceptance and real model workflow success remain unmeasured.",
+    "Historical F04 missing-receipt cause remains unknown; this new native path is observable but does not rewrite that history.",
+    "F04 historical-draft acceptance and G01 are separate from the two planned F05/F06 workflows. No six-case pass or broad quality improvement is claimed.",
+    "Fixed-invalid release rate is unmeasured in this subset; a zero generated-invalid denominator is not estimable.",
+    "No natural marker trigger means not covered; no calls may be added solely to force coverage."
+  ],
+  "decision": "Upload the exact reviewed source and preparation records, then request the specified new budget and human participation. Do not execute real model calls, reuse old authorization, install this candidate or start the formal main evaluation before separately authorized."
+}

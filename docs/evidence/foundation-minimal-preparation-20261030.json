@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "kind": "offline-sealed-candidate-and-minimal-runner-preparation",
+  "date": "2026-10-30",
+  "baseCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
+  "status": "offline-ready-awaiting-new-user-authorization",
+  "scope": {
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "actualHumanAcceptances": 0,
+    "installedVersionFrozen": true,
+    "historicalEvidenceRewritten": false,
+    "liveAuthorized": false,
+    "productSourceChangedInThisPreparation": false,
+    "modelPromptsSchemasSemanticRulesChanged": false
+  },
+  "candidate": {
+    "executable": "../foundation-candidate-bundle-export-20261030/XingzhiAssistant.exe",
+    "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "sourceCodeCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
+    "manifestSha256": "d649b0dd74069d1fd06e6bef6c86db8ea4c8ac53b459c2f3db2c3065a267d280",
+    "archiveChanges": [
+      {
+        "path": "desktop/public-context.cjs",
+        "beforeSha256": "5cae8cd895b964ef6a7acc3ec08f2ff88ef33b5243d672199e37b0d65b3edd30",
+        "sha256": "80d5052951ea40f706f376669010fd03874dd5e6e101a29ff74af3d50494828d"
+      },
+      {
+        "path": "desktop/public-user-citations.cjs",
+        "beforeSha256": null,
+        "sha256": "fa18973563d94736571cccc169a3a34aa3350475be9a304d35eb2851f05a1dce"
+      }
+    ],
+    "independentlyComparedFiles": 9668,
+    "onlyOuterChange": "resources/app.asar",
+    "installed": false
+  },
+  "runner": {
+    "path": "evaluations/foundation-minimal-runner",
+    "identity": "29789a8cf0faea09bca3634bbc5fc35ccae40d90a0868a4d04c572756973e356",
+    "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+    "sealedFileCount": 13,
+    "sealedDependencyCount": 307,
+    "planFileSha256": "c9c0bc22777088da5c726500f3754924f329ffadf65edd1e060f07ac56c89653",
+    "authorizationPlanSha256": "3375e2c6573a4245d3f02b33bda9c42cac1d2a678ab19695468211618ddd178d"
+  },
+  "regression": {
+    "files": 14,
+    "tests": 207,
+    "passed": 206,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "Windows host cannot create the real-file symlink fixture; junction and path replacement tests passed.",
+    "evidence": "evaluations/foundation-minimal-preparation-20261030/final-regression.txt"
+  },
+  "packagedRehearsal": {
+    "runnerIdentity": "29789a8cf0faea09bca3634bbc5fc35ccae40d90a0868a4d04c572756973e356",
+    "probes": 5,
+    "passed": 5,
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "actualHumanAcceptances": 0,
+    "normal": {
+      "stages": [
+        "F04-local",
+        "G01",
+        "F05",
+        "F06"
+      ],
+      "nativeIpcToPersistenceAndExportBound": true,
+      "coldRestartPreserved": true,
+      "markerConfirmationAndSeparateRecheckCovered": "synthetic-only",
+      "revisionNewBasisCovered": true,
+      "gateRepeatedInsideBusiness": false,
+      "businessCases": [
+        "F05-jianping-revision",
+        "F06-yunshu-restart"
+      ],
+      "syntheticApplicationAttempts": 19,
+      "syntheticTokens": 123194,
+      "qualityMetrics": null
+    },
+    "faultProbes": [
+      {
+        "id": "f04-cli-denied",
+        "result": "Stopped before official CLI/model transport; no acceptance."
+      },
+      {
+        "id": "f04-wrong-task",
+        "result": "Stopped before wrong-task backend invocation; no acceptance."
+      },
+      {
+        "id": "gate-malformed",
+        "result": "Stopped after first malformed result; known usage retained."
+      },
+      {
+        "id": "business-unknown-usage",
+        "result": "Stopped in F05, total token count null; F06 not started."
+      }
+    ],
+    "evidence": "evaluations/foundation-minimal-preparation-20261030/sealed-rehearsal.json"
+  },
+  "reviewFindingsResolved": [
+    "Reject injected live clocks, direct engine entry and mixed session modes.",
+    "Bind ledger mode, sample, derived authorization, predecessor summaries, ledgers and independent decisions.",
+    "Record native receipt arrival and backend exceptions; allow only the prescribed task and actions.",
+    "Recheck identity, deadline and STOP after asynchronous admission and marker binding, before transport.",
+    "Seal actual transitive handoff, restart and evidence helpers; remove stale six-case metadata.",
+    "Reuse semantic scoring with two planned business cases, zero fixed-invalid cases and null zero-denominator rates."
+  ],
+  "preservedBoundaries": {
+    "sourceBindingsAndSemanticRules": "Unchanged from c28a0e9; archive differs from the previous candidate only in the two already-reviewed public citation export modules.",
+    "f04HistoricalCause": "Still unknown; successful synthetic native replay does not prove where the historical human click arrived.",
+    "humanAcceptance": "All clicks this turn are explicitly synthetic; real human acceptance remains pending.",
+    "rateEvidence": "No new live hallucination/false-block/false-release or actual cost claims.",
+    "scope": "Do not combine historical rounds into six-of-six acceptance."
+  },
+  "sourceEvidence": {
+    "privateRehearsalRoot": "../foundation-minimal-runs-20261030/sealed-rehearsal-01",
+    "privateAuditRoot": "../foundation-minimal-preparation-audit-20261030",
+    "freezeBeforeSha256": "a13a79f315228cafa2dac667f03eafd2ecea3740f17e7e4ef1faceaeee124d3e",
+    "files": [
+      {
+        "path": "evaluations/foundation-minimal-preparation-20261030/final-regression.txt",
+        "sha256": "ee8c56f048e979659acfb0cac951065d33a5a63d4ab13979807478d6f83f0ff9"
+      },
+      {
+        "path": "evaluations/foundation-minimal-preparation-20261030/sealed-rehearsal.json",
+        "sha256": "c6907940bb559d9b006436d875f816af598c39d6e84dbe3f3d1216860b75e356"
+      },
+      {
+        "path": "evaluations/foundation-minimal-preparation-20261030/synthetic-scoped-report.json",
+        "sha256": "18e2c96f9fa3bae32a73f31422ec6f5a6632e08676c8092fdce1da78d690083b"
+      },
+      {
+        "path": "evaluations/foundation-minimal-preparation-20261030/independent-package-check.json",
+        "sha256": "7f0a708c9e90bac484b67be3873208141c5be7fdfbf496bf9ee637f441ec892d"
+      }
+    ]
+  },
+  "nextExecutionPlan": "docs/evidence/foundation-minimal-execution-plan-20261030.json",
+  "nextApproval": {
+    "required": true,
+    "reason": "This task authorized offline preparation only; prior live budgets are closed.",
+    "modelApplicationAttempts": 25,
+    "maximumModelDispatches": 22,
+    "inputPlusOutputTokenStopThreshold": 620000,
+    "inFlightOvershootPossible": true,
+    "phaseWindowsMinutes": {
+      "f04": 45,
+      "gate": 45,
+      "business": 45
+    },
+    "oldAuthorizationReusable": false
+  }
+}

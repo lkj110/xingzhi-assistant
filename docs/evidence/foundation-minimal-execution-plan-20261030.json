@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "kind": "proposal-awaiting-new-user-authorization",
+  "liveAuthorized": false,
+  "candidateInstalled": false,
+  "realModelCallsDuringPreparation": 0,
+  "purpose": "只完成尚缺的 F04 真人验收链、同一新候选 G01、F05 修订与 F06 重启验收；不重跑 F01–F03，不启动正式主评测。",
+  "candidate": {
+    "executable": "C:/Users/liukongjie/Documents/Codex/2026-10-21/new-chat/work/foundation-candidate-bundle-export-20261030/XingzhiAssistant.exe",
+    "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "sourceCodeCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
+    "packageManifest": "evaluations/foundation-minimal-runner/package-manifest.json",
+    "installedVersionRemainsFrozen": true
+  },
+  "runner": {
+    "entry": "evaluations/foundation-minimal-runner/run.cjs",
+    "identity": "29789a8cf0faea09bca3634bbc5fc35ccae40d90a0868a4d04c572756973e356",
+    "seal": "evaluations/foundation-minimal-runner/runner-seal.json",
+    "plan": "evaluations/foundation-minimal-runner/plan.json",
+    "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+    "samples": "沿用已封存、已暴露的 G01/F05/F06；本轮不是全新盲测样本。F04 使用原始状态及权限文件的封存副本。",
+    "outputParent": "../foundation-minimal-runs-20261030",
+    "sameOutputDirectoryAcrossPhases": true,
+    "consumedAuthorizationIsSingleUse": true,
+    "replayResumeOrClockResetAllowed": false,
+    "concurrency": 1,
+    "automaticRetries": 0,
+    "fallback": false
+  },
+  "stages": [
+    {
+      "stage": "f04",
+      "case": "F04 岑碗 CW-07 展柜导览箭头朝向差异说明",
+      "modelApplicationAttempts": 0,
+      "maximumModelDispatches": 0,
+      "reportedTokenStopThreshold": 0,
+      "fixedWindowMinutes": 45,
+      "startsAfter": "新授权已确认，用户明确就绪后，执行一次新的 f04 阶段。",
+      "actions": [
+        "在独立候选窗口确认运行编号、事项标题及原稿；由用户点击验收完成。聊天回复不代替应用内操作。",
+        "对齐原生 IPC 收到请求及返回值、工作日志、持久化验收状态和导出的证据报告。",
+        "关闭并重新启动同一隔离配置，核对已完成状态及证据报告仍一致。",
+        "独立 subagent 在本阶段原始截止时间内复核并落盘决定，才允许进入 G01。"
+      ],
+      "gate": "F04 禁止任何模型调用、推进、重检或其他事项验收；出现任一违规尝试即终止整轮。"
+    },
+    {
+      "stage": "gate",
+      "case": "G01-muju",
+      "modelApplicationAttempts": 5,
+      "maximumModelDispatches": 4,
+      "reportedTokenStopThreshold": 120000,
+      "fixedWindowMinutes": 45,
+      "startsAfter": "本轮 F04 完成证明和独立复核哈希均通过，用户明确就绪。",
+      "actions": [
+        "在新 ASAR 上运行一次封存协议案例，检查生成、严格核验、原文证据绑定与完整用量。",
+        "独立 subagent 在原始截止时间内复核，生成本轮 G01 通过证明；不沿用旧候选的门检结果。"
+      ]
+    },
+    {
+      "stage": "business",
+      "caseOrder": ["F05-jianping-revision", "F06-yunshu-restart"],
+      "modelApplicationAttempts": 20,
+      "maximumModelDispatches": 18,
+      "reportedTokenStopThreshold": 500000,
+      "sharedFixedWindowMinutes": 45,
+      "startsAfter": "同一候选、执行器、授权的 G01 完成证明及独立复核均通过，用户明确就绪。",
+      "cases": [
+        {
+          "id": "F05-jianping-revision",
+          "modelApplicationAttempts": 13,
+          "reportedTokenStopThreshold": 330000,
+          "actions": "检查初稿；若自然触发表达确认，由用户在应用中确认并单独重检；按封存指令修订并建立新的证据基准；若修订稿再次触发则再次确认和重检；合格稿由用户最终验收。"
+        },
+        {
+          "id": "F06-yunshu-restart",
+          "modelApplicationAttempts": 7,
+          "reportedTokenStopThreshold": 170000,
+          "actions": "分别在推进前及待验收时冷重启，核对事项、原文证据、检查身份和验收状态保持一致；需要时由用户确认和单独重检，最终在应用内验收。"
+        }
+      ],
+      "completion": "独立审核稿件、原文、原生验收回执、重启证明和用量账本，在同一个 45 分钟窗口内完成。"
+    }
+  ],
+  "budget": {
+    "modelApplicationAttempts": 25,
+    "maximumModelDispatches": 22,
+    "reportedInputPlusOutputTokenStopThreshold": 620000,
+    "cachedTokensIncludedInInput": true,
+    "inFlightRequestMayExceedThreshold": true,
+    "serverEnforcedHardTokenCap": false,
+    "oldBudgetReusable": false,
+    "windowPolicy": "F04、G01 各固定 45 分钟；F05/F06 合用固定 45 分钟。每阶段在用户就绪后启动，包含启动、人工操作及独立审核等待；不重置、不续跑、不自动补做。"
+  },
+  "stopImmediatelyOn": [
+    "F04 任何模型或越界操作尝试",
+    "协议拒绝或格式错误",
+    "未知用量、账本不一致或阶段结束仍存在未结算分发",
+    "首个终止性案例失败、核验或真人验收回执不一致",
+    "候选、执行器、样本、授权或前置完成证明哈希变化",
+    "任一单例、阶段或整轮额度不足或达到停止阈值",
+    "固定窗口到期、时钟倒退、人工 STOP 或独立审核不通过"
+  ],
+  "reporting": {
+    "workflowCompletion": "F05/F06 完成率分母固定为 2；未开始或中止案例仍计入计划分母。F04 历史稿件真人链与 G01 分开列示，不拼接不同候选为六例全部通过。",
+    "hallucination": "独立审核原文绑定的初稿、修订后终稿与放行稿；各自列分子、分母及无法评分项。",
+    "falseBlock": "仅将合格稿件被语义硬拒绝计为误拦；等待人工确认、技术错误与缺失稿件分别列示。",
+    "falseRelease": "本轮无固定错误对照样本，该指标标记未测。自然生成的不合格稿件另计错误放行；分母为 0 时报告不可估计，不报告 0%。",
+    "naturalMarkerCoverage": "未自然触发人工确认就报告未覆盖，不注入内容诱发，不为覆盖追加调用。",
+    "tokens": "逐阶段、逐例及整轮报告 input/output/缓存/已知小计；未知总量为 null。离线合成 token 与真实消耗分开。",
+    "claimLimit": "这是两例剩余流程与原生验收链的诊断性复测，不足以证明总体幻觉率或相对旧版的统计改善。"
+  },
+  "executionAfterApprovalOnly": {
+    "authorization": "收到用户本轮批准后，生成新的单次授权文件，绑定候选、执行器、plan、样本、CLI 文件哈希、预算、三个固定窗口、接受在途超额及真人参与；本准备阶段不生成有效授权。",
+    "commands": [
+      {"stage": "f04", "args": ["--stage", "f04", "--live", "--executable", "<sealed candidate absolute path>", "--output", "<new suite absolute path>", "--authorization", "<new authorization absolute path>", "--ready-reference", "<user stage readiness reference>"]},
+      {"stage": "gate", "args": ["--stage", "gate", "--live", "--executable", "<same sealed candidate>", "--output", "<same suite>", "--authorization", "<same authorization>", "--real-cli", "<approved CLI absolute path>", "--ready-reference", "<user stage readiness reference>"]},
+      {"stage": "business", "args": ["--stage", "business", "--live", "--executable", "<same sealed candidate>", "--output", "<same suite>", "--authorization", "<same authorization>", "--real-cli", "<same approved CLI>", "--ready-reference", "<user stage readiness reference>"]}
+    ],
+    "phaseReview": "每阶段引擎完成后会输出 phase-review-request.json；独立 subagent 核对原始证据后写入绑定请求 identity 和 runId 的 phase-review.json。旧决定不能复用。"
+  }
+}

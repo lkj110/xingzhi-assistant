@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "reviewer": "/root/recheck_protocol_review",
+  "createdAt": "2026-10-30T01:54:22.449Z",
+  "kind": "independent-read-only-candidate-archive-verification",
+  "manifestSha256": "d649b0dd74069d1fd06e6bef6c86db8ea4c8ac53b459c2f3db2c3065a267d280",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "archiveFilesVerified": 9668,
+  "archiveChangedFiles": [
+    "desktop/public-context.cjs",
+    "desktop/public-user-citations.cjs"
+  ],
+  "outerChangedFiles": [
+    "resources/app.asar"
+  ],
+  "allOtherArchiveMetadataAndContentUnchanged": true,
+  "sourceFilesMatchReviewedSource": true,
+  "oldCandidateUnchanged": true,
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "candidateLaunched": false,
+  "candidateInstalled": false
+}

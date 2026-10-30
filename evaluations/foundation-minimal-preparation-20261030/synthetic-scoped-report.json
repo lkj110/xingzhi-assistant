@@ -1,0 +1,181 @@
+{
+  "schema": 1,
+  "runId": "normal",
+  "mode": "offline",
+  "runnerIdentity": "29789a8cf0faea09bca3634bbc5fc35ccae40d90a0868a4d04c572756973e356",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "synthetic": true,
+  "installed": false,
+  "phaseCompletions": {
+    "f04": true,
+    "gate": true,
+    "business": true
+  },
+  "f04": {
+    "passed": true,
+    "actualHumanAcceptance": false,
+    "modelCallsAdded": 0,
+    "freshModelBusinessCase": false
+  },
+  "gate": {
+    "passed": true,
+    "realCliExecutions": 0
+  },
+  "cost": {
+    "synthetic": true,
+    "totalTokens": 123194,
+    "knownTokenSubtotal": 123194,
+    "knownApplicationAttempts": 19,
+    "complete": true,
+    "phases": {
+      "gate": {
+        "started": true,
+        "totalTokens": 20669,
+        "knownTokenSubtotal": 20669,
+        "applicationAttempts": 4
+      },
+      "business": {
+        "started": true,
+        "totalTokens": 102525,
+        "knownTokenSubtotal": 102525,
+        "applicationAttempts": 15
+      }
+    }
+  },
+  "business": {
+    "schema": 1,
+    "mode": "offline",
+    "synthetic": true,
+    "actualHumanAcceptances": 0,
+    "markerBranch": "synthetic-only",
+    "plannedGeneratedCases": 2,
+    "attemptedGeneratedCases": 2,
+    "unattemptedGeneratedCases": 0,
+    "plannedFixedInvalidCases": 0,
+    "attemptedFixedInvalidCases": 0,
+    "cost": {
+      "totalTokens": 102525,
+      "knownTokenSubtotal": 102525,
+      "unknownUsage": 0,
+      "applicationEntryAttempts": 15,
+      "stages": {
+        "F05-jianping-revision/initial": {
+          "attempts": 4,
+          "inputTokens": 23347,
+          "outputTokens": 800,
+          "knownTokenSubtotal": 24147,
+          "unknownUsage": 0,
+          "totalTokens": 24147
+        },
+        "F05-jianping-revision/initial-human-recheck": {
+          "attempts": 2,
+          "inputTokens": 13961,
+          "outputTokens": 400,
+          "knownTokenSubtotal": 14361,
+          "unknownUsage": 0,
+          "totalTokens": 14361
+        },
+        "F05-jianping-revision/revision": {
+          "attempts": 3,
+          "inputTokens": 22393,
+          "outputTokens": 600,
+          "knownTokenSubtotal": 22993,
+          "unknownUsage": 0,
+          "totalTokens": 22993
+        },
+        "F05-jianping-revision/revision-human-recheck": {
+          "attempts": 2,
+          "inputTokens": 16175,
+          "outputTokens": 400,
+          "knownTokenSubtotal": 16575,
+          "unknownUsage": 0,
+          "totalTokens": 16575
+        },
+        "F06-yunshu-restart/initial": {
+          "attempts": 4,
+          "inputTokens": 23649,
+          "outputTokens": 800,
+          "knownTokenSubtotal": 24449,
+          "unknownUsage": 0,
+          "totalTokens": 24449
+        }
+      }
+    },
+    "qualityStatus": "N/A-synthetic",
+    "quality": null,
+    "adjudicationTemplate": {
+      "schema": 1,
+      "reviewer": "independent-subagent",
+      "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+      "runnerIdentity": "29789a8cf0faea09bca3634bbc5fc35ccae40d90a0868a4d04c572756973e356",
+      "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+      "judgments": [
+        {
+          "caseId": "F05-jianping-revision",
+          "stage": "initial",
+          "draftHash": "7c057f943cc4be8f17d1ccd96c8cafe1162611ab826f8fec65c13076feaedc4a",
+          "qualified": null,
+          "hallucination": null,
+          "reason": null
+        },
+        {
+          "caseId": "F05-jianping-revision",
+          "stage": "revision",
+          "draftHash": "c7a196c34a7c56348e5f7cd5a4c2190b0444d8c711cd523955d35205cc2a77d1",
+          "qualified": null,
+          "hallucination": null,
+          "reason": null
+        },
+        {
+          "caseId": "F06-yunshu-restart",
+          "stage": "initial",
+          "draftHash": "103b1e3c0f001eb1021fe5779d31217f9d8793bb27b5299ad74aeef5ddc7f29f",
+          "qualified": null,
+          "hallucination": null,
+          "reason": null
+        }
+      ]
+    },
+    "branchCoverage": {
+      "synthetic": true,
+      "f05RevisionNewBasis": true,
+      "markerHandoffs": [
+        {
+          "caseId": "F05-jianping-revision",
+          "stage": "initial",
+          "actualHuman": false,
+          "explicitRecheckDispatched": true,
+          "authorizationId": "a13755303b839685da1c9a00ca96346bdf276219824352e8c9c277d6780d65b3",
+          "newAuthorizationCount": 1,
+          "oldRecordsPreserved": true,
+          "boundedFinalizationObserved": true,
+          "priorBoundedSameBasisObserved": false,
+          "phase": "result"
+        },
+        {
+          "caseId": "F05-jianping-revision",
+          "stage": "revision",
+          "actualHuman": false,
+          "explicitRecheckDispatched": true,
+          "authorizationId": "a18b7d6e9ebfe78175415d4f06afd9d5fc10abd294fe49f54a94dd0cc744e5f7",
+          "newAuthorizationCount": 1,
+          "oldRecordsPreserved": true,
+          "boundedFinalizationObserved": true,
+          "priorBoundedSameBasisObserved": true,
+          "phase": "result"
+        }
+      ],
+      "f05RevisionHumanConfirmationAndRecheck": false,
+      "f05RevisionAuthorizationObserved": true,
+      "f05RevisionOldBoundedRecordsPreserved": true,
+      "f05RevisionSameBasisBoundedCollisionObserved": true,
+      "f06RestartBeforeAdvance": true,
+      "f06RestartAtReview": true,
+      "targetBranchStatus": "synthetic-only",
+      "exactHistoricalCollisionLiveCovered": false,
+      "subsetWorkflowCompleted": true
+    },
+    "metricsVersion": "stage-terminal-outcomes-v1",
+    "completionScope": "F05/F06 only; F04 historical human-operation check is separate"
+  }
+}
