@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "provenance": {
+    "runId": "b1431973-62ef-41cb-9171-966ebab27e95",
+    "terminalSha256": "eaf761331fa34f1f87eae33c8f26f4aa340a6d874a0f61c2fcb2807330377aeb",
+    "rawEventSha256": "32345e942660070888e7e55e44337de7621a23fab06c7643c8f484c380a8ad25",
+    "rawEventBytes": 88
+  },
+  "eventLine": "{\"type\":\"error\",\"message\":\"Reconnecting... 2/5 (workspace routing discovery timed out)\"}",
+  "historicalRecordedCode": "CLI_PROTOCOL_REJECTION",
+  "authoritativeUsagePresent": false,
+  "rawUsageEvents": []
+}

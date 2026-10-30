@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "kind": "independent-offline-transport-cause-review",
+  "date": "2026-10-30",
+  "reviewer": "independent-subagent",
+  "sourceCommit": "f7f931de1e6f8d5aed18c274be07404c3480198a",
+  "branch": "codex/foundation-transport-cause",
+  "approvedForUpload": true,
+  "offlineDiagnosticRepairApproved": true,
+  "approvedForLiveReadiness": false,
+  "liveAuthorized": false,
+  "businessAcceptancePassed": false,
+  "productOrInstallationApproval": false,
+  "remainingFindings": [],
+  "reviewedResult": {
+    "path": "docs/evidence/foundation-transport-cause-offline-20261030.json",
+    "sha256": "e686e72c881b6d5a8c449ec214d1c59fae3886527feb37f7e40369f155a589c8"
+  },
+  "conclusions": [
+    "The archived 88-byte event and terminal fingerprints are exact. The new classifier identifies the observed routing timeout without claiming to repair or diagnose the underlying network/service failure.",
+    "Explicit connection/schema codes are distinguished; unknown errors, failed turns and malformed protocol remain terminal. No retry, budget, prompt, schema, evidence-binding or semantic acceptance rule was added or relaxed.",
+    "The actual local Node supervisor, broker, ledger and session retain the first failure and unknown usage; a deliberate second local request is denied without a second transport dispatch.",
+    "Top-level stop cause carries only symbolic codes, phase and reason fingerprint. Existing bounded/redacted diagnostics retain the original event; credentials and free-form request data are not added to the new cause.",
+    "TC-R1 was independently reproduced and fixed: validated terminal ledger failure now survives later deadline, STOP and clock errors. Corrupt run/ledger identities remain rejected, and the clock is sampled after validation.",
+    "All six changed integration expectations were inspected against their actual synthetic turn.failed fixtures. Their Electron matrices were not rerun in this task.",
+    "Existing sealed runners and reviews were not resealed. The modified checkout rejects the old live entry before authorization consumption or process spawn; existing candidate and installed app remain frozen."
+  ],
+  "findingResolution": {
+    "id": "TC-R1",
+    "severity": "blocking-before-fix",
+    "status": "fixed-and-independently-retested",
+    "description": "A later deadline masked an already-recorded CLI_ROUTING_TIMEOUT with ERR_ASSERTION.",
+    "before": {
+      "path": "../foundation-transport-cause-audit-20261030/reviewer-priority-probe-before.tap",
+      "sha256": "038f49647cd41e1849d1e4cfba53ee9f949cccb5c76c678d8681b301975ceb97"
+    },
+    "after": {
+      "path": "../foundation-transport-cause-audit-20261030/reviewer-priority-probe-after.tap",
+      "sha256": "d7953a38be27714c5c0fb9c3efdc95e38fbc193b821a34cc6dfce35ab71932ac"
+    },
+    "probe": {
+      "path": "../foundation-transport-cause-audit-20261030/reviewer-priority-probe.test.cjs",
+      "sha256": "2c65ef70d555d9936c7a48f7364e23fe1d94a5c8fbfda170c6217f2910332b08"
+    }
+  },
+  "validation": {
+    "combined": {
+      "tests": 174,
+      "passed": 174,
+      "failed": 0,
+      "skipped": 0,
+      "log": {
+        "path": "../foundation-transport-cause-audit-20261030/root-regression-after-review.tap",
+        "sha256": "7adb6508be2d5130cca1d59cc009d5a5f9f561cac2b942fab9d85589540c3647"
+      }
+    },
+    "independentRerun": {
+      "tests": 56,
+      "passed": 56,
+      "failed": 0,
+      "skipped": 0,
+      "log": {
+        "path": "../foundation-transport-cause-audit-20261030/reviewer-regression-final.tap",
+        "sha256": "f2478ab96d1eb85b25a5e2ef22cd9487b311666fcb9e13d68cd351771563d70d"
+      },
+      "overlapsCombinedSuite": true,
+      "notAdditive": true,
+      "includesOneIndependentPriorityProbe": true
+    },
+    "historyProof": {
+      "path": "../foundation-transport-cause-audit-20261030/reviewer-history-proof.json",
+      "sha256": "db6109cb4a8f5729cb3814c9892ebbd5e4988f0a77735a2f52c8eca5e070a06d"
+    },
+    "realModelCalls": 0,
+    "officialModelCliInvocations": 0,
+    "realApplicationTokens": 0,
+    "humanUiActions": 0,
+    "candidateAppLaunches": 0,
+    "F04Reruns": 0
+  },
+  "freeze": {
+    "before": {
+      "path": "../foundation-transport-cause-audit-20261030/reviewer-freeze-before.json",
+      "sha256": "abd62aa493e638a57208890088b73cae37dd35fd9969d7102e011d070ca9ec1c"
+    },
+    "after": {
+      "path": "../foundation-transport-cause-audit-20261030/reviewer-freeze-after.json",
+      "sha256": "9cb5d3ceba35d02e5027943758ca44eb1345e432e73ccb1d06ee35934532b365"
+    },
+    "externalRoots": 122,
+    "originalTrackedFiles": 1240,
+    "approvedExistingFileChanges": 10,
+    "allExternalRootsUnchanged": true,
+    "allOtherOriginalTrackedFilesUnchanged": true,
+    "installedVersionFrozen": true,
+    "candidateAsarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "oldRemainingSeal": "3d4b4489abb902e14aad462ee63980c285b909c02f21c553059c8d8a3aadf375",
+    "oldSealRejectedInModifiedCheckout": true,
+    "oldSealsUpdated": false
+  },
+  "limitations": {
+    "underlyingRoutingTimeoutFixed": false,
+    "realBusinessAcceptanceCompleted": false,
+    "qualityMetrics": null,
+    "historicalUnknownUsageStillUnknown": true,
+    "internalCliRetryCountKnown": false,
+    "closedBudgetReusable": false,
+    "newLiveAuthorizationCreated": false
+  },
+  "nextStep": "Upload this reviewed offline diagnostic patch. Any subsequent live test requires a separately sealed and reviewed executor plus a fresh plan and explicit user authorization; this review grants neither execution nor installation.",
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-transport-cause-offline-20261030.json",
+      "sha256": "e686e72c881b6d5a8c449ec214d1c59fae3886527feb37f7e40369f155a589c8"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/integration.cjs",
+      "sha256": "69a82f76c7e7f063c6cfafc925b477e3073623cedecb88d0be236fde852c8505"
+    },
+    {
+      "path": "evaluations/foundation-citation-business-runner/integration.cjs",
+      "sha256": "87192b31b6d0bac2ee66457d7604db02fd3b3cd228513a82489a4f0359442636"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/integration.cjs",
+      "sha256": "b897aeb54f496ee695b88ce0c54f9e2d243e638579e8ad9b85f88ecb43b125d2"
+    },
+    {
+      "path": "evaluations/foundation-citation-offline-runner/integration.cjs",
+      "sha256": "87192b31b6d0bac2ee66457d7604db02fd3b3cd228513a82489a4f0359442636"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/integration.cjs",
+      "sha256": "9b7108b11abf4fb9d8879451ed22e821410bcd401b53769e3ebf4f9f8f94c5a9"
+    },
+    {
+      "path": "evaluations/foundation-diagnostic-runner/transport.test.cjs",
+      "sha256": "3fb09389506e6de50fd92ad2be9e4840e587fba3bb9242c135b816572ae59f68"
+    },
+    {
+      "path": "evaluations/foundation-recheck-runner/integration.cjs",
+      "sha256": "2dd32a3c5a263429ed761cbe6419a0b28cf210e75e05dfb2c9f3793da35ed3cc"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/session.cjs",
+      "sha256": "d6330581b10df9e764424c82c917875611537c39976a690cd98e84951a73cb90"
+    },
+    {
+      "path": "evaluations/foundation-runner/failure-cause.cjs",
+      "sha256": "a67c8b8abdf3f19d333f727e40cb963bcc44e774c10316ed142c1a8f17fb8e67"
+    },
+    {
+      "path": "evaluations/foundation-runner/transport.cjs",
+      "sha256": "68dc79e62983f95ff848262aeae20c8461c2ec572b97da4bf818d16c30f34986"
+    },
+    {
+      "path": "evaluations/foundation-runner/transport.test.cjs",
+      "sha256": "cfd45d532599942977948b7d84758620a06d3a998d42eae974a981c86446e7ae"
+    },
+    {
+      "path": "tests/fixtures/foundation-cli-routing-timeout-20261030.json",
+      "sha256": "62dcbe9e7f08c4f3c853ead7a0f69acd5218d3bd79888b42c98281145df9d048"
+    },
+    {
+      "path": "tests/foundation-transport-cause.test.cjs",
+      "sha256": "5c85642bc5d90574a61d87f320986141009948832e2f0e7d531b0be195af331f"
+    }
+  ]
+}

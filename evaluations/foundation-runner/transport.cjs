@@ -3,6 +3,7 @@
 // discovery, networking or model call happens merely by importing this module.
 const cp=require('node:child_process'),path=require('node:path');
 const {normalizeUsage}=require('./ledger.cjs');
+const {classifyFailureEvent}=require('./failure-cause.cjs');
 const root=path.resolve(__dirname,'../..'),protocol=require(path.join(root,'desktop/subscription-protocol.cjs')),host=require(path.join(root,'desktop/host-process.cjs'));
 const windows=process.platform==='win32'?require(path.join(root,'desktop/windows-process.cjs')):null;
 const ENVIRONMENT_KEYS=Object.freeze(['PATH','HOME','USERPROFILE','APPDATA','LOCALAPPDATA','SystemRoot','SYSTEMROOT','WINDIR','ComSpec','PATHEXT','TMPDIR','TMP','TEMP','LANG','LC_ALL','TZ','CODEX_HOME','HTTPS_PROXY','HTTP_PROXY','ALL_PROXY','NO_PROXY']);
@@ -36,7 +37,7 @@ function runTransport({bin,args,input,cwd,env=environment(),timeoutMs,idleTimeou
     if(usage&&JSON.stringify(usage)!==JSON.stringify(next)){disputedUsage=true;stop(error('CLI_CONFLICTING_USAGE','CLI completion usage conflicts with an earlier event'));return;}
     usage=next;
    }
-   if(event.type==='turn.failed'||event.type==='error')stop(error('CLI_PROTOCOL_REJECTION','CLI reported a failed turn or protocol error'));
+   const reported=classifyFailureEvent(event);if(reported)stop(error(reported.code,reported.message));
    if(protocol.hostToolError(event.item))stop(error('HOST_TOOL_ATTEMPT','CLI attempted a host tool'));
   };
   const consume=(channel,chunk)=>{

@@ -38,7 +38,7 @@ test('conflicting or invalid later usage removes certainty but preserves both ra
 });
 test('host-tool and provider error events stop the process while retaining valid earlier usage',async t=>{
  for(const event of [{type:'item.started',item:{type:'command_execution',status:'in_progress'}},{type:'turn.failed',error:{message:'synthetic rejection'}},{type:'error',message:'synthetic protocol failure'}])await t.test(event.type,async()=>{
-  await assert.rejects(run(emit(completed)+emit(event)+'setInterval(()=>{},1000);'),e=>{assert.equal(e.code,event.type==='item.started'?'HOST_TOOL_ATTEMPT':'CLI_PROTOCOL_REJECTION');assert.equal(e.usage.totalTokens,120);assert.equal(e.usageUnknown,false);assert.equal(e.processTreeConfirmed,true);return true;});
+  await assert.rejects(run(emit(completed)+emit(event)+'setInterval(()=>{},1000);'),e=>{assert.equal(e.code,event.type==='item.started'?'HOST_TOOL_ATTEMPT':event.type==='turn.failed'?'CLI_TURN_FAILED':'CLI_ERROR_EVENT');assert.equal(e.usage.totalTokens,120);assert.equal(e.usageUnknown,false);assert.equal(e.processTreeConfirmed,true);return true;});
  });
 });
 test('cancel terminates the entire synthetic process tree and waits for closure',async t=>{
