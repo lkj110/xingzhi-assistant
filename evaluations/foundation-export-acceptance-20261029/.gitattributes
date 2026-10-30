@@ -1,0 +1,2 @@
+# Keep reviewed regression evidence byte-identical on Windows checkouts.
+*.txt text eol=lf

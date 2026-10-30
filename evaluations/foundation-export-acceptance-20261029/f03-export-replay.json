@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "kind": "offline-original-report-projection-replay",
+  "createdAt": "2026-10-30T01:24:10.504Z",
+  "sourceRun": "172cf200-1634-4ff6-880c-09dc91d75a1d",
+  "caseId": "F03-botang-notice",
+  "taskId": "494badb1-722c-4b4e-a9d5-c9cb8d60d0d0",
+  "sourceFiles": [
+    {
+      "file": "workspace.json",
+      "sha256": "04c4b15c80aa76129caa7be85a90bcec292bb201a0d20dc8aaf3b595986beee9"
+    },
+    {
+      "file": "work-journal.json",
+      "sha256": "2e27d71066859b32a0036743833970c620290f659b69196c61425c786a3f234e"
+    },
+    {
+      "file": "access-policy.json",
+      "sha256": "719b7c032a4ccfbb08221ff74a042fff6c7baf25cf104ee26e186a09deeab236"
+    },
+    {
+      "file": "authorization-migration.json",
+      "sha256": "8efd837a6fbf7ac4e0c602793bd5c9e5f6ad32ece20e4563580863f3b1071aff"
+    },
+    {
+      "file": "action-facts.initialized",
+      "sha256": "2430f1a2ad2982d0067885488a4c89e21ad1d7c83b115ba8f1b20acc88dfaea8"
+    },
+    {
+      "file": "action-facts.json",
+      "sha256": "df2b67bb241fb2e0164367dba34fcf628c16113a8f472d87665f72820f4f54ef"
+    },
+    {
+      "file": "action-ledger.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "file": "spend-ledger.json",
+      "sha256": "33b574a7062e6a8f23bf3f23142e3ad2ecf826d701096b1ddcf8e633bc0d089d"
+    },
+    {
+      "file": "stewardship-ledger.json",
+      "sha256": "4f3d2f6560812633f089ed6a2ad623a7bb46846910913d00e9edcff946ddca6c"
+    },
+    {
+      "file": "F03-botang-notice-initial-outcome.json",
+      "sha256": "f9e69f604b9f76b38e6735c0d887b62c1a52796de90385bd1eb9267943300dc9"
+    },
+    {
+      "file": "F03-botang-notice-initial-draft.json",
+      "sha256": "6ccdd7d20473bf72aad88cc1f44864fdd20824e31a5ebf2d326395a6fbb11cd9"
+    },
+    {
+      "file": "6fdd9b7f-b2dc-426e-9d32-a659af8e444b-terminal.json",
+      "sha256": "06fa472c06047a5790be1653cbbd73cab1603539eb0832c9f5544740fa7a0fac"
+    }
+  ],
+  "reportHash": "c607bf7a0d620c77436bf4c4f07902b951d0f6e37fb08a7dd039535f84846ad0",
+  "projections": [
+    {
+      "kind": "full",
+      "equalsRaw": true,
+      "originalHashValid": true
+    },
+    {
+      "kind": "summary",
+      "equalsRaw": true,
+      "originalHashValid": true
+    },
+    {
+      "kind": "stateView",
+      "equalsRaw": true,
+      "originalHashValid": true
+    },
+    {
+      "kind": "export",
+      "equalsRaw": true,
+      "originalHashValid": true
+    },
+    {
+      "kind": "uiExport",
+      "equalsRaw": true,
+      "originalHashValid": true
+    }
+  ],
+  "originalObserverTitleBinding": false,
+  "newProjectionObserverTitleBinding": true,
+  "originalReportAndWorkspaceUnchanged": true,
+  "sourcePermissionsCopiedUnchanged": true,
+  "oldRunAndMetricsUnchanged": true,
+  "modelCallsAdded": 0,
+  "newHumanAcceptance": false,
+  "newCandidateLiveAcceptance": false
+}

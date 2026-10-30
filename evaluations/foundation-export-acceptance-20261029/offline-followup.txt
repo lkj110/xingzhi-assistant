@@ -1,0 +1,33 @@
+✔ acceptance UI acknowledgement, durable event and restart: normal (4696.3311ms)
+✔ acceptance UI acknowledgement, durable event and restart: before-commit-failure (2988.2943ms)
+✔ acceptance UI acknowledgement, durable event and restart: projection-failure (3404.2625ms)
+✔ acceptance UI acknowledgement, durable event and restart: refresh-failure (3666.7507ms)
+✔ offline diagnostic output requires a new absolute path outside the input workspace (18.4371ms)
+✔ captured description citations survive full, UI and export projections without changing the report (260.0979ms)
+✔ captured objective citations survive full, UI and export projections without changing the report (165.6309ms)
+✔ user citation isolation: uncaptured user input (123.0144ms)
+✔ user citation isolation: model-origin input (139.9376ms)
+✔ user citation isolation: unsupported field (143.9058ms)
+✔ user citation isolation: changed current input (185.3575ms)
+✔ user citation isolation: foreign user namespace (211.2938ms)
+✔ user citation isolation: stale version (375.3519ms)
+✔ user citation isolation: wrong start (199.808ms)
+✔ user citation isolation: wrong end (194.218ms)
+✔ user citation isolation: changed quote (235.3064ms)
+✔ user citation isolation: title field is not user evidence (266.779ms)
+✔ user citation isolation: foreign artifact owner (313.1382ms)
+✔ user citation isolation: missing artifact (165.2835ms)
+✔ user citation isolation: cancelled task (168.5434ms)
+✔ user citation isolation: same source ID is a real denied source (171.6828ms)
+✔ a valid user citation cannot expose unrelated caches, forged projections or blocked ancestors (186.9865ms)
+✔ artifact revoked permission still redacts user citations (186.4584ms)
+✔ artifact unknown permission still redacts user citations (149.5104ms)
+✔ projection never repairs an invalid report hash or authorizes delivery (195.9732ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15142.322

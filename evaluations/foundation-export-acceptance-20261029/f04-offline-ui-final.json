@@ -1,0 +1,115 @@
+{
+  "kind": "offline-automated-ui-diagnostic",
+  "harness": "Actual React App and Assistant backend; isolated test bridge replaces Electron IPC",
+  "mode": "normal",
+  "passed": true,
+  "sourceHashes": {
+    "workspace.json": "04c4b15c80aa76129caa7be85a90bcec292bb201a0d20dc8aaf3b595986beee9",
+    "work-journal.json": "2e27d71066859b32a0036743833970c620290f659b69196c61425c786a3f234e",
+    "access-policy.json": "719b7c032a4ccfbb08221ff74a042fff6c7baf25cf104ee26e186a09deeab236",
+    "authorization-migration.json": "8efd837a6fbf7ac4e0c602793bd5c9e5f6ad32ece20e4563580863f3b1071aff",
+    "action-facts.initialized": "2430f1a2ad2982d0067885488a4c89e21ad1d7c83b115ba8f1b20acc88dfaea8",
+    "action-facts.json": "df2b67bb241fb2e0164367dba34fcf628c16113a8f472d87665f72820f4f54ef",
+    "action-ledger.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "spend-ledger.json": "33b574a7062e6a8f23bf3f23142e3ad2ecf826d701096b1ddcf8e633bc0d089d",
+    "stewardship-ledger.json": "4f3d2f6560812633f089ed6a2ad623a7bb46846910913d00e9edcff946ddca6c"
+  },
+  "selectedTask": {
+    "id": "93efb213-e312-4818-a534-02ef26f3b149",
+    "title": "岑碗CW-07展柜导览箭头朝向差异说明"
+  },
+  "before": {
+    "id": "93efb213-e312-4818-a534-02ef26f3b149",
+    "status": "review",
+    "acceptedAt": null,
+    "acceptedBy": null,
+    "acceptanceHistory": [],
+    "acceptedEvents": []
+  },
+  "ui": {
+    "successToast": true,
+    "completedLabel": true
+  },
+  "commands": [
+    {
+      "action": "uiCommand",
+      "command": "taskAction",
+      "input": {
+        "id": "93efb213-e312-4818-a534-02ef26f3b149",
+        "command": "accept"
+      },
+      "ok": true,
+      "ack": {
+        "id": "93efb213-e312-4818-a534-02ef26f3b149",
+        "status": "completed",
+        "acceptedAt": "2026-10-30T01:26:46.602Z",
+        "acceptedBy": "user",
+        "acceptanceHistory": [
+          {
+            "eventId": "585f3705-dd7a-4329-af3b-8981b932ee0a",
+            "acceptedAt": "2026-10-30T01:26:46.602Z",
+            "acceptedBy": "user"
+          }
+        ],
+        "acceptedEvents": [
+          {
+            "eventId": "585f3705-dd7a-4329-af3b-8981b932ee0a",
+            "commitId": "8bac3b72-b132-4a2d-995e-717623eaae09",
+            "at": "2026-10-30T01:26:46.602Z"
+          }
+        ]
+      }
+    }
+  ],
+  "after": {
+    "id": "93efb213-e312-4818-a534-02ef26f3b149",
+    "status": "completed",
+    "acceptedAt": "2026-10-30T01:26:46.602Z",
+    "acceptedBy": "user",
+    "acceptanceHistory": [
+      {
+        "eventId": "585f3705-dd7a-4329-af3b-8981b932ee0a",
+        "acceptedAt": "2026-10-30T01:26:46.602Z",
+        "acceptedBy": "user"
+      }
+    ],
+    "acceptedEvents": [
+      {
+        "eventId": "585f3705-dd7a-4329-af3b-8981b932ee0a",
+        "commitId": "8bac3b72-b132-4a2d-995e-717623eaae09",
+        "at": "2026-10-30T01:26:46.602Z"
+      }
+    ]
+  },
+  "persistedBeforeRestart": {
+    "status": "completed",
+    "acceptedAt": "2026-10-30T01:26:46.602Z"
+  },
+  "restart": {
+    "id": "93efb213-e312-4818-a534-02ef26f3b149",
+    "status": "completed",
+    "acceptedAt": "2026-10-30T01:26:46.602Z",
+    "acceptedBy": "user",
+    "acceptanceHistory": [
+      {
+        "eventId": "585f3705-dd7a-4329-af3b-8981b932ee0a",
+        "acceptedAt": "2026-10-30T01:26:46.602Z",
+        "acceptedBy": "user"
+      }
+    ],
+    "acceptedEvents": [
+      {
+        "eventId": "585f3705-dd7a-4329-af3b-8981b932ee0a",
+        "commitId": "8bac3b72-b132-4a2d-995e-717623eaae09",
+        "at": "2026-10-30T01:26:46.602Z"
+      }
+    ]
+  },
+  "uiAfterRestartVerified": true,
+  "otherTaskIdentitiesUnchanged": true,
+  "modelCallsAdded": 0,
+  "externalTransportAttempts": 0,
+  "externalBrowserRequestAttempts": 0,
+  "humanAcceptance": false,
+  "historicalCauseIdentified": false
+}

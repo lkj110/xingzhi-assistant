@@ -1,0 +1,231 @@
+{
+  "schema": 1,
+  "kind": "independent-offline-export-acceptance-code-and-evidence-review",
+  "createdAt": "2026-10-30T01:35:51.914Z",
+  "reviewer": "/root/recheck_protocol_review",
+  "baseCommit": "01888901ba7a99dad365357d17b7526cbe75e239",
+  "status": "approved-for-source-and-report-upload",
+  "approved": true,
+  "approvedForUpload": true,
+  "blockingFindings": [],
+  "liveAuthorized": false,
+  "installationAuthorized": false,
+  "newCandidateSealed": false,
+  "formalEvaluationAuthorized": false,
+  "reviewedFiles": [
+    {
+      "path": "desktop/public-context.cjs",
+      "sha256": "80d5052951ea40f706f376669010fd03874dd5e6e101a29ff74af3d50494828d",
+      "indexSha256": "80d5052951ea40f706f376669010fd03874dd5e6e101a29ff74af3d50494828d"
+    },
+    {
+      "path": "desktop/public-user-citations.cjs",
+      "sha256": "fa18973563d94736571cccc169a3a34aa3350475be9a304d35eb2851f05a1dce",
+      "indexSha256": "fa18973563d94736571cccc169a3a34aa3350475be9a304d35eb2851f05a1dce"
+    },
+    {
+      "path": "docs/evidence/foundation-export-acceptance-offline-20261030.json",
+      "sha256": "874a2562594fc3358de4443d8cd972202c09f7c8d8345cac7d7d113b72d54644",
+      "indexSha256": "874a2562594fc3358de4443d8cd972202c09f7c8d8345cac7d7d113b72d54644"
+    },
+    {
+      "path": "docs/evidence/foundation-minimal-retest-proposal-20261030.json",
+      "sha256": "a4165b088682f44dcbbafd544c85486d5b679a2348cc0f744a2370803d8e8e6a",
+      "indexSha256": "a4165b088682f44dcbbafd544c85486d5b679a2348cc0f744a2370803d8e8e6a"
+    },
+    {
+      "path": "evaluations/foundation-export-acceptance-20261029/.gitattributes",
+      "sha256": "c38311af7f52437a4efc1c52c384324e4f354f575e1e23512f04118dbba1e056",
+      "indexSha256": "c38311af7f52437a4efc1c52c384324e4f354f575e1e23512f04118dbba1e056"
+    },
+    {
+      "path": "evaluations/foundation-export-acceptance-20261029/f03-export-replay.json",
+      "sha256": "fbef5faf900e9ca186450a8c2a049d0ccd318b4b02d11ec1c55b644b93a560af",
+      "indexSha256": "fbef5faf900e9ca186450a8c2a049d0ccd318b4b02d11ec1c55b644b93a560af"
+    },
+    {
+      "path": "evaluations/foundation-export-acceptance-20261029/f04-offline-ui-final.json",
+      "sha256": "4bd71b4a4f6bf33f66906a0760a18e237b31f4932bb0f655bd62cfef40634cd2",
+      "indexSha256": "4bd71b4a4f6bf33f66906a0760a18e237b31f4932bb0f655bd62cfef40634cd2"
+    },
+    {
+      "path": "evaluations/foundation-export-acceptance-20261029/offline-followup.txt",
+      "sha256": "fd23a636fa3a7f77e96c0cf63779f91f8fa41e2bbc6772a59b3e0ac4d2da4308",
+      "indexSha256": "fd23a636fa3a7f77e96c0cf63779f91f8fa41e2bbc6772a59b3e0ac4d2da4308"
+    },
+    {
+      "path": "evaluations/foundation-export-acceptance-20261029/offline-regression.txt",
+      "sha256": "de4238a83e143257d5a0ddf41651ed44bdf923fc0b4faaa9293c05f1aeea6e3f",
+      "indexSha256": "de4238a83e143257d5a0ddf41651ed44bdf923fc0b4faaa9293c05f1aeea6e3f"
+    },
+    {
+      "path": "scripts/foundation-acceptance-offline.cjs",
+      "sha256": "e3a6534ad5e2ce51e7feb8a08ef7bf515fa8dd08249d40c0c1b15222d5661f15",
+      "indexSha256": "e3a6534ad5e2ce51e7feb8a08ef7bf515fa8dd08249d40c0c1b15222d5661f15"
+    },
+    {
+      "path": "scripts/replay-public-citations.cjs",
+      "sha256": "dcfc34645135c73f5d179ee8fd4764fdb828789062f961d086356bcad23a5705",
+      "indexSha256": "dcfc34645135c73f5d179ee8fd4764fdb828789062f961d086356bcad23a5705"
+    },
+    {
+      "path": "tests/foundation-acceptance-ui.fixture.jsx",
+      "sha256": "95ea8ac81b1bc16d36aeb4adf4638597f0a8b821db3cb62ae07dc1bad9a5b5ac",
+      "indexSha256": "95ea8ac81b1bc16d36aeb4adf4638597f0a8b821db3cb62ae07dc1bad9a5b5ac"
+    },
+    {
+      "path": "tests/foundation-acceptance-ui.test.cjs",
+      "sha256": "d64c79219c609fe0bd717f10f285036fbdde08791d33d21387c2e0130572fc59",
+      "indexSha256": "d64c79219c609fe0bd717f10f285036fbdde08791d33d21387c2e0130572fc59"
+    },
+    {
+      "path": "tests/public-user-citations.test.cjs",
+      "sha256": "b5abd6a44ccf616e423eb584c3f3160e5731c4169f71573ac3b9b62ac76d0119",
+      "indexSha256": "b5abd6a44ccf616e423eb584c3f3160e5731c4169f71573ac3b9b62ac76d0119"
+    }
+  ],
+  "scope": {
+    "productFiles": [
+      "desktop/public-context.cjs",
+      "desktop/public-user-citations.cjs"
+    ],
+    "modelPromptsSchemasSemanticAndAcceptanceRulesChanged": false,
+    "realModelCallsAdded": 0,
+    "officialCliInvocations": 0,
+    "historicalFilesRewritten": false,
+    "installedBaseFrozen": true
+  },
+  "conclusions": [
+    {
+      "id": "F03",
+      "causeConfirmed": true,
+      "patchRequired": true,
+      "conclusion": "The missing-source sanitizer redacted a valid task-scoped user citation and left its reportHash unchanged. The patch limits its exception to exact captured current user-input citations in the canonical task report, with readable same-task artifacts. It preserves parent and other-reference restrictions and never rewrites reportHash.",
+      "originalProfileReplay": "Five public projections equal the original report byte values and validate its original hash. The unchanged title observer validates the new projection; historical exported output and metrics remain unchanged."
+    },
+    {
+      "id": "F04",
+      "historicalCauseConfirmed": false,
+      "productPatchRequiredByCurrentEvidence": false,
+      "conclusion": "The isolated original-profile React/App-to-Assistant path records a single acceptance event, acknowledged state, snapshot/history binding and stable restart. Three injected failure boundaries distinguish precommit rejection, journal commit with snapshot failure and postcommit refresh failure. The harness replaces native Electron IPC and automation is not human acceptance. No evidence establishes the cause of the historical missing receipt."
+    }
+  ],
+  "validation": {
+    "jointRegression": {
+      "files": 13,
+      "passed": 285,
+      "failed": 0
+    },
+    "followupRegression": {
+      "files": 2,
+      "passed": 25,
+      "failed": 0,
+      "overlapsJointRegression": true
+    },
+    "independentOriginalProfileChecks": [
+      {
+        "name": "actual-full-exact",
+        "passed": true
+      },
+      {
+        "name": "actual-summary-exact",
+        "passed": true
+      },
+      {
+        "name": "duplicate-task-canonical-ID",
+        "passed": true
+      },
+      {
+        "name": "duplicate-artifact-canonical-ID",
+        "passed": true
+      },
+      {
+        "name": "task-excluded",
+        "passed": true
+      },
+      {
+        "name": "task-deleted",
+        "passed": true
+      },
+      {
+        "name": "artifact-owned-by-other-task",
+        "passed": true
+      },
+      {
+        "name": "citation-additional-missing-reference",
+        "passed": true
+      },
+      {
+        "name": "blocked-task-ancestor",
+        "passed": true
+      },
+      {
+        "name": "captured-input-from-model",
+        "passed": true
+      },
+      {
+        "name": "production-JSON-projection-breaks-alias-and-redacts-unrelated-cache",
+        "passed": true
+      },
+      {
+        "name": "changed-projected-report-not-authorized",
+        "passed": true
+      },
+      {
+        "name": "current-permission-revocation-redacts-original-real-quote",
+        "passed": true
+      }
+    ],
+    "independentChecksPassed": 13,
+    "independentChecksFailed": 0,
+    "testsAreOffline": true,
+    "liveQualityRates": null,
+    "liveTokenConclusion": null
+  },
+  "storage": {
+    "localAttributesOnly": "evaluations/foundation-export-acceptance-20261029/.gitattributes",
+    "purpose": "Preserve the new regression TXT evidence as LF on Windows checkout; no global or historical attributes changed.",
+    "reviewedDiskAndIndexByteHashesEqual": true
+  },
+  "freeze": {
+    "rootCount": 52,
+    "historicalTrackedFileCount": 1150,
+    "allFrozenIdentitiesUnchanged": true,
+    "onlyModifiedPreexistingActiveWorktreeFile": "desktop/public-context.cjs",
+    "evidence": [
+      {
+        "path": "../foundation-export-acceptance-audit-20261029/reviewer-freeze-before.json",
+        "sha256": "ecb87f59341cdd719d0da756b6bb8bf0dd5f8c4ef193dab387524dd494478bea"
+      },
+      {
+        "path": "../foundation-export-acceptance-audit-20261029/reviewer-freeze-after.json",
+        "sha256": "9dd899ad6a1904d31997d7a22d9f48553dad14462273e9c986cedd1ff07c6181"
+      },
+      {
+        "path": "../foundation-export-acceptance-audit-20261029/reviewer-boundaries.cjs",
+        "sha256": "da16d0a35e583a225f9ac08462cf685703738250fe145abfe8fd671d2eb5e12b"
+      },
+      {
+        "path": "../foundation-export-acceptance-audit-20261029/reviewer-boundaries.json",
+        "sha256": "6c349b8b6e32f82e8338b8aa56036908df651d448e3ae39003c696672b40b5a3"
+      }
+    ]
+  },
+  "proposalReview": {
+    "approvedAsProposalOnly": true,
+    "modelAccountedApplicationAttempts": 25,
+    "maxModelDispatches": 22,
+    "inputPlusOutputStopThreshold": 620000,
+    "inFlightExcessPossible": true,
+    "order": [
+      "F04-local-zero-model-human-chain",
+      "new-G01",
+      "F05",
+      "F06"
+    ],
+    "limits": "F04-local and G01 have separate fixed 45-minute windows. F05/F06 share one fixed 45-minute window. Human readiness precedes each start; waits count and windows cannot reset.",
+    "prerequisites": "A new candidate and bounded subset runner must be sealed, tested offline and independently reviewed before requesting fresh execution authorization. All earlier budgets remain closed.",
+    "reporting": "Historical F04 local acceptance is separate from the two new unfinished model workflows. No fresh six-case pass, new fixed-invalid release rate or untriggered marker coverage may be inferred."
+  },
+  "releaseDecision": "Upload the reviewed source, offline evidence and proposal only. Do not install, execute real calls, reuse old authorization or claim business acceptance passed."
+}

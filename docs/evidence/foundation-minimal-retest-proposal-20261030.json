@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "kind": "minimal-unfinished-stages-retest-budget-proposal",
+  "date": "2026-10-30",
+  "status": "proposal-only-not-execution-authorization",
+  "sourceRun": "172cf200-1634-4ff6-880c-09dc91d75a1d",
+  "intent": "Validate remaining acceptance, revision and restart stages without repeating already observed model work solely to repair reporting.",
+  "preparationRequiredBeforeRequestingExecutionApproval": [
+    "Build and independently seal a new candidate ASAR from reviewed source; keep installed base frozen.",
+    "Create a new bounded subset runner; existing sealed six-case runner cannot be edited or silently reused as a subset.",
+    "Offline-test identity, native command receipts, zero-model F04 transport guard, budget accounting and all stop boundaries, then independently review exact candidate/runner/sample hashes.",
+    "Obtain fresh explicit authorization; closed live-round and gate budgets are not reusable."
+  ],
+  "stages": [
+    {
+      "id": "F04-local",
+      "order": 1,
+      "kind": "Human acceptance of previously qualified historical draft in isolated new-candidate copy",
+      "modelAccountedApplicationAttempts": 0,
+      "maxModelDispatches": 0,
+      "tokenStopThreshold": 0,
+      "windowMinutes": 45,
+      "requirements": [
+        "User explicitly selects the named candidate window and matching F04 task.",
+        "Transport guard rejects any unexpected model attempt before dispatch.",
+        "Human clicks accept; capture candidate/profile/task identity, native command acknowledgement, journal commit/event ID, snapshot/history, full export and cold-restart state.",
+        "Do not automate the human action or count this as fresh end-to-end model business acceptance."
+      ]
+    },
+    {
+      "id": "G01",
+      "order": 2,
+      "modelAccountedApplicationAttempts": 5,
+      "maxModelDispatches": 4,
+      "tokenStopThreshold": 120000,
+      "windowMinutes": 45,
+      "requirements": [
+        "Run only after F04-local passes and the user is ready.",
+        "Bind gate to the new candidate, then independently review before business stages."
+      ]
+    },
+    {
+      "id": "F05",
+      "order": 3,
+      "modelAccountedApplicationAttempts": 13,
+      "maxModelDispatches": 12,
+      "tokenStopThreshold": 330000,
+      "window": "Shared fixed 45-minute business window with F06",
+      "requirements": [
+        "Use original sealed F05 input and revision path.",
+        "Check prior report invalidation, revised evidence binding, independent recheck, human acceptance and exported hash.",
+        "If marker confirmation/recheck is not naturally reached, report it as not covered; do not spend calls to force coverage."
+      ]
+    },
+    {
+      "id": "F06",
+      "order": 4,
+      "modelAccountedApplicationAttempts": 7,
+      "maxModelDispatches": 6,
+      "tokenStopThreshold": 170000,
+      "window": "Shared fixed 45-minute business window with F05",
+      "requirements": [
+        "Use original sealed F06 input.",
+        "Verify cold restart before advancement and at pending acceptance, correct task identity, durable human receipt and export integrity."
+      ]
+    }
+  ],
+  "total": {
+    "modelAccountedApplicationAttempts": 25,
+    "maxModelDispatches": 22,
+    "inputPlusOutputTokenStopThreshold": 620000,
+    "serverHardCap": false,
+    "inFlightExcessPossible": true
+  },
+  "windowRules": [
+    "Each window starts only when the user can operate the candidate; it includes human actions and independent-review waits.",
+    "Each phase window is fixed and cannot be reset or extended.",
+    "Budgets are per stage and combined; unused allowances do not authorize new stages or retries."
+  ],
+  "stops": [
+    "Unexpected model attempt in F04-local",
+    "Protocol rejection",
+    "Unknown or conflicting usage",
+    "Any budget threshold or window exhausted",
+    "Candidate/profile/task identity mismatch",
+    "First terminal case failure",
+    "Second marker-confirmation wait in the same stage"
+  ],
+  "notRepeated": [
+    "F01 and F02 fixed invalid drafts",
+    "F03 model generation and verification: original raw report has passed offline export replay"
+  ],
+  "reporting": {
+    "F04": "Historical qualified-draft human-operation chain, reported separately; not a new model case.",
+    "F05F06": "New unfinished workflow completion denominator is 2. Initial and revised F05 drafts are separately assessed.",
+    "falseRelease": "No new fixed-invalid samples: fixed-invalid release rate is not measured. If generated invalid-draft denominator is zero, report not estimable, never 0%.",
+    "historical": "Do not combine different candidates/rounds into a six-of-six pass or overwrite old denominators.",
+    "deployment": "No installation, formal main evaluation or release implied."
+  }
+}

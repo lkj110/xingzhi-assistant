@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "kind": "bounded-offline-export-and-acceptance-diagnosis",
+  "date": "2026-10-30",
+  "baseCommit": "01888901ba7a99dad365357d17b7526cbe75e239",
+  "sourceRun": "172cf200-1634-4ff6-880c-09dc91d75a1d",
+  "scope": {
+    "installedVersionFrozen": true,
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "historicalEvidenceRewritten": false,
+    "productChanged": [
+      "desktop/public-context.cjs",
+      "desktop/public-user-citations.cjs"
+    ],
+    "modelPromptsSchemasAndSemanticRulesChanged": false
+  },
+  "findings": [
+    {
+      "id": "F03",
+      "causeConfirmed": true,
+      "cause": "Public sanitization treated the task-scoped user:description citation as a missing source row, cleared one valid quote and retained the original reportHash. The persisted report itself was intact.",
+      "fix": "Authorize individual exact citations in a canonical active task report only when captured description/objective, current user text, version, offsets and quote match; require a readable artifact owned by that task. All other references and blocked ancestors retain existing redaction. Never recompute reportHash.",
+      "evidence": "evaluations/foundation-export-acceptance-20261029/f03-export-replay.json",
+      "result": "Full, summary, stateView, export and uiExport each equal the original raw report and validate its original hash. The unchanged title observer validates the new projection. Historical metrics remain unchanged.",
+      "patchNeeded": true
+    },
+    {
+      "id": "F04",
+      "causeConfirmed": false,
+      "cause": "Historical records contain no persisted F04 acceptance. User reported completing it, but no historical window/task/IPC trace proves where the click arrived. A normal isolated replay and injected failure boundaries do not reproduce a product defect.",
+      "evidence": "evaluations/foundation-export-acceptance-20261029/f04-offline-ui-final.json",
+      "result": "Actual React App and Assistant backend pass click, command response, journal/snapshot/history binding and restart. Test bridge replaces native Electron IPC; native historical cause remains unknown.",
+      "patchNeeded": false,
+      "userReportPreserved": true,
+      "historicalAcceptanceInferred": false
+    }
+  ],
+  "regression": [
+    {
+      "evidence": "evaluations/foundation-export-acceptance-20261029/offline-regression.txt",
+      "files": 13,
+      "tests": 285,
+      "passed": 285,
+      "failed": 0,
+      "phase": "Joint grounding, citation, access, projection, acceptance and UI regression"
+    },
+    {
+      "evidence": "evaluations/foundation-export-acceptance-20261029/offline-followup.txt",
+      "files": 2,
+      "tests": 25,
+      "passed": 25,
+      "failed": 0,
+      "phase": "After null/partial projection handling and offline output path/network-observation safeguards"
+    }
+  ],
+  "limitations": [
+    "No new live quality or token conclusions can be drawn from these offline tests.",
+    "Offline automated acceptance is not human acceptance.",
+    "The original six-case round remains incomplete; this evidence does not rewrite or complete it.",
+    "Installed stable base is unchanged; source patch is not a released or installed candidate."
+  ],
+  "nextPlan": "docs/evidence/foundation-minimal-retest-proposal-20261030.json"
+}

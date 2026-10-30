@@ -32,10 +32,11 @@ function sanitizeOnce(a,state){
  for(const [kind,rows]of [['source',a.data.sources||[]],['artifact',a.data.artifacts||[]]])for(const row of rows){
   if(!require('./protocol-access.cjs').canReadSnapshot(a,kind,row))denied.add(row.id);
  }
+ const userCitations=require('./public-user-citations.cjs').readable(a,state);
  function visit(value,inherited=false){
   if(Array.isArray(value)){for(const row of value)visit(row,inherited);return;}
   if(!value||typeof value!=='object')return;
-  const refs=[value.id,value.sourceId,value.artifactId,value.args?.sourceId,value.args?.artifactId,value.result?.sourceId,value.result?.artifactId];
+  const refs=[value.id,userCitations.has(value)?undefined:value.sourceId,value.artifactId,value.args?.sourceId,value.args?.artifactId,value.result?.sourceId,value.result?.artifactId];
   const blocked=inherited||refs.some(id=>id&&denied.has(id));
   const prior=value.priorActionId&&a.data.agentActions.find(row=>row.id===value.priorActionId);
   const baselineBlocked=!!(value.baseline&&(denied.has(value.baseline.sourceId)||denied.has(prior?.result?.sourceId)));
