@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "kind": "independent-remaining-live-result-review",
+  "reviewer": "independent-subagent",
+  "reviewedAt": "2026-10-30T08:04:10.573Z",
+  "sourceCommit": "9c9db383130a01dec6cd26c237147fa869177a02",
+  "runId": "b1431973-62ef-41cb-9171-966ebab27e95",
+  "runnerIdentity": "3d4b4489abb902e14aad462ee63980c285b909c02f21c553059c8d8a3aadf375",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "approvedForUpload": true,
+  "resultRecordApproved": true,
+  "gatePassed": true,
+  "businessAcceptancePassed": false,
+  "roundClosed": true,
+  "authorizationReusable": false,
+  "remainingAllowanceReusable": false,
+  "additionalCallsAuthorized": false,
+  "installationAuthorized": false,
+  "conclusion": "The report accurately records a passed G01 gate followed by terminal F05 transport failure with unknown usage. This is approval of the result record and its upload, not acceptance of the business workflows.",
+  "verified": {
+    "gateContentAndPhaseDecisions": true,
+    "allPublishedEvidenceHashes": true,
+    "originalFailureEventPreserved": true,
+    "topLevelGuardErrorSeparatedFromRootCause": true,
+    "unknownUsageNotReplacedByZero": true,
+    "internalCliReconnectNotMiscountedAsAppRetry": true,
+    "totalTokenComplianceNotClaimed": true,
+    "noBusinessDraftAndNoSemanticDenominators": true,
+    "noDispatchAfterStop": true,
+    "noF06OrHumanOperationStarted": true,
+    "priorF04NotRerun": true,
+    "freezeAndUploadedCodeUnchanged": true,
+    "noCredentialsOrAbsoluteLocalConfigurationPathsInPublicResult": true
+  },
+  "cost": {
+    "applicationAttempts": 4,
+    "modelDispatches": 4,
+    "totalTokens": null,
+    "knownInputSubtotal": 38220,
+    "knownOutputSubtotal": 609,
+    "knownTokenSubtotal": 38829,
+    "unknownUsageCalls": 1,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "tokenThresholdComplianceVerifiable": false
+  },
+  "businessCompletion": {
+    "completed": 0,
+    "planned": 2,
+    "rate": 0
+  },
+  "hallucinationRate": null,
+  "falseBlockRate": null,
+  "falseReleaseRate": null,
+  "failure": {
+    "sealedCode": "CLI_PROTOCOL_REJECTION",
+    "observedEvent": "Reconnecting... 2/5 (workspace routing discovery timed out)",
+    "meaning": "Observed CLI routing discovery timeout/reconnection event; no model JSON/schema rejection was established. Underlying network/service cause and upstream consumption remain unproven.",
+    "rawOutputPresent": false,
+    "authoritativeUsagePresent": false,
+    "processTreeTerminationConfirmed": true
+  },
+  "freeze": {
+    "roots": 117,
+    "existingTrackedFiles": 1238,
+    "allFrozenIdentitiesUnchanged": true,
+    "proof": {
+      "path": "../foundation-remaining-live-audit-20261030-b1431973/reviewer-freeze-after-business.json",
+      "sha256": "40365b8b13fc31b9011f4dcac3a6c8790b076ea1c5bb38f5b414868b8db03404"
+    }
+  },
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-remaining-live-result-20261030.json",
+      "sha256": "47d5702c2543bef0f97129f9325df4360bc4c149bd41e4b5f7fcd012b216115c"
+    },
+    {
+      "path": "../foundation-remaining-live-control-20261030/b1431973-62ef-41cb-9171-966ebab27e95/round-closed.json",
+      "sha256": "20913946f8f81d3bad4683aadf9421964cf283ade34f30a0fd9cbe72244ac267"
+    },
+    {
+      "path": "../foundation-remaining-live-audit-20261030-b1431973/reviewer-business-failure.json",
+      "sha256": "7294ddc823b8b52147340edd13cf71f93c298a2f82aaaf9a8ed138ce4bbea5a0"
+    }
+  ],
+  "reviewerAdditionalModelCalls": 0,
+  "reviewerOfficialCliInvocations": 0,
+  "reviewerHumanUiActions": 0,
+  "unresolvedResultRecordFindings": [],
+  "nextStepBoundary": "Only the stated offline diagnostic replay is recommended. Preserve stop-on-error and unknown-usage handling; no semantic change, automatic retry, new model round, installation or old-budget reuse is approved."
+}

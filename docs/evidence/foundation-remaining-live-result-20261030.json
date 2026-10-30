@@ -1,0 +1,341 @@
+{
+  "schema": 1,
+  "kind": "remaining-workflows-live-result",
+  "date": "2026-10-30",
+  "sourceCommit": "9c9db383130a01dec6cd26c237147fa869177a02",
+  "runId": "b1431973-62ef-41cb-9171-966ebab27e95",
+  "scope": "G01-F05-F06-only",
+  "status": "closed-after-terminal-transport-failure",
+  "passed": false,
+  "runnerIdentity": "3d4b4489abb902e14aad462ee63980c285b909c02f21c553059c8d8a3aadf375",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "timing": {
+    "timezone": "Asia/Shanghai",
+    "gate": {
+      "startedAt": "2026-10-30T07:35:09.609Z",
+      "finishedAt": "2026-10-30T07:47:04.662Z",
+      "deadline": "2026-10-30T08:20:09.609Z",
+      "elapsedMs": 715053,
+      "completedWithinOriginalWindow": true
+    },
+    "business": {
+      "startedAt": "2026-10-30T07:50:03.319Z",
+      "stoppedAt": "2026-10-30T07:51:35.907Z",
+      "deadline": "2026-10-30T08:35:03.319Z",
+      "elapsedUntilStopMs": 92588,
+      "completed": false
+    },
+    "fixedWindowMinutesPerPhase": 45,
+    "windowReset": false
+  },
+  "outcomes": {
+    "G01": {
+      "passed": true,
+      "independentContentAndPhaseReviewPassed": true,
+      "businessQualityEvaluation": false
+    },
+    "F05": {
+      "started": true,
+      "initialDraftGenerated": false,
+      "revisionStarted": false,
+      "passed": false
+    },
+    "F06": {
+      "started": false,
+      "passed": null
+    },
+    "F04": {
+      "rerun": false,
+      "priorRunId": "3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+      "includedInCompletionDenominator": false
+    },
+    "actualHumanAcceptances": 0,
+    "simulatedAcceptances": 0
+  },
+  "failure": {
+    "sealedCode": "CLI_PROTOCOL_REJECTION",
+    "observedEvent": "Reconnecting... 2/5 (workspace routing discovery timed out)",
+    "eventType": "error",
+    "classification": "CLI workspace routing discovery timeout/reconnection event; no evidence of model JSON/schema rejection",
+    "classificationSource": "evaluations/foundation-runner/transport.cjs:39 maps both error and turn.failed to CLI_PROTOCOL_REJECTION",
+    "authoritativeUsagePresent": false,
+    "usageUnknown": true,
+    "processTreeConfirmed": true,
+    "rawModelOutputPresent": false,
+    "rootStoppedCode": "ERR_ASSERTION",
+    "note": "The later ERR_ASSERTION is the stopped-ledger guard, not the originating failure. The CLI reconnect message does not establish a second app dispatch or a billable model retry.",
+    "diagnosticConclusion": "Direct observed failure is CLI workspace routing discovery timeout. Its underlying network/service cause is not established by this local receipt.",
+    "stderrDiagnostic": "failed to refresh available models: request timed out",
+    "applicationOrExecutorRedispatches": 0,
+    "underlyingCliNetworkRetryCount": null,
+    "underlyingCliRetryNote": "The captured Reconnecting... 2/5 message is retained; a single application dispatch does not prove zero internal reconnects or zero upstream consumption."
+  },
+  "metrics": {
+    "businessProcessCompletion": {
+      "completed": 0,
+      "planned": 2,
+      "rate": 0,
+      "attempted": 1,
+      "unattempted": 1
+    },
+    "businessQuality": {
+      "completionPlanned": {
+        "numerator": 0,
+        "denominator": 2,
+        "rate": 0
+      },
+      "completionAttempted": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0
+      },
+      "initialDraftHallucination": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "finalDraftHallucination": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "releasedDraftHallucination": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "qualifiedDraftHardFalseBlock": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "invalidGeneratedDraftRelease": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "fixedInvalidRelease": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "fixedInvalidCorrectlyBlocked": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unscorableFixedInvalid": 0,
+      "technicalOrMissingDrafts": [],
+      "humanPendingDrafts": [],
+      "uncertainDrafts": [],
+      "caseInterruptions": [
+        {
+          "caseId": "F05-jianping-revision",
+          "error": "Prior or active ledger stopped\n+ actual - expected\n\n+ {\n+   code: 'LEDGER_FAILURE',\n+   reason: 'CLI_PROTOCOL_REJECTION'\n+ }\n- null\n",
+          "errorCode": "ERR_ASSERTION"
+        }
+      ],
+      "costPerQualifiedHumanAcceptedTask": null
+    },
+    "generatedBusinessDrafts": 0,
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "falseReleaseRate": null,
+    "reason": "No business draft or semantic judgment was produced. Quality denominators are zero; transport failure is not semantic false blocking."
+  },
+  "cost": {
+    "applicationAttempts": 4,
+    "modelDispatches": 4,
+    "gate": {
+      "applicationAttempts": 3,
+      "modelDispatches": 3,
+      "inputTokens": 38220,
+      "outputTokens": 609,
+      "totalTokens": 38829
+    },
+    "business": {
+      "applicationAttempts": 1,
+      "modelDispatches": 1,
+      "inputTokens": null,
+      "outputTokens": null,
+      "totalTokens": null,
+      "unknownUsage": 1,
+      "knownTokenSubtotal": 0
+    },
+    "totalTokens": null,
+    "knownInputSubtotal": 38220,
+    "knownOutputSubtotal": 609,
+    "knownTokenSubtotal": 38829,
+    "usageComplete": false,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "remainingUnknownUsageCalls": 1,
+    "attemptAccounting": "Application attempts / admitted real CLI dispatches; not a claim about hidden upstream retries.",
+    "withinApplicationAndDispatchLimits": true,
+    "totalTokenThresholdComplianceVerifiable": false,
+    "totalTokenNote": "38,829 is the known subtotal, not the complete total or proof that actual consumption stayed below 620,000."
+  },
+  "branchCoverage": {
+    "F05InitialDraft": false,
+    "F05Revision": false,
+    "markerConfirmation": false,
+    "separateRecheck": false,
+    "F06": false,
+    "F04Rerun": false
+  },
+  "stopControl": {
+    "firstTerminalFailureStoppedRound": true,
+    "unknownUsagePreserved": true,
+    "processTreeTerminationConfirmed": true,
+    "applicationAttemptsAfterStop": 0,
+    "automaticRetryOrFallbackDispatched": false,
+    "businessPhaseApproved": false
+  },
+  "independentReview": {
+    "failureRecordAuditPassed": true,
+    "businessAcceptancePassed": false,
+    "reviewer": "independent-subagent",
+    "agent": "/root/recheck_protocol_review"
+  },
+  "freeze": {
+    "roots": 117,
+    "existingTrackedFiles": 1238,
+    "allFrozenIdentitiesUnchanged": true,
+    "baselineTiming": "Captured after G01 started, then independently compared with uploaded HEAD 9c9db38 and prior frozen roots.",
+    "installedVersionFrozen": true,
+    "candidateInstalled": false,
+    "productSourceModified": false,
+    "runnerModified": false,
+    "priorEvidenceModified": false
+  },
+  "authorization": {
+    "reference": "call_d13644e58a2b4468b6fb0201cc629956",
+    "businessReadinessReference": "call_97b166c6b2064cb28ea8723cdcf0b65f",
+    "applicationAttemptsLimit": 25,
+    "modelDispatchesLimit": 22,
+    "inputPlusOutputTokenStopThreshold": 620000,
+    "nonHardCapAccepted": true,
+    "singleUseConsumed": true,
+    "roundClosed": true,
+    "reusable": false,
+    "remainingAllowanceReusable": false
+  },
+  "evidence": {
+    "privateRunDirectory": "../foundation-remaining-runs-20261030/live-b1431973-62ef-41cb-9171-966ebab27e95",
+    "privateAuditDirectory": "../foundation-remaining-live-audit-20261030-b1431973",
+    "files": [
+      {
+        "path": "run.json",
+        "sha256": "2dfa553933b204f1bd92c0431625461b119578498648c251074677751b50c481"
+      },
+      {
+        "path": "gate.started.json",
+        "sha256": "77b5185bb1e7597b4719eda0db0533ba025930276a014e87a1413a0b051d3bc5"
+      },
+      {
+        "path": "gate.completed.json",
+        "sha256": "41895fff3f9f1439cb10971d878f55587a2df578147148c46cef51185c6f457b"
+      },
+      {
+        "path": "gate/summary.json",
+        "sha256": "c4c88aaed3f7cb70bee4c26b68c28d1f633caac085a03ee40bf97c75614d550f"
+      },
+      {
+        "path": "gate/phase-review-request.json",
+        "sha256": "564317a09e8811384505223a32600aedec11144078779b69b117a2e0c0606e6c"
+      },
+      {
+        "path": "gate/phase-review.json",
+        "sha256": "3265804d112bb09f2c6838537eb612812da93895e5887e80be19e9fb1dd792e8"
+      },
+      {
+        "path": "gate/ledger/ledger.json",
+        "sha256": "adcdecce0a57f7b3c5da5b6f91f39c962382dd321517b64889acf8ee1832fca5"
+      },
+      {
+        "path": "business.started.json",
+        "sha256": "96f18e11656ade11f955d0eda8ec32a5f0a317bb9dedd85b33434e02d1bc4f99"
+      },
+      {
+        "path": "stopped.json",
+        "sha256": "2a39c47edb14d13e2f041096f4daa42cbaa98e5a0d25eb105e3e0ffdf1e37a32"
+      },
+      {
+        "path": "business/summary.json",
+        "sha256": "6c60a31bcae90c0416cf95981ad64341d9b9d0b1a246dfbc089f4ced8b886015"
+      },
+      {
+        "path": "business/ledger/ledger.json",
+        "sha256": "6315fbf81b548c09629972cb3d41d60265cab1b0ef2adba613f1fa6e4fe881e7"
+      },
+      {
+        "path": "business/F05-jianping-revision.json",
+        "sha256": "97948d972f3b27c08105d80f0f9265c758f8341609f5bce7015197c623835e97"
+      },
+      {
+        "path": "business/native-commands.jsonl",
+        "sha256": "1fd6945ccd42717ec9934e33780adcac5e6c6ca624e00abfe991bbfcf6a30249"
+      },
+      {
+        "path": "business/calls/3366bf6e-7bb8-4344-bf02-b47547f77a98-request.json",
+        "sha256": "5bbfafc30a290e6e5f31d72e4837b60a507d8977905566ca97a1878e3320be00"
+      },
+      {
+        "path": "business/calls/3366bf6e-7bb8-4344-bf02-b47547f77a98-terminal.json",
+        "sha256": "eaf761331fa34f1f87eae33c8f26f4aa340a6d874a0f61c2fcb2807330377aeb"
+      },
+      {
+        "path": "independent-audit/reviewer-checkpoint.json",
+        "sha256": "b9afd9f9f6ab46b5338a6c5a7b925d7942c62bf0b8949227bf796a22cc496a29"
+      },
+      {
+        "path": "independent-audit/reviewer-gate-phase-result.json",
+        "sha256": "a8c185e840b8600e29f9cff6052f3e832dc5d00e8736d88b9a6d2e818b0dd421"
+      },
+      {
+        "path": "independent-audit/reviewer-gate-completion.json",
+        "sha256": "76c05df7a27e0f2bbcd1d161963a8c38998d50c4577a6902a0d2c9d0a984e951"
+      },
+      {
+        "path": "independent-audit/reviewer-business-failure.json",
+        "sha256": "7294ddc823b8b52147340edd13cf71f93c298a2f82aaaf9a8ed138ce4bbea5a0"
+      },
+      {
+        "path": "independent-audit/reviewer-adjudication.json",
+        "sha256": "d9fd8beba1cb32a13346c51e8009be0126847564151211711bd039809d298701"
+      },
+      {
+        "path": "independent-audit/reviewer-scoped-report.json",
+        "sha256": "b4a8e98b517f3c517f3575f6a56599800d0d10c49e577dd908e4ac5570c79085"
+      },
+      {
+        "path": "independent-audit/reviewer-freeze-before.json",
+        "sha256": "c5f01633bca0cc0328b5c5ac17728bba713c11f2250f1ce362938964ddec44a8"
+      },
+      {
+        "path": "independent-audit/reviewer-freeze-after-business.json",
+        "sha256": "40365b8b13fc31b9011f4dcac3a6c8790b076ea1c5bb38f5b414868b8db03404"
+      },
+      {
+        "path": "control/round-closed.json",
+        "sha256": "20913946f8f81d3bad4683aadf9421964cf283ade34f30a0fd9cbe72244ac267"
+      }
+    ]
+  },
+  "limits": [
+    "Sealed exposed regression samples; not fresh blind evaluation.",
+    "G01 success is not F05/F06 workflow acceptance.",
+    "Do not combine different rounds into six-of-six acceptance or infer general hallucination rates.",
+    "No conclusion about draft quality, semantic false blocking or token improvement can be drawn from the interrupted business stage."
+  ],
+  "nextStep": {
+    "recommendation": "Replay the saved timeout/error event offline. Distinguish routing/connection failures from malformed structured output and preserve the original cause in the top-level report. Keep stop-on-error and unknown-usage handling; do not add automatic retries. Independently review any resulting diagnostic change before proposing a new minimal live plan.",
+    "changeSemanticStandards": false,
+    "repeatPassedF04": false,
+    "startModelsNow": false,
+    "reuseOldAuthorization": false,
+    "installCandidateNow": false,
+    "formalMainEvaluation": false
+  }
+}
