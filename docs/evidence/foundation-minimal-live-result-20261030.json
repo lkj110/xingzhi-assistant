@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "kind": "minimal-retest-stopped-before-model-gate",
+  "runId": "83131a99-bbac-4764-8714-d0016aab5039",
+  "sourceCommit": "79d78d7547580227e41d08b54ac5ff40854c5dee",
+  "runnerIdentity": "29789a8cf0faea09bca3634bbc5fc35ccae40d90a0868a4d04c572756973e356",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "authorizationSha256": "96da4aacee634bd08e5e159a83ae586d8ed490e0367e40944c4c006df16ebb68",
+  "status": "stopped-failed-no-replay",
+  "phase": "f04",
+  "startedAt": "2026-10-30T02:50:11.416Z",
+  "stoppedAt": "2026-10-30T03:08:49.168Z",
+  "originalDeadline": "2026-10-30T03:35:11.416Z",
+  "displayTimezone": "Asia/Shanghai",
+  "stopCode": "NATIVE_COMMAND_REFUSED",
+  "closure": {
+    "candidateWindowClosedByRunnerCleanup": true,
+    "budgetOrDeadlineExhausted": false,
+    "phaseReviewRequestProduced": false,
+    "phaseApprovalWritten": false,
+    "authorizationConsumed": true,
+    "sameRunReplayOrResumePermitted": false,
+    "unusedBudgetReusable": false,
+    "installedVersionFrozen": true,
+    "sealedRunnerAndCandidateChanged": false
+  },
+  "cause": {
+    "category": "evaluation-runner-native-ui-compatibility",
+    "confirmed": "The runner wraps the shared assistant:call IPC handler. Its F04 command allowlist omitted quickCaptureState and quickCaptureDraft. Those two requests were rejected before the original packaged handler ran, wrote stopped.json, and caused the runner to close the candidate app in its cleanup path.",
+    "observedCommands": [
+      {"command": "quickCaptureState", "input": {}, "at": "2026-10-30T03:08:49.164Z"},
+      {"command": "quickCaptureDraft", "input": {"occupied": false}, "at": "2026-10-30T03:08:49.171Z"}
+    ],
+    "sourceBehavior": "QuickCaptureWindow requests state during mount/polling and updates transient draft occupancy. The native routes return capture state or update occupancy/revision bookkeeping.",
+    "offlineCoverageGap": "The successful native rehearsal exercised the main-window acceptance flow. It did not exercise the quick-capture UI lifecycle that issued the refused requests in this live run.",
+    "diagnosticGap": "Denied receipts record command, input, time and profile, but omit senderId and senderUrl. The exact originating window and triggering user action cannot be established.",
+    "userReport": "The user reported that the app appeared closed and the window or task did not display normally.",
+    "userActionInferred": false,
+    "historicalF04MissingAcceptanceCauseResolved": false,
+    "semanticOrGroundingRejection": false
+  },
+  "workflow": {
+    "F04": {
+      "passed": false,
+      "nativeAcceptanceCommandObserved": false,
+      "persistedAcceptanceEvents": 0,
+      "actualHumanAcceptance": false,
+      "taskStatus": "review",
+      "postAcceptanceColdRestartCompleted": false
+    },
+    "G01": "not-started",
+    "F05": "not-started",
+    "F06": "not-started",
+    "businessCompletionPlanned": {"numerator": 0, "denominator": 2, "rate": 0},
+    "businessCompletionAttempted": {"numerator": 0, "denominator": 0, "rate": null},
+    "meaning": "No business case began. F04 is a separate historical-draft human-operation check, not a new model business case."
+  },
+  "usage": {
+    "newModelAccountedApplicationAttempts": 0,
+    "officialCliInvocations": 0,
+    "modelDispatches": 0,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "totalTokens": 0,
+    "transportAttempts": 0,
+    "historicalModelRecords": 6,
+    "historicalModelRecordsUnchanged": true,
+    "historicalTokensIncluded": false
+  },
+  "quality": {
+    "hallucinationRate": null,
+    "falseBlockRate": null,
+    "falseReleaseRate": null,
+    "reason": "No new model draft or semantic verification was produced. A harness-level UI rejection is not a semantic false block. Zero observed model errors cannot be reported as a 0% error rate."
+  },
+  "evidencePreservation": {
+    "originalDraftSourcesAndVerificationUnchanged": true,
+    "rawAndExportReportEqualAndOriginalHashValid": true,
+    "historicalJournalUnchanged": true,
+    "originalRunEvidenceRewritten": false,
+    "sourceRunDirectory": "../foundation-minimal-runs-20261030/live-83131a99-bbac-4764-8714-d0016aab5039",
+    "independentReview": "../foundation-minimal-live-audit-20261030-83131a99/reviewer-stopped-result.json",
+    "independentReviewSha256": "77b7cf75508c4b0121f7fd2c3afb02aba1ced27189e9239a9ecbfb0d3c0dd1a3",
+    "files": [
+      {"path": "f04/summary.json", "sha256": "1edab981362342ee81a6481867320b2b942875b095d399bdad3e0043231e5f12"},
+      {"path": "f04.started.json", "sha256": "b1a0b39f8116f49a6b4c7634f2edd5ee8e2964c6b9bf8e49b76354393343ffae"},
+      {"path": "stopped.json", "sha256": "ad21246f9c6fe7877fbc11ad6e46f20da6f74f54ee89c3703b1e04facaba0946"},
+      {"path": "f04/native-commands.jsonl", "sha256": "d5471fab3e28f9e7487a539f8cef99ac8b4bf0c29ab51e510c9e2a61d7a7c0af"},
+      {"path": "f04/final-state.json", "sha256": "29b4ea4b80e8b67e4518c2f050f5a42c0e3846dd8f1266de503b011ec34694a3"}
+    ]
+  },
+  "proposedNextStep": {
+    "mode": "offline-only-proposal",
+    "scope": "Create a new runner revision for native multi-window routing and diagnostics; retain this sealed runner and failed run unchanged. Do not alter product prompts, evidence binding or semantic standards.",
+    "changes": [
+      "Identify main and quick-capture windows separately, including dynamically created windows; record sender identity, URL, window role/title, profile, phase and rejection/handler boundary without collecting unrelated full text.",
+      "Keep the original trustedSender verification. Limit main-window mutation to UI acceptance of the specified task; allow auxiliary state/occupancy requests only for the verified capture window and exact input shapes. Do not allow capture submit/retry, advancement, recheck, screenshots, external actions, model dispatches or unrelated task changes in F04.",
+      "Verify the intended main window and task are visible before asking the user to accept. Keep the original fixed window, single-use authorization and stop rules."
+    ],
+    "regressions": [
+      "Exercise the actual packaged main and quick-capture windows, including dynamic window creation, mount/poll/occupancy lifecycle, main-window acceptance and cold restart.",
+      "Reject capture submission, wrong-window acceptance, wrong-task mutations, malformed input and unknown commands before their business handlers run.",
+      "Preserve deadline, STOP, zero-model transport denial and source/receipt binding tests."
+    ],
+    "exitCondition": "Independent review of the new offline runner revision and native lifecycle regressions passes before proposing one new F04-only zero-model human check.",
+    "realModelBudgetRequestedNow": false,
+    "installationAuthorized": false,
+    "automaticContinuationToG01": false
+  }
+}

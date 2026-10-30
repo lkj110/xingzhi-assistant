@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "kind": "independent-minimal-live-failure-record-review",
+  "reviewer": "independent-subagent",
+  "agent": "/root/recheck_protocol_review",
+  "reviewedAt": "2026-10-30T03:36:50.914Z",
+  "runId": "83131a99-bbac-4764-8714-d0016aab5039",
+  "sourceCommit": "79d78d7547580227e41d08b54ac5ff40854c5dee",
+  "runnerIdentity": "29789a8cf0faea09bca3634bbc5fc35ccae40d90a0868a4d04c572756973e356",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "authorizationSha256": "96da4aacee634bd08e5e159a83ae586d8ed490e0367e40944c4c006df16ebb68",
+  "resultRecordApproved": true,
+  "approvedForUpload": true,
+  "workflowPassed": false,
+  "approvedForNextPhase": false,
+  "roundClosed": true,
+  "authorizationReusable": false,
+  "additionalExecutionAuthorized": false,
+  "installationAuthorized": false,
+  "findings": {
+    "recordAccuracy": "Approved as an early-stopped F04 failure record; no stage was passed or rescued by this review.",
+    "confirmedFailure": "The evaluator refused quickCaptureState and quickCaptureDraft before the original packaged handler, wrote NATIVE_COMMAND_REFUSED and closed the candidate in its failure cleanup.",
+    "causalLimits": "Rejected receipts omit sender identity and URL. The exact originating window, user trigger and historical F04 missing-acceptance cause remain unproven. No user-action inference is made.",
+    "cost": {
+      "newApplicationAttempts": 0,
+      "officialCliInvocations": 0,
+      "modelDispatches": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "totalTokens": 0,
+      "historicalRecordsExcluded": 6
+    },
+    "scope": {
+      "F04": "failed-before-native-acceptance",
+      "G01": "not-started",
+      "F05": "not-started",
+      "F06": "not-started",
+      "newHumanAcceptances": 0
+    },
+    "qualityMetrics": null,
+    "qualityReason": "No new draft or semantic verification was generated. An executor UI refusal is not counted as model semantic false blocking.",
+    "evidenceIntegrity": "Raw and exported grounding match and retain the original valid hash. Draft, sources, verification, historical model records and journal remain unchanged."
+  },
+  "freeze": {
+    "rootCount": 64,
+    "trackedFileCount": 1190,
+    "allHistoricalAndInstalledIdentitiesUnchanged": true,
+    "baselineTiming": "Reviewer joined after F04 stage start; all tracked source bytes verified against uploaded commit and prior audit hashes.",
+    "permittedRepositoryAdditions": [
+      "docs/evidence/foundation-minimal-live-result-20261030.json",
+      "docs/evidence/foundation-minimal-live-review-20261030.json"
+    ],
+    "proofs": [
+      {
+        "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-minimal-live-audit-20261030-83131a99\\reviewer-freeze-before.json",
+        "sha256": "130a8945c35b6d9cd716a7b02542934d6501abf1b281949dc3a5c8243a7c022f"
+      },
+      {
+        "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-minimal-live-audit-20261030-83131a99\\reviewer-freeze-after.json",
+        "sha256": "6912d939becba98a4c8b93096c3d5c4e2e48e9b03d72e80fc3933267f2e6b551"
+      }
+    ]
+  },
+  "nextStepBoundary": {
+    "recommendationApproved": true,
+    "scope": "Only a proposed separate offline runner revision covering trusted main/capture-window routing, exact occupancy inputs and rejected-sender diagnostics; preserve the sealed failed run and product semantic/evidence standards.",
+    "requiredRegression": "Packaged main/capture lifecycle including dynamic windows, wrong-window/task/input rejection, fixed deadline, STOP, zero-model denial and source/native receipt integrity.",
+    "exitCondition": "Independent offline review before requesting a fresh F04-only zero-model human check.",
+    "notAuthorized": [
+      "automatic G01 or business continuation",
+      "new model calls",
+      "installation",
+      "reuse of this consumed authorization"
+    ]
+  },
+  "reviewerActions": {
+    "modelCalls": 0,
+    "officialCliInvocations": 0,
+    "humanUiActions": 0,
+    "productOrRunnerEdits": 0
+  },
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-minimal-live-result-20261030.json",
+      "sha256": "b1f6f8b52aeba35d84c86e6811eef6c08cf4a20a3de83eda93d74a163eed70cd"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/runner-seal.json",
+      "sha256": "578664371fd15f14b6d6835f9ae00b7e7fdd6be4b9a336760606f4a3ef7a83f7"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/runner-review.json",
+      "sha256": "bb2f838dce09369dcf82f293cfe042d86be66be7aacfb715bb8164ade2244e98"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/native-receipts.cjs",
+      "sha256": "9f8c4c7969c29e8912793ff4c0183c11959945bd585b1785a387759c4454171e"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/f04-engine.cjs",
+      "sha256": "b3a92622eb6d418117e7a4519ca5ecd3288fc4292843e57ca564a952f5c227b5"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/session.cjs",
+      "sha256": "3ccf03b4111b5f5665db782b4a2d3d5db3b9e0b95c171d1242cd64f2ea8deab4"
+    },
+    {
+      "path": "evaluations/foundation-minimal-runner/run.cjs",
+      "sha256": "79a9cfc058504b6e64af740b7a43b04fbd8067b127252bba99c653459fa4f085"
+    },
+    {
+      "path": "src/QuickCaptureWindow.jsx",
+      "sha256": "d0a8871fa4d32824c6ba8a70aca372b73d48fa38c1b79b078317449d85770a60"
+    },
+    {
+      "path": "desktop/quick-capture.cjs",
+      "sha256": "55afa73b13280c7ca752f44e2b2c7dc2fe9df8c18092828f78c0a2e2029cb2a7"
+    },
+    {
+      "path": "desktop/main.cjs",
+      "sha256": "2f8ae3463f42bd7113380a94f04b407931917867ae0ba49f8620f49162d3fbdc"
+    }
+  ],
+  "independentEvidence": [
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-minimal-live-audit-20261030-83131a99\\reviewer-stopped-result.json",
+      "sha256": "77b7cf75508c4b0121f7fd2c3afb02aba1ced27189e9239a9ecbfb0d3c0dd1a3"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-minimal-live-control-20261030\\83131a99-bbac-4764-8714-d0016aab5039\\authorization.json",
+      "sha256": "96da4aacee634bd08e5e159a83ae586d8ed490e0367e40944c4c006df16ebb68"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-minimal-live-control-20261030\\83131a99-bbac-4764-8714-d0016aab5039\\authorization.json.consumed.json",
+      "sha256": "326d7000836ac83b6a3b72f8f0a1595f0265bdd0fca26393d27ed50d335ca5f9"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-minimal-runs-20261030\\live-83131a99-bbac-4764-8714-d0016aab5039\\f04\\summary.json",
+      "sha256": "1edab981362342ee81a6481867320b2b942875b095d399bdad3e0043231e5f12"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-minimal-runs-20261030\\live-83131a99-bbac-4764-8714-d0016aab5039\\f04.started.json",
+      "sha256": "b1a0b39f8116f49a6b4c7634f2edd5ee8e2964c6b9bf8e49b76354393343ffae"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-minimal-runs-20261030\\live-83131a99-bbac-4764-8714-d0016aab5039\\stopped.json",
+      "sha256": "ad21246f9c6fe7877fbc11ad6e46f20da6f74f54ee89c3703b1e04facaba0946"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-minimal-runs-20261030\\live-83131a99-bbac-4764-8714-d0016aab5039\\f04\\native-commands.jsonl",
+      "sha256": "d5471fab3e28f9e7487a539f8cef99ac8b4bf0c29ab51e510c9e2a61d7a7c0af"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-minimal-runs-20261030\\live-83131a99-bbac-4764-8714-d0016aab5039\\f04\\final-state.json",
+      "sha256": "29b4ea4b80e8b67e4518c2f050f5a42c0e3846dd8f1266de503b011ec34694a3"
+    }
+  ],
+  "remainingRecordReviewFindings": []
+}
