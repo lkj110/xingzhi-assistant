@@ -1,0 +1,270 @@
+{
+  "schema": 1,
+  "kind": "offline-packaged-remaining-workflows-rehearsal",
+  "createdAt": "2026-10-30T07:05:54.614Z",
+  "runnerIdentity": "3d4b4489abb902e14aad462ee63980c285b909c02f21c553059c8d8a3aadf375",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "passed": true,
+  "results": [
+    {
+      "id": "normal",
+      "passed": true,
+      "expectedFailure": false,
+      "error": null,
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "normal/run.json",
+          "sha256": "868938551615e4eedf2f06be990faaea98a544d6d2760786b300122bc6c1bb2f"
+        },
+        {
+          "path": "normal/gate.started.json",
+          "sha256": "3d26c06309dbfa8330ff2ee080178a62f3937a04a387174c7d5c27f3f8a27160"
+        },
+        {
+          "path": "normal/gate.completed.json",
+          "sha256": "a3336fac23a38cc1659c7a85c624462115c2935f7e00b99532bc9c2e5bd4528f"
+        },
+        {
+          "path": "normal/gate/summary.json",
+          "sha256": "359388a705a6994c13f698384e6b6d2df4156dd2a0ddab8814e68f6f671fb4d8"
+        },
+        {
+          "path": "normal/gate/native-commands.jsonl",
+          "sha256": "b54752de7ad4e1b89e7d63f3a84ba2ac09eb90e3c1d2886c996e55da7d7f38f0"
+        },
+        {
+          "path": "normal/gate/phase-review-request.json",
+          "sha256": "cdd34124c8f9ebc156434ce5730ae6c1636e34b4bb93130c656a67148b8a46e0"
+        },
+        {
+          "path": "normal/gate/ledger/ledger.json",
+          "sha256": "871d44fe8a289b8deef5c79e62a37e14e3ba1209bd184d6d7d26e8a2c9d723ca"
+        },
+        {
+          "path": "normal/business.started.json",
+          "sha256": "8ab99fba7e119b6f5fdae9c718baccfc330d18d428ef72561f3a2623edcf3b9a"
+        },
+        {
+          "path": "normal/business.completed.json",
+          "sha256": "29cee318cb77e206dbb43f83f7df5a7c4b0db4c7f6619daeb5318489adf6d398"
+        },
+        {
+          "path": "normal/business/summary.json",
+          "sha256": "1be1ce2141ec6d3d7197978183aec86dfd4810c151f792c74b0039e5206f1056"
+        },
+        {
+          "path": "normal/business/native-commands.jsonl",
+          "sha256": "b9c4cb041cbba9acd922d7c436cfff38a1d9ad8609aa58b5212984c6179fe332"
+        },
+        {
+          "path": "normal/business/phase-review-request.json",
+          "sha256": "7853a9108be0ada176dbad8003d1cd84c9302b7acf62699a1723b595d1a5a30f"
+        },
+        {
+          "path": "normal/business/ledger/ledger.json",
+          "sha256": "f6bfda235f18b2c566a4ff8722921d501433c8769542afc4b6675f02809015fa"
+        },
+        {
+          "path": "normal/scoped-report.json",
+          "sha256": "a9d24faa6c250dd4e1b9da3829b1708aa27dab2c6650afbc410239484dedef68"
+        }
+      ]
+    },
+    {
+      "id": "gate-malformed",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Prior or active ledger stopped\n+ actual - expected\n\n+ {\n+   code: 'LEDGER_FAILURE',\n+   reason: 'MODEL_INVALID_RESPONSE'\n+ }\n- null\n",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "gate-malformed/run.json",
+          "sha256": "82ad853beaf31b313288b2d407b90bb2067ffa9719dd199231c615e9e4454d27"
+        },
+        {
+          "path": "gate-malformed/gate.started.json",
+          "sha256": "86ba535792f1f0cb0027256484c6f3c85f222a4b1c283be51ad4d65218806e36"
+        },
+        {
+          "path": "gate-malformed/gate/summary.json",
+          "sha256": "761c9cb876b756539f0fb5f0bb8aef242f2d59d941ff7ad16b0f1916562448e7"
+        },
+        {
+          "path": "gate-malformed/gate/native-commands.jsonl",
+          "sha256": "30eef7ce7863d8115e095980dcb1df0e00410d0f855b88b9c6dc08878b9429fe"
+        },
+        {
+          "path": "gate-malformed/gate/ledger/ledger.json",
+          "sha256": "992c29feb2ade714dca43b663d136aa0f6f2a144b7532d8a9db7fc788f7e7d4b"
+        },
+        {
+          "path": "gate-malformed/stopped.json",
+          "sha256": "a520095073c8bd4fe4a77cce7ecb03244256283301c2c568c5723650c368bf15"
+        }
+      ]
+    },
+    {
+      "id": "business-unknown-usage",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Prior or active ledger stopped\n+ actual - expected\n\n+ {\n+   code: 'LEDGER_FAILURE',\n+   reason: 'CLI_INVALID_USAGE'\n+ }\n- null\n",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "business-unknown-usage/run.json",
+          "sha256": "66faa16c184335c5fe9189dd74f623ac30847c04a65d94968a2da4bb1beaf1a7"
+        },
+        {
+          "path": "business-unknown-usage/gate.started.json",
+          "sha256": "817664bbc1c769353841c8389db6e8a3ba5adff6984b662133a49ccf2bc58d0b"
+        },
+        {
+          "path": "business-unknown-usage/gate.completed.json",
+          "sha256": "5ab05013f35195c3bd49606d65cd852e82c91f7524e236ecc6ce02920b1e5c63"
+        },
+        {
+          "path": "business-unknown-usage/gate/summary.json",
+          "sha256": "d7950878af8147dbb03513b1b92af7c7a4e252d3f4feba12a2a76988dc39c73c"
+        },
+        {
+          "path": "business-unknown-usage/gate/native-commands.jsonl",
+          "sha256": "bfb006e84095fe530035dc86c20b2768bdc452f8e0a580e8a363db8b9f653634"
+        },
+        {
+          "path": "business-unknown-usage/gate/phase-review-request.json",
+          "sha256": "4edbbbe2eb4ffa1d0e80ca984ac6e17859d44d7301644faee2c75a4290adec8d"
+        },
+        {
+          "path": "business-unknown-usage/gate/ledger/ledger.json",
+          "sha256": "f7af3648d8eed70ef5bba52bbe7b8b82cbcf57f84222a6e742256907b15a9fac"
+        },
+        {
+          "path": "business-unknown-usage/business.started.json",
+          "sha256": "782cf605fd04db32fa786443187a5c36f80183d0f2c828cf7a98c652dd4c6368"
+        },
+        {
+          "path": "business-unknown-usage/business/summary.json",
+          "sha256": "3b678399bee811d6ae4337a625ca86d8d71640b865d9124f6cba7fc23f456a11"
+        },
+        {
+          "path": "business-unknown-usage/business/native-commands.jsonl",
+          "sha256": "ef1a27d96ebdc4ce3985b078c8f8a6cdb92d8152326f703295f0bc3111143c47"
+        },
+        {
+          "path": "business-unknown-usage/business/ledger/ledger.json",
+          "sha256": "03f79e1022aa15f4285cd988bcccc4bf862ca5316f4c563d6be68e224e12b1c2"
+        },
+        {
+          "path": "business-unknown-usage/stopped.json",
+          "sha256": "e34c30aa42a5ef588f90f19fd02606f18287a288c3a48260dd189762b6528352"
+        }
+      ]
+    },
+    {
+      "id": "capture-submit",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "capture-submit/run.json",
+          "sha256": "9201201215b113f62bb40ca8967fd1477578ffd13abf2fe99be8b5c7b78edb43"
+        },
+        {
+          "path": "capture-submit/gate.started.json",
+          "sha256": "3137a280fd95282661d0998f372d0917e5627946027b7b11827505ef7721ecf1"
+        },
+        {
+          "path": "capture-submit/gate/summary.json",
+          "sha256": "0ae8915c80d4b83ba088a26e90007f8427633f5409bd1d98181fd051e2b38541"
+        },
+        {
+          "path": "capture-submit/gate/native-commands.jsonl",
+          "sha256": "821d567ab4e9df501d110ecf6ae188925b55abe98b2b2f765c8038f9333492ee"
+        },
+        {
+          "path": "capture-submit/gate/ledger/ledger.json",
+          "sha256": "a9ce05b9416759a9a0dc1179d8ea40c955d268c84f868d6696c8a63d4b31d200"
+        },
+        {
+          "path": "capture-submit/stopped.json",
+          "sha256": "86536bd9d275b5123ed855c1d2e7e737710d05cfc50dc09b812c85f98335e041"
+        }
+      ]
+    },
+    {
+      "id": "wrong-window",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "wrong-window/run.json",
+          "sha256": "675a46fa9fe13ffe6ff0925eb042491a2040f6802f47fa9b31ec7d24ef0751f7"
+        },
+        {
+          "path": "wrong-window/gate.started.json",
+          "sha256": "33dd93af6c7309406f7fcd9e168d1f52ef1504abc7eb8a68fee9cc7e801a0de3"
+        },
+        {
+          "path": "wrong-window/gate/summary.json",
+          "sha256": "3e65760406e1669c128cacb4ebbfacd5d68c6dee0ee780839ddbaad4d437eb30"
+        },
+        {
+          "path": "wrong-window/gate/native-commands.jsonl",
+          "sha256": "452309369d76fd47d0aa326d1c7dc69022232610d5dc081b7ca1c8d654ec4630"
+        },
+        {
+          "path": "wrong-window/gate/ledger/ledger.json",
+          "sha256": "6553cc2307c88152601f53dc3c6ca29cab4d15929c8239ec1168575e8b640ce9"
+        },
+        {
+          "path": "wrong-window/stopped.json",
+          "sha256": "46cba094cee1f17ce35caccc235e9bba44341e6b01ca995190abeab9d7478796"
+        }
+      ]
+    },
+    {
+      "id": "phase-stop",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "phase-stop/run.json",
+          "sha256": "de258f222ac80c6dcc6ad7598de3f7b9c3c89bcfca48d140dc23e8a718f246a6"
+        },
+        {
+          "path": "phase-stop/gate.started.json",
+          "sha256": "0b2c97ed71d76266224f3ae1e5a8ea6da0b69afc3b733b8c876252a22e91d062"
+        },
+        {
+          "path": "phase-stop/gate/summary.json",
+          "sha256": "45b28fcbdb3fbe9e58f292e21f256ed14fb8922987bbb6f882fe24717340d9da"
+        },
+        {
+          "path": "phase-stop/gate/native-commands.jsonl",
+          "sha256": "1607c9f99ffdd3da6ac475d53a3c7811ac8c3503ca7778bf00cdfa45bc393dda"
+        },
+        {
+          "path": "phase-stop/gate/ledger/ledger.json",
+          "sha256": "d64c615e95f40376beeb67a12b29c314961df20bcb10f8a43f70e24338256b28"
+        },
+        {
+          "path": "phase-stop/stopped.json",
+          "sha256": "00bbea4b1e63fda170f7104261bd10839c35073528a6693d8000cc8c2f7d399d"
+        }
+      ]
+    }
+  ],
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "actualHumanAcceptances": 0,
+  "f04Executions": 0,
+  "installed": false,
+  "syntheticFixtureOnly": true
+}

@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: same candidate is required and the real G01 evidence stays closed without another gate execution
+ok 1 - same candidate is required and the real G01 evidence stays closed without another gate execution
+  ---
+  duration_ms: 4788.5822
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5050.1475

@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "kind": "remaining-workflows-minimal-retest-proposal",
+  "status": "offline-ready-awaiting-new-user-authorization",
+  "liveAuthorized": false,
+  "sourceCommit": "2f2e97e25c16cd2b323035d87f7ca523e557b6bb",
+  "scope": "G01-F05-F06-only",
+  "runnerIdentity": "3d4b4489abb902e14aad462ee63980c285b909c02f21c553059c8d8a3aadf375",
+  "candidateAsarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "entry": "evaluations/foundation-remaining-runner/run.cjs",
+  "candidateExecutable": "../foundation-candidate-bundle-export-20261030/XingzhiAssistant.exe",
+  "outputParent": "../foundation-remaining-runs-20261030",
+  "f04Prerequisite": {
+    "runId": "3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+    "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+    "completedSha256": "ef98164b3be4b8b6fd3e67bafb90589d6829f611c1476387530d1e2508aedae7",
+    "reportSha256": "d1440e32e79a60c854627603e1f995428e10ff575bb12a6f20e8d4751cc26985",
+    "reviewSha256": "fa0e0ed0f8bb263a2119c8b1f1c53d9df56d4d503aae6b6b7cf59947563f9891",
+    "rerun": false,
+    "identity": "7ebb6ab042577bff660514aba0f5cceed3748de295461c57d63c6b63e1624427"
+  },
+  "budget": {
+    "total": {
+      "applicationAttempts": 25,
+      "maximumModelDispatches": 22,
+      "reportedTokenStopThreshold": 620000
+    },
+    "gate": {
+      "applicationAttempts": 5,
+      "maximumModelDispatches": 4,
+      "inputPlusOutputTokenStopThreshold": 120000,
+      "fixedWindowMinutes": 45
+    },
+    "business": {
+      "applicationAttempts": 20,
+      "maximumModelDispatches": 18,
+      "inputPlusOutputTokenStopThreshold": 500000,
+      "sharedFixedWindowMinutes": 45,
+      "cases": [
+        {
+          "id": "F05-jianping-revision",
+          "attempts": 13,
+          "tokenStopThreshold": 330000
+        },
+        {
+          "id": "F06-yunshu-restart",
+          "attempts": 7,
+          "tokenStopThreshold": 170000
+        }
+      ]
+    },
+    "semantics": "25 次应用尝试、最多 22 次模型分发、62 万 input+output tokens 是本轮停止阈值。各案例 attempts/tokens 限额共同受阶段及总额约束，不另声称单案例分发硬上限。使用保守预留，但接口不保证在途请求绝不超额。",
+    "inFlightOvershootPossible": true,
+    "serverEnforcedHardCap": false,
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false,
+    "oldBudgetReusable": false
+  },
+  "readiness": "新预算须用户明确批准。G01 与业务阶段各在用户确认开始对应阶段后创建一次固定 45 分钟窗口；业务阶段开始前须用户方便在候选窗口操作。启动、生成、真人操作、冷重启和独立审核等待都计入各自原窗口，不重置。",
+  "sequence": [
+    {
+      "stage": "preflight",
+      "modelCalls": 0,
+      "action": "只读校验 F04 已通过的公开报告、原始完成记录/请求/独审决定/回执/状态哈希，绑定候选与样本；校验新执行器、候选包、CLI 文件哈希及新单次授权。不启动 F04，不附加登录或模型探针。"
+    },
+    {
+      "stage": "G01",
+      "caseId": "G01-muju",
+      "title": "暮榉书目台MJ-K9目录索引备份状态摘要",
+      "action": "在全新隔离配置运行一次原封存门检，独立核对稿件、证据绑定、协议和已知用量；独审通过才可进入业务。门检不计入业务质量指标。"
+    },
+    {
+      "stage": "F05",
+      "caseId": "F05-jianping-revision",
+      "action": "按原封存资料生成初稿并独立检查，按原修订要求生成补丁并独立检查。自然触发表达确认时，由真人确认当前表达，再单独重检；新稿必须取得新核验依据。合格后由真人最终验收。"
+    },
+    {
+      "stage": "F06",
+      "caseId": "F06-yunshu-restart",
+      "action": "生成前冷重启、待验收时冷重启；需要时执行真人确认和单独重检；由真人最终验收后再冷重启，核对原生回执、日志、持久化和导出。重启不调用额外模型。"
+    },
+    {
+      "stage": "close",
+      "action": "在业务原截止内独立核对内容、用量与完整操作证据，关闭单次授权；报告并上传结果。"
+    }
+  ],
+  "humanOperations": {
+    "windowTitle": "[BUSINESS 主窗口 <本轮编号前8位>] 行知助手",
+    "selection": "每次人工请求前自动定位当前事项，确认按钮可用、主窗口可见，再提示用户；聊天回复不代替原生验收。",
+    "bindings": [
+      "可信主窗口和主帧",
+      "当前事项、案例和阶段",
+      "稿件、要求与来源内容哈希",
+      "当前 reportHash 和 basis",
+      "本次确认→单独重检或本次验收的一次性操作"
+    ],
+    "auxiliaryWindow": "快速收集小窗仅允许读取状态、严格布尔 occupied 更新及隐藏；不允许提交、建议、重试、展开或其他命令。"
+  },
+  "stopOn": [
+    "协议拒绝、格式错误或未计划的修复/工具/模型请求",
+    "未知用量、预算/预留或固定时间窗口耗尽",
+    "首个终止性案例失败，或独立审核不通过",
+    "身份、输入、已审证据、当前稿件/报告绑定变化",
+    "错误窗口、错误参数、重复人工操作或 STOP"
+  ],
+  "reporting": {
+    "samples": "沿用已封存且已在离线演练中使用的 G01/F05/F06；这是剩余流程回归，不是新盲样本评测。",
+    "processCompletion": "仅 F05/F06 两个业务案例作分母；G01 单列，F04 只作已完成前置，不并入本轮完成率。",
+    "hallucination": "分别报告初稿、修订稿及最终放行稿的人工独立判定，保留分子/分母和具体错误证据。",
+    "falseBlock": "只统计有终止性语义拒绝且被独立判定合格的稿件；待人工处理、格式/传输失败、未完成步骤不混作误拦。",
+    "falseRelease": "报告独立判定不合格的生成稿中被放行的比例。本轮没有固定无效对照样本；若未出现不合格生成稿，分母为 0，记为不可估计。",
+    "cost": "G01、F05、F06 和总计分别报告真实 input/output/total tokens、应用尝试与模型分发；未知用量保留 null 和已知小计。离线模拟用量不作为实际成本。",
+    "branchCoverage": "表达确认、单独重检及历史检查冲突只认自然触发的真实覆盖。没有触发即记未覆盖，不追加调用或强行改写样本。",
+    "claims": "不把跨轮结果合并为六例全部通过，不据两个业务案例推断总体幻觉率或统计显著成本改善。"
+  },
+  "frozen": {
+    "installedVersion": true,
+    "productSource": true,
+    "candidatePackage": true,
+    "modelPromptsSchemasAndSemanticStandards": true,
+    "historicalEvidence": true,
+    "f04Rerun": false
+  },
+  "continuation": {
+    "automaticExtraRound": false,
+    "formalMainEvaluation": false,
+    "installCandidate": false,
+    "decision": "依据本轮实际完成情况与独审结果判断发布条件；不自动扩展评测、追加预算或解除安装版冻结。"
+  }
+}

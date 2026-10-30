@@ -1,0 +1,1720 @@
+TAP version 13
+# Subtest: checkpoint binds marker/blocked state, requirements, original source and report
+ok 1 - checkpoint binds marker/blocked state, requirements, original source and report
+  ---
+  duration_ms: 5.3006
+  type: 'test'
+  ...
+# Subtest: human recheck/accept may update state and report but not content or requirements
+ok 2 - human recheck/accept may update state and report but not content or requirements
+  ---
+  duration_ms: 2.6542
+  type: 'test'
+  ...
+# Subtest: unplanned exec context is recorded without transport: missing
+ok 3 - unplanned exec context is recorded without transport: missing
+  ---
+  duration_ms: 158.3555
+  type: 'test'
+  ...
+# Subtest: unplanned exec context is recorded without transport: G01-muju
+ok 4 - unplanned exec context is recorded without transport: G01-muju
+  ---
+  duration_ms: 88.5668
+  type: 'test'
+  ...
+# Subtest: unplanned exec context is recorded without transport: foreign
+ok 5 - unplanned exec context is recorded without transport: foreign
+  ---
+  duration_ms: 58.6114
+  type: 'test'
+  ...
+# Subtest: unplanned login status context is recorded without transport: missing
+ok 6 - unplanned login status context is recorded without transport: missing
+  ---
+  duration_ms: 96.7536
+  type: 'test'
+  ...
+# Subtest: unplanned login status context is recorded without transport: G01-muju
+ok 7 - unplanned login status context is recorded without transport: G01-muju
+  ---
+  duration_ms: 201.344
+  type: 'test'
+  ...
+# Subtest: unplanned login status context is recorded without transport: foreign
+ok 8 - unplanned login status context is recorded without transport: foreign
+  ---
+  duration_ms: 51.3315
+  type: 'test'
+  ...
+# Subtest: six case caps permit 34 forwards in total, preserving one refusal slot per case
+ok 9 - six case caps permit 34 forwards in total, preserving one refusal slot per case
+  ---
+  duration_ms: 902.9743
+  type: 'test'
+  ...
+# Subtest: zero protocol quota and unknown business ids cannot dispatch
+ok 10 - zero protocol quota and unknown business ids cannot dispatch
+  ---
+  duration_ms: 54.3139
+  type: 'test'
+  ...
+# Subtest: initial, human recheck, revision and restart share the same case quota
+ok 11 - initial, human recheck, revision and restart share the same case quota
+  ---
+  duration_ms: 198.9327
+  type: 'test'
+  ...
+# Subtest: interrupted produced drafts remain in hallucination judgments but not semantic false-block denominators
+ok 12 - interrupted produced drafts remain in hallucination judgments but not semantic false-block denominators
+  ---
+  duration_ms: 40.2914
+  type: 'test'
+  ...
+# Subtest: only the closed new-candidate G01 proof qualifies; budgets and sample status are pinned
+ok 13 - only the closed new-candidate G01 proof qualifies; budgets and sample status are pinned
+  ---
+  duration_ms: 29.4766
+  type: 'test'
+  ...
+# Subtest: new approval must explicitly bind business runner, plan, budget and human participation
+ok 14 - new approval must explicitly bind business runner, plan, budget and human participation
+  ---
+  duration_ms: 7.3329
+  type: 'test'
+  ...
+# Subtest: live entry without new authorization stops before any subprocess or output creation
+ok 15 - live entry without new authorization stops before any subprocess or output creation
+  ---
+  duration_ms: 28.8235
+  type: 'test'
+  ...
+# Subtest: handoff proof preserves old records and proves exactly one new bound authorization
+ok 16 - handoff proof preserves old records and proves exactly one new bound authorization
+  ---
+  duration_ms: 9.1444
+  type: 'test'
+  ...
+# Subtest: six-case success and historical-collision coverage are different claims
+ok 17 - six-case success and historical-collision coverage are different claims
+  ---
+  duration_ms: 0.8627
+  type: 'test'
+  ...
+# Subtest: terminal recheck rejection counts; transport/format/waiting/mismatched content do not
+ok 18 - terminal recheck rejection counts; transport/format/waiting/mismatched content do not
+  ---
+  duration_ms: 0.8643
+  type: 'test'
+  ...
+# Subtest: quality denominators separate technical failure, pending human, negatives and released hallucinations
+ok 19 - quality denominators separate technical failure, pending human, negatives and released hallucinations
+  ---
+  duration_ms: 1.3794
+  type: 'test'
+  ...
+# Subtest: report reads latest post-confirmation verdict and retains initial revision stage separately
+ok 20 - report reads latest post-confirmation verdict and retains initial revision stage separately
+  ---
+  duration_ms: 55.6677
+  type: 'test'
+  ...
+# Subtest: budget conditional arithmetic extends allowed dispatch slots without calling a model
+ok 21 - budget conditional arithmetic extends allowed dispatch slots without calling a model
+  ---
+  duration_ms: 0.6536
+  type: 'test'
+  ...
+# Subtest: first restart accepts only exact legacy binding initialization and preserves all other values
+ok 22 - first restart accepts only exact legacy binding initialization and preserves all other values
+  ---
+  duration_ms: 8.5275
+  type: 'test'
+  ...
+# Subtest: later restart preserves all existing evidence, authorization and verification records exactly
+ok 23 - later restart preserves all existing evidence, authorization and verification records exactly
+  ---
+  duration_ms: 1.8338
+  type: 'test'
+  ...
+# Subtest: business execution is byte-equivalent to the reviewed offline executor after its offline-only entry guard
+ok 24 - business execution is byte-equivalent to the reviewed offline executor after its offline-only entry guard
+  ---
+  duration_ms: 1.2367
+  type: 'test'
+  ...
+# Subtest: six case slots cap actual model dispatches at 34, and G01 has no quota
+ok 25 - six case slots cap actual model dispatches at 34, and G01 has no quota
+  ---
+  duration_ms: 1074.8168
+  type: 'test'
+  ...
+# Subtest: only successful final raw title citation exactly bound to the saved claim counts as live title coverage
+ok 26 - only successful final raw title citation exactly bound to the saved claim counts as live title coverage
+  ---
+  duration_ms: 1.1169
+  type: 'test'
+  ...
+# Subtest: body-only business success remains success without pretending title coverage
+ok 27 - body-only business success remains success without pretending title coverage
+  ---
+  duration_ms: 0.64
+  type: 'test'
+  ...
+# Subtest: early title emission cannot count after a later technical failure, rejection or body-only conclusion
+ok 28 - early title emission cannot count after a later technical failure, rejection or body-only conclusion
+  ---
+  duration_ms: 1.8501
+  type: 'test'
+  ...
+# Subtest: source, quote, claim, raw reference and exact draft binding mismatches never count title coverage
+ok 29 - source, quote, claim, raw reference and exact draft binding mismatches never count title coverage
+  ---
+  duration_ms: 1.6429
+  type: 'test'
+  ...
+# Subtest: raw title offsets must be absent or zero and cache reuse is never current verification coverage
+ok 30 - raw title offsets must be absent or zero and cache reuse is never current verification coverage
+  ---
+  duration_ms: 0.8859
+  type: 'test'
+  ...
+# Subtest: malformed claim rows cannot crash or establish title coverage
+ok 31 - malformed claim rows cannot crash or establish title coverage
+  ---
+  duration_ms: 0.6001
+  type: 'test'
+  ...
+# Subtest: missing-context rejects login status before any external process
+ok 32 - missing-context rejects login status before any external process
+  ---
+  duration_ms: 205.46
+  type: 'test'
+  ...
+# Subtest: missing-context rejects exec before any external process
+ok 33 - missing-context rejects exec before any external process
+  ---
+  duration_ms: 202.5346
+  type: 'test'
+  ...
+# Subtest: business-context rejects login status before any external process
+ok 34 - business-context rejects login status before any external process
+  ---
+  duration_ms: 85.7779
+  type: 'test'
+  ...
+# Subtest: business-context rejects exec before any external process
+ok 35 - business-context rejects exec before any external process
+  ---
+  duration_ms: 57.3992
+  type: 'test'
+  ...
+# Subtest: identity-drift rejects login status before any external process
+ok 36 - identity-drift rejects login status before any external process
+  ---
+  duration_ms: 33.851
+  type: 'test'
+  ...
+# Subtest: identity-drift rejects exec before any external process
+ok 37 - identity-drift rejects exec before any external process
+  ---
+  duration_ms: 30.7745
+  type: 'test'
+  ...
+# Subtest: only new reviewed candidate is eligible; old package is refused
+ok 38 - only new reviewed candidate is eligible; old package is refused
+  ---
+  duration_ms: 6422.5015
+  type: 'test'
+  ...
+# Subtest: plan cannot acquire business cases, more calls, more tokens or a resettable window
+ok 39 - plan cannot acquire business cases, more calls, more tokens or a resettable window
+  ---
+  duration_ms: 2765.9862
+  type: 'test'
+  ...
+# Subtest: old runner/plan/sample/CLI approval is rejected by pure preflight without writing an authorization
+ok 40 - old runner/plan/sample/CLI approval is rejected by pure preflight without writing an authorization
+  ---
+  duration_ms: 16.4567
+  type: 'test'
+  ...
+# Subtest: missing user authorization fails before reading candidate or launching any process
+ok 41 - missing user authorization fails before reading candidate or launching any process
+  ---
+  duration_ms: 39.8351
+  type: 'test'
+  ...
+# Subtest: four forwards plus one refusal, and no business quota
+ok 42 - four forwards plus one refusal, and no business quota
+  ---
+  duration_ms: 90.5117
+  type: 'test'
+  ...
+# Subtest: restart cannot reset the 45-minute window or resume an uncertain dispatch
+ok 43 - restart cannot reset the 45-minute window or resume an uncertain dispatch
+  ---
+  duration_ms: 61.5662
+  type: 'test'
+  ...
+# Subtest: output cannot write outside dedicated new-run tree, including frozen tree children
+ok 44 - output cannot write outside dedicated new-run tree, including frozen tree children
+  ---
+  duration_ms: 20.2865
+  type: 'test'
+  ...
+# Subtest: output root junction cannot redirect into frozen tree
+ok 45 - output root junction cannot redirect into frozen tree
+  ---
+  duration_ms: 12.4407
+  type: 'test'
+  ...
+# Subtest: waiting and completed verification forbid model calls, generation cannot repeat
+ok 46 - waiting and completed verification forbid model calls, generation cannot repeat
+  ---
+  duration_ms: 9.1891
+  type: 'test'
+  ...
+# Subtest: recheck requires exact current confirmation and unchanged draft; never generates
+ok 47 - recheck requires exact current confirmation and unchanged draft; never generates
+  ---
+  duration_ms: 2.8179
+  type: 'test'
+  ...
+# Subtest: human deadline is checked after slow read and before accepting success
+ok 48 - human deadline is checked after slow read and before accepting success
+  ---
+  duration_ms: 1.2668
+  type: 'test'
+  ...
+# Subtest: human deadline is checked after slow decision; missing answer stays pending
+ok 49 - human deadline is checked after slow decision; missing answer stays pending
+  ---
+  duration_ms: 2.2284
+  type: 'test'
+  ...
+# Subtest: stop and clock rollback cannot become human acceptance
+ok 50 - stop and clock rollback cannot become human acceptance
+  ---
+  duration_ms: 1.17
+  type: 'test'
+  ...
+# Subtest: offline automation rejects live mode before accessing any page
+ok 51 - offline automation rejects live mode before accessing any page
+  ---
+  duration_ms: 2.1447
+  type: 'test'
+  ...
+# Subtest: revision independent checkpoint binds the additional user note
+ok 52 - revision independent checkpoint binds the additional user note
+  ---
+  duration_ms: 11.4615
+  type: 'test'
+  ...
+# Subtest: exact matching approval is consumed once and records its raw-file hash
+ok 53 - exact matching approval is consumed once and records its raw-file hash
+  ---
+  duration_ms: 142.4366
+  type: 'test'
+  ...
+# Subtest: same approval cannot authorize another output or a mismatched runner/sample
+ok 54 - same approval cannot authorize another output or a mismatched runner/sample
+  ---
+  duration_ms: 13.8436
+  type: 'test'
+  ...
+# Subtest: an altered in-memory approval cannot borrow an unchanged file
+ok 55 - an altered in-memory approval cannot borrow an unchanged file
+  ---
+  duration_ms: 18.525
+  type: 'test'
+  ...
+# Subtest: explicit user provenance, UUID and absolute matching output are mandatory
+ok 56 - explicit user provenance, UUID and absolute matching output are mandatory
+  ---
+  duration_ms: 10.8924
+  type: 'test'
+  ...
+# Subtest: multiple missing output ancestors are canonicalized without creating them
+ok 57 - multiple missing output ancestors are canonicalized without creating them
+  ---
+  duration_ms: 55.0713
+  type: 'test'
+  ...
+# Subtest: unreadable, malformed and non-file approvals cannot be consumed
+ok 58 - unreadable, malformed and non-file approvals cannot be consumed
+  ---
+  duration_ms: 22.7968
+  type: 'test'
+  ...
+# Subtest: exclusive claim permits exactly one competing local process
+ok 59 - exclusive claim permits exactly one competing local process
+  ---
+  duration_ms: 626.4904
+  type: 'test'
+  ...
+# Subtest: fsync failure refuses execution and leaves a non-reusable marker
+ok 60 - fsync failure refuses execution and leaves a non-reusable marker
+  ---
+  duration_ms: 42.6108
+  type: 'test'
+  ...
+# Subtest: write failure also leaves the exclusive claim closed
+ok 61 - write failure also leaves the exclusive claim closed
+  ---
+  duration_ms: 12.3029
+  type: 'test'
+  ...
+# Subtest: output that is a regular file is rejected before any claim
+ok 62 - output that is a regular file is rejected before any claim
+  ---
+  duration_ms: 9.0695
+  type: 'test'
+  ...
+# Subtest: successful local request preserves original and canonical path proof
+ok 63 - successful local request preserves original and canonical path proof
+  ---
+  duration_ms: 242.6859
+  type: 'test'
+  ...
+# Subtest: escaped output is refused with path-only diagnostics before admission
+ok 64 - escaped output is refused with path-only diagnostics before admission
+  ---
+  duration_ms: 60.2855
+  type: 'test'
+  ...
+# Subtest: schema replacement after capture is one failed attempt with proven zero usage
+ok 65 - schema replacement after capture is one failed attempt with proven zero usage
+  ---
+  duration_ms: 112.4638
+  type: 'test'
+  ...
+# Subtest: result-time schema tampering retains synthetic usage but refuses release and raw output
+ok 66 - result-time schema tampering retains synthetic usage but refuses release and raw output
+  ---
+  duration_ms: 70.5504
+  type: 'test'
+  ...
+# Subtest: ordinary paths bind an absent result, then accept its ordinary creation
+ok 67 - ordinary paths bind an absent result, then accept its ordinary creation
+  ---
+  duration_ms: 61.4828
+  type: 'test'
+  ...
+# Subtest: actual Windows short and long aliases work in all parent/cwd/schema/output combinations
+ok 68 - actual Windows short and long aliases work in all parent/cwd/schema/output combinations
+  ---
+  duration_ms: 93.2025
+  type: 'test'
+  ...
+# Subtest: Windows parent case variants resolve to the same directory and file identity
+ok 69 - Windows parent case variants resolve to the same directory and file identity
+  ---
+  duration_ms: 12.1443
+  type: 'test'
+  ...
+# Subtest: missing or relative path values fail with bounded path-only diagnostics
+ok 70 - missing or relative path values fail with bounded path-only diagnostics
+  ---
+  duration_ms: 22.3742
+  type: 'test'
+  ...
+# Subtest: sibling prefix lookalike is not a child of the bound temporary root
+ok 71 - sibling prefix lookalike is not a child of the bound temporary root
+  ---
+  duration_ms: 11.7164
+  type: 'test'
+  ...
+# Subtest: cwd outside the supplied root and wrong cwd prefix are rejected
+ok 72 - cwd outside the supplied root and wrong cwd prefix are rejected
+  ---
+  duration_ms: 8.9782
+  type: 'test'
+  ...
+# Subtest: schema or output parameters cannot select another case or filename
+ok 73 - schema or output parameters cannot select another case or filename
+  ---
+  duration_ms: 21.7254
+  type: 'test'
+  ...
+# Subtest: initial existing output is refused even if it is an ordinary file
+ok 74 - initial existing output is refused even if it is an ordinary file
+  ---
+  duration_ms: 33.0258
+  type: 'test'
+  ...
+# Subtest: schema hard links are refused before any read or dispatch
+ok 75 - schema hard links are refused before any read or dispatch
+  ---
+  duration_ms: 27.359
+  type: 'test'
+  ...
+# Subtest: cwd junction cannot stand in for an actual working directory
+ok 76 - cwd junction cannot stand in for an actual working directory
+  ---
+  duration_ms: 8.7007
+  type: 'test'
+  ...
+# Subtest: schema junction or directory cannot pass as schema file
+ok 77 - schema junction or directory cannot pass as schema file
+  ---
+  duration_ms: 16.2651
+  type: 'test'
+  ...
+# Subtest: parent junction into a different case cannot redirect schema or result
+ok 78 - parent junction into a different case cannot redirect schema or result
+  ---
+  duration_ms: 19.2655
+  type: 'test'
+  ...
+# Subtest: schema content changes are rejected on revalidation
+ok 79 - schema content changes are rejected on revalidation
+  ---
+  duration_ms: 37.2425
+  type: 'test'
+  ...
+# Subtest: schema replacement with identical contents is rejected by identity
+ok 80 - schema replacement with identical contents is rejected by identity
+  ---
+  duration_ms: 12.2419
+  type: 'test'
+  ...
+# Subtest: cwd replacement is rejected even with an identical new schema
+ok 81 - cwd replacement is rejected even with an identical new schema
+  ---
+  duration_ms: 23.8733
+  type: 'test'
+  ...
+# Subtest: late schema hard link and missing schema are rejected
+ok 82 - late schema hard link and missing schema are rejected
+  ---
+  duration_ms: 9.7897
+  type: 'test'
+  ...
+# Subtest: result appearing before dispatch is rejected
+ok 83 - result appearing before dispatch is rejected
+  ---
+  duration_ms: 9.8568
+  type: 'test'
+  ...
+# Subtest: required result missing remains missing, never treated as empty data
+ok 84 - required result missing remains missing, never treated as empty data
+  ---
+  duration_ms: 7.9437
+  type: 'test'
+  ...
+# Subtest: created result must not be a hard link or junction
+ok 85 - created result must not be a hard link or junction
+  ---
+  duration_ms: 21.8658
+  type: 'test'
+  ...
+# Subtest: result replacement and disappearance after binding are rejected
+ok 86 - result replacement and disappearance after binding are rejected
+  ---
+  duration_ms: 23.2068
+  type: 'test'
+  ...
+# Subtest: real file symlink is refused when supported by Windows host
+ok 87 - real file symlink is refused when supported by Windows host # SKIP Windows host does not grant file symlink creation
+  ---
+  duration_ms: 4.9498
+  type: 'test'
+  ...
+# Subtest: temporary root replacement cannot reuse an earlier binding
+ok 88 - temporary root replacement cannot reuse an earlier binding
+  ---
+  duration_ms: 19.9604
+  type: 'test'
+  ...
+# Subtest: leaf names stay exact even on case-insensitive Windows directories
+ok 89 - leaf names stay exact even on case-insensitive Windows directories
+  ---
+  duration_ms: 14.5044
+  type: 'test'
+  ...
+# Subtest: same-spelling cwd parent must also have the bound temporary root identity
+ok 90 - same-spelling cwd parent must also have the bound temporary root identity
+  ---
+  duration_ms: 8.7477
+  type: 'test'
+  ...
+# Subtest: same-spelling schema parent must also have the working directory identity
+ok 91 - same-spelling schema parent must also have the working directory identity
+  ---
+  duration_ms: 5.0383
+  type: 'test'
+  ...
+# Subtest: same-spelling output parent identity is checked separately
+ok 92 - same-spelling output parent identity is checked separately
+  ---
+  duration_ms: 8.4271
+  type: 'test'
+  ...
+# Subtest: fixed plan rejects expanded stage, case and aggregate budgets
+ok 93 - fixed plan rejects expanded stage, case and aggregate budgets
+  ---
+  duration_ms: 10.4441
+  type: 'test'
+  ...
+# Subtest: old or incomplete user authorizations cannot admit the new suite
+ok 94 - old or incomplete user authorizations cannot admit the new suite
+  ---
+  duration_ms: 13.2519
+  type: 'test'
+  ...
+# Subtest: live clock injection is refused before package, authorization or transport access
+ok 95 - live clock injection is refused before package, authorization or transport access
+  ---
+  duration_ms: 1.3656
+  type: 'test'
+  ...
+# Subtest: direct engine calls and mixed-mode sessions are refused
+ok 96 - direct engine calls and mixed-mode sessions are refused
+  ---
+  duration_ms: 47.2362
+  type: 'test'
+  ...
+# Subtest: stages advance in order with one persisted window each
+ok 97 - stages advance in order with one persisted window each
+  ---
+  duration_ms: 97.7447
+  type: 'test'
+  ...
+# Subtest: skipping an unfinished stage permanently stops the run
+ok 98 - skipping an unfinished stage permanently stops the run
+  ---
+  duration_ms: 28.4086
+  type: 'test'
+  ...
+# Subtest: stage reentry cannot create a new deadline
+ok 99 - stage reentry cannot create a new deadline
+  ---
+  duration_ms: 63.3268
+  type: 'test'
+  ...
+# Subtest: expiry includes waits and permanently stops following stages
+ok 100 - expiry includes waits and permanently stops following stages
+  ---
+  duration_ms: 29.8713
+  type: 'test'
+  ...
+# Subtest: clock reversal cannot extend a phase
+ok 101 - clock reversal cannot extend a phase
+  ---
+  duration_ms: 51.4424
+  type: 'test'
+  ...
+# Subtest: STOP file closes the run before a further stage
+ok 102 - STOP file closes the run before a further stage
+  ---
+  duration_ms: 58.5398
+  type: 'test'
+  ...
+# Subtest: completed summary edits prevent the next stage
+ok 103 - completed summary edits prevent the next stage
+  ---
+  duration_ms: 58.0875
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: mode
+ok 104 - ledger substitution rejected: mode
+  ---
+  duration_ms: 50.4494
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: sample
+ok 105 - ledger substitution rejected: sample
+  ---
+  duration_ms: 48.1707
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: authorization
+ok 106 - ledger substitution rejected: authorization
+  ---
+  duration_ms: 118.1802
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: foreign-case
+ok 107 - ledger substitution rejected: foreign-case
+  ---
+  duration_ms: 122.1898
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: unknown-usage
+ok 108 - ledger substitution rejected: unknown-usage
+  ---
+  duration_ms: 42.6217
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: conflicting-usage
+ok 109 - ledger substitution rejected: conflicting-usage
+  ---
+  duration_ms: 47.5297
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: combined-cap
+ok 110 - ledger substitution rejected: combined-cap
+  ---
+  duration_ms: 57.6165
+  type: 'test'
+  ...
+# Subtest: pending reservations cannot become completed phase evidence
+ok 111 - pending reservations cannot become completed phase evidence
+  ---
+  duration_ms: 53.3421
+  type: 'test'
+  ...
+# Subtest: changed reviewed ledger prevents a later stage even with a recomputed checksum
+ok 112 - changed reviewed ledger prevents a later stage even with a recomputed checksum
+  ---
+  duration_ms: 112.3979
+  type: 'test'
+  ...
+# Subtest: native handler exception retains received and failure receipts
+ok 113 - native handler exception retains received and failure receipts
+  ---
+  duration_ms: 19.7656
+  type: 'test'
+  ...
+# Subtest: F04 native boundary rejects raw-accept before original handler
+ok 114 - F04 native boundary rejects raw-accept before original handler
+  ---
+  duration_ms: 12.6648
+  type: 'test'
+  ...
+# Subtest: F04 native boundary rejects wrong-task before original handler
+ok 115 - F04 native boundary rejects wrong-task before original handler
+  ---
+  duration_ms: 17.936
+  type: 'test'
+  ...
+# Subtest: F04 native boundary rejects model-advance before original handler
+ok 116 - F04 native boundary rejects model-advance before original handler
+  ---
+  duration_ms: 23.5673
+  type: 'test'
+  ...
+# Subtest: F04 native boundary rejects marker-recheck before original handler
+ok 117 - F04 native boundary rejects marker-recheck before original handler
+  ---
+  duration_ms: 36.353
+  type: 'test'
+  ...
+# Subtest: business permits its scheduled raw revise and UI marker commands only for the active task
+ok 118 - business permits its scheduled raw revise and UI marker commands only for the active task
+  ---
+  duration_ms: 39.8179
+  type: 'test'
+  ...
+# Subtest: async admission deadline stops before transport
+ok 119 - async admission deadline stops before transport
+  ---
+  duration_ms: 3.9326
+  type: 'test'
+  ...
+# Subtest: async admission STOP stops before transport
+ok 120 - async admission STOP stops before transport
+  ---
+  duration_ms: 0.3057
+  type: 'test'
+  ...
+# Subtest: binding-read or identity drift after admission still stops before transport
+ok 121 - binding-read or identity drift after admission still stops before transport
+  ---
+  duration_ms: 0.9256
+  type: 'test'
+  ...
+# Subtest: subset reporting changes only the declared population and preserves unestimable rates
+ok 122 - subset reporting changes only the declared population and preserves unestimable rates
+  ---
+  duration_ms: 10.6692
+  type: 'test'
+  ...
+# Subtest: subset offline reporting never fabricates semantic quality
+ok 123 - subset offline reporting never fabricates semantic quality
+  ---
+  duration_ms: 0.3724
+  type: 'test'
+  ...
+# Subtest: capture lifecycle allows only exact state, boolean occupancy and empty hide
+ok 124 - capture lifecycle allows only exact state, boolean occupancy and empty hide
+  ---
+  duration_ms: 3.6054
+  type: 'test'
+  ...
+# Subtest: capture denies quickCaptureSubmit
+ok 125 - capture denies quickCaptureSubmit
+  ---
+  duration_ms: 0.2469
+  type: 'test'
+  ...
+# Subtest: capture denies quickCaptureRetry
+ok 126 - capture denies quickCaptureRetry
+  ---
+  duration_ms: 0.1781
+  type: 'test'
+  ...
+# Subtest: capture denies quickCaptureSuggest
+ok 127 - capture denies quickCaptureSuggest
+  ---
+  duration_ms: 0.1525
+  type: 'test'
+  ...
+# Subtest: capture denies quickCaptureResolve
+ok 128 - capture denies quickCaptureResolve
+  ---
+  duration_ms: 0.1798
+  type: 'test'
+  ...
+# Subtest: capture denies quickCaptureConsume
+ok 129 - capture denies quickCaptureConsume
+  ---
+  duration_ms: 0.1461
+  type: 'test'
+  ...
+# Subtest: capture denies quickCaptureExpand
+ok 130 - capture denies quickCaptureExpand
+  ---
+  duration_ms: 0.1948
+  type: 'test'
+  ...
+# Subtest: capture denies quickCaptureOpenMain
+ok 131 - capture denies quickCaptureOpenMain
+  ---
+  duration_ms: 0.1452
+  type: 'test'
+  ...
+# Subtest: capture denies screenshotRegion
+ok 132 - capture denies screenshotRegion
+  ---
+  duration_ms: 0.1638
+  type: 'test'
+  ...
+# Subtest: capture denies screenshotClipboard
+ok 133 - capture denies screenshotClipboard
+  ---
+  duration_ms: 0.3215
+  type: 'test'
+  ...
+# Subtest: capture denies advance
+ok 134 - capture denies advance
+  ---
+  duration_ms: 0.1431
+  type: 'test'
+  ...
+# Subtest: capture denies recheckGroundingMarkers
+ok 135 - capture denies recheckGroundingMarkers
+  ---
+  duration_ms: 0.2106
+  type: 'test'
+  ...
+# Subtest: capture denies registrationOpen
+ok 136 - capture denies registrationOpen
+  ---
+  duration_ms: 0.0995
+  type: 'test'
+  ...
+# Subtest: capture denies unknownCommand
+ok 137 - capture denies unknownCommand
+  ---
+  duration_ms: 0.0716
+  type: 'test'
+  ...
+# Subtest: only the trusted main window can accept exactly the active task
+ok 138 - only the trusted main window can accept exactly the active task
+  ---
+  duration_ms: 0.3346
+  type: 'test'
+  ...
+# Subtest: closed sessions permit only trusted main reads for failure evidence
+ok 139 - closed sessions permit only trusted main reads for failure evidence
+  ---
+  duration_ms: 0.2527
+  type: 'test'
+  ...
+# Subtest: receipt query rejects malformed UUID punctuation
+ok 140 - receipt query rejects malformed UUID punctuation
+  ---
+  duration_ms: 0.1623
+  type: 'test'
+  ...
+# Subtest: diagnostics summarize parameter types and keys without values
+ok 141 - diagnostics summarize parameter types and keys without values
+  ---
+  duration_ms: 0.4876
+  type: 'test'
+  ...
+# Subtest: dynamic capture requests use original trusted handler and origin receipts
+ok 142 - dynamic capture requests use original trusted handler and origin receipts
+  ---
+  duration_ms: 57.6658
+  type: 'test'
+  ...
+# Subtest: denied subframe records origin before original handler
+ok 143 - denied subframe records origin before original handler
+  ---
+  duration_ms: 60.4818
+  type: 'test'
+  ...
+# Subtest: denied unknown-window records origin before original handler
+ok 144 - denied unknown-window records origin before original handler
+  ---
+  duration_ms: 32.2242
+  type: 'test'
+  ...
+# Subtest: denied capture-accept records origin before original handler
+ok 145 - denied capture-accept records origin before original handler
+  ---
+  duration_ms: 45.1319
+  type: 'test'
+  ...
+# Subtest: denied main-hide records origin before original handler
+ok 146 - denied main-hide records origin before original handler
+  ---
+  duration_ms: 21.9335
+  type: 'test'
+  ...
+# Subtest: denied payload records origin before original handler
+ok 147 - denied payload records origin before original handler
+  ---
+  duration_ms: 27.1889
+  type: 'test'
+  ...
+# Subtest: original trusted-handler rejection is retained and closes the run
+ok 148 - original trusted-handler rejection is retained and closes the run
+  ---
+  duration_ms: 26.99
+  type: 'test'
+  ...
+# Subtest: phase STOP blocks accept before original handler
+ok 149 - phase STOP blocks accept before original handler
+  ---
+  duration_ms: 34.2868
+  type: 'test'
+  ...
+# Subtest: phase STOP blocks draft before original handler
+ok 150 - phase STOP blocks draft before original handler
+  ---
+  duration_ms: 48.0879
+  type: 'test'
+  ...
+# Subtest: phase STOP blocks hide before original handler
+ok 151 - phase STOP blocks hide before original handler
+  ---
+  duration_ms: 148.6683
+  type: 'test'
+  ...
+# Subtest: data URL rejection logs protocol and hash without its body
+ok 152 - data URL rejection logs protocol and hash without its body
+  ---
+  duration_ms: 37.1859
+  type: 'test'
+  ...
+# Subtest: shutdown result boundary: read-after-quit
+ok 153 - shutdown result boundary: read-after-quit
+  ---
+  duration_ms: 32.7769
+  type: 'test'
+  ...
+# Subtest: shutdown result boundary: capture-state-after-quit
+ok 154 - shutdown result boundary: capture-state-after-quit
+  ---
+  duration_ms: 33.9843
+  type: 'test'
+  ...
+# Subtest: shutdown result boundary: read-before-quit
+ok 155 - shutdown result boundary: read-before-quit
+  ---
+  duration_ms: 49.8848
+  type: 'test'
+  ...
+# Subtest: shutdown result boundary: accept-after-quit
+ok 156 - shutdown result boundary: accept-after-quit
+  ---
+  duration_ms: 41.216
+  type: 'test'
+  ...
+# Subtest: shutdown result boundary: draft-after-quit
+ok 157 - shutdown result boundary: draft-after-quit
+  ---
+  duration_ms: 37.4858
+  type: 'test'
+  ...
+# Subtest: shutdown result boundary: hide-after-quit
+ok 158 - shutdown result boundary: hide-after-quit
+  ---
+  duration_ms: 40.7783
+  type: 'test'
+  ...
+# Subtest: shutdown result boundary: different-read-error
+ok 159 - shutdown result boundary: different-read-error
+  ---
+  duration_ms: 58.5435
+  type: 'test'
+  ...
+# Subtest: shutdown result boundary: extra-code
+ok 160 - shutdown result boundary: extra-code
+  ---
+  duration_ms: 47.2217
+  type: 'test'
+  ...
+# Subtest: shutdown result boundary: extra-committed
+ok 161 - shutdown result boundary: extra-committed
+  ---
+  duration_ms: 94.2055
+  type: 'test'
+  ...
+# Subtest: shutdown result boundary: extra-data
+ok 162 - shutdown result boundary: extra-data
+  ---
+  duration_ms: 62.9498
+  type: 'test'
+  ...
+# Subtest: F04-only plan rejects model budget and prior multi-stage authorization
+ok 163 - F04-only plan rejects model budget and prior multi-stage authorization
+  ---
+  duration_ms: 15.9491
+  type: 'test'
+  ...
+# Subtest: live clock injection and direct engine entry are refused
+ok 164 - live clock injection and direct engine entry are refused
+  ---
+  duration_ms: 14.0944
+  type: 'test'
+  ...
+# Subtest: one-shot session closes on deadline
+ok 165 - one-shot session closes on deadline
+  ---
+  duration_ms: 38.8752
+  type: 'test'
+  ...
+# Subtest: one-shot session closes on backwards
+ok 166 - one-shot session closes on backwards
+  ---
+  duration_ms: 26.5814
+  type: 'test'
+  ...
+# Subtest: one-shot session closes on STOP
+ok 167 - one-shot session closes on STOP
+  ---
+  duration_ms: 30.9265
+  type: 'test'
+  ...
+# Subtest: session cannot finish with model activity or altered summary
+ok 168 - session cannot finish with model activity or altered summary
+  ---
+  duration_ms: 24.5245
+  type: 'test'
+  ...
+# Subtest: fixed plan rejects expanded stage, case and aggregate budgets
+ok 169 - fixed plan rejects expanded stage, case and aggregate budgets
+  ---
+  duration_ms: 18.2485
+  type: 'test'
+  ...
+# Subtest: old or incomplete user authorizations cannot admit the new suite
+ok 170 - old or incomplete user authorizations cannot admit the new suite
+  ---
+  duration_ms: 261.4633
+  type: 'test'
+  ...
+# Subtest: live clock injection is refused before package, authorization or transport access
+ok 171 - live clock injection is refused before package, authorization or transport access
+  ---
+  duration_ms: 3.2079
+  type: 'test'
+  ...
+# Subtest: direct engine calls and mixed-mode sessions are refused
+ok 172 - direct engine calls and mixed-mode sessions are refused
+  ---
+  duration_ms: 80.1808
+  type: 'test'
+  ...
+# Subtest: stages advance in order with one persisted window each
+ok 173 - stages advance in order with one persisted window each
+  ---
+  duration_ms: 228.1281
+  type: 'test'
+  ...
+# Subtest: skipping an unfinished stage permanently stops the run
+ok 174 - skipping an unfinished stage permanently stops the run
+  ---
+  duration_ms: 120.0664
+  type: 'test'
+  ...
+# Subtest: stage reentry cannot create a new deadline
+ok 175 - stage reentry cannot create a new deadline
+  ---
+  duration_ms: 64.5316
+  type: 'test'
+  ...
+# Subtest: expiry includes waits and permanently stops following stages
+ok 176 - expiry includes waits and permanently stops following stages
+  ---
+  duration_ms: 91.3811
+  type: 'test'
+  ...
+# Subtest: clock reversal cannot extend a phase
+ok 177 - clock reversal cannot extend a phase
+  ---
+  duration_ms: 100.2302
+  type: 'test'
+  ...
+# Subtest: STOP file closes the run before a further stage
+ok 178 - STOP file closes the run before a further stage
+  ---
+  duration_ms: 88.0846
+  type: 'test'
+  ...
+# Subtest: completed summary edits prevent the next stage
+ok 179 - completed summary edits prevent the next stage
+  ---
+  duration_ms: 162.7014
+  type: 'test'
+  ...
+# Subtest: prior stage timing and review substitution rejected: gate.started.json
+ok 180 - prior stage timing and review substitution rejected: gate.started.json
+  ---
+  duration_ms: 143.5272
+  type: 'test'
+  ...
+# Subtest: prior stage timing and review substitution rejected: gate.completed.json
+ok 181 - prior stage timing and review substitution rejected: gate.completed.json
+  ---
+  duration_ms: 148.9115
+  type: 'test'
+  ...
+# Subtest: prior stage timing and review substitution rejected: gate/phase-review-request.json
+ok 182 - prior stage timing and review substitution rejected: gate/phase-review-request.json
+  ---
+  duration_ms: 146.1158
+  type: 'test'
+  ...
+# Subtest: prior proof changes during business stop the run: gate.completed.json
+ok 183 - prior proof changes during business stop the run: gate.completed.json
+  ---
+  duration_ms: 366.7961
+  type: 'test'
+  ...
+# Subtest: prior proof changes during business stop the run: gate/summary.json
+ok 184 - prior proof changes during business stop the run: gate/summary.json
+  ---
+  duration_ms: 151.3699
+  type: 'test'
+  ...
+# Subtest: prior proof changes during business stop the run: gate/phase-review-request.json
+ok 185 - prior proof changes during business stop the run: gate/phase-review-request.json
+  ---
+  duration_ms: 187.6022
+  type: 'test'
+  ...
+# Subtest: prior proof changes during business stop the run: gate/ledger/ledger.json
+ok 186 - prior proof changes during business stop the run: gate/ledger/ledger.json
+  ---
+  duration_ms: 154.8515
+  type: 'test'
+  ...
+# Subtest: prior proof changes during business stop the run: run.json
+ok 187 - prior proof changes during business stop the run: run.json
+  ---
+  duration_ms: 181.2752
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: mode
+ok 188 - ledger substitution rejected: mode
+  ---
+  duration_ms: 102.8174
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: sample
+ok 189 - ledger substitution rejected: sample
+  ---
+  duration_ms: 116.2666
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: authorization
+ok 190 - ledger substitution rejected: authorization
+  ---
+  duration_ms: 169.1529
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: foreign-case
+ok 191 - ledger substitution rejected: foreign-case
+  ---
+  duration_ms: 189.781
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: unknown-usage
+ok 192 - ledger substitution rejected: unknown-usage
+  ---
+  duration_ms: 94.7994
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: conflicting-usage
+ok 193 - ledger substitution rejected: conflicting-usage
+  ---
+  duration_ms: 101.7977
+  type: 'test'
+  ...
+# Subtest: ledger substitution rejected: combined-cap
+ok 194 - ledger substitution rejected: combined-cap
+  ---
+  duration_ms: 103.7206
+  type: 'test'
+  ...
+# Subtest: pending reservations cannot become completed phase evidence
+ok 195 - pending reservations cannot become completed phase evidence
+  ---
+  duration_ms: 86.5697
+  type: 'test'
+  ...
+# Subtest: changed reviewed ledger prevents a later stage even with a recomputed checksum
+ok 196 - changed reviewed ledger prevents a later stage even with a recomputed checksum
+  ---
+  duration_ms: 183.3246
+  type: 'test'
+  ...
+# Subtest: async admission deadline stops before transport
+ok 197 - async admission deadline stops before transport
+  ---
+  duration_ms: 5.7154
+  type: 'test'
+  ...
+# Subtest: async admission STOP stops before transport
+ok 198 - async admission STOP stops before transport
+  ---
+  duration_ms: 0.2724
+  type: 'test'
+  ...
+# Subtest: binding-read or identity drift after admission still stops before transport
+ok 199 - binding-read or identity drift after admission still stops before transport
+  ---
+  duration_ms: 1.0151
+  type: 'test'
+  ...
+# Subtest: subset reporting changes only the declared population and preserves unestimable rates
+ok 200 - subset reporting changes only the declared population and preserves unestimable rates
+  ---
+  duration_ms: 12.0916
+  type: 'test'
+  ...
+# Subtest: subset offline reporting never fabricates semantic quality
+ok 201 - subset offline reporting never fabricates semantic quality
+  ---
+  duration_ms: 0.4715
+  type: 'test'
+  ...
+# Subtest: F04 is bound as read-only proof and cannot be executed
+ok 202 - F04 is bound as read-only proof and cannot be executed
+  ---
+  duration_ms: 113.1051
+  type: 'test'
+  ...
+# Subtest: main human confirmation and recheck are distinct one-use bound operations
+ok 203 - main human confirmation and recheck are distinct one-use bound operations
+  ---
+  duration_ms: 103.7011
+  type: 'test'
+  ...
+# Subtest: human admission rejects recheck-before-confirm
+ok 204 - human admission rejects recheck-before-confirm
+  ---
+  duration_ms: 34.3853
+  type: 'test'
+  ...
+# Subtest: human admission rejects duplicate-confirm
+ok 205 - human admission rejects duplicate-confirm
+  ---
+  duration_ms: 59.9363
+  type: 'test'
+  ...
+# Subtest: human admission rejects wrong-task
+ok 206 - human admission rejects wrong-task
+  ---
+  duration_ms: 162.7353
+  type: 'test'
+  ...
+# Subtest: human admission rejects wrong-report
+ok 207 - human admission rejects wrong-report
+  ---
+  duration_ms: 40.0985
+  type: 'test'
+  ...
+# Subtest: human admission rejects wrong-window
+ok 208 - human admission rejects wrong-window
+  ---
+  duration_ms: 37.0146
+  type: 'test'
+  ...
+# Subtest: human admission rejects subframe
+ok 209 - human admission rejects subframe
+  ---
+  duration_ms: 27.2311
+  type: 'test'
+  ...
+# Subtest: human admission rejects stale-draft
+ok 210 - human admission rejects stale-draft
+  ---
+  duration_ms: 26.9597
+  type: 'test'
+  ...
+# Subtest: human admission rejects stale-source
+ok 211 - human admission rejects stale-source
+  ---
+  duration_ms: 27.1069
+  type: 'test'
+  ...
+# Subtest: human admission rejects stale-report
+ok 212 - human admission rejects stale-report
+  ---
+  duration_ms: 44.4122
+  type: 'test'
+  ...
+# Subtest: human admission rejects phase-stop
+ok 213 - human admission rejects phase-stop
+  ---
+  duration_ms: 30.5508
+  type: 'test'
+  ...
+# Subtest: human admission rejects expired
+ok 214 - human admission rejects expired
+  ---
+  duration_ms: 28.2857
+  type: 'test'
+  ...
+# Subtest: human admission rejects gate
+ok 215 - human admission rejects gate
+  ---
+  duration_ms: 31.2221
+  type: 'test'
+  ...
+# Subtest: acceptance is bound to current content and cannot be repeated
+ok 216 - acceptance is bound to current content and cannot be repeated
+  ---
+  duration_ms: 37.5732
+  type: 'test'
+  ...
+# Subtest: executor writes require one exact grant and reject changed input
+ok 217 - executor writes require one exact grant and reject changed input
+  ---
+  duration_ms: 34.3891
+  type: 'test'
+  ...
+# Subtest: executor grant is checked again after asynchronous UI delay and STOP
+ok 218 - executor grant is checked again after asynchronous UI delay and STOP
+  ---
+  duration_ms: 25.5852
+  type: 'test'
+  ...
+# Subtest: one-use executor grant rejects substituted input undefined
+ok 219 - one-use executor grant rejects substituted input undefined
+  ---
+  duration_ms: 99.3679
+  type: 'test'
+  ...
+# Subtest: one-use executor grant rejects substituted input {"id":"other"}
+ok 220 - one-use executor grant rejects substituted input {"id":"other"}
+  ---
+  duration_ms: 33.2798
+  type: 'test'
+  ...
+# Subtest: one-use executor grant rejects substituted input {"id":"target","force":true}
+ok 221 - one-use executor grant rejects substituted input {"id":"target","force":true}
+  ---
+  duration_ms: 21.8098
+  type: 'test'
+  ...
+# Subtest: new main identity rejects old window sender after restart
+ok 222 - new main identity rejects old window sender after restart
+  ---
+  duration_ms: 28.602
+  type: 'test'
+  ...
+# Subtest: dynamic capture lifecycle preserves original sender and rejects submits
+ok 223 - dynamic capture lifecycle preserves original sender and rejects submits
+  ---
+  duration_ms: 76.3591
+  type: 'test'
+  ...
+# Subtest: late native boundary confirm/binding-read/STOP
+ok 224 - late native boundary confirm/binding-read/STOP
+  ---
+  duration_ms: 37.0727
+  type: 'test'
+  ...
+# Subtest: late native boundary confirm/binding-read/deadline
+ok 225 - late native boundary confirm/binding-read/deadline
+  ---
+  duration_ms: 36.1082
+  type: 'test'
+  ...
+# Subtest: late native boundary confirm/receipt-fsync/STOP
+ok 226 - late native boundary confirm/receipt-fsync/STOP
+  ---
+  duration_ms: 42.307
+  type: 'test'
+  ...
+# Subtest: late native boundary confirm/receipt-fsync/deadline
+ok 227 - late native boundary confirm/receipt-fsync/deadline
+  ---
+  duration_ms: 31.8441
+  type: 'test'
+  ...
+# Subtest: late native boundary recheck/binding-read/STOP
+ok 228 - late native boundary recheck/binding-read/STOP
+  ---
+  duration_ms: 54.8885
+  type: 'test'
+  ...
+# Subtest: late native boundary recheck/binding-read/deadline
+ok 229 - late native boundary recheck/binding-read/deadline
+  ---
+  duration_ms: 40.0167
+  type: 'test'
+  ...
+# Subtest: late native boundary recheck/receipt-fsync/STOP
+ok 230 - late native boundary recheck/receipt-fsync/STOP
+  ---
+  duration_ms: 49.4192
+  type: 'test'
+  ...
+# Subtest: late native boundary recheck/receipt-fsync/deadline
+ok 231 - late native boundary recheck/receipt-fsync/deadline
+  ---
+  duration_ms: 41.654
+  type: 'test'
+  ...
+# Subtest: late native boundary accept/binding-read/STOP
+ok 232 - late native boundary accept/binding-read/STOP
+  ---
+  duration_ms: 42.7745
+  type: 'test'
+  ...
+# Subtest: late native boundary accept/binding-read/deadline
+ok 233 - late native boundary accept/binding-read/deadline
+  ---
+  duration_ms: 50.6493
+  type: 'test'
+  ...
+# Subtest: late native boundary accept/receipt-fsync/STOP
+ok 234 - late native boundary accept/receipt-fsync/STOP
+  ---
+  duration_ms: 32.6451
+  type: 'test'
+  ...
+# Subtest: late native boundary accept/receipt-fsync/deadline
+ok 235 - late native boundary accept/receipt-fsync/deadline
+  ---
+  duration_ms: 27.7503
+  type: 'test'
+  ...
+# Subtest: shutdown stays narrow: stateViewtrue应用正在退出
+ok 236 - shutdown stays narrow: stateViewtrue应用正在退出
+  ---
+  duration_ms: 35.4763
+  type: 'test'
+  ...
+# Subtest: shutdown stays narrow: stateViewfalse应用正在退出
+ok 237 - shutdown stays narrow: stateViewfalse应用正在退出
+  ---
+  duration_ms: 24.3789
+  type: 'test'
+  ...
+# Subtest: shutdown stays narrow: stateViewtrueother
+ok 238 - shutdown stays narrow: stateViewtrueother
+  ---
+  duration_ms: 31.1515
+  type: 'test'
+  ...
+# Subtest: shutdown stays narrow: quickCaptureDrafttrue应用正在退出
+ok 239 - shutdown stays narrow: quickCaptureDrafttrue应用正在退出
+  ---
+  duration_ms: 34.7477
+  type: 'test'
+  ...
+# Subtest: qualified P01 only enters explicit marker review, retaining exact draft, sources and proposal kinds
+ok 240 - qualified P01 only enters explicit marker review, retaining exact draft, sources and proposal kinds
+  ---
+  duration_ms: 866.2729
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: missingCitation
+ok 241 - hard gate is never downgraded to expression confirmation: missingCitation
+  ---
+  duration_ms: 604.6153
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: invalidQuote
+ok 242 - hard gate is never downgraded to expression confirmation: invalidQuote
+  ---
+  duration_ms: 411.6469
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: unreadSource
+ok 243 - hard gate is never downgraded to expression confirmation: unreadSource
+  ---
+  duration_ms: 540.0573
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: unsupported
+ok 244 - hard gate is never downgraded to expression confirmation: unsupported
+  ---
+  duration_ms: 456.429
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: gap
+ok 245 - hard gate is never downgraded to expression confirmation: gap
+  ---
+  duration_ms: 438.7033
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: unreadDraft
+ok 246 - hard gate is never downgraded to expression confirmation: unreadDraft
+  ---
+  duration_ms: 605.76
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: conflict
+ok 247 - hard gate is never downgraded to expression confirmation: conflict
+  ---
+  duration_ms: 403.3571
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: sameTextHardConflict
+ok 248 - hard gate is never downgraded to expression confirmation: sameTextHardConflict
+  ---
+  duration_ms: 339.6059
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: independentReject
+ok 249 - hard gate is never downgraded to expression confirmation: independentReject
+  ---
+  duration_ms: 324.0283
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: independentGap
+ok 250 - hard gate is never downgraded to expression confirmation: independentGap
+  ---
+  duration_ms: 277.9114
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: emptySummary
+ok 251 - hard gate is never downgraded to expression confirmation: emptySummary
+  ---
+  duration_ms: 267.4983
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: inference
+ok 252 - hard gate is never downgraded to expression confirmation: inference
+  ---
+  duration_ms: 265.6072
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: unknown
+ok 253 - hard gate is never downgraded to expression confirmation: unknown
+  ---
+  duration_ms: 260.392
+  type: 'test'
+  ...
+# Subtest: hard gate is never downgraded to expression confirmation: untrustedNotice
+ok 254 - hard gate is never downgraded to expression confirmation: untrustedNotice
+  ---
+  duration_ms: 255.4027
+  type: 'test'
+  ...
+# Subtest: model-supplied confirmation fields cannot authorize a marker
+ok 255 - model-supplied confirmation fields cannot authorize a marker
+  ---
+  duration_ms: 247.6808
+  type: 'test'
+  ...
+# Subtest: only trusted explicit confirmation is idempotent and requires another independent check
+ok 256 - only trusted explicit confirmation is idempotent and requires another independent check
+  ---
+  duration_ms: 476.1269
+  type: 'test'
+  ...
+# Subtest: confirmation follows exact artifact/text when model-local claim IDs change
+ok 257 - confirmation follows exact artifact/text when model-local claim IDs change
+  ---
+  duration_ms: 376.2795
+  type: 'test'
+  ...
+# Subtest: changed draft invalidates the old human confirmation
+ok 258 - changed draft invalidates the old human confirmation
+  ---
+  duration_ms: 355.6064
+  type: 'test'
+  ...
+# Subtest: changed title invalidates the old human confirmation
+ok 259 - changed title invalidates the old human confirmation
+  ---
+  duration_ms: 291.8072
+  type: 'test'
+  ...
+# Subtest: changed sourceTitle invalidates the old human confirmation
+ok 260 - changed sourceTitle invalidates the old human confirmation
+  ---
+  duration_ms: 279.3882
+  type: 'test'
+  ...
+# Subtest: changed requirement invalidates the old human confirmation
+ok 261 - changed requirement invalidates the old human confirmation
+  ---
+  duration_ms: 265.9095
+  type: 'test'
+  ...
+# Subtest: changed source invalidates the old human confirmation
+ok 262 - changed source invalidates the old human confirmation
+  ---
+  duration_ms: 265.4478
+  type: 'test'
+  ...
+# Subtest: changed withdrawal invalidates the old human confirmation
+ok 263 - changed withdrawal invalidates the old human confirmation
+  ---
+  duration_ms: 254.995
+  type: 'test'
+  ...
+# Subtest: a later independent refusal stays hard despite a human expression confirmation
+ok 264 - a later independent refusal stays hard despite a human expression confirmation
+  ---
+  duration_ms: 267.8237
+  type: 'test'
+  ...
+# Subtest: later expression confirmations on the same basis retain previously confirmed exact fragments
+ok 265 - later expression confirmations on the same basis retain previously confirmed exact fragments
+  ---
+  duration_ms: 391.7592
+  type: 'test'
+  ...
+# Subtest: captured description citations survive full, UI and export projections without changing the report
+ok 266 - captured description citations survive full, UI and export projections without changing the report
+  ---
+  duration_ms: 794.239
+  type: 'test'
+  ...
+# Subtest: captured objective citations survive full, UI and export projections without changing the report
+ok 267 - captured objective citations survive full, UI and export projections without changing the report
+  ---
+  duration_ms: 359.2436
+  type: 'test'
+  ...
+# Subtest: user citation isolation: uncaptured user input
+ok 268 - user citation isolation: uncaptured user input
+  ---
+  duration_ms: 552.4525
+  type: 'test'
+  ...
+# Subtest: user citation isolation: model-origin input
+ok 269 - user citation isolation: model-origin input
+  ---
+  duration_ms: 298.5854
+  type: 'test'
+  ...
+# Subtest: user citation isolation: unsupported field
+ok 270 - user citation isolation: unsupported field
+  ---
+  duration_ms: 344.1891
+  type: 'test'
+  ...
+# Subtest: user citation isolation: changed current input
+ok 271 - user citation isolation: changed current input
+  ---
+  duration_ms: 465.2541
+  type: 'test'
+  ...
+# Subtest: user citation isolation: foreign user namespace
+ok 272 - user citation isolation: foreign user namespace
+  ---
+  duration_ms: 267.9976
+  type: 'test'
+  ...
+# Subtest: user citation isolation: stale version
+ok 273 - user citation isolation: stale version
+  ---
+  duration_ms: 320.4139
+  type: 'test'
+  ...
+# Subtest: user citation isolation: wrong start
+ok 274 - user citation isolation: wrong start
+  ---
+  duration_ms: 427.3742
+  type: 'test'
+  ...
+# Subtest: user citation isolation: wrong end
+ok 275 - user citation isolation: wrong end
+  ---
+  duration_ms: 223.7713
+  type: 'test'
+  ...
+# Subtest: user citation isolation: changed quote
+ok 276 - user citation isolation: changed quote
+  ---
+  duration_ms: 302.2541
+  type: 'test'
+  ...
+# Subtest: user citation isolation: title field is not user evidence
+ok 277 - user citation isolation: title field is not user evidence
+  ---
+  duration_ms: 231.1092
+  type: 'test'
+  ...
+# Subtest: user citation isolation: foreign artifact owner
+ok 278 - user citation isolation: foreign artifact owner
+  ---
+  duration_ms: 220.66
+  type: 'test'
+  ...
+# Subtest: user citation isolation: missing artifact
+ok 279 - user citation isolation: missing artifact
+  ---
+  duration_ms: 221.8287
+  type: 'test'
+  ...
+# Subtest: user citation isolation: cancelled task
+ok 280 - user citation isolation: cancelled task
+  ---
+  duration_ms: 178.1806
+  type: 'test'
+  ...
+# Subtest: user citation isolation: same source ID is a real denied source
+ok 281 - user citation isolation: same source ID is a real denied source
+  ---
+  duration_ms: 184.167
+  type: 'test'
+  ...
+# Subtest: a valid user citation cannot expose unrelated caches, forged projections or blocked ancestors
+ok 282 - a valid user citation cannot expose unrelated caches, forged projections or blocked ancestors
+  ---
+  duration_ms: 202.5129
+  type: 'test'
+  ...
+# Subtest: artifact revoked permission still redacts user citations
+ok 283 - artifact revoked permission still redacts user citations
+  ---
+  duration_ms: 191.2918
+  type: 'test'
+  ...
+# Subtest: artifact unknown permission still redacts user citations
+ok 284 - artifact unknown permission still redacts user citations
+  ---
+  duration_ms: 183.3627
+  type: 'test'
+  ...
+# Subtest: projection never repairs an invalid report hash or authorizes delivery
+ok 285 - projection never repairs an invalid report hash or authorizes delivery
+  ---
+  duration_ms: 192.2024
+  type: 'test'
+  ...
+1..285
+# tests 285
+# suites 0
+# pass 284
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 12174.9431

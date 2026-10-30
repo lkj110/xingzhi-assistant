@@ -1,0 +1,201 @@
+{
+  "schema": 1,
+  "kind": "offline-remaining-workflows-preparation",
+  "date": "2026-10-30",
+  "status": "offline-ready-awaiting-new-user-authorization",
+  "baseCommit": "2f2e97e25c16cd2b323035d87f7ca523e557b6bb",
+  "scope": "G01-F05-F06-only",
+  "runnerIdentity": "3d4b4489abb902e14aad462ee63980c285b909c02f21c553059c8d8a3aadf375",
+  "candidateAsarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "changes": {
+    "productSource": false,
+    "candidatePackage": false,
+    "modelPromptsSchemasSemanticRules": false,
+    "existingSealedRunners": false,
+    "installedVersion": false,
+    "newExecutor": true,
+    "description": [
+      "F04 is a pinned read-only prerequisite, with no execution route.",
+      "Only gate then business can start; a new single-use authorization binds this runner, candidate, sample, budget and F04 evidence.",
+      "Reuse original source-binding, protocol, budget, revision, restart and quality-scoring modules; retain original packaged trustedSender and IPC handler.",
+      "One-use human grants bind current case/stage/task/content/report; confirmation precedes one separate recheck, and final acceptance requires its own grant.",
+      "Show the specific current task and enabled action before asking for human participation.",
+      "Only exact executor grants and the narrow capture lifecycle route are admitted; deadline and STOP are rechecked immediately before the native handler.",
+      "Retain gate proof identity and hashes throughout business execution; revalidate native receipts against journal, persistence, export and restart."
+    ]
+  },
+  "prerequisite": {
+    "runId": "3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+    "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+    "completedSha256": "ef98164b3be4b8b6fd3e67bafb90589d6829f611c1476387530d1e2508aedae7",
+    "reportSha256": "d1440e32e79a60c854627603e1f995428e10ff575bb12a6f20e8d4751cc26985",
+    "reviewSha256": "fa0e0ed0f8bb263a2119c8b1f1c53d9df56d4d503aae6b6b7cf59947563f9891",
+    "rerun": false,
+    "identity": "7ebb6ab042577bff660514aba0f5cceed3748de295461c57d63c6b63e1624427"
+  },
+  "regression": {
+    "currentSuite": {
+      "files": 17,
+      "tests": 285,
+      "passed": 284,
+      "failed": 0,
+      "skipped": 1,
+      "skipReason": "Windows host does not grant real-file symlink creation; junction/path replacement tests still ran."
+    },
+    "historicalEnvironmentCheck": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "test": "same candidate is required and the real G01 evidence stays closed without another gate execution",
+      "reason": "This exact historical snapshot test pins its old process-helper hash DAC0…; the current runner pins 91F11…. Run the snapshot test in its original frozen worktree instead of changing either sealed environment.",
+      "worktree": "../foundation-citation-boundary-20261029",
+      "initialMismatchedEnvironmentFailureRetained": true
+    },
+    "newUnit": {
+      "tests": 71,
+      "passed": 71,
+      "failed": 0
+    },
+    "independentRepairProbe": {
+      "tests": 72,
+      "passed": 72,
+      "failed": 0,
+      "note": "Includes the 71 unit cases plus the reviewer’s independently reproduced late-STOP defect."
+    }
+  },
+  "packaged": {
+    "probes": 6,
+    "passed": 6,
+    "normal": {
+      "phases": [
+        "G01",
+        "F05",
+        "F06"
+      ],
+      "f04Executions": 0,
+      "actualHumanAcceptances": 0,
+      "simulatedAcceptances": 2,
+      "gateExecutionsInsideBusiness": 0,
+      "revisionNewBasis": true,
+      "markerConfirmationAndSeparateRecheck": "synthetic-only",
+      "f06RestartBeforeGeneration": true,
+      "f06RestartAtReview": true,
+      "f06RestartAfterAcceptance": true,
+      "nativeReceiptJournalPersistedExportBound": true,
+      "auxiliaryCaptureLifecycle": "actual packaged windows with synthetic UI actions",
+      "syntheticApplicationAttempts": 19,
+      "syntheticTokens": 123194,
+      "qualityMetrics": null
+    },
+    "negativeCases": [
+      {
+        "id": "gate-malformed",
+        "passed": true,
+        "expectedStop": true
+      },
+      {
+        "id": "business-unknown-usage",
+        "passed": true,
+        "expectedStop": true
+      },
+      {
+        "id": "capture-submit",
+        "passed": true,
+        "expectedStop": true
+      },
+      {
+        "id": "wrong-window",
+        "passed": true,
+        "expectedStop": true
+      },
+      {
+        "id": "phase-stop",
+        "passed": true,
+        "expectedStop": true
+      }
+    ],
+    "evidence": "evaluations/foundation-remaining-preparation-20261030/sealed-rehearsal.json"
+  },
+  "resolvedReviewFindings": [
+    {
+      "id": "REM-R1",
+      "problem": "STOP/deadline could change during synchronous human-binding reads or durable receipt writes before the original handler.",
+      "fix": "Recheck root/phase STOP, stopped state and the current deadline immediately before invoking the original handler; retain only existing read/stop-cleanup exceptions.",
+      "regression": "12 negatives: confirm/recheck/accept × binding read/receipt fsync × STOP/deadline, plus the reviewer original failing probe."
+    }
+  ],
+  "scopeLimits": {
+    "realModelCalls": 0,
+    "officialModelCliInvocations": 0,
+    "actualHumanAcceptances": 0,
+    "f04Executions": 0,
+    "qualityMetrics": null,
+    "syntheticUsageIsNotRealCost": true,
+    "windowsPackagedCoverageOnly": true,
+    "historicalLiveF04PassPreserved": true,
+    "newLiveAuthorizationCreated": false
+  },
+  "evidence": [
+    {
+      "path": "evaluations/foundation-remaining-preparation-20261030/final-regression.tap",
+      "sha256": "a1ea6e7519145dfcbb7998e1cb259ac631dfa95668a78584fb48172d7573f575"
+    },
+    {
+      "path": "evaluations/foundation-remaining-preparation-20261030/historical-proof-check.tap",
+      "sha256": "544d198f8274a86482520166527ca512ae08b54f037f3907cd17e16f67f9038e"
+    },
+    {
+      "path": "evaluations/foundation-remaining-preparation-20261030/sealed-rehearsal.json",
+      "sha256": "ae7ffd0855b0d92e08e4abcccd1773ac5c8ca0223fd9555793b8abf170ba4caa"
+    },
+    {
+      "path": "../foundation-remaining-audit-20261030/reviewer-freeze-before.json",
+      "sha256": "3b355bf490b894c48be01dee40f08db02deff6b05cff186e3a88c1757dcc371e"
+    },
+    {
+      "path": "../foundation-remaining-audit-20261030/development-regression.tap",
+      "sha256": "d0c91feb8ee2179eb9eac15d9aa90bdf7cafebe45acf8ee4e20c04d406cad20e"
+    },
+    {
+      "path": "../foundation-remaining-audit-20261030/reviewer-native-boundary-01.log",
+      "sha256": "0f69b624dc7d32e96cdcb03e4f505ce562e742ba8ce20aa8641f9fda8cc63777"
+    },
+    {
+      "path": "../foundation-remaining-audit-20261030/reviewer-native-boundary-02.log",
+      "sha256": "48f848f0e5cf751b086895e87d0726e4ca31a782ae1f8c1a8d237e4a96ed905e"
+    },
+    {
+      "path": "../foundation-remaining-audit-20261030/remaining-unit-after-review.tap",
+      "sha256": "d19453b2b621de8e570360c587549f19eab650e6cc143f8fee544abd74e5595f"
+    }
+  ],
+  "finalFreeze": {
+    "roots": 88,
+    "existingTrackedFiles": 1212,
+    "allFrozenIdentitiesUnchanged": true,
+    "installedVersionFrozen": true,
+    "candidatePackageFrozen": true,
+    "productAndHistoricalEvidenceFrozen": true,
+    "before": {
+      "path": "../foundation-remaining-audit-20261030/reviewer-freeze-before.json",
+      "sha256": "3b355bf490b894c48be01dee40f08db02deff6b05cff186e3a88c1757dcc371e"
+    },
+    "after": {
+      "path": "../foundation-remaining-audit-20261030/reviewer-freeze-after.json",
+      "sha256": "c2a3ebfb86f314d6a09a0a42db59643b5281ea556de56ec9da9b70bfa523df16"
+    }
+  },
+  "proposedExecutionPlan": "docs/evidence/foundation-remaining-execution-plan-20261030.json",
+  "nextBudget": {
+    "applicationAttempts": 25,
+    "maximumModelDispatches": 22,
+    "inputPlusOutputTokenStopThreshold": 620000,
+    "gateWindowMinutes": 45,
+    "businessSharedWindowMinutes": 45,
+    "requiresNewUserApproval": true,
+    "oldAuthorizationReusable": false,
+    "inFlightOvershootPossible": true
+  },
+  "noFormalMainEvaluation": true
+}

@@ -1,0 +1,261 @@
+{
+  "schema": 1,
+  "kind": "independent-remaining-workflows-preparation-review",
+  "reviewer": "independent-subagent",
+  "reviewedAt": "2026-10-30T07:12:01.513Z",
+  "baseCommit": "2f2e97e25c16cd2b323035d87f7ca523e557b6bb",
+  "scope": "G01-F05-F06-only",
+  "runnerIdentity": "3d4b4489abb902e14aad462ee63980c285b909c02f21c553059c8d8a3aadf375",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "approvedForUpload": true,
+  "approvedForUserReview": true,
+  "approvedForLiveReadiness": true,
+  "codeReviewPassed": true,
+  "offlinePreparationPassed": true,
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "actualHumanAcceptances": 0,
+  "f04Executions": 0,
+  "candidateInstalled": false,
+  "qualityMetrics": null,
+  "checks": {
+    "F04ReadOnlyPinnedProof": true,
+    "F04ExecutionRouteAbsent": true,
+    "newSingleUseAuthorizationRequired": true,
+    "phaseOrderAndOriginalDeadlinesBound": true,
+    "priorGateProofHeldDuringBusiness": true,
+    "currentContentReportAndTaskBound": true,
+    "oneUseConfirmThenSeparateRecheck": true,
+    "trustedMainFrameAndOriginalNativeHandler": true,
+    "lateStopAndDeadlineBeforeHandler": true,
+    "unchangedSemanticAndBudgetRules": true,
+    "all50RunEvidenceHashesMatch": true,
+    "normalNativeReceiptsJournalPersistenceAndExportMatch": true,
+    "F05NewBasisAndOldRecordsPreserved": true,
+    "F06ThreeRestartsPreservedWithoutModelCalls": true,
+    "allFiveNegativeProbesStopped": true,
+    "installedAndHistoricalEvidenceFrozen": true
+  },
+  "regression": {
+    "currentSuite": {
+      "tests": 285,
+      "passed": 284,
+      "failed": 0,
+      "skipped": 1,
+      "skipReason": "Windows real-file symlink privilege unavailable; other path/junction tests ran."
+    },
+    "historicalOriginalEnvironment": {
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "reason": "Exact old-candidate helper hash assertion is run in its unchanged historical worktree. Its initial failure in the newer helper environment is retained."
+    },
+    "newUnit": {
+      "tests": 71,
+      "passed": 71
+    },
+    "reviewerIndependentReproduction": {
+      "tests": 72,
+      "passed": 72,
+      "note": "Includes those 71 new unit tests plus the independent late-STOP probe; not additional distinct coverage."
+    },
+    "packagedProbes": {
+      "tests": 6,
+      "passed": 6,
+      "negativeTests": 5,
+      "normalSyntheticApplicationAttempts": 19
+    }
+  },
+  "resolvedFindings": [
+    {
+      "id": "REM-R1",
+      "before": "Independent STOP injection after the human-binding file read reached the original handler once.",
+      "after": "The current STOP/deadline is checked after binding reads and durable receipt fsync immediately before the handler. All 12 new late-boundary cases and the original independent reproduction pass.",
+      "productOrSemanticChange": false
+    }
+  ],
+  "unresolvedFindings": [],
+  "budget": {
+    "applicationAttempts": 25,
+    "maximumModelDispatches": 22,
+    "reportedTokenStopThreshold": 620000,
+    "gate": {
+      "applicationAttempts": 5,
+      "maximumModelDispatches": 4,
+      "reportedTokenStopThreshold": 120000,
+      "fixedWindowMinutes": 45
+    },
+    "business": {
+      "applicationAttempts": 20,
+      "maximumModelDispatches": 18,
+      "reportedTokenStopThreshold": 500000,
+      "sharedFixedWindowMinutes": 45,
+      "caseLimits": [
+        {
+          "id": "F05-jianping-revision",
+          "attempts": 13,
+          "tokenStopThreshold": 330000
+        },
+        {
+          "id": "F06-yunshu-restart",
+          "attempts": 7,
+          "tokenStopThreshold": 170000
+        }
+      ]
+    },
+    "oldAuthorizationReusable": false,
+    "inFlightOvershootPossible": true,
+    "serverEnforcedHardCap": false,
+    "newUserApprovalRequired": true
+  },
+  "limits": [
+    "Offline fixture results are not real semantic-quality or cost measurements.",
+    "F04 was not rerun; its prior real success is only a pinned prerequisite.",
+    "Business completion denominator is two; no fixed-invalid controls are run, and zero invalid-generated denominator remains null.",
+    "These exposed sealed samples are regression cases, not new blind evaluation.",
+    "Natural live marker/title/collision coverage must be reported separately; no extra calls to force coverage.",
+    "No install, formal main evaluation, or additional execution is authorized by this review."
+  ],
+  "freeze": {
+    "roots": 88,
+    "existingTrackedFiles": 1212,
+    "allFrozenIdentitiesUnchanged": true,
+    "installedVersionFrozen": true,
+    "candidatePackageFrozen": true,
+    "productAndHistoricalEvidenceFrozen": true,
+    "before": {
+      "path": "../foundation-remaining-audit-20261030/reviewer-freeze-before.json",
+      "sha256": "3b355bf490b894c48be01dee40f08db02deff6b05cff186e3a88c1757dcc371e"
+    },
+    "after": {
+      "path": "../foundation-remaining-audit-20261030/reviewer-freeze-after.json",
+      "sha256": "c2a3ebfb86f314d6a09a0a42db59643b5281ea556de56ec9da9b70bfa523df16"
+    }
+  },
+  "auditEvidence": [
+    {
+      "path": "../foundation-remaining-audit-20261030/reviewer-native-boundary-01.log",
+      "sha256": "0f69b624dc7d32e96cdcb03e4f505ce562e742ba8ce20aa8641f9fda8cc63777"
+    },
+    {
+      "path": "../foundation-remaining-audit-20261030/reviewer-native-boundary-02.log",
+      "sha256": "48f848f0e5cf751b086895e87d0726e4ca31a782ae1f8c1a8d237e4a96ed905e"
+    },
+    {
+      "path": "../foundation-remaining-audit-20261030/reviewer-historical-compatibility.log",
+      "sha256": "76a6e92a8c9626024059fc47f66bb3a86844b082f53be6cab181f86997994d59"
+    },
+    {
+      "path": "../foundation-remaining-audit-20261030/reviewer-normal-result.json",
+      "sha256": "093959a737d36ee00b7f179f79f17d8421f07b532bfc9e0f5ac866f240fefec7"
+    },
+    {
+      "path": "../foundation-remaining-audit-20261030/reviewer-matrix-result.json",
+      "sha256": "17fe800c8096ba2d1ccf6b7de96ac513b9236846ef5ae78a1ad30aab8275d28b"
+    }
+  ],
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-remaining-execution-plan-20261030.json",
+      "sha256": "afcd2c77674bd1619250d9062f9218d95d7f0038db45765854579fa0081a479c"
+    },
+    {
+      "path": "docs/evidence/foundation-remaining-preparation-20261030.json",
+      "sha256": "662baf12418d3862b8fc452806c06fe024232c27efa89c184b99caf1bc5ed33f"
+    },
+    {
+      "path": "evaluations/foundation-remaining-preparation-20261030/.gitattributes",
+      "sha256": "4570a2cf86298e200ba945747d80887ce2ad18af9f96b7e6b33087f15f5f6887"
+    },
+    {
+      "path": "evaluations/foundation-remaining-preparation-20261030/final-regression.tap",
+      "sha256": "a1ea6e7519145dfcbb7998e1cb259ac631dfa95668a78584fb48172d7573f575"
+    },
+    {
+      "path": "evaluations/foundation-remaining-preparation-20261030/historical-proof-check.tap",
+      "sha256": "544d198f8274a86482520166527ca512ae08b54f037f3907cd17e16f67f9038e"
+    },
+    {
+      "path": "evaluations/foundation-remaining-preparation-20261030/sealed-rehearsal.json",
+      "sha256": "ae7ffd0855b0d92e08e4abcccd1773ac5c8ca0223fd9555793b8abf170ba4caa"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/admission.cjs",
+      "sha256": "a1b65b0b7e0b0f4622da0e53ab6d53a741b017682ba2f0a286933dd392c3ba38"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/business-engine.cjs",
+      "sha256": "0d7e82cf71e41241cc1adc3bdf2d34f34c78046e0a235aee942f97039bae0c15"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/business-identity.cjs",
+      "sha256": "9db97b77cee3bd673ebceab615631c966177b52ec493cabba6575c8149628f41"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/gate-engine.cjs",
+      "sha256": "7d680fdbbfd1466d857c8de2d2a39f04c4405e8a2a95f0a847ba543504881517"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/gate-identity.cjs",
+      "sha256": "ed3f51af653273038bb50d45325ddf8f89fc69bb5bc5e4005e015a0934ce0a4a"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/human-binding.cjs",
+      "sha256": "0bce01387ddbd5861089fc8bc2bdfded758e2bb90c56210474045a1be9733faf"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/identity.cjs",
+      "sha256": "92cca08566ab97298955c6ee7f841afa0a107f477a7df762dfecba6aaebdbea3"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/native.cjs",
+      "sha256": "b53232b2827f0f9f457c7f2a11be1867e6aca4a3c218885cde78dd155fdaa6e3"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/plan.json",
+      "sha256": "d2db86d96e81637c82de6e8236aba465e328b081164f34bef64ed3735c2d9a30"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/policy.cjs",
+      "sha256": "32ea4e3dad7ceca1f9c821c1585392cef6887be684fc64c3d0e899ca46e3fc34"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/rehearsal-ui.cjs",
+      "sha256": "d9558d8373a60cb4f1cde47d5fac6a72226e17cafbc7798245dedb21566316f8"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/report.cjs",
+      "sha256": "0d41d0cdd5278a203f5ba9b4de628968ec37586997724139a016754e71126aa8"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/run.cjs",
+      "sha256": "043ed2f98dced46f6cc8725f334b675a700e5d5b2cc77a846e1dbabcd908701d"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/runner-seal.json",
+      "sha256": "cffb26346ddf020b23c8d663fbcf48356432915bc1f1fe799c35049eff0cbd79"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/session.cjs",
+      "sha256": "f72557fa035e06464650f2a3046a9aee3ecf37867c856ed4f642827c6f760e7f"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/window.cjs",
+      "sha256": "35923edb7b208808edd8aae3504fa7d735882790489456a0ff36947a16191367"
+    },
+    {
+      "path": "scripts/rehearse-remaining-runner.cjs",
+      "sha256": "5f1342c7214fa9459e23eabbe9d6886c4b8dc69239c700e0359dbf8477c0da45"
+    },
+    {
+      "path": "tests/foundation-remaining-runner.test.cjs",
+      "sha256": "8bd54e8d7c8e7037bfb8385584c72e39fec15259d13dda455678d6e1c16a3451"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/runner-review.json",
+      "sha256": "3f4d9a7ebe7fba82fca5bc0b90ea5757931842508436821fc8572763cd25c67f"
+    }
+  ]
+}

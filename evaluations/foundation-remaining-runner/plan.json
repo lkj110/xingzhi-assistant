@@ -1,0 +1,206 @@
+{
+  "schema": 1,
+  "id": "foundation-remaining-20261030",
+  "liveAuthorized": false,
+  "candidateInstalled": false,
+  "sourceCodeCommit": "2f2e97e25c16cd2b323035d87f7ca523e557b6bb",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sourceSampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "order": [
+    "gate",
+    "business"
+  ],
+  "settings": {
+    "evidenceGrounding": true,
+    "automatic": false,
+    "autoExtract": false,
+    "autoComplete": false,
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false
+  },
+  "cli": {
+    "sha256": "5c1b55966bf9f757dcbf00065c9a6cb862ead55d34b015f1be1939ff18e43943",
+    "identitySource": "read-only-file-hash-no-execution",
+    "availability": "not-probed"
+  },
+  "total": {
+    "applicationAttempts": 25,
+    "maximumModelDispatches": 22,
+    "reportedTokenStopThreshold": 620000
+  },
+  "gate": {
+    "schema": 1,
+    "id": "minimal-foundation-citation-candidate-gate-20261029",
+    "liveAuthorized": false,
+    "installedVersion": "0.42.4",
+    "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "model": {
+      "id": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "provider": "existing-subscription",
+      "availability": "not-probed"
+    },
+    "settings": {
+      "evidenceGrounding": true,
+      "automatic": false,
+      "autoExtract": false,
+      "autoComplete": false,
+      "concurrency": 1,
+      "retries": 0,
+      "fallback": false
+    },
+    "budget": {
+      "applicationAttempts": 5,
+      "reportedTokenStopThreshold": 120000,
+      "protocolAttempts": 5,
+      "protocolTokenStopThreshold": 120000,
+      "businessAttempts": 0,
+      "businessTokenStopThreshold": 0,
+      "perCallTimeoutMs": 180000,
+      "perCallIdleMs": 120000,
+      "dispatchWindowMinutes": 45,
+      "maxVisibleRequestBytes": 70000,
+      "reservationOutputAllowance": 32768,
+      "reservationFramingAllowance": 4096,
+      "serverEnforcedTokenCap": false,
+      "priorBudgetsReusable": false,
+      "maximumModelDispatches": 4
+    },
+    "caseLimits": [],
+    "protocolGate": {
+      "id": "G01-muju",
+      "title": "暮榉书目台MJ-K9目录索引备份状态摘要",
+      "description": "请依据登记写一句简短状态摘要，区分本地备份与公开发布。",
+      "criteria": "准确写出截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条条目，尚未公开发布；不要把条目数写成文件数。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "暮榉MJ-K9索引保存登记",
+          "content": "截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条目录条目；该索引尚未公开发布。条目数不表示文件数。"
+        }
+      ],
+      "passRequires": [
+        "normal_generation_and_strict_verification_complete",
+        "evidence_quotes_bound_to_original_source",
+        "all_dispatched_usage_known",
+        "no_protocol_rejection",
+        "no_host_tool_attempt",
+        "no_external_action",
+        "within_all_budgets"
+      ],
+      "includedInBusinessMetrics": false
+    },
+    "order": [
+      "G01-muju"
+    ],
+    "cli": {
+      "sha256": "5c1b55966bf9f757dcbf00065c9a6cb862ead55d34b015f1be1939ff18e43943",
+      "identitySource": "read-only-file-hash-no-execution",
+      "availability": "not-probed"
+    },
+    "baseCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
+    "sourceCodeCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
+    "scope": "one-exposed-gate-on-new-export-candidate",
+    "inheritedFromRunner": "foundation-citation-gate-runner"
+  },
+  "business": {
+    "schema": 1,
+    "id": "minimal-foundation-citation-business-acceptance-20261029",
+    "liveAuthorized": false,
+    "installedVersion": "0.42.4",
+    "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "model": {
+      "id": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "provider": "existing-subscription",
+      "availability": "not-probed"
+    },
+    "settings": {
+      "evidenceGrounding": true,
+      "automatic": false,
+      "autoExtract": false,
+      "autoComplete": false,
+      "concurrency": 1,
+      "retries": 0,
+      "fallback": false
+    },
+    "budget": {
+      "applicationAttempts": 20,
+      "reportedTokenStopThreshold": 500000,
+      "protocolAttempts": 0,
+      "protocolTokenStopThreshold": 0,
+      "businessAttempts": 20,
+      "businessTokenStopThreshold": 500000,
+      "perCallTimeoutMs": 180000,
+      "perCallIdleMs": 120000,
+      "dispatchWindowMinutes": 45,
+      "maxVisibleRequestBytes": 70000,
+      "reservationOutputAllowance": 32768,
+      "reservationFramingAllowance": 4096,
+      "serverEnforcedTokenCap": false,
+      "priorBudgetsReusable": false,
+      "maximumModelDispatches": 18
+    },
+    "caseLimits": [
+      {
+        "id": "F05-jianping-revision",
+        "attempts": 13,
+        "tokenStopThreshold": 330000
+      },
+      {
+        "id": "F06-yunshu-restart",
+        "attempts": 7,
+        "tokenStopThreshold": 170000
+      }
+    ],
+    "protocolGate": {
+      "id": "G01-muju",
+      "title": "暮榉书目台MJ-K9目录索引备份状态摘要",
+      "description": "请依据登记写一句简短状态摘要，区分本地备份与公开发布。",
+      "criteria": "准确写出截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条条目，尚未公开发布；不要把条目数写成文件数。",
+      "sources": [
+        {
+          "key": "s1",
+          "title": "暮榉MJ-K9索引保存登记",
+          "content": "截至2026年5月6日11:42，MJ-K9目录索引已保存到本地校对区，含7条目录条目；该索引尚未公开发布。条目数不表示文件数。"
+        }
+      ],
+      "passRequires": [
+        "normal_generation_and_strict_verification_complete",
+        "evidence_quotes_bound_to_original_source",
+        "all_dispatched_usage_known",
+        "no_protocol_rejection",
+        "no_host_tool_attempt",
+        "no_external_action",
+        "within_all_budgets"
+      ],
+      "includedInBusinessMetrics": false
+    },
+    "order": [
+      "F05-jianping-revision",
+      "F06-yunshu-restart"
+    ],
+    "baseCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
+    "sourceCodeCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
+    "scope": "two-unfinished-business-workflows",
+    "inheritedFromRunner": "foundation-citation-business-runner"
+  },
+  "reporting": {
+    "businessCompletionDenominator": 2,
+    "plannedFixedInvalidCases": 0,
+    "F04": "Read-only prerequisite from completed human run; never rerun or included in this round completion denominator.",
+    "F05F06": "Initial/revised drafts assessed independently; no natural marker trigger means not-covered",
+    "falseRelease": "No fixed invalid sample this round; zero invalid-generated denominator is not estimable",
+    "historical": "Do not merge different candidate rounds into six-of-six acceptance",
+    "cost": "F04/gate/business and aggregate reported separately; synthetic offline usage never counts as real usage"
+  },
+  "scope": "G01-F05-F06-only",
+  "f04Prerequisite": {
+    "runId": "3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+    "report": "docs/evidence/foundation-native-ui-f04-result-20261030.json",
+    "reportSha256": "d1440e32e79a60c854627603e1f995428e10ff575bb12a6f20e8d4751cc26985",
+    "review": "docs/evidence/foundation-native-ui-f04-result-review-20261030.json",
+    "reviewSha256": "fa0e0ed0f8bb263a2119c8b1f1c53d9df56d4d503aae6b6b7cf59947563f9891"
+  }
+}
