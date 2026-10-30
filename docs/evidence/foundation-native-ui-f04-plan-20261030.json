@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "kind": "F04-only-zero-model-human-check-plan",
+  "scope": "F04-native-ui-only",
+  "liveAuthorized": false,
+  "candidateInstalled": false,
+  "runnerIdentity": "5fa822babbabe768760e0ea364586796f3c8b5c7bae7d9911b5c3b5bb57b6edb",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "entry": "evaluations/foundation-native-ui-runner/run.cjs",
+  "candidateExecutable": "C:/Users/liukongjie/Documents/Codex/2026-10-21/new-chat/work/foundation-candidate-bundle-export-20261030/XingzhiAssistant.exe",
+  "outputParent": "../foundation-native-ui-runs-20261030",
+  "budget": {
+    "isolatedRuns": 1,
+    "modelApplicationAttempts": 0,
+    "maximumModelDispatches": 0,
+    "inputPlusOutputTokens": 0,
+    "fixedWindowMinutes": 45,
+    "automaticRetryOrResume": false,
+    "previousAuthorizationReusable": false
+  },
+  "startCondition": "离线准备、独立审核和上传完成后，确认用户已就绪。将本次明确的 F04-only 指示与就绪回复写入新的单次授权，绑定此执行器、候选、原样本及 0 模型预算。此前已失败的 25/22/62万授权不可复用。",
+  "clock": "一次固定 45 分钟，涵盖启动、用户核对与点击、冷重启及独立审核等待；不重置、不续跑。",
+  "task": {
+    "id": "93efb213-e312-4818-a534-02ef26f3b149",
+    "title": "岑碗CW-07展柜导览箭头朝向差异说明",
+    "input": "原封存状态及权限文件的隔离副本，保留原稿、来源和已通过核验。",
+    "mainWindowLabel": "[F04 主窗口 <本轮编号前8位>] 行知助手",
+    "captureWindowLabel": "[F04 快速收集 <本轮编号前8位>] 行知助手"
+  },
+  "sequence": [
+    "核验候选、执行器及原始输入哈希，创建全新隔离配置和输出目录，原子消费新授权并启动计时。",
+    "定位主窗口、打开指定事项，确认标题、详情、可用验收按钮和主窗口可见后，才发出真人请求。",
+    "用户在主窗口核对全文和来源，并亲自点击验收完成。聊天回复不替代应用内验收。快速收集小窗出现时可用其关闭按钮或 Esc 隐藏。",
+    "对齐实际请求窗口、原生验收回执、工作日志、持久化状态和导出报告，验证原文证据及原报告哈希。",
+    "冷重启同一隔离配置，确认已完成状态、验收身份及证据报告保持一致，其他事项未发生验收变化。",
+    "独立 subagent 在原固定窗口内核对原始证据，写入绑定当前请求 identity 和 runId 的决定；据此报告通过或失败并关闭本轮。"
+  ],
+  "allowedAuxiliaryBehavior": "可信快速收集窗口仅允许直接状态读取、严格布尔 occupied 更新和空参数隐藏；保留原应用 trustedSender 和原 handler。窗口的打开可由应用自身菜单/生命周期触发。",
+  "forbiddenBehavior": "不提交或重试材料，不推进、不重检、不截图、不执行外部操作，不验收其他事项，不调用模型。意外尝试、身份/参数错误、未知命令、STOP、到期或核验不一致均停止。",
+  "shutdownBoundary": "只有原 before-quit 已记录、可信既有读取发生在其后，且原 handler 严格返回单字段 {error:应用正在退出} 时，记录 expectedShutdown 而不追加 STOP；正常运行错误、其他字段、修改操作及抛异常仍停止。",
+  "passRequires": [
+    "一次真实主窗口验收，原生回执与日志/持久化/导出完全对应",
+    "冷重启后完成状态和证据报告保持一致",
+    "其他事项、原稿、来源与历史模型记录未改动",
+    "新增模型调用、模型分发和 tokens 均为 0",
+    "没有违规操作、异常停止、身份变化或窗口延期",
+    "独立复核在原窗口内通过"
+  ],
+  "reporting": {
+    "coverage": "仅证明历史 F04 稿件的真人验收与持久化操作链。离线自动点击始终标记 synthetic，不作为真人验收。",
+    "quality": "不产生新模型稿件，幻觉率、语义误拦率和错误放行率均不测。",
+    "continuation": "本执行器没有 G01、F05、F06 或 real-cli 入口。F04 通过后另行决定后续模型复测。",
+    "installation": "当前安装版继续冻结，不安装候选。"
+  }
+}

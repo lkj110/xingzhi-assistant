@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "id": "foundation-native-ui-f04-20261030",
+  "scope": "F04-native-ui-only",
+  "sourceCodeCommit": "78519aedf54ffd374c0aaeb5db897e4134578071",
+  "liveAuthorized": false,
+  "candidateInstalled": false,
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sourceSampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "budget": {
+    "modelApplicationAttempts": 0,
+    "maximumModelDispatches": 0,
+    "inputPlusOutputTokens": 0,
+    "windowMinutes": 45
+  },
+  "f04": {
+    "windowMinutes": 45,
+    "modelCalls": 0,
+    "taskId": "93efb213-e312-4818-a534-02ef26f3b149",
+    "directory": "../foundation-minimal-inputs-20261030",
+    "files": [
+      {
+        "path": "workspace.json",
+        "sha256": "04c4b15c80aa76129caa7be85a90bcec292bb201a0d20dc8aaf3b595986beee9"
+      },
+      {
+        "path": "work-journal.json",
+        "sha256": "2e27d71066859b32a0036743833970c620290f659b69196c61425c786a3f234e"
+      },
+      {
+        "path": "access-policy.json",
+        "sha256": "719b7c032a4ccfbb08221ff74a042fff6c7baf25cf104ee26e186a09deeab236"
+      },
+      {
+        "path": "authorization-migration.json",
+        "sha256": "8efd837a6fbf7ac4e0c602793bd5c9e5f6ad32ece20e4563580863f3b1071aff"
+      },
+      {
+        "path": "action-facts.initialized",
+        "sha256": "2430f1a2ad2982d0067885488a4c89e21ad1d7c83b115ba8f1b20acc88dfaea8"
+      },
+      {
+        "path": "action-facts.json",
+        "sha256": "df2b67bb241fb2e0164367dba34fcf628c16113a8f472d87665f72820f4f54ef"
+      },
+      {
+        "path": "action-ledger.json",
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "path": "spend-ledger.json",
+        "sha256": "33b574a7062e6a8f23bf3f23142e3ad2ecf826d701096b1ddcf8e633bc0d089d"
+      },
+      {
+        "path": "stewardship-ledger.json",
+        "sha256": "4f3d2f6560812633f089ed6a2ad623a7bb46846910913d00e9edcff946ddca6c"
+      }
+    ]
+  }
+}

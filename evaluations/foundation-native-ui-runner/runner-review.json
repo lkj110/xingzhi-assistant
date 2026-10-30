@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "reviewer": "independent-subagent",
+  "agent": "/root/recheck_protocol_review",
+  "reviewedAt": "2026-10-30T05:01:51.292Z",
+  "approvedForLiveReadiness": true,
+  "approvedForUpload": true,
+  "runnerIdentity": "5fa822babbabe768760e0ea364586796f3c8b5c7bae7d9911b5c3b5bb57b6edb",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "realModelCalls": 0,
+  "officialModelCliInvocations": 0,
+  "actualHumanAcceptances": 0,
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "meaning": "Readiness approval only for the separately authorized zero-model F04 human check; no execution, model budget, deployment or reuse of a consumed authorization is granted.",
+  "restrictions": {
+    "scope": "F04-native-ui-only",
+    "modelApplicationAttempts": 0,
+    "maximumModelDispatches": 0,
+    "inputPlusOutputTokens": 0,
+    "fixedWindowMinutes": 45,
+    "isolatedRuns": 1,
+    "requiresCurrentUserReadiness": true,
+    "requiresNewSingleUseAuthorization": true,
+    "previousAuthorizationReusable": false,
+    "automaticModelStageContinuation": false,
+    "installationAuthorized": false
+  },
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-native-ui-f04-plan-20261030.json",
+      "sha256": "8ec7995b07c8f40613987f6df70a8ab7b2e0bfaac47dd4a80cc7fa59f8dba543"
+    },
+    {
+      "path": "docs/evidence/foundation-native-ui-preparation-20261030.json",
+      "sha256": "93363a35a4428c9bffe8f6f26e64d92578d56cb318fc0d57862f7aa52a361f81"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-preparation-20261030/.gitattributes",
+      "sha256": "667b93be6ede617192a0c6ac9e3664b1727402239531277b6cd47b53e73a6535"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-preparation-20261030/final-regression.txt",
+      "sha256": "2762c9f2457c6246c5f017cbd2038cf7eb57d953574e56dd9f453bc1811929c2"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-preparation-20261030/sealed-rehearsal.json",
+      "sha256": "0e7b04b8d3c0160071ec8d5cf5b81770fa204da2a475a6a08860884de16b7103"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/engine.cjs",
+      "sha256": "3d3d9bf0c39f420f77bd4b863ff8f3b399947fb2e5b2f5364ba00a90445c811c"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/identity.cjs",
+      "sha256": "68671ccd6fd4967b004f6ebe422a6073da5d102cd638603bf4d24da9dad2cfc0"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/native.cjs",
+      "sha256": "a98857b272fe8032bf2c3022a64fd7755f0260842e611f0d270662c30f745990"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/plan.json",
+      "sha256": "656f534bcfcb03f6751e1d321b04e676ac56b23066438e693b668375bed0e088"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/policy.cjs",
+      "sha256": "7a0777488ce11e6693a2f45358cd4a299fcf99a9bbad559d330b8f20f0f3470a"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/run.cjs",
+      "sha256": "3ecb78f765edd414ea466c133adc69310da47c1781a5cc2793adf87dfcef1645"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/runner-seal.json",
+      "sha256": "984f652daccb2692624962ef0e20a7a478bf2fae4ca104e4b73a1e638743ec9f"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/session.cjs",
+      "sha256": "e2699e7413d4b790ea86d4cd1b0d89949568d79151ce8d5727bbc9014928bbdf"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/window-flow.cjs",
+      "sha256": "58195e051da15b6eb7b32e2c7552f2ed7606fb3b3043d37fe40d14cd53d08ed4"
+    },
+    {
+      "path": "scripts/rehearse-native-ui.cjs",
+      "sha256": "9605a83ca8c6b6868ae9c22fbae9255f2b9f9f51c1037ad6e260f5986077fd75"
+    },
+    {
+      "path": "tests/foundation-native-ui.test.cjs",
+      "sha256": "3f24eebe4382f29508cdde31b55d40ad1cedd37172111f8346b58239558077fa"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-audit-20261030\\reviewer-freeze-before.json",
+      "sha256": "c606f28e2808f6d33b60286d1f60be23061d5ee956e13dc14c463e5da18503d5"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-audit-20261030\\reviewer-freeze-after.json",
+      "sha256": "554244aea52023a35e366c480955c909ad136fe54fa0be109565ccc2002f9c30"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-audit-20261030\\reviewer-results.json",
+      "sha256": "a1437648b06b416cc07aa0e7b92df1e725936a831a60394300787cfef2c31427"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-audit-20261030\\reviewer-unit-final.tap",
+      "sha256": "179a8404cc878a0f9f0e7f360e396c56b1d253c66f45aeade5eef35245eb3562"
+    }
+  ],
+  "unresolvedFindings": []
+}

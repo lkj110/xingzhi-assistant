@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "kind": "offline-native-window-runner-repair",
+  "date": "2026-10-30",
+  "sourceCommit": "78519aedf54ffd374c0aaeb5db897e4134578071",
+  "status": "offline-ready-awaiting-user-readiness",
+  "platform": "Windows packaged Electron evaluator",
+  "runnerIdentity": "5fa822babbabe768760e0ea364586796f3c8b5c7bae7d9911b5c3b5bb57b6edb",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "scope": {
+    "newF04OnlyRunner": true,
+    "productFilesChanged": false,
+    "candidateRebuilt": false,
+    "installedVersionFrozen": true,
+    "modelPromptsSchemasSemanticRulesChanged": false,
+    "priorFailedRunRewritten": false,
+    "realModelCalls": 0,
+    "officialModelCliInvocations": 0,
+    "actualHumanAcceptances": 0,
+    "liveAuthorized": false
+  },
+  "changes": [
+    "Bind the main native window; identify dynamic capture windows and retain the original packaged trustedSender and IPC handler.",
+    "Permit only exact auxiliary state, boolean occupancy and empty hide calls from trusted capture windows. Keep task acceptance exclusive to the specified task in the trusted main window.",
+    "Record received/rejected/exception origin, window role, bounded title, profile and handler boundary without payload text; non-page URL bodies are replaced by protocol/hash.",
+    "Check root and phase STOP files at the original-handler boundary; expired or stopped acceptance is refused before mutation.",
+    "Recognize only the exact original shutdown response for trusted reads after an observed before-quit event. Preserve the original returned error/hash; all other failures still stop.",
+    "Open the exact F04 task and verify the visible main window and enabled acceptance button before requesting human action.",
+    "Provide a separate single-use 45-minute F04-only session with zero model budget and no G01/business/real-CLI entry."
+  ],
+  "regression": {
+    "files": 16,
+    "tests": 309,
+    "passed": 307,
+    "failed": 0,
+    "skipped": 2,
+    "skips": [
+      "Windows host does not grant real-file symlink creation",
+      "Existing native screenshot/OCR integration requires macOS and Swift"
+    ],
+    "evidence": "evaluations\\foundation-native-ui-preparation-20261030\\final-regression.txt",
+    "sha256": "2762c9f2457c6246c5f017cbd2038cf7eb57d953574e56dd9f453bc1811929c2",
+    "newRunnerUnitTests": 45
+  },
+  "packagedRehearsal": {
+    "probes": 10,
+    "passed": 10,
+    "runnerIdentity": "5fa822babbabe768760e0ea364586796f3c8b5c7bae7d9911b5c3b5bb57b6edb",
+    "realModelCalls": 0,
+    "officialModelCliInvocations": 0,
+    "actualHumanAcceptances": 0,
+    "normalCoverage": [
+      "real dynamic capture mount and polling",
+      "occupied false/true/false UI changes",
+      "capture close button and Escape",
+      "hide/reopen and destroy/recreate",
+      "main-window target task selection and synthetic acceptance",
+      "native receipt/journal/raw/export report binding",
+      "cold restart with completed state preserved"
+    ],
+    "faultCoverage": [
+      "capture-submit",
+      "wrong-window",
+      "invalid-input",
+      "expired-accept",
+      "stop-accept",
+      "phase-stop-accept",
+      "unknown-command",
+      "cli-attempt",
+      "wrong-task"
+    ],
+    "privateDirectory": "../foundation-native-ui-runs-20261030/sealed-rehearsal-03",
+    "evidence": "evaluations\\foundation-native-ui-preparation-20261030\\sealed-rehearsal.json",
+    "sha256": "0e7b04b8d3c0160071ec8d5cf5b81770fa204da2a475a6a08860884de16b7103"
+  },
+  "reviewCorrections": [
+    {
+      "finding": "Phase STOP was missing at native admission",
+      "resolution": "Root and f04/STOP both checked before original handler; accept/draft/hide unit tests and packaged phase-stop acceptance probe pass."
+    },
+    {
+      "finding": "data URL could leak body text into denied receipt",
+      "resolution": "Non-page protocols use scheme/hash only, page credentials/query/hash are omitted and length is capped; explicit PRIVATE_SENTINEL regression passes."
+    },
+    {
+      "finding": "Normal state polling during intentional shutdown was treated as failure",
+      "resolution": "Require observed shutdown, later trusted read, strict single-field original error; negative tests cover running errors, extra fields and mutations."
+    }
+  ],
+  "developmentEvidencePreserved": {
+    "initialNineProbeRun": "../foundation-native-ui-runs-20261030/rehearsal-01",
+    "shutdownRaceFailure": "../foundation-native-ui-runs-20261030/sealed-rehearsal-02",
+    "finalTenProbeRun": "../foundation-native-ui-runs-20261030/sealed-rehearsal-03",
+    "historicalLiveFailure": "83131a99-bbac-4764-8714-d0016aab5039 remains failed and closed"
+  },
+  "freezeBaseline": {
+    "path": "../foundation-native-ui-audit-20261030/reviewer-freeze-before.json",
+    "sha256": "c606f28e2808f6d33b60286d1f60be23061d5ee956e13dc14c463e5da18503d5",
+    "roots": 68,
+    "existingTrackedFiles": 1192
+  },
+  "limits": [
+    "Offline automated acceptance is explicitly synthetic and is not real human acceptance.",
+    "No new model quality rates or model cost estimates can be drawn.",
+    "The Windows evaluator repair does not claim macOS native coverage.",
+    "The historical live F04 triggering window and user action remain unknown."
+  ],
+  "nextPlan": "docs/evidence/foundation-native-ui-f04-plan-20261030.json",
+  "nextScope": {
+    "runs": 1,
+    "modelApplicationAttempts": 0,
+    "modelDispatches": 0,
+    "inputPlusOutputTokens": 0,
+    "fixedWindowMinutes": 45,
+    "requiresFreshUserReadiness": true,
+    "oldAuthorizationReusable": false,
+    "automaticModelStageContinuation": false
+  }
+}

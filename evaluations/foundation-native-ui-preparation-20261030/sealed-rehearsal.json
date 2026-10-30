@@ -1,0 +1,213 @@
+{
+  "schema": 1,
+  "runnerIdentity": "5fa822babbabe768760e0ea364586796f3c8b5c7bae7d9911b5c3b5bb57b6edb",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "mode": "offline",
+  "passed": true,
+  "probes": [
+    {
+      "id": "normal",
+      "passed": true,
+      "expectedFailure": false,
+      "error": null,
+      "files": [
+        {
+          "path": "normal/f04.completed.json",
+          "sha256": "288389595a75f1fd97f017d42c28fd26ae8c607ecb6d86455f935b8ce16e2c68"
+        },
+        {
+          "path": "normal/f04/summary.json",
+          "sha256": "804ce638caf3563248ca9caabd10442d05146b6724b3152daaa6f5547f2f7372"
+        },
+        {
+          "path": "normal/f04/native-commands.jsonl",
+          "sha256": "9475eb5b49b1183e6a86d8fc9e64834b9a73d3cc14ea96181f403ad6dc0fe2d5"
+        }
+      ]
+    },
+    {
+      "id": "capture-submit",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "files": [
+        {
+          "path": "capture-submit/stopped.json",
+          "sha256": "b8217c3f0428fef29717869cb0bd2cafa357d72d922157e8fe14a4c2f1b5fecf"
+        },
+        {
+          "path": "capture-submit/f04/summary.json",
+          "sha256": "2741fd2ba972a3aeb5ff9e3d9f1df1e9dfe9bd96b1463feb451fa4ef4d963ee2"
+        },
+        {
+          "path": "capture-submit/f04/native-commands.jsonl",
+          "sha256": "562344731bd8dd4889ce92086373e7c688f49280d2622a76dc818380b0e5c59e"
+        }
+      ]
+    },
+    {
+      "id": "wrong-window",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "files": [
+        {
+          "path": "wrong-window/stopped.json",
+          "sha256": "71321d6961459773687da4622aceb90108849c4eb4dca46fa19cd94e934edc62"
+        },
+        {
+          "path": "wrong-window/f04/summary.json",
+          "sha256": "0230e713059e4a17fdfad01396d8ab085a377afb6a477e243202273f3f7755d2"
+        },
+        {
+          "path": "wrong-window/f04/native-commands.jsonl",
+          "sha256": "62f1971dd9372e66540935ed73e9537de22820b317ff8631cf09408656a39469"
+        }
+      ]
+    },
+    {
+      "id": "invalid-input",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "files": [
+        {
+          "path": "invalid-input/stopped.json",
+          "sha256": "8b8585985056160b177caa3a416f332a1068aaa68c81fe650f6132493bb901e6"
+        },
+        {
+          "path": "invalid-input/f04/summary.json",
+          "sha256": "75681d24a26e353dee53cbbb79b962cbe6c8ee1998092e8308d53cd0f3a39305"
+        },
+        {
+          "path": "invalid-input/f04/native-commands.jsonl",
+          "sha256": "7b7eab99d7f47c4d1a6fda4f5d73e3696db8abf2f144a6603efa2421fdb8ae80"
+        }
+      ]
+    },
+    {
+      "id": "expired-accept",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "files": [
+        {
+          "path": "expired-accept/stopped.json",
+          "sha256": "b81eacb1f33ba8f6fcc5b4e7f488dc33b73def9781942fb154d12131477b58b8"
+        },
+        {
+          "path": "expired-accept/f04/summary.json",
+          "sha256": "828752e464465766e32cf22e15fd7105ec29d85b318fb935676ef00a3d6f0b61"
+        },
+        {
+          "path": "expired-accept/f04/native-commands.jsonl",
+          "sha256": "affab1df53cddd5ad02b421a9de03c578e376ca4dc8cec788bf5d667a7c10c3b"
+        }
+      ]
+    },
+    {
+      "id": "stop-accept",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "files": [
+        {
+          "path": "stop-accept/stopped.json",
+          "sha256": "5021e1eb67c193c83fcc00f2fffefa73796effbacaefdfac6501d42499d34c1d"
+        },
+        {
+          "path": "stop-accept/f04/summary.json",
+          "sha256": "194cbcb0a17c5785339e5b1c7a82df45cf147a79d443ee3ac66d160ddcfd6fa2"
+        },
+        {
+          "path": "stop-accept/f04/native-commands.jsonl",
+          "sha256": "f3d407a7d9be7722f265bd7c1609acb24c48421a6a6e617d04ec49808c90367b"
+        }
+      ]
+    },
+    {
+      "id": "phase-stop-accept",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "files": [
+        {
+          "path": "phase-stop-accept/stopped.json",
+          "sha256": "562ea0736251841753b17f8a931fb46f028632e142df17214a5a51d54fb3d6d4"
+        },
+        {
+          "path": "phase-stop-accept/f04/summary.json",
+          "sha256": "120a5844fb28c53dfdf035bf28d56320ce1a224af643431ddeca421d4b351d0c"
+        },
+        {
+          "path": "phase-stop-accept/f04/native-commands.jsonl",
+          "sha256": "735269b173469e6dc21b7abc2d784dd9937fc70a36dc3dcb0ec1270b04dd667f"
+        }
+      ]
+    },
+    {
+      "id": "unknown-command",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "files": [
+        {
+          "path": "unknown-command/stopped.json",
+          "sha256": "ecf1042e8cacc8a368157004cd484a7a54676fa39b95bb6e9fe625fce95780d5"
+        },
+        {
+          "path": "unknown-command/f04/summary.json",
+          "sha256": "8a46923dc23dde8d7f91f933ec8dc47789e9e1688f438716590cc206779f2e92"
+        },
+        {
+          "path": "unknown-command/f04/native-commands.jsonl",
+          "sha256": "e7f5d5fdcc45d092f5964b1c9d8f7c01253936c1468064942c879496d354bf9f"
+        }
+      ]
+    },
+    {
+      "id": "cli-attempt",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "files": [
+        {
+          "path": "cli-attempt/stopped.json",
+          "sha256": "cb1a56a5037a1e03fe6e6087049baed802d043a01e6ce433799966ed920fe547"
+        },
+        {
+          "path": "cli-attempt/f04/summary.json",
+          "sha256": "dbd019246d9d91fb95b08af3628d7c66bc19f0f60719dcefa487d9f1fc117da0"
+        },
+        {
+          "path": "cli-attempt/f04/native-commands.jsonl",
+          "sha256": "b29a35cebc71536f84c838bb626121ad9b025d7c55a9a5a6e2634416d1e15cf7"
+        }
+      ]
+    },
+    {
+      "id": "wrong-task",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "files": [
+        {
+          "path": "wrong-task/stopped.json",
+          "sha256": "4fbcf3ea2ad5f40e9053a008e25a6ff6cb6675a6e91b803c88d70e2e7def4e43"
+        },
+        {
+          "path": "wrong-task/f04/summary.json",
+          "sha256": "64b42593b695af8f6ef5ea7b8af3d09800bcf65a9213d7d12d25ccbb058aa645"
+        },
+        {
+          "path": "wrong-task/f04/native-commands.jsonl",
+          "sha256": "ad03fc373cfb462555f50fdbb737320eabd1da54889c39e5516102bc7542dd83"
+        }
+      ]
+    }
+  ],
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "actualHumanAcceptances": 0,
+  "installed": false
+}

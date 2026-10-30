@@ -1,0 +1,228 @@
+{
+  "schema": 1,
+  "kind": "independent-native-ui-offline-preparation-review",
+  "reviewer": "independent-subagent",
+  "agent": "/root/recheck_protocol_review",
+  "reviewedAt": "2026-10-30T05:01:51.637Z",
+  "sourceCommit": "78519aedf54ffd374c0aaeb5db897e4134578071",
+  "runnerIdentity": "5fa822babbabe768760e0ea364586796f3c8b5c7bae7d9911b5c3b5bb57b6edb",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "approvedForUpload": true,
+  "approvedForOfflinePreparation": true,
+  "approvedForLiveReadiness": true,
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "restrictions": {
+    "scope": "F04-native-ui-only",
+    "modelApplicationAttempts": 0,
+    "maximumModelDispatches": 0,
+    "inputPlusOutputTokens": 0,
+    "fixedWindowMinutes": 45,
+    "isolatedRuns": 1,
+    "requiresCurrentUserReadiness": true,
+    "requiresNewSingleUseAuthorization": true,
+    "previousAuthorizationReusable": false,
+    "automaticModelStageContinuation": false,
+    "installationAuthorized": false
+  },
+  "conclusion": "The new F04-only executor is ready for a separately bound zero-model human check after user readiness. Offline synthetic acceptance is not real human acceptance or model-quality validation.",
+  "implementation": {
+    "productFilesChanged": false,
+    "sealedHistoricalRunnersChanged": false,
+    "installedVersionChanged": false,
+    "candidateChanged": false,
+    "originalTrustedSenderAndHandlerRetained": true,
+    "captureAllowedOnly": [
+      "direct quickCaptureState with no input or one valid receipt UUID",
+      "direct quickCaptureDraft with exactly one boolean occupied",
+      "direct quickCaptureHide with no input or an empty object"
+    ],
+    "mainMutation": "Only UI acceptance of the sealed target task",
+    "diagnostics": "Origin, role, handler boundary and bounded/redacted metadata; no payload values or non-page URL body",
+    "shutdownException": "Only a post-before-quit trusted read with the exact original single-field shutdown error; original result hash and error remain recorded"
+  },
+  "validation": {
+    "newUnit": {
+      "tests": 45,
+      "passed": 45,
+      "failed": 0,
+      "skipped": 0,
+      "independentlyRerun": true
+    },
+    "combined": {
+      "tests": 309,
+      "passed": 307,
+      "failed": 0,
+      "skipped": 2,
+      "unitSetIncluded": true,
+      "skipReasons": [
+        "Windows host does not grant real-file symlink creation",
+        "Existing native screenshot/OCR integration requires macOS and Swift"
+      ]
+    },
+    "packaged": {
+      "probes": 10,
+      "passed": 10,
+      "normalSyntheticAcceptances": 1,
+      "actualHumanAcceptances": 0,
+      "negativeProbes": 9,
+      "originalHandlerRejections": 8,
+      "localBridgeRejections": 1,
+      "coldRestartPreserved": true,
+      "rawExportJournalReceiptBindingsVerified": true,
+      "originalDraftSourcesAndModelHistoryUnchanged": true
+    },
+    "realModelCalls": 0,
+    "officialModelCliInvocations": 0,
+    "modelTokens": 0,
+    "qualityMetrics": null
+  },
+  "resolvedFindings": [
+    {
+      "id": "NUI-R1",
+      "finding": "Phase STOP omitted at native admission",
+      "resolution": "Root and phase STOP checked before handler; accept/draft/hide unit negatives and packaged phase-stop probe pass."
+    },
+    {
+      "id": "NUI-R2",
+      "finding": "data URL body could enter denied diagnostic",
+      "resolution": "Non-page URL is protocol/hash only; credentials/query/hash removed from page URLs and length capped; sentinel negative passes."
+    },
+    {
+      "id": "NUI-R3",
+      "finding": "Expected shutdown read was treated as command failure",
+      "resolution": "Observed shutdown time and exact response shape scope the exception; mutation and runtime error negatives pass. Failed rehearsal 02 remains failed."
+    }
+  ],
+  "freeze": {
+    "roots": 68,
+    "existingTrackedFiles": 1192,
+    "allFrozenIdentitiesUnchanged": true,
+    "proofs": [
+      {
+        "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-audit-20261030\\reviewer-freeze-before.json",
+        "sha256": "c606f28e2808f6d33b60286d1f60be23061d5ee956e13dc14c463e5da18503d5"
+      },
+      {
+        "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-audit-20261030\\reviewer-freeze-after.json",
+        "sha256": "554244aea52023a35e366c480955c909ad136fe54fa0be109565ccc2002f9c30"
+      }
+    ]
+  },
+  "limits": [
+    "Windows packaged evaluator coverage only; no macOS native claim.",
+    "No new generated model output; hallucination, semantic false block and false release rates are not measured.",
+    "Historical live run 83131a99 remains failed and closed; originating window and user action remain unknown.",
+    "Offline simulated clicks do not satisfy the pending real human acceptance."
+  ],
+  "developmentFailureRetained": [
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-runs-20261030\\sealed-rehearsal-02\\normal\\f04\\summary.json",
+      "sha256": "326ddeaf061bdfd85f0038535838ed34935b09b7ccfd55467c6bb27221eb154f"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-runs-20261030\\sealed-rehearsal-02\\normal\\stopped.json",
+      "sha256": "f176bb755ae642b4b7ff4d9b2ceb5056e8598b1dd9f07e90771f565edcabff4b"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-runs-20261030\\sealed-rehearsal-02\\normal\\f04\\native-commands.jsonl",
+      "sha256": "c9ca95991021f5a9c40a1d03365b51df6db5aa914a384c50e8d7ef22e463aef3"
+    }
+  ],
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-native-ui-f04-plan-20261030.json",
+      "sha256": "8ec7995b07c8f40613987f6df70a8ab7b2e0bfaac47dd4a80cc7fa59f8dba543"
+    },
+    {
+      "path": "docs/evidence/foundation-native-ui-preparation-20261030.json",
+      "sha256": "93363a35a4428c9bffe8f6f26e64d92578d56cb318fc0d57862f7aa52a361f81"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-preparation-20261030/.gitattributes",
+      "sha256": "667b93be6ede617192a0c6ac9e3664b1727402239531277b6cd47b53e73a6535"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-preparation-20261030/final-regression.txt",
+      "sha256": "2762c9f2457c6246c5f017cbd2038cf7eb57d953574e56dd9f453bc1811929c2"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-preparation-20261030/sealed-rehearsal.json",
+      "sha256": "0e7b04b8d3c0160071ec8d5cf5b81770fa204da2a475a6a08860884de16b7103"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/engine.cjs",
+      "sha256": "3d3d9bf0c39f420f77bd4b863ff8f3b399947fb2e5b2f5364ba00a90445c811c"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/identity.cjs",
+      "sha256": "68671ccd6fd4967b004f6ebe422a6073da5d102cd638603bf4d24da9dad2cfc0"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/native.cjs",
+      "sha256": "a98857b272fe8032bf2c3022a64fd7755f0260842e611f0d270662c30f745990"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/plan.json",
+      "sha256": "656f534bcfcb03f6751e1d321b04e676ac56b23066438e693b668375bed0e088"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/policy.cjs",
+      "sha256": "7a0777488ce11e6693a2f45358cd4a299fcf99a9bbad559d330b8f20f0f3470a"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/run.cjs",
+      "sha256": "3ecb78f765edd414ea466c133adc69310da47c1781a5cc2793adf87dfcef1645"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/runner-seal.json",
+      "sha256": "984f652daccb2692624962ef0e20a7a478bf2fae4ca104e4b73a1e638743ec9f"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/session.cjs",
+      "sha256": "e2699e7413d4b790ea86d4cd1b0d89949568d79151ce8d5727bbc9014928bbdf"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/window-flow.cjs",
+      "sha256": "58195e051da15b6eb7b32e2c7552f2ed7606fb3b3043d37fe40d14cd53d08ed4"
+    },
+    {
+      "path": "scripts/rehearse-native-ui.cjs",
+      "sha256": "9605a83ca8c6b6868ae9c22fbae9255f2b9f9f51c1037ad6e260f5986077fd75"
+    },
+    {
+      "path": "tests/foundation-native-ui.test.cjs",
+      "sha256": "3f24eebe4382f29508cdde31b55d40ad1cedd37172111f8346b58239558077fa"
+    },
+    {
+      "path": "evaluations/foundation-native-ui-runner/runner-review.json",
+      "sha256": "909d90d1c0aafb4685e6f12b5e7dce93f1098724876d6d1e86266ce47495bc38"
+    }
+  ],
+  "independentEvidence": [
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-audit-20261030\\reviewer-freeze-before.json",
+      "sha256": "c606f28e2808f6d33b60286d1f60be23061d5ee956e13dc14c463e5da18503d5"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-audit-20261030\\reviewer-freeze-after.json",
+      "sha256": "554244aea52023a35e366c480955c909ad136fe54fa0be109565ccc2002f9c30"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-audit-20261030\\reviewer-results.json",
+      "sha256": "a1437648b06b416cc07aa0e7b92df1e725936a831a60394300787cfef2c31427"
+    },
+    {
+      "path": "C:\\Users\\liukongjie\\Documents\\Codex\\2026-10-21\\new-chat\\work\\foundation-native-ui-audit-20261030\\reviewer-unit-final.tap",
+      "sha256": "179a8404cc878a0f9f0e7f360e396c56b1d253c66f45aeade5eef35245eb3562"
+    }
+  ],
+  "reviewerActions": {
+    "officialModelCliInvocations": 0,
+    "modelCalls": 0,
+    "humanUiActions": 0,
+    "productOrRunnerEdits": 0,
+    "authorizedReportStatusUpdateOnly": true
+  },
+  "unresolvedFindings": []
+}
