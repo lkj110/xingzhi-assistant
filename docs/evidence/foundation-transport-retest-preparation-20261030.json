@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "kind": "updated-minimal-executor-offline-preparation",
+  "date": "2026-10-30",
+  "sourceCommit": "0342b69dbbc1418079db761851a489f8fe87b603",
+  "branch": "codex/foundation-transport-retest",
+  "status": "offline-preparation-complete",
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "runnerIdentity": "a626d3975247ab3e06336e81e154d356e7b1c15a58b9aad0b68dc43df33aafa0",
+  "priorRunnerIdentity": "3d4b4489abb902e14aad462ee63980c285b909c02f21c553059c8d8a3aadf375",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "scope": "G01-F05-F06-only",
+  "entry": "evaluations/foundation-remaining-runner/run.cjs",
+  "outputParent": "../foundation-transport-retest-runs-20261030",
+  "implementation": {
+    "sameExecutorReused": true,
+    "newRunnerNamespaceCopy": false,
+    "updatedSealOnlyInNewCheckout": true,
+    "historicalSealsAndReviewsPreservedInPriorCheckoutAndGit": true,
+    "diagnosticRepairIncluded": true,
+    "newOutputRootIsolated": true,
+    "allNewDiagnosticTestsAndFixturesSealed": true,
+    "offlineRoutingFaultAddedAtGateAndBusinessFirstDispatch": true,
+    "productSourceChanges": false,
+    "promptSchemaEvidenceOrSemanticChanges": false
+  },
+  "validation": {
+    "regression": {
+      "tests": 181,
+      "passed": 181,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": {
+        "path": "evaluations/foundation-transport-retest-preparation-20261030/regression.tap",
+        "sha256": "8d9edda74c3fbaba3020e6841f41b258b262c1980b42963e6561d4bb8ae8f024"
+      }
+    },
+    "packagedRehearsal": {
+      "probes": 8,
+      "passed": 8,
+      "failed": 0,
+      "evidence": {
+        "path": "evaluations/foundation-transport-retest-preparation-20261030/sealed-rehearsal.json",
+        "sha256": "5bd56a65acf8aa7075cc10b683ea0e5be3b48ee25330424b290480afc6d4793a"
+      },
+      "privateOutput": "../foundation-transport-retest-runs-20261030/sealed-rehearsal-01",
+      "probeIds": [
+        "normal",
+        "gate-malformed",
+        "business-unknown-usage",
+        "capture-submit",
+        "wrong-window",
+        "phase-stop",
+        "gate-routing-timeout",
+        "business-routing-timeout"
+      ]
+    },
+    "normalFlow": {
+      "G01": true,
+      "F05InitialConfirmationAndSeparateRecheck": true,
+      "F05RevisionNewBasisAndSecondConfirmationRecheck": true,
+      "F06ColdRestarts": 3,
+      "simulatedFinalAcceptances": 2,
+      "syntheticTransportAttempts": {
+        "G01": 4,
+        "F05": 11,
+        "F06": 4
+      },
+      "actualHumanAcceptances": 0
+    },
+    "routingFailures": [
+      {
+        "probe": "gate-routing-timeout",
+        "topLevelCode": "CLI_ROUTING_TIMEOUT",
+        "ledgerCode": "CLI_ROUTING_TIMEOUT",
+        "terminalCode": "CLI_ROUTING_TIMEOUT",
+        "attempts": 1,
+        "unknownUsage": 1,
+        "totalTokens": null,
+        "processTreeConfirmed": true,
+        "F06Started": false,
+        "terminalEvidence": {
+          "path": "gate-routing-timeout/gate/calls/c017cf93-f934-4d34-9de3-0f31c8b2efac-terminal.json",
+          "sha256": "5254253315b9c0efcbdc4a477f32080e3aeb20bf36cce84742ccd50af7d04de8"
+        }
+      },
+      {
+        "probe": "business-routing-timeout",
+        "topLevelCode": "CLI_ROUTING_TIMEOUT",
+        "ledgerCode": "CLI_ROUTING_TIMEOUT",
+        "terminalCode": "CLI_ROUTING_TIMEOUT",
+        "attempts": 1,
+        "unknownUsage": 1,
+        "totalTokens": null,
+        "processTreeConfirmed": true,
+        "F06Started": false,
+        "terminalEvidence": {
+          "path": "business-routing-timeout/business/calls/0789709c-d114-435e-a439-20ae8318a643-terminal.json",
+          "sha256": "1b6c634ec0dda6458f8c63fa6d38142c134add3f542d4ccdf1cecddf888a0f86"
+        }
+      }
+    ],
+    "oldAuthorizationAndSealRejectedBeforeClaimOrProcess": true,
+    "realModelCalls": 0,
+    "officialModelCliInvocations": 0,
+    "realApplicationTokens": 0,
+    "F04Executions": 0,
+    "installed": false,
+    "syntheticOnly": true
+  },
+  "frozen": {
+    "installedVersion": true,
+    "candidatePackage": true,
+    "productSource": true,
+    "promptsSchemasSemanticStandards": true,
+    "F04AndClosedRoundEvidence": true
+  },
+  "proposal": {
+    "path": "docs/evidence/foundation-transport-retest-plan-20261030.json",
+    "sha256": "7a7e930f548e9783725d13c4e559a3c2089f95e96fc6a5e086c677b5d98e2d87",
+    "budget": {
+      "applicationAttempts": 25,
+      "maximumModelDispatches": 22,
+      "reportedTokenStopThreshold": 620000
+    },
+    "gate": {
+      "applicationAttempts": 5,
+      "maximumModelDispatches": 4,
+      "inputPlusOutputTokenStopThreshold": 120000,
+      "fixedWindowMinutes": 45
+    },
+    "business": {
+      "applicationAttempts": 20,
+      "maximumModelDispatches": 18,
+      "inputPlusOutputTokenStopThreshold": 500000,
+      "sharedFixedWindowMinutes": 45,
+      "cases": [
+        {
+          "id": "F05-jianping-revision",
+          "attempts": 13,
+          "tokenStopThreshold": 330000
+        },
+        {
+          "id": "F06-yunshu-restart",
+          "attempts": 7,
+          "tokenStopThreshold": 170000
+        }
+      ]
+    },
+    "requiresNewExplicitUserAuthorization": true,
+    "oldBudgetReusable": false,
+    "userBusinessReadinessRequired": true,
+    "inFlightOvershootAcceptedOnlyAfterUserConfirmation": true,
+    "formalMainEvaluation": false,
+    "candidateInstallation": false
+  },
+  "limits": [
+    "Offline fixture success does not demonstrate upstream routing recovery or real business/model quality.",
+    "Original exposed sealed samples are reused; this is not a fresh blind comparison.",
+    "F04 is read-only prerequisite evidence, never rerun or counted in the two-case denominator.",
+    "The previous real round stays closed and its unknown usage remains unknown.",
+    "No matching live authorization, extra CLI connectivity probe, real confirmation or installation was created in this preparation."
+  ],
+  "nextStep": "Complete independent readiness review and upload the exact reviewed bytes, then ask the user to approve this new budget. Start G01 only after that approval; start the business window only after G01 passes and the user confirms readiness."
+}

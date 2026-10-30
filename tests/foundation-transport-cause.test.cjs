@@ -86,7 +86,7 @@ test('local transport -> actual broker -> ledger -> session keeps first cause an
 });
 for(const known of [false,true])test('actual session guard records the original stop and keeps '+(known?'known':'unknown')+' usage',t=>{
  const id=require('../evaluations/foundation-remaining-runner/identity.cjs'),session=require('../evaluations/foundation-remaining-runner/session.cjs'),{Ledger}=require('../evaluations/foundation-business-runner/ledger.cjs');
- const plan=require('../evaluations/foundation-remaining-runner/plan.json'),base=path.resolve(id.root,'../foundation-remaining-runs-20261030'),output=path.join(base,'unit-cause-'+crypto.randomUUID());
+ const plan=require('../evaluations/foundation-remaining-runner/plan.json'),base=path.resolve(id.root,plan.outputParent),output=path.join(base,'unit-cause-'+crypto.randomUUID());
  t.mock.method(id,'frozen',()=>({plan:structuredClone(plan)}));t.mock.method(id,'verifyRunner',()=>{});
  t.after(()=>{if(fs.existsSync(output)){assert.equal(path.dirname(fs.realpathSync(output)),fs.realpathSync(base));fs.rmSync(output,{recursive:true,force:true});}});
  const s=session.begin({phase:'gate',mode:'offline',output,executable:'unused',readyReference:'UNIT-NO-USER-AUTHORIZATION'});
@@ -100,7 +100,7 @@ for(const known of [false,true])test('actual session guard records the original 
 });
 for(const [terminal,later,expected]of [[true,'deadline','CLI_ROUTING_TIMEOUT'],[true,'STOP','CLI_ROUTING_TIMEOUT'],[true,'clock','CLI_ROUTING_TIMEOUT'],[false,'deadline','ERR_ASSERTION'],[false,'deadline-during-validation','ERR_ASSERTION'],[true,'identity','ERR_ASSERTION'],[true,'checksum','ERR_ASSERTION']])test(`first failure precedence: terminal=${terminal}, later=${later}`,t=>{
  const id=require('../evaluations/foundation-remaining-runner/identity.cjs'),session=require('../evaluations/foundation-remaining-runner/session.cjs'),{Ledger}=require('../evaluations/foundation-business-runner/ledger.cjs');
- const plan=require('../evaluations/foundation-remaining-runner/plan.json'),base=path.resolve(id.root,'../foundation-remaining-runs-20261030'),output=path.join(base,'unit-cause-'+crypto.randomUUID());let clock=Date.now();
+ const plan=require('../evaluations/foundation-remaining-runner/plan.json'),base=path.resolve(id.root,plan.outputParent),output=path.join(base,'unit-cause-'+crypto.randomUUID());let clock=Date.now();
  t.mock.method(id,'frozen',()=>({plan:structuredClone(plan)}));t.mock.method(id,'verifyRunner',()=>{});
  t.after(()=>{if(fs.existsSync(output)){assert.equal(path.dirname(fs.realpathSync(output)),fs.realpathSync(base));fs.rmSync(output,{recursive:true,force:true});}});
  const s=session.begin({phase:'gate',mode:'offline',output,executable:'unused',readyReference:'UNIT-NO-USER-AUTHORIZATION',now:()=>clock});
@@ -118,12 +118,14 @@ for(const [terminal,later,expected]of [[true,'deadline','CLI_ROUTING_TIMEOUT'],[
  if(later==='identity')assert.match(problem.message,/Run identity changed/);
  if(later==='checksum')assert.match(problem.message,/Ledger checksum changed/);
 });
-test('modified checkout rejects the old live seal before any authorization is consumed or CLI is spawned',t=>{
+test('historical live seal is rejected before any authorization is consumed or CLI is spawned',t=>{
  const id=require('../evaluations/foundation-remaining-runner/identity.cjs'),session=require('../evaluations/foundation-remaining-runner/session.cjs'),cp=require('node:child_process');
  const dir=directory(t),auth=path.join(dir,'authorization.json');fs.writeFileSync(auth,'{}');
  // Avoid reading the large candidate archive in this unit test. Seal validation
  // is the real implementation and must reject the actual changed source tree.
  t.mock.method(id,'frozen',()=>({plan:require('../evaluations/foundation-remaining-runner/plan.json')}));
+ const originalRead=id.read,oldSeal=require('./fixtures/foundation-remaining-prior-seal-20261030.json');
+ t.mock.method(id,'read',file=>file===path.join(id.root,'evaluations/foundation-remaining-runner/runner-seal.json')?oldSeal:originalRead(file));
  for(const method of ['spawn','spawnSync','execFileSync'])t.mock.method(cp,method,()=>assert.fail('No process allowed at the sealed entry'));
  assert.throws(()=>session.begin({phase:'gate',mode:'live',readyReference:'OFFLINE UNIT ONLY',authorizationPath:auth,output:path.join(dir,'unused'),executable:'unused'}),/runner\/dependency drift/i);
  assert.equal(fs.existsSync(auth+'.consumed.json'),false);assert.equal(fs.existsSync(path.join(dir,'unused')),false);assert.equal(fs.readFileSync(auth,'utf8'),'{}');

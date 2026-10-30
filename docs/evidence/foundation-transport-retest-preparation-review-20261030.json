@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "kind": "independent-updated-minimal-executor-readiness-review",
+  "date": "2026-10-30",
+  "reviewer": "independent-subagent",
+  "sourceCommit": "0342b69dbbc1418079db761851a489f8fe87b603",
+  "branch": "codex/foundation-transport-retest",
+  "status": "approved-for-user-review-awaiting-new-authorization",
+  "approvedForUpload": true,
+  "approvedForLiveReadiness": true,
+  "approvedForUserReview": true,
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "businessAcceptancePassed": false,
+  "candidateInstallationApproved": false,
+  "runnerIdentity": "a626d3975247ab3e06336e81e154d356e7b1c15a58b9aad0b68dc43df33aafa0",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "scope": "G01-F05-F06-only",
+  "findings": [],
+  "conclusions": [
+    "The existing staged executor is reused in a new isolated checkout. Its new seal covers the routing classifier, transport, regression sources, exact historical event and exact historical-seal fixture. Original checkouts, seals and evidence remain frozen.",
+    "The output parent is an exact validated new directory. Historical runner identity, old plan or old output root is refused before authorization consumption or process launch. Actual closed historical authorization was independently rejected.",
+    "All 181 offline tests passed. An independent rerun of the seven preparation checks passed; these counts overlap and are not added together.",
+    "All eight packaged offline probes passed, including all 68 referenced original evidence hashes. Normal execution has 19 local fixture calls: G01 four, F05 eleven, F06 four; two F05 confirmation/recheck handoffs, a distinct revision basis, two simulated acceptances and three F06 cold restarts were independently verified.",
+    "Both first-dispatch routing fault probes preserve CLI_ROUTING_TIMEOUT across top-level, ledger and terminal evidence with the exact archived 88-byte event. Each stopped after one phase attempt, with unknown usage and null total, no redispatch and no F06 start.",
+    "Unknown usage and malformed output remain terminal. Wrong-window, capture-submit and phase STOP probes reject before the original handler and before model dispatch.",
+    "The new proposal accurately retains 25 application attempts, 22 model dispatches and a 620000 input/output-token stopping threshold. G01 has its own fixed 45-minute window; business begins only after G01 review and separate user readiness, then shares a second fixed 45-minute window. In-flight overshoot, cached-token accounting and all waiting time are disclosed.",
+    "F04 is preserved solely as a read-only prerequisite. Exposed samples are not described as blind; branch coverage requires natural live activation, zero quality denominators remain non-estimable, and no new real quality or upstream recovery claim is made."
+  ],
+  "validation": {
+    "combinedRegression": {
+      "tests": 181,
+      "passed": 181,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": {
+        "path": "evaluations/foundation-transport-retest-preparation-20261030/regression.tap",
+        "sha256": "8d9edda74c3fbaba3020e6841f41b258b262c1980b42963e6561d4bb8ae8f024"
+      }
+    },
+    "independentPreparationRerun": {
+      "tests": 7,
+      "passed": 7,
+      "overlapsCombined": true,
+      "notAdditive": true,
+      "evidence": {
+        "path": "../foundation-transport-retest-audit-20261030/reviewer-preparation-unit.tap",
+        "sha256": "2644cb38b0a225b9ce54aa6db16f0839e21a9638ac7fa7238164f9de6cf03362"
+      }
+    },
+    "packagedProbes": 8,
+    "verifiedOriginalEvidenceHashes": 68,
+    "normalFlow": {
+      "path": "../foundation-transport-retest-audit-20261030/reviewer-normal-result.json",
+      "sha256": "75de95f5bd4efc06f27012ea7dd431327c2e68819e0a2895ff92163f3e847228"
+    },
+    "matrix": {
+      "path": "../foundation-transport-retest-audit-20261030/reviewer-matrix-result.json",
+      "sha256": "a2d3d44b2bf8837600b74ec468f6e515de465b7ecfe4e7277d7042a40e355470"
+    },
+    "admission": {
+      "path": "../foundation-transport-retest-audit-20261030/reviewer-admission-proof.json",
+      "sha256": "801591f3e0c774713b17c084827a0a0a54ca0810dec38291e5692a5d5e38f6d4"
+    },
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "realApplicationTokens": 0,
+    "actualHumanAcceptances": 0,
+    "F04Executions": 0,
+    "qualityMetrics": null
+  },
+  "runtimeReadiness": {
+    "path": "evaluations/foundation-remaining-runner/runner-review.json",
+    "sha256": "5abc4b19edb3b067d0647888a3a48f47a6df091e8677c39a5bcc4ff99f4e3236"
+  },
+  "seal": {
+    "path": "evaluations/foundation-remaining-runner/runner-seal.json",
+    "sha256": "738392f47b2988aaeba2946f0d9356dd6244edafdde25f61d08393ebe79c167a"
+  },
+  "proposal": {
+    "path": "docs/evidence/foundation-transport-retest-plan-20261030.json",
+    "sha256": "7a7e930f548e9783725d13c4e559a3c2089f95e96fc6a5e086c677b5d98e2d87"
+  },
+  "preparation": {
+    "path": "docs/evidence/foundation-transport-retest-preparation-20261030.json",
+    "sha256": "3daed6fb3670079755112d217bf02f08ca28a0936ca185bb3817924cedbd183c"
+  },
+  "freeze": {
+    "before": {
+      "path": "../foundation-transport-retest-audit-20261030/reviewer-freeze-before.json",
+      "sha256": "a3735895e49eb94318e8e542126e421916dcda697e595731e64b7d8dcec53a3d"
+    },
+    "after": {
+      "path": "../foundation-transport-retest-audit-20261030/reviewer-freeze-after-git-attributes.json",
+      "sha256": "faba197efbe68d1f46244d474d52fa004b41f72de7a320642e073373d3e9556b"
+    },
+    "roots": 124,
+    "originalTrackedFiles": 1245,
+    "approvedExistingFileChanges": 11,
+    "allExternalRootsUnchanged": true,
+    "allOtherOriginalTrackedFilesUnchanged": true,
+    "installedVersionFrozen": true,
+    "candidatePackageFrozen": true,
+    "productSourceAndSemanticStandardsFrozen": true,
+    "priorClosedRoundsUnchanged": true
+  },
+  "limits": {
+    "offlineSuccessIsNotRealBusinessAcceptance": true,
+    "underlyingRoutingRecoveryVerified": false,
+    "oldBudgetReusable": false,
+    "formalMainEvaluationAuthorized": false,
+    "installationAuthorized": false,
+    "stageWindowsMayExpireBeforeCompletion": true,
+    "tokenThresholdIsNotServerEnforcedHardCap": true
+  },
+  "authorizationBoundary": "This review permits uploading the exact files and presenting the new plan for user approval. It neither creates a live authorization nor permits model dispatch. New explicit approval and G01 readiness are required before G01, and separate business readiness is required after G01 passes.",
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-transport-retest-plan-20261030.json",
+      "sha256": "7a7e930f548e9783725d13c4e559a3c2089f95e96fc6a5e086c677b5d98e2d87"
+    },
+    {
+      "path": "docs/evidence/foundation-transport-retest-preparation-20261030.json",
+      "sha256": "3daed6fb3670079755112d217bf02f08ca28a0936ca185bb3817924cedbd183c"
+    },
+    {
+      "path": "evaluations/foundation-business-runner/broker.cjs",
+      "sha256": "9f426c094bc11e7b015189e1866ada6bc3de3ec61c9ddb2b1740596875b9cf8a"
+    },
+    {
+      "path": "evaluations/foundation-citation-gate-runner/broker.cjs",
+      "sha256": "ac2a629c8ddc513567a266fcb5e5c7126b9961c565c855853015138d1f962736"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/gate-engine.cjs",
+      "sha256": "e76166f2d5d7d88350e808736b258aab57fde2671e52ca97b757d73dfcc75948"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/identity.cjs",
+      "sha256": "d99c1f2a69f47b6ac8502cd1cc1f11e1445bdae2e602503107af873275ea65b5"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/plan.json",
+      "sha256": "935c6f6fe0e3fd56ac1a5f1fab42653fb4f01caf2127d2ed04b301a19b4d7440"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/runner-review.json",
+      "sha256": "5abc4b19edb3b067d0647888a3a48f47a6df091e8677c39a5bcc4ff99f4e3236"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/runner-seal.json",
+      "sha256": "738392f47b2988aaeba2946f0d9356dd6244edafdde25f61d08393ebe79c167a"
+    },
+    {
+      "path": "evaluations/foundation-remaining-runner/session.cjs",
+      "sha256": "9298a1c44fea204abb0621a68b0a8116c2c785a5623858fa4685d8f3b8a7a3b0"
+    },
+    {
+      "path": "evaluations/foundation-transport-retest-preparation-20261030/.gitattributes",
+      "sha256": "239e707a02f06e4f334d2364c4b1b171fd8dc6fd03e050856654785e1113cd39"
+    },
+    {
+      "path": "evaluations/foundation-transport-retest-preparation-20261030/regression.tap",
+      "sha256": "8d9edda74c3fbaba3020e6841f41b258b262c1980b42963e6561d4bb8ae8f024"
+    },
+    {
+      "path": "evaluations/foundation-transport-retest-preparation-20261030/sealed-rehearsal.json",
+      "sha256": "5bd56a65acf8aa7075cc10b683ea0e5be3b48ee25330424b290480afc6d4793a"
+    },
+    {
+      "path": "scripts/rehearse-remaining-runner.cjs",
+      "sha256": "83e4264fe8776d958d3f49b20182a2b51d17198cf62b6138b9e649a842dab1c7"
+    },
+    {
+      "path": "tests/fixtures/foundation-remaining-prior-seal-20261030.json",
+      "sha256": "cffb26346ddf020b23c8d663fbcf48356432915bc1f1fe799c35049eff0cbd79"
+    },
+    {
+      "path": "tests/foundation-remaining-runner.test.cjs",
+      "sha256": "05fa54671703694feaa4caa5f6774ac49a8473a49951b8716b7a89becbaf9d86"
+    },
+    {
+      "path": "tests/foundation-transport-cause.test.cjs",
+      "sha256": "aff946d55d1b9ad62cc82b106e9af9f5a85768063286343c456a47152b7f5721"
+    },
+    {
+      "path": "tests/foundation-transport-retest-preparation.test.cjs",
+      "sha256": "4855e8c40c12b359cdf31cc8aba15c4393c632668a128fb53bddd09f0cda2723"
+    }
+  ]
+}

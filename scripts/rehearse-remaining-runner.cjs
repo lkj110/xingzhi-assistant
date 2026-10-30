@@ -2,14 +2,17 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const id=require('../evaluations/foundation-remaining-runner/identity.cjs'),{run}=require('../evaluations/foundation-remaining-runner/run.cjs');
 async function rehearse({executable,output}){
- output=require('../evaluations/foundation-marker-runner/output.cjs').validateOutput(output,path.resolve(id.root,'../foundation-remaining-runs-20261030'));fs.mkdirSync(output,{recursive:true});
+ const plan=id.read(path.join(id.root,'evaluations/foundation-remaining-runner/plan.json'));id.validatePlan(plan);
+ output=require('../evaluations/foundation-marker-runner/output.cjs').validateOutput(output,path.resolve(id.root,plan.outputParent));fs.mkdirSync(output,{recursive:true});
  const seal=id.read(path.join(id.root,'evaluations/foundation-remaining-runner/runner-seal.json'));id.verifyRunner(seal);const results=[];
  const probes=[{id:'normal',phases:['gate','business'],fault:'capture-lifecycle'},
   {id:'gate-malformed',phases:['gate'],fault:'malformed-inner',negative:true},
   {id:'business-unknown-usage',phases:['gate','business'],fault:'unknown-usage',negative:true},
   {id:'capture-submit',phases:['gate'],fault:'capture-submit',negative:true},
   {id:'wrong-window',phases:['gate'],fault:'wrong-window',negative:true},
-  {id:'phase-stop',phases:['gate'],fault:'phase-stop',negative:true}];
+  {id:'phase-stop',phases:['gate'],fault:'phase-stop',negative:true},
+  {id:'gate-routing-timeout',phases:['gate'],fault:'routing-timeout',negative:true},
+  {id:'business-routing-timeout',phases:['gate','business'],fault:'routing-timeout',negative:true}];
  for(const probe of probes){
   const target=path.join(output,probe.id);let error;
   for(const [i,stage]of probe.phases.entries())try{await run({stage,executable,output:target,mode:'offline',readyReference:'OFFLINE-SYNTHETIC-NOT-USER-APPROVAL',fault:probe.id==='normal'||i===probe.phases.length-1?probe.fault:undefined});}catch(e){error=e;break;}
@@ -20,6 +23,12 @@ async function rehearse({executable,output}){
    if(last==='gate')assert.ok(!fs.existsSync(path.join(target,'business.started.json')));
    if(probe.fault==='malformed-inner'){assert.equal(summary.ledger.totals.admitted,1);assert.equal(summary.ledger.totals.unknownUsage,0);}
    if(probe.fault==='unknown-usage'){assert.ok(summary.ledger.totals.unknownUsage>0);assert.equal(summary.ledger.totals.totalTokens,null);assert.deepEqual(summary.results.map(r=>r.caseId),['F05-jianping-revision']);assert.ok(!fs.existsSync(path.join(target,'business/F06-yunshu-restart.json')));}
+   if(probe.fault==='routing-timeout'){
+    assert.equal(error.code,'CLI_ROUTING_TIMEOUT');const stopped=id.read(path.join(target,'stopped.json'));assert.equal(stopped.error,'CLI_ROUTING_TIMEOUT');assert.equal(stopped.cause.code,'CLI_ROUTING_TIMEOUT');
+    assert.equal(summary.ledger.stop.reason,'CLI_ROUTING_TIMEOUT');assert.equal(summary.ledger.totals.admitted,1);assert.equal(summary.ledger.totals.applicationEntryAttempts,1);assert.equal(summary.ledger.totals.unknownUsage,1);assert.equal(summary.ledger.totals.totalTokens,null);assert.equal(summary.ledger.totals.pendingUsage,0);assert.equal(summary.ledger.totals.unexpectedAttempts,0);
+    const terminals=fs.readdirSync(path.join(target,last,'calls')).filter(n=>n.endsWith('-terminal.json'));assert.equal(terminals.length,1);const terminal=id.read(path.join(target,last,'calls',terminals[0]));assert.equal(terminal.error,'CLI_ROUTING_TIMEOUT');assert.equal(terminal.rawOutput,null);assert.equal(terminal.processTreeConfirmed,true);assert.equal(terminal.diagnostics.events[0].rawEventSha256,'32345e942660070888e7e55e44337de7621a23fab06c7643c8f484c380a8ad25');
+    if(last==='business'){assert.deepEqual(summary.results.map(r=>r.caseId),['F05-jianping-revision']);assert.equal(summary.results[0].errorCode,'CLI_ROUTING_TIMEOUT');assert.ok(!fs.existsSync(path.join(target,'business/F06-yunshu-restart.json')));}
+   }
    if(['capture-submit','wrong-window','phase-stop'].includes(probe.fault)){assert.equal(summary.ledger.totals.admitted,0);assert.equal(summary.ledger.totals.totalTokens,0);const rows=require('../evaluations/foundation-remaining-runner/native.cjs').records(path.join(target,last,'native-commands.jsonl'));assert.ok(rows.some(r=>r.kind==='denied'&&r.boundary==='before-original-handler'));}
   }else{
    assert.deepEqual(summary.results.map(r=>r.caseId),['F05-jianping-revision','F06-yunshu-restart']);assert.equal(summary.gateExecutions,0);assert.equal(summary.simulatedAcceptances,2);

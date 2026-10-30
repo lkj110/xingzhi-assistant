@@ -4,7 +4,7 @@ const id=require('../evaluations/foundation-remaining-runner/identity.cjs'),sess
 const {Ledger,planHash}=require('../evaluations/foundation-business-runner/ledger.cjs');
 const plan=id.read(path.join(id.root,'evaluations/foundation-remaining-runner/plan.json'));
 function fixture(t){
- const base=path.resolve(id.root,'../foundation-remaining-runs-20261030'),output=path.join(base,'unit-'+crypto.randomUUID());let clock=100000;
+ const base=path.resolve(id.root,plan.outputParent),output=path.join(base,'unit-'+crypto.randomUUID());let clock=100000;
  // Unit-only package verification substitute. No executable or model is started.
  t.mock.method(id,'frozen',()=>({plan:structuredClone(plan)}));t.mock.method(id,'verifyRunner',()=>{});
  t.after(()=>{if(fs.existsSync(output)){const real=fs.realpathSync(output),relative=path.relative(fs.realpathSync(base),real);assert.ok(relative&&!relative.startsWith('..')&&!path.isAbsolute(relative));fs.rmSync(real,{recursive:true,force:true});}});

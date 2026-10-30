@@ -61,9 +61,10 @@ async function createBroker({directory,plan,mode,sealIdentity,authorization,real
     // A local Node fixture exercises the same transport/supervisor/diagnostic path.
     // It never discovers a model CLI, reads login state, or contacts the network.
     const rejected=fault==='cli-rejection'&&rows.length===2;
-    const event=rejected?{type:'turn.failed',error:{code:'SYNTHETIC_UPSTREAM_FAILURE',message:'Synthetic upstream rejection; authorization=Bearer SYNTHETIC_DIAGNOSTIC_SECRET',http_status:503}}:{type:'turn.completed',...(fault==='unknown-usage'?{}:{usage})};
+    const routing=fault==='routing-timeout'&&rows.length===1;
+    const event=routing?JSON.parse(require('../../tests/fixtures/foundation-cli-routing-timeout-20261030.json').eventLine):rejected?{type:'turn.failed',error:{code:'SYNTHETIC_UPSTREAM_FAILURE',message:'Synthetic upstream rejection; authorization=Bearer SYNTHETIC_DIAGNOSTIC_SECRET',http_status:503}}:{type:'turn.completed',...(fault==='unknown-usage'?{}:{usage})};
     const raw=fault==='malformed-inner'?'invalid-json':JSON.stringify(response);
-    bin=process.execPath;args=['-e',rejected?
+    bin=process.execPath;args=['-e',rejected||routing?
      'process.stdout.write('+JSON.stringify(JSON.stringify(event)+'\n')+');setInterval(()=>{},1000);':
      'require("node:fs").writeFileSync('+JSON.stringify(call.output)+','+JSON.stringify(JSON.stringify({response_json:raw}))+');process.stdout.write('+JSON.stringify(JSON.stringify(event)+'\n')+');'];
     record.syntheticTransport=true;

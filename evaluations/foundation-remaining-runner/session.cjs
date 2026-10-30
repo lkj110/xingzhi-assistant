@@ -42,7 +42,7 @@ function begin({phase,output,executable,mode,authorizationPath,readyReference,no
   const review=id.read(path.join(__dirname,'runner-review.json'));assert.equal(review.approvedForLiveReadiness,true);assert.equal(review.runnerIdentity,seal.identity);assert.equal(review.asarSha256,plan.asarSha256);assert.equal(review.realModelCalls,0);
   assert.ok(path.isAbsolute(authorizationPath));authorization=id.read(authorizationPath);id.validateAuthorization(authorization,plan,seal.identity);authorizationSha256=id.sha(fs.readFileSync(authorizationPath));
  }else assert.equal(authorizationPath,undefined);
- const allowed=path.resolve(id.root,'../foundation-remaining-runs-20261030');
+ const allowed=path.resolve(id.root,plan.outputParent);
  if(phase==='gate'){
   output=require('../foundation-marker-runner/output.cjs').validateOutput(output,allowed);
   if(mode==='live')require('../foundation-runner/authorization.cjs').claimAuthorization({authorizationPath,authorization,output,runnerIdentity:seal.identity,sealIdentity:id.SAMPLE});

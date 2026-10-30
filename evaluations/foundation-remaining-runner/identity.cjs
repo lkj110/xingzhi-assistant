@@ -6,6 +6,7 @@ const prerequisite={runId:'3416bcda-77e0-4866-b0a6-2bb7eabec4f0',report:'docs/ev
 function validatePlan(plan){
  const old=read(path.join(root,'evaluations/foundation-minimal-runner/plan.json'));
  assert.equal(plan.scope,'G01-F05-F06-only');assert.equal(plan.liveAuthorized,false);assert.equal(plan.candidateInstalled,false);assert.equal(plan.f04,undefined);
+ assert.equal(plan.outputParent,'../foundation-transport-retest-runs-20261030');
  assert.deepEqual(plan.order,['gate','business']);assert.deepEqual(plan.f04Prerequisite,prerequisite);
  for(const key of ['gate','business','settings','total','cli','asarSha256','sourceSampleIdentity'])assert.deepEqual(plan[key],old[key],key+' changed');
 }
@@ -36,7 +37,7 @@ function validateAuthorization(a,plan,identity){
 }
 function runnerSeal(){
  const inherited=prior.runnerSeal(),deps=[...inherited.dependencies,...inherited.files.map(f=>({...f,path:'evaluations/foundation-native-ui-runner/'+f.path}))];
- for(const p of [prerequisite.report,prerequisite.review,'evaluations/foundation-native-ui-runner/runner-seal.json','evaluations/foundation-native-ui-runner/runner-review.json','scripts/rehearse-remaining-runner.cjs','tests/foundation-remaining-runner.test.cjs'])deps.push({path:p,sha256:sha(fs.readFileSync(path.join(root,p)))});
+ for(const p of [prerequisite.report,prerequisite.review,'evaluations/foundation-native-ui-runner/runner-seal.json','evaluations/foundation-native-ui-runner/runner-review.json','scripts/rehearse-remaining-runner.cjs','tests/foundation-remaining-runner.test.cjs','tests/foundation-transport-cause.test.cjs','tests/foundation-transport-retest-preparation.test.cjs','tests/fixtures/foundation-cli-routing-timeout-20261030.json','tests/fixtures/foundation-remaining-prior-seal-20261030.json'])deps.push({path:p,sha256:sha(fs.readFileSync(path.join(root,p)))});
  const files=fs.readdirSync(__dirname).filter(p=>/\.(cjs|json)$/.test(p)&&!['runner-seal.json','runner-review.json'].includes(p)).sort().map(p=>({path:p,sha256:sha(fs.readFileSync(path.join(__dirname,p)))}));
  const value={files,dependencies:[...new Map(deps.map(f=>[f.path,f])).values()].sort((a,b)=>a.path.localeCompare(b.path)),host:inherited.host};return {schema:1,...value,identity:sha(JSON.stringify(value)),scope:'G01-F05-F06-only',liveAuthorized:false,realModelCalls:0};
 }

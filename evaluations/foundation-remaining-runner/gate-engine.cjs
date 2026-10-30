@@ -7,7 +7,7 @@ const {createBroker}=require('../foundation-citation-gate-runner/broker.cjs'),{c
 async function run({executable,output,mode='offline',authorizationPath,realCli,fault,session}){
  assert.equal(mode,session?.mode);
  process.env.WS_NO_BUFFER_UTIL='1';process.env.WS_NO_UTF_8_VALIDATE='1';
- assert.equal(process.platform,'win32');require('./session.cjs').assertSession(session,'gate');assert.equal(output,session.phaseOutput);assert.ok(['offline','live'].includes(mode));assert.ok(!fault||mode==='offline'&&['old-budget','cli-rejection','fifth-request','unknown-usage','malformed-inner','capture-lifecycle','capture-submit','phase-stop','wrong-window'].includes(fault));
+ assert.equal(process.platform,'win32');require('./session.cjs').assertSession(session,'gate');assert.equal(output,session.phaseOutput);assert.ok(['offline','live'].includes(mode));assert.ok(!fault||mode==='offline'&&['old-budget','cli-rejection','fifth-request','unknown-usage','malformed-inner','capture-lifecycle','capture-submit','phase-stop','wrong-window','routing-timeout'].includes(fault));
  assert.ok(!fs.existsSync(output));
  const identity=frozen(executable,{complete:true}),{plan,pack,asar}=identity,sampleIdentity=identity.seal.identity,manifest=read(path.join(__dirname,'runner-seal.json'));verifyRunner(manifest);
  const authorization=session.authorization;let shimHash,shimPath;

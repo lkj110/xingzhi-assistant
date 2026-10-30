@@ -1,161 +1,148 @@
 {
   "schema": 1,
   "reviewer": "independent-subagent",
-  "reviewedAt": "2026-10-30T07:12:01.510Z",
-  "baseCommit": "2f2e97e25c16cd2b323035d87f7ca523e557b6bb",
-  "runnerIdentity": "3d4b4489abb902e14aad462ee63980c285b909c02f21c553059c8d8a3aadf375",
-  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
-  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
-  "scope": "G01-F05-F06-only",
+  "date": "2026-10-30",
+  "baseCommit": "0342b69dbbc1418079db761851a489f8fe87b603",
+  "status": "independently-reviewed-awaiting-new-user-authorization",
   "approvedForLiveReadiness": true,
   "approvedForUserReview": true,
   "approvedForUpload": true,
   "liveAuthorized": false,
   "matchingLiveAuthorizationCreated": false,
-  "requiresNewUserAuthorization": true,
+  "runnerIdentity": "a626d3975247ab3e06336e81e154d356e7b1c15a58b9aad0b68dc43df33aafa0",
+  "runnerSealSha256": "738392f47b2988aaeba2946f0d9356dd6244edafdde25f61d08393ebe79c167a",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "scope": "G01-F05-F06-only",
   "realModelCalls": 0,
   "officialCliInvocations": 0,
   "actualHumanAcceptances": 0,
-  "f04Executions": 0,
-  "meaning": "Readiness approval permits presenting the separately scoped execution plan to the user. It does not authorize any real CLI/model call, install, extra round, or replay of F04.",
+  "F04Executions": 0,
+  "installed": false,
+  "meaning": "Readiness means this exact reviewed executor and proposal may be presented for new user approval. This file is not a live authorization and does not reuse any prior budget.",
+  "findings": [],
+  "validation": {
+    "regression": {
+      "tests": 181,
+      "passed": 181,
+      "failed": 0,
+      "skipped": 0,
+      "evidence": {
+        "path": "evaluations/foundation-transport-retest-preparation-20261030/regression.tap",
+        "sha256": "8d9edda74c3fbaba3020e6841f41b258b262c1980b42963e6561d4bb8ae8f024"
+      }
+    },
+    "independentPreparationUnit": {
+      "tests": 7,
+      "passed": 7,
+      "overlapsRegression": true,
+      "notAdditive": true,
+      "evidence": {
+        "path": "../foundation-transport-retest-audit-20261030/reviewer-preparation-unit.tap",
+        "sha256": "2644cb38b0a225b9ce54aa6db16f0839e21a9638ac7fa7238164f9de6cf03362"
+      }
+    },
+    "packagedProbes": 8,
+    "verifiedOriginalEvidenceHashes": 68,
+    "normalFlow": {
+      "path": "../foundation-transport-retest-audit-20261030/reviewer-normal-result.json",
+      "sha256": "75de95f5bd4efc06f27012ea7dd431327c2e68819e0a2895ff92163f3e847228"
+    },
+    "matrix": {
+      "path": "../foundation-transport-retest-audit-20261030/reviewer-matrix-result.json",
+      "sha256": "a2d3d44b2bf8837600b74ec468f6e515de465b7ecfe4e7277d7042a40e355470"
+    },
+    "admission": {
+      "path": "../foundation-transport-retest-audit-20261030/reviewer-admission-proof.json",
+      "sha256": "801591f3e0c774713b17c084827a0a0a54ca0810dec38291e5692a5d5e38f6d4"
+    }
+  },
+  "boundaries": {
+    "sameExecutorReused": true,
+    "isolatedOutputParent": "../foundation-transport-retest-runs-20261030",
+    "oldSealAndAuthorizationRejected": true,
+    "diagnosticModuleTestsAndFixturesSealed": true,
+    "allRoutingErrorsStillStop": true,
+    "unknownUsageRemainsNull": true,
+    "automaticRetries": false,
+    "oldBudgetReusable": false,
+    "readOnlyF04Prerequisite": true,
+    "businessReadinessRequiredAfterGate": true,
+    "noProductPromptSchemaEvidenceOrSemanticChanges": true,
+    "noNetworkRecoveryOrRealQualityClaim": true
+  },
+  "freezeBefore": {
+    "path": "../foundation-transport-retest-audit-20261030/reviewer-freeze-before.json",
+    "sha256": "a3735895e49eb94318e8e542126e421916dcda697e595731e64b7d8dcec53a3d"
+  },
   "reviewedFiles": [
     {
-      "path": "docs/evidence/foundation-remaining-execution-plan-20261030.json",
-      "sha256": "afcd2c77674bd1619250d9062f9218d95d7f0038db45765854579fa0081a479c"
+      "path": "docs/evidence/foundation-transport-retest-plan-20261030.json",
+      "sha256": "7a7e930f548e9783725d13c4e559a3c2089f95e96fc6a5e086c677b5d98e2d87"
     },
     {
-      "path": "docs/evidence/foundation-remaining-preparation-20261030.json",
-      "sha256": "662baf12418d3862b8fc452806c06fe024232c27efa89c184b99caf1bc5ed33f"
+      "path": "docs/evidence/foundation-transport-retest-preparation-20261030.json",
+      "sha256": "3daed6fb3670079755112d217bf02f08ca28a0936ca185bb3817924cedbd183c"
     },
     {
-      "path": "evaluations/foundation-remaining-preparation-20261030/.gitattributes",
-      "sha256": "4570a2cf86298e200ba945747d80887ce2ad18af9f96b7e6b33087f15f5f6887"
+      "path": "evaluations/foundation-business-runner/broker.cjs",
+      "sha256": "9f426c094bc11e7b015189e1866ada6bc3de3ec61c9ddb2b1740596875b9cf8a"
     },
     {
-      "path": "evaluations/foundation-remaining-preparation-20261030/final-regression.tap",
-      "sha256": "a1ea6e7519145dfcbb7998e1cb259ac631dfa95668a78584fb48172d7573f575"
-    },
-    {
-      "path": "evaluations/foundation-remaining-preparation-20261030/historical-proof-check.tap",
-      "sha256": "544d198f8274a86482520166527ca512ae08b54f037f3907cd17e16f67f9038e"
-    },
-    {
-      "path": "evaluations/foundation-remaining-preparation-20261030/sealed-rehearsal.json",
-      "sha256": "ae7ffd0855b0d92e08e4abcccd1773ac5c8ca0223fd9555793b8abf170ba4caa"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/admission.cjs",
-      "sha256": "a1b65b0b7e0b0f4622da0e53ab6d53a741b017682ba2f0a286933dd392c3ba38"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/business-engine.cjs",
-      "sha256": "0d7e82cf71e41241cc1adc3bdf2d34f34c78046e0a235aee942f97039bae0c15"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/business-identity.cjs",
-      "sha256": "9db97b77cee3bd673ebceab615631c966177b52ec493cabba6575c8149628f41"
+      "path": "evaluations/foundation-citation-gate-runner/broker.cjs",
+      "sha256": "ac2a629c8ddc513567a266fcb5e5c7126b9961c565c855853015138d1f962736"
     },
     {
       "path": "evaluations/foundation-remaining-runner/gate-engine.cjs",
-      "sha256": "7d680fdbbfd1466d857c8de2d2a39f04c4405e8a2a95f0a847ba543504881517"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/gate-identity.cjs",
-      "sha256": "ed3f51af653273038bb50d45325ddf8f89fc69bb5bc5e4005e015a0934ce0a4a"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/human-binding.cjs",
-      "sha256": "0bce01387ddbd5861089fc8bc2bdfded758e2bb90c56210474045a1be9733faf"
+      "sha256": "e76166f2d5d7d88350e808736b258aab57fde2671e52ca97b757d73dfcc75948"
     },
     {
       "path": "evaluations/foundation-remaining-runner/identity.cjs",
-      "sha256": "92cca08566ab97298955c6ee7f841afa0a107f477a7df762dfecba6aaebdbea3"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/native.cjs",
-      "sha256": "b53232b2827f0f9f457c7f2a11be1867e6aca4a3c218885cde78dd155fdaa6e3"
+      "sha256": "d99c1f2a69f47b6ac8502cd1cc1f11e1445bdae2e602503107af873275ea65b5"
     },
     {
       "path": "evaluations/foundation-remaining-runner/plan.json",
-      "sha256": "d2db86d96e81637c82de6e8236aba465e328b081164f34bef64ed3735c2d9a30"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/policy.cjs",
-      "sha256": "32ea4e3dad7ceca1f9c821c1585392cef6887be684fc64c3d0e899ca46e3fc34"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/rehearsal-ui.cjs",
-      "sha256": "d9558d8373a60cb4f1cde47d5fac6a72226e17cafbc7798245dedb21566316f8"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/report.cjs",
-      "sha256": "0d41d0cdd5278a203f5ba9b4de628968ec37586997724139a016754e71126aa8"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/run.cjs",
-      "sha256": "043ed2f98dced46f6cc8725f334b675a700e5d5b2cc77a846e1dbabcd908701d"
+      "sha256": "935c6f6fe0e3fd56ac1a5f1fab42653fb4f01caf2127d2ed04b301a19b4d7440"
     },
     {
       "path": "evaluations/foundation-remaining-runner/runner-seal.json",
-      "sha256": "cffb26346ddf020b23c8d663fbcf48356432915bc1f1fe799c35049eff0cbd79"
+      "sha256": "738392f47b2988aaeba2946f0d9356dd6244edafdde25f61d08393ebe79c167a"
     },
     {
       "path": "evaluations/foundation-remaining-runner/session.cjs",
-      "sha256": "f72557fa035e06464650f2a3046a9aee3ecf37867c856ed4f642827c6f760e7f"
+      "sha256": "9298a1c44fea204abb0621a68b0a8116c2c785a5623858fa4685d8f3b8a7a3b0"
     },
     {
-      "path": "evaluations/foundation-remaining-runner/window.cjs",
-      "sha256": "35923edb7b208808edd8aae3504fa7d735882790489456a0ff36947a16191367"
+      "path": "evaluations/foundation-transport-retest-preparation-20261030/.gitattributes",
+      "sha256": "239e707a02f06e4f334d2364c4b1b171fd8dc6fd03e050856654785e1113cd39"
+    },
+    {
+      "path": "evaluations/foundation-transport-retest-preparation-20261030/regression.tap",
+      "sha256": "8d9edda74c3fbaba3020e6841f41b258b262c1980b42963e6561d4bb8ae8f024"
+    },
+    {
+      "path": "evaluations/foundation-transport-retest-preparation-20261030/sealed-rehearsal.json",
+      "sha256": "5bd56a65acf8aa7075cc10b683ea0e5be3b48ee25330424b290480afc6d4793a"
     },
     {
       "path": "scripts/rehearse-remaining-runner.cjs",
-      "sha256": "5f1342c7214fa9459e23eabbe9d6886c4b8dc69239c700e0359dbf8477c0da45"
+      "sha256": "83e4264fe8776d958d3f49b20182a2b51d17198cf62b6138b9e649a842dab1c7"
+    },
+    {
+      "path": "tests/fixtures/foundation-remaining-prior-seal-20261030.json",
+      "sha256": "cffb26346ddf020b23c8d663fbcf48356432915bc1f1fe799c35049eff0cbd79"
     },
     {
       "path": "tests/foundation-remaining-runner.test.cjs",
-      "sha256": "8bd54e8d7c8e7037bfb8385584c72e39fec15259d13dda455678d6e1c16a3451"
+      "sha256": "05fa54671703694feaa4caa5f6774ac49a8473a49951b8716b7a89becbaf9d86"
+    },
+    {
+      "path": "tests/foundation-transport-cause.test.cjs",
+      "sha256": "aff946d55d1b9ad62cc82b106e9af9f5a85768063286343c456a47152b7f5721"
+    },
+    {
+      "path": "tests/foundation-transport-retest-preparation.test.cjs",
+      "sha256": "4855e8c40c12b359cdf31cc8aba15c4393c632668a128fb53bddd09f0cda2723"
     }
-  ],
-  "freeze": {
-    "roots": 88,
-    "existingTrackedFiles": 1212,
-    "allFrozenIdentitiesUnchanged": true,
-    "installedVersionFrozen": true,
-    "candidatePackageFrozen": true,
-    "productAndHistoricalEvidenceFrozen": true,
-    "before": {
-      "path": "../foundation-remaining-audit-20261030/reviewer-freeze-before.json",
-      "sha256": "3b355bf490b894c48be01dee40f08db02deff6b05cff186e3a88c1757dcc371e"
-    },
-    "after": {
-      "path": "../foundation-remaining-audit-20261030/reviewer-freeze-after.json",
-      "sha256": "c2a3ebfb86f314d6a09a0a42db59643b5281ea556de56ec9da9b70bfa523df16"
-    }
-  },
-  "auditEvidence": [
-    {
-      "path": "../foundation-remaining-audit-20261030/reviewer-native-boundary-01.log",
-      "sha256": "0f69b624dc7d32e96cdcb03e4f505ce562e742ba8ce20aa8641f9fda8cc63777"
-    },
-    {
-      "path": "../foundation-remaining-audit-20261030/reviewer-native-boundary-02.log",
-      "sha256": "48f848f0e5cf751b086895e87d0726e4ca31a782ae1f8c1a8d237e4a96ed905e"
-    },
-    {
-      "path": "../foundation-remaining-audit-20261030/reviewer-historical-compatibility.log",
-      "sha256": "76a6e92a8c9626024059fc47f66bb3a86844b082f53be6cab181f86997994d59"
-    },
-    {
-      "path": "../foundation-remaining-audit-20261030/reviewer-normal-result.json",
-      "sha256": "093959a737d36ee00b7f179f79f17d8421f07b532bfc9e0f5ac866f240fefec7"
-    },
-    {
-      "path": "../foundation-remaining-audit-20261030/reviewer-matrix-result.json",
-      "sha256": "17fe800c8096ba2d1ccf6b7de96ac513b9236846ef5ae78a1ad30aab8275d28b"
-    }
-  ],
-  "resolvedFindings": [
-    "REM-R1"
-  ],
-  "unresolvedFindings": []
+  ]
 }

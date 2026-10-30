@@ -15,7 +15,7 @@
     },
     {
       "path": "gate-engine.cjs",
-      "sha256": "7d680fdbbfd1466d857c8de2d2a39f04c4405e8a2a95f0a847ba543504881517"
+      "sha256": "e76166f2d5d7d88350e808736b258aab57fde2671e52ca97b757d73dfcc75948"
     },
     {
       "path": "gate-identity.cjs",
@@ -27,7 +27,7 @@
     },
     {
       "path": "identity.cjs",
-      "sha256": "92cca08566ab97298955c6ee7f841afa0a107f477a7df762dfecba6aaebdbea3"
+      "sha256": "d99c1f2a69f47b6ac8502cd1cc1f11e1445bdae2e602503107af873275ea65b5"
     },
     {
       "path": "native.cjs",
@@ -35,7 +35,7 @@
     },
     {
       "path": "plan.json",
-      "sha256": "d2db86d96e81637c82de6e8236aba465e328b081164f34bef64ed3735c2d9a30"
+      "sha256": "935c6f6fe0e3fd56ac1a5f1fab42653fb4f01caf2127d2ed04b301a19b4d7440"
     },
     {
       "path": "policy.cjs",
@@ -55,7 +55,7 @@
     },
     {
       "path": "session.cjs",
-      "sha256": "f72557fa035e06464650f2a3046a9aee3ecf37867c856ed4f642827c6f760e7f"
+      "sha256": "9298a1c44fea204abb0621a68b0a8116c2c785a5623858fa4685d8f3b8a7a3b0"
     },
     {
       "path": "window.cjs",
@@ -837,7 +837,7 @@
     },
     {
       "path": "evaluations/foundation-business-runner/broker.cjs",
-      "sha256": "d368dbcb0bab2ba7cae9dea6980a726c60fad238dd466ed72f06bb25e50d1781"
+      "sha256": "9f426c094bc11e7b015189e1866ada6bc3de3ec61c9ddb2b1740596875b9cf8a"
     },
     {
       "path": "evaluations/foundation-business-runner/broker.test.cjs",
@@ -869,7 +869,7 @@
     },
     {
       "path": "evaluations/foundation-business-runner/integration.cjs",
-      "sha256": "5cd0edd8ffad0ad158f12681fec766d2d0bfec5ed1e07c4314516ec7aa2d39c6"
+      "sha256": "69a82f76c7e7f063c6cfafc925b477e3073623cedecb88d0be236fde852c8505"
     },
     {
       "path": "evaluations/foundation-business-runner/ledger.cjs",
@@ -925,7 +925,7 @@
     },
     {
       "path": "evaluations/foundation-citation-business-runner/integration.cjs",
-      "sha256": "e28ca1d7d42f9c7543153e81fa9ac52ecade30b806cce6cdf153c3d62b90b13e"
+      "sha256": "87192b31b6d0bac2ee66457d7604db02fd3b3cd228513a82489a4f0359442636"
     },
     {
       "path": "evaluations/foundation-citation-business-runner/plan.json",
@@ -957,7 +957,7 @@
     },
     {
       "path": "evaluations/foundation-citation-gate-runner/broker.cjs",
-      "sha256": "5e42bf6e1512cdb5e9ea567a5a030bde4f705bf4bf1194b2539e85b1ac8d62e1"
+      "sha256": "ac2a629c8ddc513567a266fcb5e5c7126b9961c565c855853015138d1f962736"
     },
     {
       "path": "evaluations/foundation-citation-gate-runner/broker.test.cjs",
@@ -969,7 +969,7 @@
     },
     {
       "path": "evaluations/foundation-citation-gate-runner/integration.cjs",
-      "sha256": "71b4a9728d92595570faf3ebb637966cc7308705154ad94df630f9e2b2828c35"
+      "sha256": "b897aeb54f496ee695b88ce0c54f9e2d243e638579e8ad9b85f88ecb43b125d2"
     },
     {
       "path": "evaluations/foundation-citation-gate-runner/plan.json",
@@ -1009,7 +1009,7 @@
     },
     {
       "path": "evaluations/foundation-citation-offline-runner/integration.cjs",
-      "sha256": "e28ca1d7d42f9c7543153e81fa9ac52ecade30b806cce6cdf153c3d62b90b13e"
+      "sha256": "87192b31b6d0bac2ee66457d7604db02fd3b3cd228513a82489a4f0359442636"
     },
     {
       "path": "evaluations/foundation-citation-offline-runner/package-manifest.json",
@@ -1073,7 +1073,7 @@
     },
     {
       "path": "evaluations/foundation-diagnostic-runner/integration.cjs",
-      "sha256": "18d9928eeeca0087dc551e1db373ec94baaa073200e94b3e8159e84c98ea8de1"
+      "sha256": "9b7108b11abf4fb9d8879451ed22e821410bcd401b53769e3ebf4f9f8f94c5a9"
     },
     {
       "path": "evaluations/foundation-diagnostic-runner/ledger.cjs",
@@ -1109,7 +1109,7 @@
     },
     {
       "path": "evaluations/foundation-diagnostic-runner/transport.test.cjs",
-      "sha256": "717759622036bccca895910baaee2a913b863f69301fbb7e5899ef4499af2340"
+      "sha256": "3fb09389506e6de50fd92ad2be9e4840e587fba3bb9242c135b816572ae59f68"
     },
     {
       "path": "evaluations/foundation-marker-runner/broker.cjs",
@@ -1320,6 +1320,10 @@
       "sha256": "5a60bc859f8ee8a1bcaee12133e2e67649037f44c8ac47dfe772a93afdd97f43"
     },
     {
+      "path": "evaluations/foundation-runner/failure-cause.cjs",
+      "sha256": "a67c8b8abdf3f19d333f727e40cb963bcc44e774c10316ed142c1a8f17fb8e67"
+    },
+    {
       "path": "evaluations/foundation-runner/integration-test.cjs",
       "sha256": "5eddc87af8e15d454f95dff67cc7c988b6a3b84a1e616b5421ef1df2fe82e0b9"
     },
@@ -1377,11 +1381,11 @@
     },
     {
       "path": "evaluations/foundation-runner/transport.cjs",
-      "sha256": "5491662cedcd4d36cc9012bd0e459f95a60802a6e7e9b1f2999794242bcc7ad6"
+      "sha256": "68dc79e62983f95ff848262aeae20c8461c2ec572b97da4bf818d16c30f34986"
     },
     {
       "path": "evaluations/foundation-runner/transport.test.cjs",
-      "sha256": "dccc1343b8b4732d5280790cdfe6bca640ec1fd76b9ebf57513901c7a5d388c8"
+      "sha256": "cfd45d532599942977948b7d84758620a06d3a998d42eae974a981c86446e7ae"
     },
     {
       "path": "scripts/prepare-citation-candidate.cjs",
@@ -1405,7 +1409,15 @@
     },
     {
       "path": "scripts/rehearse-remaining-runner.cjs",
-      "sha256": "5f1342c7214fa9459e23eabbe9d6886c4b8dc69239c700e0359dbf8477c0da45"
+      "sha256": "83e4264fe8776d958d3f49b20182a2b51d17198cf62b6138b9e649a842dab1c7"
+    },
+    {
+      "path": "tests/fixtures/foundation-cli-routing-timeout-20261030.json",
+      "sha256": "62dcbe9e7f08c4f3c853ead7a0f69acd5218d3bd79888b42c98281145df9d048"
+    },
+    {
+      "path": "tests/fixtures/foundation-remaining-prior-seal-20261030.json",
+      "sha256": "cffb26346ddf020b23c8d663fbcf48356432915bc1f1fe799c35049eff0cbd79"
     },
     {
       "path": "tests/foundation-minimal-runner.test.cjs",
@@ -1417,7 +1429,15 @@
     },
     {
       "path": "tests/foundation-remaining-runner.test.cjs",
-      "sha256": "8bd54e8d7c8e7037bfb8385584c72e39fec15259d13dda455678d6e1c16a3451"
+      "sha256": "05fa54671703694feaa4caa5f6774ac49a8473a49951b8716b7a89becbaf9d86"
+    },
+    {
+      "path": "tests/foundation-transport-cause.test.cjs",
+      "sha256": "aff946d55d1b9ad62cc82b106e9af9f5a85768063286343c456a47152b7f5721"
+    },
+    {
+      "path": "tests/foundation-transport-retest-preparation.test.cjs",
+      "sha256": "4855e8c40c12b359cdf31cc8aba15c4393c632668a128fb53bddd09f0cda2723"
     }
   ],
   "host": {
@@ -1426,7 +1446,7 @@
     "cscSha256": "aae1db57f898ca8bda18590c56f86ced6d0ead80c22033b76fdfe9119706f116",
     "optionalWebsocketNativeModules": false
   },
-  "identity": "3d4b4489abb902e14aad462ee63980c285b909c02f21c553059c8d8a3aadf375",
+  "identity": "a626d3975247ab3e06336e81e154d356e7b1c15a58b9aad0b68dc43df33aafa0",
   "scope": "G01-F05-F06-only",
   "liveAuthorized": false,
   "realModelCalls": 0
