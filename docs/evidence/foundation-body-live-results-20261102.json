@@ -1,0 +1,531 @@
+{
+  "schema": 1,
+  "kind": "live-round-closed-independent-content-rejection",
+  "at": "2026-11-02T04:27:09.333Z",
+  "sourceCommit": "3b2e8e624504fac98756b70271f675f3fa314dc7",
+  "productSourceCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+  "runId": "4291eb15-215f-4525-9e33-d08ce3feaa1f",
+  "runnerIdentity": "f90db745e7aa32212b77182ec875ddf1d849533db2bf7ea6c5a733d40bf89153",
+  "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "reasoning": "medium",
+    "provider": "existing-authorized-Codex-subscription"
+  },
+  "roundClosed": true,
+  "budgetReusable": false,
+  "gatePassed": true,
+  "businessPassed": false,
+  "releaseReady": false,
+  "authorization": {
+    "budgetReference": "request_user_input_async/call_154f7a4224f64f76a71a293b643afdf9/0: user approved budget, accepted limits and requested G01",
+    "businessReadinessReference": "call_fdef5a665ebf4b169bb9614559e1767a-user-ready-start-F05-F06",
+    "maximumApplicationAttempts": 25,
+    "maximumModelDispatches": 22,
+    "inputPlusOutputStopThreshold": 620000,
+    "phaseBudgetBorrowing": false,
+    "applicationRedispatchesAfterStop": 0
+  },
+  "businessWindow": {
+    "startedAt": "2026-11-02T04:13:52.916Z",
+    "deadline": "2026-11-02T04:58:52.916Z",
+    "stoppedAt": "2026-11-02T04:24:34.326Z",
+    "elapsedMs": 641410,
+    "reset": false
+  },
+  "stop": {
+    "code": "CHECKPOINT_REJECTED",
+    "source": "independent-content-review/F05-revision",
+    "terminalCliOrTransportProtocolErrors": 0,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "pendingReservation": 0,
+    "unexpectedAttempts": 0,
+    "contentContractViolations": 1
+  },
+  "outcomes": [
+    {
+      "caseId": "G01-muju",
+      "status": "passed-with-independent-content-and-phase-review",
+      "excludedFromBusinessRates": true
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "initial": "qualified",
+      "revision": "unqualified-content-contract",
+      "completed": false,
+      "actualHumanAcceptance": false
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "status": "not-started-after-terminal-F05-failure",
+      "completed": false,
+      "modelCalls": 0
+    }
+  ],
+  "metrics": {
+    "businessCompletion": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "factualHallucination": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0,
+      "population": "actually-adjudicated-F05-initial-and-revision-drafts"
+    },
+    "falseBlock": {
+      "numerator": 0,
+      "denominator": 1,
+      "rate": 0,
+      "population": "qualified-initial-draft"
+    },
+    "applicationFalseRelease": {
+      "numerator": 1,
+      "denominator": 1,
+      "rate": 1,
+      "population": "unqualified-revision-draft",
+      "note": "应用核验放行；独立检查已拒绝，不代表真人最终交付。"
+    },
+    "actualHumanConfirmations": 0,
+    "actualHumanRechecks": 0,
+    "actualHumanAcceptances": 0,
+    "markerBranch": "not-triggered-unverified",
+    "F06RestartCoverage": "not-exercised"
+  },
+  "cost": {
+    "applicationAttempts": 8,
+    "modelDispatches": 8,
+    "inputTokens": 109714,
+    "outputTokens": 3502,
+    "cachedInputTokens": 15104,
+    "totalTokens": 113216,
+    "phases": {
+      "G01": {
+        "applicationAttempts": 3,
+        "modelDispatches": 3,
+        "inputTokens": 38299,
+        "outputTokens": 615,
+        "cachedInputTokens": 0,
+        "totalTokens": 38914
+      },
+      "F05-initial": {
+        "applicationAttempts": 3,
+        "modelDispatches": 3,
+        "inputTokens": 40577,
+        "outputTokens": 1393,
+        "cachedInputTokens": 15104,
+        "totalTokens": 41970
+      },
+      "F05-revision": {
+        "applicationAttempts": 2,
+        "modelDispatches": 2,
+        "inputTokens": 30838,
+        "outputTokens": 1494,
+        "cachedInputTokens": 0,
+        "totalTokens": 32332
+      }
+    },
+    "F06": {
+      "applicationAttempts": 0,
+      "modelDispatches": 0,
+      "totalTokens": 0
+    },
+    "unknownUsage": 0,
+    "cachedIncludedInInput": true,
+    "monetaryCost": null,
+    "monetaryCostNote": "记录真实 input+output tokens；订阅接口未提供可归因账单金额，不把应用中的零单价解释为免费。",
+    "calls": [
+      {
+        "phase": "gate",
+        "caseId": "G01-muju",
+        "evaluationPhase": "protocol-gate",
+        "role": "execute",
+        "attemptId": "4e38e62f-f55b-4ccb-937f-099f3f41faa1",
+        "inputTokens": 12057,
+        "outputTokens": 59,
+        "cachedInputTokens": 0,
+        "totalTokens": 12116,
+        "requestSha256": "73db9a04f6572d4bb62246668d2924f490fc6970a359ec6f1538bbf6de4d841c",
+        "terminalSha256": "13c090dd4420ec633f345e5fda1b30100d85fc6bf204c5ccae931223ca7b57f4"
+      },
+      {
+        "phase": "gate",
+        "caseId": "G01-muju",
+        "evaluationPhase": "protocol-gate",
+        "role": "execute",
+        "attemptId": "4aba87f4-0193-4e52-a8be-94939c9a73e3",
+        "inputTokens": 12462,
+        "outputTokens": 115,
+        "cachedInputTokens": 0,
+        "totalTokens": 12577,
+        "requestSha256": "ac5f619e810b0ee0241678f62b04cbb61434ef2a65fb241afc7676d3ad25a2e1",
+        "terminalSha256": "1b92c432c42661ffd9371a4ffa29fbd409b65f998935ff162c3aad61b2ab50c0"
+      },
+      {
+        "phase": "gate",
+        "caseId": "G01-muju",
+        "evaluationPhase": "protocol-gate",
+        "role": "verify",
+        "attemptId": "28e1dbf1-0db5-411e-9f46-78bbc9e21f3b",
+        "inputTokens": 13780,
+        "outputTokens": 441,
+        "cachedInputTokens": 0,
+        "totalTokens": 14221,
+        "requestSha256": "714ed95fefe5bf23f4b0c0bc6c85f4985bbb7807ac6c7126b659bf32503f0226",
+        "terminalSha256": "c513cd84af8c6b4184acaedd232b53d66b33efd62770ac318857e1d23385365d"
+      },
+      {
+        "phase": "business",
+        "caseId": "F05-jianping-revision",
+        "evaluationPhase": "initial",
+        "role": "execute",
+        "attemptId": "dbf53a39-1818-4efb-a7bf-d9f317f2bdcb",
+        "inputTokens": 12447,
+        "outputTokens": 97,
+        "cachedInputTokens": 7552,
+        "totalTokens": 12544,
+        "requestSha256": "81a798a86284e42168eb3096b5a62252f553b2ee39bc5c1b200bf76ca6123758",
+        "terminalSha256": "5b597d20b93668f58835635f8530bc05eaeb3c7b15aa05db1e1cb68be6d7ae63"
+      },
+      {
+        "phase": "business",
+        "caseId": "F05-jianping-revision",
+        "evaluationPhase": "initial",
+        "role": "execute",
+        "attemptId": "278f10e0-d8c0-4d69-8198-e348a68c7b83",
+        "inputTokens": 13318,
+        "outputTokens": 241,
+        "cachedInputTokens": 0,
+        "totalTokens": 13559,
+        "requestSha256": "bf75801c4b18eb7d77f42d85de03381f1bb41791efdddd5ad66596ec00c1b120",
+        "terminalSha256": "2af7d0c266cf6d66576bc9a2c18e70455aecbdde478fb75f018a0161e342db0d"
+      },
+      {
+        "phase": "business",
+        "caseId": "F05-jianping-revision",
+        "evaluationPhase": "initial",
+        "role": "verify",
+        "attemptId": "234dbcef-8d59-41c5-b9ad-f3773d6af6f3",
+        "inputTokens": 14812,
+        "outputTokens": 1055,
+        "cachedInputTokens": 7552,
+        "totalTokens": 15867,
+        "requestSha256": "d5f82803313af39787a8b02d378b103547d27aece924d7f40183cc875302f6aa",
+        "terminalSha256": "62095d3c365f16e1a95c1fadc585e9d6fc7b05c822099177b11ac93346023cdf"
+      },
+      {
+        "phase": "business",
+        "caseId": "F05-jianping-revision",
+        "evaluationPhase": "revision",
+        "role": "execute",
+        "attemptId": "4bccd6d8-c15b-40c3-89ac-a330f8b58f5e",
+        "inputTokens": 14792,
+        "outputTokens": 382,
+        "cachedInputTokens": 0,
+        "totalTokens": 15174,
+        "requestSha256": "bad085696bf742a85e12214b201a144ecee74527cbf16e3530c6fb4c3a0190f5",
+        "terminalSha256": "667eba8de92e6fcbd446b194b6b84459b078af453c6bdfcee6837654a24e1dbe"
+      },
+      {
+        "phase": "business",
+        "caseId": "F05-jianping-revision",
+        "evaluationPhase": "revision",
+        "role": "verify",
+        "attemptId": "9ee7ec49-a2fd-49c3-8eb3-1c8491d7e384",
+        "inputTokens": 16046,
+        "outputTokens": 1112,
+        "cachedInputTokens": 0,
+        "totalTokens": 17158,
+        "requestSha256": "5d73cf211b85371bf4215b6847e8473d0c514d97feb2c70a272fcb311de77e61",
+        "terminalSha256": "a6e69dea3b31dd9f0ad27aaad4c2af2aba59c04b1d6c65d8fd075799ad608a59"
+      }
+    ]
+  },
+  "cause": {
+    "factualContent": "两段业务正文事实正确，且新稿使用新的核验 basis。",
+    "contract": "标题放在 title 字段，content 仅放正文；修订 originalContent 时同样不要加入重复标题。明确要求的自然段以空行分隔。",
+    "actual": "content 仍以与独立 title 相同的 Markdown 标题开头，之后是两段业务正文。",
+    "mechanism": [
+      "初稿无当前两段规则，content 中的标题沿用至修订原文。",
+      "修订模型返回 patch，仅替换业务段落，留下原 content 标题。",
+      "本地段落检查对 Markdown 布局返回 unsupported/non-prose-layout，未产生结构阻断。",
+      "语义核验仍判通过；独立检查拒绝后执行器正确停止。"
+    ],
+    "notClaimed": "不将 Markdown 标题称为第三个自然段，不将本次格式契约错误计为业务事实幻觉。"
+  },
+  "preservation": {
+    "candidateInstalled": false,
+    "installationWritesByThisTask": 0,
+    "F04Executions": 0,
+    "extraModelProbes": 0,
+    "sourceEditsDuringLive": 0,
+    "installedDirectoryContinuouslyFrozen": false,
+    "installationProvenance": "此前安装目录存在多次来源未定变化，用户表示未主动更新/不确定。本任务未安装或覆盖；末次观察另附独立复核记录，不能证明连续冻结。"
+  },
+  "limitations": [
+    "沿用已暴露封存样本，F05历史回放参与修复；不是全新盲样或随机对照。",
+    "质量指标分母仅包含两份实际可判定稿件；不推断总体质量或成本改善。",
+    "G01通过不能替代F05修订、真人确认重检、最终验收或F06重启流程通过。",
+    "原始失败摘要的pending-independent-final-audit字段保留，最终独立裁定单独绑定，不改写原始证据。"
+  ],
+  "nextStep": {
+    "proposedOnly": true,
+    "realModelCallsAuthorized": false,
+    "scope": "先离线补齐本次已明确的 title/content 契约检查。",
+    "items": [
+      "用本次真实初稿、修订patch及最终稿重放，定位重复标题保留路径。",
+      "仅对适用规则下与独立title完全一致的起首重复标题做确定性拒绝，覆盖Markdown形式；不自动删改正文，不扩展泛化语义。",
+      "补充生成/patch合并/核验/验收/冷重启的同一稿件回归与反例，经独立审核后再封存候选。",
+      "离线证据齐备后提出未完成环节的最小真实复测方案与新预算，当前轮不续跑。"
+    ]
+  },
+  "evidence": {
+    "privateRunDirectory": "../foundation-body-retest-runs-20261102/live-4291eb15-215f-4525-9e33-d08ce3feaa1f",
+    "files": [
+      {
+        "path": "business/calls/234dbcef-8d59-41c5-b9ad-f3773d6af6f3-request.json",
+        "bytes": 20283,
+        "sha256": "d5f82803313af39787a8b02d378b103547d27aece924d7f40183cc875302f6aa"
+      },
+      {
+        "path": "business/calls/234dbcef-8d59-41c5-b9ad-f3773d6af6f3-terminal.json",
+        "bytes": 5954,
+        "sha256": "62095d3c365f16e1a95c1fadc585e9d6fc7b05c822099177b11ac93346023cdf"
+      },
+      {
+        "path": "business/calls/278f10e0-d8c0-4d69-8198-e348a68c7b83-request.json",
+        "bytes": 16243,
+        "sha256": "bf75801c4b18eb7d77f42d85de03381f1bb41791efdddd5ad66596ec00c1b120"
+      },
+      {
+        "path": "business/calls/278f10e0-d8c0-4d69-8198-e348a68c7b83-terminal.json",
+        "bytes": 3571,
+        "sha256": "2af7d0c266cf6d66576bc9a2c18e70455aecbdde478fb75f018a0161e342db0d"
+      },
+      {
+        "path": "business/calls/4bccd6d8-c15b-40c3-89ac-a330f8b58f5e-request.json",
+        "bytes": 19620,
+        "sha256": "bad085696bf742a85e12214b201a144ecee74527cbf16e3530c6fb4c3a0190f5"
+      },
+      {
+        "path": "business/calls/4bccd6d8-c15b-40c3-89ac-a330f8b58f5e-terminal.json",
+        "bytes": 3889,
+        "sha256": "667eba8de92e6fcbd446b194b6b84459b078af453c6bdfcee6837654a24e1dbe"
+      },
+      {
+        "path": "business/calls/9ee7ec49-a2fd-49c3-8eb3-1c8491d7e384-request.json",
+        "bytes": 23398,
+        "sha256": "5d73cf211b85371bf4215b6847e8473d0c514d97feb2c70a272fcb311de77e61"
+      },
+      {
+        "path": "business/calls/9ee7ec49-a2fd-49c3-8eb3-1c8491d7e384-terminal.json",
+        "bytes": 6061,
+        "sha256": "a6e69dea3b31dd9f0ad27aaad4c2af2aba59c04b1d6c65d8fd075799ad608a59"
+      },
+      {
+        "path": "business/calls/dbf53a39-1818-4efb-a7bf-d9f317f2bdcb-request.json",
+        "bytes": 13669,
+        "sha256": "81a798a86284e42168eb3096b5a62252f553b2ee39bc5c1b200bf76ca6123758"
+      },
+      {
+        "path": "business/calls/dbf53a39-1818-4efb-a7bf-d9f317f2bdcb-terminal.json",
+        "bytes": 3025,
+        "sha256": "5b597d20b93668f58835635f8530bc05eaeb3c7b15aa05db1e1cb68be6d7ae63"
+      },
+      {
+        "path": "business/checkpoints/F05-jianping-revision--initial/decision.json",
+        "bytes": 790,
+        "sha256": "66f424638e81440932c20212d300a008709c62bfb9ceb06d042485e8632af678"
+      },
+      {
+        "path": "business/checkpoints/F05-jianping-revision--initial/request.json",
+        "bytes": 2372,
+        "sha256": "672de90db6da101fa0f416cef5b039b64ffd096df7a75614a009f5c0a83d1bf7"
+      },
+      {
+        "path": "business/checkpoints/F05-jianping-revision--revision/decision.json",
+        "bytes": 718,
+        "sha256": "537dbe03874f764323d8288ca9636554ec7d4aeacedf74948421d9e771c0b94f"
+      },
+      {
+        "path": "business/checkpoints/F05-jianping-revision--revision/request.json",
+        "bytes": 2884,
+        "sha256": "4379104d937dd141a9cfaeeeeef5c1b4b68466e0c3df9f7d2468e4c95c6d7ebc"
+      },
+      {
+        "path": "business/F05-jianping-revision-initial-draft.json",
+        "bytes": 33942,
+        "sha256": "ace067f32b1fa5f3e3496ec380d85b80bf01e8d8a4cd32c7fa5a49a74d4dde55"
+      },
+      {
+        "path": "business/F05-jianping-revision-initial-outcome.json",
+        "bytes": 32606,
+        "sha256": "7d0dc84c0037b130c7bbe26cefae976ab631862326667b0b8979d793898777b7"
+      },
+      {
+        "path": "business/F05-jianping-revision-revision-draft.json",
+        "bytes": 46294,
+        "sha256": "77b56b3e2b70c7d07001dc132adffe9a250bcd7de0c7a3e010af5639cc130ad0"
+      },
+      {
+        "path": "business/F05-jianping-revision-revision-outcome.json",
+        "bytes": 44452,
+        "sha256": "153034cfef980140cf5c77cccc625fbe6cb032eee184c9adb00a694d59056b0b"
+      },
+      {
+        "path": "business/F05-jianping-revision.json",
+        "bytes": 155808,
+        "sha256": "f90632ca6d798757fe6fe981c45f87ce210237cbaa5204658f2fa18eb2c88208"
+      },
+      {
+        "path": "business/ledger/ledger.json",
+        "bytes": 3443,
+        "sha256": "0d1f1d641eed722e6379e7e72d3cc523fe81e356c48e47008e978f378771aec0"
+      },
+      {
+        "path": "business/native-commands.jsonl",
+        "bytes": 1238511,
+        "sha256": "5710d9c4b718e9190f5a8e1a0cbca84b73f64bd730d628f1f0de11bc81788758"
+      },
+      {
+        "path": "business/summary.json",
+        "bytes": 11137,
+        "sha256": "3433cd735f3d1ad4ac7d22a2031b095a855625c28cdd168aef3987f22533deac"
+      },
+      {
+        "path": "business.started.json",
+        "bytes": 328,
+        "sha256": "66ddce83e810dcdd7e04e0875c4e151043a59ef761927128e6a95af8e48a1d5f"
+      },
+      {
+        "path": "gate/calls/28e1dbf1-0db5-411e-9f46-78bbc9e21f3b-request.json",
+        "bytes": 17250,
+        "sha256": "714ed95fefe5bf23f4b0c0bc6c85f4985bbb7807ac6c7126b659bf32503f0226"
+      },
+      {
+        "path": "gate/calls/28e1dbf1-0db5-411e-9f46-78bbc9e21f3b-terminal.json",
+        "bytes": 4130,
+        "sha256": "c513cd84af8c6b4184acaedd232b53d66b33efd62770ac318857e1d23385365d"
+      },
+      {
+        "path": "gate/calls/4aba87f4-0193-4e52-a8be-94939c9a73e3-request.json",
+        "bytes": 13673,
+        "sha256": "ac5f619e810b0ee0241678f62b04cbb61434ef2a65fb241afc7676d3ad25a2e1"
+      },
+      {
+        "path": "gate/calls/4aba87f4-0193-4e52-a8be-94939c9a73e3-terminal.json",
+        "bytes": 3160,
+        "sha256": "1b92c432c42661ffd9371a4ffa29fbd409b65f998935ff162c3aad61b2ab50c0"
+      },
+      {
+        "path": "gate/calls/4e38e62f-f55b-4ccb-937f-099f3f41faa1-request.json",
+        "bytes": 12489,
+        "sha256": "73db9a04f6572d4bb62246668d2924f490fc6970a359ec6f1538bbf6de4d841c"
+      },
+      {
+        "path": "gate/calls/4e38e62f-f55b-4ccb-937f-099f3f41faa1-terminal.json",
+        "bytes": 2899,
+        "sha256": "13c090dd4420ec633f345e5fda1b30100d85fc6bf204c5ccae931223ca7b57f4"
+      },
+      {
+        "path": "gate/checkpoints/G01-muju--protocol-gate/decision.json",
+        "bytes": 738,
+        "sha256": "0761cf5cd0ce348d2f3bee61f789af13418005d5eb6eb83d73a0874038d02e21"
+      },
+      {
+        "path": "gate/checkpoints/G01-muju--protocol-gate/request.json",
+        "bytes": 1339,
+        "sha256": "4fcf2ac16dccde305370a6bc6a4115df0b4e5187bdd3d2b4d30139d79a624270"
+      },
+      {
+        "path": "gate/final-state.json",
+        "bytes": 51699,
+        "sha256": "79a8d6bd465d331a948a82a3af98a9db8fdbc87d42712a5f7a580a570f3c2174"
+      },
+      {
+        "path": "gate/ledger/ledger.json",
+        "bytes": 2246,
+        "sha256": "5f3e1754081d1acd5c68bdbcf8039c7b88f0e9cf8ba00fd538596e14a7a1f10c"
+      },
+      {
+        "path": "gate/native-commands.jsonl",
+        "bytes": 468343,
+        "sha256": "43845da6ee502c37e8ab9cce768f453d7c519534d05d24011876b3424a9a61ba"
+      },
+      {
+        "path": "gate/phase-review-request.json",
+        "bytes": 749,
+        "sha256": "f180c585f85fec75b3e2125ba374339fb450663279a206b59a684605c5847ce5"
+      },
+      {
+        "path": "gate/phase-review.json",
+        "bytes": 194,
+        "sha256": "7f4067fa328432fa0c3afabb3c8d92904ff7366f886622faf3f0f8d54d55d31d"
+      },
+      {
+        "path": "gate/summary.json",
+        "bytes": 6591,
+        "sha256": "c9c795c33a7573a6a3b0cd783125491b8f8184b1e8c1a46d12960b06b914c7d9"
+      },
+      {
+        "path": "gate.completed.json",
+        "bytes": 720,
+        "sha256": "19e73d51f9cb86af083e3128044d00c123eabfcc2881f8cde1f7f0b54a2a4457"
+      },
+      {
+        "path": "gate.started.json",
+        "bytes": 323,
+        "sha256": "2c1545717b116300f10e0f130c351e780e74c91d0e66303cd51fc7f9b63e0757"
+      },
+      {
+        "path": "run.json",
+        "bytes": 800,
+        "sha256": "d687a8b85a3dc8fd539ddb9fa90d306d88b25d1899cf128f51330e7024e4bdc7"
+      },
+      {
+        "path": "stopped.json",
+        "bytes": 273,
+        "sha256": "93ff3e3b3c9cda5becfdb89b2fd9ab559516529f01297a73fdd6d092a83a05df"
+      }
+    ],
+    "privateAuditDirectory": "../foundation-body-live-audit-20261102-4291eb15",
+    "privateAuditFiles": [
+      {
+        "path": "reviewer-business-results-20261102.json",
+        "sha256": "6b23f24a56319c96eac60ec46b6fb0cd9696f05852dfae6c081dacbb80ed20e9"
+      },
+      {
+        "path": "reviewer-adjudication-20261102.json",
+        "sha256": "7512ca4877857744752ac0a40dac45c6434a13c11dfd18859b584a059ce388ad"
+      },
+      {
+        "path": "F05-jianping-revision-initial-content-review.json",
+        "sha256": "e1c7f7cbc7218343c41550056bdd269d1382c91d38fce4cbac9626e6e6e9cb84"
+      },
+      {
+        "path": "F05-jianping-revision-revision-content-review.json",
+        "sha256": "9adfc59c821c65455ad781dd1ca887d2f375b0135ca70accba97f3977c4e5bc2"
+      },
+      {
+        "path": "gate-result-with-install-observations.json",
+        "sha256": "877e3e7f7865a4dfdfb9a8cb4912e3fe4471d3f2883ec7e54d682b76e141e1f2"
+      },
+      {
+        "path": "reviewer-gate-result-review.json",
+        "sha256": "01371a727984f8db76072139b405633c417adc873b428370c097d3b1b76bea52"
+      },
+      {
+        "path": "business-preflight.json",
+        "sha256": "ecda71a947572de930f4577c342e6db146e454d2c436fd8c4e69f5ede1253cd3"
+      },
+      {
+        "path": "reviewer-business-preflight.json",
+        "sha256": "d240d2aa16c22defc6727394f8247a9549e074fe90a70dc073bfa8df96f9f79e"
+      }
+    ],
+    "independentPublicReview": "foundation-body-live-results-review-20261102.json"
+  }
+}

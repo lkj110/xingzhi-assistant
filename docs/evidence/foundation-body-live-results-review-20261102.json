@@ -1,0 +1,184 @@
+{
+  "schema": 1,
+  "kind": "independent-failed-live-result-review",
+  "reviewer": "independent-subagent",
+  "at": "2026-11-02T04:30:53.908Z",
+  "runId": "4291eb15-215f-4525-9e33-d08ce3feaa1f",
+  "reviewedCommit": "3b2e8e624504fac98756b70271f675f3fa314dc7",
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-body-live-results-20261102.json",
+      "sha256": "481aa49aceb4214a60181ed59898602a276fade6237e2cd8a108513432d43653"
+    }
+  ],
+  "approvedForUpload": true,
+  "resultRecordAccurate": true,
+  "businessAcceptancePassed": false,
+  "approvedForDeployment": false,
+  "additionalLiveCallsAuthorized": false,
+  "roundClosed": true,
+  "oldBudgetReusable": false,
+  "runnerIdentity": "f90db745e7aa32212b77182ec875ddf1d849533db2bf7ea6c5a733d40bf89153",
+  "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+  "conclusion": "批准上传本次失败结果及独立审核记录；不代表业务验收通过。F05修订违反明确发送的标题/正文分离协议，应用通过后由独立检查拒绝，本轮正确停止。",
+  "checks": {
+    "rawEvidenceFilesVerified": 41,
+    "originalTerminalReceiptsVerified": 8,
+    "usageMatchedRawEventsAndLedgers": true,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "applicationRedispatchesAfterStop": 0,
+    "initialAndRevisionBasisAndLineageVerified": true,
+    "rawStoredAndExportedGroundingMatch": true,
+    "sourceCitationsExact": true,
+    "revisionPatchAppliedExactlyToInitialDraft": true,
+    "F06NotStarted": true,
+    "humanConfirmations": 0,
+    "humanRechecks": 0,
+    "humanAcceptances": 0,
+    "F04Rerun": false,
+    "reviewerModelCalls": 0,
+    "reviewerUiActions": 0
+  },
+  "metrics": {
+    "businessCompletion": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "factualDraftHallucination": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "qualifiedDraftFalseBlock": {
+      "numerator": 0,
+      "denominator": 1,
+      "rate": 0
+    },
+    "invalidDraftApplicationRelease": {
+      "numerator": 1,
+      "denominator": 1,
+      "rate": 1
+    },
+    "fixedInvalidControls": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "verifierFalseOverallComplianceAssertions": 1,
+    "allModelHallucinationRate": null
+  },
+  "cost": {
+    "applicationAttempts": 8,
+    "modelDispatches": 8,
+    "inputTokens": 109714,
+    "outputTokens": 3502,
+    "cachedInputTokens": 15104,
+    "totalTokens": 113216,
+    "cachedIncludedInInput": true,
+    "monetaryCost": null
+  },
+  "interpretation": [
+    "Markdown 标题后确有两个业务自然段；拒绝的是已有独立 title 时仍将同名标题保留在 content，不把标题称为第三自然段。",
+    "本地 guard 对 Markdown 布局不适用，未执行结构阻断；该缺口不能当作已通过检查。核验器全面通过断言错误，与业务事实幻觉率分列。",
+    "初稿按初稿要求通过，不倒追修订格式义务；F05 未完成人验，F06 未开始，marker 确认/重检分支未覆盖。",
+    "沿用已暴露样本；不能据本轮小样本推断总体效果、成本改善或全部模型无幻觉。"
+  ],
+  "preservation": {
+    "existingTrackedFilesUnchanged": 1273,
+    "oldNonInstallationRootsUnchanged": 148,
+    "currentRepositoryExistingFilesUnchanged": true,
+    "onlyAllowedNewResultBeforeReview": "docs/evidence/foundation-body-live-results-20261102.json",
+    "candidateAndCliAndRunnerPinned": true,
+    "oldGateFilesUnchanged": true,
+    "installedDirectoryContinuouslyFrozen": false,
+    "finalInstallationDifferences": [
+      {
+        "root": "installed",
+        "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+        "before": {
+          "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+          "sha256": "1a70f24d1b56d35f6f97196310f3dd0150788cf9627fd055699cd1d9daf2402d"
+        },
+        "observed": {
+          "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+          "sha256": "4f7ce71d452c97f0a9295c652db5b52e9d533548f77e738b4a4a6e59040a4945"
+        }
+      }
+    ],
+    "installationObservation": "保留此前安装漂移及非原子采样结果；本次末次观测不证明连续冻结，变化来源未定，不归因、不回滚、不覆盖。",
+    "firstStrictFreezeFailedOnNewResultAddition": true,
+    "firstStrictFreezeFailurePreserved": true,
+    "secondFreezeAllowsOnlyExactNewResultHash": true,
+    "finalInventoryWindow": {
+      "startedAt": "2026-11-02T04:28:19.565Z",
+      "finishedAt": "2026-11-02T04:29:08.927Z",
+      "atomic": false
+    },
+    "finalInstallationMetadata": [
+      {
+        "path": "debug.log",
+        "sha256": "f7aca5c82cc1c46c06e3307a48ffa46954a7e52642a0423481cdf0f38b070070",
+        "size": 1134,
+        "lastWriteTimeUtc": "2026-11-02T03:44:24.339Z"
+      },
+      {
+        "path": "resources/app.asar",
+        "sha256": "f05d05e3828c158ef2c7732372a3e9dca7f3412ea0dcd95e80b3fad146f4c5ce",
+        "size": 124176021,
+        "lastWriteTimeUtc": "2026-11-02T03:41:28.823Z"
+      },
+      {
+        "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+        "sha256": "4f7ce71d452c97f0a9295c652db5b52e9d533548f77e738b4a4a6e59040a4945",
+        "size": 24576,
+        "lastWriteTimeUtc": "2026-11-02T04:24:32.064Z"
+      }
+    ],
+    "installationFileTimeIsNotAttribution": true
+  },
+  "nextStepBoundary": "仅建议离线补齐适用规则下起首同名重复标题的确定性拒绝及回放/回归，再独审封存。没有授权本轮追加模型、修稿、安装或新一轮执行。",
+  "evidence": {
+    "privateAuditDirectory": "../foundation-body-live-audit-20261102-4291eb15",
+    "files": [
+      {
+        "path": "reviewer-business-results-20261102.json",
+        "sha256": "6b23f24a56319c96eac60ec46b6fb0cd9696f05852dfae6c081dacbb80ed20e9"
+      },
+      {
+        "path": "reviewer-adjudication-20261102.json",
+        "sha256": "7512ca4877857744752ac0a40dac45c6434a13c11dfd18859b584a059ce388ad"
+      },
+      {
+        "path": "reviewer-sealed-report-20261102.json",
+        "sha256": "7c355516f6c03b13d9829fd9106efeb313f8a43a04daa3f701b123b710ac7f0d"
+      },
+      {
+        "path": "reviewer-freeze-before.json",
+        "sha256": "c2f176fce5cab464a8a08123a05f5d7a2e72297a20f5a41cf5c656a859fbdfb5"
+      },
+      {
+        "path": "reviewer-freeze-after-business.json",
+        "sha256": "5d5660efa4026578f9acc1cd670848f0009e16c75afe1f87f09cbae792535ed5"
+      },
+      {
+        "path": "reviewer-freeze-after-business-observation.json",
+        "sha256": "ecb16edffab3e4a45c137c2e503bd3c454d15f2dc9e5ff3610a0bd3e88a8a7fe"
+      },
+      {
+        "path": "reviewer-freeze-attempt1-failure.txt",
+        "sha256": "4d7442bdca10471a36eb2c0aeb100de83d7e684b1697b2971d88664d1b1e2769"
+      },
+      {
+        "path": "reviewer-gate-result-review.json",
+        "sha256": "01371a727984f8db76072139b405633c417adc873b428370c097d3b1b76bea52"
+      }
+    ],
+    "roundClosed": {
+      "path": "../foundation-body-live-control-20261102/4291eb15-215f-4525-9e33-d08ce3feaa1f/round-closed.json",
+      "sha256": "75cc7e125cba6e735635f96c887ca6a47b5f14c29ca35a54e7a8b913910b4213"
+    }
+  }
+}
