@@ -1,0 +1,178 @@
+{
+  "schema": 1,
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "status": "proposal-awaiting-user-confirmation",
+  "installationAuthorized": false,
+  "realModelCallsAuthorized": false,
+  "officialCliInvocationsAuthorized": false,
+  "selectedApproach": "新目录并行安装＋独立新工作空间；新旧版本依次运行，旧库不迁移。",
+  "userVisibleConsequences": [
+    "新窗口初始为空，不自动出现旧版事项、资料、模型账号或已验收测试案例。",
+    "旧事项与资料继续留在原工作空间，旧快捷方式保留；需要旧数据时先完整退出新版，再打开旧版。",
+    "后续模型配置、旧库迁移或真实业务使用另行确定；本次安装烟测不执行模型登录检测、连接测试或生成。"
+  ],
+  "paths": {
+    "oldProgram": "%LOCALAPPDATA%/Programs/XingzhiAssistantFoundation/20261027-90815f4",
+    "oldProfile": "%APPDATA%/行知助手",
+    "newProgram": "%LOCALAPPDATA%/Programs/XingzhiAssistantFoundation/20261102-2671389c",
+    "newProfile": "%APPDATA%/XingzhiAssistantFoundation/20261102-2671389c",
+    "backup": "%LOCALAPPDATA%/XingzhiAssistantFoundationBackups/before-20261102-2671389c",
+    "newShortcutName": "行知助手（基础版 20261102-2671389c）.lnk",
+    "newShortcutLocations": [
+      "Desktop",
+      "StartMenu/Programs"
+    ],
+    "newLaunch": {
+      "executable": "%LOCALAPPDATA%/Programs/XingzhiAssistantFoundation/20261102-2671389c/XingzhiAssistant.exe",
+      "arguments": [
+        "--user-data-dir=%APPDATA%/XingzhiAssistantFoundation/20261102-2671389c"
+      ],
+      "workingDirectory": "%LOCALAPPDATA%/Programs/XingzhiAssistantFoundation/20261102-2671389c"
+    },
+    "oldBindingEvidence": {
+      "source": "现有3个快捷方式指向旧exe且无自定义profile参数；当前旧版3个子进程显式user-data-dir均为旧profile；20261027安装证明一致。",
+      "privateObservation": "../foundation-title-delivery-audit-20261102/launch-observation.json",
+      "sha256": "9fa90ed1cb716ee9114654dd9fb35ff2b51b6629d119e575709c8f053a54039e",
+      "mustRevalidateAtInstall": true
+    }
+  },
+  "approvalRequiredBecause": "用户本轮明确要求只做离线准备并在安装前确认；此前真实模型预算已关闭，不复用。",
+  "preconditions": [
+    "拿到针对本releaseId的明确安装同意；新目录、新profile、备份目录及新快捷方式必须不存在。",
+    "核对ZIP SHA256与86文件完整清单，路径解析为绝对路径且互不包含；拒绝符号链接/重解析点、路径穿越、额外文件或已有目标，失败停止。",
+    "先正常退出旧版和候选，确认托盘、主进程、子进程及文件句柄释放。窗口关闭仅隐藏，不能视为退出。不强杀其他程序。",
+    "重新只读采样旧程序、旧profile与快捷方式，按当前字节作为备份基线；与本轮记录有差异则记录并核对来源，禁止静默覆盖或把旧目录当成已验收候选。",
+    "确认磁盘可用空间不少于2×(旧程序完整字节＋旧profile完整字节＋旧快捷方式字节)＋新程序536107787字节＋1GiB余量；外部资料若纳入备份须另计。",
+    "为备份目录设置仅当前用户及系统/管理员可访问的本地权限；禁止同步到公共位置或提交GitHub。",
+    "在启动候选之前，确认可对本次候选完整进程树连续记录官方CLI分发及模型请求，并用不启动候选/官方CLI/模型的本地方法验证观察能力；观察不可用或证据链不完整就不启动。不能仅凭应用内modelCalls为空或定时进程快照声称CLI为0。"
+  ],
+  "backup": {
+    "performedThisPreparation": false,
+    "method": "完整退出后的只读复制，保留相对路径并记录逐文件SHA256、大小和时间；复制前后再次核对源清单，任何漂移或锁定即停止。",
+    "components": [
+      {
+        "source": "%LOCALAPPDATA%/Programs/XingzhiAssistantFoundation/20261027-90815f4",
+        "destination": "%LOCALAPPDATA%/XingzhiAssistantFoundationBackups/before-20261102-2671389c/old-program",
+        "required": true,
+        "includes": "完整exe、app.asar、unpacked依赖和原目录其余文件，不只备份asar。"
+      },
+      {
+        "source": "%APPDATA%/行知助手",
+        "destination": "%LOCALAPPDATA%/XingzhiAssistantFoundationBackups/before-20261102-2671389c/old-profile",
+        "required": true,
+        "includes": "完整userData，包括workspace.json及旁路账本、缓存、本地状态、加密凭据；禁止仅导出workspace.json。"
+      },
+      {
+        "source": "3个既有行知快捷方式及其启动参数",
+        "destination": "%LOCALAPPDATA%/XingzhiAssistantFoundationBackups/before-20261102-2671389c/shortcuts",
+        "required": true,
+        "includes": "原.lnk字节及位置清单，保留现有目标和参数。"
+      },
+      {
+        "source": "外部引用、资料/交付目录及共享工具",
+        "destination": "单独清单；本次不使用、不改动",
+        "required": false,
+        "includes": "Documents/行知助手/{资料,交付}、用户选定目录、XingzhiAssistantTools等均可能在profile外；不是自动完整备份的承诺。"
+      }
+    ],
+    "verification": "逐文件源/副本hash一致后，将备份复制至独立restore-check目录，验证完整字节与目录清单，不启动旧版或读取密钥；保留验证记录。清理演练目录前核对绝对路径严格位于本轮备份根目录，使用单一PowerShell LiteralPath操作。 此演练只证明备份文件可读及逐字节恢复，未启动旧App，不证明旧App运行兼容性、凭据解密或业务效果。",
+    "credentials": "不解密、不打印凭据；Electron safeStorage依赖原Windows账户/机器。官方CLI认证由CLI自身管理，不读取或复制其令牌，不承诺跨机恢复。",
+    "applicationBackupIsNotImage": true,
+    "externalEffectsNotReverted": true
+  },
+  "steps": [
+    {
+      "id": "I1",
+      "action": "批准后复核上述前置条件，完整退出旧版，制作并验证备份。",
+      "stopIf": "旧版未退出、源持续变化、路径冲突、备份不完整、磁盘不足或权限异常。"
+    },
+    {
+      "id": "I2",
+      "action": "只把冻结ZIP展开到全新程序目录，核对86文件及ASAR；不运行安装器、不写旧程序、不重打包。",
+      "stopIf": "任意文件或哈希不符。"
+    },
+    {
+      "id": "I3",
+      "action": "创建独立空profile；在观察能力验证且记录开始后，用显式绝对路径--user-data-dir启动新exe，清除测试/fixture环境变量，不使用当前工作空间或评测profile。若出现首次引导，只点“暂时跳过”。启动后读回实际exe/appPath/userData/version并核对。",
+      "stopIf": "指向默认/旧profile，或出现旧事项/账号/自动任务；立即退出，保留证据，不继续。"
+    },
+    {
+      "id": "I4",
+      "action": "仅通过当前主窗口已有本地settings动作设定并读回 automatic=false、autoExtract=false、autoComplete=false、evidenceGrounding=true。不打开模型配置表单、不检测登录、不测试连接、不导入旧库、不点击推进或验收。",
+      "stopIf": "出现模型请求/CLI分发、旧数据、外部动作、设置不一致或错误。"
+    },
+    {
+      "id": "I5",
+      "action": "完整退出再冷启动，复核独立profile、上述设置、空白工作台；依据覆盖整个流程的进程树/请求观察和应用记录核对0模型/0官方CLI。观察缺失不得判为通过。新资料允许本应用正常初始化，本步骤不是业务质量复测。",
+      "stopIf": "重启丢失设置、身份不一致、未知用量或任何非预期调用。"
+    },
+    {
+      "id": "I6",
+      "action": "烟测通过后创建两个独立名称的新快捷方式，明确已展开为绝对路径的完整--user-data-dir参数，原三个快捷方式逐字节保留；复核旧程序/旧profile保持完整退出并备份后的静止基线。交付版本与回退入口。",
+      "stopIf": "旧目录或旧快捷方式出现写入、身份冲突或资料归属不清。"
+    }
+  ],
+  "successCriteria": [
+    "新程序中86个封存文件字节匹配冻结清单；解包时不得有额外文件，运行后若出现清单外输出需单列核对，不能默认为已验收内容。ZIP只读保留。",
+    "实际运行的exe/appPath/userData与新配对一致；旧版未同时运行。",
+    "严格核验与手动模式设置重启后保持；新库无测试样本或旧库数据。",
+    "完整观察证明模型请求0、官方CLI分发0；旧程序/profile/快捷方式自完整退出并备份后的静止基线起无本次安装/烟测写入。",
+    "完整备份及还原演练哈希通过，用户可明确区分新旧快捷方式。"
+  ],
+  "rollback": {
+    "automaticDestructiveRestore": false,
+    "triggers": [
+      "新候选无法启动、身份或哈希不符",
+      "profile指向错误、设置丢失、未知/非预期调用",
+      "用户要求回退或无法辨认资料归属"
+    ],
+    "normalPath": [
+      "正常完整退出新版，保留新程序和新profile及诊断，不递归删除用户数据。",
+      "核对旧程序与旧profile仍匹配备份后，使用原旧快捷方式切回旧配对；不要把新profile交给旧exe。",
+      "移除或停用仅本次新建的两个快捷方式；不覆盖原快捷方式，不卸载旧版。"
+    ],
+    "damagedOldPair": "若旧程序/profile已变化或损坏，不静默覆盖正在使用的数据。先保全现状，向用户说明差异与损失范围；恢复须另行确认，再恢复同一时点的完整旧程序＋完整旧profile。",
+    "afterNewWork": "新版产生的新工作保留在新profile，回退不会自动合并到旧版。需要迁移时单独制定并验证方案。",
+    "notRestored": [
+      "远端发送、GitHub变更和其他外部动作",
+      "profile外未备份的源文件/产出",
+      "Windows账户、系统安全存储以及CLI登录状态"
+    ],
+    "builtInRestoreNotUsedForDowngrade": "内置恢复会保留当前部分账本/凭据/授权，不等于逐字节还原；禁止以它替代降级恢复。"
+  },
+  "gates": {
+    "F04Rerun": false,
+    "liveGateRepeat": false,
+    "formalMainEvaluation": false,
+    "candidateInstallationDuringPreparation": false,
+    "oldDataMigrationDuringInstall": false,
+    "publicGitHubReleaseAsset": false
+  },
+  "nextApproval": "是否批准按本方案并行安装冻结基础版，并新建独立空工作空间？包含完整退出旧版、备份及还原校验、创建新程序/profile/快捷方式、零模型/零官方CLI安装烟测；不迁移旧数据、不覆盖旧安装。",
+  "pathResolution": "paths中的%LOCALAPPDATA%与%APPDATA%仅为文档模板；执行与快捷方式写入前解析为已核对的绝对路径，对含空格参数正确引用，不把未展开的环境占位符写入.lnk。",
+  "oldPairBaseline": {
+    "moment": "旧版正常完整退出、所有相关进程释放、备份及逐文件校验完成后",
+    "expectedShutdownPersistence": "旧版正常退出可能保存工作空间/日志，须记录退出前后差异；这些变化不等于候选安装覆盖，不将完整退出过程声称为旧profile零写。",
+    "afterBaseline": "自该静止基线起，新候选只使用新profile；旧程序、旧profile及旧快捷方式不得被安装/烟测修改。出现后续变化立即停止并保存差异，不归因或自动覆盖。"
+  },
+  "zeroCallSmokeEvidence": {
+    "preparedOrExecutedThisRound": false,
+    "requiredBeforeLaunch": "采用Windows进程创建事件或等效完整进程树观察，先验证观察可用性，再绑定新exe身份、根PID、后代与起止时间；不以会漏掉短命进程的定时快照替代。模型请求另结合候选调用记录/请求边界核对。",
+    "requiredThroughExit": "覆盖首次启动、引导跳过、四项本地settings写入、完整退出、冷启动及再次退出；记录自身观察器不产生模型或官方CLI调用。",
+    "failureAction": "无法建立完整观察证据则不启动；运行中丢失观察、出现模型请求或官方CLI分发立即停止，本次烟测不通过；不得把未知计为0或自动改用真实探针。",
+    "notAnApplicationTokenCap": "本方案不是产品级token硬上限，既有评测执行器的预算保护不会自动随ZIP部署。"
+  },
+  "firstStartupStaticCheck": {
+    "basis": "冻结app.asar中的编译前端与main/core/subscription模块静态检查",
+    "frontend": "dist/assets/index-qvc9bMDl.js",
+    "frontendSha256": "011c392f0832a863e66099448ae0e2e174883110da0a364d8d4680b79d16389c",
+    "initialRoute": "board",
+    "initialModal": null,
+    "automaticDialog": "QuickStartDialog",
+    "providerFormAutomaticallyMounted": false,
+    "allowedOnboardingAction": "仅点击“暂时跳过”，执行本地guideDismiss；不点击“先连接模型”、配置模型或新建事项。",
+    "whyAvoidModelForm": "ProviderForm挂载Codex表单会调用subscriptionStatus并执行官方CLI --version/login status；测试连接会真实调用模型。",
+    "runtimeSmokeExecuted": false,
+    "meaning": "静态路径支持零调用烟测方案可行；不声称已经观察到首启0调用。"
+  }
+}

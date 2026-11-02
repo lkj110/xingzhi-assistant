@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "preparedAt": "2026-11-02T09:06:55.311Z",
+  "status": "offline-integrity-and-plan-preparation-complete",
+  "checks": {
+    "candidateFiles": 86,
+    "candidateFilesMatchExistingSeal": true,
+    "candidateUnchangedDuringPreparation": true,
+    "zipEntries": 86,
+    "zipFullFileBytesMatch": true,
+    "zipSha256": "49d3277016955dff976edbb3c0f7036c6bacf4ed5e96e374d62aac8df1a6d793",
+    "sourceTrackedDiffEmpty": true,
+    "runnerSealUnchanged": true,
+    "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+    "newProgramProfileBackupPathsAbsent": true,
+    "pathRootsDisjoint": true,
+    "oldLaunchBindingObserved": true,
+    "profileContentsRead": false
+  },
+  "notExecuted": {
+    "installation": true,
+    "realProfileBackup": true,
+    "backupRestoreRehearsal": true,
+    "applicationSmoke": true,
+    "candidateStartup": true,
+    "profileMigration": true,
+    "productRegressionRerun": true
+  },
+  "activity": {
+    "applicationStarts": 0,
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "installationWrites": 0,
+    "profileWrites": 0,
+    "shortcutWrites": 0,
+    "backupCopiesOfUserData": 0
+  },
+  "installationObservation": {
+    "observedFiles": 87,
+    "atomic": false,
+    "sourceOfChanges": "undetermined",
+    "continuousFreezeProven": false,
+    "sincePreviousLiveEndpoint": [
+      {
+        "path": "debug.log",
+        "before": {
+          "path": "debug.log",
+          "sha256": "33f7f17f37557d007c70f9d61e8a2bffd6c8f23810318959864e414a71d2f87e",
+          "bytes": 3078,
+          "lastWriteTimeUtc": "2026-11-02T08:41:32.535Z",
+          "metadataStableDuringRead": true
+        },
+        "after": {
+          "path": "debug.log",
+          "bytes": 3240,
+          "sha256": "228b4620dca08d42aafc87300e38db3b6e0530c43233d7028d49667eb2636f70",
+          "lastWriteTimeUtc": "2026-11-02T08:59:14.847Z"
+        }
+      },
+      {
+        "path": "resources/app.asar",
+        "before": {
+          "path": "resources/app.asar",
+          "sha256": "32c62dfb1b3ca0dc992829d8283901543f52425eba1301fd94c6bc7cd04b104b",
+          "bytes": 127053250,
+          "lastWriteTimeUtc": "2026-11-02T08:36:32.346Z",
+          "metadataStableDuringRead": true
+        },
+        "after": {
+          "path": "resources/app.asar",
+          "bytes": 127053514,
+          "sha256": "1bb1a273d56b3c76d7097ed93d58ad72392aab2c041ebb8b7280bd59d4ccd251",
+          "lastWriteTimeUtc": "2026-11-02T08:56:30.105Z"
+        }
+      }
+    ],
+    "duringThisPreparation": [
+      {
+        "path": "debug.log",
+        "before": {
+          "path": "debug.log",
+          "bytes": 3240,
+          "sha256": "228b4620dca08d42aafc87300e38db3b6e0530c43233d7028d49667eb2636f70",
+          "lastWriteTimeUtc": "2026-11-02T08:59:14.847Z"
+        },
+        "after": {
+          "path": "debug.log",
+          "bytes": 3402,
+          "sha256": "f810a8de607310b302395b8a234562b2b84c53d1ffba82b548c571b6c0b8fb25",
+          "lastWriteTimeUtc": "2026-11-02T09:01:14.718Z"
+        }
+      }
+    ],
+    "observationWindow": {
+      "before": "2026-11-02T08:59:55.660Z",
+      "after": "2026-11-02T09:06:52.274Z"
+    },
+    "meaning": "本任务只读采样，未写安装目录；端点结果不证明持续冻结或修改者归属。仍在运行的旧版可能改变日志/资料，不能把候选冻结与旧安装连续不变混为一谈。"
+  },
+  "evidence": {
+    "privateAuditDirectory": "../foundation-title-delivery-audit-20261102",
+    "files": [
+      {
+        "path": "preparation.json",
+        "sha256": "c3815d8255f85102c1c2e59b3fc9fccdfd50e9bb81671ce96bf4e81fe8f133dc"
+      },
+      {
+        "path": "candidate-before.json",
+        "sha256": "74c68197da68409d98ec93928003960d8ad1491f845111866c19fef2d1f6a1bc"
+      },
+      {
+        "path": "candidate-after.json",
+        "sha256": "f1855a2ecc1ab4da010c6b4ec940ce5d867e9c5bf55e3c37c9d61210111498a2"
+      },
+      {
+        "path": "installed-before.json",
+        "sha256": "132b265d9f8f8f5bd56def546cb856a6208805275482b072764d92bd11415f2b"
+      },
+      {
+        "path": "installed-after.json",
+        "sha256": "efacdc1b91b91ec9af10cdc68f8e91bd62871dd6493a58c624a6d3f0d4b7e11c"
+      },
+      {
+        "path": "archive-check.json",
+        "sha256": "b6c0cca9f6f393825dc4622453b8fdc10b12f664b0d72b0bff724fd558790d57"
+      },
+      {
+        "path": "launch-observation.json",
+        "sha256": "9fa90ed1cb716ee9114654dd9fb35ff2b51b6629d119e575709c8f053a54039e"
+      },
+      {
+        "path": "installation-plan-resolved.json",
+        "sha256": "30507215d91a94074bd904ed3aaec0d673f2c9294076fc9be6f498de7e1460a0"
+      }
+    ]
+  },
+  "limits": [
+    "新安装/备份恢复/空profile启动仅为经静态检查的方案，须获用户确认后执行并验证。",
+    "ZIP和现有封存文件的字节核对不代替软件功能回归；没有修改产品，因此本轮不重复已有340项回归与11项包内演练。",
+    "新profile为空且无模型账号；旧工作空间迁移与完整A-D、macOS均不属于本轮。"
+  ]
+}

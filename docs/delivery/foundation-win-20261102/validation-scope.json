@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "deliveryContract": "Windows基础版：用户提供资料→手动生成本地文稿→严格证据核验→用户最终验收。只承诺以下证据实际覆盖范围。",
+  "requiredOperatingSettings": {
+    "automatic": false,
+    "autoExtract": false,
+    "autoComplete": false,
+    "evidenceGrounding": true
+  },
+  "operatingScope": {
+    "dedicatedFoundationModeInBinary": false,
+    "scopeIsOperationalAndEvidenceBound": true,
+    "automaticAgentAndConnectorsIncluded": false,
+    "externalDeliveryIncluded": false,
+    "noGuaranteeOutsideDeclaredSettings": true
+  },
+  "matrix": [
+    {
+      "capability": "G01协议门检",
+      "level": "current-candidate-real-model",
+      "result": "passed",
+      "evidence": "docs/evidence/foundation-title-live-results-20261102.json",
+      "notes": "3次分发，38,896 tokens；门检不计业务质量分母。"
+    },
+    {
+      "capability": "F05初稿→修订→新核验依据→真人最终验收",
+      "level": "current-candidate-real-model-and-human",
+      "result": "passed",
+      "evidence": "evaluations/foundation-title-live-20261102/adjudication.json",
+      "notes": "真实修订patch移除重复标题，恰好两段，未由执行器改稿。"
+    },
+    {
+      "capability": "F06历史时点限定→真人验收→冷重启保留",
+      "level": "current-candidate-real-model-and-human",
+      "result": "passed",
+      "evidence": "docs/evidence/foundation-title-live-results-review-20261102.json",
+      "notes": "推进前、待验收、验收后三次冷重启；F05验收记录也保持。"
+    },
+    {
+      "capability": "要求与证据清单、原文绑定、独立核验",
+      "level": "current-candidate-limited-live-and-offline",
+      "result": "supported-within-tested-cases",
+      "evidence": "evaluations/foundation-title-live-20261102/report.json",
+      "notes": "仅三份审查稿，无总体幻觉率或错误放行率保证。"
+    },
+    {
+      "capability": "旧真实重复标题坏patch的确定性拒绝",
+      "level": "current-package-offline-replay",
+      "result": "passed",
+      "evidence": "docs/evidence/foundation-title-candidate-preparation-20261102.json",
+      "notes": "旧真实patch已参与修改与回放；本轮模型没有再产生同样坏稿，不能计为本轮真实错误放行对照。"
+    },
+    {
+      "capability": "人工表达确认后单独重检及防重放",
+      "level": "offline-and-historical-only",
+      "result": "not-triggered-in-current-live-round",
+      "evidence": "docs/evidence/foundation-title-live-results-20261102.json",
+      "notes": "不计入本轮真实覆盖，不能称当前完整闭环已验证。"
+    },
+    {
+      "capability": "F04真人操作",
+      "level": "historical-different-candidate",
+      "result": "historical-pass-only-no-rerun",
+      "evidence": "docs/evidence/foundation-native-ui-f04-result-20261030.json",
+      "notes": "不覆盖当前ASAR。"
+    },
+    {
+      "capability": "六例同候选、完整A-D、自动Agent、跨平台及旧数据迁移",
+      "level": "not-accepted-in-this-delivery",
+      "result": "not-claimed",
+      "notes": "不启动正式主评测；不承诺macOS、所有业务或旧工作空间升级成功。"
+    }
+  ],
+  "offlineRegression": {
+    "tests": 340,
+    "pass": 339,
+    "fail": 0,
+    "skip": 1,
+    "skipReason": "Windows宿主未授权真实文件符号链接创建",
+    "packagedProbes": 11,
+    "packagedPass": 11,
+    "evidence": "docs/evidence/foundation-title-candidate-preparation-20261102.json",
+    "newProductTestsThisPreparation": 0
+  },
+  "liveMetrics": {
+    "businessCompletion": {
+      "numerator": 2,
+      "denominator": 2,
+      "rate": 1
+    },
+    "hallucination": {
+      "numerator": 0,
+      "denominator": 3,
+      "rate": 0
+    },
+    "falseBlock": {
+      "numerator": 0,
+      "denominator": 3,
+      "rate": 0
+    },
+    "falseRelease": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "applicationAttempts": 11,
+    "modelDispatches": 11,
+    "inputTokens": 150004,
+    "outputTokens": 5083,
+    "totalTokens": 155087
+  },
+  "costInterpretation": "F05 74,176，F06 42,015，G01 38,896 tokens。与上一轮共同阶段仅差-144 tokens；覆盖不同且非盲样/随机对照，成本优化未获证明。订阅接口无可归因账单金额。",
+  "releaseLimitations": [
+    "样本已暴露且数量少，错误放行分母为零。",
+    "本次离线交付准备只验证冻结文件、目录规划及文档一致性，没有启动候选或迁移用户数据。",
+    "旧安装目录另有来源未定变化，受测独立候选不能等同于旧安装版。"
+  ],
+  "installationSuccessDefinition": "安装另行批准后，仅以哈希匹配、独立profile、手动/严格设置、空白工作台及有完整观察证据的零调用冷重启作为安装烟测通过；静态首启分析不代替实际烟测，不冒充新一轮业务效果评测。",
+  "testedRuntimeContext": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "medium",
+    "provider": "existing-authorized-Codex-subscription",
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false,
+    "meaning": "以上是既有真实验收条件，不是空profile默认已具备的配置或可复用预算。首装不配置/检测模型；后续真实业务启用时另核对模型、串行执行、重试/回退等条件，不能将其他配置效果等同本轮证据。"
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "kind": "independent-frozen-foundation-delivery-plan-review",
+  "reviewer": "independent-subagent",
+  "reviewedAt": "2026-11-02T09:13:23.802Z",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "sourceHead": "534553fdb77704664605378b3048c3a1cd5b6eb2",
+  "approved": true,
+  "publicationApproved": true,
+  "readyToSubmitInstallationPlanForUserConfirmation": true,
+  "installationAuthorized": false,
+  "verdict": "离线交付准备与方案审核通过。冻结ZIP逐文件字节、版本/证据范围、旧启动配对和备份回滚边界已核对；4项文档问题已修正，无剩余阻断项。批准仅上传本目录5份交付文档。安装、备份恢复演练及零调用启动烟测尚未执行，也未获本次授权。",
+  "reviewedFiles": [
+    {
+      "path": "docs/delivery/foundation-win-20261102/candidate.json",
+      "sha256": "7f84374f1097ee779ac90524ef69b1227910d8f4c1d0a089f21b1f9dbe5da4b2",
+      "bytes": 17852
+    },
+    {
+      "path": "docs/delivery/foundation-win-20261102/validation-scope.json",
+      "sha256": "4a7bf66501459842def116015f425d16bb02f5d28536a132dd7749947a8ecd71",
+      "bytes": 5536
+    },
+    {
+      "path": "docs/delivery/foundation-win-20261102/install-rollback-plan.json",
+      "sha256": "71b29cc3cf3694f6cd5a7bee8bc65313fe336d102ea08cb015ede081e6783379",
+      "bytes": 13437
+    },
+    {
+      "path": "docs/delivery/foundation-win-20261102/offline-checks.json",
+      "sha256": "551fb15af107740edc373d8ac3c724db8164121bb2228237cdd0383a360f965a",
+      "bytes": 5130
+    }
+  ],
+  "candidateIdentity": {
+    "displayVersion": "0.42.4",
+    "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+    "executableSha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a",
+    "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+    "archiveSha256": "49d3277016955dff976edbb3c0f7036c6bacf4ed5e96e374d62aac8df1a6d793",
+    "archiveBytes": 199945222,
+    "archiveEntries": 86,
+    "uncompressedBytes": 536107787,
+    "allZipEntryBytesIndependentlyVerified": true,
+    "archiveExtractedByReviewer": false,
+    "immutableFilesystemProtectionClaimed": false,
+    "archivePublishedAsGitHubRelease": false
+  },
+  "resolvedFindings": [
+    {
+      "id": "D1",
+      "finding": "原计划未明确首启引导操作与零CLI观察前置能力，容易把静态无模型路径或空modelCalls误当实测0CLI。",
+      "resolution": "补入冻结编译前端静态分析、仅暂时跳过、启动前观察能力验证及缺证不启动/不通过。"
+    },
+    {
+      "id": "D2",
+      "finding": "原成功标准笼统要求旧profile零写，与正常完整退出时可能保存资料不一致。",
+      "resolution": "以正常退出并完成备份后的静止基线为保护边界，记录退出前后差异，不将正常保存冒充安装覆盖。"
+    },
+    {
+      "id": "D3",
+      "finding": "冻结包保留历史说明，未注明新旧文档优先关系。",
+      "resolution": "版本清单明确本releaseId交付文档为当前依据，历史说明与统计不扩展当前保证。"
+    },
+    {
+      "id": "D4",
+      "finding": "模板启动参数、后续模型配置和文件级恢复演练的解释边界需明确。",
+      "resolution": "补充绝对路径参数落地、真实验收运行配置、恢复演练仅字节验证、运行新增文件单列核对。"
+    }
+  ],
+  "remainingBlockers": [],
+  "verification": {
+    "sourceTrackedDiffEmpty": true,
+    "sourceModulesMatchReviewedHashes": true,
+    "runnerSealUnchanged": true,
+    "candidateBeforeAfterBytesAndTimestampsMatch": true,
+    "oldProfileBindingSupportedByThreeShortcutsAndThreeChildProcessArguments": true,
+    "profileContentsRead": false,
+    "credentialPlaintextRead": false,
+    "installationDirectoryResampledByReviewer": false,
+    "scopeAndMetricsMatchPriorIndependentLiveResults": true,
+    "qualityInvalidDraftReleaseDenominatorZeroRateNull": true,
+    "humanExpressionConfirmationAndSeparateRecheckNotLiveCovered": true,
+    "legacyBundleDocumentationLimitedToHistoricalReference": true
+  },
+  "startupAssessment": {
+    "kind": "static-feasibility-only",
+    "inspectedActualFrozenCompiledFrontend": true,
+    "compiledFrontend": "dist/assets/index-qvc9bMDl.js",
+    "compiledFrontendSha256": "011c392f0832a863e66099448ae0e2e174883110da0a364d8d4680b79d16389c",
+    "blankStartupAutomaticallyMountsProviderForm": false,
+    "onboardingAction": "仅暂时跳过，guideDismiss为本地动作",
+    "modelFormMayInvokeOfficialCli": true,
+    "zeroCliObserverPreparedOrValidated": false,
+    "requiredNextBoundary": "用户批准安装后，先验证连续进程树/模型请求观察能力，无法完整观察则不启动；不得用空modelCalls替代CLI分发证据。",
+    "runtimeSmokeCompleted": false
+  },
+  "backupAndRollback": {
+    "oldPairProtectedFrom": "正常完整退出并完成备份后的静止基线",
+    "shutdownMayPersistOldProfile": true,
+    "newProgramAndFreshProfileSeparate": true,
+    "oldDataMigration": false,
+    "oldAndNewNotRunConcurrently": true,
+    "restoreCheckMeaning": "仅文件可读和逐字节复制演练；未证明旧App启动兼容、业务行为或凭据可解密",
+    "builtInRestoreNotDowngradeImage": true,
+    "noAutomaticDestructiveRestore": true,
+    "externalEffectsNotReverted": true,
+    "realBackupOrRestorePerformed": false
+  },
+  "installationObservation": {
+    "basedOnlyOnExistingSnapshots": true,
+    "changeSincePriorLiveEndpoint": [
+      "debug.log",
+      "resources/app.asar"
+    ],
+    "changeDuringThisPreparation": [
+      "debug.log"
+    ],
+    "sourceOfChanges": "undetermined",
+    "continuousFreezeProven": false,
+    "taskInstallationWrites": 0,
+    "meaning": "候选已冻结与旧安装连续不变不是同一事实；来源未定变化已保留，不归因、不回写。"
+  },
+  "notExecuted": [
+    "application startup",
+    "installation",
+    "actual userData backup",
+    "backup restore rehearsal",
+    "profile migration",
+    "zero-model zero-official-CLI installation smoke",
+    "new real-model evaluation",
+    "product regression rerun"
+  ],
+  "reviewerActions": {
+    "modifiedNewDeliveryDocuments": 3,
+    "productEdits": 0,
+    "candidateEdits": 0,
+    "applicationStarts": 0,
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "installationWrites": 0,
+    "profileWrites": 0,
+    "shortcutWrites": 0
+  },
+  "evidence": [
+    {
+      "path": "../foundation-title-delivery-audit-20261102/preparation.json",
+      "sha256": "c3815d8255f85102c1c2e59b3fc9fccdfd50e9bb81671ce96bf4e81fe8f133dc"
+    },
+    {
+      "path": "../foundation-title-delivery-audit-20261102/candidate-before.json",
+      "sha256": "74c68197da68409d98ec93928003960d8ad1491f845111866c19fef2d1f6a1bc"
+    },
+    {
+      "path": "../foundation-title-delivery-audit-20261102/candidate-after.json",
+      "sha256": "f1855a2ecc1ab4da010c6b4ec940ce5d867e9c5bf55e3c37c9d61210111498a2"
+    },
+    {
+      "path": "../foundation-title-delivery-audit-20261102/installed-before.json",
+      "sha256": "132b265d9f8f8f5bd56def546cb856a6208805275482b072764d92bd11415f2b"
+    },
+    {
+      "path": "../foundation-title-delivery-audit-20261102/installed-after.json",
+      "sha256": "efacdc1b91b91ec9af10cdc68f8e91bd62871dd6493a58c624a6d3f0d4b7e11c"
+    },
+    {
+      "path": "../foundation-title-delivery-audit-20261102/archive-check.json",
+      "sha256": "b6c0cca9f6f393825dc4622453b8fdc10b12f664b0d72b0bff724fd558790d57"
+    },
+    {
+      "path": "../foundation-title-delivery-audit-20261102/launch-observation.json",
+      "sha256": "9fa90ed1cb716ee9114654dd9fb35ff2b51b6629d119e575709c8f053a54039e"
+    },
+    {
+      "path": "../foundation-title-delivery-audit-20261102/installation-plan-resolved.json",
+      "sha256": "30507215d91a94074bd904ed3aaec0d673f2c9294076fc9be6f498de7e1460a0"
+    },
+    {
+      "path": "../foundation-title-delivery-audit-20261102/reviewer-static-and-zip.json",
+      "sha256": "c1ccd7680ef44fd397aedef1b86a4ee982c03146901481dc06bdc556bdc792fc"
+    },
+    {
+      "path": "../foundation-title-delivery-audit-20261102/reviewer-document-corrections.json",
+      "sha256": "a6b0d98d7f0ed8d826533446fd852ec9168e9d5194f42c1ed4f7c5f6938fbe7a"
+    }
+  ],
+  "uploadBoundary": "Only five reviewed delivery JSON documents. Existing candidate, raw evaluations, installation files and frozen ZIP remain unchanged; local copies of these documents beside the ZIP may be made byte-identically."
+}
