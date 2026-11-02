@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "kind": "independent-closed-live-results-publication-review",
+  "reviewer": "independent-subagent",
+  "createdAt": "2026-11-02T08:52:52.397Z",
+  "runId": "a2e94516-e541-435e-b50a-e002310d9326",
+  "sourceCommit": "3a50abefd02885a5ac1b3b0845ab3a78da3e1ad5",
+  "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+  "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+  "approved": true,
+  "publicationApproved": true,
+  "verdict": "公开结果与已独审的60份运行证据、三稿裁定、原评分器和轮次关闭记录一致，批准仅上传本轮结果。未发现需修改的内容或阻断问题。",
+  "findings": [],
+  "publicFilesModifiedByReviewer": 0,
+  "scope": {
+    "phases": [
+      "G01",
+      "F05",
+      "F06"
+    ],
+    "businessCases": 2,
+    "businessDrafts": 3,
+    "F04Rerun": false,
+    "completeADAcceptance": false,
+    "sixCasesSameCandidateAcceptance": false,
+    "formalMainEvaluation": false,
+    "installedVersionAcceptance": false,
+    "macOSAcceptance": false
+  },
+  "verified": {
+    "originalEvidenceFiles": 60,
+    "originalEvidenceHashesUnchanged": true,
+    "scoreRecomputedWithExistingPureScorer": true,
+    "publishedScoreAndAdjudicationByteIdenticalToIndependentOriginals": true,
+    "closureAndSourceIdentityBound": true,
+    "phaseDeadlinesNotReset": true,
+    "actualHumanAcceptances": 2,
+    "F05AcceptanceSurvivesF06Restarts": true,
+    "F06ColdRestarts": 3,
+    "applicationAttempts": 11,
+    "modelDispatches": 11,
+    "totalTokens": 155087,
+    "unknownUsage": 0,
+    "pendingUsage": 0,
+    "sourceTrackedDiffEmpty": true,
+    "runnerSealUnchanged": true,
+    "fullCandidateIntegrityVerified": true
+  },
+  "metrics": {
+    "completionPlanned": {
+      "numerator": 2,
+      "denominator": 2,
+      "rate": 1
+    },
+    "completionAttempted": {
+      "numerator": 2,
+      "denominator": 2,
+      "rate": 1
+    },
+    "initialDraftHallucination": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "finalDraftHallucination": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "releasedDraftHallucination": {
+      "numerator": 0,
+      "denominator": 3,
+      "rate": 0
+    },
+    "qualifiedDraftHardFalseBlock": {
+      "numerator": 0,
+      "denominator": 3,
+      "rate": 0
+    },
+    "invalidGeneratedDraftRelease": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "fixedInvalidRelease": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "fixedInvalidCorrectlyBlocked": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "unscorableFixedInvalid": 0,
+    "technicalOrMissingDrafts": [],
+    "humanPendingDrafts": [],
+    "uncertainDrafts": [],
+    "caseInterruptions": [],
+    "costPerQualifiedHumanAcceptedTask": 58095.5
+  },
+  "coverageLimitations": {
+    "humanExpressionConfirmation": "not-triggered-unverified",
+    "separateHumanRecheck": "not-triggered-unverified",
+    "invalidGeneratedDraftRelease": "0/0; null, not 0%",
+    "fixedInvalidRelease": "0/0; null, not 0%",
+    "exposedSealedSamples": true,
+    "causalCostImprovementProven": false,
+    "sharedScopeDeltaTokens": -144,
+    "totalDeltaTokens": 41871,
+    "additionalF06Tokens": 42015
+  },
+  "installationObservation": {
+    "method": "existing recorded endpoint snapshots only; no new installation-directory sampling",
+    "observedDifferences": [
+      "debug.log",
+      "resources/app.asar"
+    ],
+    "sourceOfChanges": "undetermined",
+    "continuousFreezeProven": false,
+    "installationWritesByThisTask": 0,
+    "candidateInstalled": false,
+    "independentCandidateUnchanged": true
+  },
+  "roundClosed": true,
+  "authorizationReusable": false,
+  "newRealModelCallsAuthorized": false,
+  "installationAuthorized": false,
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-title-live-results-20261102.json",
+      "sha256": "75f3421a7bfe93f8ed07582c474fea383060e740b74489a9c4680bcfd224b4e6",
+      "bytes": 25992
+    },
+    {
+      "path": "evaluations/foundation-title-live-20261102/report.json",
+      "sha256": "56f64f0a4d91ef744c865c9ca41be6837a0131a5aa941a316c76a4af5cea9374",
+      "bytes": 6163
+    },
+    {
+      "path": "evaluations/foundation-title-live-20261102/adjudication.json",
+      "sha256": "28d7cae551870524bf0744a97679aca0213c9b1d317704ffae1790d730514794",
+      "bytes": 2688
+    }
+  ],
+  "privateEvidence": [
+    {
+      "path": "business-independent-result.json",
+      "sha256": "e5e2851fb06a018e312f78729627885935024b46062088137e21b9de70c04993"
+    },
+    {
+      "path": "gate-independent-result.json",
+      "sha256": "fb58db192ec91c524fe17add19c2c1c018cbb060892d4706a9d8fffaa5b89e42"
+    },
+    {
+      "path": "business-phase-review-audit.json",
+      "sha256": "e262dd4c3e741bd5cbf7cbd70a7ce094abf5eedc08c04e9723b5f55d1de6e372"
+    },
+    {
+      "path": "root-round-result.json",
+      "sha256": "f27a3174500cf798a3932a36731857e273d5741f2d6a04fa70099a737bb6362b"
+    },
+    {
+      "path": "round-closed.json",
+      "sha256": "879f1d77dcff32023632c77eef50300b356a06d1bec66a4863e19e73fe687c60"
+    },
+    {
+      "path": "installed-after-business.json",
+      "sha256": "4841842d508d5fc2e12d167d2ac38127219c20cd8ab7bc724f6eeae6f90e6725"
+    }
+  ],
+  "priorComparisonSource": {
+    "path": "docs/evidence/foundation-body-live-results-20261102.json",
+    "sha256": "481aa49aceb4214a60181ed59898602a276fade6237e2cd8a108513432d43653",
+    "bytes": 20535
+  },
+  "validationPolicy": "Results-only publication: source, runner and candidate unchanged; existing raw evidence and pure scoring were rechecked, no regression rerun required.",
+  "reviewerActions": {
+    "modelCalls": 0,
+    "officialCliInvocations": 0,
+    "appUIActions": 0,
+    "humanAcceptanceActions": 0,
+    "installationWrites": 0,
+    "newInstallationSnapshots": 0,
+    "regressionReruns": 0
+  }
+}

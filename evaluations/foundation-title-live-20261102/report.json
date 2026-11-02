@@ -1,0 +1,209 @@
+{
+  "schema": 1,
+  "runId": "a2e94516-e541-435e-b50a-e002310d9326",
+  "mode": "live",
+  "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+  "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+  "synthetic": false,
+  "installed": false,
+  "phaseCompletions": {
+    "gate": true,
+    "business": true
+  },
+  "f04Prerequisite": {
+    "runId": "3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+    "report": "docs/evidence/foundation-native-ui-f04-result-20261030.json",
+    "reportSha256": "d1440e32e79a60c854627603e1f995428e10ff575bb12a6f20e8d4751cc26985",
+    "review": "docs/evidence/foundation-native-ui-f04-result-review-20261030.json",
+    "reviewSha256": "fa0e0ed0f8bb263a2119c8b1f1c53d9df56d4d503aae6b6b7cf59947563f9891"
+  },
+  "gate": {
+    "passed": true,
+    "realCliExecutions": 3
+  },
+  "cost": {
+    "synthetic": false,
+    "totalTokens": 155087,
+    "knownTokenSubtotal": 155087,
+    "knownApplicationAttempts": 11,
+    "complete": true,
+    "phases": {
+      "gate": {
+        "started": true,
+        "totalTokens": 38896,
+        "knownTokenSubtotal": 38896,
+        "applicationAttempts": 3
+      },
+      "business": {
+        "started": true,
+        "totalTokens": 116191,
+        "knownTokenSubtotal": 116191,
+        "applicationAttempts": 8
+      }
+    }
+  },
+  "business": {
+    "schema": 1,
+    "mode": "live",
+    "synthetic": false,
+    "actualHumanAcceptances": 2,
+    "markerBranch": "not-triggered-unverified",
+    "plannedGeneratedCases": 2,
+    "attemptedGeneratedCases": 2,
+    "unattemptedGeneratedCases": 0,
+    "plannedFixedInvalidCases": 0,
+    "attemptedFixedInvalidCases": 0,
+    "cost": {
+      "totalTokens": 116191,
+      "knownTokenSubtotal": 116191,
+      "unknownUsage": 0,
+      "applicationEntryAttempts": 8,
+      "stages": {
+        "F05-jianping-revision/initial": {
+          "attempts": 3,
+          "inputTokens": 40463,
+          "outputTokens": 1416,
+          "knownTokenSubtotal": 41879,
+          "unknownUsage": 0,
+          "totalTokens": 41879
+        },
+        "F05-jianping-revision/revision": {
+          "attempts": 2,
+          "inputTokens": 30632,
+          "outputTokens": 1665,
+          "knownTokenSubtotal": 32297,
+          "unknownUsage": 0,
+          "totalTokens": 32297
+        },
+        "F06-yunshu-restart/initial": {
+          "attempts": 3,
+          "inputTokens": 40590,
+          "outputTokens": 1425,
+          "knownTokenSubtotal": 42015,
+          "unknownUsage": 0,
+          "totalTokens": 42015
+        }
+      }
+    },
+    "qualityStatus": "independently-adjudicated",
+    "quality": {
+      "completionPlanned": {
+        "numerator": 2,
+        "denominator": 2,
+        "rate": 1
+      },
+      "completionAttempted": {
+        "numerator": 2,
+        "denominator": 2,
+        "rate": 1
+      },
+      "initialDraftHallucination": {
+        "numerator": 0,
+        "denominator": 2,
+        "rate": 0
+      },
+      "finalDraftHallucination": {
+        "numerator": 0,
+        "denominator": 2,
+        "rate": 0
+      },
+      "releasedDraftHallucination": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0
+      },
+      "qualifiedDraftHardFalseBlock": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0
+      },
+      "invalidGeneratedDraftRelease": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "fixedInvalidRelease": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "fixedInvalidCorrectlyBlocked": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unscorableFixedInvalid": 0,
+      "technicalOrMissingDrafts": [],
+      "humanPendingDrafts": [],
+      "uncertainDrafts": [],
+      "caseInterruptions": [],
+      "costPerQualifiedHumanAcceptedTask": 58095.5
+    },
+    "adjudicationTemplate": {
+      "schema": 1,
+      "reviewer": "independent-subagent",
+      "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+      "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+      "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+      "judgments": [
+        {
+          "caseId": "F05-jianping-revision",
+          "stage": "initial",
+          "draftHash": "2d7747bbfd09880c306077afd91c43531d3cded30c8f65dfec967f4fad2f5ff9",
+          "qualified": null,
+          "hallucination": null,
+          "reason": null
+        },
+        {
+          "caseId": "F05-jianping-revision",
+          "stage": "revision",
+          "draftHash": "8f94f1fd8b65373cad8836090c78c5d53e2cb24b1836b5cc1ac713b5061c5a00",
+          "qualified": null,
+          "hallucination": null,
+          "reason": null
+        },
+        {
+          "caseId": "F06-yunshu-restart",
+          "stage": "initial",
+          "draftHash": "53914a4eca783db40b6c64aa06c0be07982c88c4c3cd9587da441f7c66bfaf3b",
+          "qualified": null,
+          "hallucination": null,
+          "reason": null
+        }
+      ]
+    },
+    "branchCoverage": {
+      "synthetic": false,
+      "f05RevisionNewBasis": true,
+      "markerHandoffs": [],
+      "f05RevisionHumanConfirmationAndRecheck": false,
+      "f05RevisionAuthorizationObserved": false,
+      "f05RevisionOldBoundedRecordsPreserved": false,
+      "f05RevisionSameBasisBoundedCollisionObserved": false,
+      "f06RestartBeforeAdvance": true,
+      "f06RestartAtReview": true,
+      "targetBranchStatus": "not-covered",
+      "exactHistoricalCollisionLiveCovered": false,
+      "subsetWorkflowCompleted": true
+    },
+    "metricsVersion": "stage-terminal-outcomes-v1",
+    "outcomes": [
+      {
+        "caseId": "F05-jianping-revision",
+        "stage": "initial",
+        "outcome": "passed"
+      },
+      {
+        "caseId": "F05-jianping-revision",
+        "stage": "revision",
+        "outcome": "passed"
+      },
+      {
+        "caseId": "F06-yunshu-restart",
+        "stage": "initial",
+        "outcome": "passed"
+      }
+    ],
+    "completionScope": "F05/F06 only; F04 historical human-operation check is separate"
+  }
+}

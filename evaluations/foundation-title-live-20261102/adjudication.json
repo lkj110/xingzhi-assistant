@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "reviewer": "independent-subagent",
+  "sampleSealIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+  "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+  "judgments": [
+    {
+      "caseId": "F05-jianping-revision",
+      "stage": "initial",
+      "draftHash": "2d7747bbfd09880c306077afd91c43531d3cded30c8f65dfec967f4fad2f5ff9",
+      "qualified": true,
+      "hallucination": false,
+      "reason": "按初稿当时要求判断合格：索引员与JP-A6业务对象、9册而非录音卷数、8月12日时间地点及8月9日登记时未开始均与两份来源一致，原件/待查/保留编号限制未被改写。正文有重复标题但初稿明确不要求两段；后续两段合同不追溯适用于初稿。未观察到无据事实或遗漏必要限定。"
+    },
+    {
+      "caseId": "F05-jianping-revision",
+      "stage": "revision",
+      "draftHash": "8f94f1fd8b65373cad8836090c78c5d53e2cb24b1836b5cc1ac713b5061c5a00",
+      "qualified": true,
+      "hallucination": false,
+      "reason": "修订稿合格：真实模型patch移除了正文重复标题，形成恰好两个自然段且无项目符号；第一段范围、9册、日期时间地点与登记时未开始，第二段仅可辨封套原件、缺失或不清标待查、不得猜填及保留编号均可逐项绑定原文。新产物和新核验依据已确认，无执行器改稿，未观察到幻觉。"
+    },
+    {
+      "caseId": "F06-yunshu-restart",
+      "stage": "initial",
+      "draftHash": "53914a4eca783db40b6c64aa06c0be07982c88c4c3cd9587da441f7c66bfaf3b",
+      "qualified": true,
+      "hallucination": false,
+      "reason": "历史摘要合格：6项待处理及1项运行限定到9月4日10:32的队列B；15:08归档与_final不被误读为完成或刷新；19:00空栏和缺失后续日志保留为未知，未推断当前状态或其他队列。单段且长度满足要求，逐项引用原文有效，未观察到幻觉。"
+    }
+  ],
+  "runId": "a2e94516-e541-435e-b50a-e002310d9326",
+  "createdAt": "2026-11-02T08:42:26.999Z",
+  "scope": "Three real business drafts only; no G01, F04, offline controls or historical drafts",
+  "limitations": [
+    "No invalid generated draft or fixed-invalid control in this live subset; erroneous-release rates have denominator zero and are null.",
+    "Human expression confirmation and separate recheck were not triggered and are not live-covered.",
+    "Sealed exposed cases; not a blind or before/after comparative evaluation, not an installed-version or macOS acceptance."
+  ]
+}
