@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "kind": "independent-offline-install-observer-diagnostic-review",
+  "reviewer": "independent-subagent",
+  "reviewedAt": "2026-11-02T09:35:02.646Z",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "sourceHead": "dd621152934f0746fd8c9906efed638b5445d1b8",
+  "approved": true,
+  "reportApprovedForPublication": true,
+  "continuousObserverPassed": false,
+  "installationMayProceed": false,
+  "verdict": "诊断报告可上传。当前受限身份的事件订阅直接收到AccessDenied，连续观察前置未通过；短命进程快照负例有效但不替代完整观察器。保留既有安装授权，当前不得开始安装。",
+  "resolvedFindings": [
+    {
+      "id": "R1",
+      "issue": "PS7原始结果没有记录OperationTimeoutSec参数，公开草稿却把10秒请求值作为已封存证据。",
+      "fix": "删除该不可从结果文件独立核对的参数断言，保留约350ms取消和未ready事实；未修改原始诊断。"
+    }
+  ],
+  "unresolvedReportFindings": [],
+  "report": {
+    "path": "docs/evidence/foundation-observer-diagnostic-20261102.json",
+    "sha256": "91f69cfd50d41c12413e3ed01b22ed040b2cbd4cced6250705f12519e111abdd"
+  },
+  "evidenceAssessment": {
+    "directAccessDeniedVerified": true,
+    "correlatedWmiEventPidQueryAndTimeVerified": true,
+    "internalErrorConversionProven": false,
+    "administratorSuccessProven": false,
+    "serviceDamageOrProductDefectEstablished": false,
+    "officialDocumentationIndependentlyOpened": true,
+    "negative01": "incomplete; two parent starts only, cause undetermined, excluded",
+    "negative02": {
+      "validLimitedCounterexample": true,
+      "confirmedDirectChildren": 6,
+      "normalExits": 6,
+      "snapshotObserved": 0,
+      "snapshotMissed": 6,
+      "startGapMs": 1550,
+      "firstEndToSecondStartMs": 1006,
+      "actualChildLaunchToExitMinMs": 299,
+      "actualChildLaunchToExitMaxMs": 424,
+      "generalMissRateClaimed": false,
+      "fullProcessTreeValidated": false,
+      "continuousEventDeliveryValidated": false
+    }
+  },
+  "documentation": [
+    {
+      "title": "Microsoft Register-CimIndicationEvent, Example 1",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/register-cimindicationevent?view=powershell-7.5",
+      "application": "Win32_ProcessStartTrace示例要求管理员运行。"
+    },
+    {
+      "title": "Microsoft WMI error constants",
+      "url": "https://github.com/MicrosoftDocs/win32/blob/docs/desktop-src/WmiSdk/wmi-error-constants.md",
+      "application": "0x80041032代表异步操作被取消；错误码本身不证明权限原因。"
+    }
+  ],
+  "integrity": {
+    "schema": 1,
+    "reviewer": "independent-subagent",
+    "at": "2026-11-02T09:35:02.635Z",
+    "sourceHead": "dd621152934f0746fd8c9906efed638b5445d1b8",
+    "sourceTrackedDiffEmpty": true,
+    "candidateManifestSha256": "230256bf4f14bbe9e6009b11a61fecf5a716ae7a2e7e2e1cb4c7b17a40c324d8",
+    "candidateFiles": 86,
+    "fullCandidateFileHashesMatched": true,
+    "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+    "archiveSha256": "49d3277016955dff976edbb3c0f7036c6bacf4ed5e96e374d62aac8df1a6d793",
+    "archiveBytes": 199945222,
+    "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+    "sourceEdits": 0,
+    "appStarts": 0,
+    "newObserverOrFixtureProbes": 0,
+    "officialCliInvocations": 0,
+    "realModelCalls": 0,
+    "installationWrites": 0
+  },
+  "authorizationBoundary": {
+    "installationAlreadyApproved": true,
+    "installationApprovalNeedsRepeating": false,
+    "observationPreconditionStillRequired": true,
+    "additionalPrivilegeOrSystemChangesAuthorized": false,
+    "realModelCallsAuthorized": false,
+    "automaticRetryAllowed": false,
+    "meaning": "诊断审核通过不等于观察门检通过。若未来需要额外权限，先明确范围并取得对应授权；候选仍保持普通用户权限，不自动变更WMI权限或防护。"
+  },
+  "reviewerActions": {
+    "newWmiSubscriptions": 0,
+    "newHarmlessFixtureRuns": 0,
+    "thirdRoundStarted": false,
+    "officialCliInvocations": 0,
+    "realModelCalls": 0,
+    "applicationStarts": 0,
+    "installationWrites": 0,
+    "profileWrites": 0,
+    "privilegeChanges": 0,
+    "wmiConfigurationChanges": 0
+  },
+  "privateAudit": {
+    "directory": "../foundation-observer-diagnostic-20261102-0423dbdbb24d4dbeadff08a56584d99d",
+    "evidenceReviewSha256": "119e824545bf31912f1170151f07a096471bd495338bdbb45fc1d2b1d8450fdb",
+    "integritySha256": "26dc70739596de25a100eb95c78add9f9a82fbe8030198bc9d1f75cfd1b09aa1",
+    "originalPublicDraftSha256": "86fbd4b496520cc63d99053a9373d18f883273e05e8a182d70e5c478bcaf6faa"
+  },
+  "publicationBoundary": "Only the diagnostic report and this independent review may be uploaded; no candidate installation or new probes follow from publication approval."
+}

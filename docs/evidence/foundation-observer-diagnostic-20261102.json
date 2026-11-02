@@ -1,0 +1,192 @@
+{
+  "schema": 1,
+  "kind": "offline-install-observer-diagnosis",
+  "date": "2026-11-02",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "sourceCommit": "dd621152934f0746fd8c9906efed638b5445d1b8",
+  "status": "diagnosis-complete-installation-precondition-failed",
+  "authorization": {
+    "installationAlreadyApproved": true,
+    "reference": "request_user_input_async/call_48da309d31894d93b0082819b27a953f/0",
+    "currentInstruction": "离线定位并用无害进程验证；独审通过后按已批准方案安装；前置检查失败停止。",
+    "newRealModelBudgetRequested": false,
+    "automaticInstallationAllowed": false
+  },
+  "finding": {
+    "proven": "当前未提升权限的身份，在Windows PowerShell 5.1直接调用同一WMI事件查询时被明确拒绝（AccessDenied）；PowerShell 7 CIM接口仍返回取消。此身份下完整事件观察前置未通过。",
+    "support": [
+      "当前管理员角色未启用，Winmgmt服务运行。",
+      "WinPS 5.1 System.Management.ManagementEventWatcher.Start抛出ManagementException，ErrorCode=AccessDenied。",
+      "WMI Operational事件5858匹配直接调用的PID、同一命名空间、同一查询和时间区间；日志ResultCode仍为0x80041032，PossibleCause=Unknown。",
+      "PS7 ClassName客户端在约350ms内返回取消，未进入ready；现有结果文件未保留请求超时参数，不据此推断超时配置。",
+      "微软Register-CimIndicationEvent官方示例1明确要求以管理员身份订阅Win32_ProcessStartTrace。"
+    ],
+    "notProven": [
+      "未证明内部AccessDenied如何转换为CIM层0x80041032。",
+      "未通过提升权限的对照，因此不承诺提升后必定成功，也未排除额外策略限制。",
+      "不将取消笼统归因于等待时间、WMI服务损坏或行知产品缺陷。"
+    ],
+    "documentation": [
+      {
+        "title": "Microsoft Register-CimIndicationEvent, Example 1",
+        "url": "https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/register-cimindicationevent?view=powershell-7.5",
+        "application": "Win32_ProcessStartTrace示例要求管理员运行。"
+      },
+      {
+        "title": "Microsoft WMI error constants",
+        "url": "https://github.com/MicrosoftDocs/win32/blob/docs/desktop-src/WmiSdk/wmi-error-constants.md",
+        "application": "0x80041032代表异步操作被取消；错误码本身不证明权限原因。"
+      }
+    ]
+  },
+  "diagnostics": [
+    {
+      "client": "WindowsPowerShell5.1-System.Management",
+      "query": "SELECT * FROM Win32_ProcessStartTrace",
+      "startedAt": "2026-11-02T09:25:03.3704851Z",
+      "finishedAt": "2026-11-02T09:25:03.6643974Z",
+      "ready": false,
+      "exceptionChain": [
+        {
+          "message": "Exception calling \"Start\" with \"0\" argument(s): \"Access denied \"",
+          "errorCode": "",
+          "hresult": "0x80131501",
+          "type": "System.Management.Automation.MethodInvocationException"
+        },
+        {
+          "message": "Access denied ",
+          "errorCode": "AccessDenied",
+          "hresult": "0x80131501",
+          "type": "System.Management.ManagementException"
+        }
+      ]
+    },
+    {
+      "client": "PowerShell7-CimCmdlets-ClassName",
+      "startedAt": "2026-11-02T09:25:41.5621286Z",
+      "finishedAt": "2026-11-02T09:25:41.9121417Z",
+      "ready": false,
+      "errorType": "Microsoft.Management.Infrastructure.CimException",
+      "error": "调用已取消 ",
+      "fullyQualifiedErrorId": "HRESULT 0x80041032,Microsoft.Management.Infrastructure.CimCmdlets.RegisterCimIndicationCommand"
+    }
+  ],
+  "harmlessProcessValidation": {
+    "firstAttempt": {
+      "status": "incomplete",
+      "expected": 6,
+      "recordedStarts": 2,
+      "countedAsValid": false,
+      "reason": "父退出后子/孙未留下启动记录，未定位该测试旁支。"
+    },
+    "secondAttempt": {
+      "status": "polling-negative-example-demonstrated",
+      "scope": "仅6个直接短命子进程，控制器逐一收到真实退出码0，fixture记录PID与ParentPID一致。",
+      "expected": 6,
+      "observedInSnapshots": 0,
+      "missedInSnapshots": 6,
+      "actualSnapshotStartGapMs": 1550,
+      "nominalPauseAfterFirstSnapshotMs": 1000,
+      "meaning": "6个已确认运行并退出的无害进程发生在两次快照之间。两次采样起点实际相隔1550ms，不能声称严格1秒事件采样，也不能估计一般漏检率。",
+      "continuousEventObserverPassed": false,
+      "fullProcessTreeCovered": false,
+      "subscriptionCancellationFaultCovered": false
+    },
+    "allProcesses": "本地固定哈希node.exe与tasklist；不包含候选或官方模型CLI。",
+    "conclusion": "普通定时快照不能作为本安装方案要求的完整事件观察替代。观察能力未通过，安装仍停止。"
+  },
+  "preservation": {
+    "candidateFilesReverified": 86,
+    "archiveSha256": "49d3277016955dff976edbb3c0f7036c6bacf4ed5e96e374d62aac8df1a6d793",
+    "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+    "candidateAndArchiveUnchanged": true,
+    "sourceCodeEdits": 0,
+    "officialCliInvocations": 0,
+    "realModelCalls": 0,
+    "candidateStarts": 0,
+    "oldAppExitActions": 0,
+    "installationWrites": 0,
+    "profileWrites": 0,
+    "shortcutWrites": 0,
+    "userDataBackups": 0,
+    "privilegeChanges": 0,
+    "wmiAclOrServiceChanges": 0,
+    "newProgramProfileBackupPathsAbsent": true,
+    "oldInstallationContinuousFreezeClaimed": false
+  },
+  "nextStep": {
+    "proposedOnly": true,
+    "scope": "在具备所需权限的独立本地观察会话中完成同一连续事件自测，再独审；被测候选仍保持普通用户权限。",
+    "requirements": [
+      "先准备可审查的观察器与无害父子孙、父先退、两次启动根、取消失效自测。",
+      "如果需要UAC或管理员协助，应明确权限范围；本轮没有自动提权、调整WMI权限或关闭防护。",
+      "自测需满足完整连续事件、进程树身份、观察中断失败检测；不能只因注册成功就启动候选。",
+      "通过后沿用已批准的并行安装与独立空工作空间范围，不迁移旧数据，不重复申请真实模型预算。"
+    ],
+    "installationApprovalNeedsRepeating": false,
+    "modelCalls": 0,
+    "officialCliInvocations": 0
+  },
+  "evidence": {
+    "privateDirectory": "../foundation-observer-diagnostic-20261102-0423dbdbb24d4dbeadff08a56584d99d",
+    "files": [
+      {
+        "path": "metadata.json",
+        "sha256": "3b2d4898ec768c7efdb1b8e538dd84aad8c2ceab0e2eba3016c3a6b40487d048"
+      },
+      {
+        "path": "direct-wmi.ps1",
+        "sha256": "e8a24a22107d2e4368b6a53f8d33942a6f259f63ac40786d72674fd9c080d0cf"
+      },
+      {
+        "path": "direct-wmi-result.json",
+        "sha256": "b9f72d182146845bc58576b2630ffb8d884affcdf5f6d3c8b5f479731fa5c3dc"
+      },
+      {
+        "path": "cim-classname-result.json",
+        "sha256": "5af0b28c7e1d12654af785c49012ea1df0a664df1f52325b1ce7a1c2a556f2f5"
+      },
+      {
+        "path": "wmi-operational-events.json",
+        "sha256": "782c5f75efd549f94e6f594c7e6db70e31b69f9511ec2b709c21860aff2d04fe"
+      },
+      {
+        "path": "polling-negative-control.cjs",
+        "sha256": "eb2d90bc71d747062399952cb24050a33b32600db399845894dbbee409957151"
+      },
+      {
+        "path": "negative-01/fixture.jsonl",
+        "sha256": "9c5d6d64f498d3c108f6747f1fdca6889db605076c0a56da0337741d8c1df831"
+      },
+      {
+        "path": "negative-01/failure-record.json",
+        "sha256": "e1efba2defb97071da5cc4f0ab525f937d8cd0274d4e65210e8f46204fa0bc83"
+      },
+      {
+        "path": "polling-negative-control-v2.cjs",
+        "sha256": "c231b0aa26b776aa135556a7274378cb47a64882310acd563b3c9cae421f1b06"
+      },
+      {
+        "path": "negative-02/fixture.jsonl",
+        "sha256": "d14c3565c766fde5cbbd4f3abd253cfd75ec224c5c3948be6a948e83cd9509c4"
+      },
+      {
+        "path": "negative-02/result.json",
+        "sha256": "bbddedf543406b00308179cc0a1cdcb195970cfb16ddde5f80fcd1d6250e4fd9"
+      },
+      {
+        "path": "stopped.json",
+        "sha256": "1057bd6a96a0435f2285871303b75c67316cb0ffd73d83b5787a7f01da88c08b"
+      },
+      {
+        "path": "reviewer-evidence.json",
+        "sha256": "119e824545bf31912f1170151f07a096471bd495338bdbb45fc1d2b1d8450fdb"
+      },
+      {
+        "path": "reviewer-publication-integrity.json",
+        "sha256": "26dc70739596de25a100eb95c78add9f9a82fbe8030198bc9d1f75cfd1b09aa1"
+      }
+    ],
+    "independentReview": "docs/evidence/foundation-observer-diagnostic-review-20261102.json"
+  }
+}
