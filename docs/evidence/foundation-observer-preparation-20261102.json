@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "kind": "offline-install-observer-preparation",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "sourceBaseCommit": "a42563e92674dc7f2a51dc5e9a167d4e3651fd3b",
+  "status": "offline-prepared-no-privileged-execution",
+  "plan": "docs/delivery/foundation-win-20261102/observer-gate-plan.json",
+  "independentReview": "docs/evidence/foundation-observer-preparation-review-20261102.json",
+  "changes": [
+    "准备独立只读进程观察EXE，普通权限离线编译，管理员阶段不使用PowerShell脚本或编译器；固定hash、nonce会话、120秒自身退出、异常与丢事件通知失败处理。",
+    "普通用户自测程序保留真实OS进程句柄，验证两次根启动、父先退出后子孙继续、六个短命子进程的实际退出。",
+    "控制器等待完整订阅与新鲜心跳再启动固定hash自测；分析器保留FILETIME完整精度，检查实例归属、孤立退出、日志生命周期、关闭回执与取消识别。"
+  ],
+  "validation": {
+    "offlineTests": {"passed":30,"failed":0,"file":"tests/install-observer.test.cjs"},
+    "observerCompiled": true,
+    "observerExecuted": false,
+    "fixtureOnlyRun": {
+      "complete": true,
+      "actualProcesses": 10,
+      "normalExits": 10,
+      "distinctRootLaunches": 2,
+      "grandchildStartedAfterFirstRootExit": true,
+      "shortLeafProcesses": 6,
+      "actualLeafMinMs": 651.5186,
+      "actualLeafMaxMs": 880.4276,
+      "actualLeafThresholdMs": 1000,
+      "wmiObservationWasActive": false,
+      "meaning": "只证明无害自测程序与实际退出回执有效，不证明连续进程观察通过；20ms是内部延迟，不是进程完整寿命。"
+    },
+    "reviewFixes": [
+      "漏掉后代start但保留stop时必须失败，包括父已退出很久的孤立stop。",
+      "匹配子进程必须符合具体父实例生存期，且目标事件在ready之后closing之前。",
+      "实际心跳、唯一begin/ready/closing/closed及末条关闭回执必须齐全。",
+      "预定取消只接受目标StartTrace的一个unexpected停止、其余三订阅完整关闭及预定故障，不能吞掉其他错误。"
+    ]
+  },
+  "sealedHelper": {
+    "privateManifestSha256": "671225ca6fe62f9e395a7dfb7ba17e230e984d8951146ffb171cb3955f27a879",
+    "observerExeSha256": "7bbd2affced32fa7225967861d57cf2fc0e58c07df2606d0303ae9579e49d507",
+    "fixtureExeSha256": "06fb08600e9aa556a4f75045bff9d7ba3bfe40b1d537ca8a2fd5fbcd3031ffd9",
+    "compilerSha256": "aae1db57f898ca8bda18590c56f86ced6d0ead80c22033b76fdfe9119706f116",
+    "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5",
+    "cancelSessionManifestSha256": "6ea0bb8042f0b9ebfa6cb1ae915be9123a4394ee5fd20fd67dfd77810a8590f2",
+    "positiveSessionManifestSha256": "0be31f3f5898a80060c4a949b900ebed048bb9d1029b3a77e20ba9935f58c281",
+    "binariesPublished": false
+  },
+  "preservation": {
+    "frozenCandidateFileHashesMatched": 86,
+    "candidateAsarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+    "archiveSha256": "49d3277016955dff976edbb3c0f7036c6bacf4ed5e96e374d62aac8df1a6d793",
+    "productCodeEdits":0,"thisTaskInstallationWrites":0,"thisTaskUserWorkspaceWrites":0,
+    "thisTaskModelCalls":0,"thisTaskOfficialCliInvocations":0,"candidateStarts":0,"privilegeChanges":0,
+    "stuckTaskExcludedFromThisWork": true
+  },
+  "remaining": {
+    "administratorExecutionApproved": false,
+    "continuousObserverGatePassed": false,
+    "modelRequestObservationPassed": false,
+    "installationMayProceed": false,
+    "next": "独立封存审核后，请求仅两次、每次最多120秒的只读管理员观察自测。失败即停、不追加第三次；既有安装授权保留。另一个agent释放旧版后再推进实际安装交接。"
+  }
+}

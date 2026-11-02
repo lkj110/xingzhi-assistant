@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "scope": "基础版并行安装前的独立进程观察门检，保持冻结产品不变。",
+  "status": "offline-plan-awaiting-execution-permission",
+  "installationAuthorizationRetained": true,
+  "additionalAdministratorPermissionGranted": false,
+  "whyAdditionalPermission": "此前普通用户的同一 WMI 事件查询明确返回 AccessDenied。本次拟新增管理员只读观察会话；既有并行安装授权无需重复确认。",
+  "coordination": "用户已将当前卡住事项交另一 agent；本任务不再读取或修改该事项。旧版退出、备份与实际安装等另一 agent 完成并交接后执行。",
+  "helper": {
+    "source": "scripts/install-observer/ProcessObserver.cs",
+    "build": "在普通权限下使用系统 .NET Framework C# 编译器生成独立 EXE，封存 hash 后才申请管理员运行；管理员阶段不编译、不启动任何子进程。",
+    "identity": "实际启动前逐项核对 EXE、普通用户控制器、自测 EXE、session清单的固定 hash 和绝对路径；拒绝重解析点及已使用的日志目录。",
+    "allowed": "短时订阅 root/cimv2 的进程启动/退出和事件丢弃/消费失败通知，写本轮两个独立日志目录；读取 nonce 对应的 stop/cancel 控制文件。",
+    "notIncluded": ["启动行知助手", "关闭旧版", "安装或迁移数据", "模型或官方 CLI 调用", "修改 WMI 权限、服务、ACL、执行策略或系统防护"],
+    "privacy": "观察期间先记录全机进程名称、PID、父PID、会话号及时间，随后匹配自测进程；不收集命令行、SID、凭据或用户文档。原始日志仅本地保留，不上传 GitHub。",
+    "maximumExecutions": 2,
+    "maximumSecondsEach": 120,
+    "normalUserFixture": "scripts/install-observer/ProcessFixture.cs；提权执行会在启动子进程前被拒绝。"
+  },
+  "sequence": [
+    {
+      "id": "O1",
+      "action": "启动第一份固定 hash 观察器。普通用户控制器等待4类订阅就绪和新鲜心跳，仅写一次 cancel 请求。",
+      "pass": "实际 Stopped 回调明确报 unexpected，故障日志和不健康关闭回执完整，观察器实际退出码为2。该预定故障被识别才可继续。",
+      "fixtureStarts": 0
+    },
+    {
+      "id": "O2",
+      "action": "在全新 session 启动第二份观察器。就绪与心跳确认后，由普通用户控制器运行固定自测 EXE：两次根启动、父先退出后的子孙，以及6个实际寿命小于1秒的叶子进程。",
+      "pass": "10个进程有独立OS句柄确认的实际正常退出，20条启动/退出事件逐一匹配，父子实例时序一致，无未知后代或歧义；排空后显式关闭，4份订阅停止回执与末条closed齐全，观察器实际退出码0。"
+    },
+    {
+      "id": "O3",
+      "action": "等待观察器进程实际退出后重新读取最终日志，核对关闭后无追加事件，绑定hash及退出回执，再独立审核。",
+      "pass": "控制器 gate-result 只算临时结果；独审前不能声称门检通过。"
+    }
+  ],
+  "stopConditions": [
+    "注册失败、非预定取消、事件丢失通知、缺事件/重复或截断日志、心跳中断、未知或不匹配的退出、路径/hash变化，整轮停止。",
+    "首段取消未被检测或证据不完整，不执行第二段；不自动追加第三次管理员观察。",
+    "任何非预期候选、模型或官方 CLI 行为即停止，不把未知记为0。"
+  ],
+  "cost": {"realModelCalls":0,"officialCliInvocations":0,"modelTokens":0},
+  "acceptanceBoundary": {
+    "boundedProcessSelfTestOnly": true,
+    "guaranteesNoSilentWmiLoss": false,
+    "modelRequestObservationPassed": false,
+    "candidateSmokePassed": false,
+    "installationMayProceedFromThisGateAlone": false,
+    "remaining": "进程自测通过后，仍需准备覆盖新候选首次启动与冷重启全程的观察及模型请求边界，核实旧版交接，再按既有备份/安装/回滚方案执行。自测期间没有模型或应用，不据此推断安装烟测为零调用。"
+  },
+  "documentation": [
+    "https://learn.microsoft.com/en-us/previous-versions/windows/desktop/krnlprov/win32-processstarttrace",
+    "https://learn.microsoft.com/en-us/windows/win32/wmisdk/determining-the-type-of-event-to-receive",
+    "https://learn.microsoft.com/en-us/windows/win32/wmisdk/--eventqueueoverflowevent"
+  ]
+}

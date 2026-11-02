@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "kind": "independent-offline-observer-preparation-review",
+  "at": "2026-11-02T10:21:44.340Z",
+  "reviewer": "/root/title_candidate_review",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "sourceBaseCommit": "a42563e92674dc7f2a51dc5e9a167d4e3651fd3b",
+  "decision": "approved-for-publication-and-specific-administrator-permission-request",
+  "scope": "独立进程观察器、普通用户无害自测与分析器的离线准备；不涉及产品或旧事项数据。",
+  "approved": {
+    "publication": true,
+    "offlinePreparation": true,
+    "requestOneAdditionalPrivilegeApproval": true,
+    "administratorExecutionAlreadyAuthorized": false,
+    "continuousObserverGatePassed": false,
+    "modelRequestObservationPassed": false,
+    "candidateSmokePassed": false,
+    "installationMayProceed": false
+  },
+  "identity": {
+    "sealedManifestSha256": "671225ca6fe62f9e395a7dfb7ba17e230e984d8951146ffb171cb3955f27a879",
+    "preparationReportSha256": "5caeaa0ce68f8f8d843a3b54f250558b812c90bae151e14964485230cba7c640",
+    "sourceFiles": [
+      {
+        "file": "scripts/install-observer/ProcessObserver.cs",
+        "bytes": 10845,
+        "sha256": "83f4c43e9a1e0947167479a68c9d706f9a469f2041879f4e0039a78212766521"
+      },
+      {
+        "file": "scripts/install-observer/ProcessFixture.cs",
+        "bytes": 6805,
+        "sha256": "c427b4753844229a5b0b3b6511023f67a0e39913833d8b5f3a9153d77a7dca39"
+      },
+      {
+        "file": "scripts/install-observer/analyze.cjs",
+        "bytes": 8659,
+        "sha256": "8ad9dfd0f740321101a2783d962fb7dbe2b26edb2597d2025aea1086aa288cc8"
+      },
+      {
+        "file": "scripts/install-observer/run-gate.cjs",
+        "bytes": 6426,
+        "sha256": "4a06aeffe8e9d357377a350bb211eb4e400ebd8bb0b7c87782e83fc5a11b40ca"
+      },
+      {
+        "file": "tests/install-observer.test.cjs",
+        "bytes": 7531,
+        "sha256": "fdad91b183a38509a17492e4e9ce68bce7e027d64f80ef7c0cda65be49f9c4f4"
+      },
+      {
+        "file": "docs/delivery/foundation-win-20261102/observer-gate-plan.json",
+        "bytes": 4498,
+        "sha256": "24fef8faef3dba21d7fc31f03b27cd12682c0fc731ccd9e06ea83f8c6978175d"
+      }
+    ],
+    "observerExeSha256": "7bbd2affced32fa7225967861d57cf2fc0e58c07df2606d0303ae9579e49d507",
+    "fixtureExeSha256": "06fb08600e9aa556a4f75045bff9d7ba3bfe40b1d537ca8a2fd5fbcd3031ffd9",
+    "cancelManifestSha256": "6ea0bb8042f0b9ebfa6cb1ae915be9123a4394ee5fd20fd67dfd77810a8590f2",
+    "positiveManifestSha256": "0be31f3f5898a80060c4a949b900ebed048bb9d1029b3a77e20ba9935f58c281",
+    "compilerSha256": "aae1db57f898ca8bda18590c56f86ced6d0ead80c22033b76fdfe9119706f116",
+    "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5"
+  },
+  "validation": {
+    "independentRegression": {
+      "tests": 30,
+      "passed": 30,
+      "failed": 0,
+      "skipped": 0,
+      "command": "node --test --test-reporter=tap tests/install-observer.test.cjs",
+      "exitCode": 0
+    },
+    "sealedFilesIndependentlyRehashed": 18,
+    "sourceAndCopiedScriptsMatch": true,
+    "bothSessionDirectoriesContainOnlyManifest": true,
+    "observerCompiledByPreparationAgent": true,
+    "compileExitCodeRecorded": 0,
+    "observerNotExecuted": true,
+    "fixtureEvidenceReviewed": {
+      "processes": 10,
+      "exitCodeZero": 10,
+      "twoRoots": true,
+      "parentExitedBeforeGrandchildStarts": true,
+      "leafDurationRangeMs": [
+        651.5186,
+        880.4276
+      ],
+      "leafThresholdMs": 1000,
+      "observerActive": false,
+      "fixtureNotRepeatedByReviewer": true
+    },
+    "fixedFindings": [
+      "额外后代丢失启动事件但保留退出事件，包括父退出后很久的孤立退出，不能静默排除。",
+      "父子归属必须匹配父进程实例生存期；目标事件须在ready后、closing前，PID歧义拒绝。",
+      "要求实际心跳、正确顺序与完整日志生命周期；重复begin、缺失心跳、closed后事件拒绝。",
+      "取消负例须记录指定StartTrace的预定取消、四订阅完整收尾；额外丢事件或关闭错误不能算取消检测通过。",
+      "提升阶段使用已编译固定EXE，取消提权编译；观察器不启动子进程，只能按封存会话记录并在120秒内自身退出。",
+      "控制器结果明确为临时结果，须在管理员观察器实际退出后重读最终日志并独审。"
+    ]
+  },
+  "executionApprovalScope": {
+    "order": [
+      "cancel-negative-control",
+      "positive-ten-process-fixture",
+      "independent-final-log-and-exit-review"
+    ],
+    "maximumElevatedObserverExecutions": 2,
+    "maximumSecondsEach": 120,
+    "thirdAttemptAllowed": false,
+    "fixtureAndControllerRunAsOrdinaryUser": true,
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "modelTokens": 0,
+    "applicationStarts": 0,
+    "installationOrOldAppShutdownIncluded": false,
+    "privacy": "本次权限须明确允许短时全机进程元数据观察；原始日志只保留本地，不收集命令行、SID、凭据或用户文档。"
+  },
+  "limits": [
+    "此次审核只证明准备代码、合成回归及已保存无害fixture回执满足提请权限条件；尚未订阅WMI，也未证明管理员会话一定可用。",
+    "WMI的事件丢弃通知和心跳不能保证绝无静默丢失；本次通过标准限定为封存十进程自测与预定取消的可复核覆盖。",
+    "编译器及产物字节已经独立核对；独审没有重新编译或执行封存EXE，编译exit 0来自封存准备记录。",
+    "原fixture自测没有WMI观察；不能将其正常退出或本轮零模型动作解释为候选安装烟测已经通过。",
+    "进程观察门检通过后，仍需完成安装全程的观察与模型请求边界准备，并等待另一agent交接旧版；既有安装授权保留。"
+  ],
+  "preservation": {
+    "reviewerProductEdits": 0,
+    "reviewerInstalledFilesWrites": 0,
+    "reviewerUserWorkspaceAccessAfterScopeSwitch": 0,
+    "reviewerApplicationStarts": 0,
+    "reviewerRealModelCalls": 0,
+    "reviewerOfficialCliInvocations": 0,
+    "reviewerElevationOrWmiRuns": 0,
+    "candidateIntegrityEvidence": "已核对封存offline-integrity.json及其hash，其中记录准备方复核86候选文件与ZIP一致；独审未重复读取旧安装或事项。"
+  },
+  "privateAuditEvidence": {
+    "directoryBasename": "foundation-observer-preparation-20261102-9f25f0f0bef84ccfb86305565cd06e2f",
+    "finalIntegritySha256": "8f4bbd950dac84018d4a48876bfaaa3fd46e9490b7482e17b11a7d6ba1a592b5",
+    "firstCounterexamplesSha256": "969b52f8ea66ccc52575ce44e7611e02815cd104668227f1ca9248bb00a3ffb8",
+    "secondCounterexamplesSha256": "ea5c7bf6179d4738588bacfab139a18f3db05c46723292ce1bed9d697e81c5e5"
+  },
+  "approvedPublicationFiles": [
+    "scripts/install-observer/ProcessObserver.cs",
+    "scripts/install-observer/ProcessFixture.cs",
+    "scripts/install-observer/analyze.cjs",
+    "scripts/install-observer/run-gate.cjs",
+    "tests/install-observer.test.cjs",
+    "docs/delivery/foundation-win-20261102/observer-gate-plan.json",
+    "docs/evidence/foundation-observer-preparation-20261102.json",
+    "docs/evidence/foundation-observer-preparation-review-20261102.json"
+  ]
+}
