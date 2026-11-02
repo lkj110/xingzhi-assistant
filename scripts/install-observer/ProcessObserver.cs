@@ -24,6 +24,12 @@ public sealed class FoundationProcessObserver : IDisposable {
     bool disposed;
     int callbacks;
     public bool Failed { get { return failed; } }
+    // WMI asynchronous cancellation is CallCanceled (0x80041032), whereas
+    // ManagementEventWatcher also defines OperationCanceled (0x00040006).
+    // Neither code makes an unsolicited or duplicate stop expected.
+    public static bool ExpectedStop(bool requested, bool duplicate, ManagementStatus status) {
+        return requested && !duplicate && (status == ManagementStatus.CallCanceled || status == ManagementStatus.OperationCanceled);
+    }
     public FoundationProcessObserver(string file, string sessionId) {
         session = sessionId;
         output = new StreamWriter(new FileStream(file, FileMode.CreateNew, FileAccess.Write,
@@ -72,10 +78,9 @@ public sealed class FoundationProcessObserver : IDisposable {
                 watcher.Stopped += (sender, args) => {
                     bool expected;
                     lock(sync) {
-                        expected = stopping.Contains(key) && args.Status == ManagementStatus.OperationCanceled;
-                        if(!stopped.Add(key)) expected = false;
+                        expected = ExpectedStop(stopping.Contains(key), !stopped.Add(key), args.Status);
                     }
-                    try { Emit("subscriptionStopped", new Dictionary<string, object>{{"subscription",key},{"expected",expected},{"status",args.Status.ToString()}}); } catch { }
+                    try { Emit("subscriptionStopped", new Dictionary<string, object>{{"subscription",key},{"expected",expected},{"status",args.Status.ToString()},{"statusCode",(int)args.Status}}); } catch { }
                     if(!expected) Fail("SUBSCRIPTION_STOPPED", key + ": " + args.Status);
                 };
                 watchers.Add(watcher); watcher.Start();

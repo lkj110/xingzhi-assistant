@@ -1,0 +1,21 @@
+{
+  "schema":1,
+  "releaseId":"foundation-win-0.42.4-20261102-2671389c",
+  "status":"offline-prepared-new-execution-not-authorized",
+  "previousExecution":"docs/evidence/foundation-observer-cancellation-20261102.json",
+  "inheritsScope":"docs/delivery/foundation-win-20261102/observer-gate-plan.json",
+  "reason":"上一轮取消已被检测到，但正常收尾也返回CallCanceled，旧工具误判导致整体失败。修复仅兼容两个明确取消状态，需使用新封存程序复测；原失败记录保留。",
+  "oldRoundClosed":true,
+  "oldUnusedStartReused":false,
+  "newAdministratorExecutionAuthorized":false,
+  "limits":{"observerExecutions":2,"secondsEach":120,"modelCalls":0,"officialCliInvocations":0,"modelTokens":0},
+  "sequence":[
+    "新cancel会话：4类订阅和心跳就绪后取消StartTrace；必须实时判为不健康，其他3订阅正常收尾，未知码/异常/缺回执仍失败，观察器实际退出码2。",
+    "首段通过后才启动新positive会话：普通用户10进程自测，两个根、父先退出后子孙继续、6个实际寿命小于1秒的叶子进程，20条进程事件必须匹配；正常收尾及观察器退出码0。",
+    "观察器实际退出后重读原始日志、绑定hash并独审；控制器结果仅临时，不将日志回放代替实际执行。"
+  ],
+  "stop":"首个非预定失败即整轮停止，不追加第三次，不使用旧session，不重新解释旧失败为通过。",
+  "privilege":"只运行新封存只读观察EXE，仍由用户确认UAC。固定路径/hash/nonce，本地短时全机进程名称、PID/父PID/会话及时间记录；不采集命令行、SID、用户文档或凭据。",
+  "preservation":"不关闭另一agent使用的旧版，不启动候选或安装，不迁移数据；冻结产品不变，旧并行安装授权保留。",
+  "boundary":"本轮只验证进程观察；仍不代表模型请求观察、安装烟测或正式主评测通过。"
+}

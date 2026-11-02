@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "kind": "process-observer-cancel-gate-failure-and-offline-repair",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "executedSourceCommit": "28476fedcaf36caef7b6ff9e5fc5cb01e550e5f4",
+  "execution": {
+    "authorized": true,
+    "scope": "最多两次、每次120秒管理员只读观察；先取消检测，通过后才运行10进程正例，首个失败即停止。",
+    "status": "failed-stopped",
+    "observerStarts": 1,
+    "secondStageStarted": false,
+    "fixtureStarts": 0,
+    "subscribedClasses": 4,
+    "readyObserved": true,
+    "heartbeatObserved": true,
+    "cancelRequestObserved": true,
+    "unexpectedCancelDetected": true,
+    "completeCancelGatePassed": false,
+    "observerExited": true,
+    "observerExitCode": 2,
+    "controllerExitCode": 1,
+    "controllerError": "CANCEL_NOT_DETECTED",
+    "rawEvents": 19,
+    "rawEventsSha256": "f85ec9f5e074442202c135712cf291af9b5c396788c6532ef5a1490dd80b323c",
+    "originalHelperSha256": "7bbd2affced32fa7225967861d57cf2fc0e58c07df2606d0303ae9579e49d507",
+    "authorizationClosedAfterFailure": true,
+    "remainingStartAutomaticallyReused": false
+  },
+  "cause": {
+    "summary": "观察器实现只识别OperationCanceled，实际异步WMI停止回调返回CallCanceled。",
+    "evidence": "CancelForTest后StartTrace的expected=false和SUBSCRIPTION_STOPPED是正确负例。closing后另三订阅也返回CallCanceled，被旧实现误判为unexpected，累计4个unexpected停止，因此分析器不能通过完整取消门检。",
+    "proven": "本次管理员身份下4类订阅成功；失败是观察工具停止状态兼容遗漏，不是本次订阅权限拒绝。",
+    "knownStatuses": [
+      {
+        "name": "CallCanceled",
+        "value": -2147217358,
+        "hex": "0x80041032"
+      },
+      {
+        "name": "OperationCanceled",
+        "value": 262150,
+        "hex": "0x00040006"
+      }
+    ],
+    "documentation": [
+      "https://learn.microsoft.com/en-us/dotnet/api/system.management.managementstatus?view=netframework-4.8.1",
+      "https://source.dot.net/System.Management/System/Management/ManagementEventWatcher.cs.html"
+    ],
+    "previousOfflineTestGap": "原30项合成回归仅用OperationCanceled构造关闭回执，未用真实.NET枚举和实际回调复用函数覆盖异步CallCanceled。因此离线通过只覆盖了模拟协议，未发现本机异步停止状态差异；本次补上真实枚举及请求/重复上下文的纯函数检查，仍不能替代新的WMI复测。"
+  },
+  "offlineRepair": {
+    "scope": "只修独立安装观察工具，不修改行知产品。",
+    "changes": [
+      "实际C#回调复用ExpectedStop：仅已请求关闭、非重复、且为两个明确取消枚举之一才判expected。未请求、重复、未知或其他错误仍失败。",
+      "回执新增原始statusCode；JS分析器要求两个明确枚举名称和数值匹配，不接受近似名称、成功码或缺数值。"
+    ],
+    "nodeRegression": {
+      "passed": 32,
+      "failed": 0
+    },
+    "actualDotNetEnumAndContextChecks": {
+      "passed": 26,
+      "failed": 0,
+      "observerConstructed": false,
+      "wmiStarts": 0
+    },
+    "rawFailureReplay": {
+      "originalLogUnmodified": true,
+      "stillRejected": true,
+      "error": "CANCEL_NOT_DETECTED"
+    },
+    "newObserverBuiltOffline": true,
+    "newObserverExecuted": false,
+    "newFixtureRuns": 0
+  },
+  "newSeal": {
+    "manifestSha256": "8969cad413b424ef108984d28a1ef0a17cad89b1fd8a2c4682f017cc2bb71c12",
+    "observerExeSha256": "2305d313521b428e3fde9c350530164724c6307f2d47876d093b9990d70a0734",
+    "fixtureUnchangedSha256": "06fb08600e9aa556a4f75045bff9d7ba3bfe40b1d537ca8a2fd5fbcd3031ffd9",
+    "cancelManifestSha256": "7e709181aba880ba25fb96db50447ba0aa20395159f6e897a155c660059181c4",
+    "positiveManifestSha256": "87fb1a2fea107cb59fe5a212e2e775fd5109a48df3734b139ac56c43d1cc9d66",
+    "administratorExecutionAuthorized": false,
+    "binariesAndRawLogsPublished": false
+  },
+  "preservation": {
+    "thisRoundModelCalls": 0,
+    "thisRoundOfficialCliInvocations": 0,
+    "candidateStarts": 0,
+    "oldAppCloseActions": 0,
+    "installationWrites": 0,
+    "userWorkspaceWrites": 0,
+    "originalSealedHelperUnchanged": true,
+    "oldPositiveSessionUnused": true,
+    "frozenCandidateModified": false,
+    "otherAgentTaskTouched": false
+  },
+  "next": {
+    "plan": "docs/delivery/foundation-win-20261102/observer-cancellation-retest-plan.json",
+    "independentReview": "docs/evidence/foundation-observer-cancellation-review-20261102.json",
+    "needsNewExecutionApproval": true,
+    "reason": "已按本轮授权的失败即停结束；修复后的新封存程序和新轮次不自动沿用旧剩余次数。",
+    "continuousProcessObservationPassed": false,
+    "modelRequestObservationPassed": false,
+    "installationMayProceed": false,
+    "existingParallelInstallationAuthorizationRetained": true
+  }
+}

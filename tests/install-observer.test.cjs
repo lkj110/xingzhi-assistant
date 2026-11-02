@@ -8,7 +8,7 @@ function sample(){
  const fixture={session,expected:10,complete:true,administrative:false,controllerPid:99,processes:rows.map(([name,pid,ppid,a,b])=>({name,pid,ppid,startTime:ft(a),exitTime:ft(b),exitCode:0}))};
  let events=[{kind:'begin'},...SUBSCRIPTIONS.map(subscription=>({kind:'subscribed',subscription})),{kind:'ready',subscriptions:SUBSCRIPTIONS},
   ...rows.flatMap(([name,pid,ppid,a,b])=>[{kind:'start',pid,ppid,name:'ProcessFixture.exe',sessionId:1,eventTime:ft(a)},{kind:'stop',pid,ppid,name:'ProcessFixture.exe',sessionId:1,eventTime:ft(b),exitCode:0}]),
-  {kind:'heartbeat',healthy:true},{kind:'closing',reason:'stop'},...SUBSCRIPTIONS.map(subscription=>({kind:'subscriptionStopped',subscription,expected:true,status:'OperationCanceled'})),{kind:'closed',reason:'stop',healthy:true}];
+  {kind:'heartbeat',healthy:true},{kind:'closing',reason:'stop'},...SUBSCRIPTIONS.map(subscription=>({kind:'subscriptionStopped',subscription,expected:true,status:'OperationCanceled',statusCode:262150})),{kind:'closed',reason:'stop',healthy:true}];
  events=events.map((e,i)=>({...e,session,seq:i+1,monoMs:i*100,fileTime:ft(e.kind==='begin'?0:e.kind==='ready'?500:i<6?100:10000+i)}));
  return {events,fixture};
 }
@@ -55,12 +55,14 @@ test('cancellation needs the actual unexpected Stopped callback',()=>{
  const s=sample();s.events=s.events.filter(e=>!(e.kind==='subscriptionStopped'&&e.subscription==='Win32_ProcessStartTrace'));
  const index=s.events.findIndex(e=>e.kind==='closing');s.events.splice(index,0,
   {...s.events[index],kind:'cancelTest'},
-  {...s.events[index],kind:'subscriptionStopped',subscription:'Win32_ProcessStartTrace',expected:false,status:'OperationCanceled'},
+  {...s.events[index],kind:'subscriptionStopped',subscription:'Win32_ProcessStartTrace',expected:false,status:'OperationCanceled',statusCode:262150},
   {...s.events[index],kind:'fault',reason:'SUBSCRIPTION_STOPPED'},
   {...s.events[index],kind:'fault',reason:'UNCLEAN_END',detail:'cancel-test'});
  for(const e of s.events)if(['closing','closed'].includes(e.kind))e.reason='cancel-test';
  s.events=s.events.map((e,i)=>({...e,seq:i+1,monoMs:i*100}));s.events.at(-1).healthy=false;
  assert.equal(envelope(s.events,session,{cancel:true}).cancellationDetected,true);
+ const asynchronous=structuredClone(s.events);for(const e of asynchronous)if(e.kind==='subscriptionStopped'){e.status='CallCanceled';e.statusCode=-2147217358;}
+ assert.equal(envelope(asynchronous,session,{cancel:true}).cancellationDetected,true);
  assert.throws(()=>run(s));
  const partial=s.events.filter(e=>!(e.kind==='subscriptionStopped'&&e.expected===true)).map((e,i)=>({...e,seq:i+1}));
  assert.throws(()=>envelope(partial,session,{cancel:true}),/CANCEL_CLEANUP_INCOMPLETE/);
@@ -76,4 +78,16 @@ test('live controller requires a complete registration and fresh heartbeat befor
  for(const kind of ['subscribed','heartbeat'])assert.throws(()=>prefix(rows.filter(e=>e.kind!==kind).map((e,i)=>({...e,seq:i+1})),session,Date.parse('2026-11-02T10:00:01Z')));
  const unknown=structuredClone(rows);unknown[6].kind='unknown';assert.throws(()=>prefix(unknown,session),/UNKNOWN_EVENT/);
  const restarted=structuredClone(rows);restarted[6].kind='begin';assert.throws(()=>prefix(restarted,session),/DUPLICATE_BEGIN/);
+});
+test('explicit asynchronous CallCanceled code is valid only for requested shutdown',()=>{
+ const s=sample();for(const e of s.events)if(e.kind==='subscriptionStopped'){e.status='CallCanceled';e.statusCode=-2147217358;}
+ assert.equal(run(s).passed,true);
+ const stop=s.events.find(e=>e.kind==='subscriptionStopped');stop.expected=false;assert.throws(()=>run(s),/UNEXPECTED_SUBSCRIPTION_STOP/);
+ stop.expected=true;stop.statusCode=262150;assert.throws(()=>run(s),/UNEXPECTED_SUBSCRIPTION_STOP/);
+ stop.status='CallCancelled';stop.statusCode=-2147217358;assert.throws(()=>run(s),/UNEXPECTED_SUBSCRIPTION_STOP/);
+});
+test('unknown, successful, or missing stop status codes never establish cancellation',()=>{
+ for(const [status,statusCode] of [['NoError',0],['AccessDenied',-2147217405],['QueueOverflow',-2147217311],['CallCanceled',undefined]]){
+  const s=sample();Object.assign(s.events.find(e=>e.kind==='subscriptionStopped'),{status,statusCode});assert.throws(()=>run(s),/UNEXPECTED_SUBSCRIPTION_STOP/);
+ }
 });

@@ -3,6 +3,8 @@
 const SUBSCRIPTIONS=['__EventDroppedEvent','__ConsumerFailureEvent','Win32_ProcessStopTrace','Win32_ProcessStartTrace'];
 const KINDS=new Set(['begin','subscribed','ready','heartbeat','start','stop','subscriptionStopped','closing','closed','fault','cancelTest']);
 const names=['root1','child','grandchild','root2',...Array.from({length:6},(_,i)=>'leaf'+i)];
+const CANCEL_STATUS=new Map([['CallCanceled',-2147217358],['OperationCanceled',262150]]);
+const cancellation=e=>CANCEL_STATUS.has(e.status)&&CANCEL_STATUS.get(e.status)===e.statusCode;
 const expect=(ok,code)=>{if(!ok)throw Object.assign(Error(code),{code});};
 const time=x=>{expect(typeof x==='string'&&/^\d{17,20}$/.test(x),'INVALID_FILETIME');return BigInt(x);};
 function parse(text){expect(text.endsWith('\n'),'TRUNCATED_LOG');return text.trimEnd().split('\n').map(line=>JSON.parse(line));}
@@ -24,7 +26,7 @@ function envelope(events,session,{cancel=false}={}){
   if(e.kind==='closed'){expect(closing,'CLOSED_BEFORE_CLOSING');closedSeen=true;}
   if(e.kind==='subscriptionStopped'){
    expect(SUBSCRIPTIONS.includes(e.subscription),'UNKNOWN_SUBSCRIPTION_STOP');
-   if(!cancel){expect(e.expected===true&&e.status==='OperationCanceled'&&!stops.has(e.subscription),'UNEXPECTED_SUBSCRIPTION_STOP');}
+   if(!cancel){expect(e.expected===true&&cancellation(e)&&!stops.has(e.subscription),'UNEXPECTED_SUBSCRIPTION_STOP');}
    stops.add(e.subscription);
   }
   if(['start','stop'].includes(e.kind)){
@@ -41,7 +43,7 @@ function envelope(events,session,{cancel=false}={}){
  if(cancel){
   const requests=events.filter(e=>e.kind==='cancelTest'),ended=events.filter(e=>e.kind==='subscriptionStopped'),unexpected=ended.filter(e=>e.expected===false);
   expect(requests.length===1&&requests[0].seq>ready.seq&&unexpected.length===1&&unexpected[0].subscription==='Win32_ProcessStartTrace'&&unexpected[0].seq>requests[0].seq&&unexpected[0].seq<closing.seq&&faults.filter(e=>e.reason==='SUBSCRIPTION_STOPPED').length===1,'CANCEL_NOT_DETECTED');
-  expect(ended.length===4&&stops.size===4&&ended.every(e=>e.status==='OperationCanceled'&&(e.expected===false||e.expected===true&&e.seq>closing.seq)),'CANCEL_CLEANUP_INCOMPLETE');
+  expect(ended.length===4&&stops.size===4&&ended.every(e=>cancellation(e)&&(e.expected===false||e.expected===true&&e.seq>closing.seq)),'CANCEL_CLEANUP_INCOMPLETE');
   expect(faults.every(e=>e.reason==='SUBSCRIPTION_STOPPED'||e.reason==='UNCLEAN_END'&&e.detail==='cancel-test')&&closing.reason==='cancel-test'&&closed.reason==='cancel-test'&&closed.healthy===false,'CANCEL_UNEXPECTED_FAULT');
   return {cancellationDetected:true,passed:false};
  }

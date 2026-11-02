@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "kind": "independent-observer-cancellation-failure-and-offline-fix-review",
+  "at": "2026-11-02T10:38:19.990Z",
+  "reviewer": "/root/title_candidate_review",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "sourceBaseCommit": "28476fedcaf36caef7b6ff9e5fc5cb01e550e5f4",
+  "decision": "approved-for-publication-and-new-execution-approval-request",
+  "verdict": {
+    "originalLiveRoundPassed": false,
+    "originalLiveRoundClosed": true,
+    "offlinePatchReviewPassed": true,
+    "newAdministratorExecutionAuthorized": false,
+    "newContinuousObserverGatePassed": false,
+    "modelRequestObservationPassed": false,
+    "installationMayProceed": false
+  },
+  "originalRun": {
+    "eventRows": 19,
+    "eventLogSha256": "f85ec9f5e074442202c135712cf291af9b5c396788c6532ef5a1490dd80b323c",
+    "subscriptionReadyCount": 4,
+    "helperExitCode": 2,
+    "controllerExitCode": 1,
+    "unexpectedStopFlags": 4,
+    "controllerError": "CANCEL_NOT_DETECTED",
+    "positiveStageNotRun": true,
+    "oldPositiveSessionStillOnlyManifest": true,
+    "rootCause": "实际回调为CallCanceled；原工具只认OperationCanceled，把closing后的三份正常停止也判为unexpected。预定取消已产生失败信号，但整套取消门检未通过。"
+  },
+  "testGap": "原30项合成回归仅用OperationCanceled构造关闭回执，未用真实.NET枚举和实际回调复用函数覆盖异步CallCanceled。因此离线通过只覆盖了模拟协议，未发现本机异步停止状态差异；本次补上真实枚举及请求/重复上下文的纯函数检查，仍不能替代新的WMI复测。",
+  "patch": {
+    "expectedStopFunctionUsedByRealCallback": true,
+    "allowedStatusPairs": [
+      {
+        "name": "CallCanceled",
+        "code": -2147217358
+      },
+      {
+        "name": "OperationCanceled",
+        "code": 262150
+      }
+    ],
+    "requiresRequestedStop": true,
+    "rejectsDuplicateStop": true,
+    "jsRequiresExactNameAndNumericCode": true,
+    "unknownAndUnrequestedStopsStillFail": true,
+    "otherLifecycleRequirementsUnchanged": true,
+    "productCodeChanged": false
+  },
+  "independentValidation": {
+    "nodeRegression": {
+      "passed": 32,
+      "failed": 0,
+      "skipped": 0,
+      "exitCode": 0,
+      "logSha256": "72d009faf3e0996fba97830b2a8799c289ddaf82a590ae51e90e2c00852a9820"
+    },
+    "actualDotNetEnumAndContext": {
+      "passed": 26,
+      "failed": 0,
+      "entryPoint": "ObserverCancellationOfflineTest.Main",
+      "observerConstructed": false,
+      "wmiSubscriptions": 0,
+      "exitCode": 0,
+      "logSha256": "ec30b71f3cea90e68b83f421e98d9c61d90f10b3917b52d6cce7912b1c9fedf2"
+    },
+    "newAnalyzerOriginalFailureReplay": {
+      "rawChanged": false,
+      "result": "CANCEL_NOT_DETECTED",
+      "reclassifiedAsPass": false
+    },
+    "newSealObjectsIndependentlyRehashed": 19,
+    "originalSealedBundleFilesUnchanged": true,
+    "newSessionDirectoriesOnlyContainManifest": true
+  },
+  "sealedIdentity": {
+    "manifestSha256": "8969cad413b424ef108984d28a1ef0a17cad89b1fd8a2c4682f017cc2bb71c12",
+    "observerExeSha256": "2305d313521b428e3fde9c350530164724c6307f2d47876d093b9990d70a0734",
+    "fixtureExeSha256": "06fb08600e9aa556a4f75045bff9d7ba3bfe40b1d537ca8a2fd5fbcd3031ffd9",
+    "cancelManifestSha256": "7e709181aba880ba25fb96db50447ba0aa20395159f6e897a155c660059181c4",
+    "positiveManifestSha256": "87fb1a2fea107cb59fe5a212e2e775fd5109a48df3734b139ac56c43d1cc9d66",
+    "compilerSha256": "aae1db57f898ca8bda18590c56f86ced6d0ead80c22033b76fdfe9119706f116",
+    "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5",
+    "sourceFiles": [
+      {
+        "file": "scripts/install-observer/ProcessObserver.cs",
+        "sha256": "836721cc4d263a581f5668d15693e37a3a0a7e235751e7dcb6cb1860bbf75dec"
+      },
+      {
+        "file": "scripts/install-observer/ProcessFixture.cs",
+        "sha256": "c427b4753844229a5b0b3b6511023f67a0e39913833d8b5f3a9153d77a7dca39"
+      },
+      {
+        "file": "scripts/install-observer/analyze.cjs",
+        "sha256": "597a263cc6623388a4d547594a9434b0d4305d1c9e5146097bd6de2ccc30c757"
+      },
+      {
+        "file": "scripts/install-observer/run-gate.cjs",
+        "sha256": "4a06aeffe8e9d357377a350bb211eb4e400ebd8bb0b7c87782e83fc5a11b40ca"
+      },
+      {
+        "file": "tests/install-observer.test.cjs",
+        "sha256": "d401027a9f42592fa2558b3ec4e8c9dc6497264d8a77fa26c5d83135abb9b463"
+      },
+      {
+        "file": "tests/install-observer-status.test.cs",
+        "sha256": "ab406f01b54431d9cfe8a04f8e5c502d2b7e587ffac313fbf8bde9df729d3936"
+      },
+      {
+        "file": "docs/delivery/foundation-win-20261102/observer-cancellation-retest-plan.json",
+        "sha256": "92c5f72643c9eb7c6f2e5201955554da732d4fb0b75d93fe7a865c480bdc131a"
+      }
+    ],
+    "publicReportSha256": "b5dd991a26a35064f8859385930b66496bcfcad97b16e9df0a57b035f79af36d"
+  },
+  "authorizationBoundary": {
+    "previousUnusedStartReusable": false,
+    "requestedNewObserverExecutions": 2,
+    "maximumSecondsEach": 120,
+    "cancelMustPassBeforePositive": true,
+    "firstUnexpectedFailureStopsRound": true,
+    "automaticThirdAttempt": false,
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "applicationOrInstallationIncluded": false,
+    "oldAppShutdownIncluded": false,
+    "existingParallelInstallationAuthorizationRetained": true
+  },
+  "reviewActions": {
+    "privilegedExecution": 0,
+    "observerStarts": 0,
+    "fixtureStarts": 0,
+    "wmiSubscriptions": 0,
+    "applicationStarts": 0,
+    "modelCalls": 0,
+    "officialCliInvocations": 0,
+    "frozenBundleOrOriginalReceiptWrites": 0,
+    "userWorkspaceAccess": 0
+  },
+  "limitations": [
+    "本轮实际失败保持失败；纯函数与合成回归证明已知兼容分支得到覆盖，未证明新观察EXE已通过真实订阅及短命进程覆盖。",
+    "新两个会话只封存，必须取得新的具体管理员执行确认；旧轮已按失败即停结束。",
+    "编译与纯函数测试在普通权限运行，未启动观察器Main或构造实例；独立编译命令首次相对路径失败已私有保留，改用绝对路径后通过，不计为产品失败。",
+    "进程门检仍不代表模型请求观察或安装烟测通过。"
+  ],
+  "privateEvidence": {
+    "directoryBasename": "foundation-observer-preparation-20261102-9f25f0f0bef84ccfb86305565cd06e2f",
+    "subdirectory": "cancellation-fix-offline",
+    "finalIntegritySha256": "bcef69daed0cfc6fd392f07e43c7218450d58792a5213ab408d8d92775768613",
+    "liveFailureReviewSha256": "dffb661387582055f40f590b8a4f99830a29f52117c23990eaa5098ac769c600"
+  },
+  "documentation": [
+    "https://learn.microsoft.com/en-us/dotnet/api/system.management.managementstatus?view=netframework-4.8.1",
+    "https://source.dot.net/System.Management/System/Management/ManagementEventWatcher.cs.html"
+  ],
+  "approvedPublicationFiles": [
+    "scripts/install-observer/ProcessObserver.cs",
+    "scripts/install-observer/analyze.cjs",
+    "tests/install-observer.test.cjs",
+    "tests/install-observer-status.test.cs",
+    "docs/delivery/foundation-win-20261102/observer-cancellation-retest-plan.json",
+    "docs/evidence/foundation-observer-cancellation-20261102.json",
+    "docs/evidence/foundation-observer-cancellation-review-20261102.json"
+  ]
+}
