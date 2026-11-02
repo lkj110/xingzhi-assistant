@@ -1,0 +1,232 @@
+{
+  "schema": 1,
+  "kind": "independent-offline-title-contract-code-and-results-review",
+  "reviewer": "independent-subagent",
+  "at": "2026-11-02T06:28:55.392Z",
+  "baseCommit": "42e0c6003268181927878d69213bd312b6875716",
+  "reviewedFiles": [
+    {
+      "path": "desktop/body-structure.cjs",
+      "sha256": "f735e2a7b4743eedf1105375ff978696deb506ab7d1c56a5bd6500f0a36da3e0",
+      "bytes": 8239
+    },
+    {
+      "path": "docs/evidence/foundation-title-contract-install-observation-20261102.json",
+      "sha256": "75d9dd53a133b1973a49875df04d3e4ff44a5428847819360a942d58a163b70c",
+      "bytes": 5084
+    },
+    {
+      "path": "docs/evidence/foundation-title-contract-offline-result-20261102.json",
+      "sha256": "4c493ab338cd2310ce641973060242ebc127f1b542da4474cf664aa93accefaf",
+      "bytes": 12856
+    },
+    {
+      "path": "docs/evidence/foundation-title-contract-retest-proposal-20261102.json",
+      "sha256": "06a00320385f8471bf3a54bfed12215f31cd5e45d0d7836f5675312ba4f51e40",
+      "bytes": 5736
+    },
+    {
+      "path": "tests/body-structure-flow.test.cjs",
+      "sha256": "10e395ea2b2b6b24652e1b44fc37c5440d879225446775c5cf1bcbf54eec05f2",
+      "bytes": 15356
+    },
+    {
+      "path": "tests/body-structure.test.cjs",
+      "sha256": "6a5cc82d0164b7e3bfa37c880a5cbffff9095cf646350ada5cc534a2ba419ab2",
+      "bytes": 11609
+    },
+    {
+      "path": "tests/fixtures/foundation-title-contract-f05-20261102.json",
+      "sha256": "a927f9942cccb00dc326d5918034a45668446b35b60d9cd97b93ee4cdaca5b68",
+      "bytes": 15300
+    }
+  ],
+  "approvedForUpload": true,
+  "approvedCode": true,
+  "offlineRegressionPassed": true,
+  "remainingBlockingFindings": [],
+  "findings": [
+    {
+      "id": "R1",
+      "priority": 2,
+      "problem": "Unicode blank-line inconsistency allowed a same-title independent block to pass or escape.",
+      "resolution": "Blank-line classification aligned with existing paragraph whitespace; U+2028/U+2029 remain unsupported.",
+      "resolved": true
+    },
+    {
+      "id": "R2",
+      "priority": 2,
+      "problem": "A title identical to a Markdown separator was treated as a plain duplicate title.",
+      "resolution": "Plain branch reuses unchanged nonProseLayout grammar; existing unsupported separators/quotes/lists/HTML keep their route.",
+      "resolved": true
+    }
+  ],
+  "approvedForDeployment": false,
+  "liveAcceptancePassed": false,
+  "newCandidatePackaged": false,
+  "newRunnerSealed": false,
+  "liveExecutionAuthorized": false,
+  "oldBudgetReusable": false,
+  "scope": {
+    "productionFiles": 1,
+    "sharedPureModule": true,
+    "existingRequirementExtractionAndScopeUnchanged": true,
+    "currentDraftAndRevisionLineageRequired": true,
+    "recognition": "Exact same leading standalone plain title or supported ATX title only, under the existing rule.",
+    "noAutomaticCleanup": true,
+    "semanticRuleExpansion": false,
+    "generationInstructionByteDelta": 0,
+    "modelSchemaByteDelta": 0,
+    "extraApplicationModelCalls": 0
+  },
+  "checks": {
+    "realInputDraftPatchAndVerifierResponsesExact": true,
+    "rawProvenanceFilesVerified": 6,
+    "onlyRuntimeIdsRemapped": true,
+    "realInvalidPatchRejectedAfterValidSemanticEvidence": true,
+    "rawDraftBytesPreserved": true,
+    "noInventedThirdNaturalParagraph": true,
+    "explicitlyLabeledPositivePatchPassesStrictGroundingAndAcceptance": true,
+    "oldCacheAndForgedLegacyPassCannotBypass": true,
+    "acceptanceAndDeliveryRecomputeCurrentBytes": true,
+    "markerConfirmationCannotDowngradeDeterministicFailure": true,
+    "coldRestartPreservesFailureAndAcceptedPositiveState": true,
+    "sourceTitleContentAndRequirementIdentityBound": true,
+    "semanticFailureCannotBePromoted": true
+  },
+  "tests": {
+    "relatedFiles": 20,
+    "relatedPassed": 453,
+    "relatedFailed": 0,
+    "relatedSkipped": 0,
+    "independentlyRunFocusedPassed": 96,
+    "focusedFailed": 0,
+    "focusedSkipped": 0,
+    "focusedIsSubsetNotAdditionalUniqueTests": true,
+    "testHost": "Windows / Node v24.22.1",
+    "macOSRuntimeTested": false,
+    "finalSourceUnchangedDuringRegression": true,
+    "realModelCalls": 0,
+    "officialCliInvocations": 0
+  },
+  "preservation": {
+    "oldCandidateFiles": 86,
+    "oldRepositoryFiles": 1276,
+    "oldLiveEvidenceFiles": 41,
+    "oldAuthorizationFiles": 4,
+    "oldCandidateRepositoryEvidenceAndControlUnchanged": true,
+    "installedFilesObserved": 87,
+    "installationMatchesCurrentTurnBaseline": false,
+    "continuousInstallationFreezeProven": false,
+    "installationChangesSincePriorRound": 3,
+    "installationChangesDuringThisTurn": [
+      {
+        "root": "installed",
+        "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+        "before": {
+          "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+          "sha256": "80d7b42b4d1e9fec10964bf73232dc127e155c2891f89f2887078db7f4a838be",
+          "bytes": 25088,
+          "lastWriteTimeUtc": "2026-11-02T04:36:31.628Z",
+          "metadataStableDuringRead": true
+        },
+        "after": {
+          "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+          "sha256": "c2af16e77613f204856bfba90332932242aee3b86b8bc69faeb78a599c220754",
+          "bytes": 26624,
+          "lastWriteTimeUtc": "2026-11-02T06:18:31.686Z",
+          "metadataStableDuringRead": true
+        }
+      }
+    ],
+    "installationProvenance": "Undetermined. All three read-only, non-atomic observation records are retained. No actor or exact change time is inferred from hashes or mtime.",
+    "staticWriteRouteInspection": "Selected 20 tests run directly through node --test; a 208-file literal local require graph has no capture-builder, packaging or Electron-main entry. Assistant initializes test temporary directories; capture.initialize only reconciles queue state. Native helper and compiler paths derive from the source module directory, pointing into this worktree. No route to compiling/overwriting the installed capture helper was identified in these inspected paths.",
+    "staticInspectionLimit": "This is not OS-level writer tracing; it does not establish which other process changed the installed files.",
+    "installationWritesByReviewer": 0,
+    "installedProgramInvocationsByReviewer": 0,
+    "observationTiming": "Last bounded read-only inventory followed regression-03 and preceded the UI-only wording change and regression-04; it does not establish any later or continuous freeze."
+  },
+  "proposalReview": {
+    "approvedAsScopeAndBudgetProposal": true,
+    "readyForBudgetExecutionQuestion": false,
+    "why": "New isolated candidate, exact runner/package/CLI identities and zero-model packaged checks must first be prepared and independently sealed.",
+    "proposedOrder": [
+      "G01",
+      "F05-revision",
+      "F06-restart"
+    ],
+    "proposedMaximumAttempts": 25,
+    "proposedMaximumDispatches": 22,
+    "proposedTokenStopThreshold": 620000,
+    "notExpectedSpend": true,
+    "inflightMayExceedThreshold": true,
+    "F04Rerun": false,
+    "formalMainEvaluation": false,
+    "automaticNextRound": false
+  },
+  "limitations": [
+    "This approves the offline source fix and reporting, not a packaged candidate or real business acceptance.",
+    "F05 is an exposed replay sample; no new real-model quality or token-reduction claim is supported.",
+    "Correct blocking of invalid output alone does not complete F05/F06.",
+    "The existing installed application and old sealed candidate do not contain this new change."
+  ],
+  "evidence": {
+    "privateDirectory": "../foundation-title-contract-audit-20261102",
+    "files": [
+      {
+        "path": "reviewer-code-review.json",
+        "sha256": "fab3df1a4d80f8ef0f8773f8ecc95597841772469273a961f90bc928d92a671a"
+      },
+      {
+        "path": "reviewer-code-review-ui-addendum.json",
+        "sha256": "55041604335b0fd5a4460cd27fc9a690db213d0791c962de021bcd297fcaf42b"
+      },
+      {
+        "path": "reviewer-real-fixture.json",
+        "sha256": "701e57abe76d93151d778487a3622a733acb310502bebabd70137a59713104e1"
+      },
+      {
+        "path": "reviewer-focused-03.log",
+        "sha256": "865110f0cbf84f22cbc64c17e8da554a2de3d33ada0b5059809757f28d4696a6"
+      },
+      {
+        "path": "reviewer-boundary-probes-01.json",
+        "sha256": "a8b143e2d35ea2273f68255ea040c8fa4110e5f94e64d4b172c0a7135e17581d"
+      },
+      {
+        "path": "root-regression-03.json",
+        "sha256": "7af8b875d65c2a09b021312287598172da59ef4e1ab0a2e23415d0e0554fde77"
+      },
+      {
+        "path": "root-regression-04.json",
+        "sha256": "8e30165f5bc647cc4505495ad2e7fe6579ac1de8ed5b283cec09908fa31e7e8b"
+      },
+      {
+        "path": "root-regression-04.tap",
+        "sha256": "bff36157abe1a0fe9bae7a8741ca4ca2e73f3c594962a163248ea1faea80de56"
+      },
+      {
+        "path": "reviewer-baseline.json",
+        "sha256": "22d66f7bd73bde2d307811acf485c6a92e836001d413dffd526b5d4ff3e9fb86"
+      },
+      {
+        "path": "reviewer-after.json",
+        "sha256": "77f9f623e49b9e1ea8403900973f11f392489cb371ff975cca391378aa32865f"
+      },
+      {
+        "path": "reviewer-after-final.json",
+        "sha256": "f61c3d050a93f1cfc204d4cdf511ec344c2d195e5d5216cdc63170adc80d321a"
+      },
+      {
+        "path": "reviewer-installation-write-route.json",
+        "sha256": "06b5cc2c9e4a4e902bd2b0b13fc0efb201dfa9daca96d29acc6c1a28309a2abd"
+      },
+      {
+        "path": "reviewer-finalize-attempt1-failure.json",
+        "sha256": "abe5d94df3a2d7330eaa825873f434d78c1ed20cd87f7ad089b627f268ac6dc3"
+      }
+    ]
+  },
+  "reviewerApplicationModelCalls": 0,
+  "reviewerUiActions": 0
+}

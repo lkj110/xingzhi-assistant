@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "kind": "read-only-installation-observations-during-title-contract-offline-work",
+  "sourceBaseCommit": "42e0c6003268181927878d69213bd312b6875716",
+  "taskCommandsDidNotInstallCopyOrOverwriteInstallation": true,
+  "candidateInstalled": false,
+  "continuousFreezeProven": false,
+  "source": "undetermined",
+  "previousUserReply": "没有主动更新／不确定",
+  "priorObservation": "foundation-body-live-results-review-20261102.json",
+  "beforeWindow": {
+    "startedAt": "2026-11-02T06:07:52.976Z",
+    "finishedAt": "2026-11-02T06:07:59.059Z"
+  },
+  "differencesSincePriorRound": [
+    {
+      "path": "debug.log",
+      "previous": {
+        "path": "debug.log",
+        "sha256": "f7aca5c82cc1c46c06e3307a48ffa46954a7e52642a0423481cdf0f38b070070"
+      },
+      "current": {
+        "path": "debug.log",
+        "sha256": "49a43219fd3ea9018590e8ccf4b00570d7c5779d5484c8f4f57e92ace017fc36",
+        "bytes": 1458,
+        "lastWriteTimeUtc": "2026-11-02T04:39:00.680Z",
+        "metadataStableDuringRead": true
+      }
+    },
+    {
+      "path": "resources/app.asar",
+      "previous": {
+        "path": "resources/app.asar",
+        "sha256": "f05d05e3828c158ef2c7732372a3e9dca7f3412ea0dcd95e80b3fad146f4c5ce"
+      },
+      "current": {
+        "path": "resources/app.asar",
+        "sha256": "2667aab8f70a229bbb2d613b3d5a2e5b8e09b3930f20d019261b5091b1ebfe4a",
+        "bytes": 124176255,
+        "lastWriteTimeUtc": "2026-11-02T04:36:32.040Z",
+        "metadataStableDuringRead": true
+      }
+    },
+    {
+      "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+      "previous": {
+        "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+        "sha256": "4f7ce71d452c97f0a9295c652db5b52e9d533548f77e738b4a4a6e59040a4945"
+      },
+      "current": {
+        "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+        "sha256": "80d7b42b4d1e9fec10964bf73232dc127e155c2891f89f2887078db7f4a838be",
+        "bytes": 25088,
+        "lastWriteTimeUtc": "2026-11-02T04:36:31.628Z",
+        "metadataStableDuringRead": true
+      }
+    }
+  ],
+  "intermediateWindow": {
+    "startedAt": "2026-11-02T06:19:06.032Z",
+    "finishedAt": "2026-11-02T06:19:14.124Z"
+  },
+  "intermediateDifferences": [
+    {
+      "root": "installed",
+      "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+      "before": {
+        "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+        "sha256": "80d7b42b4d1e9fec10964bf73232dc127e155c2891f89f2887078db7f4a838be",
+        "bytes": 25088,
+        "lastWriteTimeUtc": "2026-11-02T04:36:31.628Z",
+        "metadataStableDuringRead": true
+      },
+      "after": {
+        "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+        "sha256": "c3d3f89cc69545e42a9600aa2ba3d3620f1090d960d067c2f1ae230e6bb3288e",
+        "bytes": 26112,
+        "lastWriteTimeUtc": "2026-11-02T06:11:39.682Z",
+        "metadataStableDuringRead": true
+      }
+    }
+  ],
+  "finalWindow": {
+    "startedAt": "2026-11-02T06:22:55.965Z",
+    "finishedAt": "2026-11-02T06:23:05.886Z"
+  },
+  "finalDifferences": [
+    {
+      "root": "installed",
+      "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+      "before": {
+        "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+        "sha256": "80d7b42b4d1e9fec10964bf73232dc127e155c2891f89f2887078db7f4a838be",
+        "bytes": 25088,
+        "lastWriteTimeUtc": "2026-11-02T04:36:31.628Z",
+        "metadataStableDuringRead": true
+      },
+      "after": {
+        "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+        "sha256": "c2af16e77613f204856bfba90332932242aee3b86b8bc69faeb78a599c220754",
+        "bytes": 26624,
+        "lastWriteTimeUtc": "2026-11-02T06:18:31.686Z",
+        "metadataStableDuringRead": true
+      }
+    }
+  ],
+  "installationMatchesCurrentTurnBaseline": false,
+  "oldCandidateRepositoryEvidenceAndControlUnchanged": true,
+  "interpretation": "采样是非原子的，只记录对应时点可见的字节与文件元数据；不由mtime推断执行者或精确修改时间，不将最终单点相同解释为持续冻结。本轮未安装、覆盖、回滚或修复安装目录，来源未定的变化另行保留。",
+  "evidence": {
+    "privateDirectory": "../foundation-title-contract-audit-20261102",
+    "files": [
+      {
+        "path": "reviewer-baseline.json",
+        "sha256": "22d66f7bd73bde2d307811acf485c6a92e836001d413dffd526b5d4ff3e9fb86"
+      },
+      {
+        "path": "reviewer-after.json",
+        "sha256": "77f9f623e49b9e1ea8403900973f11f392489cb371ff975cca391378aa32865f"
+      },
+      {
+        "path": "reviewer-after-final.json",
+        "sha256": "f61c3d050a93f1cfc204d4cdf511ec344c2d195e5d5216cdc63170adc80d321a"
+      },
+      {
+        "path": "reviewer-installation-write-route.json",
+        "sha256": "06b5cc2c9e4a4e902bd2b0b13fc0efb201dfa9daca96d29acc6c1a28309a2abd"
+      }
+    ]
+  }
+}

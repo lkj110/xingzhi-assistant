@@ -3,7 +3,7 @@
 // Unsupported wording/layout is left to the existing semantic verifier. This
 // module never edits prose or removes requirements from the model context.
 const {hash}=require('./evidence-basis.cjs');
-const VERSION=1;
+const VERSION=2;
 const instruction='\n标题放在 title 字段，content 仅放正文；修订 originalContent 时同样不要加入重复标题。明确要求的自然段以空行分隔。';
 const rows=v=>Array.isArray(v)?v:[];
 const numbers=['零','一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十'];
@@ -57,6 +57,25 @@ function rule(a,task){
  if(!requirements.length||new Set(requirements.map(r=>r.count)).size!==1)return null;
  return {step,original,expected:requirements[0].count,requirements};
 }
+function nonProseLayout(content){
+ return /^[\t ]*(?:#{1,6}\s|>|[-+*]\s|\d+[.)、]\s|`{3}|~{3}|\|)/m.test(content)||/^(?: {4}|\t)\S|^[\t ]*(?:=+|-{3,}|\*{3,}|_{3,})[\t ]*$/m.test(content)||/<\/?[a-z][^>]*>|[\u2028\u2029]/iu.test(content);
+}
+function leadingTitle(content,title){
+ // An exact, standalone leading title only. No fuzzy matching, inline Markdown
+ // interpretation, or inference from a different heading / body sentence.
+ if(typeof title!=='string'||!title.trim()||/[\r\n]/.test(title)||/[\u2028\u2029]/.test(content))return null;
+ const blank=line=>/^[^\S\n]*$/.test(line);
+ const lines=content.split('\n');while(lines.length&&blank(lines[0]))lines.shift();
+ const first=lines[0]||'',heading=first.match(/^ {0,3}#{1,6}[\t ]+(.+?)[\t ]*$/);
+ if(heading){
+  const text=heading[1].replace(/[\t ]+#+[\t ]*$/,'').trim();
+  return text===title.trim()?'atx':null;
+ }
+ // A prose title must occupy its own blank-line-delimited block. Indented
+ // code, setext headings and soft-wrapped prose stay on their existing route.
+ if(!/^ {0,3}\S.*$/.test(first)||nonProseLayout(first)||lines.length>1&&!blank(lines[1]))return null;
+ return first.trim()===title.trim()?'plain':null;
+}
 function inspect(a,task){
  const declared=rule(a,task);
  if(!declared)return {status:'not-applicable'};
@@ -68,13 +87,18 @@ function inspect(a,task){
  const content=artifact.content;
  if(typeof content!=='string')return {status:'unsupported',reason:'non-text-content'};
  const normalized=content.replace(/\r\n?/g,'\n');
- // Plain prose only: do not invent Markdown/list/table/code paragraph rules.
- if(/^[\t ]*(?:#{1,6}\s|>|[-+*]\s|\d+[.)、]\s|`{3}|~{3}|\|)/m.test(normalized)||/^(?: {4}|\t)\S|^[\t ]*(?:=+|-{3,}|\*{3,}|_{3,})[\t ]*$/m.test(normalized)||/<\/?[a-z][^>]*>|[\u2028\u2029]/iu.test(normalized))return {status:'unsupported',reason:'non-prose-layout'};
- const actual=normalized.trim()?normalized.trim().split(/\n[^\S\n]*\n(?:[^\S\n]*\n)*/u).length:0;
  const identity={version:VERSION,taskId:task.id,artifactId:artifact.id,titleHash:hash(artifact.title),contentHash:hash(content),requirementsHash:hash(requirements)};
- return {...identity,basis:hash(identity),status:'checked',expected,actual,passed:actual===expected,requirements:requirements.map(({text,...r})=>r)};
+ const bound={...identity,basis:hash(identity),status:'checked',expected,requirements:requirements.map(({text,...r})=>r)};
+ const duplicate=leadingTitle(normalized,artifact.title);
+ // The existing generation contract puts title in its own field. Check that
+ // precise boundary before declining general Markdown paragraph counting.
+ if(duplicate)return {...bound,kind:'title-content',reason:'duplicate-leading-title',titleSyntax:duplicate,actual:null,passed:false};
+ // Plain prose only: do not invent Markdown/list/table/code paragraph rules.
+ if(nonProseLayout(normalized))return {status:'unsupported',reason:'non-prose-layout'};
+ const actual=normalized.trim()?normalized.trim().split(/\n[^\S\n]*\n(?:[^\S\n]*\n)*/u).length:0;
+ return {...bound,kind:'paragraph-count',actual,passed:actual===expected};
 }
-function gap(check){return `正文结构未满足要求：须恰好${check.expected}个自然段，当前正文有${check.actual}段。标题字段独立；正文中的重复标题仍计入正文。`;}
+function gap(check){return check.reason==='duplicate-leading-title'?'标题与正文未分离：正文开头重复了已单独保存的标题；请修订正文并重新核验。':`正文结构未满足要求：须恰好${check.expected}个自然段，当前正文有${check.actual}段。标题字段独立；正文中的重复标题仍计入正文。`;}
 function finish(a,task,result){
  const check=inspect(a,task);
  if(check.status!=='checked')return result;

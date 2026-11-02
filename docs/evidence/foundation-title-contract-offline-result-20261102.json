@@ -1,0 +1,314 @@
+{
+  "schema": 1,
+  "kind": "offline-exact-leading-title-contract-fix",
+  "at": "2026-11-02T06:27:21.959Z",
+  "sourceBaseCommit": "42e0c6003268181927878d69213bd312b6875716",
+  "branch": "codex/foundation-title-contract",
+  "implemented": true,
+  "offlineRegressionPassed": true,
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "modelInputOutputTokens": 0,
+  "installationWritesByTaskCommands": 0,
+  "candidatePackaged": false,
+  "newRunnerSealed": false,
+  "candidateInstalled": false,
+  "liveAcceptancePassed": false,
+  "scope": {
+    "productFiles": [
+      "desktop/body-structure.cjs"
+    ],
+    "sharedPureModule": true,
+    "platformSpecificCodeAdded": false,
+    "testHost": "Windows / Node v24.22.1",
+    "macOSRuntimeTested": false,
+    "semanticRuleExpansion": false,
+    "existingRequirementExtractionUnchanged": true,
+    "guardVersion": 2,
+    "appliesOnlyWhen": "现有明确自然段规则适用、独立单稿目标唯一、当前稿及修订血缘验证通过。",
+    "recognition": "起首与独立title文本完全同名的纯文本独立块或合法ATX标题；仅忽略标题行边缘空白和合法ATX标记，不匹配相似标题。",
+    "outOfScope": "没有当前明确规则或目标/血缘不明时沿用既有路径；没有受支持的精确同名起首标题时，不为其他标题、soft wrap、引用/列表/代码/HTML/setext/分隔线等布局新增标题解释。",
+    "action": "返回绑定当前title/content/requirements字节身份的确定性失败；不自动清理、重写或删改正文。"
+  },
+  "mechanism": {
+    "previousFailure": "真实修订patch只改业务段落，保留原稿的同名Markdown标题；旧本地检查对Markdown不适用，语义核验误作整体通过。",
+    "newBehavior": "在通用Markdown段落计数的不支持分支之前检查精确同名起首标题，kind:title-content/reason:duplicate-leading-title/actual:null，不把Markdown标题算第三自然段。",
+    "existingIntegrationReused": [
+      "core final verification",
+      "acceptance readiness",
+      "grounded delivery guard",
+      "marker confirmation eligibility",
+      "current-byte recheck after cache or restart"
+    ],
+    "preservedStandards": "本地正确结构不覆盖语义失败；原文引用、来源版本、当前稿身份与修订血缘核验保留。"
+  },
+  "tokenImpact": {
+    "fixedGenerationInstructionChanged": false,
+    "fixedGenerationInstructionByteDelta": 0,
+    "modelSchemaChanged": false,
+    "modelSchemaByteDelta": 0,
+    "localCheckAddsModelCalls": 0,
+    "structuredBodyDiagnosticsRepeatedInModelInput": false,
+    "billedTokenReductionMeasured": false,
+    "limitation": "固定协议字节不增加；本次零真实调用，不能推断后续整轮实际tokens不变或减少。失败后的业务流程变化另需真实验证。"
+  },
+  "realPatchReplay": {
+    "originalRunId": "4291eb15-215f-4525-9e33-d08ce3feaa1f",
+    "originalSourceCommit": "3b2e8e624504fac98756b70271f675f3fa314dc7",
+    "originalAsarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+    "fixture": "tests/fixtures/foundation-title-contract-f05-20261102.json",
+    "fixtureSha256": "a927f9942cccb00dc326d5918034a45668446b35b60d9cd97b93ee4cdaca5b68",
+    "sourceEvidenceFiles": [
+      {
+        "path": "business/F05-jianping-revision-initial-draft.json",
+        "sha256": "ace067f32b1fa5f3e3496ec380d85b80bf01e8d8a4cd32c7fa5a49a74d4dde55"
+      },
+      {
+        "path": "business/F05-jianping-revision-revision-draft.json",
+        "sha256": "77b56b3e2b70c7d07001dc132adffe9a250bcd7de0c7a3e010af5639cc130ad0"
+      },
+      {
+        "path": "business/calls/4bccd6d8-c15b-40c3-89ac-a330f8b58f5e-terminal.json",
+        "sha256": "667eba8de92e6fcbd446b194b6b84459b078af453c6bdfcee6837654a24e1dbe"
+      },
+      {
+        "path": "business/calls/234dbcef-8d59-41c5-b9ad-f3773d6af6f3-terminal.json",
+        "sha256": "62095d3c365f16e1a95c1fadc585e9d6fc7b05c822099177b11ac93346023cdf"
+      },
+      {
+        "path": "business/calls/9ee7ec49-a2fd-49c3-8eb3-1c8491d7e384-terminal.json",
+        "sha256": "a6e69dea3b31dd9f0ad27aaad4c2af2aba59c04b1d6c65d8fd075799ad608a59"
+      },
+      {
+        "path": "business/calls/4bccd6d8-c15b-40c3-89ac-a330f8b58f5e-request.json",
+        "sha256": "bad085696bf742a85e12214b201a144ecee74527cbf16e3530c6fb4c3a0190f5"
+      }
+    ],
+    "patchAndDraftBytesPreserved": true,
+    "offlineRuntimeIdRemappingOnly": true,
+    "initialDraftQualified": true,
+    "originalBadRevisionSemanticEvidencePassPreserved": true,
+    "badRevisionNewLocalVerdict": "blocked",
+    "bodyParagraphCountNotInvented": true,
+    "legacyCacheCannotBypass": true,
+    "deliveryAndAcceptanceBlocked": true,
+    "coldRestartPreservesBlock": true,
+    "markerConfirmationCannotDowngradeFailure": true,
+    "positiveCounterexample": "另一个明确标注的合成patch显式删除重复标题；严格证据核验、验收及冷重启通过。它不是原始回放，也不是产品自动删改。",
+    "actualHumanAcceptance": false,
+    "liveQualityRates": null
+  },
+  "reviewFindingsAddressed": [
+    {
+      "id": "unicode-blank-lines",
+      "priority": 2,
+      "problem": "标题独立块或前导空白使用U+3000/NBSP时可漏检。",
+      "fix": "复用现有段落空白定义，同时保留U+2028/U+2029的不支持边界。",
+      "regression": "纯文本同名标题块、Markdown前导空白、Unicode行分隔符反例。"
+    },
+    {
+      "id": "same-title-non-prose",
+      "priority": 2,
+      "problem": "title本身为分隔符时plain分支可能错误拦截既有不支持布局。",
+      "fix": "将原有非正文布局判断提取为同模块函数并复用，不增加解释范围。",
+      "regression": "同名分隔符、引用、列表、HTML仍返回unsupported。"
+    }
+  ],
+  "regression": {
+    "schema": 1,
+    "startedAt": "2026-11-02T06:25:08.122Z",
+    "finishedAt": "2026-11-02T06:27:07.171Z",
+    "exitCode": 0,
+    "signal": null,
+    "error": null,
+    "files": [
+      "tests/acceptance-continuation-independent.test.cjs",
+      "tests/acceptance-routing-independent.test.cjs",
+      "tests/acceptance.test.cjs",
+      "tests/body-structure-flow.test.cjs",
+      "tests/body-structure.test.cjs",
+      "tests/citation-fields.test.cjs",
+      "tests/grounding-eval-analysis.test.cjs",
+      "tests/grounding-eval-metrics.test.cjs",
+      "tests/grounding-input-compaction.test.cjs",
+      "tests/grounding-marker-confirmation.test.cjs",
+      "tests/grounding-marker-flow.test.cjs",
+      "tests/grounding-notice-bounded.test.cjs",
+      "tests/grounding-notification.test.cjs",
+      "tests/grounding-races.test.cjs",
+      "tests/grounding-v3.test.cjs",
+      "tests/grounding.test.cjs",
+      "tests/revision-protocol.test.cjs",
+      "tests/structured-delivery.test.cjs",
+      "tests/verification-editorial-flow.test.cjs",
+      "tests/verification-exact-cache.test.cjs"
+    ],
+    "counts": {
+      "tests": 453,
+      "pass": 453,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "testFileConcurrency": 1,
+    "nodeVersion": "v24.22.1",
+    "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5",
+    "sourceFiles": [
+      {
+        "path": "desktop/body-structure.cjs",
+        "sha256": "f735e2a7b4743eedf1105375ff978696deb506ab7d1c56a5bd6500f0a36da3e0"
+      },
+      {
+        "path": "tests/body-structure-flow.test.cjs",
+        "sha256": "10e395ea2b2b6b24652e1b44fc37c5440d879225446775c5cf1bcbf54eec05f2"
+      },
+      {
+        "path": "tests/body-structure.test.cjs",
+        "sha256": "6a5cc82d0164b7e3bfa37c880a5cbffff9095cf646350ada5cc534a2ba419ab2"
+      },
+      {
+        "path": "tests/fixtures/foundation-title-contract-f05-20261102.json",
+        "sha256": "a927f9942cccb00dc326d5918034a45668446b35b60d9cd97b93ee4cdaca5b68"
+      }
+    ],
+    "sourceUnchangedDuringRun": true,
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "log": {
+      "path": "root-regression-04.tap",
+      "sha256": "bff36157abe1a0fe9bae7a8741ca4ca2e73f3c594962a163248ea1faea80de56"
+    }
+  },
+  "independentFocusedRegression": {
+    "tests": 96,
+    "pass": 96,
+    "fail": 0,
+    "skipped": 0,
+    "log": "reviewer-focused-03.log",
+    "sha256": "865110f0cbf84f22cbc64c17e8da554a2de3d33ada0b5059809757f28d4696a6"
+  },
+  "earlierRunsRetained": [
+    {
+      "path": "root-regression-01.json",
+      "counts": {
+        "tests": 441,
+        "pass": 441,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "path": "root-regression-02.json",
+      "counts": {
+        "tests": 446,
+        "pass": 446,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "path": "root-regression-03.json",
+      "counts": {
+        "tests": 453,
+        "pass": 453,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  ],
+  "preservation": {
+    "isolatedSourceWorktree": true,
+    "oldCandidateRepositoryEvidenceAndControlUnchanged": true,
+    "installedDirectoryContinuousFreezeProven": false,
+    "installationObservation": "docs/evidence/foundation-title-contract-install-observation-20261102.json",
+    "installationObservationSha256": "75d9dd53a133b1973a49875df04d3e4ff44a5428847819360a942d58a163b70c",
+    "oldLiveBudgetClosed": true,
+    "oldRunnerSealNotReusedForNewSource": true,
+    "installationObservationTiming": "末次只读扫描在root-regression-03之后、仅用户提示语调整的root-regression-04之前；记录对应采样窗口，不证明随后或全过程持续冻结。"
+  },
+  "limitations": [
+    "这是源码离线修复；既有安装版和旧封存候选均未应用此变更。",
+    "96项focused包含在453项相关回归中，不相加作549项唯一测试。",
+    "真实patch是已暴露回放样本；没有新的真实模型对照结果或总体幻觉率改善证据。",
+    "正确拒绝不合格稿仅修复错误放行，不代表F05/F06完整业务流程已经通过。",
+    "尚未打包或封存新候选/执行器；旧封存身份会拒绝变更源码，不能用于继续真实执行。"
+  ],
+  "evidence": {
+    "privateDirectory": "../foundation-title-contract-audit-20261102",
+    "files": [
+      {
+        "path": "extract-live-replay.cjs",
+        "sha256": "057503bf01b246acdab10a38b046691fe33719d83c5cbd84d98cc5dcb3968ea3"
+      },
+      {
+        "path": "reviewer-real-fixture.json",
+        "sha256": "701e57abe76d93151d778487a3622a733acb310502bebabd70137a59713104e1"
+      },
+      {
+        "path": "root-regression-01.json",
+        "sha256": "77ddb281eabe75a6f148c5c962c23fabfa11af2a85084d9966ff4a2a77b1e034"
+      },
+      {
+        "path": "root-regression-02.json",
+        "sha256": "803d646f55f215d9ffa5b970d37188d366f5059fbeb823def08cea4aaf50f2a2"
+      },
+      {
+        "path": "root-regression-03.json",
+        "sha256": "7af8b875d65c2a09b021312287598172da59ef4e1ab0a2e23415d0e0554fde77"
+      },
+      {
+        "path": "root-regression-03.tap",
+        "sha256": "b54fd420aa08fe09d5cfee0ce5ac797d1150548385ac990fb426f3716b736a18"
+      },
+      {
+        "path": "focused-tests-3.log",
+        "sha256": "c635f5edd7bde929ed624c1814675270b6d0b168a7fcae67ceb17d423d8363a6"
+      },
+      {
+        "path": "reviewer-focused-02.log",
+        "sha256": "661117e10d8236a627477e1a3679e039dc4014e5382f38a7db9372a271c039ed"
+      },
+      {
+        "path": "reviewer-boundary-probes-01.json",
+        "sha256": "a8b143e2d35ea2273f68255ea040c8fa4110e5f94e64d4b172c0a7135e17581d"
+      },
+      {
+        "path": "reviewer-baseline.json",
+        "sha256": "22d66f7bd73bde2d307811acf485c6a92e836001d413dffd526b5d4ff3e9fb86"
+      },
+      {
+        "path": "reviewer-after.json",
+        "sha256": "77f9f623e49b9e1ea8403900973f11f392489cb371ff975cca391378aa32865f"
+      },
+      {
+        "path": "reviewer-after-final.json",
+        "sha256": "f61c3d050a93f1cfc204d4cdf511ec344c2d195e5d5216cdc63170adc80d321a"
+      },
+      {
+        "path": "reviewer-installation-write-route.json",
+        "sha256": "06b5cc2c9e4a4e902bd2b0b13fc0efb201dfa9daca96d29acc6c1a28309a2abd"
+      },
+      {
+        "path": "root-regression-04.json",
+        "sha256": "8e30165f5bc647cc4505495ad2e7fe6579ac1de8ed5b283cec09908fa31e7e8b"
+      },
+      {
+        "path": "root-regression-04.tap",
+        "sha256": "bff36157abe1a0fe9bae7a8741ca4ca2e73f3c594962a163248ea1faea80de56"
+      },
+      {
+        "path": "reviewer-focused-03.log",
+        "sha256": "865110f0cbf84f22cbc64c17e8da554a2de3d33ada0b5059809757f28d4696a6"
+      }
+    ]
+  },
+  "independentReview": "foundation-title-contract-offline-review-20261102.json",
+  "nextProposal": "foundation-title-contract-retest-proposal-20261102.json"
+}

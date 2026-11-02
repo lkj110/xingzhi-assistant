@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "kind": "minimal-title-contract-and-remaining-flow-retest-proposal",
+  "date": "2026-11-02",
+  "status": "proposed-awaiting-offline-packaging-and-seal",
+  "liveReady": false,
+  "liveAuthorized": false,
+  "oldBudgetReusable": false,
+  "sourceBaseCommit": "42e0c6003268181927878d69213bd312b6875716",
+  "purpose": "先验证确定性标题/正文契约在新包中生效，再验证F05修订和F06重启的未完成生命周期；不把正确拦截当作业务验收完成。",
+  "order": [
+    "G01",
+    "F05-revision",
+    "F06-restart"
+  ],
+  "samples": "沿用原封存G01/F05/F06；F05真实patch已用于本次修复，不称为全新盲样。",
+  "F04Rerun": false,
+  "formalMainEvaluation": false,
+  "installCandidate": false,
+  "prerequisites": [
+    "以本次经独审源码提交零模型打包新的隔离候选，完整核对包内唯一产品改动body-structure.cjs及外层文件；旧包、旧证据、现有安装目录不覆盖。",
+    "为新候选准备新执行器身份、包清单及独审封存记录；旧ASAR、旧G01、旧seal及已关闭授权都不能证明新候选可执行。",
+    "在新包完成真实patch离线回放、正确拒绝和有效稿通过、缓存/重启/验收守卫及停止流程检查；所有外部模型传输禁止。",
+    "完成以上离线准备及独立审核后，连同具体候选/执行器/CLI身份再向用户提交预算确认；本文件是预算提案，不是执行授权。",
+    "获新预算授权先G01；通过后另确认用户就绪，才启动F05/F06共享业务窗口。"
+  ],
+  "total": {
+    "maxApplicationAttempts": 25,
+    "maxModelDispatches": 22,
+    "inputPlusOutputTokenStopThreshold": 620000,
+    "inflightMayExceedThreshold": true,
+    "absoluteTokenHardCapGuaranteed": false
+  },
+  "phases": [
+    {
+      "name": "G01",
+      "maxApplicationAttempts": 5,
+      "maxModelDispatches": 4,
+      "tokenStopThreshold": 120000,
+      "fixedMinutes": 45
+    },
+    {
+      "name": "F05-F06",
+      "maxApplicationAttempts": 20,
+      "maxModelDispatches": 18,
+      "tokenStopThreshold": 500000,
+      "fixedMinutes": 45,
+      "startAfterFreshHumanReadiness": true,
+      "caseAllocation": [
+        {
+          "caseId": "F05",
+          "maxApplicationAttempts": 13,
+          "tokenStopThreshold": 330000
+        },
+        {
+          "caseId": "F06",
+          "maxApplicationAttempts": 7,
+          "tokenStopThreshold": 170000
+        }
+      ]
+    }
+  ],
+  "budgetBasis": {
+    "scope": "仅剩余两个业务流程及变更候选所需的新门检，不重跑F04或六例主验收。",
+    "interpretation": "保留已有最小流程的总上限，覆盖必要资料读取和可能触发的真人确认后单独重检；不是预计必用量，不据一次5调用的F05样本删去尚未覆盖的分支预算。",
+    "observedPreviousRound": {
+      "G01": {
+        "applicationAttempts": 3,
+        "totalTokens": 38914
+      },
+      "F05Initial": {
+        "applicationAttempts": 3,
+        "totalTokens": 41970
+      },
+      "F05Revision": {
+        "applicationAttempts": 2,
+        "totalTokens": 32332
+      },
+      "F06": "未运行，没有本轮真实成本观测。"
+    },
+    "borrowing": false,
+    "extraProbes": false,
+    "automaticRetryAfterTerminalFailure": false,
+    "automaticNextRound": false
+  },
+  "windows": "G01固定45分钟；通过后F05/F06共享另一个固定45分钟。均包括启动、模型执行、真人操作、冷重启及独审等待，不重置。",
+  "immediateStop": [
+    "终止性CLI/传输/协议错误、格式错误或未知用量",
+    "达到任一应用尝试/分发/token停止阈值或固定窗口到期",
+    "首个终止性案例失败，包括F05产生含重复标题的不合格稿并被正确拦截"
+  ],
+  "diagnostics": "保留有界诊断并按封存执行器既有规则处理；不为继续测试临时修改协议判断、增加fallback或放宽已知失败。",
+  "acceptance": [
+    "G01完整用量与协议及独审通过，不计业务质量分母。",
+    "F05的最终稿title独立、content无同名重复标题且恰好两段业务正文；来源/修订血缘正确，应用与独审均通过。",
+    "需要表达确认时由用户在候选应用中亲自确认，再单独重检；合格稿由用户最终验收，聊天回复不替代实际记录。",
+    "仅在F05完成后进入F06，核对推进前、待验收、验收后冷重启的任务/稿件/检查/验收身份。",
+    "不自动清理真实稿件来制造成功，不将本地格式拒绝计作事实幻觉或误拦，也不将两个业务自然段前的Markdown标题称为第三自然段。"
+  ],
+  "metrics": {
+    "completion": "完成业务案例/2；失败与未启动分开记录。",
+    "factualHallucination": "按实际可判定业务稿件报告分子/分母，核验器错误全面通过断言另列。",
+    "falseBlock": "错误拦截合格稿件/实际合格可判定稿件。",
+    "falseRelease": "应用放行不合格稿件/实际不合格可判定稿件；零分母报告0/0及null。",
+    "tokens": "分G01、F05初稿/修订/重检、F06报告input/output/cached/总量和尝试/分发；cached已含input，不重复相加。",
+    "limitations": "已暴露的小样本流程回归，不能推断总体幻觉率、误拦率或成本改善。"
+  },
+  "currentTurn": {
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "candidatePackaged": false,
+    "newRunnerSealed": false,
+    "installationWrites": 0,
+    "whyNoBudgetQuestionNow": "本轮按要求完成源码离线修复、回归及独审；新候选和新执行器尚未封存，先提出可审核的范围与额度，待前置准备齐备后再单独请求执行授权。"
+  }
+}

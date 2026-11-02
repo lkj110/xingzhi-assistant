@@ -1,0 +1,330 @@
+{
+  "schema": 1,
+  "runId": "4291eb15-215f-4525-9e33-d08ce3feaa1f",
+  "sourceCommit": "3b2e8e624504fac98756b70271f675f3fa314dc7",
+  "sourceAsarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+  "provenance": [
+    {
+      "path": "business/F05-jianping-revision-initial-draft.json",
+      "sha256": "ace067f32b1fa5f3e3496ec380d85b80bf01e8d8a4cd32c7fa5a49a74d4dde55"
+    },
+    {
+      "path": "business/F05-jianping-revision-revision-draft.json",
+      "sha256": "77b56b3e2b70c7d07001dc132adffe9a250bcd7de0c7a3e010af5639cc130ad0"
+    },
+    {
+      "path": "business/calls/4bccd6d8-c15b-40c3-89ac-a330f8b58f5e-terminal.json",
+      "sha256": "667eba8de92e6fcbd446b194b6b84459b078af453c6bdfcee6837654a24e1dbe"
+    },
+    {
+      "path": "business/calls/234dbcef-8d59-41c5-b9ad-f3773d6af6f3-terminal.json",
+      "sha256": "62095d3c365f16e1a95c1fadc585e9d6fc7b05c822099177b11ac93346023cdf"
+    },
+    {
+      "path": "business/calls/9ee7ec49-a2fd-49c3-8eb3-1c8491d7e384-terminal.json",
+      "sha256": "a6e69dea3b31dd9f0ad27aaad4c2af2aba59c04b1d6c65d8fd075799ad608a59"
+    },
+    {
+      "path": "business/calls/4bccd6d8-c15b-40c3-89ac-a330f8b58f5e-request.json",
+      "sha256": "bad085696bf742a85e12214b201a144ecee74527cbf16e3530c6fb4c3a0190f5"
+    }
+  ],
+  "extraction": "Exact draft/input and decoded real patch/verifier response. Only runtime artifact/source IDs are remapped by offline tests; no draft or patch text is edited.",
+  "input": {
+    "title": "涧屏JP-A6索引员纸质目录缺项补录通知",
+    "description": "本例为合成历史业务场景，仅按所附资料给定时点判断，不推断其后的实际状态。\n请先给本轮负责JP-A6纸质目录的索引员写一份缺项补录通知，标题与正文都保留人员和业务对象。初稿须说明补录数量、日期、地点和未开始状态。",
+    "criteria": "本轮仅涉及JP-A6批次9册纸质目录，不代表9卷录音；办理日期为2026年8月12日，地点为档案西室6号桌；不能把补录安排说成已经完成；正文不超过220个汉字；初稿不要求两段正文。",
+    "sources": [
+      {
+        "title": "涧屏JP-A6纸质目录补录安排",
+        "content": "2026年8月9日登记：本轮由负责JP-A6纸质目录的索引员，对该批次9册纸质目录进行缺项补录；册数不代表录音卷数。\n办理日期为2026年8月12日，时段09:35至10:20，地点档案西室6号桌。截至登记时，本轮补录尚未开始。"
+      },
+      {
+        "title": "涧屏JP-A6补录依据和编号规则",
+        "content": "本轮只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填。\n原目录编号须保留，不得重排；本规则不要求补写无法由原件读出的内容。"
+      }
+    ]
+  },
+  "initialDraft": {
+    "id": "c9f67289-35bc-48b1-88ee-ee1d36ee2c4d",
+    "taskId": "97d85a1e-28a3-4be2-b553-7800bff88d19",
+    "stepId": "1872e9ce-1f95-4d98-be2a-b2ef191a1de8",
+    "title": "涧屏JP-A6纸质目录索引员缺项补录通知",
+    "content": "# 涧屏JP-A6纸质目录索引员缺项补录通知\n\n请本轮负责JP-A6纸质目录的索引员于2026年8月12日09:35至10:20，在档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。仅依据可辨认的封套原件补录，封套缺失或字迹不清的字段统一标为“待查”，不得凭旧录入表猜填；保留原目录编号，不得重排。截至2026年8月9日登记时，本轮补录尚未开始。",
+    "generationSnapshot": {
+      "id": "a0ae3b9ec2b1196dfe6cac164053ee8dc76e2a7c57ffe68d88973a7071312dcc",
+      "intent": "0bc15a571b88a01f337f8dce0a5f04a0a6392b5d7128cd036de5da608b3161ae",
+      "artifacts": [],
+      "receipts": [],
+      "sourcesHash": "fa03ee767b997c19292e35a5b84f9dcdf57fc8730e4501d32c611e4f95e593ba"
+    },
+    "createdAt": "2026-11-02T04:15:44.279Z",
+    "accessPolicyQuarantined": false,
+    "outputRole": "primary"
+  },
+  "revisionNote": "保留本轮负责JP-A6纸质目录的索引员、9册纸质目录、2026年8月12日、档案西室6号桌和未开始状态。将正文改为恰好两个自然段，不用项目符号：第一段交代本轮范围与安排，并补充09:35至10:20；第二段说明只依据可辨认的封套原件补录，封套缺失或字迹不清的字段统一标为“待查”、不能凭旧录入表猜填，原目录编号须保留、不得重排。标题仍保留人员和业务对象。",
+  "patch": {
+    "kind": "patch",
+    "edits": [
+      {
+        "before": "请本轮负责JP-A6纸质目录的索引员于2026年8月12日09:35至10:20，在档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。仅依据可辨认的封套原件补录，封套缺失或字迹不清的字段统一标为“待查”，不得凭旧录入表猜填；保留原目录编号，不得重排。截至2026年8月9日登记时，本轮补录尚未开始。",
+        "after": "请本轮负责JP-A6纸质目录的索引员于2026年8月12日09:35至10:20，在档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n仅依据可辨认的封套原件补录，封套缺失或字迹不清的字段统一标为“待查”，不得凭旧录入表猜填；保留原目录编号，不得重排。"
+      }
+    ],
+    "summary": "正文调整为恰好两个自然段：第一段说明范围、安排及登记时未开始状态，第二段说明补录依据与编号规则；保留原标题，正文不超过220个汉字。"
+  },
+  "invalidRevision": {
+    "id": "c492fb14-18e5-4992-9f2f-537c6c44675f",
+    "taskId": "97d85a1e-28a3-4be2-b553-7800bff88d19",
+    "stepId": "1872e9ce-1f95-4d98-be2a-b2ef191a1de8",
+    "title": "涧屏JP-A6纸质目录索引员缺项补录通知",
+    "content": "# 涧屏JP-A6纸质目录索引员缺项补录通知\n\n请本轮负责JP-A6纸质目录的索引员于2026年8月12日09:35至10:20，在档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n仅依据可辨认的封套原件补录，封套缺失或字迹不清的字段统一标为“待查”，不得凭旧录入表猜填；保留原目录编号，不得重排。",
+    "generationSnapshot": {
+      "id": "45da74d714e64db9b2b8374e7304c387b908dc44e62f09951269661c971dc5cc",
+      "intent": "0bc15a571b88a01f337f8dce0a5f04a0a6392b5d7128cd036de5da608b3161ae",
+      "artifacts": [
+        {
+          "artifactId": "c9f67289-35bc-48b1-88ee-ee1d36ee2c4d",
+          "stepId": "1872e9ce-1f95-4d98-be2a-b2ef191a1de8",
+          "hash": "fdaee72b22a063263444de6b5c1f6eb6d25bb307e7d6f4e4fae45897ab4354fa"
+        }
+      ],
+      "receipts": [],
+      "sourcesHash": "fa03ee767b997c19292e35a5b84f9dcdf57fc8730e4501d32c611e4f95e593ba",
+      "primaryArtifactId": "c9f67289-35bc-48b1-88ee-ee1d36ee2c4d"
+    },
+    "createdAt": "2026-11-02T04:19:42.694Z",
+    "accessPolicyQuarantined": false,
+    "outputRole": "primary"
+  },
+  "initialVerifier": {
+    "passed": true,
+    "summary": "通过。通知标题与正文均保留索引员及JP-A6纸质目录对象，数量、办理时间、地点和登记时尚未开始的状态均有原文支持；正文少于220个汉字，补录规则准确，稿件已保存。",
+    "gaps": [],
+    "groundingReview": {
+      "format": "compact-v3",
+      "scannedArtifactIds": [
+        "c9f67289-35bc-48b1-88ee-ee1d36ee2c4d"
+      ],
+      "citations": [
+        {
+          "id": "e1",
+          "sourceId": "7cb03d01-76b5-416e-ae45-a2bf4b7309a6",
+          "quote": "2026年8月9日登记：本轮由负责JP-A6纸质目录的索引员，对该批次9册纸质目录进行缺项补录；册数不代表录音卷数。"
+        },
+        {
+          "id": "e2",
+          "sourceId": "7cb03d01-76b5-416e-ae45-a2bf4b7309a6",
+          "quote": "办理日期为2026年8月12日，时段09:35至10:20，地点档案西室6号桌。截至登记时，本轮补录尚未开始。"
+        },
+        {
+          "id": "e3",
+          "sourceId": "3ed01ffd-db66-4660-a208-7f2db3cae045",
+          "quote": "本轮只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填。\n原目录编号须保留，不得重排；本规则不要求补写无法由原件读出的内容。"
+        }
+      ],
+      "requirements": [
+        {
+          "id": "req:ab933ab63b9ad944",
+          "status": "satisfied",
+          "claimIds": [
+            "c4"
+          ]
+        },
+        {
+          "id": "req:621f70a7e4d75b06",
+          "status": "satisfied",
+          "claimIds": [
+            "c1",
+            "c2",
+            "c3",
+            "c4"
+          ]
+        },
+        {
+          "id": "req:246dd42d74d92b02",
+          "status": "satisfied",
+          "claimIds": [
+            "c2",
+            "c3",
+            "c4"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "id": "c1",
+          "artifactId": "c9f67289-35bc-48b1-88ee-ee1d36ee2c4d",
+          "text": "涧屏JP-A6纸质目录索引员缺项补录通知",
+          "kind": "fact",
+          "supported": true,
+          "citationIds": [
+            "e1"
+          ]
+        },
+        {
+          "id": "c2",
+          "artifactId": "c9f67289-35bc-48b1-88ee-ee1d36ee2c4d",
+          "text": "请本轮负责JP-A6纸质目录的索引员于2026年8月12日09:35至10:20，在档案西室6号桌，对该批次9册纸质目录进行缺项补录",
+          "kind": "fact",
+          "supported": true,
+          "citationIds": [
+            "e1",
+            "e2"
+          ]
+        },
+        {
+          "id": "c3",
+          "artifactId": "c9f67289-35bc-48b1-88ee-ee1d36ee2c4d",
+          "text": "9册不代表9卷录音。",
+          "kind": "fact",
+          "supported": true,
+          "citationIds": [
+            "e1"
+          ]
+        },
+        {
+          "id": "c4",
+          "artifactId": "c9f67289-35bc-48b1-88ee-ee1d36ee2c4d",
+          "text": "截至2026年8月9日登记时，本轮补录尚未开始。",
+          "kind": "fact",
+          "supported": true,
+          "citationIds": [
+            "e1",
+            "e2"
+          ]
+        },
+        {
+          "id": "c5",
+          "artifactId": "c9f67289-35bc-48b1-88ee-ee1d36ee2c4d",
+          "text": "仅依据可辨认的封套原件补录，封套缺失或字迹不清的字段统一标为“待查”，不得凭旧录入表猜填；保留原目录编号，不得重排。",
+          "kind": "fact",
+          "supported": true,
+          "citationIds": [
+            "e3"
+          ]
+        }
+      ],
+      "unsupportedClaims": [],
+      "conflicts": []
+    }
+  },
+  "revisionVerifier": {
+    "passed": true,
+    "summary": "当前通知符合要求：标题与正文保留人员及业务对象，准确说明9册纸质目录、办理日期、时段、地点及登记时尚未开始的状态；正文恰好两段、无项目符号且未超过220个汉字，补录依据和编号规则完整。正文已保存，未要求额外外部交付。",
+    "gaps": [],
+    "groundingReview": {
+      "format": "compact-v3",
+      "scannedArtifactIds": [
+        "c492fb14-18e5-4992-9f2f-537c6c44675f"
+      ],
+      "citations": [
+        {
+          "id": "e1",
+          "sourceId": "7cb03d01-76b5-416e-ae45-a2bf4b7309a6",
+          "quote": "2026年8月9日登记：本轮由负责JP-A6纸质目录的索引员，对该批次9册纸质目录进行缺项补录；册数不代表录音卷数。\n办理日期为2026年8月12日，时段09:35至10:20，地点档案西室6号桌。截至登记时，本轮补录尚未开始。"
+        },
+        {
+          "id": "e2",
+          "sourceId": "3ed01ffd-db66-4660-a208-7f2db3cae045",
+          "quote": "本轮只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填。\n原目录编号须保留，不得重排；本规则不要求补写无法由原件读出的内容。"
+        },
+        {
+          "id": "e3",
+          "sourceId": "7cb03d01-76b5-416e-ae45-a2bf4b7309a6",
+          "field": "title",
+          "quote": "涧屏JP-A6纸质目录补录安排"
+        }
+      ],
+      "requirements": [
+        {
+          "id": "req:ab933ab63b9ad944",
+          "status": "satisfied",
+          "claimIds": [
+            "c3"
+          ]
+        },
+        {
+          "id": "req:621f70a7e4d75b06",
+          "status": "satisfied",
+          "claimIds": [
+            "c1",
+            "c2",
+            "c3"
+          ]
+        },
+        {
+          "id": "req:246dd42d74d92b02",
+          "status": "satisfied",
+          "claimIds": [
+            "c3"
+          ]
+        },
+        {
+          "id": "req:b02152089d048bf0",
+          "status": "satisfied",
+          "claimIds": [
+            "c1",
+            "c3",
+            "c4"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "id": "c1",
+          "artifactId": "c492fb14-18e5-4992-9f2f-537c6c44675f",
+          "text": "涧屏JP-A6纸质目录索引员缺项补录通知",
+          "kind": "fact",
+          "supported": true,
+          "citationIds": [
+            "e1",
+            "e3"
+          ]
+        },
+        {
+          "id": "c2",
+          "artifactId": "c492fb14-18e5-4992-9f2f-537c6c44675f",
+          "text": "涧屏JP-A6索引员纸质目录缺项补录通知",
+          "kind": "fact",
+          "supported": true,
+          "citationIds": [
+            "e1",
+            "e3"
+          ]
+        },
+        {
+          "id": "c3",
+          "artifactId": "c492fb14-18e5-4992-9f2f-537c6c44675f",
+          "text": "请本轮负责JP-A6纸质目录的索引员于2026年8月12日09:35至10:20，在档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。",
+          "kind": "fact",
+          "supported": true,
+          "citationIds": [
+            "e1"
+          ]
+        },
+        {
+          "id": "c4",
+          "artifactId": "c492fb14-18e5-4992-9f2f-537c6c44675f",
+          "text": "仅依据可辨认的封套原件补录，封套缺失或字迹不清的字段统一标为“待查”，不得凭旧录入表猜填；保留原目录编号，不得重排。",
+          "kind": "fact",
+          "supported": true,
+          "citationIds": [
+            "e2"
+          ]
+        }
+      ],
+      "unsupportedClaims": [],
+      "conflicts": []
+    }
+  },
+  "originalArtifactIds": {
+    "initial": "c9f67289-35bc-48b1-88ee-ee1d36ee2c4d",
+    "revision": "c492fb14-18e5-4992-9f2f-537c6c44675f"
+  },
+  "originalSourceIds": {
+    "7cb03d01-76b5-416e-ae45-a2bf4b7309a6": "涧屏JP-A6纸质目录补录安排",
+    "3ed01ffd-db66-4660-a208-7f2db3cae045": "涧屏JP-A6补录依据和编号规则"
+  },
+  "generationBoundaryInstruction": "标题放在 title 字段，content 仅放正文；修订 originalContent 时同样不要加入重复标题。明确要求的自然段以空行分隔。"
+}
