@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "kind": "independent-observer-retest-review",
+  "at": "2026-11-02T10:53:56.274Z",
+  "reviewer": "/root/title_candidate_review",
+  "executedSourceCommit": "02ab0bcd28960f9ec76e16d4223bd2524471b3c5",
+  "report": "docs/evidence/foundation-observer-retest-20261102.json",
+  "reportSha256": "62d4651a2eb866e15980b365d4eda81edd230e87037b80dc9e4406b4ae1bf2c0",
+  "decision": {
+    "publicationApproved": true,
+    "cancelNegativeControlPassed": true,
+    "positiveProcessObservationPassed": false,
+    "roundStopped": true,
+    "installationMayProceed": false,
+    "newExecutionAuthorized": false
+  },
+  "evidence": {
+    "sealSha256": "8969cad413b424ef108984d28a1ef0a17cad89b1fd8a2c4682f017cc2bb71c12",
+    "sealedObjectsIndependentlyRehashed": 19,
+    "cancelFinalEventsSha256": "f1cc52d751fd5364f5b2bceaabbb7744e74a192148db3405331ff5957980f03a",
+    "positiveFinalEventsSha256": "091fed240805bbe8aa8bae863d6ef3468ace388dadac3490a89cb69a43224dca",
+    "positiveFixtureSha256": "a7f2b46f4f9099ca812a821bb660cddd302b2e31b7ab2ee3de4a92c90596df4f",
+    "privateReviewSha256": "297aa71ca4f977ab0d94c66864fd1cbe1bfd90d05cf4757db8cb6f19b7e0c497"
+  },
+  "checks": {
+    "cancelActualExitCode": 2,
+    "cancelControllerExitCode": 0,
+    "cancelEventRows": 16,
+    "positiveActualExitCode": 0,
+    "positiveControllerExitCode": 1,
+    "positiveEventRows": 22,
+    "positiveHeartbeats": 10,
+    "actualFixtureProcesses": 10,
+    "allFixtureExitZero": true,
+    "observedProcessStartEvents": 0,
+    "observedProcessStopEvents": 0,
+    "allFixtureLifetimesInsideObservation": true,
+    "finalLogLifecycleValid": true,
+    "fullAnalyzerError": "MISSING_OR_AMBIGUOUS_PROCESS",
+    "sourceAndSealedFilesUnchanged": true,
+    "liveAuthorizationExhausted": true
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "report-correction",
+      "fixed": true,
+      "description": "删除“正例启动前已独审”的不实时间表述。启动前已有控制器、实际退出回执和根侧复核；独审文件在正例启动后完成。原计划O3及复测顺序第3项要求实际退出后独审，并未要求每段独审完成才开始下一段。"
+    },
+    {
+      "id": "R2",
+      "severity": "qualification",
+      "fixed": true,
+      "description": "无确定性代码根因，不把心跳/正常关闭或WMI注册日志解释为事件链路正常；本次0模型等统计仅描述本任务边界。"
+    },
+    {
+      "id": "R3",
+      "severity": "next-plan-boundary",
+      "fixed": true,
+      "description": "ETW仅作离线备选评估；标准进程事件可能扩大命令行/SID/路径采集范围，且rundown不能冒充实际启动/退出。先核实配置、丢失统计和隐私范围，再提出有界执行方案。"
+    }
+  ],
+  "limits": {
+    "newObserverRunsDuringReview": 0,
+    "newFixtureRunsDuringReview": 0,
+    "newModelCallsDuringReview": 0,
+    "newOfficialCliInvocationsDuringReview": 0,
+    "productChanges": 0,
+    "installationWrites": 0,
+    "rawPrivateLogsPublished": false,
+    "continuousCoverageProven": false,
+    "modelRequestObservationPassed": false,
+    "candidateSmokePassed": false
+  },
+  "scope": "批准上传脱敏结果及本审核。此次观察正例失败；不批准安装、不重释既有失败、不追加第三次观察。ETW未执行、未证明有效。"
+}

@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "kind": "administrator-observer-retest-result",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "executedSourceCommit": "02ab0bcd28960f9ec76e16d4223bd2524471b3c5",
+  "plan": "docs/delivery/foundation-win-20261102/observer-cancellation-retest-plan.json",
+  "previousRound": "docs/evidence/foundation-observer-cancellation-20261102.json",
+  "status": "failed-stopped",
+  "authorization": {
+    "newRoundApproved": true,
+    "maximumObserverStarts": 2,
+    "maximumSecondsEach": 120,
+    "actualObserverStarts": 2,
+    "cancelPassedBeforePositiveStarted": true,
+    "firstUnexpectedFailureStoppedRound": true,
+    "roundClosed": true,
+    "additionalObserverStartsAllowed": false,
+    "oldUnusedStartsReused": false
+  },
+  "seal": {
+    "manifestSha256": "8969cad413b424ef108984d28a1ef0a17cad89b1fd8a2c4682f017cc2bb71c12",
+    "observerExeSha256": "2305d313521b428e3fde9c350530164724c6307f2d47876d093b9990d70a0734",
+    "fixtureExeSha256": "06fb08600e9aa556a4f75045bff9d7ba3bfe40b1d537ca8a2fd5fbcd3031ffd9"
+  },
+  "cancel": {
+    "passed": true,
+    "actualObserverExitCode": 2,
+    "controllerExitCode": 0,
+    "eventRows": 16,
+    "subscribedClasses": 4,
+    "unexpectedStartTraceCancellation": 1,
+    "otherSubscriptionsExpectedStopped": 3,
+    "actualCancellationStatus": "CallCanceled",
+    "actualCancellationStatusCode": -2147217358,
+    "finalLogReadAfterActualExit": true,
+    "finalEventsSha256": "f1cc52d751fd5364f5b2bceaabbb7744e74a192148db3405331ff5957980f03a",
+    "meaning": "主动取消被检测为不健康；其余三个正常关闭回执正确识别。预定负例的退出码2是通过条件，不能按普通成功退出解释。",
+    "independentReviewPassed": true,
+    "reviewTiming": "正例启动前，取消控制器结果、观察器实际退出回执及根侧复核已通过；独立审核文件在正例启动后完成。原计划的独审位于实际退出及最终日志复核阶段，不能据此声称正例启动前已独审。"
+  },
+  "positive": {
+    "passed": false,
+    "controllerError": "GATE_TIMEOUT",
+    "controllerExitCode": 1,
+    "actualObserverExitCode": 0,
+    "finalLogReadAfterActualExit": true,
+    "finalEventsSha256": "091fed240805bbe8aa8bae863d6ef3468ace388dadac3490a89cb69a43224dca",
+    "eventRows": 22,
+    "subscribedClasses": 4,
+    "heartbeats": 10,
+    "expectedStoppedCallbacks": 4,
+    "loggedFaults": 0,
+    "finalLogLifecycleValid": true,
+    "fullAnalyzerError": "MISSING_OR_AMBIGUOUS_PROCESS",
+    "fixtureProcessesConfirmedByOsHandles": 10,
+    "fixtureAllExitZero": true,
+    "expectedFixtureProcessEvents": 20,
+    "observedProcessStarts": 0,
+    "observedProcessStops": 0,
+    "allFixtureLifetimesInsideObservation": true,
+    "firstFixtureStartAfterReadyMs": 436.3051,
+    "closingAfterLastFixtureExitMs": 8277.7118,
+    "sixActualLeafLifetimesMs": [
+      477.6378,
+      499.9165,
+      555.1071,
+      611.2685,
+      665.4594,
+      719.0703
+    ],
+    "meaning": "订阅、心跳和正常收尾仅证明控制流程存活。10个无害进程实际完成但20条预期启动/退出事件一条未收到；观察能力不通过，正常退出码0不能将整段判为成功。"
+  },
+  "diagnosis": {
+    "proven": [
+      "上一轮CallCanceled收尾兼容问题已通过本次真实取消检测验证。",
+      "本次正例失败位于进程事件观察链路，非fixture未执行或实际寿命超过短命阈值。",
+      "10个实际进程的整个生命周期均在ready到closing内；最后退出至closing仍有约8.28秒，不能仅凭超时就认定应延长等待。"
+    ],
+    "existingWindowsLogReadOnlyCheck": {
+      "matchingPositiveRegistrations": 4,
+      "matchingFinalCancellationRecords": 4,
+      "finalCancellationCode": "0x80041032",
+      "cancellationTiming": "位于控制器超时后的主动收尾阶段",
+      "earlierRelevantErrorFoundInQueriedWindow": false,
+      "newWmiSubscriptionCreatedForDiagnosis": false,
+      "rawWindowsLogPublished": false
+    },
+    "unresolved": "已有证据不足以区分事件源、WMI投递或观察器接收环节。未证明是权限拒绝、Windows服务异常或等待时间不足；未据此修改系统配置或放宽通过条件。",
+    "sourceChangesThisRound": 0,
+    "additionalLiveProbesAfterFailure": 0,
+    "staticReview": "未发现可由当前代码与回执证明、足以解释本次零进程事件的确定性代码缺陷；这不排除接收实现问题。注册与正常关闭证据不能证明事件已产生或已投递。"
+  },
+  "preservation": {
+    "taskInitiatedModelCalls": 0,
+    "taskInitiatedOfficialAiCliInvocations": 0,
+    "modelTokens": 0,
+    "candidateStarts": 0,
+    "oldAppCloseActions": 0,
+    "installationWrites": 0,
+    "frozenProductWrites": 0,
+    "userWorkspaceWrites": 0,
+    "otherAgentTaskTouched": false,
+    "qualification": "这些零值描述本任务实际执行边界；失败的观察器不能证明全机或其他agent没有活动。"
+  },
+  "next": {
+    "continuousProcessObservationPassed": false,
+    "modelRequestObservationPassed": false,
+    "installationMayProceed": false,
+    "existingParallelInstallationAuthorizationRetained": true,
+    "recommendation": "先离线评估Windows现成ETW记录工具的最小替代方案，明确数据字段、丢失计数、真实进程覆盖和停止条件；不再仅凭超时盲目修改WMI等待时间。替代工具未验证前不承诺可用，不直接使用可能采集更多字段的通用配置。",
+    "offlineAssessmentExitCondition": "给出可复核的最小配置、隐私范围和有界验证方案，或明确当前约束下不可行；本轮不开始新记录或新一轮自测。",
+    "localToolsFileMetadataChecked": [
+      "wpr.exe",
+      "tracerpt.exe"
+    ],
+    "toolsExecuted": false,
+    "newAdministratorExecutionIncluded": false,
+    "requiresNewExecutionAuthorizationForChangedTool": true,
+    "independentReview": "docs/evidence/foundation-observer-retest-review-20261102.json",
+    "etwDataBoundary": "静态核实所选provider/profile的实际字段；标准Process_V2事件可包含命令行、SID及镜像路径，不能默认满足原WMI观察的数据边界。DCStart/DCEnd是已有进程枚举，不能替代真实Start/End。新工具与数据范围需先明确后申请执行。"
+  },
+  "documentation": [
+    "https://learn.microsoft.com/en-us/windows-hardware/test/wpt/introduction-to-wpr",
+    "https://learn.microsoft.com/en-us/windows/win32/etw/about-event-tracing",
+    "https://learn.microsoft.com/en-us/windows/win32/etw/process-v2-typegroup1"
+  ],
+  "publication": {
+    "rawProcessLogsOrFixtureReceiptsPublished": false,
+    "rawWindowsLogOrAccountIdentifiersPublished": false,
+    "binariesPublished": false,
+    "scope": "仅发布脱敏结果与独立审核；原始本机记录保留在私有审计目录。"
+  }
+}
