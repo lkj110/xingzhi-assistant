@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "kind": "independent-live-result-record-review",
+  "date": "2026-11-02",
+  "reviewer": "independent-subagent",
+  "sourceCommit": "6dba34abd51db5689e81ce24fbffdc5f46b45f48",
+  "runId": "2bf4b547-3950-4689-8416-7972abf96410",
+  "runnerIdentity": "a626d3975247ab3e06336e81e154d356e7b1c15a58b9aad0b68dc43df33aafa0",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "status": "result-record-approved-business-acceptance-failed",
+  "approvedForUpload": true,
+  "resultRecordApproved": true,
+  "businessAcceptancePassed": false,
+  "liveAuthorized": false,
+  "installationAuthorized": false,
+  "roundClosed": true,
+  "remainingAllowanceReusable": false,
+  "reviewedFiles": [
+    {
+      "path": "docs/evidence/foundation-transport-retest-live-result-20261102.json",
+      "sha256": "b3b2b37eb7261ceef209ac954b5e1da00b652876cee9c0b9f33e11954317895b"
+    }
+  ],
+  "conclusion": {
+    "gatePassed": true,
+    "F05InitialQualified": true,
+    "F05RevisionQualified": false,
+    "F05RevisionDraftFactHallucination": false,
+    "applicationVerifierIncorrectlyPassedRevision": true,
+    "independentCheckpointRejectedBeforeHumanAcceptance": true,
+    "F06Started": false,
+    "F04Rerun": false,
+    "actualHumanAcceptances": 0,
+    "failureCode": "CHECKPOINT_REJECTED",
+    "limitation": "Approval covers accurate preservation and upload of this failed result. It does not approve the candidate for deployment or declare business acceptance successful."
+  },
+  "metrics": {
+    "businessCompletion": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "draftFactHallucination": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "qualifiedDraftHardFalseBlock": {
+      "numerator": 0,
+      "denominator": 1,
+      "rate": 0
+    },
+    "invalidGeneratedDraftRelease": {
+      "numerator": 1,
+      "denominator": 1,
+      "rate": 1
+    },
+    "fixedInvalidRelease": {
+      "numerator": 0,
+      "denominator": 0,
+      "rate": null
+    },
+    "verifierIncorrectStructuralAssertions": 1,
+    "allModelHallucinationRate": null,
+    "note": "Application release means passed application verification, not human acceptance or external delivery. These small non-blind denominators are not population estimates."
+  },
+  "cost": {
+    "applicationAttempts": 8,
+    "modelDispatches": 8,
+    "inputTokens": 109524,
+    "outputTokens": 3557,
+    "totalTokens": 113081,
+    "cachedInputTokens": 0,
+    "cachedAlreadyIncludedInInput": true,
+    "unknownUsageCalls": 0,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "complete": true,
+    "gateTokens": 38865,
+    "businessTokens": 74216,
+    "nonfatalStderrCalls": 6,
+    "serviceRecoveryProven": false
+  },
+  "coverage": {
+    "revisionNewBasis": true,
+    "naturallyEmittedTitleCitationBound": true,
+    "humanConfirmationThenRecheck": false,
+    "F06Restart": false,
+    "fullSubsetWorkflowCompleted": false
+  },
+  "checks": {
+    "publicEvidenceFileHashesVerified": 31,
+    "allEightRawReceiptsAndLedgerUsageMatched": true,
+    "sealedScopedScoringPreserved": true,
+    "originalTrackedFilesUnchanged": 1253,
+    "frozenRootsUnchanged": 138,
+    "installedVersionUnchanged": true,
+    "candidateUnchanged": true,
+    "productPromptsSchemasSemanticStandardsUnchanged": true,
+    "historicalEvidenceUnchanged": true,
+    "noExtraCallsAfterStop": true,
+    "privateRawLogsAndProfilesExcludedFromUpload": true,
+    "publicReportContainsNoDetectedCredentialsOrAbsoluteLocalPaths": true
+  },
+  "privateAudit": {
+    "directory": "../foundation-transport-retest-live-audit-20261030-2bf4b547",
+    "files": [
+      {
+        "path": "reviewer-public-validation-20261102.json",
+        "sha256": "f59da77677ecf44333ad279c28f7be3da00cac77970c7cca96fdd3bfdc943c5a"
+      },
+      {
+        "path": "reviewer-business-result-20261102.json",
+        "sha256": "71ac66972a5586656851e3dcdb0e128716416ea8fee39b21025cd16cbcef925a"
+      },
+      {
+        "path": "reviewer-adjudication-20261102.json",
+        "sha256": "e5b3e4b31ff66893b5bc55900ce1682c6c18a044072882623d2c7af92ad5a002"
+      },
+      {
+        "path": "reviewer-scoped-report-20261102.json",
+        "sha256": "227418660e762c718265236978c4d8b0ab3692197eff464e3b31d591d5dec438"
+      },
+      {
+        "path": "reviewer-freeze-before.json",
+        "sha256": "9988d82a2069f5678cc78d77214cb76579c784cdf0282c4ed43fdd33ccb3104b"
+      },
+      {
+        "path": "reviewer-freeze-after-business.json",
+        "sha256": "81c6e2bba9fdcceffd5ae813ddeb7a6163b57713c0bd508dac91002852ac3fa8"
+      }
+    ]
+  },
+  "closure": {
+    "path": "../foundation-transport-retest-live-control-20261030/2bf4b547-3950-4689-8416-7972abf96410/round-closed.json",
+    "sha256": "59874fdf597335ccfb92bb51e486e17d69c84b441f2afcb658a6a6f2c545e298"
+  },
+  "nextStepBoundary": "Only a proposed bounded offline investigation of the title/content and explicit paragraph-count contract, preserving evidence binding and semantic verification. No new live calls, installation, F04/G01 rerun, relaxed scoring, or reuse of closed allowance is authorized by this review.",
+  "unresolvedRecordFindings": [],
+  "reviewerModelCalls": 0,
+  "reviewerOfficialCliInvocations": 0,
+  "reviewerHumanUiActions": 0
+}

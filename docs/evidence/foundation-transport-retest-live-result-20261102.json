@@ -1,0 +1,499 @@
+{
+  "schema": 1,
+  "kind": "transport-retest-live-result",
+  "date": "2026-11-02",
+  "sourceCommit": "6dba34abd51db5689e81ce24fbffdc5f46b45f48",
+  "runId": "2bf4b547-3950-4689-8416-7972abf96410",
+  "scope": "G01-F05-F06-only",
+  "status": "closed-after-independent-format-rejection",
+  "passed": false,
+  "runnerIdentity": "a626d3975247ab3e06336e81e154d356e7b1c15a58b9aad0b68dc43df33aafa0",
+  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "timing": {
+    "timezone": "Asia/Shanghai",
+    "gate": {
+      "startedAt": "2026-10-30T10:39:16.738Z",
+      "finishedAt": "2026-10-30T10:43:34.744Z",
+      "deadline": "2026-10-30T11:24:16.738Z",
+      "elapsedMs": 258006
+    },
+    "business": {
+      "startedAt": "2026-11-02T01:43:57.111Z",
+      "stoppedAt": "2026-11-02T01:51:29.596Z",
+      "deadline": "2026-11-02T02:28:57.111Z",
+      "elapsedUntilStopMs": 452485,
+      "completed": false
+    },
+    "fixedMinutesPerStage": 45,
+    "windowReset": false,
+    "businessStartedAfterFreshUserReadiness": true
+  },
+  "outcomes": {
+    "G01": {
+      "passed": true,
+      "independentContentAndPhaseReviewPassed": true,
+      "businessQualityEvaluation": false
+    },
+    "F05": {
+      "started": true,
+      "initialDraftQualified": true,
+      "revisionGenerated": true,
+      "revisionNewBasis": true,
+      "revisionQualified": false,
+      "applicationVerificationPassed": true,
+      "independentRevisionReviewPassed": false,
+      "humanAcceptance": false,
+      "passed": false
+    },
+    "F06": {
+      "started": false,
+      "passed": null
+    },
+    "F04": {
+      "rerun": false,
+      "priorRunId": "3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+      "includedInCompletionDenominator": false
+    },
+    "actualHumanAcceptances": 0,
+    "simulatedAcceptances": 0
+  },
+  "failure": {
+    "code": "CHECKPOINT_REJECTED",
+    "ledgerCode": "LEDGER_HALTED",
+    "caseId": "F05-jianping-revision",
+    "stage": "revision",
+    "type": "format-requirement-false-release",
+    "requiredBodyParagraphs": 2,
+    "observedBodyParagraphs": 3,
+    "artifactHasSeparateTitle": true,
+    "firstBodyParagraph": "本轮负责涧屏JP-A6纸质目录的索引员缺项补录通知",
+    "observedVerificationSummary": "检查通过。当前通知保留了人员和业务对象，正文为两个自然段且未超过220个汉字；补录范围、日期、时段、地点、登记时未开始状态及补录规则均与资料一致，未推断后续状态。稿件已有工作空间保存凭据，本次无需额外发送。",
+    "applicationGroundingPassed": true,
+    "applicationVerificationPassed": true,
+    "independentContentApproval": false,
+    "generatedDraftFactHallucination": false,
+    "claim": "The revision contains a standalone repeated title paragraph inside content, followed by arrangement and rules paragraphs. The application declared two body paragraphs and passed it, but independent review rejected the three-paragraph content.",
+    "causeBoundary": "Observed generation format violation and application verifier miscount. Evidence binding and revision basis were valid. This record does not establish the internal model mechanism or that prior protocol/token optimizations caused the error.",
+    "rootStopAndLedgerCauseAgree": true,
+    "firstFailureStoppedWholeRound": true
+  },
+  "metrics": {
+    "businessProcessCompletion": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0
+    },
+    "attemptedBusinessCompletion": {
+      "numerator": 0,
+      "denominator": 1,
+      "rate": 0
+    },
+    "generatedDraftFactHallucination": {
+      "numerator": 0,
+      "denominator": 2,
+      "rate": 0,
+      "scope": "F05 initial and revision draft factual content only; verifier false format assertion is recorded separately"
+    },
+    "verifierIncorrectStructuralAssertions": {
+      "observedCount": 1,
+      "example": "正文为两个自然段",
+      "fact": "The stored content has three paragraphs.",
+      "allModelHallucinationRate": null,
+      "note": "Zero factual hallucinations in the two drafts does not mean the verifier or all model outputs were error-free."
+    },
+    "businessQuality": {
+      "completionPlanned": {
+        "numerator": 0,
+        "denominator": 2,
+        "rate": 0
+      },
+      "completionAttempted": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0
+      },
+      "initialDraftHallucination": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0
+      },
+      "finalDraftHallucination": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0
+      },
+      "releasedDraftHallucination": {
+        "numerator": 0,
+        "denominator": 2,
+        "rate": 0
+      },
+      "qualifiedDraftHardFalseBlock": {
+        "numerator": 0,
+        "denominator": 1,
+        "rate": 0
+      },
+      "invalidGeneratedDraftRelease": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1
+      },
+      "fixedInvalidRelease": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "fixedInvalidCorrectlyBlocked": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unscorableFixedInvalid": 0,
+      "technicalOrMissingDrafts": [],
+      "humanPendingDrafts": [],
+      "uncertainDrafts": [],
+      "caseInterruptions": [
+        {
+          "caseId": "F05-jianping-revision",
+          "error": "Independent content review rejected this draft",
+          "errorCode": "CHECKPOINT_REJECTED"
+        }
+      ],
+      "costPerQualifiedHumanAcceptedTask": null
+    },
+    "falseBlockRate": {
+      "numerator": 0,
+      "denominator": 1,
+      "rate": 0
+    },
+    "falseReleaseRate": {
+      "numerator": 1,
+      "denominator": 1,
+      "rate": 1
+    },
+    "scope": "Two planned business workflows; gate and historical F04 excluded. One attempted workflow and two generated draft stages; not a blind control evaluation, not population estimates.",
+    "factualAndFormatDistinction": "A factually grounded draft can still be unqualified. The application incorrectly released a format-invalid revision; no human acceptance or delivery occurred."
+  },
+  "cost": {
+    "applicationAttempts": 8,
+    "modelDispatches": 8,
+    "inputTokens": 109524,
+    "outputTokens": 3557,
+    "totalTokens": 113081,
+    "cachedInputTokens": 0,
+    "unknownUsageCalls": 0,
+    "pendingUsage": 0,
+    "unexpectedAttempts": 0,
+    "phases": {
+      "gate": {
+        "applicationAttempts": 3,
+        "modelDispatches": 3,
+        "inputTokens": 38288,
+        "outputTokens": 577,
+        "totalTokens": 38865,
+        "cachedInputTokens": 0,
+        "unknownUsageCalls": 0
+      },
+      "business": {
+        "applicationAttempts": 5,
+        "modelDispatches": 5,
+        "inputTokens": 71236,
+        "outputTokens": 2980,
+        "totalTokens": 74216,
+        "cachedInputTokens": 0,
+        "unknownUsageCalls": 0
+      }
+    },
+    "calls": [
+      {
+        "phase": "gate",
+        "attemptId": "4862956e-c751-40e7-be38-af87640b9bb5",
+        "caseId": "G01-muju",
+        "role": "execute",
+        "evaluationPhase": "protocol-gate",
+        "inputTokens": 12050,
+        "outputTokens": 65,
+        "totalTokens": 12115,
+        "nonfatalStderrPresent": true,
+        "terminalOutcome": "completed",
+        "exitCode": 0,
+        "authoritativeUsagePresent": true
+      },
+      {
+        "phase": "gate",
+        "attemptId": "7f5b0d9e-4717-4495-980d-75e3558a381a",
+        "caseId": "G01-muju",
+        "role": "execute",
+        "evaluationPhase": "protocol-gate",
+        "inputTokens": 12467,
+        "outputTokens": 115,
+        "totalTokens": 12582,
+        "nonfatalStderrPresent": true,
+        "terminalOutcome": "completed",
+        "exitCode": 0,
+        "authoritativeUsagePresent": true
+      },
+      {
+        "phase": "gate",
+        "attemptId": "30fa96f4-5254-47e5-9c51-009be76957e1",
+        "caseId": "G01-muju",
+        "role": "verify",
+        "evaluationPhase": "protocol-gate",
+        "inputTokens": 13771,
+        "outputTokens": 397,
+        "totalTokens": 14168,
+        "nonfatalStderrPresent": true,
+        "terminalOutcome": "completed",
+        "exitCode": 0,
+        "authoritativeUsagePresent": true
+      },
+      {
+        "phase": "business",
+        "attemptId": "eadda0f8-9480-410b-abcc-d6c0bc475346",
+        "caseId": "F05-jianping-revision",
+        "role": "execute",
+        "evaluationPhase": "initial",
+        "inputTokens": 12454,
+        "outputTokens": 79,
+        "totalTokens": 12533,
+        "nonfatalStderrPresent": true,
+        "terminalOutcome": "completed",
+        "exitCode": 0,
+        "authoritativeUsagePresent": true
+      },
+      {
+        "phase": "business",
+        "attemptId": "8b42b803-5fe0-453e-9cae-f2d2bab6abde",
+        "caseId": "F05-jianping-revision",
+        "role": "execute",
+        "evaluationPhase": "initial",
+        "inputTokens": 13282,
+        "outputTokens": 310,
+        "totalTokens": 13592,
+        "nonfatalStderrPresent": true,
+        "terminalOutcome": "completed",
+        "exitCode": 0,
+        "authoritativeUsagePresent": true
+      },
+      {
+        "phase": "business",
+        "attemptId": "6f733b83-7922-4de1-8e68-90287765fa4c",
+        "caseId": "F05-jianping-revision",
+        "role": "verify",
+        "evaluationPhase": "initial",
+        "inputTokens": 14780,
+        "outputTokens": 1204,
+        "totalTokens": 15984,
+        "nonfatalStderrPresent": false,
+        "terminalOutcome": "completed",
+        "exitCode": 0,
+        "authoritativeUsagePresent": true
+      },
+      {
+        "phase": "business",
+        "attemptId": "94a31d60-cba7-49ff-b698-56ec10ae46bf",
+        "caseId": "F05-jianping-revision",
+        "role": "execute",
+        "evaluationPhase": "revision",
+        "inputTokens": 14710,
+        "outputTokens": 318,
+        "totalTokens": 15028,
+        "nonfatalStderrPresent": true,
+        "terminalOutcome": "completed",
+        "exitCode": 0,
+        "authoritativeUsagePresent": true
+      },
+      {
+        "phase": "business",
+        "attemptId": "efa96900-ff1d-4616-962e-723a333d7235",
+        "caseId": "F05-jianping-revision",
+        "role": "verify",
+        "evaluationPhase": "revision",
+        "inputTokens": 16010,
+        "outputTokens": 1069,
+        "totalTokens": 17079,
+        "nonfatalStderrPresent": false,
+        "terminalOutcome": "completed",
+        "exitCode": 0,
+        "authoritativeUsagePresent": true
+      }
+    ],
+    "complete": true,
+    "tokenThresholdComplianceVerifiable": true,
+    "cachedInputAlreadyIncluded": true,
+    "totalStopThreshold": 620000,
+    "businessStopThreshold": 500000,
+    "inFlightOvershootAccepted": true,
+    "unusedAllowanceReusable": false
+  },
+  "coverage": {
+    "revisionNewBasisObserved": true,
+    "humanConfirmationThenSeparateRecheck": "not-triggered-unverified",
+    "actualHumanAcceptance": "not-reached",
+    "F06RestartWorkflow": "not-started",
+    "noF04Rerun": true,
+    "noFormalMainEvaluation": true
+  },
+  "diagnostics": {
+    "terminalCliOrProtocolErrors": 0,
+    "unknownUsage": 0,
+    "nonfatalStderrCalls": 6,
+    "note": "The gate had model-list refresh timeout diagnostics despite successful receipts. Successful dispatches do not establish general service recovery."
+  },
+  "frozen": {
+    "installedVersionUnchanged": true,
+    "candidatePackageUnchanged": true,
+    "productSourceUnchanged": true,
+    "promptsSchemasSemanticStandardsUnchanged": true,
+    "historicalEvidenceUnchanged": true,
+    "installationPerformed": false
+  },
+  "evidence": {
+    "privateRunDirectory": "../foundation-transport-retest-runs-20261030/live-2bf4b547-3950-4689-8416-7972abf96410",
+    "privateAuditDirectory": "../foundation-transport-retest-live-audit-20261030-2bf4b547",
+    "files": [
+      {
+        "path": "run.json",
+        "sha256": "304763fb3e1df269c5cb1d83272fa87984c62dab16fd04f8d6f5f6baf23f2387"
+      },
+      {
+        "path": "gate.started.json",
+        "sha256": "e6ff792e28f0ae9196f1dcd3333d9531ffa4f1a5dd5433773b8baae2acebe4bc"
+      },
+      {
+        "path": "gate.completed.json",
+        "sha256": "4b18ef0e4bca9c2be10b8e9e2e397aefcb061eb6655921d0e2b7575b319ab853"
+      },
+      {
+        "path": "gate/summary.json",
+        "sha256": "61f4278b05ad17919a41aaa7ffede44a7b55f0a317331636e4805946a8c19279"
+      },
+      {
+        "path": "gate/ledger/ledger.json",
+        "sha256": "71e52e746b78dd7c80a63f21f6a24b2101240559f6a868f645605803a9bb79e6"
+      },
+      {
+        "path": "gate/checkpoints/G01-muju--protocol-gate/request.json",
+        "sha256": "25ab1619a57f3ef89e94091699c1abdc85d757086f7119afa66c19dc7c739c92"
+      },
+      {
+        "path": "gate/checkpoints/G01-muju--protocol-gate/decision.json",
+        "sha256": "28afaa45fb591b9771e6f99a7d1cdd75db4cafc5dd733f49ea5bc3dd88a52b1a"
+      },
+      {
+        "path": "gate/phase-review-request.json",
+        "sha256": "4925d2089745a37f6a49defbc47793d89196d81efb2a4e9643b2dfc24d96ada1"
+      },
+      {
+        "path": "gate/phase-review.json",
+        "sha256": "b956ba02cc8a484d9bf0722ee371305d14efa5347cef86cd83f746eee9e15a50"
+      },
+      {
+        "path": "business.started.json",
+        "sha256": "1df37cd0a6824c6fa5810693b3f578e581e9ffb78bfa228124a11d8bef2f495c"
+      },
+      {
+        "path": "stopped.json",
+        "sha256": "d49a9487102e984855992a1fd637223f616657782879a7c1300f7bb08e6848d3"
+      },
+      {
+        "path": "business/summary.json",
+        "sha256": "e7f38dc75e97559d2199ab4026f46af1bd6a2564b7a0ef8fe5f653d3e261943d"
+      },
+      {
+        "path": "business/ledger/ledger.json",
+        "sha256": "8c80b67d6a2085ac5d2b97847b65681b3514d20259ffe7bdcaf4cb70a414bc05"
+      },
+      {
+        "path": "business/native-commands.jsonl",
+        "sha256": "50903f4ec16812a43e9c3b6ccf19b08b8e2f528486be8907d1c4a9ee82766478"
+      },
+      {
+        "path": "business/F05-jianping-revision.json",
+        "sha256": "e933554d41a8174be81f63352428c81fa4e6e85be7d75c0f422ea7cd57390c85"
+      },
+      {
+        "path": "business/F05-jianping-revision-initial-draft.json",
+        "sha256": "699d68bca3655b05a71510ae8e914e9ae851504c964a1f9ed1a5c1160cd44e16"
+      },
+      {
+        "path": "business/F05-jianping-revision-initial-outcome.json",
+        "sha256": "40c4732423943d3d62c13dc4f0e8d823433cef4e09908927afd8634bdad950be"
+      },
+      {
+        "path": "business/checkpoints/F05-jianping-revision--initial/request.json",
+        "sha256": "4f435d804e40e43136b8f6d6daff53fa4f7b42ae191c07b12c8403b94f5607da"
+      },
+      {
+        "path": "business/checkpoints/F05-jianping-revision--initial/decision.json",
+        "sha256": "1c3a628a166c7c68162221030f0083a059a6236585e00d7885f24024ae9f9344"
+      },
+      {
+        "path": "business/F05-jianping-revision-revision-draft.json",
+        "sha256": "46b5c9a0b6de6ba101434938220ddda990de0b98bd78df22dc8e656590cae3d9"
+      },
+      {
+        "path": "business/F05-jianping-revision-revision-outcome.json",
+        "sha256": "28f94fb9f526fb39e1274e241fb8bda45bb0f7df56fcff7b1364a59c77973733"
+      },
+      {
+        "path": "business/checkpoints/F05-jianping-revision--revision/request.json",
+        "sha256": "83479c271e78dd7f3855f767d2203dfb8ca3f73ff35a0110be21fe34a3ac7e06"
+      },
+      {
+        "path": "business/checkpoints/F05-jianping-revision--revision/decision.json",
+        "sha256": "f8917f556cd0ad2803cb2b15d70a73037028a729acd0d9d23040378382830427"
+      },
+      {
+        "path": "gate/calls/4862956e-c751-40e7-be38-af87640b9bb5-terminal.json",
+        "sha256": "6ae4d637661130257d7ee619982685b77087a1c0d67165cb6c5208ac4b24791a"
+      },
+      {
+        "path": "gate/calls/7f5b0d9e-4717-4495-980d-75e3558a381a-terminal.json",
+        "sha256": "009116d2a151170137252946a304145bedcf6b443d0e2134ceb512a2c7abd1a3"
+      },
+      {
+        "path": "gate/calls/30fa96f4-5254-47e5-9c51-009be76957e1-terminal.json",
+        "sha256": "5ffe3d2799405ded1229000fcdc3c572c9b74857af91bbfda94d42489bd3ac6d"
+      },
+      {
+        "path": "business/calls/eadda0f8-9480-410b-abcc-d6c0bc475346-terminal.json",
+        "sha256": "cc9f32a10c50398fe2c60c65f66eb9cc40e6bf39c931d789437930d3c57a1a6b"
+      },
+      {
+        "path": "business/calls/8b42b803-5fe0-453e-9cae-f2d2bab6abde-terminal.json",
+        "sha256": "a20222b6c5fba7a3d52af374c4a3449105e6609a24d509cdfc10eb6b8d76fd5e"
+      },
+      {
+        "path": "business/calls/6f733b83-7922-4de1-8e68-90287765fa4c-terminal.json",
+        "sha256": "5b18262bf79f2896a14374331dd60e29bafcfd44cc35187da82c57d9246eec81"
+      },
+      {
+        "path": "business/calls/94a31d60-cba7-49ff-b698-56ec10ae46bf-terminal.json",
+        "sha256": "1dc7b4451bd2df418e7164fc081403c8ed2a5bcb4ab74d626cde8705f10077d9"
+      },
+      {
+        "path": "business/calls/efa96900-ff1d-4616-962e-723a333d7235-terminal.json",
+        "sha256": "1aa2de8e8243a4a9684bfdedd32be6fd87dd99a88ea91e57b7c15044f6a2ae94"
+      }
+    ],
+    "independentAdjudication": {
+      "path": "reviewer-adjudication-20261102.json",
+      "sha256": "e5b3e4b31ff66893b5bc55900ce1682c6c18a044072882623d2c7af92ad5a002"
+    },
+    "authorizationSha256": "020c36ed537fec9ca2e338af927ab63475b27ad8ff17e59faac9cae4b8cb260d",
+    "authorizationConsumedSha256": "8fc5eae2bdfa4843a56a376d9dfbbd7a5390e161819793f8b99d8b7d5219674c",
+    "closure": {
+      "path": "../foundation-transport-retest-live-control-20261030/2bf4b547-3950-4689-8416-7972abf96410/round-closed.json",
+      "sha256": "59874fdf597335ccfb92bb51e486e17d69c84b441f2afcb658a6a6f2c545e298"
+    }
+  },
+  "nextStep": {
+    "proposedOnly": true,
+    "install": false,
+    "newRealModelCalls": 0,
+    "formalMainEvaluation": false,
+    "action": "Perform one bounded offline investigation of title/body and paragraph-count contract. Prefer an explicit structural validation for this declared requirement, retaining evidence binding and semantic verification. Test two paragraphs, extra title paragraph, CRLF, spacing and ordinary no-count documents; independent review before any patch or new live proposal. Do not silently drop the first paragraph, relax scoring, rerun F04/G01, or reuse closed allowance.",
+    "releaseDecision": "Do not install this candidate as an accepted stable release. F05 revision acceptance and F06 restart remain incomplete; human confirmation/recheck was not naturally covered."
+  }
+}
