@@ -6,11 +6,11 @@ const plan=id.read(path.join(id.root,'evaluations/foundation-remaining-runner/pl
 const seal=()=>id.read(path.join(id.root,'evaluations/foundation-remaining-runner/runner-seal.json'));
 function directory(t){const base=fs.realpathSync(os.tmpdir()),dir=fs.mkdtempSync(path.join(base,'retest-preparation-'));t.after(()=>{assert.equal(path.dirname(fs.realpathSync(dir)),base);fs.rmSync(dir,{recursive:true,force:true});});return dir;}
 test('new output root is fixed and old scope, samples, budgets and semantic settings remain exact',()=>{
- id.validatePlan(plan);assert.equal(plan.outputParent,'../foundation-body-retest-runs-20261102');
+ id.validatePlan(plan);assert.equal(plan.outputParent,'../foundation-title-retest-runs-20261102');
  const old=require('../evaluations/foundation-minimal-runner/plan.json');
  for(const key of ['settings','total','sourceSampleIdentity'])assert.deepEqual(plan[key],old[key]);
  for(const phase of ['gate','business']){const expected=structuredClone(old[phase]);expected.asarSha256=plan.asarSha256;expected.sourceCodeCommit=plan.sourceCodeCommit;if(expected.cli)expected.cli=plan.cli;assert.deepEqual(plan[phase],expected);}
- for(const outputParent of ['../foundation-transport-retest-runs-20261030','../foundation-remaining-runs-20261030','../','C:/','../foundation-body-retest-runs-20261102/../old'])assert.throws(()=>id.validatePlan({...plan,outputParent}));
+ for(const outputParent of ['../foundation-body-retest-runs-20261102','../foundation-transport-retest-runs-20261030','../foundation-remaining-runs-20261030','../','C:/','../foundation-title-retest-runs-20261102/../old'])assert.throws(()=>id.validatePlan({...plan,outputParent}));
 });
 test('new seal binds diagnostic implementation, original event, old seal and all new regression sources',()=>{
  const s=seal();id.verifyRunner(s);assert.notEqual(s.identity,oldSeal.identity);assert.equal(s.liveAuthorized,false);
@@ -41,5 +41,5 @@ for(const replacement of ['old-runner','old-plan','old-output'])test('stale auth
 });
 test('live entry rejects offline fault injection before any dispatch or session start',async t=>{
  for(const method of ['spawn','spawnSync','execFileSync'])t.mock.method(cp,method,()=>assert.fail('No subprocess allowed'));
- for(const stage of ['gate','business'])await assert.rejects(require('../evaluations/foundation-remaining-runner/run.cjs').run({stage,mode:'live',fault:'routing-timeout'}));
+ for(const stage of ['gate','business'])for(const fault of ['routing-timeout','title-real-patch','title-corrected-patch'])await assert.rejects(require('../evaluations/foundation-remaining-runner/run.cjs').run({stage,mode:'live',fault}));
 });

@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "kind": "sealed-title-candidate-minimal-retest-proposal",
+  "date": "2026-11-02",
+  "status": "awaiting-new-user-authorization",
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "oldBudgetReusable": false,
+  "productSourceCommit": "ca9419e0786be67b6cb35143042f44dd676dd434",
+  "branch": "codex/foundation-title-candidate",
+  "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+  "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "entry": "evaluations/foundation-remaining-runner/run.cjs",
+  "candidateExecutable": "../foundation-candidate-bundle-title-20261102/XingzhiAssistant.exe",
+  "outputParent": "../foundation-title-retest-runs-20261102",
+  "rawPlanFileSha256": "91b712966ec6f0a15293b1a3eed34d1d5a0e1acbb81814f271614acb02be38ff",
+  "canonicalPlanSha256": "dcae08cab529c3e843516784002470b20ff6bb79b877a036818e5ac22be22580",
+  "authorizationPlanHash": "authorization.planSha256 must equal canonicalPlanSha256, not the raw file hash",
+  "runnerSealSha256": "7cbfba82ae9aa85b7af9743bc9ae6dbc044e71537e19c1efa506a53cdd875362",
+  "packageManifestSha256": "230256bf4f14bbe9e6009b11a61fecf5a716ae7a2e7e2e1cb4c7b17a40c324d8",
+  "runtimeReview": "evaluations/foundation-remaining-runner/runner-review.json",
+  "environment": {
+    "nodeVersion": "v24.22.1",
+    "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5",
+    "cliSha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
+    "cliChange": {
+      "previousRoundSha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
+      "currentSha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
+      "observedBy": "read-only-file-hash",
+      "executed": false,
+      "changedSincePreviousRound": false,
+      "priorGateReusable": false,
+      "reason": "New candidate and runner require their own gate; CLI identity alone does not transfer prior gate coverage."
+    },
+    "officialCliExecuted": false,
+    "availability": "not-probed",
+    "oldGateReusable": false
+  },
+  "sequence": [
+    {
+      "stage": "read-only-preflight",
+      "action": "确认新候选全包、新执行器封存/独审、来源样本和当前 CLI 文件哈希；任何变化即停止，不自动更新身份。"
+    },
+    {
+      "stage": "G01",
+      "action": "新授权后启动一次固定45分钟门检，协议、已知用量及独审全部通过才可进入业务。"
+    },
+    {
+      "stage": "F05",
+      "action": "用户重新确认就绪后启动业务共享45分钟窗口；原封存初稿→修订，必要时由用户确认表达并单独重检，合格后用户在候选内最终验收。"
+    },
+    {
+      "stage": "F06",
+      "action": "仅F05完成后继续；核对冷重启后的稿件、检查身份及验收状态，需用户最终验收。"
+    }
+  ],
+  "budget": {
+    "total": {
+      "applicationAttempts": 25,
+      "maximumModelDispatches": 22,
+      "reportedTokenStopThreshold": 620000
+    },
+    "gate": {
+      "applicationAttempts": 5,
+      "maximumModelDispatches": 4,
+      "inputPlusOutputTokenStopThreshold": 120000,
+      "fixedMinutes": 45
+    },
+    "business": {
+      "applicationAttempts": 20,
+      "maximumModelDispatches": 18,
+      "inputPlusOutputTokenStopThreshold": 500000,
+      "fixedMinutes": 45,
+      "cases": [
+        {
+          "id": "F05-jianping-revision",
+          "attempts": 13,
+          "tokenStopThreshold": 330000
+        },
+        {
+          "id": "F06-yunshu-restart",
+          "attempts": 7,
+          "tokenStopThreshold": 170000
+        }
+      ]
+    },
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false,
+    "inflightMayExceedThreshold": true,
+    "absoluteTokenHardCap": false,
+    "phaseOrCaseBudgetBorrowing": false
+  },
+  "accounting": "cachedInputTokens已包含在inputTokens中，不另行叠加。retries=0指应用和执行器不重复分发，不保证官方CLI内部没有网络重连或重试。",
+  "windows": "G01固定45分钟；门检独审通过且用户重新就绪后，F05/F06另共享固定45分钟。含启动、模型、真人操作、重启及独审等待，不重置。",
+  "stop": "任何终止性CLI/协议错误、未知用量、任一额度/窗口达到阈值或首个终止性案例失败即整轮停止。重复标题被正确拦截也不算F05完成；不自动删标题、补稿、重试或追加一轮。",
+  "diagnostics": "当前执行器对stdout error/turn.failed、非零退出、超时、协议拒绝或格式错误、未知用量等终止条件停机。stderr仅限长脱敏记录，不会自动按未知文本分类并拒绝；独立审核需连同有效结果和用量审查，不能宣称日志里的服务问题已恢复。",
+  "f04": {
+    "runId": "3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+    "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+    "completedSha256": "ef98164b3be4b8b6fd3e67bafb90589d6829f611c1476387530d1e2508aedae7",
+    "reportSha256": "d1440e32e79a60c854627603e1f995428e10ff575bb12a6f20e8d4751cc26985",
+    "reviewSha256": "fa0e0ed0f8bb263a2119c8b1f1c53d9df56d4d503aae6b6b7cf59947563f9891",
+    "rerun": false,
+    "historicalOnly": true,
+    "currentCandidateCovered": false,
+    "currentCandidateAsarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+    "identity": "519db674056f79344a74ba3896cbe9e53543ba4f8cf63d81ab5d8774bf9ef462",
+    "countedInThisRound": false
+  },
+  "reporting": {
+    "businessCompletionDenominator": 2,
+    "factualHallucination": "逐实际可判定稿件报告分子/分母，核验器结构误判另列。",
+    "falseBlock": "错误拦截合格稿件/实际合格可判定稿件；正确结构拦截不计误拦。",
+    "falseRelease": "错误放行不合格稿件/实际不合格可判定稿件；没有不合格样本时写0/0、rate:null。",
+    "cost": "G01、F05初稿/修订/重检、F06分别报告input/output/cached/总量及应用尝试/模型分发；模拟用量不当成真实用量。",
+    "limitations": "沿用已暴露封存样本，F05历史修订patch及核验回复已用于离线修复和回放；不是全新盲样或随机对照，不推断总体幻觉率/成本改善。无对应有效分母时率写null。"
+  },
+  "excludes": {
+    "F04Rerun": true,
+    "installation": true,
+    "formalMainEvaluation": true,
+    "extraConnectivityProbe": true,
+    "automaticNextRound": true
+  },
+  "authorization": "本轮仅完成零模型离线准备。须取得这份新候选、新执行器固定身份对应的新用户预算授权；此前真实授权已关闭，不能复用。预算确认后先G01；门检通过后，业务阶段另确认操作就绪。",
+  "installationObservation": {
+    "path": "docs/evidence/foundation-title-candidate-install-observation-20261102.json",
+    "candidateInstalled": false,
+    "taskInstalledWrites": 0,
+    "continuousFreezeProven": false,
+    "interpretation": "仅对独立候选进行测试；安装目录只读观测，不归因、不覆盖。真实执行前核对固定候选、执行器与CLI身份。",
+    "endpointBytesMatch": false,
+    "newDifferences": 2,
+    "beforeFileCount": 87,
+    "afterFileCount": 87,
+    "observationSha256": "34d59f634853472e1af71af3bed2185dd84f6629112a9c8e18b0212dc1b8bc1b"
+  },
+  "minimality": "只验证新候选协议、F05真实修订及F06冷重启；不重跑F04，不扩展语义规则、不安装、不启动正式主评测。离线已覆盖错误patch拦截及显式删除标题的正向路径，真实预算不包含额外探针。"
+}

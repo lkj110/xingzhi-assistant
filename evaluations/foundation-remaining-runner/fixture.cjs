@@ -6,6 +6,8 @@ function createFixture(options){
  const inherited=require('../foundation-business-runner/fixture.cjs').createFixture(options);
  return async call=>{
   const result=await inherited(call);
+  const replay=require('./title-replay.cjs');
+  if(replay.faults.includes(options.fault)&&call.context.id==='F05-jianping-revision')return result.kind==='read_context'?result:replay.response(call,{corrected:options.fault==='title-corrected-patch'});
   if(options.fault!=='body-three-paragraphs'||call.context.id!=='F05-jianping-revision'||!call.context.revised)return result;
   if(result.kind==='patch'){assert.equal(result.edits.length,1);result.edits[0].after=threeParagraphs(result.edits[0].after);}
   if(result.groundingReview){const claim=result.groundingReview.claims.find(c=>c.id==='c1');assert.ok(claim);claim.text=threeParagraphs(claim.text);}

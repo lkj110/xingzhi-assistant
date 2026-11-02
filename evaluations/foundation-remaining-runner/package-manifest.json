@@ -1,17 +1,39 @@
 {
   "schema": 1,
-  "kind": "offline-body-structure-candidate",
-  "createdAt": "2026-11-02T03:10:32.726Z",
-  "sourceCodeCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+  "kind": "offline-title-contract-candidate",
+  "createdAt": "2026-11-02T06:35:53.822Z",
+  "sourceCodeCommit": "ca9419e0786be67b6cb35143042f44dd676dd434",
   "candidateInstalled": false,
   "realModelCalls": 0,
   "baseCandidateUnchanged": true,
-  "baseCandidateAsarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
-  "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+  "baseCandidateAsarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+  "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
   "executableSha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a",
   "groundingSha256": "1fde72df4db6f3fd9157aead833dea372281695c2a7fb2c5b5376715d29ed8f7",
   "sourceGroundingSha256": "1fde72df4db6f3fd9157aead833dea372281695c2a7fb2c5b5376715d29ed8f7",
   "helperSha256": "91f11ecbe6673b3f017541dab9f1d2bdb8c464b7eea25839148b8867dff41b0a",
+  "sourceModules": [
+    {
+      "path": "desktop/acceptance.cjs",
+      "sha256": "b39ba6a2a73f8d20bf5c858bf74dce8793fd03137f1628355737abf74aad9f24"
+    },
+    {
+      "path": "desktop/body-structure.cjs",
+      "sha256": "f735e2a7b4743eedf1105375ff978696deb506ab7d1c56a5bd6500f0a36da3e0"
+    },
+    {
+      "path": "desktop/core.cjs",
+      "sha256": "2ce1e7ceb257000bebf483ad829fa202498acbb2bc07e0009a01b903d994cbb0"
+    },
+    {
+      "path": "desktop/generation-context.cjs",
+      "sha256": "1067fb2380b17ed19d4e955e9985124aa0c48b62679e81213af3b1e9994d9b9f"
+    },
+    {
+      "path": "desktop/grounding.cjs",
+      "sha256": "1fde72df4db6f3fd9157aead833dea372281695c2a7fb2c5b5376715d29ed8f7"
+    }
+  ],
   "files": [
     {
       "path": "chrome_100_percent.pak",
@@ -283,7 +305,7 @@
     },
     {
       "path": "resources/app.asar",
-      "sha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6"
+      "sha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c"
     },
     {
       "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
@@ -361,29 +383,9 @@
   "archiveFilesVerified": 9669,
   "archiveChanges": [
     {
-      "path": "desktop/acceptance.cjs",
-      "beforeSha256": "3e52ae3c3d8af71284ff68f417dc8880faacd88731f5d1910e7fe317e310aaab",
-      "sha256": "b39ba6a2a73f8d20bf5c858bf74dce8793fd03137f1628355737abf74aad9f24"
-    },
-    {
-      "path": "desktop/core.cjs",
-      "beforeSha256": "03978413e5c93dba188c2ce0f7aedef963db61f17a792b4ce0d33e7b355a741b",
-      "sha256": "2ce1e7ceb257000bebf483ad829fa202498acbb2bc07e0009a01b903d994cbb0"
-    },
-    {
-      "path": "desktop/generation-context.cjs",
-      "beforeSha256": "1341ea3257c8b8c525ad1c1010b227b8b845184a8719c7c70df92a55c905d4db",
-      "sha256": "1067fb2380b17ed19d4e955e9985124aa0c48b62679e81213af3b1e9994d9b9f"
-    },
-    {
-      "path": "desktop/grounding.cjs",
-      "beforeSha256": "495aaa4f719814ad39bb078777b7b12f634839ad2395746fcc8cad04afb445c7",
-      "sha256": "1fde72df4db6f3fd9157aead833dea372281695c2a7fb2c5b5376715d29ed8f7"
-    },
-    {
       "path": "desktop/body-structure.cjs",
-      "beforeSha256": null,
-      "sha256": "4699bdaf46cf47e3e4e5da38efc2077ee75ce1b1e9a4f509f1c70035edc4ef24"
+      "beforeSha256": "4699bdaf46cf47e3e4e5da38efc2077ee75ce1b1e9a4f509f1c70035edc4ef24",
+      "sha256": "f735e2a7b4743eedf1105375ff978696deb506ab7d1c56a5bd6500f0a36da3e0"
     }
   ],
   "outerChangedFiles": [

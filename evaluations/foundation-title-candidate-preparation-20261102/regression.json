@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "startedAt": "2026-11-02T07:18:45.023Z",
+  "finishedAt": "2026-11-02T07:19:39.326Z",
+  "exitCode": 0,
+  "error": null,
+  "files": [
+    "tests/body-structure.test.cjs",
+    "tests/body-structure-flow.test.cjs",
+    "tests/foundation-title-candidate.test.cjs",
+    "tests/foundation-remaining-runner.test.cjs",
+    "tests/foundation-transport-retest-preparation.test.cjs",
+    "tests/foundation-transport-cause.test.cjs",
+    "evaluations/foundation-runner/candidate-identity.test.cjs",
+    "evaluations/foundation-runner/paths.test.cjs",
+    "evaluations/foundation-runner/broker-paths.test.cjs",
+    "evaluations/foundation-runner/protocol-guard.test.cjs",
+    "evaluations/foundation-runner/authorization.test.cjs",
+    "evaluations/foundation-runner/transport.test.cjs",
+    "tests/foundation-title-replay.test.cjs"
+  ],
+  "counts": {
+    "tests": 340,
+    "pass": 339,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 1,
+    "todo": 0
+  },
+  "testFileConcurrency": 1,
+  "packagedRehearsalConcurrent": false,
+  "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+  "sourceUnchangedDuringRun": true,
+  "nodeVersion": "v24.22.1",
+  "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5",
+  "log": {
+    "path": "regression-final-02.tap",
+    "sha256": "868eae87c5c1d490ac003ee3fc1d694e751a9aec02a47db48bd84f1f808157a2"
+  },
+  "skippedLines": [
+    "ok 39 - real file symlink is refused when supported by Windows host # SKIP Windows host does not grant file symlink creation"
+  ],
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "countsNotSummedAcrossRuns": true
+}

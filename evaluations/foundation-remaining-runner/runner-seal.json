@@ -7,7 +7,7 @@
     },
     {
       "path": "business-engine.cjs",
-      "sha256": "261413baca2d53aa44da7e3bd846817c939c5e5ce565dfb10ebb19af8d7756f7"
+      "sha256": "5880b4ff48a4f88df800ca99f975b6ba6d1992e56fe84606df116f8b40513980"
     },
     {
       "path": "business-identity.cjs",
@@ -15,11 +15,11 @@
     },
     {
       "path": "fixture.cjs",
-      "sha256": "e226d0b4dfc4bb812e1dfe850c0f4a46c07f7568d42eb5123224f49d05c9e582"
+      "sha256": "e751a0b7cd7b4f709a8d5a254ad69f48dd7175442b3503c887180f3aa28cf80e"
     },
     {
       "path": "gate-engine.cjs",
-      "sha256": "e76166f2d5d7d88350e808736b258aab57fde2671e52ca97b757d73dfcc75948"
+      "sha256": "1b6423393d1f36ecdfa212d9b59d66bbeb02f2475c6fc4b5f5b8df31f628f734"
     },
     {
       "path": "gate-identity.cjs",
@@ -31,7 +31,7 @@
     },
     {
       "path": "identity.cjs",
-      "sha256": "110c3e072e0c18f6a7111b343805544b27bf63f392c47393236d4838ae98ca45"
+      "sha256": "1e01825da0475333b221473a07d68c1685e0a3cd5ce3690998612f761d0c878f"
     },
     {
       "path": "native.cjs",
@@ -39,11 +39,11 @@
     },
     {
       "path": "package-manifest.json",
-      "sha256": "05997b231c2a9a7f22ced44c34cb1a5cbd562ff78490ce84534cc7e3d016d466"
+      "sha256": "230256bf4f14bbe9e6009b11a61fecf5a716ae7a2e7e2e1cb4c7b17a40c324d8"
     },
     {
       "path": "plan.json",
-      "sha256": "50f17d0546ae8b44168f8bd142f5551084646320f047662d463687df4555c0b7"
+      "sha256": "91b712966ec6f0a15293b1a3eed34d1d5a0e1acbb81814f271614acb02be38ff"
     },
     {
       "path": "policy.cjs",
@@ -64,6 +64,10 @@
     {
       "path": "session.cjs",
       "sha256": "9298a1c44fea204abb0621a68b0a8116c2c785a5623858fa4685d8f3b8a7a3b0"
+    },
+    {
+      "path": "title-replay.cjs",
+      "sha256": "1c348a641eea22ec7016031f9a35115992c31fa41862c7d771209c8aae81e875"
     },
     {
       "path": "window.cjs",
@@ -781,7 +785,7 @@
     },
     {
       "path": "desktop/body-structure.cjs",
-      "sha256": "4699bdaf46cf47e3e4e5da38efc2077ee75ce1b1e9a4f509f1c70035edc4ef24"
+      "sha256": "f735e2a7b4743eedf1105375ff978696deb506ab7d1c56a5bd6500f0a36da3e0"
     },
     {
       "path": "desktop/citation-fields.cjs",
@@ -1412,10 +1416,6 @@
       "sha256": "cfd45d532599942977948b7d84758620a06d3a998d42eae974a981c86446e7ae"
     },
     {
-      "path": "scripts/prepare-body-candidate.cjs",
-      "sha256": "6efa578a11d0dae4e1cca05b8a6d759d2368bb909ea368db5b072bbd41800f53"
-    },
-    {
       "path": "scripts/prepare-citation-candidate.cjs",
       "sha256": "c3452885545e92b2c1c2b23fda37710548b7d7ce2980becca7d3e930928d39cc"
     },
@@ -1428,6 +1428,10 @@
       "sha256": "6cdbfe5c798065832d51d7618ecb36b535dce511dfc7376c8d07d3ce3e13a13e"
     },
     {
+      "path": "scripts/prepare-title-candidate.cjs",
+      "sha256": "a38ea88f66622d3ea849921fdfc2a8f60276aa7ae6ea76af68529c4d54f91226"
+    },
+    {
       "path": "scripts/rehearse-minimal-runner.cjs",
       "sha256": "2267d87768329c41f380b4b08affaa32bc20b2cf1ccdbb3e786a79df9930409e"
     },
@@ -1437,15 +1441,15 @@
     },
     {
       "path": "scripts/rehearse-remaining-runner.cjs",
-      "sha256": "be6f1ac9b5fe8ff6688df0de4fd3eabd2582e15c249df2de41bc7201e3a4439a"
+      "sha256": "ed791ef4671e2a43f630f0372ff9ad15cfa9dc4dae2cab81663cde4d0d62f803"
     },
     {
       "path": "tests/body-structure-flow.test.cjs",
-      "sha256": "cda9f2303d4fbb012ff2cfd182dea3640c8da907666a9ab227ccb5769e0aafc8"
+      "sha256": "10e395ea2b2b6b24652e1b44fc37c5440d879225446775c5cf1bcbf54eec05f2"
     },
     {
       "path": "tests/body-structure.test.cjs",
-      "sha256": "f6b375856ad907b680dfdcf76bdedd467b0772440194288e51f6a0f251e4bb86"
+      "sha256": "6a5cc82d0164b7e3bfa37c880a5cbffff9095cf646350ada5cc534a2ba419ab2"
     },
     {
       "path": "tests/fixtures/foundation-body-structure-f05-20261102.json",
@@ -1460,8 +1464,12 @@
       "sha256": "cffb26346ddf020b23c8d663fbcf48356432915bc1f1fe799c35049eff0cbd79"
     },
     {
-      "path": "tests/foundation-body-candidate.test.cjs",
-      "sha256": "3d118108962a65cc6f749a6229eea486f6503dbdc3bb75d5739b1fbf8988e316"
+      "path": "tests/fixtures/foundation-title-contract-f05-20261102.json",
+      "sha256": "a927f9942cccb00dc326d5918034a45668446b35b60d9cd97b93ee4cdaca5b68"
+    },
+    {
+      "path": "tests/fixtures/foundation-title-restart-projection-20261102.json",
+      "sha256": "d7f6c3e6e3f8eff4e877971c1fa0b44a2079655d072b5d20c5e5c7fc34ecefd7"
     },
     {
       "path": "tests/foundation-minimal-runner.test.cjs",
@@ -1476,12 +1484,20 @@
       "sha256": "05fa54671703694feaa4caa5f6774ac49a8473a49951b8716b7a89becbaf9d86"
     },
     {
+      "path": "tests/foundation-title-candidate.test.cjs",
+      "sha256": "5f839dcd2e5fbf32add2ae2ccf8623ba7b8abad0adfaa4390c73a817995f27e2"
+    },
+    {
+      "path": "tests/foundation-title-replay.test.cjs",
+      "sha256": "e5f8ff4320ade58adfcb63946c341b052372e4dd4c77d167a6bdd3bafd3c3532"
+    },
+    {
       "path": "tests/foundation-transport-cause.test.cjs",
       "sha256": "aff946d55d1b9ad62cc82b106e9af9f5a85768063286343c456a47152b7f5721"
     },
     {
       "path": "tests/foundation-transport-retest-preparation.test.cjs",
-      "sha256": "2b1ad3884b6733ca38ee9cfbdae0c437f7d6fb17e101355ebca8ad79121e426e"
+      "sha256": "8c7fae1150e055d97b1994ce77d036f24046155b9b558d849702560d6c087d84"
     }
   ],
   "host": {
@@ -1490,7 +1506,7 @@
     "cscSha256": "aae1db57f898ca8bda18590c56f86ced6d0ead80c22033b76fdfe9119706f116",
     "optionalWebsocketNativeModules": false
   },
-  "identity": "f90db745e7aa32212b77182ec875ddf1d849533db2bf7ea6c5a733d40bf89153",
+  "identity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
   "scope": "G01-F05-F06-only",
   "liveAuthorized": false,
   "realModelCalls": 0

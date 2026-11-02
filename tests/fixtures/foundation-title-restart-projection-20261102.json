@@ -1,0 +1,206 @@
+{
+  "schema": 1,
+  "kind": "projection-of-offline-packaged-blocked-title-restart",
+  "sourceSha256": "87f104c4fffc1bbefaf806c43395ad9f9b4c8f0e6e25824623aa76c17c809963",
+  "sourceEvidence": "../foundation-title-retest-runs-20261102/sealed-rehearsal-03/business-title-real-patch/business/F05-jianping-revision-blocked-title-replay-restart.json",
+  "purpose": "Compact adapter boundary regression. Full packaged replay compares all task/source/draft/check fields.",
+  "stage": "blocked-title-replay",
+  "startedAt": 1793603598595,
+  "finishedAt": 1793603614330,
+  "before": {
+    "task": {
+      "id": "07307038-30b8-43c7-a481-a20c8050bf17",
+      "status": "blocked",
+      "sourceIds": [
+        "38501a1f-498f-4818-bda3-2f99bc1df1e4",
+        "32ef6a61-53e0-4e1d-9a79-50398ded08f7"
+      ],
+      "primaryArtifactId": "6b965495-ab23-44d5-aa01-7d68ce5383dc",
+      "verification": {
+        "passed": false,
+        "at": "2026-11-02T07:13:18.055Z",
+        "bodyStructure": {
+          "version": 2,
+          "taskId": "07307038-30b8-43c7-a481-a20c8050bf17",
+          "artifactId": "6b965495-ab23-44d5-aa01-7d68ce5383dc",
+          "titleHash": "9885ccfada71ba8083ae0fe9c5f5e33cfc7fd1f29c256f4ce57efa138cb636a1",
+          "contentHash": "4b3f029019d34eea3459d184918e1b0f1d511db284f979e1e9baf70e9eeb6206",
+          "requirementsHash": "99bb47920866af5f9963326e74d1ddeac13e61dcd99014cef241a928c6321451",
+          "basis": "598e3754b06ecf1188f6b931a49350c99d3549b6823d60af88c710232a3bb562",
+          "status": "checked",
+          "expected": 2,
+          "requirements": [
+            {
+              "field": "revision",
+              "id": "work:f1b59cf1-8ced-4d12-8819-1637638573e6",
+              "originalArtifactId": "0264c704-3064-4504-a8ba-7833a380a1ce",
+              "originalContentHash": "fdaee72b22a063263444de6b5c1f6eb6d25bb307e7d6f4e4fae45897ab4354fa",
+              "count": 2,
+              "quote": "将正文改为恰好两个自然段",
+              "textHash": "efbb8b70e1aa207104d4ed2452b52fc5700f7054f5d10eb7ebc79ead4c69077c"
+            }
+          ],
+          "kind": "title-content",
+          "reason": "duplicate-leading-title",
+          "titleSyntax": "atx",
+          "actual": null,
+          "passed": false,
+          "preStructurePassed": true,
+          "preStructureSummary": "当前通知符合要求：标题与正文保留人员及业务对象，准确说明9册纸质目录、办理日期、时段、地点及登记时尚未开始的状态；正文恰好两段、无项目符号且未超过220个汉字，补录依据和编号规则完整。正文已保存，未要求额外外部交付。"
+        }
+      },
+      "grounding": {
+        "passed": true,
+        "reportHash": "0de97067185ab64c268817ea602fc36e63bffa5f7e386503a4e1fbaf0ea757c2",
+        "basis": "09a3f9c5c8f419b8fe7c2248e2ddb61e6f2e840c194a34d957cdcf75c2eedc9f"
+      }
+    },
+    "sources": [
+      {
+        "id": "38501a1f-498f-4818-bda3-2f99bc1df1e4",
+        "title": "涧屏JP-A6纸质目录补录安排",
+        "content": "2026年8月9日登记：本轮由负责JP-A6纸质目录的索引员，对该批次9册纸质目录进行缺项补录；册数不代表录音卷数。\n办理日期为2026年8月12日，时段09:35至10:20，地点档案西室6号桌。截至登记时，本轮补录尚未开始。",
+        "origin": "手动输入",
+        "projectId": null,
+        "hash": "2c41a2e3cd52d3ba205d5384b19efa6e0641116725f178d3b8c069e94a4b0c53",
+        "state": "new",
+        "createdAt": "2026-11-02T07:12:13.030Z",
+        "processedAt": null,
+        "accessPolicyQuarantined": false
+      },
+      {
+        "id": "32ef6a61-53e0-4e1d-9a79-50398ded08f7",
+        "title": "涧屏JP-A6补录依据和编号规则",
+        "content": "本轮只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填。\n原目录编号须保留，不得重排；本规则不要求补写无法由原件读出的内容。",
+        "origin": "手动输入",
+        "projectId": null,
+        "hash": "2a81ecaa198e122a92940860c1b5a219aed1ce6c4082183d431cc4388958e953",
+        "state": "new",
+        "createdAt": "2026-11-02T07:12:13.099Z",
+        "processedAt": null,
+        "accessPolicyQuarantined": false
+      }
+    ],
+    "draft": {
+      "id": "6b965495-ab23-44d5-aa01-7d68ce5383dc",
+      "title": "涧屏JP-A6纸质目录索引员缺项补录通知",
+      "content": "# 涧屏JP-A6纸质目录索引员缺项补录通知\n\n请本轮负责JP-A6纸质目录的索引员于2026年8月12日09:35至10:20，在档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n仅依据可辨认的封套原件补录，封套缺失或字迹不清的字段统一标为“待查”，不得凭旧录入表猜填；保留原目录编号，不得重排。"
+    }
+  },
+  "after": {
+    "task": {
+      "id": "07307038-30b8-43c7-a481-a20c8050bf17",
+      "status": "blocked",
+      "sourceIds": [
+        "38501a1f-498f-4818-bda3-2f99bc1df1e4",
+        "32ef6a61-53e0-4e1d-9a79-50398ded08f7"
+      ],
+      "primaryArtifactId": "6b965495-ab23-44d5-aa01-7d68ce5383dc",
+      "evidenceLinksVersion": 3,
+      "contextBindings": [
+        {
+          "bindingId": "binding:807285bf572fb330f569259b24a8f0a3343d1f037e4d70445de1f1361cbc1aa9",
+          "taskId": "07307038-30b8-43c7-a481-a20c8050bf17",
+          "sourceId": "38501a1f-498f-4818-bda3-2f99bc1df1e4",
+          "resourceKey": "38501a1f-498f-4818-bda3-2f99bc1df1e4",
+          "revisionId": "9b14876bed84e695a764a3528d2f75eae60cab5002b45c7898e9ba1d44c8718a",
+          "purpose": "input",
+          "state": "active",
+          "provenance": {
+            "kind": "legacy_input"
+          },
+          "principalScope": null,
+          "contentHash": "9b14876bed84e695a764a3528d2f75eae60cab5002b45c7898e9ba1d44c8718a",
+          "createdAt": "2026-11-02T07:13:32.654Z",
+          "bindingRevision": 1
+        },
+        {
+          "bindingId": "binding:823897b013bc7cee3d2e47e65d6319e14330cd791fabed5cc7798f5c75627fe8",
+          "taskId": "07307038-30b8-43c7-a481-a20c8050bf17",
+          "sourceId": "32ef6a61-53e0-4e1d-9a79-50398ded08f7",
+          "resourceKey": "32ef6a61-53e0-4e1d-9a79-50398ded08f7",
+          "revisionId": "bffd80c5c21de50e83d3d2fc700f33fe334fe9b0a290df2b73e422d94acef013",
+          "purpose": "input",
+          "state": "active",
+          "provenance": {
+            "kind": "legacy_input"
+          },
+          "principalScope": null,
+          "contentHash": "bffd80c5c21de50e83d3d2fc700f33fe334fe9b0a290df2b73e422d94acef013",
+          "createdAt": "2026-11-02T07:13:32.654Z",
+          "bindingRevision": 1
+        }
+      ],
+      "supersededSourceIds": [],
+      "verification": {
+        "passed": false,
+        "at": "2026-11-02T07:13:18.055Z",
+        "bodyStructure": {
+          "version": 2,
+          "taskId": "07307038-30b8-43c7-a481-a20c8050bf17",
+          "artifactId": "6b965495-ab23-44d5-aa01-7d68ce5383dc",
+          "titleHash": "9885ccfada71ba8083ae0fe9c5f5e33cfc7fd1f29c256f4ce57efa138cb636a1",
+          "contentHash": "4b3f029019d34eea3459d184918e1b0f1d511db284f979e1e9baf70e9eeb6206",
+          "requirementsHash": "99bb47920866af5f9963326e74d1ddeac13e61dcd99014cef241a928c6321451",
+          "basis": "598e3754b06ecf1188f6b931a49350c99d3549b6823d60af88c710232a3bb562",
+          "status": "checked",
+          "expected": 2,
+          "requirements": [
+            {
+              "field": "revision",
+              "id": "work:f1b59cf1-8ced-4d12-8819-1637638573e6",
+              "originalArtifactId": "0264c704-3064-4504-a8ba-7833a380a1ce",
+              "originalContentHash": "fdaee72b22a063263444de6b5c1f6eb6d25bb307e7d6f4e4fae45897ab4354fa",
+              "count": 2,
+              "quote": "将正文改为恰好两个自然段",
+              "textHash": "efbb8b70e1aa207104d4ed2452b52fc5700f7054f5d10eb7ebc79ead4c69077c"
+            }
+          ],
+          "kind": "title-content",
+          "reason": "duplicate-leading-title",
+          "titleSyntax": "atx",
+          "actual": null,
+          "passed": false,
+          "preStructurePassed": true,
+          "preStructureSummary": "当前通知符合要求：标题与正文保留人员及业务对象，准确说明9册纸质目录、办理日期、时段、地点及登记时尚未开始的状态；正文恰好两段、无项目符号且未超过220个汉字，补录依据和编号规则完整。正文已保存，未要求额外外部交付。"
+        }
+      },
+      "grounding": {
+        "passed": true,
+        "reportHash": "0de97067185ab64c268817ea602fc36e63bffa5f7e386503a4e1fbaf0ea757c2",
+        "basis": "09a3f9c5c8f419b8fe7c2248e2ddb61e6f2e840c194a34d957cdcf75c2eedc9f"
+      }
+    },
+    "sources": [
+      {
+        "id": "38501a1f-498f-4818-bda3-2f99bc1df1e4",
+        "title": "涧屏JP-A6纸质目录补录安排",
+        "content": "2026年8月9日登记：本轮由负责JP-A6纸质目录的索引员，对该批次9册纸质目录进行缺项补录；册数不代表录音卷数。\n办理日期为2026年8月12日，时段09:35至10:20，地点档案西室6号桌。截至登记时，本轮补录尚未开始。",
+        "origin": "手动输入",
+        "projectId": null,
+        "hash": "2c41a2e3cd52d3ba205d5384b19efa6e0641116725f178d3b8c069e94a4b0c53",
+        "state": "new",
+        "createdAt": "2026-11-02T07:12:13.030Z",
+        "processedAt": null,
+        "accessPolicyQuarantined": false
+      },
+      {
+        "id": "32ef6a61-53e0-4e1d-9a79-50398ded08f7",
+        "title": "涧屏JP-A6补录依据和编号规则",
+        "content": "本轮只依据可辨认的封套原件补录字段。封套缺失或字迹不清的字段统一标为“待查”，不能凭旧录入表猜填。\n原目录编号须保留，不得重排；本规则不要求补写无法由原件读出的内容。",
+        "origin": "手动输入",
+        "projectId": null,
+        "hash": "2a81ecaa198e122a92940860c1b5a219aed1ce6c4082183d431cc4388958e953",
+        "state": "new",
+        "createdAt": "2026-11-02T07:12:13.099Z",
+        "processedAt": null,
+        "accessPolicyQuarantined": false
+      }
+    ],
+    "draft": {
+      "id": "6b965495-ab23-44d5-aa01-7d68ce5383dc",
+      "title": "涧屏JP-A6纸质目录索引员缺项补录通知",
+      "content": "# 涧屏JP-A6纸质目录索引员缺项补录通知\n\n请本轮负责JP-A6纸质目录的索引员于2026年8月12日09:35至10:20，在档案西室6号桌，对该批次9册纸质目录进行缺项补录；9册不代表9卷录音。截至2026年8月9日登记时，本轮补录尚未开始。\n\n仅依据可辨认的封套原件补录，封套缺失或字迹不清的字段统一标为“待查”，不得凭旧录入表猜填；保留原目录编号，不得重排。"
+    }
+  }
+}

@@ -1,0 +1,387 @@
+{
+  "schema": 1,
+  "kind": "offline-title-candidate-preparation",
+  "date": "2026-11-02",
+  "status": "offline-preparation-complete-see-independent-review",
+  "productSourceCommit": "ca9419e0786be67b6cb35143042f44dd676dd434",
+  "branch": "codex/foundation-title-candidate",
+  "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+  "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "candidateInstalled": false,
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "realApplicationTokens": 0,
+  "actualHumanAcceptances": 0,
+  "F04Executions": 0,
+  "package": {
+    "manifest": {
+      "path": "evaluations/foundation-remaining-runner/package-manifest.json",
+      "sha256": "230256bf4f14bbe9e6009b11a61fecf5a716ae7a2e7e2e1cb4c7b17a40c324d8"
+    },
+    "baseAsarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+    "archiveFilesVerified": 9669,
+    "archiveChangedFiles": [
+      "desktop/body-structure.cjs"
+    ],
+    "unchangedArchiveFiles": 9668,
+    "outerChangedFiles": [
+      "resources/app.asar"
+    ],
+    "sourceBytesMatchReviewedCommit": true,
+    "productCodeModifiedThisPreparation": false,
+    "independentCheck": {
+      "path": "../foundation-title-candidate-audit-20261102/reviewer-package.json",
+      "sha256": "8eb47d120d4dbb69a904178a45705075896280e4e95a4c3104b7ded4e8fafb04"
+    }
+  },
+  "regression": {
+    "counts": {
+      "tests": 340,
+      "pass": 339,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 1,
+      "todo": 0
+    },
+    "files": 13,
+    "serial": true,
+    "evidence": {
+      "path": "evaluations/foundation-title-candidate-preparation-20261102/regression.json",
+      "sha256": "a2d32b1a755d6083f01ef9e1ec3a3b568377e39c6f6e9be255a88b1dfd4bfed5"
+    },
+    "skip": [
+      "ok 39 - real file symlink is refused when supported by Windows host # SKIP Windows host does not grant file symlink creation"
+    ],
+    "countsNotSummedWithFocusedOrPriorRuns": true
+  },
+  "packagedRehearsal": {
+    "probes": 11,
+    "passed": 11,
+    "evidence": {
+      "path": "evaluations/foundation-title-candidate-preparation-20261102/sealed-rehearsal.json",
+      "sha256": "30536b73ba4b9742fe762013146a0c538bd1dd8e825ee94b2f3e743dfd931dfe"
+    },
+    "privateOutput": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04",
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "qualityMetrics": null
+  },
+  "titleReplay": {
+    "business-title-real-patch": {
+      "initialPassed": true,
+      "revisionStatus": "blocked",
+      "verificationPassed": false,
+      "groundingPassed": true,
+      "bodyStructure": {
+        "version": 2,
+        "taskId": "abd2fb4d-3dc5-407a-b4a9-adbf834dcaf9",
+        "artifactId": "22e31985-5a9d-48c6-a5da-e1947f9b1ebc",
+        "titleHash": "9885ccfada71ba8083ae0fe9c5f5e33cfc7fd1f29c256f4ce57efa138cb636a1",
+        "contentHash": "4b3f029019d34eea3459d184918e1b0f1d511db284f979e1e9baf70e9eeb6206",
+        "requirementsHash": "a41cf72840a807514a5fbe37046545e02b403661179f30048cf574b5eada8d52",
+        "basis": "e672a1bdfd333fa3b96657232eef355a18089556ade578c7dfaff9c939db6b13",
+        "status": "checked",
+        "expected": 2,
+        "requirements": [
+          {
+            "field": "revision",
+            "id": "work:ebcbce87-f13a-4a0d-a6f0-488c0b210eed",
+            "originalArtifactId": "897019e0-b376-44f1-a934-32cb3fb3848c",
+            "originalContentHash": "fdaee72b22a063263444de6b5c1f6eb6d25bb307e7d6f4e4fae45897ab4354fa",
+            "count": 2,
+            "quote": "将正文改为恰好两个自然段",
+            "textHash": "efbb8b70e1aa207104d4ed2452b52fc5700f7054f5d10eb7ebc79ead4c69077c"
+          }
+        ],
+        "kind": "title-content",
+        "reason": "duplicate-leading-title",
+        "titleSyntax": "atx",
+        "actual": null,
+        "passed": false,
+        "preStructurePassed": true,
+        "preStructureSummary": "当前通知符合要求：标题与正文保留人员及业务对象，准确说明9册纸质目录、办理日期、时段、地点及登记时尚未开始的状态；正文恰好两段、无项目符号且未超过220个汉字，补录依据和编号规则完整。正文已保存，未要求额外外部交付。"
+      },
+      "simulatedAcceptances": 0,
+      "caseIds": [
+        "F05-jianping-revision"
+      ],
+      "restartChecks": [
+        {
+          "kind": "restart-preserved",
+          "caseId": "F05-jianping-revision",
+          "stage": "blocked-title-replay",
+          "preserved": true,
+          "legacyBindingInitialization": true,
+          "beforeIdentity": "ad2b1e64ec5513b8bfad929278487ff4d077e324549e92cfeabba853c9630c18",
+          "afterIdentity": "48c85f84f7df9fc2269f827fad09193ce442cb156a66affd79b67a112a8d3728",
+          "actualStage": "blocked-title-replay",
+          "projectionContract": "existing-exact-legacy-input-v3-initialization",
+          "projectionValidatorStageOnly": "before-advance",
+          "attempts": 7
+        },
+        {
+          "kind": "blocked-title-restart-excluded-from-acceptance",
+          "caseId": "F05-jianping-revision",
+          "modelCallsAdded": 0,
+          "actualHumanAcceptance": false
+        }
+      ],
+      "files": [
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/summary.json",
+          "sha256": "117912aea325fcfc31ba4ca4a3f2a0bf858687a6de8cd61aa1749cabbaca42f0"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/F05-jianping-revision-initial-draft.json",
+          "sha256": "dbdca67be3efcf805bd1f5266af151460726de18b1cb9ffdf202bf737d1795f3"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/F05-jianping-revision-revision-draft.json",
+          "sha256": "a46a930f5ce7592735b3af989b1b89f57b649f3b11744efa90dbfba9e291a297"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/F05-jianping-revision-blocked-title-replay-restart.json",
+          "sha256": "dc4a1b3b0d367cd7fe6ba33d040c1bb668484a9dc84c7b6ab601191cd11b532f"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/calls/51ceb787-1568-49e9-9336-3ca03cc3a738-terminal.json",
+          "sha256": "086d83d6d351f6450aaa5dc1e813ef88830057cfa3a26a4710425e9777529860"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/calls/70de138e-a70f-481f-8607-3a94b4cdee92-terminal.json",
+          "sha256": "a537faad8bccc6c7f8c1012da6549494afb17cc2cfd894002ef62920bbf9a4e1"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/calls/a552e8a1-b961-485f-bd65-09fcbb1cf91b-terminal.json",
+          "sha256": "0047c5543c2386814333f1a87cf3f4cf1dd5e2b2d6b80ffab7ad8b983a8e8029"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/calls/a573788c-9abf-41e8-b631-089407086c06-terminal.json",
+          "sha256": "6877a402fe891bf17f8a94f16d1c993564a4a4d938ac8f2f964fe8b271c8c09f"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/calls/ad2ec667-ca06-4f13-bffb-876fa6b7ef4f-terminal.json",
+          "sha256": "f25553cd85832fd192801637b81fc56a6bec983ec3cd3977cc8cb80c2ab21f43"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/calls/bfd00553-abc2-4bfa-a22b-dae575c40e61-terminal.json",
+          "sha256": "eaedaa706af0a087569a03602c7d792ec434e54ef68b24406fffeee4d46f942b"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-real-patch/business/calls/f6d1530e-1e00-41bc-9ec0-e134e5b768d1-terminal.json",
+          "sha256": "2989704e60d6ecf422dfd11744381222cbb20232e43296751563e7343fdfc590"
+        }
+      ]
+    },
+    "business-title-corrected-patch": {
+      "initialPassed": true,
+      "revisionStatus": "review",
+      "verificationPassed": true,
+      "groundingPassed": true,
+      "bodyStructure": {
+        "version": 2,
+        "taskId": "506d2443-dbbf-4806-a3b0-85bd89be06f6",
+        "artifactId": "6bb58938-32b9-46b9-8f62-29b58c68c991",
+        "titleHash": "9885ccfada71ba8083ae0fe9c5f5e33cfc7fd1f29c256f4ce57efa138cb636a1",
+        "contentHash": "e47b90bdd9cc14b712ed3feaa7ae870b856e1e6c8156a70045d199f83d3ebde8",
+        "requirementsHash": "b3d580859fde7a227d69e54de68d324793d082c7b01538be8e858cd8c5a7a8e1",
+        "basis": "37d2cab1ca67e3e9f65c97668403088cd78bb2d84b0688179c610224b1c48591",
+        "status": "checked",
+        "expected": 2,
+        "requirements": [
+          {
+            "field": "revision",
+            "id": "work:6289180d-ee7c-4015-9dbb-adf09a625150",
+            "originalArtifactId": "69daba4e-ea0e-4366-bd16-483a027cdb1c",
+            "originalContentHash": "fdaee72b22a063263444de6b5c1f6eb6d25bb307e7d6f4e4fae45897ab4354fa",
+            "count": 2,
+            "quote": "将正文改为恰好两个自然段",
+            "textHash": "efbb8b70e1aa207104d4ed2452b52fc5700f7054f5d10eb7ebc79ead4c69077c"
+          }
+        ],
+        "kind": "paragraph-count",
+        "actual": 2,
+        "passed": true,
+        "preStructurePassed": true,
+        "preStructureSummary": "当前通知符合要求：标题与正文保留人员及业务对象，准确说明9册纸质目录、办理日期、时段、地点及登记时尚未开始的状态；正文恰好两段、无项目符号且未超过220个汉字，补录依据和编号规则完整。正文已保存，未要求额外外部交付。"
+      },
+      "simulatedAcceptances": 2,
+      "caseIds": [
+        "F05-jianping-revision",
+        "F06-yunshu-restart"
+      ],
+      "restartChecks": [
+        {
+          "kind": "restart-preserved",
+          "caseId": "F06-yunshu-restart",
+          "stage": "before-advance",
+          "preserved": true,
+          "legacyBindingInitialization": true,
+          "beforeIdentity": "231910dc054ec2f80a8786acdb7ec5b2703aa64f6a2fe0fb3741694594fc8de8",
+          "afterIdentity": "74faed55905b27d26f15424a9e234c0d72176741f9763d28d64c1df2ab3c353b",
+          "attempts": 7
+        },
+        {
+          "kind": "restart-preserved",
+          "caseId": "F06-yunshu-restart",
+          "stage": "at-review",
+          "preserved": true,
+          "legacyBindingInitialization": false,
+          "beforeIdentity": "bca86f6a39d117fe3954bad1fc472b4538a31ebcc04f3fb39fe5b5e674c2daee",
+          "afterIdentity": "bca86f6a39d117fe3954bad1fc472b4538a31ebcc04f3fb39fe5b5e674c2daee",
+          "attempts": 11
+        },
+        {
+          "kind": "accepted-cold-restart-preserved",
+          "caseId": "F06-yunshu-restart"
+        }
+      ],
+      "files": [
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/summary.json",
+          "sha256": "f1bfbc9224b36d420e5f6a02e3b24041354d2d6a041af65cea06f0b9d5fb11d4"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/F05-jianping-revision-initial-draft.json",
+          "sha256": "4642be3c86b32909ce0f4db27c973563e95fef2cd26475e61d8bf81b2bc90153"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/F05-jianping-revision-revision-draft.json",
+          "sha256": "c87839d23f8abebb4dd0ec45e46c19f419513bca09bdbf569572cc5f384e456d"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/F06-yunshu-restart-at-review-restart.json",
+          "sha256": "0cd38581e1344da82cd632e54660de4f770f2cc2afe25a4aee08e5d8e813b82a"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/F06-yunshu-restart-before-advance-restart.json",
+          "sha256": "b003bd7c397184291779be5ef98d2c2c429f291ab8ebb53c2670dcf64f1cead1"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/F06-yunshu-restart.json",
+          "sha256": "401ec1973d1839ee22a019729fb4f50755c15fcee83a2c0f8e16b2cf7565d668"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/1a6a2c16-05ed-4291-90ed-62646abe5fd9-terminal.json",
+          "sha256": "8cfc8fc5263829e45bc782345bd955da1c1674715e437384f4e1a6dacf999315"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/219c10c0-ee9a-4909-9a82-920c939c12cc-terminal.json",
+          "sha256": "507e484a3dcebda80adfa587ca658dd4cd9908005ab73fb9f301662742337303"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/330c6a22-b929-4b20-b99b-ffbb3d5dfb56-terminal.json",
+          "sha256": "0163e3a88d7d61cf7bc647cd672bce11bf926ea7b86cf8609a28e255d7bad578"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/356ffcd1-ef4c-4b9a-bdf3-d9d1421663b0-terminal.json",
+          "sha256": "fb8a1a9c330e15198af71378985df18e4c2a5f2a7fba5651546b5482473ed89a"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/9120c00f-f74e-4ba9-855b-9edba7994b82-terminal.json",
+          "sha256": "661b66ffdff703a15077c85d354104afcf816094cee151020ace35d6e2c2c4da"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/a678d604-58cb-42b3-9817-6fa1b201895f-terminal.json",
+          "sha256": "f36f82a31c7336d29b03f97909d1e922ec84454ac32431ef56d496df51af75ea"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/b648f31f-47fd-4fda-a0ac-9c1014f7498b-terminal.json",
+          "sha256": "aed7e4cadda928bca60edd723beaddd59a01caebb10a554b797ee4dfd9c93253"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/ca8ec0d9-1cb8-49b3-aab9-f6cfceb9d23c-terminal.json",
+          "sha256": "46b4300e323ed3d71b248d39522690cdcd5ce784d5adb640079068be89da1b0f"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/d804d467-65c3-49e7-9e79-e170895bd8fd-terminal.json",
+          "sha256": "ef783be6d060b4dfbd17b94c2312ff2f05926540878a203512b34560a2c0d14f"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/e9d1895d-cf16-4868-aabe-3a2b3f74aef7-terminal.json",
+          "sha256": "741362377f1c5762e85ce8adf11bc449ca44c82bea40996ef359dfa67725d8e0"
+        },
+        {
+          "path": "../foundation-title-retest-runs-20261102/sealed-rehearsal-04/business-title-corrected-patch/business/calls/fb023186-18f0-4d51-b791-c0493957899c-terminal.json",
+          "sha256": "a619e3295f4a03fc4b452d34c6fe6ef8c7ca51f0756464ff0a82bada09ce4257"
+        }
+      ]
+    }
+  },
+  "resolvedPreparationFindings": [
+    {
+      "id": "blocked-restart-legacy-projection",
+      "change": "A new offline-only adapter validates the exact existing legacy_input v3 initialization contract for the blocked-title stage. It checks blocked/verification-false/grounding-true/duplicate reason/no acceptance before and after, compares full package snapshots, and reports actualStage separately. Live restart rules and product bytes unchanged.",
+      "thirdRun": {
+        "path": "../foundation-title-candidate-audit-20261102/rehearsal-03.log",
+        "sha256": "02c4e9e9b7ef6f0e5440cba12996b65badb797fbe911aad7a1c5e1bd285a88a3"
+      },
+      "regressions": 18,
+      "meaning": "The third rehearsal passed the first nine probes and the application blocked the real patch; its newly added cold-restart proof rejected permitted first-load initialization. That incomplete run is retained and is not counted as final complete success."
+    },
+    {
+      "id": "hidden-window-stability",
+      "change": "Offline gate/business windows disable background throttling before hide; original locator clicks retained. Live behavior and product bytes unchanged.",
+      "firstRun": {
+        "path": "../foundation-title-candidate-audit-20261102/rehearsal-01.log",
+        "sha256": "73c7d126166584634048139bf9c3d626d22e2c109f5b87dcc6b4a6e271f430f2"
+      },
+      "meaning": "Original wait timed out before any application attempt; successful subsequent UI execution supports rendering-throttling diagnosis but does not prove unique environmental causation."
+    },
+    {
+      "id": "historical-artifact-shape",
+      "change": "Independent review found comparison of a title/content projection against the full old artifact. Replay now emits only kind/title/content/summary, and assertions compare title/content. Old metadata is not a new runtime identity.",
+      "secondRun": {
+        "path": "../foundation-title-candidate-audit-20261102/rehearsal-02.log",
+        "sha256": "cfb3e5a7cf49b4c2ccabc901371f479fae5cb5432802ebc7dbfea9c97854a895"
+      },
+      "meaning": "Operator stopped the second offline rehearsal after review; partial results are not counted as a completed rehearsal."
+    },
+    {
+      "id": "blocked-acceptance-list",
+      "change": "Blocked task is asserted absent from acceptanceSnapshot before/after cold restart. Existing source tests separately cover actual acceptance rejection."
+    }
+  ],
+  "scope": {
+    "historicalTitleAndContentExact": true,
+    "historicalPatchExact": true,
+    "historicalVerifierIdOnlyRemapping": true,
+    "initialArtifactEnvelopeSynthetic": true,
+    "correctedPatchExplicitHeadingDeletion": true,
+    "noAutomaticProductCleanup": true,
+    "noSemanticRuleExpansion": true,
+    "noPromptOrSchemaChangeSinceReviewedSource": true,
+    "f04HistoricalOnly": true,
+    "f04CurrentCandidateCovered": false
+  },
+  "installation": {
+    "observation": "docs/evidence/foundation-title-candidate-install-observation-20261102.json",
+    "taskInstalledWrites": 0,
+    "continuousFreezeProven": false,
+    "endpointBytesMatch": false,
+    "newDifferences": 2,
+    "observedFiles": 87,
+    "observationSha256": "34d59f634853472e1af71af3bed2185dd84f6629112a9c8e18b0212dc1b8bc1b"
+  },
+  "limits": [
+    "零模型模拟通过不等于真实模型或真人业务验收；本轮质量率不计算。",
+    "F05真实patch和核验回复已参与修复与回放，未来复测沿用暴露样本，不是盲样/随机对照。",
+    "F04仅沿用历史旧候选真人证明，不重跑，不覆盖当前候选。",
+    "一项真实Windows文件符号链接测试因系统权限不足跳过。",
+    "仅Windows隔离候选；未安装，也未在macOS运行。"
+  ],
+  "proposal": "docs/evidence/foundation-title-candidate-plan-20261102.json",
+  "independentReview": "docs/evidence/foundation-title-candidate-preparation-review-20261102.json",
+  "uploadBytePreservation": {
+    "path": "tests/foundation-title-replay.test.cjs",
+    "rule": ".gitattributes existing sealed-byte preservation pattern (-text)",
+    "reason": "Preserve the already-tested single terminal CRLF rather than silently normalizing it while uploading.",
+    "stagedSha256": "e5f8ff4320ade58adfcb63946c341b052372e4dd4c77d167a6bdd3bafd3c3532",
+    "sealedSha256": "e5f8ff4320ade58adfcb63946c341b052372e4dd4c77d167a6bdd3bafd3c3532",
+    "executionCodeChanged": false,
+    "runnerIdentityUnchanged": true
+  }
+}

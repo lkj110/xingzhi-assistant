@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "id": "foundation-body-candidate-20261102",
+  "id": "foundation-title-candidate-20261102",
   "liveAuthorized": false,
   "candidateInstalled": false,
-  "sourceCodeCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
-  "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+  "sourceCodeCommit": "ca9419e0786be67b6cb35143042f44dd676dd434",
+  "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
   "sourceSampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
   "order": [
     "gate",
@@ -34,7 +34,7 @@
     "id": "minimal-foundation-citation-candidate-gate-20261029",
     "liveAuthorized": false,
     "installedVersion": "0.42.4",
-    "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+    "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
     "model": {
       "id": "gpt-6.1-sol",
       "reasoning": "medium",
@@ -100,7 +100,7 @@
       "availability": "not-probed"
     },
     "baseCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
-    "sourceCodeCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+    "sourceCodeCommit": "ca9419e0786be67b6cb35143042f44dd676dd434",
     "scope": "one-exposed-gate-on-new-export-candidate",
     "inheritedFromRunner": "foundation-citation-gate-runner"
   },
@@ -109,7 +109,7 @@
     "id": "minimal-foundation-citation-business-acceptance-20261029",
     "liveAuthorized": false,
     "installedVersion": "0.42.4",
-    "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+    "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
     "model": {
       "id": "gpt-6.1-sol",
       "reasoning": "medium",
@@ -182,7 +182,7 @@
       "F06-yunshu-restart"
     ],
     "baseCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
-    "sourceCodeCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+    "sourceCodeCommit": "ca9419e0786be67b6cb35143042f44dd676dd434",
     "scope": "two-unfinished-business-workflows",
     "inheritedFromRunner": "foundation-citation-business-runner"
   },
@@ -203,11 +203,11 @@
     "review": "docs/evidence/foundation-native-ui-f04-result-review-20261030.json",
     "reviewSha256": "fa0e0ed0f8bb263a2119c8b1f1c53d9df56d4d503aae6b6b7cf59947563f9891"
   },
-  "outputParent": "../foundation-body-retest-runs-20261102",
+  "outputParent": "../foundation-title-retest-runs-20261102",
   "candidateTransition": {
-    "baseAsarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
-    "packageManifestSha256": "05997b231c2a9a7f22ced44c34cb1a5cbd562ff78490ce84534cc7e3d016d466",
-    "sourceCodeCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+    "baseAsarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+    "packageManifestSha256": "230256bf4f14bbe9e6009b11a61fecf5a716ae7a2e7e2e1cb4c7b17a40c324d8",
+    "sourceCodeCommit": "ca9419e0786be67b6cb35143042f44dd676dd434",
     "F04HistoricalOnly": true,
     "F04CurrentCandidateCovered": false
   },

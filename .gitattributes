@@ -19,3 +19,4 @@ docs/evidence/foundation-citation-boundary-result-20261029.json -text whitespace
 docs/evidence/foundation-citation-gate-preparation-20261029.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 evaluations/foundation-citation-gate-runner/plan.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 evaluations/foundation-citation-offline-runner/plan.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+tests/foundation-title-replay.test.cjs -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

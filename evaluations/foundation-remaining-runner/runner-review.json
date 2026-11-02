@@ -2,17 +2,17 @@
   "schema": 1,
   "reviewer": "independent-subagent",
   "date": "2026-11-02",
-  "baseCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+  "baseCommit": "ca9419e0786be67b6cb35143042f44dd676dd434",
   "status": "offline-ready-awaiting-new-user-authorization",
   "approvedForLiveReadiness": true,
-  "isolatedCandidateReadyForUserReview": true,
   "approvedForUserReview": true,
   "approvedForUpload": true,
   "liveAuthorized": false,
   "matchingLiveAuthorizationCreated": false,
-  "runnerIdentity": "f90db745e7aa32212b77182ec875ddf1d849533db2bf7ea6c5a733d40bf89153",
-  "runnerSealSha256": "8f8fb2710b565d338c469d260a3691c2de067c78197461c8a4be3650924349f9",
-  "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+  "runnerIdentity": "dcc615fef4c22c26fdb95da17c2d7d7a19a42c76fb819fba80e3b0cd98cdd081",
+  "runnerSealSha256": "7cbfba82ae9aa85b7af9743bc9ae6dbc044e71537e19c1efa506a53cdd875362",
+  "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+  "productSourceCommit": "ca9419e0786be67b6cb35143042f44dd676dd434",
   "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
   "scope": "G01-F05-F06-only",
   "realModelCalls": 0,
@@ -20,122 +20,187 @@
   "actualHumanAcceptances": 0,
   "F04Executions": 0,
   "candidateInstalled": false,
-  "installedDirectoryFreezeHeld": false,
+  "businessAcceptancePassed": false,
+  "currentInstalledVersionAccepted": false,
   "qualityMetrics": null,
-  "meaning": "Readiness permits presenting this exact isolated candidate, executor and bounded proposal for fresh user approval. It is not live execution, budget reuse, deployment approval, acceptance of the current installed version, or a claim of real business quality.",
   "blockingFindings": [],
-  "resolvedReportFindings": [
+  "meaning": "Approval covers this isolated candidate, executor, offline evidence and bounded proposal for fresh user authorization. It is not live budget approval, business acceptance, deployment, or proof of installed-directory freeze.",
+  "resolvedFindings": [
     {
-      "id": "BC-DOC-1",
-      "resolution": "Raw plan bytes and canonical authorization plan hash are explicitly separated."
+      "id": "historical-artifact-shape",
+      "resolution": "Initial replay emits only kind/title/content/summary; historical title/content are compared separately from old runtime metadata."
     },
     {
-      "id": "BC-DOC-2",
-      "resolution": "stderr collection is accurately described; unimplemented automatic rejection of arbitrary unknown stderr text is not claimed."
-    }
-  ],
-  "openObservations": [
+      "id": "blocked-acceptance-list",
+      "resolution": "Blocked draft is absent from acceptanceSnapshot before and after restart; the replay does not simulate accepting the blocked draft."
+    },
     {
-      "id": "BC-ENV-1",
-      "status": "unattributed-installation-drift",
-      "newChangedFiles": 3,
-      "blockingIsolatedOfflinePreparation": false,
-      "installedFreezeHeld": false,
-      "evidence": "docs/evidence/foundation-body-candidate-install-observation-20261102.json",
-      "interpretation": "The original before baseline remains intact. Other 144 historical roots and the independent new package are unchanged. Do not attribute, rollback or deploy based on this observation."
+      "id": "hidden-window-stability",
+      "resolution": "Offline windows disable background throttling before hiding; original locator clicks remain, live behavior and product bytes do not change. Unique environmental causation is not asserted."
+    },
+    {
+      "id": "blocked-restart-legacy-projection",
+      "resolution": "Offline-only adapter validates the existing exact legacy_input v3 projection and preserves the real blocked-title stage. Every other task/source/draft/check field remains compared; 18 new boundary cases pass."
+    },
+    {
+      "id": "sealed-test-git-eol",
+      "resolution": "One path-specific -text rule preserves the already-tested final CRLF of the replay regression file. Its staged blob, working file and sealed hash are equal; execution bytes and runner identity remain unchanged."
     }
   ],
   "validation": {
     "regression": {
-      "tests": 277,
-      "passed": 276,
+      "tests": 340,
+      "passed": 339,
       "failed": 0,
       "skipped": 1,
-      "skip": "Windows host lacks real file symlink creation permission",
-      "serialUnchangedRetest": true,
-      "firstConcurrentIdleTimeoutPreserved": true,
-      "isolatedFailedCasePassed": true,
-      "countsNotAddedAcrossRuns": true,
-      "evidence": {
-        "path": "../foundation-body-candidate-audit-20261102/reviewer-final-evidence-check.json",
-        "sha256": "d433ff2d15551f1b9364b561523b6f3253cadc4d66a23e4249109da311bad1a6"
-      }
+      "skip": "Windows host does not grant real file symlink creation",
+      "serial": true
     },
-    "packagedProbes": 9,
-    "verifiedOriginalEvidenceHashes": 80,
-    "finishedRunFilesSnapshotted": 218,
-    "offlineNormal": {
-      "gateSyntheticCalls": 4,
-      "businessSyntheticCalls": 15,
-      "F05Calls": 11,
-      "F06Calls": 4,
+    "independentlyRepeatedFocused": {
+      "tests": 54,
+      "passed": 54,
+      "failed": 0,
+      "skipped": 0
+    },
+    "countsNotAddedAcrossRuns": true,
+    "finalPackagedRehearsal": "sealed-rehearsal-04",
+    "packagedProbes": 11,
+    "frozenEvidenceHashesVerified": 106,
+    "finishedRunFilesSnapshotted": 325,
+    "historicalProvenanceFilesVerified": 6,
+    "rawVerifierRepliesOnlyRuntimeIdsRemapped": true,
+    "normal": {
+      "gateCalls": 4,
+      "businessCalls": 15,
       "markerHandoffs": 2,
       "coldRestarts": 3,
       "simulatedAcceptances": 2,
-      "actualHumanAcceptances": 0
+      "nativeReceiptsReverified": true
     },
-    "structuralNegative": {
-      "expectedParagraphs": 2,
-      "actualParagraphs": 3,
-      "preStructurePassed": false,
+    "realPatch": {
+      "probe": "business-title-real-patch",
+      "realPatchUnchanged": true,
+      "derivedExplicitHeadingRemoval": false,
+      "preStructurePassed": true,
+      "groundingPassed": true,
+      "structureReason": "duplicate-leading-title",
+      "actualParagraphCount": null,
       "finalPassed": false,
       "status": "blocked",
-      "revisionMarkerHandoff": 0,
-      "acceptances": 0,
-      "F06Started": false,
-      "interpretation": "This package probe proves a hard structure gap blocks marker recovery. The separate unchanged historical F05 reply regression proves rejection after a prior passed verification; the two claims are not conflated."
+      "syntheticCalls": 7,
+      "simulatedAcceptances": 0
     },
-    "nativeRawJournalExportVerified": true,
-    "admissionVariantsRejected": 7,
-    "independentEvidence": {
-      "path": "../foundation-body-candidate-audit-20261102/reviewer-evidence-check.json",
-      "sha256": "d9e28d90a06f67ef690a1d8076e5e40912b6e00c0ee3592db12d638cc6627929"
+    "explicitlyDerivedCorrection": {
+      "probe": "business-title-corrected-patch",
+      "realPatchUnchanged": false,
+      "derivedExplicitHeadingRemoval": true,
+      "preStructurePassed": true,
+      "groundingPassed": true,
+      "structureReason": null,
+      "actualParagraphCount": 2,
+      "finalPassed": true,
+      "status": "review",
+      "syntheticCalls": 11,
+      "simulatedAcceptances": 2
     },
-    "packageProof": {
-      "path": "../foundation-body-candidate-audit-20261102/reviewer-package-check.json",
-      "sha256": "5eee28d300ff602319abd1b17b2fba44efacaf1a7d4856132f126aa58cb6b474"
+    "correctedF05F06": {
+      "businessCalls": 11,
+      "coldRestarts": 3,
+      "simulatedAcceptances": 2,
+      "nativeReceiptsReverified": true
     },
-    "admissionProof": {
-      "path": "../foundation-body-candidate-audit-20261102/reviewer-code-check.json",
-      "sha256": "92b981bf11347c72180c5dc721b61165c59b77c72a4652d704692fbc5de1e242"
+    "package": {
+      "outerFiles": 86,
+      "archiveFiles": 9669,
+      "unchangedArchiveFiles": 9668,
+      "changedArchiveFiles": [
+        "desktop/body-structure.cjs"
+      ],
+      "newProductSourceChanges": false
+    },
+    "evidence": {
+      "package": {
+        "path": "../foundation-title-candidate-audit-20261102/reviewer-package.json",
+        "sha256": "8eb47d120d4dbb69a904178a45705075896280e4e95a4c3104b7ded4e8fafb04"
+      },
+      "fullRegression": {
+        "path": "evaluations/foundation-title-candidate-preparation-20261102/regression.json",
+        "sha256": "a2d32b1a755d6083f01ef9e1ec3a3b568377e39c6f6e9be255a88b1dfd4bfed5"
+      },
+      "focused": {
+        "path": "../foundation-title-candidate-audit-20261102/reviewer-focused-final.json",
+        "sha256": "2afc0de6fdfd18af731520f99ca160cca8193540db0a3fbf3628b562e6cf0717"
+      },
+      "packagedEvidence": {
+        "path": "../foundation-title-candidate-audit-20261102/reviewer-evidence.json",
+        "sha256": "3c5d9fa9e3cef025a93989cc448caab87e6b514e09e863bc9ac0ac28d8cb2720"
+      },
+      "negative": {
+        "path": "../foundation-title-candidate-audit-20261102/reviewer-title-negative.json",
+        "sha256": "2b7eafd48f54b73677c79fa766196abce13a47eea169ec3a8ddb030e03662011"
+      },
+      "corrected": {
+        "path": "../foundation-title-candidate-audit-20261102/reviewer-title-positive-final.json",
+        "sha256": "9879c87cd5cd30a51a8f3b87b95c652ddb0d6b5a46b6660cebd6445bd01d8de7"
+      },
+      "before": {
+        "path": "../foundation-title-candidate-audit-20261102/reviewer-baseline.json",
+        "sha256": "56b789fc3cdea31213ca57dcac282b88e16e0ab428404d911c5cd9fe1363bf30"
+      },
+      "endpoint": {
+        "path": "../foundation-title-candidate-audit-20261102/reviewer-endpoint.json",
+        "sha256": "1bc971ffd76bc1afa0ae8a679b63880ccbe708cfd9e5a2d69dc1bcbb7f42ce9c"
+      }
+    },
+    "historicalTitleContentAndPatchExact": true,
+    "gitUploadBytePreservation": {
+      "path": "tests/foundation-title-replay.test.cjs",
+      "workingSha256": "e5f8ff4320ade58adfcb63946c341b052372e4dd4c77d167a6bdd3bafd3c3532",
+      "stagedSha256": "e5f8ff4320ade58adfcb63946c341b052372e4dd4c77d167a6bdd3bafd3c3532",
+      "sealedSha256": "e5f8ff4320ade58adfcb63946c341b052372e4dd4c77d167a6bdd3bafd3c3532",
+      "attributes": {
+        "path": ".gitattributes",
+        "sha256": "25f49b22e7a01b7e60253178dc80ae3d36c334a5a00c9fc3dbb5b06c8f6b9784"
+      },
+      "rule": "-text",
+      "executedBytesChanged": false,
+      "runnerIdentityChanged": false
     }
   },
-  "freeze": {
-    "before": {
-      "path": "../foundation-body-candidate-audit-20261102/reviewer-freeze-before.json",
-      "sha256": "be1d824ab07f63a54e9fb757d3ea07cada2959733ea524c91909cf365e32ff62"
-    },
-    "afterObserved": {
-      "path": "../foundation-body-candidate-audit-20261102/reviewer-freeze-after-observed.json",
-      "sha256": "898702991a3935169399c19bfe3c8e1bdd296d220b47d1fdf0c7400fb1aeaadf"
-    },
-    "installationObservation": {
-      "path": "../foundation-body-candidate-audit-20261102/reviewer-installation-drift-20261102.json",
-      "sha256": "ed2135da7455295360019fa1da4bedeb9659b6b50ddac8002d3fb6add035e97c"
-    },
-    "strictAllRootsCheckPassed": false,
-    "other144HistoricalRootsUnchanged": true,
-    "originalTrackedFiles": 1263,
-    "newPackageCompleteInventoryVerified": true,
-    "oldBaselineRewritten": false
+  "installation": {
+    "observedFiles": 87,
+    "changedFiles": 2,
+    "paths": [
+      "debug.log",
+      "resources/app.asar"
+    ],
+    "origin": "undetermined",
+    "currentTaskInstallationWrites": 0,
+    "endpointBytesMatch": false,
+    "continuousFreezeProven": false,
+    "nonAtomicReadOnlySnapshots": true,
+    "independentCandidateIntegrityPassed": true,
+    "oldPackageRepositoriesLiveEvidenceAndClosedControlUnchanged": true,
+    "observation": {
+      "path": "docs/evidence/foundation-title-candidate-install-observation-20261102.json",
+      "sha256": "34d59f634853472e1af71af3bed2185dd84f6629112a9c8e18b0212dc1b8bc1b"
+    }
   },
   "boundaries": {
-    "newPackageContainsOnlyReviewedFiveModuleOverlay": true,
-    "newSourceChangesSince8041d97": false,
-    "originalF04ProofHistoricalOnly": true,
-    "newCandidateF04Tested": false,
-    "oldG01Reusable": false,
-    "currentCliReadOnlyPinned": true,
-    "currentCliAvailabilityProbed": false,
-    "officialCliSha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
-    "noExtraModelRounds": true,
+    "noProductSemanticRuleExpansion": true,
+    "noProductPromptOrSchemaChange": true,
+    "oldGateReusable": false,
     "oldBudgetsReusable": false,
-    "businessReadinessRequiredAfterGate": true,
+    "officialCliHashOnly": true,
+    "officialCliAvailabilityProbed": false,
+    "F04HistoricalOnly": true,
+    "currentCandidateF04Covered": false,
     "phaseWindowsNotReset": true,
-    "applicationRetryCount": 0,
-    "officialCliInternalNetworkRetriesNotGuaranteedZero": true,
-    "cacheIncludedInInput": true,
-    "observedSamplesNotNewBlindEvaluation": true
+    "businessReadinessRequiredAfterGate": true,
+    "correctlyBlockedDuplicateTitleIsNotF05Completion": true,
+    "noAutomaticCleanupRetryOrNextRound": true,
+    "observedSamplesNotBlindEvaluation": true,
+    "macOSNotExecuted": true
   },
   "proposedBudget": {
     "total": {
@@ -174,66 +239,15 @@
     "absoluteTokenHardCap": false,
     "phaseOrCaseBudgetBorrowing": false
   },
-  "reviewedFiles": [
-    {
-      "path": "docs/evidence/foundation-body-candidate-install-observation-20261102.json",
-      "sha256": "5393e86e7c75190785806b90b5fad1790241eeb5d504c9d2a8259b3aacc4ab42"
-    },
-    {
-      "path": "docs/evidence/foundation-body-candidate-plan-20261102.json",
-      "sha256": "9631d125761d7df9d3cb5a12c8d6f680c30d17d4a5c0e11158a9337d20c3e5b2"
-    },
-    {
-      "path": "docs/evidence/foundation-body-candidate-preparation-20261102.json",
-      "sha256": "2c1e19be20219faa53783fd81f049512eeca4fce3c1aea6386dade98de8fb690"
-    },
-    {
-      "path": "evaluations/foundation-body-candidate-preparation-20261102/regression.json",
-      "sha256": "26f4689abf5a09819d49ecf0de1a1daa2d0471d83803448bd3b01c7ce3b4c2e8"
-    },
-    {
-      "path": "evaluations/foundation-body-candidate-preparation-20261102/sealed-rehearsal.json",
-      "sha256": "e6e675915abd96b1b8a53f68a662e7ea3ad59339d7de650e30de86da6bf8a8ce"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/business-engine.cjs",
-      "sha256": "261413baca2d53aa44da7e3bd846817c939c5e5ce565dfb10ebb19af8d7756f7"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/fixture.cjs",
-      "sha256": "e226d0b4dfc4bb812e1dfe850c0f4a46c07f7568d42eb5123224f49d05c9e582"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/identity.cjs",
-      "sha256": "110c3e072e0c18f6a7111b343805544b27bf63f392c47393236d4838ae98ca45"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/package-manifest.json",
-      "sha256": "05997b231c2a9a7f22ced44c34cb1a5cbd562ff78490ce84534cc7e3d016d466"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/plan.json",
-      "sha256": "50f17d0546ae8b44168f8bd142f5551084646320f047662d463687df4555c0b7"
-    },
-    {
-      "path": "evaluations/foundation-remaining-runner/runner-seal.json",
-      "sha256": "8f8fb2710b565d338c469d260a3691c2de067c78197461c8a4be3650924349f9"
-    },
-    {
-      "path": "scripts/prepare-body-candidate.cjs",
-      "sha256": "6efa578a11d0dae4e1cca05b8a6d759d2368bb909ea368db5b072bbd41800f53"
-    },
-    {
-      "path": "scripts/rehearse-remaining-runner.cjs",
-      "sha256": "be6f1ac9b5fe8ff6688df0de4fd3eabd2582e15c249df2de41bc7201e3a4439a"
-    },
-    {
-      "path": "tests/foundation-body-candidate.test.cjs",
-      "sha256": "3d118108962a65cc6f749a6229eea486f6503dbdc3bb75d5739b1fbf8988e316"
-    },
-    {
-      "path": "tests/foundation-transport-retest-preparation.test.cjs",
-      "sha256": "2b1ad3884b6733ca38ee9cfbdae0c437f7d6fb17e101355ebca8ad79121e426e"
-    }
-  ]
+  "preparation": {
+    "path": "docs/evidence/foundation-title-candidate-preparation-20261102.json",
+    "sha256": "adfe994c45ceb0201b04a061bd9459d467f042ebf15f0caaabb8de229cf95ae7"
+  },
+  "executionProposal": {
+    "path": "docs/evidence/foundation-title-candidate-plan-20261102.json",
+    "sha256": "4e89564375d3e5aa9853f14c0d13b6ff9588c2003a0180ff8a097358b8718763"
+  },
+  "kind": "independent-title-candidate-runtime-readiness",
+  "reviewRevision": 2,
+  "reportTerminology": "Historical exactness refers to initial/revised title and content plus the real patch; verifier replies remap runtime IDs only. The initial execution envelope is explicitly synthetic."
 }

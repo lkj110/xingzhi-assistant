@@ -55,7 +55,7 @@ async function run({executable,output,mode='offline',authorization,authorization
  async function launch(){
   nativeInstalled=false;
   guardIdentity();frozen(executable,{complete:true});
-  app=await require('playwright/test')._electron.launch({executablePath:executable,args:['--user-data-dir='+profile],env,timeout:45000});page=await app.firstWindow();if(mode==='offline')await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows().forEach(w=>w.hide()));page.setDefaultTimeout(15000);page.on('pageerror',e=>appErrors.push(e.message));await page.waitForFunction(()=>!!window.assistant);
+  app=await require('playwright/test')._electron.launch({executablePath:executable,args:['--user-data-dir='+profile],env,timeout:45000});page=await app.firstWindow();if(mode==='offline')await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows().forEach(w=>{w.webContents.setBackgroundThrottling(false);w.hide();}));page.setDefaultTimeout(15000);page.on('pageerror',e=>appErrors.push(e.message));await page.waitForFunction(()=>!!window.assistant);
   const proof=await app.evaluate(({app})=>({packaged:app.isPackaged,profile:app.getPath('userData'),version:app.getVersion(),asar:app.getAppPath()}));assert.equal(proof.packaged,true);assert.equal(proof.profile,profile);assert.equal(proof.version,plan.installedVersion);assert.equal(proof.asar,asar);
   const status=await api('groundingStatus');assert.equal(status.implementationHash,identity.groundingSha256);checks.push({kind:'boot',proof,groundingHash:status.implementationHash,attempts:broker.rows.length});
   if(activeTaskId){await native.install(app,{file:path.join(output,'native-commands.jsonl'),output:session.output,deadline:session.deadline,phase:'business',taskId:activeTaskId,runId:session.runId,mode});nativeInstalled=true;}
@@ -68,7 +68,7 @@ async function run({executable,output,mode='offline',authorization,authorization
  async function restartPreserved(spec,stage){
   const proof=require('../foundation-citation-business-runner/restart-proof.cjs'),before=proof.snapshot(await exportState(),activeTaskId),count=broker.rows.length,startedAt=Date.now();await restart();const after=proof.snapshot(await exportState(),activeTaskId),finishedAt=Date.now();
   write(path.join(output,`${spec.id}-${stage}-restart.json`),{schema:1,stage,startedAt,finishedAt,before,after});
-  const verified=proof.preserved(before,after,{stage,startedAt,finishedAt});assert.equal(broker.rows.length,count);
+  const verified=mode==='offline'&&fault==='title-real-patch'&&stage==='blocked-title-replay'?require('./title-replay.cjs').blockedRestartPreserved(before,after,{mode,stage,startedAt,finishedAt}):proof.preserved(before,after,{stage,startedAt,finishedAt});assert.equal(broker.rows.length,count);
   checks.push({kind:'restart-preserved',caseId:spec.id,stage,...verified,attempts:count});
  }
  function recordOutcome(spec,stage,data){
@@ -176,6 +176,11 @@ async function run({executable,output,mode='offline',authorization,authorization
      if(spec.lane==='generated_restart'){const accepted=current(final,activeTaskId).task,receipt=native.verify({file:path.join(output,'native-commands.jsonl'),profile,taskId:activeTaskId,exported:final});await restart();final=await exportState();assert.deepEqual(current(final,activeTaskId).task.acceptanceHistory,accepted.acceptanceHistory);assert.equal(current(final,activeTaskId).task.status,'completed');assert.deepEqual(native.verify({file:path.join(output,'native-commands.jsonl'),profile,taskId:activeTaskId,exported:final}),receipt);checks.push({kind:'accepted-cold-restart-preserved',caseId:spec.id});}
     }
    }catch(e){error=e;if(broker.stopped){try{await call('stop');await new Promise(r=>setTimeout(r,300));}catch{}}}
+   if(mode==='offline'&&fault==='title-real-patch'&&draftStage==='revision'){
+    assert.ok(error&&!broker.stopped,'Historical replay must be rejected by the application');
+    const assertBlocked=async()=>{const data=await exportState(),task=current(data,activeTaskId).task;assert.equal(task.status,'blocked');assert.equal(task.verification.bodyStructure.reason,'duplicate-leading-title');assert.equal(task.acceptedAt,undefined);const snapshot=await api('acceptanceSnapshot',{projectId:''});assert.equal(snapshot.items.find(t=>t.id===activeTaskId),undefined);};
+    await assertBlocked();await restartPreserved(spec,'blocked-title-replay');await assertBlocked();checks.push({kind:'blocked-title-restart-excluded-from-acceptance',caseId:spec.id,modelCallsAdded:0,actualHumanAcceptance:false});
+   }
    final=await exportState(call);if(error&&!negative){const audit=require('../foundation-business-runner/failed-draft.cjs').capture({directory:output,caseId:spec.id,stage:draftStage,input:{...input,...(draftStage==='revision'?{revisionNote:spec.revision.note}:{})},data:final,taskId:activeTaskId,error,priorDraftHash});checks.push({kind:'failed-draft-audit',caseId:spec.id,stage:draftStage,...audit});recordOutcome(spec,draftStage,final);}const calls=reconcile(final,activeTaskId,spec.id);
    const result={caseId:spec.id,lane:spec.lane,taskId:activeTaskId,technicalPassed:!error,error:error?.message||null,errorCode:error?.code||null,applicationAttempts:calls.length,cliExecRequests:broker.rows.length-start,actualHumanAcceptance:mode==='live'&&!error&&spec.lane!=='fixed_invalid'&&spec.id!==plan.protocolGate.id,semanticAdjudication:mode==='offline'?'not-applicable-synthetic':'pending-independent-final-audit',initial,final,...(negative?{seedIdentity:negative.seedIdentity}:{})};
    write(path.join(output,spec.id+'.json'),result);results.push({...result,initial:undefined,final:undefined});

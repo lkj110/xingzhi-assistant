@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "kind": "read-only-installation-endpoints-during-title-candidate-preparation",
+  "sourceBaseCommit": "ca9419e0786be67b6cb35143042f44dd676dd434",
+  "taskCommandsDidNotInstallCopyOrOverwriteInstallation": true,
+  "candidateInstalled": false,
+  "currentTaskInstallationWrites": 0,
+  "continuousFreezeProven": false,
+  "atomicSnapshots": false,
+  "priorUserReply": "没有主动更新／不确定",
+  "priorHistoricalDrift": "docs/evidence/foundation-title-contract-install-observation-20261102.json",
+  "installationRoot": "C:/Users/liukongjie/AppData/Local/Programs/XingzhiAssistantFoundation/20261027-90815f4",
+  "beforeWindow": {
+    "startedAt": "2026-11-02T06:34:04.936Z",
+    "finishedAt": "2026-11-02T06:34:14.301Z"
+  },
+  "afterWindow": {
+    "startedAt": "2026-11-02T07:43:41.921Z",
+    "finishedAt": "2026-11-02T07:44:01.495Z"
+  },
+  "beforeFileCount": 87,
+  "afterFileCount": 87,
+  "endpointBytesMatch": false,
+  "differencesSincePriorObservation": [],
+  "differencesDuringThisPreparation": [
+    {
+      "path": "debug.log",
+      "before": {
+        "path": "debug.log",
+        "sha256": "49a43219fd3ea9018590e8ccf4b00570d7c5779d5484c8f4f57e92ace017fc36",
+        "bytes": 1458,
+        "lastWriteTimeUtc": "2026-11-02T04:39:00.680Z",
+        "metadataStableDuringRead": true
+      },
+      "after": {
+        "path": "debug.log",
+        "sha256": "98a9823b3f01ce052c62859a6b63149b663e4e19d0af23f98436c3f312bbb5a8",
+        "bytes": 2106,
+        "lastWriteTimeUtc": "2026-11-02T07:10:52.106Z",
+        "metadataStableDuringRead": true
+      }
+    },
+    {
+      "path": "resources/app.asar",
+      "before": {
+        "path": "resources/app.asar",
+        "sha256": "2667aab8f70a229bbb2d613b3d5a2e5b8e09b3930f20d019261b5091b1ebfe4a",
+        "bytes": 124176255,
+        "lastWriteTimeUtc": "2026-11-02T04:36:32.040Z",
+        "metadataStableDuringRead": true
+      },
+      "after": {
+        "path": "resources/app.asar",
+        "sha256": "f1ef30db3194cc0007acb175b290a7544ce3863e901ce5a3f6c7c3e7f20616bb",
+        "bytes": 127045566,
+        "lastWriteTimeUtc": "2026-11-02T07:35:01.793Z",
+        "metadataStableDuringRead": true
+      }
+    }
+  ],
+  "sourceOfAnyChanges": "undetermined",
+  "metadataChangedDuringReads": [],
+  "installedAsarSha256": "f1ef30db3194cc0007acb175b290a7544ce3863e901ce5a3f6c7c3e7f20616bb",
+  "newCandidateAsarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+  "newCandidateIntegrityPassed": true,
+  "oldFrozenRoots": {
+    "oldCandidate": {
+      "files": 86,
+      "changedFiles": 0
+    },
+    "bodyRepository": {
+      "files": 1276,
+      "changedFiles": 0
+    },
+    "sourceRepository": {
+      "files": 1280,
+      "changedFiles": 0
+    },
+    "oldLive": {
+      "files": 41,
+      "changedFiles": 0
+    },
+    "oldControl": {
+      "files": 4,
+      "changedFiles": 0
+    }
+  },
+  "officialCli": {
+    "sha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
+    "executed": false
+  },
+  "evidence": {
+    "before": {
+      "path": "../foundation-title-candidate-audit-20261102/reviewer-baseline.json",
+      "sha256": "56b789fc3cdea31213ca57dcac282b88e16e0ab428404d911c5cd9fe1363bf30"
+    },
+    "after": {
+      "path": "../foundation-title-candidate-audit-20261102/reviewer-endpoint.json",
+      "sha256": "1bc971ffd76bc1afa0ae8a679b63880ccbe708cfd9e5a2d69dc1bcbb7f42ce9c"
+    }
+  },
+  "interpretation": "本任务未安装或覆盖安装目录；前后只读观测仍发现变化，来源未定，不能声称连续冻结。独立候选与旧证据另行验证，不回滚或覆盖安装文件。"
+}
