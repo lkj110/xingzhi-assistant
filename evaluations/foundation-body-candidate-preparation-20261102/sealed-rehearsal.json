@@ -1,0 +1,417 @@
+{
+  "schema": 1,
+  "kind": "offline-packaged-remaining-workflows-rehearsal",
+  "createdAt": "2026-11-02T03:31:50.457Z",
+  "runnerIdentity": "f90db745e7aa32212b77182ec875ddf1d849533db2bf7ea6c5a733d40bf89153",
+  "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+  "passed": true,
+  "results": [
+    {
+      "id": "normal",
+      "passed": true,
+      "expectedFailure": false,
+      "error": null,
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "normal/run.json",
+          "sha256": "3b03021b1f4ba69aaea67f0686e0b975c13c886245561c5913075e29a912902d"
+        },
+        {
+          "path": "normal/gate.started.json",
+          "sha256": "696085ff4776552d8c1f50a7ea712eedc980900a65a04ba98db68c5470247f54"
+        },
+        {
+          "path": "normal/gate.completed.json",
+          "sha256": "de2fdf0efb468b7a210cc2b88ad9c217eaed5229041a30d40c9eff6fc2ca3cff"
+        },
+        {
+          "path": "normal/gate/summary.json",
+          "sha256": "62a5ede3b41ed36e8ebe697f3990f3542073b60d875e4ec630c109e4eca56b62"
+        },
+        {
+          "path": "normal/gate/native-commands.jsonl",
+          "sha256": "a132c92a522c8f0b20ffacb8096d17009ac96dac6fa8d682565a0f52f576d681"
+        },
+        {
+          "path": "normal/gate/phase-review-request.json",
+          "sha256": "bcfde6d019cc93b4ea4b3a372eb18d874b5854f29abbbb30db2a0b1aeb919c74"
+        },
+        {
+          "path": "normal/gate/ledger/ledger.json",
+          "sha256": "812d5daac2b8a7e4cac9714eb6d7dfba0a0e980c31be7c8b28991dbd9a8a6f63"
+        },
+        {
+          "path": "normal/business.started.json",
+          "sha256": "b9d15015d2aef2880392bdfd0c13031d8ea533a93ce9906c3c3dcefa96c2ebbf"
+        },
+        {
+          "path": "normal/business.completed.json",
+          "sha256": "3e7b747db2426ad3d7d535797a8467da2f5f7d86eb3264858f39be6f0c944ee3"
+        },
+        {
+          "path": "normal/business/summary.json",
+          "sha256": "e042c09d79746eec731c2868ad66b010892f140025ad216fd92c5653efa4d0ba"
+        },
+        {
+          "path": "normal/business/native-commands.jsonl",
+          "sha256": "519ac2d25c94a16ff7b39c23657e46875636c46c67a09be4cd46e1d5da1ba19c"
+        },
+        {
+          "path": "normal/business/phase-review-request.json",
+          "sha256": "a7e818371fe616baa1b832fb18ea34b3041333c028ab59740a24089f1257db93"
+        },
+        {
+          "path": "normal/business/ledger/ledger.json",
+          "sha256": "112388b59e4ff903728a95ba86d65fe91dedde59089e10691e19f6ab2efb839d"
+        },
+        {
+          "path": "normal/scoped-report.json",
+          "sha256": "1eb1cf92ceb392ae97902fa066208725025aaf6524eb0c3722393415d9d4a076"
+        }
+      ]
+    },
+    {
+      "id": "gate-malformed",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Evaluation stopped: MODEL_INVALID_RESPONSE",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "gate-malformed/run.json",
+          "sha256": "d8e5ef36fccd5ed3a04b00488abe2eb7d46dbeb610f8049fa82db8f5271b0395"
+        },
+        {
+          "path": "gate-malformed/gate.started.json",
+          "sha256": "8fe9ec68aadd66c940b5067eb01089d514bb2a27d41bd1d0c04c4accb5967eed"
+        },
+        {
+          "path": "gate-malformed/gate/summary.json",
+          "sha256": "85e17eb25f1aecb8e607662fe45b74eaa63d0e68eed09c8db470da11be6c6dd5"
+        },
+        {
+          "path": "gate-malformed/gate/native-commands.jsonl",
+          "sha256": "48c3373c947750650321a19f691565aea121a58d81207c3555547a50cc38ffc0"
+        },
+        {
+          "path": "gate-malformed/gate/ledger/ledger.json",
+          "sha256": "31a587fde4ee67e5698093c18536e6fd00ae23df288ba0ed15706c4442f98a0b"
+        },
+        {
+          "path": "gate-malformed/stopped.json",
+          "sha256": "a8e2d6d771fd49df51b698d870edfeb500fd040206b2abe965c3ea6b120235a4"
+        }
+      ]
+    },
+    {
+      "id": "business-unknown-usage",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Evaluation stopped: CLI_INVALID_USAGE",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "business-unknown-usage/run.json",
+          "sha256": "9382c74269063e31c4ac6f44d6ec358ef021b4542e3b8c8653ea0fa5cea7120a"
+        },
+        {
+          "path": "business-unknown-usage/gate.started.json",
+          "sha256": "545214b0a569ce64b27762844eea700ce49872ed5dffce3664f6fed59982f789"
+        },
+        {
+          "path": "business-unknown-usage/gate.completed.json",
+          "sha256": "54b2e83b7db84bffc03c99ab9f47a58c2c7963c36f42f209d46309c2ab71ba14"
+        },
+        {
+          "path": "business-unknown-usage/gate/summary.json",
+          "sha256": "4eb168ea3d479539b1e2e15f33e91ac00b03186ee5968416ac1f13f73c35465a"
+        },
+        {
+          "path": "business-unknown-usage/gate/native-commands.jsonl",
+          "sha256": "0a30e6cafcfa828baa086183b9c1764747d6d72077959862f74d28bcc6ff78bd"
+        },
+        {
+          "path": "business-unknown-usage/gate/phase-review-request.json",
+          "sha256": "cbb9f906b5adaad6b08da6e67cc92febeed9c9b80c298827dac3224feee3531a"
+        },
+        {
+          "path": "business-unknown-usage/gate/ledger/ledger.json",
+          "sha256": "6cf7cf3b1b13d113aca69d24824267fa64fdf0fb38cc1c039988a9a8ae5a2c39"
+        },
+        {
+          "path": "business-unknown-usage/business.started.json",
+          "sha256": "5bc8b64d83edb16196e2be6d7308991e665364d070d100bc761c6a6284e6df16"
+        },
+        {
+          "path": "business-unknown-usage/business/summary.json",
+          "sha256": "23138116715416c5c742ae2714f1f380dd4bde033849cc0981676ec4bb6e7082"
+        },
+        {
+          "path": "business-unknown-usage/business/native-commands.jsonl",
+          "sha256": "70c9fcabaf5aaec5977dcb41c98f635e9e781565833338095c7ff7c92df7ddd7"
+        },
+        {
+          "path": "business-unknown-usage/business/ledger/ledger.json",
+          "sha256": "fcefce09df5729c77749a1a91c127f667faddc684f6a8a71562af2bf4f61ef37"
+        },
+        {
+          "path": "business-unknown-usage/stopped.json",
+          "sha256": "4dba417ae83fc6e19304311f9aed43898867c17cedbe7114cae763f2b60526f0"
+        }
+      ]
+    },
+    {
+      "id": "capture-submit",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "capture-submit/run.json",
+          "sha256": "57dc0067d744c34979f7e15ad0a6765a8333155b5cbb62c7378ed5a6292f47ce"
+        },
+        {
+          "path": "capture-submit/gate.started.json",
+          "sha256": "15702398d7d0c1c4cb58cd2bf8035a01860d614890a8537ecf02ac9ce5dd300b"
+        },
+        {
+          "path": "capture-submit/gate/summary.json",
+          "sha256": "c700df2cbb66355324a5e12dd2cdaa5d28f847e2daebde11867d1e21e5f98457"
+        },
+        {
+          "path": "capture-submit/gate/native-commands.jsonl",
+          "sha256": "ffd764f12d384928150998109f6ddc8bbdffbb1289e9fc21ca644a375b0d1c8a"
+        },
+        {
+          "path": "capture-submit/gate/ledger/ledger.json",
+          "sha256": "1eb8af322ce85ca9deace3faf87f8a5eabc43bdd3c7c9ed29dd784ad299eb195"
+        },
+        {
+          "path": "capture-submit/stopped.json",
+          "sha256": "679d721d70e2a65a8c0e5fbc02bb3cf9955d0a1f52ca28c4c3cccdff920e9aae"
+        }
+      ]
+    },
+    {
+      "id": "wrong-window",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "wrong-window/run.json",
+          "sha256": "fb38afd22626fd51a20c9a999c5df314ed3a282408442cf36394faa94f4b940a"
+        },
+        {
+          "path": "wrong-window/gate.started.json",
+          "sha256": "be2457b7ce8cc43f5ce34409f5c3d31e083be534c432615914afd094fee011a7"
+        },
+        {
+          "path": "wrong-window/gate/summary.json",
+          "sha256": "f72893244e3641f7a38c408ae6b97c50cc8babf1eb31829165305dd3715a0ef2"
+        },
+        {
+          "path": "wrong-window/gate/native-commands.jsonl",
+          "sha256": "9cce38b0f9bceabc8cc8d996c8202a88c7973d668da30f1ce5ef731eefadcad1"
+        },
+        {
+          "path": "wrong-window/gate/ledger/ledger.json",
+          "sha256": "950d6994f1640bee924befdde06b4183b06081ca2662c08d1d6898aa4827f778"
+        },
+        {
+          "path": "wrong-window/stopped.json",
+          "sha256": "653e3e7c892ff60ef0f2bc81bb0127782baa5b445d5c32fd6a4bca6bf677e7df"
+        }
+      ]
+    },
+    {
+      "id": "phase-stop",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Run stopped",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "phase-stop/run.json",
+          "sha256": "8b0f06c8ea86727a374cbcdde631ad2c4904242eba5edfeabc4f9c82c3b97b7d"
+        },
+        {
+          "path": "phase-stop/gate.started.json",
+          "sha256": "57d6e78d76df0568a22cafa5ce7c9060e96c36be9a15834a5af910cf18876468"
+        },
+        {
+          "path": "phase-stop/gate/summary.json",
+          "sha256": "218217e4922a305bf50fac4b599b1f9ade8fdadffc45d94168d5fc88d484cbca"
+        },
+        {
+          "path": "phase-stop/gate/native-commands.jsonl",
+          "sha256": "4ba6cec43d2b1aa3a9cfb9465280c048a0a3e900be9a7ef0da4a99daef938363"
+        },
+        {
+          "path": "phase-stop/gate/ledger/ledger.json",
+          "sha256": "e69326532110ac7284105fa9595f5944301bf89b3849d7cf75d132fe3f229943"
+        },
+        {
+          "path": "phase-stop/stopped.json",
+          "sha256": "cc34c048568eb2ae2a009a58d4a539980ec4e3586ab1bd080b9938fb2f749228"
+        }
+      ]
+    },
+    {
+      "id": "gate-routing-timeout",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Evaluation stopped: CLI_ROUTING_TIMEOUT",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "gate-routing-timeout/run.json",
+          "sha256": "c3947ea2b166e4f8c46a924beb59283d75aeb8dc35d0973287042b8d30e84618"
+        },
+        {
+          "path": "gate-routing-timeout/gate.started.json",
+          "sha256": "22f18e9b740a3ead160884a7df024839f0ee25c4e8c6cf13dd4b62a4f4ea7619"
+        },
+        {
+          "path": "gate-routing-timeout/gate/summary.json",
+          "sha256": "2d577b10dc639fa2249b4560b4ba8c86840f6c065abc6542b4e5ed81f26848f8"
+        },
+        {
+          "path": "gate-routing-timeout/gate/native-commands.jsonl",
+          "sha256": "d5d5e053ae787c4b2c9afcbb6119a8adf213fdf67e59f0fe3634bc27ae35e307"
+        },
+        {
+          "path": "gate-routing-timeout/gate/ledger/ledger.json",
+          "sha256": "c85ff9f4c7b4cff14a07caa42c6614c16d7dc193b999dfe7ed45a53a77100328"
+        },
+        {
+          "path": "gate-routing-timeout/stopped.json",
+          "sha256": "9a9c050fff7f4fb60300907705175c65f81c6664b4172b2424789bba2a81399e"
+        }
+      ]
+    },
+    {
+      "id": "business-routing-timeout",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "Evaluation stopped: CLI_ROUTING_TIMEOUT",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "business-routing-timeout/run.json",
+          "sha256": "65b4de60ab7bf53a3f5b4a409b9a48a454d9680c8dd4d61723b37bf50f9206fe"
+        },
+        {
+          "path": "business-routing-timeout/gate.started.json",
+          "sha256": "70751ba42f57e0a13c073eb067e7ecef87bb34f1dd406dd447a0c172d3ed907c"
+        },
+        {
+          "path": "business-routing-timeout/gate.completed.json",
+          "sha256": "cdc9bd966d5237b68b20451a89918a22ed9182213036a1766d6974d84c00d6fd"
+        },
+        {
+          "path": "business-routing-timeout/gate/summary.json",
+          "sha256": "6b6f819e54ecc5677c4da4573d72de96378c71480755e1c24b2ca3ab4bf59365"
+        },
+        {
+          "path": "business-routing-timeout/gate/native-commands.jsonl",
+          "sha256": "8cadb5c87850ca3df46a097cda7d13c22e593a1eff08ae6344030b125840346d"
+        },
+        {
+          "path": "business-routing-timeout/gate/phase-review-request.json",
+          "sha256": "d965e1278a88ccfb1b89cc69e4b4f4a45a5e271ce9cfd4ca2b0512716bd8fdb2"
+        },
+        {
+          "path": "business-routing-timeout/gate/ledger/ledger.json",
+          "sha256": "0075e4bd2c9f89ff01a2abb16859f766bae59bd1afe04994cea1df78a6efc4f4"
+        },
+        {
+          "path": "business-routing-timeout/business.started.json",
+          "sha256": "cae166ebd479ec539431fa59f63538485a2f7e2f061ff56ccff59d02aa5b28eb"
+        },
+        {
+          "path": "business-routing-timeout/business/summary.json",
+          "sha256": "f4c998575beec706886df2e9fb31c26772eec188672187d33492e5900d5db89a"
+        },
+        {
+          "path": "business-routing-timeout/business/native-commands.jsonl",
+          "sha256": "edab9a47b3a86bc4bc320209ce7e2db2d2cf161ce549cd36789b00beaaf4acbc"
+        },
+        {
+          "path": "business-routing-timeout/business/ledger/ledger.json",
+          "sha256": "9636b22bd0e7a0933c3482e31f83b597044ade323306c13f1ff00dac6e8069ee"
+        },
+        {
+          "path": "business-routing-timeout/stopped.json",
+          "sha256": "67f7adfcbdfbb41793cad2f2be2fd5258e205afcb083732a6689f7fb02c0e324"
+        }
+      ]
+    },
+    {
+      "id": "business-body-three-paragraphs",
+      "passed": true,
+      "expectedFailure": true,
+      "error": "结果检查未通过：正文结构未满足要求：须恰好2个自然段，当前正文有3段。标题字段独立；正文中的重复标题仍计入正文。\n+ actual - expected\n\n+ 'blocked'\n- 'review'\n",
+      "realModelCalls": 0,
+      "files": [
+        {
+          "path": "business-body-three-paragraphs/run.json",
+          "sha256": "d90b86d09ee9f192b296e6df96995abab7cdabdb2817c3c016a7b7c44c8317f1"
+        },
+        {
+          "path": "business-body-three-paragraphs/gate.started.json",
+          "sha256": "eb1601d4996f33c66c15973acf7ec46655c741268b1bd080178fada20ff97ce2"
+        },
+        {
+          "path": "business-body-three-paragraphs/gate.completed.json",
+          "sha256": "064c54f22c74d57a61d144e713d7c1abee42421988dcc28c485ffff0d77e03fb"
+        },
+        {
+          "path": "business-body-three-paragraphs/gate/summary.json",
+          "sha256": "0775b0d626b382f9954c4e3d1fe034c6be048f707afaca666165d658dc769437"
+        },
+        {
+          "path": "business-body-three-paragraphs/gate/native-commands.jsonl",
+          "sha256": "74c625157affac1a2dcd9b2fdce6c4e0ecca549a0f11e4e0e4d313472e81e8d1"
+        },
+        {
+          "path": "business-body-three-paragraphs/gate/phase-review-request.json",
+          "sha256": "9e44de5c5713abc51d8f12f55fd5442f4e7b2db15f65ed0109fab9b42d5c4bed"
+        },
+        {
+          "path": "business-body-three-paragraphs/gate/ledger/ledger.json",
+          "sha256": "5d2e41ff44cef5cb86f7afbc0d08258e3a9d83150bc028404a8738d8acb45714"
+        },
+        {
+          "path": "business-body-three-paragraphs/business.started.json",
+          "sha256": "15c4059adce41a9da9d441ccdf5d502366ee1342add64087d603380e84f1d70b"
+        },
+        {
+          "path": "business-body-three-paragraphs/business/summary.json",
+          "sha256": "20d7c2630bbbcf2506a55b5d0c0de33e476212992f09bc4010c83c72c46ce82a"
+        },
+        {
+          "path": "business-body-three-paragraphs/business/native-commands.jsonl",
+          "sha256": "94f7f3a1d91f0398d1421438338ea3515bf167fd09be4215f252c1ede4dd80f8"
+        },
+        {
+          "path": "business-body-three-paragraphs/business/ledger/ledger.json",
+          "sha256": "cacbc9479c989eac281cc279d1030357aedae23841ebf5da272c6bb603ae6d78"
+        },
+        {
+          "path": "business-body-three-paragraphs/stopped.json",
+          "sha256": "e653c6a292b0dd17b625d892d7fa58884aa1472c0e0a468345395098daf27551"
+        }
+      ]
+    }
+  ],
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "actualHumanAcceptances": 0,
+  "f04Executions": 0,
+  "installed": false,
+  "syntheticFixtureOnly": true
+}

@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "kind": "installation-changed-during-offline-candidate-preparation",
+  "date": "2026-11-02",
+  "installedDirectory": "%LOCALAPPDATA%/Programs/XingzhiAssistantFoundation/20261027-90815f4",
+  "beforeSnapshotAtUtc": "2026-11-02T03:10:02.846Z",
+  "recordedAtUtc": "2026-11-02T03:37:13.924Z",
+  "files": [
+    {
+      "path": "debug.log",
+      "beforeSha256": "7290e9a25b5b1ca8acfcb2c0c404830087a0a613958c74c1aa9739ce452dd304",
+      "strictFreezeObservedSha256": "56bc5ab3d8d788746e7dd2226e7c6404a0638f273fd6a292b3872d71503e5be1",
+      "metadataAndRepeatReadAt": "2026-11-02T03:37:13.604Z",
+      "length": 810,
+      "lastWriteTimeUtc": "2026-11-02T03:34:29.747Z",
+      "currentSha256": "56bc5ab3d8d788746e7dd2226e7c6404a0638f273fd6a292b3872d71503e5be1",
+      "readError": null
+    },
+    {
+      "path": "resources/app.asar",
+      "beforeSha256": "407b400b95a6e29c1047cbce4e4a42f1e48ad0f84b9f4a60664e1c46cc21deb2",
+      "strictFreezeObservedSha256": "e10e6005c56311b16ca753d3ef8b9b4e913f7d38acbb144a5c1ff2434bc4f2db",
+      "metadataAndRepeatReadAt": "2026-11-02T03:37:13.924Z",
+      "length": 124178787,
+      "lastWriteTimeUtc": "2026-11-02T03:31:02.046Z",
+      "currentSha256": "e10e6005c56311b16ca753d3ef8b9b4e913f7d38acbb144a5c1ff2434bc4f2db",
+      "readError": null
+    },
+    {
+      "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+      "beforeSha256": "a2d3865a07f3d8a60aead9cec05eee9f72a79073461ed5e27ebcab3b9518a772",
+      "strictFreezeObservedSha256": "522ecaf831f1a20f7d97e341262ac2b05d4b82155ec1930a335c1b33cdbf82e5",
+      "metadataAndRepeatReadAt": "2026-11-02T03:37:13.924Z",
+      "length": 27136,
+      "lastWriteTimeUtc": "2026-11-02T03:25:16.003Z",
+      "currentSha256": "522ecaf831f1a20f7d97e341262ac2b05d4b82155ec1930a335c1b33cdbf82e5",
+      "readError": null
+    }
+  ],
+  "installedDirectoryFreezeHeld": false,
+  "newDifferencesDuringThisPreparation": 3,
+  "earlierDifferencesRemainSeparatelyRecorded": true,
+  "earlierObservation": "docs/evidence/foundation-body-structure-install-observation-20261102.json",
+  "strictFreezeCheckRejected": true,
+  "allOther144HistoricalRootsUnchanged": true,
+  "currentTaskInstalledWrites": 0,
+  "currentTaskInstalls": 0,
+  "newCandidateUnchanged": true,
+  "attribution": "来源未确定。before/after哈希证实本轮又有变化；mtime仅为文件系统元数据，不用来判断修改者、机制或授权。本任务与独审均未执行安装/覆盖操作。已询问用户是否有并行更新，尚不据此作归因。",
+  "action": "保留当前安装文件，不回滚、不覆盖、不关闭无关进程，也不重设旧before基线。独立候选的离线准备与安装目录冻结状态分别报告。",
+  "privateEvidence": {
+    "path": "../foundation-body-candidate-audit-20261102/reviewer-installation-drift-20261102.json",
+    "sha256": "ed2135da7455295360019fa1da4bedeb9659b6b50ddac8002d3fb6add035e97c"
+  },
+  "candidateScope": "新候选包仅位于独立目录，未安装；F04仍只证明旧ASAR历史真人流程。真实模型复测仍须新授权。"
+}

@@ -6,10 +6,11 @@ const plan=id.read(path.join(id.root,'evaluations/foundation-remaining-runner/pl
 const seal=()=>id.read(path.join(id.root,'evaluations/foundation-remaining-runner/runner-seal.json'));
 function directory(t){const base=fs.realpathSync(os.tmpdir()),dir=fs.mkdtempSync(path.join(base,'retest-preparation-'));t.after(()=>{assert.equal(path.dirname(fs.realpathSync(dir)),base);fs.rmSync(dir,{recursive:true,force:true});});return dir;}
 test('new output root is fixed and old scope, samples, budgets and semantic settings remain exact',()=>{
- id.validatePlan(plan);assert.equal(plan.outputParent,'../foundation-transport-retest-runs-20261030');
+ id.validatePlan(plan);assert.equal(plan.outputParent,'../foundation-body-retest-runs-20261102');
  const old=require('../evaluations/foundation-minimal-runner/plan.json');
- for(const key of ['gate','business','settings','total','cli','asarSha256','sourceSampleIdentity'])assert.deepEqual(plan[key],old[key]);
- for(const outputParent of ['../foundation-remaining-runs-20261030','../','C:/','../foundation-transport-retest-runs-20261030/../old'])assert.throws(()=>id.validatePlan({...plan,outputParent}));
+ for(const key of ['settings','total','sourceSampleIdentity'])assert.deepEqual(plan[key],old[key]);
+ for(const phase of ['gate','business']){const expected=structuredClone(old[phase]);expected.asarSha256=plan.asarSha256;expected.sourceCodeCommit=plan.sourceCodeCommit;if(expected.cli)expected.cli=plan.cli;assert.deepEqual(plan[phase],expected);}
+ for(const outputParent of ['../foundation-transport-retest-runs-20261030','../foundation-remaining-runs-20261030','../','C:/','../foundation-body-retest-runs-20261102/../old'])assert.throws(()=>id.validatePlan({...plan,outputParent}));
 });
 test('new seal binds diagnostic implementation, original event, old seal and all new regression sources',()=>{
  const s=seal();id.verifyRunner(s);assert.notEqual(s.identity,oldSeal.identity);assert.equal(s.liveAuthorized,false);

@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "id": "foundation-transport-retest-20261030",
+  "id": "foundation-body-candidate-20261102",
   "liveAuthorized": false,
   "candidateInstalled": false,
-  "sourceCodeCommit": "0342b69dbbc1418079db761851a489f8fe87b603",
-  "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+  "sourceCodeCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+  "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
   "sourceSampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
   "order": [
     "gate",
@@ -20,7 +20,7 @@
     "fallback": false
   },
   "cli": {
-    "sha256": "5c1b55966bf9f757dcbf00065c9a6cb862ead55d34b015f1be1939ff18e43943",
+    "sha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
     "identitySource": "read-only-file-hash-no-execution",
     "availability": "not-probed"
   },
@@ -34,7 +34,7 @@
     "id": "minimal-foundation-citation-candidate-gate-20261029",
     "liveAuthorized": false,
     "installedVersion": "0.42.4",
-    "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
     "model": {
       "id": "gpt-6.1-sol",
       "reasoning": "medium",
@@ -95,12 +95,12 @@
       "G01-muju"
     ],
     "cli": {
-      "sha256": "5c1b55966bf9f757dcbf00065c9a6cb862ead55d34b015f1be1939ff18e43943",
+      "sha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
       "identitySource": "read-only-file-hash-no-execution",
       "availability": "not-probed"
     },
     "baseCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
-    "sourceCodeCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
+    "sourceCodeCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
     "scope": "one-exposed-gate-on-new-export-candidate",
     "inheritedFromRunner": "foundation-citation-gate-runner"
   },
@@ -109,7 +109,7 @@
     "id": "minimal-foundation-citation-business-acceptance-20261029",
     "liveAuthorized": false,
     "installedVersion": "0.42.4",
-    "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
     "model": {
       "id": "gpt-6.1-sol",
       "reasoning": "medium",
@@ -182,14 +182,14 @@
       "F06-yunshu-restart"
     ],
     "baseCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
-    "sourceCodeCommit": "c28a0e9ac5eafa90223e710cfb53ebb8fdec6f00",
+    "sourceCodeCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
     "scope": "two-unfinished-business-workflows",
     "inheritedFromRunner": "foundation-citation-business-runner"
   },
   "reporting": {
     "businessCompletionDenominator": 2,
     "plannedFixedInvalidCases": 0,
-    "F04": "Read-only prerequisite from completed human run; never rerun or included in this round completion denominator.",
+    "F04": "Read-only historical human workflow on the prior ASAR; not executed or claimed covered on the new candidate; excluded from this round completion denominator.",
     "F05F06": "Initial/revised drafts assessed independently; no natural marker trigger means not-covered",
     "falseRelease": "No fixed invalid sample this round; zero invalid-generated denominator is not estimable",
     "historical": "Do not merge different candidate rounds into six-of-six acceptance",
@@ -203,5 +203,19 @@
     "review": "docs/evidence/foundation-native-ui-f04-result-review-20261030.json",
     "reviewSha256": "fa0e0ed0f8bb263a2119c8b1f1c53d9df56d4d503aae6b6b7cf59947563f9891"
   },
-  "outputParent": "../foundation-transport-retest-runs-20261030"
+  "outputParent": "../foundation-body-retest-runs-20261102",
+  "candidateTransition": {
+    "baseAsarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "packageManifestSha256": "05997b231c2a9a7f22ced44c34cb1a5cbd562ff78490ce84534cc7e3d016d466",
+    "sourceCodeCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+    "F04HistoricalOnly": true,
+    "F04CurrentCandidateCovered": false
+  },
+  "cliChange": {
+    "previousSha256": "5c1b55966bf9f757dcbf00065c9a6cb862ead55d34b015f1be1939ff18e43943",
+    "currentSha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
+    "observedBy": "read-only-file-hash",
+    "executed": false,
+    "priorGateReusable": false
+  }
 }

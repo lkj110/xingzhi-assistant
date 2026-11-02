@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "startedAt": "2026-11-02T03:33:07.011Z",
+  "finishedAt": "2026-11-02T03:33:46.050Z",
+  "exitCode": 0,
+  "files": [
+    "tests/body-structure.test.cjs",
+    "tests/body-structure-flow.test.cjs",
+    "tests/foundation-body-candidate.test.cjs",
+    "tests/foundation-remaining-runner.test.cjs",
+    "tests/foundation-transport-retest-preparation.test.cjs",
+    "tests/foundation-transport-cause.test.cjs",
+    "evaluations/foundation-runner/candidate-identity.test.cjs",
+    "evaluations/foundation-runner/paths.test.cjs",
+    "evaluations/foundation-runner/broker-paths.test.cjs",
+    "evaluations/foundation-runner/protocol-guard.test.cjs",
+    "evaluations/foundation-runner/authorization.test.cjs",
+    "evaluations/foundation-runner/transport.test.cjs"
+  ],
+  "counts": {
+    "tests": 277,
+    "pass": 276,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 1,
+    "todo": 0
+  },
+  "testFileConcurrency": 1,
+  "packagedRehearsalConcurrent": false,
+  "runnerIdentity": "f90db745e7aa32212b77182ec875ddf1d849533db2bf7ea6c5a733d40bf89153",
+  "sourceUnchangedSinceInitialRun": true,
+  "sourceUnchangedDuringRun": true,
+  "nodeVersion": "v24.22.1",
+  "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5",
+  "log": {
+    "path": "root-regression-final-02.tap",
+    "sha256": "d76702f848c01c058807c773136edb74eff71a032aca902e8ead264ade5fe78e"
+  },
+  "isolatedFailureRerun": {
+    "executedMatchedTests": 1,
+    "counts": {
+      "tests": 1,
+      "pass": 1,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "log": {
+      "path": "root-isolated-cause.tap",
+      "sha256": "5e0cc5b2992b620a33c7aa35030c9d8ce20e086874a8d492f3a8e81288f7b863"
+    }
+  },
+  "skippedLines": [
+    "ok 39 - real file symlink is refused when supported by Windows host # SKIP Windows host does not grant file symlink creation"
+  ],
+  "firstRun": {
+    "path": "root-regression-final-01.json",
+    "sha256": "785ea582464075820a680d9bf3b31c2c4ba91bdafb7bfc7a32d00dcdec511762",
+    "counts": {
+      "tests": 277,
+      "pass": 275,
+      "fail": 1,
+      "cancelled": 0,
+      "skipped": 1,
+      "todo": 0
+    }
+  },
+  "interpretation": "One 3-second local fixture startup/idle timeout occurred during concurrent rehearsal and parallel test files. The unchanged exact case and then the unchanged full group were rerun without concurrent rehearsal and with serial test files. A pass supports scheduling sensitivity; it does not prove live service availability or that resource contention was the only possible cause. No product code or timeout was loosened.",
+  "realModelCalls": 0,
+  "officialCliInvocations": 0
+}

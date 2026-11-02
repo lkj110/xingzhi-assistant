@@ -12,7 +12,8 @@ async function rehearse({executable,output}){
   {id:'wrong-window',phases:['gate'],fault:'wrong-window',negative:true},
   {id:'phase-stop',phases:['gate'],fault:'phase-stop',negative:true},
   {id:'gate-routing-timeout',phases:['gate'],fault:'routing-timeout',negative:true},
-  {id:'business-routing-timeout',phases:['gate','business'],fault:'routing-timeout',negative:true}];
+  {id:'business-routing-timeout',phases:['gate','business'],fault:'routing-timeout',negative:true},
+  {id:'business-body-three-paragraphs',phases:['gate','business'],fault:'body-three-paragraphs',negative:true}];
  for(const probe of probes){
   const target=path.join(output,probe.id);let error;
   for(const [i,stage]of probe.phases.entries())try{await run({stage,executable,output:target,mode:'offline',readyReference:'OFFLINE-SYNTHETIC-NOT-USER-APPROVAL',fault:probe.id==='normal'||i===probe.phases.length-1?probe.fault:undefined});}catch(e){error=e;break;}
@@ -28,6 +29,10 @@ async function rehearse({executable,output}){
     assert.equal(summary.ledger.stop.reason,'CLI_ROUTING_TIMEOUT');assert.equal(summary.ledger.totals.admitted,1);assert.equal(summary.ledger.totals.applicationEntryAttempts,1);assert.equal(summary.ledger.totals.unknownUsage,1);assert.equal(summary.ledger.totals.totalTokens,null);assert.equal(summary.ledger.totals.pendingUsage,0);assert.equal(summary.ledger.totals.unexpectedAttempts,0);
     const terminals=fs.readdirSync(path.join(target,last,'calls')).filter(n=>n.endsWith('-terminal.json'));assert.equal(terminals.length,1);const terminal=id.read(path.join(target,last,'calls',terminals[0]));assert.equal(terminal.error,'CLI_ROUTING_TIMEOUT');assert.equal(terminal.rawOutput,null);assert.equal(terminal.processTreeConfirmed,true);assert.equal(terminal.diagnostics.events[0].rawEventSha256,'32345e942660070888e7e55e44337de7621a23fab06c7643c8f484c380a8ad25');
     if(last==='business'){assert.deepEqual(summary.results.map(r=>r.caseId),['F05-jianping-revision']);assert.equal(summary.results[0].errorCode,'CLI_ROUTING_TIMEOUT');assert.ok(!fs.existsSync(path.join(target,'business/F06-yunshu-restart.json')));}
+   }
+   if(probe.fault==='body-three-paragraphs'){
+    assert.deepEqual(summary.results.map(r=>r.caseId),['F05-jianping-revision']);assert.ok(!fs.existsSync(path.join(target,'business/F06-yunshu-restart.json')));assert.equal(summary.simulatedAcceptances,0);assert.equal(summary.ledger.totals.unknownUsage,0);
+    const revision=id.read(path.join(target,'business/F05-jianping-revision-revision-draft.json'));assert.equal(revision.task.verification.bodyStructure.expected,2);assert.equal(revision.task.verification.bodyStructure.actual,3);assert.equal(revision.task.verification.bodyStructure.passed,false);assert.equal(revision.task.verification.passed,false);assert.equal(revision.task.status,'blocked');
    }
    if(['capture-submit','wrong-window','phase-stop'].includes(probe.fault)){assert.equal(summary.ledger.totals.admitted,0);assert.equal(summary.ledger.totals.totalTokens,0);const rows=require('../evaluations/foundation-remaining-runner/native.cjs').records(path.join(target,last,'native-commands.jsonl'));assert.ok(rows.some(r=>r.kind==='denied'&&r.boundary==='before-original-handler'));}
   }else{

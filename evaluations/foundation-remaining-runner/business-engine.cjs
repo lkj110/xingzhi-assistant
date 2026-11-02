@@ -35,7 +35,7 @@ async function run({executable,output,mode='offline',authorization,authorization
  for(const key of Object.keys(env))if(['ELECTRON_RUN_AS_NODE','NODE_OPTIONS','ASSISTANT_TEST_DATA_DIR','ASSISTANT_DESKTOP_FIXTURE','ASSISTANT_ENGINE_FIXTURE'].includes(key)||/^(OPENAI|ANTHROPIC|AZURE_OPENAI)_/.test(key))delete env[key];fs.mkdirSync(env.CODEX_HOME);
  let app,page,negative,failed,activeTaskId,nativeInstalled=false;const results=[],checks=[],appErrors=[],control=new AbortController();
  const phases=createPhases({snapshot:()=>exportState()});
- const fixture=mode==='offline'?require('../foundation-business-runner/fixture.cjs').createFixture({pack,plan,fault}):undefined;
+ const fixture=mode==='offline'?require('./fixture.cjs').createFixture({pack,plan,fault}):undefined;
  const broker=await createBroker({directory:output,plan,mode,sealIdentity,authorization,realCli,identityGuard:guardIdentity,fault,faultCaseId:specs[0].id,fixture,admission:(call,context)=>require('./admission.cjs').admit({session,identityGuard:guardIdentity,phases,call,context,afterAdmission:async()=>{if(phases.value.kind==='recheck')binding.unchanged(context.contentBinding,await exportState(),context.taskId);}}),responseObserved:(...args)=>phases.observed(...args)});
  write(path.join(shim,'bridge.json'),broker.bridgeConfig);
  const stop=()=>{control.abort();broker.cancel('USER_STOP_SIGNAL');};process.on('SIGINT',stop);process.on('SIGTERM',stop);

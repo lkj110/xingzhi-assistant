@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "kind": "sealed-body-candidate-minimal-retest-proposal",
+  "date": "2026-11-02",
+  "status": "awaiting-new-user-authorization",
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "oldBudgetReusable": false,
+  "productSourceCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+  "branch": "codex/foundation-body-candidate",
+  "runnerIdentity": "f90db745e7aa32212b77182ec875ddf1d849533db2bf7ea6c5a733d40bf89153",
+  "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "entry": "evaluations/foundation-remaining-runner/run.cjs",
+  "candidateExecutable": "../foundation-candidate-bundle-body-20261102/XingzhiAssistant.exe",
+  "outputParent": "../foundation-body-retest-runs-20261102",
+  "rawPlanFileSha256": "50f17d0546ae8b44168f8bd142f5551084646320f047662d463687df4555c0b7",
+  "canonicalPlanSha256": "877d63e0e1ebb938a16b0c16edeefc0bb6312bdffdd6b880ba477bb9e361c837",
+  "authorizationPlanHash": "authorization.planSha256 must equal canonicalPlanSha256, not the raw file hash",
+  "runnerSealSha256": "8f8fb2710b565d338c469d260a3691c2de067c78197461c8a4be3650924349f9",
+  "packageManifestSha256": "05997b231c2a9a7f22ced44c34cb1a5cbd562ff78490ce84534cc7e3d016d466",
+  "runtimeReview": "evaluations/foundation-remaining-runner/runner-review.json",
+  "environment": {
+    "nodeVersion": "v24.22.1",
+    "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5",
+    "cliSha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
+    "cliChange": {
+      "previousSha256": "5c1b55966bf9f757dcbf00065c9a6cb862ead55d34b015f1be1939ff18e43943",
+      "currentSha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
+      "observedBy": "read-only-file-hash",
+      "executed": false,
+      "priorGateReusable": false
+    },
+    "officialCliExecuted": false,
+    "availability": "not-probed",
+    "oldGateReusable": false
+  },
+  "sequence": [
+    {
+      "stage": "read-only-preflight",
+      "action": "确认新候选全包、新执行器封存/独审、来源样本和当前 CLI 文件哈希；任何变化即停止，不自动更新身份。"
+    },
+    {
+      "stage": "G01",
+      "action": "新授权后启动一次固定45分钟门检，协议、已知用量及独审全部通过才可进入业务。"
+    },
+    {
+      "stage": "F05",
+      "action": "用户重新确认就绪后启动业务共享45分钟窗口；原封存初稿→修订，必要时由用户确认表达并单独重检，合格后用户在候选内最终验收。"
+    },
+    {
+      "stage": "F06",
+      "action": "仅F05完成后继续；核对冷重启后的稿件、检查身份及验收状态，需用户最终验收。"
+    }
+  ],
+  "budget": {
+    "total": {
+      "applicationAttempts": 25,
+      "maximumModelDispatches": 22,
+      "reportedTokenStopThreshold": 620000
+    },
+    "gate": {
+      "applicationAttempts": 5,
+      "maximumModelDispatches": 4,
+      "inputPlusOutputTokenStopThreshold": 120000,
+      "fixedMinutes": 45
+    },
+    "business": {
+      "applicationAttempts": 20,
+      "maximumModelDispatches": 18,
+      "inputPlusOutputTokenStopThreshold": 500000,
+      "fixedMinutes": 45,
+      "cases": [
+        {
+          "id": "F05-jianping-revision",
+          "attempts": 13,
+          "tokenStopThreshold": 330000
+        },
+        {
+          "id": "F06-yunshu-restart",
+          "attempts": 7,
+          "tokenStopThreshold": 170000
+        }
+      ]
+    },
+    "concurrency": 1,
+    "retries": 0,
+    "fallback": false,
+    "inflightMayExceedThreshold": true,
+    "absoluteTokenHardCap": false,
+    "phaseOrCaseBudgetBorrowing": false
+  },
+  "accounting": "cachedInputTokens已包含在inputTokens中，不另行叠加。retries=0指应用和执行器不重复分发，不保证官方CLI内部没有网络重连或重试。",
+  "windows": "G01固定45分钟；门检独审通过且用户重新就绪后，F05/F06另共享固定45分钟。含启动、模型、真人操作、重启及独审等待，不重置。",
+  "stop": "任何终止性CLI/协议错误、未知用量、任一额度/窗口达到阈值或首个终止性案例失败即整轮停止。三段修订被正确拦截也不能称为F05完成；不自动补稿或追加一轮。",
+  "diagnostics": "当前执行器对stdout error/turn.failed、非零退出、超时、协议拒绝或格式错误、未知用量等终止条件停机。stderr仅限长脱敏记录，不会自动按未知文本分类并拒绝；独立审核需连同有效结果和用量审查，不能宣称日志里的服务问题已恢复。",
+  "priorProposalCorrection": "上一轮未封存提案对未知stderr自动停止的表述超出当前实现，本轮按现有代码更正，不新增诊断语义规则。",
+  "f04": {
+    "runId": "3416bcda-77e0-4866-b0a6-2bb7eabec4f0",
+    "asarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+    "completedSha256": "ef98164b3be4b8b6fd3e67bafb90589d6829f611c1476387530d1e2508aedae7",
+    "reportSha256": "d1440e32e79a60c854627603e1f995428e10ff575bb12a6f20e8d4751cc26985",
+    "reviewSha256": "fa0e0ed0f8bb263a2119c8b1f1c53d9df56d4d503aae6b6b7cf59947563f9891",
+    "rerun": false,
+    "historicalOnly": true,
+    "currentCandidateCovered": false,
+    "currentCandidateAsarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+    "identity": "d5c6ec7009ee67a73b52a38ffc14cc358daaabc78b9f36d874dfc891b0ee39ce",
+    "countedInThisRound": false
+  },
+  "reporting": {
+    "businessCompletionDenominator": 2,
+    "factualHallucination": "逐实际可判定稿件报告分子/分母，核验器结构误判另列。",
+    "falseBlock": "错误拦截合格稿件/实际合格可判定稿件；正确结构拦截不计误拦。",
+    "falseRelease": "错误放行不合格稿件/实际不合格可判定稿件；没有不合格样本时写0/0、rate:null。",
+    "cost": "G01、F05初稿/修订/重检、F06分别报告input/output/cached/总量及应用尝试/模型分发；模拟用量不当成真实用量。",
+    "limitations": "沿用已暴露封存样本，F05历史回放参与过修复；不是全新盲样或随机对照，不推断总体质量/成本改善。"
+  },
+  "excludes": {
+    "F04Rerun": true,
+    "installation": true,
+    "formalMainEvaluation": true,
+    "extraConnectivityProbe": true,
+    "automaticNextRound": true
+  },
+  "authorization": "本轮仅完成离线准备。须取得这份新候选、新执行器、新CLI身份对应的新用户预算授权；此前真实授权已关闭，不能复用。预算确认后先G01；业务阶段另确认操作就绪。",
+  "installationObservation": {
+    "path": "docs/evidence/foundation-body-candidate-install-observation-20261102.json",
+    "freezeHeld": false,
+    "newDifferences": 3,
+    "source": "undetermined",
+    "candidateInstalled": false,
+    "newCandidateIdentityUnaffected": true,
+    "interpretation": "本预算仅针对独立候选测试，不表示批准或归因安装目录的未知变化；真实执行前仍必须核对候选、执行器与CLI的固定哈希。"
+  }
+}

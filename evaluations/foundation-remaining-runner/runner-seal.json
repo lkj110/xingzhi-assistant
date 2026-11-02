@@ -7,11 +7,15 @@
     },
     {
       "path": "business-engine.cjs",
-      "sha256": "0d7e82cf71e41241cc1adc3bdf2d34f34c78046e0a235aee942f97039bae0c15"
+      "sha256": "261413baca2d53aa44da7e3bd846817c939c5e5ce565dfb10ebb19af8d7756f7"
     },
     {
       "path": "business-identity.cjs",
       "sha256": "9db97b77cee3bd673ebceab615631c966177b52ec493cabba6575c8149628f41"
+    },
+    {
+      "path": "fixture.cjs",
+      "sha256": "e226d0b4dfc4bb812e1dfe850c0f4a46c07f7568d42eb5123224f49d05c9e582"
     },
     {
       "path": "gate-engine.cjs",
@@ -27,15 +31,19 @@
     },
     {
       "path": "identity.cjs",
-      "sha256": "d99c1f2a69f47b6ac8502cd1cc1f11e1445bdae2e602503107af873275ea65b5"
+      "sha256": "110c3e072e0c18f6a7111b343805544b27bf63f392c47393236d4838ae98ca45"
     },
     {
       "path": "native.cjs",
       "sha256": "b53232b2827f0f9f457c7f2a11be1867e6aca4a3c218885cde78dd155fdaa6e3"
     },
     {
+      "path": "package-manifest.json",
+      "sha256": "05997b231c2a9a7f22ced44c34cb1a5cbd562ff78490ce84534cc7e3d016d466"
+    },
+    {
       "path": "plan.json",
-      "sha256": "935c6f6fe0e3fd56ac1a5f1fab42653fb4f01caf2127d2ed04b301a19b4d7440"
+      "sha256": "50f17d0546ae8b44168f8bd142f5551084646320f047662d463687df4555c0b7"
     },
     {
       "path": "policy.cjs",
@@ -768,16 +776,32 @@
       "sha256": "0304f69294f8221b82ec6b4c75511dd6d824f04b1a0999409c79931cd33219e3"
     },
     {
+      "path": "desktop/acceptance.cjs",
+      "sha256": "b39ba6a2a73f8d20bf5c858bf74dce8793fd03137f1628355737abf74aad9f24"
+    },
+    {
+      "path": "desktop/body-structure.cjs",
+      "sha256": "4699bdaf46cf47e3e4e5da38efc2077ee75ce1b1e9a4f509f1c70035edc4ef24"
+    },
+    {
       "path": "desktop/citation-fields.cjs",
       "sha256": "15e6d099095ef4d6bdd47dc8b61fb151b68d049b8e505fc4364bf3562fe1b8ca"
+    },
+    {
+      "path": "desktop/core.cjs",
+      "sha256": "2ce1e7ceb257000bebf483ad829fa202498acbb2bc07e0009a01b903d994cbb0"
     },
     {
       "path": "desktop/evidence-basis.cjs",
       "sha256": "9fabd802ed5c45c42b3e42249ca955aa0b99e2b83fd5c62c4bb2920e3084224d"
     },
     {
+      "path": "desktop/generation-context.cjs",
+      "sha256": "1067fb2380b17ed19d4e955e9985124aa0c48b62679e81213af3b1e9994d9b9f"
+    },
+    {
       "path": "desktop/grounding.cjs",
-      "sha256": "495aaa4f719814ad39bb078777b7b12f634839ad2395746fcc8cad04afb445c7"
+      "sha256": "1fde72df4db6f3fd9157aead833dea372281695c2a7fb2c5b5376715d29ed8f7"
     },
     {
       "path": "desktop/host-process.cjs",
@@ -1388,6 +1412,10 @@
       "sha256": "cfd45d532599942977948b7d84758620a06d3a998d42eae974a981c86446e7ae"
     },
     {
+      "path": "scripts/prepare-body-candidate.cjs",
+      "sha256": "6efa578a11d0dae4e1cca05b8a6d759d2368bb909ea368db5b072bbd41800f53"
+    },
+    {
       "path": "scripts/prepare-citation-candidate.cjs",
       "sha256": "c3452885545e92b2c1c2b23fda37710548b7d7ce2980becca7d3e930928d39cc"
     },
@@ -1409,7 +1437,19 @@
     },
     {
       "path": "scripts/rehearse-remaining-runner.cjs",
-      "sha256": "83e4264fe8776d958d3f49b20182a2b51d17198cf62b6138b9e649a842dab1c7"
+      "sha256": "be6f1ac9b5fe8ff6688df0de4fd3eabd2582e15c249df2de41bc7201e3a4439a"
+    },
+    {
+      "path": "tests/body-structure-flow.test.cjs",
+      "sha256": "cda9f2303d4fbb012ff2cfd182dea3640c8da907666a9ab227ccb5769e0aafc8"
+    },
+    {
+      "path": "tests/body-structure.test.cjs",
+      "sha256": "f6b375856ad907b680dfdcf76bdedd467b0772440194288e51f6a0f251e4bb86"
+    },
+    {
+      "path": "tests/fixtures/foundation-body-structure-f05-20261102.json",
+      "sha256": "96fed49d0aad9e1e1f4949ab0a3d68d0278002f07505fdfdd6e98a2619bff33e"
     },
     {
       "path": "tests/fixtures/foundation-cli-routing-timeout-20261030.json",
@@ -1418,6 +1458,10 @@
     {
       "path": "tests/fixtures/foundation-remaining-prior-seal-20261030.json",
       "sha256": "cffb26346ddf020b23c8d663fbcf48356432915bc1f1fe799c35049eff0cbd79"
+    },
+    {
+      "path": "tests/foundation-body-candidate.test.cjs",
+      "sha256": "3d118108962a65cc6f749a6229eea486f6503dbdc3bb75d5739b1fbf8988e316"
     },
     {
       "path": "tests/foundation-minimal-runner.test.cjs",
@@ -1437,16 +1481,16 @@
     },
     {
       "path": "tests/foundation-transport-retest-preparation.test.cjs",
-      "sha256": "4855e8c40c12b359cdf31cc8aba15c4393c632668a128fb53bddd09f0cda2723"
+      "sha256": "2b1ad3884b6733ca38ee9cfbdae0c437f7d6fb17e101355ebca8ad79121e426e"
     }
   ],
   "host": {
-    "nodeVersion": "v24.19.0",
-    "nodeSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237",
+    "nodeVersion": "v24.22.1",
+    "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5",
     "cscSha256": "aae1db57f898ca8bda18590c56f86ced6d0ead80c22033b76fdfe9119706f116",
     "optionalWebsocketNativeModules": false
   },
-  "identity": "a626d3975247ab3e06336e81e154d356e7b1c15a58b9aad0b68dc43df33aafa0",
+  "identity": "f90db745e7aa32212b77182ec875ddf1d849533db2bf7ea6c5a733d40bf89153",
   "scope": "G01-F05-F06-only",
   "liveAuthorized": false,
   "realModelCalls": 0

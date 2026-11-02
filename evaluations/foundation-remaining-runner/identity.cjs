@@ -2,13 +2,23 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const prior=require('../foundation-native-ui-runner/identity.cjs'),{root,read,write,sha,SAMPLE}=prior;
 const {planHash}=require('../foundation-business-runner/ledger.cjs');
+const candidate=require('../../scripts/prepare-body-candidate.cjs');
+const CLI='3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16';
+function packageManifest(){return read(path.join(__dirname,'package-manifest.json'));}
 const prerequisite={runId:'3416bcda-77e0-4866-b0a6-2bb7eabec4f0',report:'docs/evidence/foundation-native-ui-f04-result-20261030.json',reportSha256:'d1440e32e79a60c854627603e1f995428e10ff575bb12a6f20e8d4751cc26985',review:'docs/evidence/foundation-native-ui-f04-result-review-20261030.json',reviewSha256:'fa0e0ed0f8bb263a2119c8b1f1c53d9df56d4d503aae6b6b7cf59947563f9891'};
 function validatePlan(plan){
  const old=read(path.join(root,'evaluations/foundation-minimal-runner/plan.json'));
  assert.equal(plan.scope,'G01-F05-F06-only');assert.equal(plan.liveAuthorized,false);assert.equal(plan.candidateInstalled,false);assert.equal(plan.f04,undefined);
- assert.equal(plan.outputParent,'../foundation-transport-retest-runs-20261030');
+ assert.equal(plan.outputParent,'../foundation-body-retest-runs-20261102');
  assert.deepEqual(plan.order,['gate','business']);assert.deepEqual(plan.f04Prerequisite,prerequisite);
- for(const key of ['gate','business','settings','total','cli','asarSha256','sourceSampleIdentity'])assert.deepEqual(plan[key],old[key],key+' changed');
+ const manifest=packageManifest();assert.equal(manifest.kind,'offline-body-structure-candidate');assert.equal(manifest.sourceCodeCommit,candidate.SOURCE);assert.equal(plan.sourceCodeCommit,candidate.SOURCE);
+ assert.equal(manifest.baseCandidateAsarSha256,candidate.BASE);assert.notEqual(manifest.asarSha256,candidate.BASE);assert.equal(plan.asarSha256,manifest.asarSha256);
+ assert.deepEqual(manifest.archiveChanges.map(f=>f.path).sort(),candidate.PATCH);assert.equal(manifest.archiveChanges.filter(f=>f.beforeSha256===null).length,1);assert.equal(manifest.archiveChanges.find(f=>f.path==='desktop/body-structure.cjs').beforeSha256,null);
+ assert.deepEqual(manifest.outerChangedFiles,['resources/app.asar']);assert.deepEqual(manifest.f04,{historicalHumanWorkflowCompleted:true,historicalAsarSha256:candidate.BASE,currentCandidateHumanWorkflowTested:false,rerun:false});
+ assert.deepEqual(plan.candidateTransition,{baseAsarSha256:candidate.BASE,packageManifestSha256:sha(fs.readFileSync(path.join(__dirname,'package-manifest.json'))),sourceCodeCommit:candidate.SOURCE,F04HistoricalOnly:true,F04CurrentCandidateCovered:false});
+ assert.deepEqual(plan.cli,{...old.cli,sha256:CLI});assert.deepEqual(plan.cliChange,{previousSha256:old.cli.sha256,currentSha256:CLI,observedBy:'read-only-file-hash',executed:false,priorGateReusable:false});
+ for(const key of ['settings','total','sourceSampleIdentity'])assert.deepEqual(plan[key],old[key],key+' changed');
+ for(const phase of ['gate','business']){const expected=structuredClone(old[phase]);expected.asarSha256=manifest.asarSha256;expected.sourceCodeCommit=candidate.SOURCE;if(expected.cli)expected.cli={...expected.cli,sha256:CLI};assert.deepEqual(plan[phase],expected,phase+' changed');}
 }
 function checkPrerequisite(report,review,completed,decision,summary){
  assert.equal(report.passed,true);assert.equal(review.F04LocalWorkflowPassed,true);assert.equal(review.resultRecordApproved,true);assert.equal(report.scope,'F04-native-ui-only');
@@ -27,9 +37,17 @@ function verifyPrerequisite(plan){
  assert.ok(!fs.existsSync(path.join(run,'stopped.json'))&&!fs.existsSync(path.join(run,'STOP'))&&!fs.existsSync(path.join(run,'f04/STOP')));
  const completed=read(path.join(run,'f04.completed.json')),decision=read(path.join(run,'f04/phase-review.json')),summary=read(path.join(run,'f04/summary.json'));
  checkPrerequisite(report,review,completed,decision,summary);assert.equal(completed.summarySha256,sha(fs.readFileSync(path.join(run,'f04/summary.json'))));assert.equal(completed.reviewSha256,sha(fs.readFileSync(path.join(run,'f04/phase-review.json'))));
- const value={runId:p.runId,asarSha256:report.asarSha256,sampleIdentity:SAMPLE,completedSha256:sha(fs.readFileSync(path.join(run,'f04.completed.json'))),reportSha256:p.reportSha256,reviewSha256:p.reviewSha256,rerun:false};return {...value,identity:sha(JSON.stringify(value))};
+ const value={runId:p.runId,asarSha256:report.asarSha256,sampleIdentity:SAMPLE,completedSha256:sha(fs.readFileSync(path.join(run,'f04.completed.json'))),reportSha256:p.reportSha256,reviewSha256:p.reviewSha256,rerun:false,historicalOnly:true,currentCandidateCovered:false,currentCandidateAsarSha256:plan.asarSha256};return {...value,identity:sha(JSON.stringify(value))};
 }
-function frozen(executable,options={}){const inherited=prior.frozen(executable,options),plan=read(path.join(__dirname,'plan.json'));validatePlan(plan);const proof=verifyPrerequisite(plan);assert.equal(plan.asarSha256,inherited.plan.asarSha256);assert.equal(proof.asarSha256,plan.asarSha256);return {...inherited,plan:options.phase?plan[options.phase]:plan,f04Prerequisite:proof};}
+function frozen(executable,{complete=false,phase}={}){
+ const plan=read(path.join(__dirname,'plan.json'));validatePlan(plan);assert.ok(phase===undefined||['gate','business'].includes(phase));
+ const pack=require('../foundation-minimal-runner/identity.cjs').pack,seal=read(path.join(pack,'seal.json'));assert.equal(seal.identity,SAMPLE);assert.equal(sha(JSON.stringify(seal.files)),SAMPLE);
+ for(const f of seal.files)assert.equal(sha(fs.readFileSync(path.join(pack,f.path))),f.sha256);
+ const manifest=packageManifest(),candidateIdentity=require('../foundation-runner/candidate-identity.cjs').verify(executable,manifest,{complete});
+ for(const f of manifest.archiveChanges)assert.equal(sha(fs.readFileSync(path.join(root,f.path))),f.sha256,'Reviewed candidate source changed');
+ const proof=verifyPrerequisite(plan);assert.equal(proof.asarSha256,manifest.baseCandidateAsarSha256);assert.notEqual(proof.asarSha256,plan.asarSha256);
+ return {plan:phase?plan[phase]:plan,pack,seal,asar:path.join(path.dirname(executable),'resources/app.asar'),candidateIdentity,groundingSha256:manifest.groundingSha256,f04Prerequisite:proof};
+}
 function validateAuthorization(a,plan,identity){
  assert.equal(a?.schema,1);assert.equal(a.grantedBy,'user');assert.ok(typeof a.reference==='string'&&a.reference.trim());assert.equal(a.scope,plan.scope);assert.equal(a.runnerIdentity,identity);assert.equal(a.sealIdentity,SAMPLE);assert.equal(a.asarSha256,plan.asarSha256);assert.equal(a.planSha256,planHash(plan));
  assert.equal(a.f04PrerequisiteIdentity,verifyPrerequisite(plan).identity);for(const[k,v]of Object.entries(plan.total))assert.equal(a[k],v);
@@ -38,6 +56,7 @@ function validateAuthorization(a,plan,identity){
 function runnerSeal(){
  const inherited=prior.runnerSeal(),deps=[...inherited.dependencies,...inherited.files.map(f=>({...f,path:'evaluations/foundation-native-ui-runner/'+f.path}))];
  for(const p of [prerequisite.report,prerequisite.review,'evaluations/foundation-native-ui-runner/runner-seal.json','evaluations/foundation-native-ui-runner/runner-review.json','scripts/rehearse-remaining-runner.cjs','tests/foundation-remaining-runner.test.cjs','tests/foundation-transport-cause.test.cjs','tests/foundation-transport-retest-preparation.test.cjs','tests/fixtures/foundation-cli-routing-timeout-20261030.json','tests/fixtures/foundation-remaining-prior-seal-20261030.json'])deps.push({path:p,sha256:sha(fs.readFileSync(path.join(root,p)))});
+ for(const p of [...candidate.PATCH,'scripts/prepare-body-candidate.cjs','tests/foundation-body-candidate.test.cjs','tests/body-structure.test.cjs','tests/body-structure-flow.test.cjs','tests/fixtures/foundation-body-structure-f05-20261102.json'])deps.push({path:p,sha256:sha(fs.readFileSync(path.join(root,p)))});
  const files=fs.readdirSync(__dirname).filter(p=>/\.(cjs|json)$/.test(p)&&!['runner-seal.json','runner-review.json'].includes(p)).sort().map(p=>({path:p,sha256:sha(fs.readFileSync(path.join(__dirname,p)))}));
  const value={files,dependencies:[...new Map(deps.map(f=>[f.path,f])).values()].sort((a,b)=>a.path.localeCompare(b.path)),host:inherited.host};return {schema:1,...value,identity:sha(JSON.stringify(value)),scope:'G01-F05-F06-only',liveAuthorized:false,realModelCalls:0};
 }

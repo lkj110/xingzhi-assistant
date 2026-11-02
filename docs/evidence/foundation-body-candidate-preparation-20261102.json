@@ -1,0 +1,239 @@
+{
+  "schema": 1,
+  "kind": "offline-body-candidate-preparation",
+  "date": "2026-11-02",
+  "status": "offline-preparation-complete-see-independent-review",
+  "productSourceCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+  "baseCommit": "8041d97d6b8db85bd39716e0a0b697634ae95411",
+  "branch": "codex/foundation-body-candidate",
+  "runnerIdentity": "f90db745e7aa32212b77182ec875ddf1d849533db2bf7ea6c5a733d40bf89153",
+  "asarSha256": "6dfc43b3bcae1f99aa9188e1fd857a5e16ff1942454a69e2b15e1c0b31061de6",
+  "sampleIdentity": "68785ade24b83dccffc00949dab70309a472c158d5be21358a95d399e415f8e5",
+  "liveAuthorized": false,
+  "matchingLiveAuthorizationCreated": false,
+  "candidateInstalled": false,
+  "realModelCalls": 0,
+  "officialCliInvocations": 0,
+  "realApplicationTokens": 0,
+  "actualHumanAcceptances": 0,
+  "F04Executions": 0,
+  "package": {
+    "manifest": "evaluations/foundation-remaining-runner/package-manifest.json",
+    "manifestSha256": "05997b231c2a9a7f22ced44c34cb1a5cbd562ff78490ce84534cc7e3d016d466",
+    "baseAsarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "archiveFilesVerified": 9669,
+    "archiveChangedFiles": [
+      "desktop/acceptance.cjs",
+      "desktop/core.cjs",
+      "desktop/generation-context.cjs",
+      "desktop/grounding.cjs",
+      "desktop/body-structure.cjs"
+    ],
+    "outerChangedFiles": [
+      "resources/app.asar"
+    ],
+    "oldCandidateUnchanged": true,
+    "sourceBytesMatchReviewedCommit": true,
+    "remainingArchiveEntriesUnchanged": 9664,
+    "newProductChangesThisPreparation": false
+  },
+  "implementation": {
+    "sameStagedExecutorReused": true,
+    "newRunnerNamespaceCopy": false,
+    "oldCheckoutsSealsAndReportsPreserved": true,
+    "newPackageIndependentlyVerified": true,
+    "newOutputRoot": "../foundation-body-retest-runs-20261102",
+    "historicalF04Only": true,
+    "currentCandidateF04HumanTested": false,
+    "oldAuthorizationRejected": true,
+    "oldCliNoLongerAvailable": true,
+    "currentCliOnlyReadAndHashed": true,
+    "protocolAvailabilityVerified": false,
+    "newFaultOnlyOffline": true,
+    "productCodePromptsSchemasSemanticStandardsUnchangedSince8041d97": true
+  },
+  "regression": {
+    "schema": 1,
+    "startedAt": "2026-11-02T03:33:07.011Z",
+    "finishedAt": "2026-11-02T03:33:46.050Z",
+    "exitCode": 0,
+    "files": [
+      "tests/body-structure.test.cjs",
+      "tests/body-structure-flow.test.cjs",
+      "tests/foundation-body-candidate.test.cjs",
+      "tests/foundation-remaining-runner.test.cjs",
+      "tests/foundation-transport-retest-preparation.test.cjs",
+      "tests/foundation-transport-cause.test.cjs",
+      "evaluations/foundation-runner/candidate-identity.test.cjs",
+      "evaluations/foundation-runner/paths.test.cjs",
+      "evaluations/foundation-runner/broker-paths.test.cjs",
+      "evaluations/foundation-runner/protocol-guard.test.cjs",
+      "evaluations/foundation-runner/authorization.test.cjs",
+      "evaluations/foundation-runner/transport.test.cjs"
+    ],
+    "counts": {
+      "tests": 277,
+      "pass": 276,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 1,
+      "todo": 0
+    },
+    "testFileConcurrency": 1,
+    "packagedRehearsalConcurrent": false,
+    "runnerIdentity": "f90db745e7aa32212b77182ec875ddf1d849533db2bf7ea6c5a733d40bf89153",
+    "sourceUnchangedSinceInitialRun": true,
+    "sourceUnchangedDuringRun": true,
+    "nodeVersion": "v24.22.1",
+    "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5",
+    "log": {
+      "path": "root-regression-final-02.tap",
+      "sha256": "d76702f848c01c058807c773136edb74eff71a032aca902e8ead264ade5fe78e"
+    },
+    "isolatedFailureRerun": {
+      "executedMatchedTests": 1,
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": {
+        "path": "root-isolated-cause.tap",
+        "sha256": "5e0cc5b2992b620a33c7aa35030c9d8ce20e086874a8d492f3a8e81288f7b863"
+      }
+    },
+    "skippedLines": [
+      "ok 39 - real file symlink is refused when supported by Windows host # SKIP Windows host does not grant file symlink creation"
+    ],
+    "firstRun": {
+      "path": "root-regression-final-01.json",
+      "sha256": "785ea582464075820a680d9bf3b31c2c4ba91bdafb7bfc7a32d00dcdec511762",
+      "counts": {
+        "tests": 277,
+        "pass": 275,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 1,
+        "todo": 0
+      }
+    },
+    "interpretation": "One 3-second local fixture startup/idle timeout occurred during concurrent rehearsal and parallel test files. The unchanged exact case and then the unchanged full group were rerun without concurrent rehearsal and with serial test files. A pass supports scheduling sensitivity; it does not prove live service availability or that resource contention was the only possible cause. No product code or timeout was loosened.",
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "publicEvidence": "evaluations/foundation-body-candidate-preparation-20261102/regression.json",
+    "countsNotSummedWithEarlierOrIndependentRuns": true
+  },
+  "packagedRehearsal": {
+    "probes": 9,
+    "passed": 9,
+    "failed": 0,
+    "publicEvidence": "evaluations/foundation-body-candidate-preparation-20261102/sealed-rehearsal.json",
+    "privateOutput": "../foundation-body-retest-runs-20261102/sealed-rehearsal-01",
+    "originalEvidenceHashCount": 80,
+    "probeIds": [
+      "normal",
+      "gate-malformed",
+      "business-unknown-usage",
+      "capture-submit",
+      "wrong-window",
+      "phase-stop",
+      "gate-routing-timeout",
+      "business-routing-timeout",
+      "business-body-three-paragraphs"
+    ],
+    "normalFlow": {
+      "gateAttempts": 4,
+      "businessAttempts": 15,
+      "caseAttempts": [
+        {
+          "caseId": "F05-jianping-revision",
+          "applicationAttempts": 11,
+          "technicalPassed": true
+        },
+        {
+          "caseId": "F06-yunshu-restart",
+          "applicationAttempts": 4,
+          "technicalPassed": true
+        }
+      ],
+      "simulatedAcceptances": 2,
+      "markerHandoffs": [
+        {
+          "caseId": "F05-jianping-revision",
+          "stage": "initial"
+        },
+        {
+          "caseId": "F05-jianping-revision",
+          "stage": "revision"
+        }
+      ],
+      "coldRestarts": 3
+    },
+    "structuralNegative": {
+      "expected": 2,
+      "actual": 3,
+      "preStructurePassed": false,
+      "passed": false,
+      "taskStatus": "blocked",
+      "simulatedAcceptances": 0,
+      "F06Started": false,
+      "meaning": "原proposal模拟核验可能先要求表达确认；额外结构硬失败阻止该恢复路径和验收。不能把此前结果冒充严格核验passed。原严格核验passed再被本地拒绝由已封存真实F05回复的body-flow离线回放单独证明。"
+    },
+    "realModelCalls": 0,
+    "officialCliInvocations": 0,
+    "qualityMetrics": null
+  },
+  "environment": {
+    "nodeVersion": "v24.22.1",
+    "nodeSha256": "b59feb2088f80e1fa431c8f9c316861e660e5936f968fd97b802e550fed356c5",
+    "cliSha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
+    "cliChange": {
+      "previousSha256": "5c1b55966bf9f757dcbf00065c9a6cb862ead55d34b015f1be1939ff18e43943",
+      "currentSha256": "3097c909fb6d5cd63510d44aceb1d42df9f6e85722a3e447e477def1ecf60e16",
+      "observedBy": "read-only-file-hash",
+      "executed": false,
+      "priorGateReusable": false
+    },
+    "officialCliExecuted": false,
+    "availability": "not-probed",
+    "oldGateReusable": false
+  },
+  "installedFreeze": {
+    "held": false,
+    "newDifferences": 3,
+    "source": "undetermined",
+    "observation": "docs/evidence/foundation-body-candidate-install-observation-20261102.json",
+    "allOther144HistoricalRootsUnchanged": true,
+    "currentTaskInstalledWrites": 0,
+    "newCandidateUnchanged": true,
+    "oldBaselineRewritten": false
+  },
+  "evidence": {
+    "privateAudit": "../foundation-body-candidate-audit-20261102",
+    "independentPackageCheck": {
+      "path": "reviewer-package-check.json",
+      "sha256": "5eee28d300ff602319abd1b17b2fba44efacaf1a7d4856132f126aa58cb6b474"
+    },
+    "independentCodeCheck": {
+      "path": "reviewer-code-check.json",
+      "sha256": "92b981bf11347c72180c5dc721b61165c59b77c72a4652d704692fbc5de1e242"
+    },
+    "rehearsal": {
+      "path": "../foundation-body-retest-runs-20261102/sealed-rehearsal-01/rehearsal.json",
+      "sha256": "e6e675915abd96b1b8a53f68a662e7ea3ad59339d7de650e30de86da6bf8a8ce"
+    }
+  },
+  "limits": [
+    "零模型模拟流程不等于真实业务验收；新CLI协议可用性尚未测试。",
+    "F04只保留旧ASAR历史真人证明，不声称新ASAR已通过F04或跨候选六例全部通过。",
+    "一项Windows真实文件符号链接测试因系统权限不足跳过；相关其它路径/绑定反例通过。",
+    "并行测试期间出现一次本地idle超时；保留失败记录，随后原样隔离与串行回归，未放宽产品超时或改变语义标准。",
+    "未在macOS运行候选；本次交付物为Windows隔离候选。",
+    "本轮安装目录出现3项新漂移，冻结条件未保持；来源未确定。独立候选与旧证据不变，不能把候选准备通过写成安装目录保持冻结。"
+  ],
+  "proposal": "docs/evidence/foundation-body-candidate-plan-20261102.json",
+  "independentReview": "docs/evidence/foundation-body-candidate-preparation-review-20261102.json"
+}
