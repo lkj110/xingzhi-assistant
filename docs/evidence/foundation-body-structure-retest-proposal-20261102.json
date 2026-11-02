@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "kind": "minimal-remaining-flow-retest-proposal",
+  "date": "2026-11-02",
+  "status": "proposed-awaiting-offline-packaging-and-seal",
+  "liveReady": false,
+  "liveAuthorized": false,
+  "oldBudgetReusable": false,
+  "purpose": "验证新候选是否能正确完成 F05 修订并防止结构错误放行，随后完成 F06 重启生命周期；不把本轮当作整体效果主评测。",
+  "order": [
+    "G01",
+    "F05-revision",
+    "F06-restart"
+  ],
+  "samples": "沿用原封存 G01/F05/F06；本轮修复用过 F05 历史回放，不称为全新盲样。",
+  "f04Rerun": false,
+  "formalMainEvaluation": false,
+  "installCandidate": false,
+  "prerequisites": [
+    "零模型打包新的隔离候选，记录源码提交、产物 ASAR 哈希，保持现有安装文件与旧候选不变。",
+    "准备最小执行器的新身份与新封存记录；旧 seal 不可套用修改后的源码，也不覆盖旧记录。",
+    "补齐包内模块、执行器停机及阶段路由的离线检查，并由另一 subagent 独立审核新封存字节。",
+    "完成以上准备后，再向用户提交具体封存物及本轮预算确认；未取得新授权不运行。",
+    "业务阶段开始前另行确认用户操作就绪；旧就绪答复和旧 45 分钟窗口均不复用。"
+  ],
+  "total": {
+    "maxApplicationAttempts": 25,
+    "maxModelDispatches": 22,
+    "inputPlusOutputTokenStopThreshold": 620000,
+    "inflightMayExceedThreshold": true,
+    "ceilingIsNotGuaranteedAbsoluteTokenLimit": true
+  },
+  "phases": [
+    {
+      "name": "G01",
+      "maxApplicationAttempts": 5,
+      "maxModelDispatches": 4,
+      "tokenStopThreshold": 120000,
+      "fixedMinutes": 45
+    },
+    {
+      "name": "F05-F06",
+      "maxApplicationAttempts": 20,
+      "maxModelDispatches": 18,
+      "tokenStopThreshold": 500000,
+      "fixedMinutes": 45,
+      "startAfterFreshHumanReadiness": true,
+      "caseAllocation": [
+        {
+          "caseId": "F05",
+          "maxApplicationAttempts": 13,
+          "tokenStopThreshold": 330000
+        },
+        {
+          "caseId": "F06",
+          "maxApplicationAttempts": 7,
+          "tokenStopThreshold": 170000
+        }
+      ]
+    }
+  ],
+  "budgetInterpretation": "这是覆盖门检、修订、必要确认后单独重检及重启分支的总上限，不是预计必用量。阶段与案例额度不可挪借；不追加探针，不自动重跑，不自动开启下一轮。保留现有最小流程上限，暂不凭一个历史回合压低可能需要的恢复分支预算。",
+  "windows": "G01 一个固定 45 分钟；通过后 F05/F06 另一个共享 45 分钟，包含启动、模型执行、真人操作、冷重启及独审等待；均不重置。",
+  "immediateStop": [
+    "任何终止性 CLI/协议错误（包括非零退出、传输失败、协议拒绝、格式错误）或未知用量",
+    "达到任一尝试、分发或 token 停止阈值",
+    "固定窗口到期",
+    "首个终止性失败（包括 F05 再次产生不合格正文并被核验拦截）"
+  ],
+  "diagnosticHandling": "非致命 stderr 诊断仅在新执行器封存规则明确识别、进程成功、响应协议有效且用量已知时单独记录，不冒充执行失败或服务已恢复；规则外或无法判定的诊断停止。不得为继续评测临时扩大例外。",
+  "acceptance": [
+    "G01 协议与用量完整并经独审通过；它不计业务质量分母。",
+    "F05 实际生成合格的两段正文，title 独立，原始证据与修订血缘正确，模型、本地检查及独审通过；用户亲自在候选应用中最终验收。",
+    "若需表达确认，必须由用户在应用内操作后单独重检，不由助手代替。",
+    "仅在 F05 完成后运行 F06，验证冷重启后的正确任务/稿件/检查身份及最终验收状态；不能用聊天回复代替应用记录。",
+    "不为通过验收偷偷改稿、补事实、追加调用或将局部拦截称为业务完成。"
+  ],
+  "metrics": {
+    "completion": "完成业务案例/2；未启动与失败分开记录。",
+    "factualHallucination": "逐稿人工/独审判定，报告分子与实际可判定稿件分母；核验器结构误判单列。",
+    "falseBlock": "合格稿件被错误拦截/实际合格可判定稿件；不把正确拦截三段稿计入误拦。",
+    "falseRelease": "不合格稿件被应用放行/实际不合格可判定稿件；零分母写 null 与 0/0，不能写 0%。",
+    "tokens": "按 G01、F05初稿、F05修订/重检、F06 分解 input/output/cached/总量及应用尝试/分发；不把离线字节差直接换算为 billed tokens。",
+    "limits": "已知三例流程回归、无随机对照，不能推断总体幻觉率或成本改善；不启动正式主评测。"
+  }
+}

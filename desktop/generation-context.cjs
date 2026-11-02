@@ -108,6 +108,7 @@ function finalizationState(a,task,{phase='content',initial}={}){
 }
 async function call(a,task,system,initial,role='execute'){
  const grounding=require('./grounding.cjs'),seen=new Set();
+ if(role==='execute'&&require('./body-structure.cjs').rule(a,task))system+=require('./body-structure.cjs').instruction;
  if(grounding.enabled(a)){
   initial=grounding.context(a,task,initial,role);
   system+=role==='verify'&&!initial.groundingReviewRequest?.reused?grounding.reviewInstruction:grounding.instruction;

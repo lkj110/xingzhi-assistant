@@ -211,6 +211,8 @@ function finish(a,task,result,options){
 }
 function assertDelivery(a,task){
  if(!enabled(a)||!currentArtifacts(a,task).length)return;
+ const structure=require('./body-structure.cjs'),check=structure.inspect(a,task);
+ if(check.status==='checked'&&!check.passed)throw Object.assign(Error(structure.gap(check)),{code:'BODY_STRUCTURE_REQUIRED',taskId:task.id});
  const job=a.data.delegations.find(j=>j.id===task.agentJobId);
  const checks=[task.verification?.basis===require('./acceptance.cjs').basis(a,task)?task.verification:null,
   job&&task.contentVerification?.basis===require('./execution-control.cjs').contentBasis(a,job,task)?task.contentVerification:null].filter(Boolean).sort((x,y)=>String(y.at||'').localeCompare(String(x.at||'')));

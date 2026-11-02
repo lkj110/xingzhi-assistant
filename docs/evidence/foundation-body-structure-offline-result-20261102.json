@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "kind": "offline-body-structure-fix",
+  "date": "2026-11-02",
+  "baseCommit": "acd1ccaf2260f6e087965ec01d528ddf05c8a932",
+  "status": "offline-regression-passed-see-independent-review",
+  "realModelCalls": 0,
+  "realModelTokens": 0,
+  "installed": false,
+  "packaged": false,
+  "rootCause": {
+    "runId": "2bf4b547-3950-4689-8416-7972abf96410",
+    "caseId": "F05",
+    "description": "修订稿 content 把重复标题作为独立首段，实际三段。原模型核验错误声称两自然段，应用缺少与当前正文绑定的确定性段数检查，因而放行；独立审核拦截后该轮已关闭。",
+    "factualHallucinationObserved": false,
+    "verifierStructuralErrorObserved": true,
+    "oldBudgetClosed": true
+  },
+  "implementation": {
+    "sharedModule": "desktop/body-structure.cjs",
+    "scope": "仅独立事项、唯一 draft 文本步骤、唯一当前稿件、当前明确且无冲突的受支持恰好 N 自然段要求；N 为 1–20。",
+    "generation": "适用的 execute 调用追加一次固定 title/content 边界指令；同一入口涵盖修订。",
+    "verification": "在原有证据检查后追加本地段数检查；成功不覆盖原有失败，失败不能转成人工表达确认。",
+    "acceptance": "最终验收和交付均重新从当前正文与要求计算；旧核验、伪造旧状态、精确缓存与重启不能绕过。",
+    "binding": "本地凭据绑定任务、稿件、title/content 哈希和要求来源；修订须关联原稿 id、步骤、baseHash 与 generationSnapshot。",
+    "contentPreserved": true,
+    "semanticStandardsPreserved": true,
+    "evidenceProtocolUnchanged": true,
+    "schemaUnchanged": true,
+    "additionalModelCalls": 0,
+    "preStructureDiagnosticMeaning": "已有证据校验合并后的结论，不是原始模型结论。"
+  },
+  "limitations": [
+    "仅处理直接、明确、受支持的自然段指令和纯文本；模糊要求、跨字段撤销或冲突、引用示例、Markdown 复杂布局、多个文本或 Agent 事项继续走既有语义核验。",
+    "not-applicable/unsupported 不是校验通过，原始要求和旧修订记录不会从模型上下文删掉。",
+    "不自动移除正文中的标题、不自动重写稿件、不扩大通知语义规则。",
+    "公共 CJS 模块无平台依赖；本轮只在 Windows Node 环境验证，未进行 macOS 运行测试。",
+    "当前安装版与旧封存候选均未应用本修复；新候选尚未打包封存。",
+    "历史 F05 回放是已知问题回归，不能充当新样本模型对照或总体幻觉率证明。"
+  ],
+  "regression": {
+    "schema": 1,
+    "startedAt": "2026-11-02T02:55:40.201Z",
+    "finishedAt": "2026-11-02T02:56:14.440Z",
+    "exitCode": 0,
+    "counts": {
+      "tests": 418,
+      "pass": 418,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "files": [
+      "tests/acceptance-continuation-independent.test.cjs",
+      "tests/acceptance-routing-independent.test.cjs",
+      "tests/acceptance.test.cjs",
+      "tests/body-structure-flow.test.cjs",
+      "tests/body-structure.test.cjs",
+      "tests/citation-fields.test.cjs",
+      "tests/grounding-eval-analysis.test.cjs",
+      "tests/grounding-eval-metrics.test.cjs",
+      "tests/grounding-input-compaction.test.cjs",
+      "tests/grounding-marker-confirmation.test.cjs",
+      "tests/grounding-marker-flow.test.cjs",
+      "tests/grounding-notice-bounded.test.cjs",
+      "tests/grounding-notification.test.cjs",
+      "tests/grounding-races.test.cjs",
+      "tests/grounding-v3.test.cjs",
+      "tests/grounding.test.cjs",
+      "tests/revision-protocol.test.cjs",
+      "tests/structured-delivery.test.cjs",
+      "tests/verification-editorial-flow.test.cjs",
+      "tests/verification-exact-cache.test.cjs"
+    ],
+    "sourceFiles": [
+      {
+        "path": "desktop/acceptance.cjs",
+        "sha256": "b39ba6a2a73f8d20bf5c858bf74dce8793fd03137f1628355737abf74aad9f24"
+      },
+      {
+        "path": "desktop/core.cjs",
+        "sha256": "2ce1e7ceb257000bebf483ad829fa202498acbb2bc07e0009a01b903d994cbb0"
+      },
+      {
+        "path": "desktop/generation-context.cjs",
+        "sha256": "1067fb2380b17ed19d4e955e9985124aa0c48b62679e81213af3b1e9994d9b9f"
+      },
+      {
+        "path": "desktop/grounding.cjs",
+        "sha256": "1fde72df4db6f3fd9157aead833dea372281695c2a7fb2c5b5376715d29ed8f7"
+      },
+      {
+        "path": "desktop/body-structure.cjs",
+        "sha256": "4699bdaf46cf47e3e4e5da38efc2077ee75ce1b1e9a4f509f1c70035edc4ef24"
+      },
+      {
+        "path": "tests/body-structure-flow.test.cjs",
+        "sha256": "cda9f2303d4fbb012ff2cfd182dea3640c8da907666a9ab227ccb5769e0aafc8"
+      },
+      {
+        "path": "tests/body-structure.test.cjs",
+        "sha256": "f6b375856ad907b680dfdcf76bdedd467b0772440194288e51f6a0f251e4bb86"
+      },
+      {
+        "path": "tests/fixtures/foundation-body-structure-f05-20261102.json",
+        "sha256": "96fed49d0aad9e1e1f4949ab0a3d68d0278002f07505fdfdd6e98a2619bff33e"
+      }
+    ],
+    "sourceUnchangedDuringRun": true,
+    "realModelCalls": 0,
+    "liveEvaluation": false,
+    "log": {
+      "path": "root-regression-final-01.tap",
+      "sha256": "2e56679f6225bb76f4fd81e98c1db40fca6fdce7a873918d59abb0fffff070e7"
+    },
+    "summarySha256": "0419b2250226c327a00635707523574dc07a0b112570c889f1f8255686423d01",
+    "testGroup": "20 个相关测试文件；不声称全仓库所有测试。",
+    "newTargetedTests": 61,
+    "existingRelatedTests": 357,
+    "countsNotSummedWithIndependentRun": true,
+    "historicalFixtureProvenanceSha256": "56b0cf6c509402eadc237226729ff8f54a38e028a75e471d7928675db1f1d974"
+  },
+  "independentFindingsFixed": [
+    {
+      "id": "BS-R1",
+      "issue": "跨块示例、引文、条件或否定误提取",
+      "fix": "整字段保守排除上下文并跨行屏蔽引文；五个独立反例通过。"
+    },
+    {
+      "id": "BS-R2",
+      "issue": "证据合并后结果错误标为模型原始结果",
+      "fix": "改为 preStructurePassed/preStructureSummary。"
+    },
+    {
+      "id": "BS-R3",
+      "issue": "一个字段受支持、另一个字段撤销或含模糊限定时丢弃后者",
+      "fix": "保留字段级解析结果；相关但不受支持时不启用本地规则；六个独立跨字段反例通过。"
+    }
+  ],
+  "independentCodeReviewEvidenceSha256": "41317813ec0b88e492ed1f13eb15893a173917ae32f9db327f9c9565e2518d08",
+  "costAttribution": {
+    "schema": 1,
+    "kind": "offline-single-instruction-insertion-measurement",
+    "liveRequest": false,
+    "originalRun": "2bf4b547-3950-4689-8416-7972abf96410",
+    "originalAttempt": "94a31d60-cba7-49ff-b698-56ec10ae46bf",
+    "requestFileSha256": "ae0247b1a5741f1b1ea1898645adbfbd8cbf922c1d9fbd48f721b4412c6b9c9c",
+    "instructionUtf8Bytes": 153,
+    "instructionUnicodeCharacters": 73,
+    "before": {
+      "serializedInputBytes": 18771,
+      "sha256": "1682ea353778b727415972ac01d7555f5fc78618120d1e6214baf16647096a5e"
+    },
+    "after": {
+      "serializedInputBytes": 18925,
+      "sha256": "3f095e3482264cf8a6a38e1329de27f301fc347344b1da1850098632e3bbae0f"
+    },
+    "serializedInputDeltaBytes": 154,
+    "schemaDeltaBytes": 0,
+    "verificationInstructionDeltaBytes": 0,
+    "measuredBilledTokens": null,
+    "interpretation": "Same archived execute messages with only the fixed instruction inserted at the actual generation-context insertion point. This is byte attribution, not a fresh complete application request, tokenizer estimate or billed-token measurement. The local metadata is not repeated in the model context."
+  },
+  "installedObservation": "foundation-body-structure-install-observation-20261102.json",
+  "independentReview": "foundation-body-structure-offline-review-20261102.json",
+  "nextProposal": "foundation-body-structure-retest-proposal-20261102.json"
+}

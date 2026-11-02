@@ -606,6 +606,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
         if (verification.gaps.some(gap => typeof gap !== 'string') || !verification.summary.trim()) throw modelError('MODEL_INVALID_RESPONSE','模型返回的结果检查内容无效',true);
         if (verification.passed && verification.gaps.some(gap => gap.trim())) throw modelError('MODEL_INVALID_RESPONSE','检查结论存在矛盾：仍有未满足的标准，不能标记完成。将自动重试检查。',true);
         if(checkingBasis!==acceptance.basis(this,this.task(id)))throw modelError('MODEL_INVALID_RESPONSE','检查期间要求或资料已变化，旧检查已丢弃，将按当前依据重新检查',true);
+        verification=require('./body-structure.cjs').finish(this,task,verification);
         if(linkedJob){const covered=require('./relation-obligations.cjs').validateCoverage(this,linkedJob,task,verification,checkingBasis);verification=covered.result;require('./relation-obligations.cjs').record(linkedJob,covered.receipts);}
         if(grounding.enabled(this)&&verification.grounding)task.grounding=verification.grounding;
         checkCache.remember(this,task,verification,prepared);
@@ -613,6 +614,7 @@ artifacts 和 deliveryEvidence 中 current=false 的是历史版本，只能作�
         // list would make a valid >20-claim review impossible to confirm.
         const savedGaps=require('./marker-confirmation.cjs').pendingResult(verification)?[...verification.gaps]:verification.gaps.map(s => short(s, 1000)).slice(0, 20);
         task.verification = { basisVersion:2,mode:prepared.mode,reusedChunks:prepared.reusedChunks,checkedChunks:prepared.checkedChunks,...(prepared.mode==='exact'?{avoidedModelCalls:1}:{}), passed: verification.passed, summary: short(verification.summary, 5000), gaps: savedGaps, gapDetails:verification.gapDetails,relationCoverage:verification.relationCoverage,snapshot:fullContext.verificationSnapshot,at: now(), basis:acceptance.basis(this,task) };
+        if(verification.bodyStructure)task.verification.bodyStructure=verification.bodyStructure;
         task.status = verification.passed ? 'review' : 'blocked';
         const markerWaiting=require('./marker-confirmation.cjs').route(this,task,verification);
         if(linkedJob)require('./continuation-control.cjs').noteCheck(this,linkedJob,task,task.verification,{phase:'result'});

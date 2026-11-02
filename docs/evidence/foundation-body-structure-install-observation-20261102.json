@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "kind": "installed-directory-observation",
+  "date": "2026-11-02",
+  "installedRoot": "%LOCALAPPDATA%/Programs/XingzhiAssistantFoundation/20261027-90815f4",
+  "previousFreezeAtUtc": "2026-11-02T01:54:08.103Z",
+  "observationAtUtc": "2026-11-02T02:34:18.408Z",
+  "observationEvidenceSha256": "a6864ada716750bf211774b5640e58ca4ae2f956c247122cd137c55ffc2e2bd8",
+  "observedStartBaselineSha256": "23dc99999775a9051688e8195523d66ba3c6fa61908b23ff7385229e00beb44b",
+  "historicalDifferences": [
+    {
+      "path": "resources/app.asar",
+      "change": "modified",
+      "previousSha256": "75653eae5d109bc54c67b6dd8ecd44273a5caf9aef30bc365c0f36b314a7a7ac",
+      "observedSha256": "407b400b95a6e29c1047cbce4e4a42f1e48ad0f84b9f4a60664e1c46cc21deb2",
+      "length": 124176041,
+      "observedAtUtc": "2026-11-02T02:34:18.066Z",
+      "lastWriteTimeUtc": "2026-11-02T02:20:53.343Z"
+    },
+    {
+      "path": "resources/app.asar.unpacked/desktop/native/bin/windows-capture.exe",
+      "change": "modified",
+      "previousSha256": "1a70f24d1b56d35f6f97196310f3dd0150788cf9627fd055699cd1d9daf2402d",
+      "observedSha256": "a2d3865a07f3d8a60aead9cec05eee9f72a79073461ed5e27ebcab3b9518a772",
+      "length": 23040,
+      "observedAtUtc": "2026-11-02T02:34:18.407Z",
+      "lastWriteTimeUtc": "2026-11-02T02:20:33.952Z"
+    },
+    {
+      "path": "debug.log",
+      "change": "added",
+      "previousSha256": null,
+      "observedSha256": "7290e9a25b5b1ca8acfcb2c0c404830087a0a613958c74c1aa9739ce452dd304",
+      "length": 486,
+      "observedAtUtc": "2026-11-02T02:34:18.407Z",
+      "lastWriteTimeUtc": "2026-11-02T02:26:17.023Z"
+    }
+  ],
+  "executable": {
+    "path": "XingzhiAssistant.exe",
+    "unchangedFromPreviousBaseline": true,
+    "sha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a"
+  },
+  "interpretation": "当前安装目录与上一轮基线已有三项差异：app.asar、windows-capture.exe 和新增 debug.log。本轮保留观测到的现有字节，不回滚、不覆盖、不安装候选。文件时间不能证明修改者或授权来源，也不能证明变化发生于本任务之前；不声称跨轮连续冻结。",
+  "firstDetectionTimestampSeparatelyCaptured": false,
+  "readLimitation": "一次 PowerShell Get-FileHash 读取正在打开的 debug.log 失败；后续 Node 读取成功，报告使用后续读到的哈希。",
+  "currentTaskInstalledWrites": 0,
+  "currentTaskDeployments": 0,
+  "finalObservationReference": "foundation-body-structure-offline-review-20261102.json"
+}

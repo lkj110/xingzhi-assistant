@@ -1,0 +1,229 @@
+{
+  "schema": 1,
+  "kind": "independent-offline-body-structure-review",
+  "date": "2026-11-02",
+  "reviewer": "independent-subagent",
+  "baseCommit": "acd1ccaf2260f6e087965ec01d528ddf05c8a932",
+  "status": "offline-source-and-records-approved-for-upload",
+  "approvedForUpload": true,
+  "codeReviewPassed": true,
+  "liveReady": false,
+  "liveAuthorized": false,
+  "businessAcceptancePassed": false,
+  "newCandidatePackaged": false,
+  "installationAuthorized": false,
+  "reviewedFiles": [
+    {
+      "path": "desktop/acceptance.cjs",
+      "sha256": "b39ba6a2a73f8d20bf5c858bf74dce8793fd03137f1628355737abf74aad9f24"
+    },
+    {
+      "path": "desktop/body-structure.cjs",
+      "sha256": "4699bdaf46cf47e3e4e5da38efc2077ee75ce1b1e9a4f509f1c70035edc4ef24"
+    },
+    {
+      "path": "desktop/core.cjs",
+      "sha256": "2ce1e7ceb257000bebf483ad829fa202498acbb2bc07e0009a01b903d994cbb0"
+    },
+    {
+      "path": "desktop/generation-context.cjs",
+      "sha256": "1067fb2380b17ed19d4e955e9985124aa0c48b62679e81213af3b1e9994d9b9f"
+    },
+    {
+      "path": "desktop/grounding.cjs",
+      "sha256": "1fde72df4db6f3fd9157aead833dea372281695c2a7fb2c5b5376715d29ed8f7"
+    },
+    {
+      "path": "docs/evidence/foundation-body-structure-install-observation-20261102.json",
+      "sha256": "f2137a04ab30f4ec46becbb863fa2de667083882e3e223029bdc6e6706cdce41"
+    },
+    {
+      "path": "docs/evidence/foundation-body-structure-offline-result-20261102.json",
+      "sha256": "780d465ab32725e596fcd7e041a4295abc66692b24f5e629016796be3523a7d9"
+    },
+    {
+      "path": "docs/evidence/foundation-body-structure-retest-proposal-20261102.json",
+      "sha256": "971363f086da8dff75e23582a47ca3b6b1c8383becefffda12ae19ddca7adc70"
+    },
+    {
+      "path": "tests/body-structure-flow.test.cjs",
+      "sha256": "cda9f2303d4fbb012ff2cfd182dea3640c8da907666a9ab227ccb5769e0aafc8"
+    },
+    {
+      "path": "tests/body-structure.test.cjs",
+      "sha256": "f6b375856ad907b680dfdcf76bdedd467b0772440194288e51f6a0f251e4bb86"
+    },
+    {
+      "path": "tests/fixtures/foundation-body-structure-f05-20261102.json",
+      "sha256": "96fed49d0aad9e1e1f4949ab0a3d68d0278002f07505fdfdd6e98a2619bff33e"
+    }
+  ],
+  "findings": [
+    {
+      "id": "BS-R1",
+      "status": "fixed",
+      "verification": "Five quoted/example/code/conditional/negative probes no longer promote a local hard rule."
+    },
+    {
+      "id": "BS-R2",
+      "status": "fixed",
+      "verification": "Diagnostics explicitly preserve the post-evidence pre-structure verdict, not a claimed raw-model verdict."
+    },
+    {
+      "id": "BS-R3",
+      "status": "fixed",
+      "verification": "Six related unsupported or withdrawing fields prevent another field from creating an unconditional local rule."
+    }
+  ],
+  "regression": {
+    "root": {
+      "tests": 418,
+      "passed": 418,
+      "failed": 0,
+      "skipped": 0,
+      "testFiles": 20
+    },
+    "independent": {
+      "tests": 61,
+      "passed": 61,
+      "failed": 0,
+      "skipped": 0,
+      "overlapsRoot": true
+    },
+    "countsAreNotAdded": true,
+    "historicalF05FixtureExact": true,
+    "historicalReplayNotBlind": true,
+    "noRealModelQualityOrTokenClaim": true
+  },
+  "behavior": {
+    "titleAndContentRemainSeparate": true,
+    "contentNotRewritten": true,
+    "explicitSupportedStandaloneSingleDraftOnly": true,
+    "currentArtifactAndRequirementBinding": true,
+    "revisionOriginalAndReplacementLineageChecked": true,
+    "localFailureCannotBeOverriddenByModelPass": true,
+    "localSuccessCannotOverrideSemanticFailure": true,
+    "recomputedForNormalAcceptanceAndExactCache": true,
+    "markerConfirmationCannotSubstituteForFailedStructureCheck": true,
+    "semanticAndEvidenceProtocolPreserved": true,
+    "unsupportedLayoutOrRequirementLeftToExistingSemanticCheck": true,
+    "macOSRuntimeTested": false
+  },
+  "inputCost": {
+    "instructionUtf8Bytes": 153,
+    "serializedArchivedInputIncreaseBytes": 154,
+    "schemaIncreaseBytes": 0,
+    "verificationInstructionIncreaseBytes": 0,
+    "additionalModelRounds": 0,
+    "billedTokensMeasured": null,
+    "interpretation": "Offline byte attribution only; no token-reduction or real-model acceptance conclusion."
+  },
+  "freeze": {
+    "comparison": "Current task observed baseline, not continuous preservation of the older installation.",
+    "observedBaselineSha256": "23dc99999775a9051688e8195523d66ba3c6fa61908b23ff7385229e00beb44b",
+    "afterSha256": "68983dac4f319cac975f5b5661428dcc4839da4f6377f04d813a52b63d5b5cd9",
+    "rootsCompared": 143,
+    "originalTrackedFilesCompared": 1255,
+    "previousInstallationDifferences": 3,
+    "additionalInstalledDifferencesSinceObservedBaseline": 0,
+    "installedCurrentAsarSha256": "407b400b95a6e29c1047cbce4e4a42f1e48ad0f84b9f4a60664e1c46cc21deb2",
+    "oldCandidateAsarSha256": "958928ee84007b689bb605dc2252591c582c291aae3f22731fa073e96bb9f62e",
+    "oldCandidateAndHistoricalEvidenceUnchanged": true,
+    "installedWritesThisTask": 0,
+    "oldRunnerSealsAndReviewsUnchanged": true,
+    "installationDriftAttribution": "Unknown; timestamps do not establish actor or authorization, and no rollback was performed."
+  },
+  "proposalReview": {
+    "status": "Proposal only; fresh offline candidate and runner packaging/seal plus independent review are prerequisites to a new user authorization.",
+    "applicationAttempts": 25,
+    "modelDispatches": 22,
+    "inputPlusOutputTokenStopThreshold": 620000,
+    "gate": {
+      "attempts": 5,
+      "dispatches": 4,
+      "threshold": 120000,
+      "fixedMinutes": 45
+    },
+    "business": {
+      "attempts": 20,
+      "dispatches": 18,
+      "threshold": 500000,
+      "fixedMinutes": 45,
+      "cases": [
+        {
+          "id": "F05",
+          "attempts": 13,
+          "threshold": 330000
+        },
+        {
+          "id": "F06",
+          "attempts": 7,
+          "threshold": 170000
+        }
+      ]
+    },
+    "matchesOldMinimalAllocation": true,
+    "newBudgetAuthorized": false,
+    "oldBudgetReusable": false,
+    "F04Rerun": false,
+    "formalMainEvaluation": false,
+    "inFlightOvershootMustBeDisclosed": true
+  },
+  "privateEvidence": {
+    "directory": "../foundation-body-structure-audit-20261102",
+    "files": [
+      {
+        "path": "reviewer-final-validation.json",
+        "sha256": "b013155b6c47da73e398b104df36483f21f23701fd11b4e6bcfde92bfda0457d"
+      },
+      {
+        "path": "reviewer-freeze-before.json",
+        "sha256": "23dc99999775a9051688e8195523d66ba3c6fa61908b23ff7385229e00beb44b"
+      },
+      {
+        "path": "reviewer-freeze-after.json",
+        "sha256": "68983dac4f319cac975f5b5661428dcc4839da4f6377f04d813a52b63d5b5cd9"
+      },
+      {
+        "path": "reviewer-installed-drift-observation.json",
+        "sha256": "a6864ada716750bf211774b5640e58ca4ae2f956c247122cd137c55ffc2e2bd8"
+      },
+      {
+        "path": "reviewer-code-fixes.json",
+        "sha256": "41317813ec0b88e492ed1f13eb15893a173917ae32f9db327f9c9565e2518d08"
+      },
+      {
+        "path": "reviewer-fixture-provenance.json",
+        "sha256": "56b0cf6c509402eadc237226729ff8f54a38e028a75e471d7928675db1f1d974"
+      },
+      {
+        "path": "reviewer-parser-probe-01.json",
+        "sha256": "2f856d6c53eb5742b44c0bf0d009fe007dad4b2c3bac1182cab6560e693c0444"
+      },
+      {
+        "path": "reviewer-parser-probe-02.json",
+        "sha256": "d49d959f865031dff2a0b2feaedc4fd39ee35b3bd421ae1cdf137c504a8e8647"
+      },
+      {
+        "path": "reviewer-targeted-final.tap",
+        "sha256": "47a6ffbaeb26c9114c18a0bf8662dc8f1fcf697b5f486a03c16fc066b42fa2ef"
+      },
+      {
+        "path": "root-regression-final-01.json",
+        "sha256": "0419b2250226c327a00635707523574dc07a0b112570c889f1f8255686423d01"
+      },
+      {
+        "path": "root-regression-final-01.tap",
+        "sha256": "2e56679f6225bb76f4fd81e98c1db40fca6fdce7a873918d59abb0fffff070e7"
+      },
+      {
+        "path": "root-input-cost.json",
+        "sha256": "5736b2501c383104c0557dd4e7b729bb434753bec8d82d01375de21caef27bdc"
+      }
+    ]
+  },
+  "unresolvedReviewFindings": [],
+  "reviewerRealModelCalls": 0,
+  "reviewerOfficialCliInvocations": 0,
+  "reviewerHumanUiActions": 0
+}
