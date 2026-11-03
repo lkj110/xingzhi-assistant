@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "kind": "independent-offline-notification-candidate-and-installation-proposal-review",
+  "at": "2026-11-03T06:46:12.055Z",
+  "reviewer": "/root/title_candidate_review",
+  "releaseId": "foundation-win-0.42.4-20261103-3e47ec57",
+  "sourceParentCommit": "986a45833550edb46b08294c88349a3ac7e0179e",
+  "decision": {
+    "approvedForPublication": true,
+    "offlinePreparationPassed": true,
+    "installationProposalReadyForUserConfirmation": true,
+    "installationExecutionAuthorized": false,
+    "applicationStartAuthorized": false,
+    "realWindowsIsolationAcceptancePassed": false,
+    "candidateApprovedForUse": false
+  },
+  "reviewedDocuments": [
+    {
+      "path": "docs/delivery/foundation-win-20261103-notification/candidate.json",
+      "bytes": 16385,
+      "sha256": "d6f9f24dceddf416b4b52055954010f5e0d6f121bfd06b163183e7c863d58e23"
+    },
+    {
+      "path": "docs/delivery/foundation-win-20261103-notification/offline-verification.json",
+      "bytes": 3492,
+      "sha256": "ff131ca1ea1beaa1d4c15fbea6d61f8f656b2a1b800c6061c81838116b7dd9fb"
+    },
+    {
+      "path": "docs/delivery/foundation-win-20261103-notification/installation-proposal.json",
+      "bytes": 7360,
+      "sha256": "820b9937e7744d3d158f64d7035549be7f8de88426aefd51eb631e6649803df9"
+    },
+    {
+      "path": "docs/delivery/foundation-win-20261103-notification/README.md",
+      "bytes": 1614,
+      "sha256": "a9066ade760ff404ddc02250ee95c06fb52903ce7db5a7d382111c0c37fcbc03"
+    }
+  ],
+  "reviewedProductModules": [
+    {
+      "path": "desktop/native-bridge.cjs",
+      "bytes": 5161,
+      "sha256": "ee89bc94f100ab2a2bc18d1d4a0755cd0c65ba975e4b1b3685a935678049229f"
+    },
+    {
+      "path": "desktop/windows-shell.cjs",
+      "bytes": 1246,
+      "sha256": "ecf1fecb12fa7211079c2e183b380b54c72450ec31f5dc77089719c87f16a5fb"
+    }
+  ],
+  "preparationScript": {
+    "path": "scripts/prepare-notification-candidate.cjs",
+    "bytes": 6013,
+    "sha256": "41a888fa54c7b7ae7f03d738a81cef871b243ff7a395834dfd2590a1c1acf063"
+  },
+  "evidence": {
+    "sourceReviewSha256": "2284e20e9d93fdcf94988281a916779f451773b482da22d5ce78b1dc14f00bd9",
+    "artifactReviewSha256": "577e27077ccb09f63dd09a4f33615af75d74d9c8feabf2635d23c8b5efa6ae33",
+    "packageManifestSha256": "bd1b149c9374ea8479f10be1487fea1ed8b1691f61ca7cb5942278a238d06c95",
+    "sourceRegressionReceiptSha256": "c7c677fb11552e66dd4ffe58041273dc0386d7211ee760bc8ae8a41698b3854a",
+    "packedReplayReceiptSha256": "b5bf27d5af59460913af838395b8a02dde8838c479f60ca1a07b63f23eef232a",
+    "preservationSnapshots": [
+      {
+        "file": "installed-before.json",
+        "sha256": "0cfa38c7a4e9b209385277dfa9ff36205b36c1cb820e512f14f693a4e9dabd4c"
+      },
+      {
+        "file": "installed-after.json",
+        "sha256": "f4973593aee65dce64b818f200e1e8640745e32561fbc202e72e01b92ce30743"
+      },
+      {
+        "file": "registry-before.json",
+        "sha256": "d9b91cb168079a40713cf7e59046e36ddda13f5db5bbed8d517b3e662714b96a"
+      },
+      {
+        "file": "registry-after.json",
+        "sha256": "d9b91cb168079a40713cf7e59046e36ddda13f5db5bbed8d517b3e662714b96a"
+      }
+    ]
+  },
+  "verified": {
+    "sourceTests": {
+      "passed": 148,
+      "total": 148,
+      "failed": 0,
+      "skipped": 0
+    },
+    "packedModuleMockReplay": {
+      "passed": 14,
+      "total": 14,
+      "failed": 0,
+      "electronStarted": false
+    },
+    "candidateFiles": 86,
+    "archiveFiles": 9669,
+    "changedArchiveModules": [
+      "desktop/native-bridge.cjs",
+      "desktop/windows-shell.cjs"
+    ],
+    "unchangedArchiveFiles": 9667,
+    "outerChangedFiles": [
+      "resources/app.asar"
+    ],
+    "baseBundleFilesRehashed": 86,
+    "baseMatchesFrozenManifest": true,
+    "zip": {
+      "bytes": 199945622,
+      "sha256": "9936d2265e7b5238bcb521b1d3d8fbb68155b7bd31d96ce779d58aa7628d69e0",
+      "entriesIndependentlyStreamHashed": 86,
+      "allEntriesMatch": true
+    },
+    "preservation": {
+      "existingProgramFilesCompared": 173,
+      "workspaceConfigsCompared": 2,
+      "originalShortcutsCompared": 3,
+      "registryNodesCompared": 2,
+      "endpointSnapshotsMatch": true,
+      "newUserProfileOrRegistryReads": 0
+    }
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "status": "passed",
+      "text": "The frozen candidate and ZIP contain exactly the reviewed two-module change. All other archive files and outer runtime files remain equal to the frozen base."
+    },
+    {
+      "id": "F2",
+      "status": "fixed-test-gap",
+      "text": "The added real-engine offline regression confirms disabled notifications do not become submitted/notified and in-app attention/badge state remains available."
+    },
+    {
+      "id": "F3",
+      "status": "document-corrected",
+      "text": "Clarified that zero program/profile writes applies to current installed files; preservation evidence compares existing endpoint snapshots rather than providing continuous monitoring."
+    },
+    {
+      "id": "F4",
+      "status": "proposal-completed",
+      "text": "The proposal explicitly retains credential-isolation limits, verifies retained file baselines after each exit, and includes final shortcut readback and independent review within the same two-start/45-minute bound."
+    },
+    {
+      "id": "F5",
+      "status": "document-corrected",
+      "text": "Retained bundle notes and statistics are historical; displayed version 0.42.4 alone is not the new candidate identity or proof of new acceptance."
+    },
+    {
+      "id": "F6",
+      "status": "preserved-preparation-issue",
+      "text": "The initial private replay dependency lookup failed before extraction/tests. Resolving via repository createRequire allowed the unchanged packaged modules to pass mock replay; this was not an application or model failure."
+    }
+  ],
+  "proposal": {
+    "status": "awaiting-user-confirmation",
+    "maximumApplicationLaunchAttempts": 2,
+    "failedStartsCount": true,
+    "fixedWindowMinutes": 45,
+    "includesBackupHumanWaitAndFinalIndependentReview": true,
+    "windowReset": false,
+    "firstFailureStops": true,
+    "automaticRetry": false,
+    "intentionalModelCalls": 0,
+    "officialAiCliInvocations": 0,
+    "modelTokenBudget": 0,
+    "offlineFourSettingMethodRequiresAcceptance": true,
+    "oldDataMigration": false,
+    "oldPairModification": false,
+    "registryWritesAuthorized": false,
+    "observerDevelopment": false,
+    "administratorPrivileges": false
+  },
+  "limitations": {
+    "realWindowsRuntimeNotExecuted": true,
+    "macOsAndLinuxPlatformMocksOnly": true,
+    "uiSettingsClickPathNotVerified": true,
+    "independentAbsoluteZeroRequestProof": false,
+    "fullProfileSnapshotDuringPreparation": false,
+    "notificationDeliveryOrComActivationTested": false,
+    "newHallucinationOrTokenMetrics": false,
+    "newApplicationStartsByReviewer": 0,
+    "newRegistryReadsByReviewer": 0,
+    "newRegistryWritesByReviewer": 0,
+    "installedFileWritesByReviewer": 0
+  },
+  "publicationScope": "Exactly six source/test/preparation files and five sanitized delivery documents. Binary ZIP remains a local frozen artifact; no GitHub release asset is claimed."
+}

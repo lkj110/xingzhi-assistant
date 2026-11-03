@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "releaseId": "foundation-win-0.42.4-20261103-3e47ec57",
+  "status": "proposal-awaiting-user-confirmation",
+  "executionAuthorized": false,
+  "purpose": "一次有明确结束条件的零模型并行安装检查，验证新旧入口隔离、独立空工作空间及设置冷重启保持。",
+  "userVisibleTradeoff": "本独立工作空间使用应用内待处理列表和托盘计数，不发送 Windows 系统通知。",
+  "budget": {
+    "applicationLaunchAttemptsMaximum": 2,
+    "failedStartsCount": true,
+    "intentionalModelCalls": 0,
+    "officialAiCliInvocations": 0,
+    "modelTokens": 0,
+    "fixedWindowMinutes": 45,
+    "includes": "前置检查、备份、首次启动、离线设置、冷重启、核验、必要的人操作等待和独立复核",
+    "startsWhen": "收到本轮安装批准且确认操作就绪后记录单一开始/截止时间",
+    "resetWindow": false,
+    "firstFailureStops": true,
+    "automaticRetry": false
+  },
+  "boundaries": {
+    "retainCurrentProgramsAndProfiles": true,
+    "migrateOldDataOrCredentials": false,
+    "newObserverDevelopment": false,
+    "administratorPrivileges": false,
+    "formalOrBusinessModelEvaluation": false,
+    "rerunF04": false,
+    "oldTwoLaunchAuthorizationExhausted": true
+  },
+  "paths": {
+    "program": "%LOCALAPPDATA%/Programs/XingzhiAssistantFoundation/20261103-3e47ec57",
+    "profile": "%APPDATA%/XingzhiAssistantFoundation/20261103-3e47ec57",
+    "backup": "%LOCALAPPDATA%/XingzhiAssistantFoundationBackups/before-20261103-3e47ec57",
+    "shortcutName": "行知助手（基础版 20261103-3e47ec57）.lnk",
+    "arguments": [
+      "--user-data-dir=<上述新profile绝对路径>"
+    ],
+    "retainedProgramAndProfilePairs": [
+      "20261027-90815f4 + 原行知助手工作空间",
+      "20261102-2671389c + 该候选的独立工作空间"
+    ],
+    "shortcutLocations": [
+      "当前用户实际 DesktopDirectory / 上述 shortcutName（执行前解析并记录绝对路径）",
+      "%APPDATA%/Microsoft/Windows/Start Menu/Programs/上述 shortcutName"
+    ]
+  },
+  "preflight": [
+    "新程序、新profile、备份目录及两个新快捷方式必须不存在；执行前记录解析后的绝对路径，验证相互独立、重解析点、可用磁盘和冻结ZIP全部86文件。",
+    "核实旧版/候选无进行中任务且已正常退出；未交接就停止，不强杀或打断其他agent。",
+    "按当时实际字节为两组保留的程序/profile和3个原快捷方式建立完整只读备份，以Read/FileShare.Read保持每个源句柄至复制及源hash完成，目标不得覆盖；不跳过缓存或锁文件。复制前后核对完整文件/空目录清单、SHA-256、字节数、属性及UTC时间；不可读或有变化即停止。",
+    "备份置于仅当前用户及SYSTEM/管理员可访问的目录；复制一份restore-check并逐文件/目录核对。主数据流校验不声称系统镜像或ADS一致性。",
+    "磁盘至少容纳两份上述全部备份、新包解压空间及1GiB余量。",
+    "在任何应用启动前另存当前3快捷方式原字节、目标/参数，以及Registry64下该通知CLSID父键和直接子键的存在性、值名/类型/数据及owner/group/DACL；不采集全注册表。",
+    "再次核对共享通知激活路径指向保留旧版，以及允许的本地启动/跳过引导不会打开模型配置或检查官方CLI登录。"
+  ],
+  "steps": [
+    {
+      "id": "N1",
+      "action": "解压冻结包到全新目录，核对全部86文件；创建独立空profile。先记账第1次启动，再用新exe和显式user-data-dir启动；清除测试/fixture环境变量。"
+    },
+    {
+      "id": "N2",
+      "action": "核对运行exe、appPath/userData归属和主窗口；至少保持30秒覆盖常规通知轮询时间，再正常退出并确认相关进程为0。立即核对两组保留程序/profile完整基线、新程序86文件、3个旧快捷方式及局部通知注册快照；出现任何差异即终止本轮，不进入下一次启动。",
+      "limit": "时间等待本身不等于独立证明内部调用次数。"
+    },
+    {
+      "id": "N3",
+      "action": "确认程序退出后，将新工作空间配置原字节保存到受限且不覆盖的备份；仅设置automatic=false、autoExtract=false、autoComplete=false、evidenceGrounding=true，其他JSON语义不变。同目录原子写入前再次校验源hash，写后读回并核对唯一允许的字段差异。明确接受离线设置方式，界面设置点击路径仍未验证。"
+    },
+    {
+      "id": "N4",
+      "action": "先记账第2次启动，按同一独立profile冷启动；核对四设置持久化、业务集合/模型账号为空及主窗口身份，至少保持30秒后正常退出并确认相关进程为0；检查可取得的调用/错误记录，再次比对两组保留程序/profile完整基线、新程序86文件、旧快捷方式及局部通知注册项。"
+    },
+    {
+      "id": "N5",
+      "action": "前述检查通过后，创建指向新exe且携带完整独立profile参数的专用桌面和开始菜单快捷方式，不覆盖既有入口；读回目标、参数及工作目录，并复核3个旧快捷方式和局部通知注册快照仍与本轮基线一致。最后完成包含快捷方式结果的独立复核，全部通过才宣布本轮范围通过。仅创建并校验，不通过快捷方式另启动第3次。"
+    }
+  ],
+  "allowedLocalUi": "可跳过首次引导；不打开模型账号/供应商表单，不测试连接、登录状态、生成或推进。引导本身未跳过不应通过离线方式伪造完成；若无法取得必要运行身份/页面证据则停止。",
+  "failureHandling": "首个前置条件、身份/hash、入口/注册项变化、设置持久化或可见调用异常即停止；正常退出并保留证据，不自动重启、修改旧数据/注册表或开展新修复。另报告精确处置建议。",
+  "successLabel": "基础版并行安装与两次本地启动隔离检查通过",
+  "limitations": [
+    "不保证独立证明绝对零后台请求或发现所有短命调用。发现非预期调用则报告已知/未知用量并停止。",
+    "不证明通知实际投递或COM激活成功；独立profile系统通知本就停用。",
+    "不证明旧版运行兼容性、凭据解密或数据迁移；不新增幻觉率/token结果。",
+    "主数据流备份、局部通知项检查不等于系统安全隔离或整个注册表恢复。",
+    "独立空profile不隔离本机环境变量、全局官方CLI登录或操作系统凭据；不迁移旧数据不等于无法访问这些凭据。本轮禁止探测、解密或验证它们。"
+  ],
+  "confirmationReason": "用户要求离线准备后再安排安装；此前2次启动额度已全部用完。本轮是新冻结候选，需要明确批准本方案最多2次启动/固定45分钟，并接受N3退出后的四字段离线配置方式；模型预算仍为0，界面设置点击不作为验收通过项。",
+  "notificationRegistryScope": {
+    "view": "Registry64",
+    "parentKey": "HKEY_CURRENT_USER\\Software\\Classes\\CLSID\\{9CB14368-0A71-4D19-8CC7-20B58B091361}",
+    "depth": "该父键及直接子键",
+    "fields": "键存在性、值名/类型/数据、子键名称及owner/group/DACL",
+    "writeAuthorized": false
+  }
+}

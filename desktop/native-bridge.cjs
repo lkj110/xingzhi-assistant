@@ -1,6 +1,7 @@
 // The only synchronous bridge is the keychain. The worker may wait; Electron's
 // window thread only services messages and never calls Atomics.wait.
 const {isMainThread}=require('node:worker_threads');
+const {canRegisterWindowsShell}=require('./windows-shell.cjs');
 const CAPACITY=1024*1024, HEADER=16;
 const vaultError=()=>Object.assign(Error('系统钥匙串操作失败，请检查系统权限后重试'),{code:'VAULT_UNAVAILABLE'});
 function createVault(port,{timeout=30000}={}){
@@ -49,7 +50,10 @@ function serviceVault(shared,safeStorage){
     response?.fill(0);if(Atomics.load(header,0)===3)bytes.fill(0);Atomics.notify(header,0);
   }
 }
-function createNativeBridge({app,dialog,shell,Notification,net,getWindow,onAttention}){
+function createNativeBridge({app,dialog,shell,Notification,net,getWindow,onAttention,platform=process.platform}){
+  // Do not probe Electron's notification API for isolated Windows profiles:
+  // probing itself can register a shared shortcut and COM activation path.
+  const notificationsAllowed=platform!=='win32'||canRegisterWindowsShell(app);
   return async function invoke(action,input={}){
     switch(action){
       case 'openExternal': await shell.openExternal(input.url);return {opened:true};
@@ -61,8 +65,9 @@ function createNativeBridge({app,dialog,shell,Notification,net,getWindow,onAtten
       case 'runtimeStartup':
         if(!app.isPackaged)throw Error('登录启动请在打包后的 App 中设置');
         app.setLoginItemSettings({openAtLogin:input.enabled===true});return {openAtLogin:app.getLoginItemSettings().openAtLogin};
-      case 'attentionAvailable': return {supported:Notification.isSupported(),focused:!!getWindow()?.isFocused()};
+      case 'attentionAvailable': return {supported:notificationsAllowed&&Notification.isSupported(),focused:!!getWindow()?.isFocused()};
       case 'notifyAttention': {
+        if(!notificationsAllowed)throw Object.assign(Error('独立工作空间或开发模式使用应用内提醒，系统通知未启用'),{code:'NATIVE_NOTIFICATIONS_DISABLED'});
         const notification=new Notification({title:'行知助手需要你关注',body:`${input.count} 项工作有新的待处理进展，点击查看关注中心。`});
         notification.on('click',onAttention);notification.show();return {submitted:true};
       }

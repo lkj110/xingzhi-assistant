@@ -65,6 +65,39 @@ async function setup(t,overrides={}){
  t.after(async()=>{await engine.close().catch(()=>{});fs.rmSync(dir,{recursive:true,force:true});});
  await engine.ready;return {engine,dir,workspace,nativeCalls};
 }
+test('isolated Windows bridge leaves pending worker notifications unread and unsubmitted',async t=>{
+ const dir=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'assistant-notification-worker-'))),workspace=path.join(dir,'workspace'),module=path.join(dir,'fixture.cjs');
+ fs.mkdirSync(workspace);fs.writeFileSync(module,`const desktop=${JSON.stringify(desktop)};\n`+fixtureSource);
+ let engine;
+ t.after(async()=>{await engine?.close();t.mock.timers.reset();fs.rmSync(dir,{recursive:true,force:true});});
+ const a=require(module).create({Assistant:require('../desktop/core.cjs').Assistant,options:{dir:workspace}});
+ a.data.settings.automatic=false;
+ const deadline=a.createTask({title:'pending deadline',dueAt:new Date(Date.now()+30*60000).toISOString(),steps:[{kind:'draft',title:'pending work'}]});
+ const review=a.createTask({title:'pending review'});review.status='review';a.save();
+ const attention=require('../desktop/attention.cjs'),events=require('../desktop/deadline-events.cjs'),badges=require('../desktop/pending-badges.cjs');
+ const pending=attention.pendingNotifications(a);
+ assert.ok(pending.items.some(item=>item.eventId),'include a durable deadline notification');
+ assert.ok(pending.items.some(item=>!item.eventId),'include a regular attention notification');
+ const records=structuredClone(a.data.attentionRecords),attempts=structuredClone(events.state(a).notificationAttempts),count=badges.count(a.data),nativeCalls=[],surfaces={probes:0,constructed:0,shown:0};
+ class Notification {
+  static isSupported(){surfaces.probes++;throw Error('isolated profile must not initialize notifications');}
+  constructor(){surfaces.constructed++;throw Error('isolated profile must not construct notifications');}
+  show(){surfaces.shown++;}
+ }
+ const bridge=require('../desktop/native-bridge.cjs').createNativeBridge({app:{isPackaged:true,commandLine:{hasSwitch:name=>name==='user-data-dir'}},platform:'win32',Notification,getWindow:()=>null});
+ const errors=[];
+ engine=require('../desktop/engine-worker.cjs').createEngine({assistant:a,native:async(action,input)=>{nativeCalls.push(action);return bridge(action,input);},emit:message=>{if(message.type==='backgroundError')errors.push(message.error);}});
+ t.mock.timers.enable({apis:['setInterval']});engine.start();t.mock.timers.tick(15000);
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.deepEqual(nativeCalls,['attentionAvailable']);assert.deepEqual(errors,[]);
+ assert.deepEqual(surfaces,{probes:0,constructed:0,shown:0});
+ assert.deepEqual(events.state(a).notificationAttempts,attempts);assert.deepEqual(a.data.attentionRecords,records);
+ assert.equal(attention.pendingNotifications(a).count,pending.count);assert.equal(badges.count(a.data),count);
+ for(const id of [`deadline:${deadline.id}`,`review:${review.id}`])assert.equal(attention.snapshot(a).items.find(item=>item.id===id).state,'unread');
+ await engine.close();
+ assert.deepEqual(events.state(a).notificationAttempts,attempts);assert.deepEqual(a.data.attentionRecords,records);
+});
+
 test('Assistant and nested document parser run in workers; mirror is bounded and contains no workspace',async t=>{
  const {engine}=await setup(t);const probe=await engine.dispatch('fixtureProbe');assert.ok(probe.threadId>0);
  assert.match((await engine.dispatch('fixtureParse')).content,/nested document worker text/);

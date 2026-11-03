@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "releaseId": "foundation-win-0.42.4-20261103-3e47ec57",
+  "status": "offline-preparation-and-independent-review-passed-awaiting-installation-approval",
+  "problem": "Windows notification capability probing can initialize a shared Start Menu shortcut and COM activator, despite the manual shortcut guard.",
+  "change": "Only packaged default Windows profiles may use shared shell registration and native notifications. Explicit --user-data-dir and development runs skip identity/shortcut registration and never probe or construct native notifications. Direct send attempts fail without claiming submission.",
+  "userVisibleBehavior": {
+    "isolatedWindowsProfile": "System toasts are disabled; in-app attention cards and tray counts remain available.",
+    "defaultPackagedWindows": "Existing behavior retained.",
+    "macOSAndLinux": "Existing notification branch retained; tested with platform mocks only."
+  },
+  "productModulesChanged": [
+    "desktop/native-bridge.cjs",
+    "desktop/windows-shell.cjs"
+  ],
+  "businessSemanticsAndEvidenceBindingChanged": false,
+  "sourceRegression": {
+    "tests": 148,
+    "pass": 148,
+    "fail": 0,
+    "skip": 0,
+    "logSha256": "6069cf2b8c23a17f0aa6f0bfeda6c6660687da487e5c659f371e16c852c0379c",
+    "receiptSha256": "c7c677fb11552e66dd4ffe58041273dc0386d7211ee760bc8ae8a41698b3854a"
+  },
+  "packedReplay": {
+    "tests": 14,
+    "pass": 14,
+    "fail": 0,
+    "realElectronStarted": false,
+    "logSha256": "806cf76cf1c7f1213126e91323ae8f0c494080fb19bf94f6fd24f2f09e9b773c",
+    "receiptSha256": "b5bf27d5af59460913af838395b8a02dde8838c479f60ca1a07b63f23eef232a"
+  },
+  "package": {
+    "filesVerified": 86,
+    "archiveEntriesVerified": 9669,
+    "changedArchiveEntries": [
+      "desktop/native-bridge.cjs",
+      "desktop/windows-shell.cjs"
+    ],
+    "otherArchiveEntriesUnchanged": 9667,
+    "baseBundleUnchanged": true,
+    "zipEveryFileVerified": true,
+    "zipVerificationSha256": "3709d0856d70868b94bcc997a1aaa0eef1b29038fdd83462238381953dafdfd2"
+  },
+  "preservation": {
+    "installedProgramFilesCompared": 173,
+    "workspaceConfigFilesCompared": 2,
+    "originalShortcutFilesCompared": 3,
+    "allComparedBytesUnchanged": true,
+    "notificationRegistryNodesCompared": 2,
+    "allCapturedRegistryFieldsUnchanged": true,
+    "fullProfileInventoryClaim": false,
+    "comparisonMeaning": "Equality of the recorded before/after snapshots only; not continuous monitoring and not a full profile inventory."
+  },
+  "preparationIssue": {
+    "scope": "Private replay helper only",
+    "issue": "Initial dependency lookup assumed checkout-local node_modules and stopped before extraction or tests.",
+    "resolved": "Use createRequire from repository package.json; packaged replay then passed.",
+    "productOrCandidateBytesChanged": false
+  },
+  "limits": {
+    "applicationStarts": 0,
+    "registryWrites": 0,
+    "intentionalApplicationModelCalls": 0,
+    "intentionalOfficialAiCliInvocations": 0,
+    "newHallucinationOrTokenMetrics": false,
+    "realWindowsIsolationAcceptancePassed": false,
+    "macOSRuntimeAcceptancePassed": false,
+    "independentAbsoluteZeroRequestProof": false,
+    "installedProgramOrProfileWrites": 0
+  },
+  "sources": [
+    "https://github.com/electron/electron/blob/v44.4.5/shell/browser/api/electron_api_notification.cc",
+    "https://github.com/electron/electron/blob/v44.4.5/shell/browser/notifications/win/windows_toast_activator.cc"
+  ],
+  "independentReview": "offline-review.json"
+}
