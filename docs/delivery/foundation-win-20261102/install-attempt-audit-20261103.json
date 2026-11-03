@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "kind": "independent-install-attempt-and-containment-audit",
+  "at": "2026-11-03T04:48:22.248Z",
+  "reviewer": "/root/title_candidate_review",
+  "report": "docs/delivery/foundation-win-20261102/install-attempt-result-20261103.json",
+  "reportSha256": "a47f60343663cc182c56c5117636c0a594c675edefaebe84e571b1e7ccf14ed9",
+  "decision": {
+    "publicationApproved": true,
+    "installationAcceptancePassed": false,
+    "released": false,
+    "fileContainmentVerified": true,
+    "notificationCorrectionPreparedForUserConfirmation": true,
+    "registryWriteAuthorized": false,
+    "additionalApplicationStartsAuthorized": false
+  },
+  "manifestComparison": {
+    "baseline": {
+      "file": "old-quiescent-baseline.json",
+      "sha256": "9dee305306cda02e8ef8f1f4e7329045b6838c09ec4332554263407424b6933f"
+    },
+    "current": {
+      "file": "post-containment-current-inventories.json",
+      "sha256": "52095592aed8b0a7e561f709d409c48475cc51cc8cbb476647d8cb96d0a536a9"
+    },
+    "frozenCandidateManifest": {
+      "file": "docs/delivery/foundation-win-20261102/candidate.json",
+      "sha256": "7f84374f1097ee779ac90524ef69b1227910d8f4c1d0a089f21b1f9dbe5da4b2"
+    },
+    "method": "Compared complete old file/directory lists, bytes, SHA256, attributes and UTC times at 100ns precision. Compared the complete new 86-file bytes/hash list to the frozen candidate manifest. No old-library rehash was performed by this reviewer.",
+    "counts": {
+      "oldProgram": 87,
+      "oldProfile": 128,
+      "originalShortcuts": 3,
+      "newFrozenFiles": 86
+    },
+    "currentMatches": true
+  },
+  "evidence": {
+    "privateFinalReviewSha256": "7a3f772688c2512b5147edf23b5ad362a83224fa64e8abbe9156ef888aa174dd",
+    "settingsAndColdReviewSha256": "b718cd064544c2336a0f661ceea5df903298520a49724bde1168f380763e6ede",
+    "registryProposalReviewSha256": "3c52efe6ac2c79a48ed8d633ff2175b633b28824cf7646fea4141247f690c97a",
+    "changedShortcutSha256": "cfee599cbfad3ffa7c42f9926c56bfbb9244c5e2e054cf328c4548b36cf9572e",
+    "restoredShortcutSha256": "59faf11cd5552a6db5b558122febefb3f7ae2bc8a762f2ee2fd87f1919618967"
+  },
+  "findings": [
+    {
+      "id": "A1",
+      "status": "confirmed",
+      "text": "Backup/deployment and approved offline-settings/cold-start evidence pass their limited checks. Two launches were counted and both exited normally; this does not establish UI-settings-click success or independent zero requests."
+    },
+    {
+      "id": "A2",
+      "status": "confirmed-failure-retained",
+      "text": "One original Start Menu shortcut changed to the new executable without its isolated profile argument. Its changed bytes were preserved and its original bytes/metadata/binding restored. Other current original-file inventories match baseline; isolation acceptance still fails."
+    },
+    {
+      "id": "A3",
+      "status": "qualified",
+      "text": "The notification binding is directly observed. Frozen app and official Electron source support the proposed trigger chain, but no runtime trace proves the exact writer/timing and no historical registry baseline exists."
+    },
+    {
+      "id": "A4",
+      "status": "report-fixed",
+      "text": "Renamed ambiguous zero-call exclusions to intentional task operations and qualified the overall failure cause. Explicitly distinguished current shortcut restoration from never having changed."
+    },
+    {
+      "id": "A5",
+      "status": "ready-for-confirmation-only",
+      "text": "Original-shortcut and retained-app notification identities match. The single Registry64 default-value proposal may be submitted to the user, with bounded before/after metadata and ACL comparison; it has not been executed or authorized by this audit."
+    }
+  ],
+  "limits": {
+    "uiSettingsClickPathVerified": false,
+    "independentAbsoluteZeroInvocationProof": false,
+    "adsConsistencyVerified": false,
+    "oldAppRuntimeRestoreTested": false,
+    "notificationRegistryHistoricalRestoreClaim": false,
+    "newModelEvaluation": false,
+    "reviewerRegistryChanges": 0,
+    "reviewerApplicationStarts": 0,
+    "reviewerModelOrOfficialCliInvocations": 0
+  },
+  "publicationScope": "Only the sanitized result and this audit. No user data, machine identifiers, private paths, raw inventories or binaries are included. Candidate remains unapproved for use and not released."
+}

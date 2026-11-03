@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "date": "2026-11-03",
+  "status": "parallel-installation-acceptance-failed-not-released",
+  "result": "Backup, frozen deployment, approved offline settings and cold restart passed. Final isolation check found a rewritten shared Start Menu shortcut and a notification activation path pointing to the new executable without its isolated-profile argument.",
+  "frozenIdentity": {
+    "asarSha256": "2671389c1a58145d7615498ab7eaddd57813280e8bce826d752f967fd205003c",
+    "executableSha256": "991bd6c0157954d7cb4faf8bae36545765af725cceec92c92373197c993b6a5a",
+    "files": 86,
+    "bytes": 536107787,
+    "installedBytesRemainFrozen": true,
+    "productCodeChanged": false
+  },
+  "acceptedScope": {
+    "parallelDirectories": true,
+    "newEmptyProfile": true,
+    "oldDataMigration": false,
+    "independentFullInvocationObservationRequired": false,
+    "maximumApplicationLaunchAttempts": 2,
+    "uiSettingsMethod": "User explicitly approved replacing I4 UI settings actions with a backed-up offline four-boolean edit and cold-start persistence check.",
+    "uiSettingsClickPathVerified": false
+  },
+  "completed": {
+    "backup": {
+      "oldProgramFiles": 87,
+      "oldProfileFiles": 128,
+      "oldShortcutFiles": 3,
+      "bytes": 650287287,
+      "restoreCopyBytes": 650287287,
+      "allPrimaryFileHashesAndDirectoryInventoriesMatched": true,
+      "readSharing": "Read / FileShare.Read",
+      "sourceHandleRetainedDuringCopy": true,
+      "restrictedBackupAcl": true,
+      "adsConsistencyClaim": false,
+      "oldApplicationRuntimeRestoreTested": false
+    },
+    "deployment": {
+      "all86FrozenFilesVerified": true,
+      "initiallyEmptyIndependentProfile": true
+    },
+    "settings": {
+      "automatic": false,
+      "autoExtract": false,
+      "autoComplete": false,
+      "evidenceGrounding": true,
+      "actualChangedPaths": [
+        "settings.autoExtract",
+        "settings.evidenceGrounding"
+      ],
+      "allOtherJsonValuesUnchangedDuringOfflineEdit": true,
+      "originalConfigBytesBackedUp": true
+    },
+    "smoke": {
+      "launchAttempts": 2,
+      "normalExits": 2,
+      "finalMatchingAppProcesses": 0,
+      "expectedNewExecutableProfileAndPageObserved": true,
+      "versionObserved": "0.42.4",
+      "fourSettingsPersisted": true,
+      "emptyBusinessRecordCollections": 15,
+      "applicationSpendScopes": 0,
+      "applicationErrorEvents": 0,
+      "onboardingRemainedDismissed": true
+    },
+    "cost": {
+      "intentionalApplicationModelCalls": 0,
+      "intentionalOfficialAiCliInvocations": 0,
+      "independentAbsoluteZeroRequestProof": false,
+      "realModelEvaluationPerformed": false
+    }
+  },
+  "blocker": {
+    "sharedShortcut": "StartMenu/Programs/行知助手.lnk",
+    "observedChange": "Target and working directory changed from retained old installation to the new candidate; arguments were empty, so the isolated profile was not carried.",
+    "notificationRegistry": "The application ToastActivatorCLSID LocalServer32 default value currently points to the new candidate. No before-install registry snapshot exists.",
+    "sourceBasedDiagnosis": "The frozen app checks Notification.isSupported in attentionAvailable. Electron's notification presenter initialization can register its COM activator and asynchronously ensure a product-name Start Menu shortcut plus LocalServer32. This path is separate from the app's guarded manual shortcut creation.",
+    "confidence": "Observed shortcut/registry bindings are direct local evidence; the trigger chain is a static diagnosis from frozen app modules and matching declared Electron 44.4.5 source, not a captured runtime trace.",
+    "sources": [
+      "https://github.com/electron/electron/blob/v44.4.5/shell/browser/api/electron_api_notification.cc",
+      "https://github.com/electron/electron/blob/v44.4.5/shell/browser/notifications/win/notification_presenter_win.cc",
+      "https://github.com/electron/electron/blob/v44.4.5/shell/browser/notifications/win/windows_toast_activator.cc",
+      "https://github.com/electron/electron/pull/50471"
+    ]
+  },
+  "containment": {
+    "bothApplicationsExited": true,
+    "newIndependentShortcutsCreated": 0,
+    "changedShortcutBytesPreserved": true,
+    "originalShortcutRestoredFromVerifiedBackup": true,
+    "originalShortcutHashesTimesAttributesAndBindingVerified": true,
+    "oldProgramAndOldProfileCurrentHashesMatchBaseline": true,
+    "otherTwoOldShortcutsUnchanged": true,
+    "notificationRegistryModifiedByAgent": false,
+    "notificationRegistryCorrection": "Prepared for explicit user confirmation; the retained old app and original shortcut share the same notification identities. Not claimed as historical registry restoration.",
+    "acceptanceStillFailed": true,
+    "noAdditionalApplicationLaunches": true,
+    "oldShortcutHistoryQualification": "One original Start Menu shortcut was rewritten and later restored exactly. Current baseline matches do not mean all original shortcuts stayed unchanged throughout the attempt.",
+    "notificationCorrectionScopeLimit": "The pending proposal changes one LocalServer32 default value only; it does not restore an unknown historical registry snapshot, all notification registration fields, or prove runtime COM activation."
+  },
+  "auditIssues": [
+    {
+      "issue": "Whole-JSON comparison falsely reported old-program drift because PowerShell deserialized timestamps and shortened fractional-second formatting.",
+      "resolution": "Preserved failure, diagnosed 87 byte/metadata matches, then compared exact paths/hashes/sizes/attributes and full UTC ticks."
+    },
+    {
+      "issue": "PowerShell converted a null File.Replace backup-path argument to an empty path.",
+      "resolution": "Target stayed unchanged; preserved failure; used an explicit new backup pathname, verified the replacement backup and restored link."
+    },
+    {
+      "issue": "Both native UI interfaces returned coordinate input geometry is unavailable.",
+      "resolution": "Reconnection did not recover input; user approved offline I4 replacement. No UI-click success claimed."
+    }
+  ],
+  "independentReview": {
+    "settingsAndColdStart": "passed",
+    "overallInstallation": "failed: the observed shared-shortcut rewrite and current notification activation binding are incompatible with isolated launch",
+    "finalContainmentAndPublication": "see install-attempt-audit-20261103.json"
+  },
+  "nextStep": "First close the remaining application-specific notification activation correction with explicit user approval. Then prepare a minimal offline fix covering all notification initialization paths for isolated profiles, regression tests, a new frozen candidate and independent review; propose a new bounded zero-model install check only after preparation. Existing two-launch authorization is exhausted.",
+  "exclusions": {
+    "additionalLaunches": 0,
+    "F04Rerun": false,
+    "formalMainEvaluation": false,
+    "publicReleaseAssetPublished": false,
+    "intentionalTaskModelCalls": 0,
+    "intentionalTaskOfficialAiCliInvocations": 0
+  },
+  "nextStepQualification": "Recommended future work, not authorization to change the frozen candidate, start another application attempt, or write the pending registry value."
+}
