@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "kind": "installation-acceptance-scope-change-proposal",
+  "date": "2026-11-03",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "status": "proposal-requires-user-decision-before-execution",
+  "basis": "docs/evidence/foundation-etw-offline-assessment-20261103.json",
+  "originalPlan": "docs/delivery/foundation-win-20261102/install-rollback-plan.json",
+  "existingParallelInstallAuthorizationRetained": true,
+  "scopeChangeAuthorized": false,
+  "installationMayProceedNow": false,
+  "purpose": "结束辅助观察工具的迭代，将交付结论限定为实际可证明的安装身份与新旧profile路径归属、未混用；不把独立profile视为系统安全隔离，不修改产品、不启动新业务或质量评测。",
+  "whyDecisionNeeded": "原方案把完整连续进程树/请求观察和异常即时停止列为启动前硬条件。当前建议改变这项验收标准；既有并行安装授权不等于已同意降低证据覆盖，因此必须明确确认。",
+  "recommendation": "接受下列收窄的安装验收；完成旧版任务交接后，依既有安装授权执行一次并行安装与两次启动检查。",
+  "unchanged": [
+    "冻结候选、ZIP和86文件完整清单逐项校验；不重新构建、不覆盖旧程序。",
+    "另一agent负责的旧事项先完成交接，再正常完整退出旧版；未经交接不关闭或读取该事项。",
+    "完整备份旧程序、完整profile和快捷方式，并逐字节还原校验；路径/磁盘/重解析点检查沿用原方案。",
+    "新程序目录和独立空profile；不迁移旧事项、资料、模型配置或凭据。",
+    "仅跳过引导；本地设置automatic=false、autoExtract=false、autoComplete=false、evidenceGrounding=true。",
+    "首次启动和一次冷重启后核对exe/appPath/userData/version、设置持久化及空白工作台，再建立独立快捷方式。",
+    "不打开模型配置、不检测登录、不测试连接、不生成、不推进事项、不调用官方AI CLI；无新增真实调用授权。",
+    "出现身份、hash、设置、可见错误或已观察到的非预期调用即停止；保存证据，不重试或继续功能修复。",
+    "备份、回滚、旧目录保护及外部资料不在自动备份范围等原有边界继续有效。"
+  ],
+  "changedEvidenceRequirement": {
+    "before": "必须独立连续观察全部进程树与模型请求，证明零分发，并在出现异常时立即停止。",
+    "proposedAfter": "启动前核查冻结包中允许入口的静态调用路径；执行时只做上述本地动作，保留应用可取得的调用/错误记录及前后状态。结束后逐项报告可验证结果，不再把全机采集工具验证作为安装前置条件。",
+    "noNegativeProofClaim": "应用没有调用记录只能记为未发现调用记录；不能写成已独立证明模型请求或CLI分发为0。进程快照同样不能作为完整零调用证明。",
+    "stopLimit": "发现可见异常就停止；不承诺能实时发现所有未记录、短命或后台请求。",
+    "residualRisk": "独立空profile不会清除或隔离本机既有官方CLI认证。受限操作和静态路径核查可降低误触发风险，但没有独立边界时不能保证隐藏的程序缺陷绝不会发起调用。本提议不授权主动测试这些调用。",
+    "whyUseful": "仍能直接证明交付包身份、新旧profile路径归属及未混用、手动设置保持、完整备份可读及逐字节恢复；不证明操作系统、网络或本机凭据隔离，也不证明旧App运行兼容性。",
+    "unexpectedCallHandling": "若从可见信号或应用记录发现非预期模型/官方AI CLI调用，立即停止后续验收动作，保存证据和可取得的实际用量；未知用量明确记未知，不重试、不主动追加调用，也不再将该轮标注为零调用。停止能力仍受上述可见性限制。"
+  },
+  "finiteExecution": {
+    "applicationStartsMaximum": 2,
+    "allowedStarts": [
+      "首次启动",
+      "正常退出后冷重启一次"
+    ],
+    "firstFailureStops": true,
+    "automaticRepairOrRerun": false,
+    "newObserverDevelopment": false,
+    "administratorTraceSession": false,
+    "newBusinessEvaluation": false,
+    "explicitModelOrOfficialAiCliAttempts": 0,
+    "modelBudgetRequested": 0,
+    "preflight": "执行前重新核对冻结文件、空目标路径、旧版交接及静态启动路径。任一缺口未解决就停止，不把方案确认当成这些事实已满足。",
+    "startCounting": "最多2次应用启动尝试，包含失败或未进入主窗口的启动；首个失败即停止，不重新计数或另开重试轮次。"
+  },
+  "deliverable": {
+    "successLabel": "基础版并行安装与本地启动检查通过",
+    "requiredReport": [
+      "候选与运行身份",
+      "备份和还原校验",
+      "新旧程序与profile路径归属、未混用及其限制",
+      "设置冷重启保持",
+      "实际观察到的调用记录及其覆盖限制",
+      "旧版回退入口"
+    ],
+    "notClaimed": [
+      "完整Agent或A–D验收通过",
+      "新增幻觉率或token优化结论",
+      "全机无模型/CLI调用",
+      "已独立证明本次候选绝对零请求"
+    ]
+  },
+  "alternatives": [
+    {
+      "id": "retain-original-contract",
+      "action": "保留原验收标准，暂停安装；本轮关闭观察工具支线，不自动继续研发或申请自测。"
+    },
+    {
+      "id": "files-only",
+      "action": "若另行选择，可仅完成备份及新目录文件部署，不启动候选、不创建宣称已可用的快捷方式；明确标注未完成运行验收。",
+      "recommended": false,
+      "reason": "这只交付文件，尚未满足用户可使用的稳定基础版目标。"
+    }
+  ],
+  "confirmationScope": "只需确认是否接受上述证据覆盖与停止能力的收窄；不是重新申请模型预算，也不是自动新增系统权限。安装仍须等待旧版任务交接及其余前置条件满足。"
+}

@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "kind": "independent-etw-offline-assessment-review",
+  "at": "2026-11-03T01:36:45.737Z",
+  "reviewer": "/root/title_candidate_review",
+  "sourceCommit": "d6534c37803fdd1f66561e42dc84304bfafded35",
+  "documents": [
+    {
+      "file": "docs/evidence/foundation-etw-offline-assessment-20261103.json",
+      "sha256": "3b048bb9acba325368f6823524592b8ab2323cb7bd6176b8d010359102dba5c8"
+    },
+    {
+      "file": "docs/delivery/foundation-win-20261102/install-acceptance-scope-proposal-20261103.json",
+      "sha256": "e664323f5147c9a08c5901f6e52d6a49cf0706bd3ba2078bd8116e3ee3859011"
+    }
+  ],
+  "decision": {
+    "publicationApproved": true,
+    "offlineAssessmentComplete": true,
+    "originalInstallObservationContractSatisfied": false,
+    "scopeChangeAuthorized": false,
+    "installationMayProceed": false,
+    "newExecutionOrBudgetAuthorized": false
+  },
+  "validation": {
+    "evidenceManifestFilesRehashed": 5,
+    "existingToolFilesRehashed": 4,
+    "declaredEventVersions": 40,
+    "matchingEventVersions": 9,
+    "descriptorTemplateKeywordLevelOpcodeCrossCheck": true,
+    "zeroKeywordEvents": 0,
+    "sidTypedEvents": [
+      "1/v3",
+      "15/v1"
+    ],
+    "sidFieldMeaning": "MandatoryLabel为完整性标签SID，不表述为用户账号SID。",
+    "matchedTemplatesDeclareCommandLine": false,
+    "staticMetadataDoesNotProveRuntimePrivacy": true,
+    "privateStaticResultSha256": "f9f9fe3930fae8a6084ec728176d5e0ed4f5c308806e7c84cc80d105e360880f",
+    "rootFrozenArtifactReceiptSha256": "24babc8344fe130d80afec2725ecd19c553f7dacbc6e6a1d9d0036cdae8f4daa",
+    "frozenArtifactCheckScope": "核对根执行者只读复核冻结ZIP及app.asar的两项匹配回执；未重做86文件逐项检查，不触碰当前安装。"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "status": "confirmed",
+      "text": "所评估logman文件记录/tracerpt事后解码路径不能覆盖同进程模型请求或运行中即时停止；元数据未证明实际ETL丢失统计和隐私边界。关闭本支线，不自动追加采集器或测试。"
+    },
+    {
+      "id": "R2",
+      "status": "clarified",
+      "text": "收窄方案仅证明程序/profile路径归属及未混用，不能扩大为系统、网络或本机CLI凭据隔离；资料不迁移与本机凭据可能仍可访问已分别说明。"
+    },
+    {
+      "id": "R3",
+      "status": "clarified",
+      "text": "非预期调用一旦可见就停止后续验收，保存实际用量或明确未知；不能把应用记录为空当独立零调用证明。"
+    },
+    {
+      "id": "R4",
+      "status": "clarified",
+      "text": "最多2次启动包含失败尝试，首个失败终止，无自动修复或重跑。"
+    },
+    {
+      "id": "R5",
+      "status": "confirmed",
+      "text": "方案仍待用户明确同意改变验收标准；旧安装授权保留但不授权本次标准降低。旧agent交接、备份、空目标与原其余前置条件继续有效。"
+    }
+  ],
+  "remaining": "用户选择接受明确收窄的安装验收、仅文件部署，或保留原标准暂停。未获得选择前不执行安装或应用启动。",
+  "reviewActions": {
+    "pureExistingMetadataValidation": true,
+    "liveTraceRuns": 0,
+    "fixtureRuns": 0,
+    "applicationStarts": 0,
+    "modelCalls": 0,
+    "officialAiCliInvocations": 0,
+    "administratorRuns": 0,
+    "productOrInstallChanges": 0,
+    "oldTaskOrUserDataAccess": false
+  },
+  "publicationScope": "仅离线评估、待确认方案和本审核三份文档；不发布本机原始记录或程序，不声明安装、运行验收或ETW门检通过。"
+}

@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "kind": "bounded-offline-install-observation-assessment",
+  "date": "2026-11-03",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "sourceCommit": "d6534c37803fdd1f66561e42dc84304bfafded35",
+  "previousResult": "docs/evidence/foundation-observer-retest-20261102.json",
+  "decision": "assessment-closed-original-install-observation-contract-not-satisfied",
+  "summary": "Windows现成ETW工具可以作为进程记录候选，但本次限定的一条现成工具路径不能满足原安装方案全部条件。停止继续开发观察器，不申请ETW执行或模型预算；提交明确的验收范围调整供用户决定。",
+  "method": {
+    "existingToolsFound": [
+      "wpr.exe",
+      "logman.exe",
+      "tracerpt.exe",
+      "wevtutil.exe"
+    ],
+    "toolIdentityRecordedLocally": true,
+    "metadataReads": [
+      "wevtutil gp Microsoft-Windows-Kernel-Process /ge:true /gm:true /f:xml",
+      "logman query providers Microsoft-Windows-Kernel-Process",
+      "System.Diagnostics.Eventing.Reader.ProviderMetadata.Events的静态Template属性"
+    ],
+    "eventHistoryRead": false,
+    "traceSessionCreated": false,
+    "liveProviderEnabled": false,
+    "pathConsidered": "logman启用单provider并写ETL，停止后用tracerpt严格解码；只评估、不执行。",
+    "generalWprProfileRejected": "通用性能profile超出当前所需的进程观察范围；不直接采集。",
+    "customReceiverOrDecoderAdded": false
+  },
+  "localProviderEvidence": {
+    "provider": "Microsoft-Windows-Kernel-Process",
+    "guid": "22fb2cd6-0e7b-422b-a0c7-2fad1fd0e716",
+    "proposedKeyword": "0x10",
+    "proposedLevel": 4,
+    "totalDeclaredEventVersions": 40,
+    "matchedDeclaredEventVersions": 9,
+    "zeroKeywordDeclaredEvents": 0,
+    "matchedEvents": [
+      "1/v0",
+      "1/v1",
+      "1/v2",
+      "1/v3",
+      "2/v0",
+      "2/v1",
+      "2/v2",
+      "15/v0",
+      "15/v1"
+    ],
+    "start": "ID 1",
+    "stop": "ID 2",
+    "rundown": "ID 15是已有进程枚举，不能代替真实启动或退出事件。",
+    "privacyMismatch": "ID1/v3与ID15/v1声明MandatoryLabel（win:SID，完整性标签，不应误称用户账号SID）；还声明ImageName、PackageFullName、PackageRelativeAppId及提权标志。退出事件包含资源使用统计。字段超过原计划仅名称/PID/父PID/会话/时间等范围，且原计划明确不采SID。",
+    "matchedTemplatesContainCommandLine": false,
+    "limits": "当前静态模板无CommandLine字段，不等于证明实际ETL无命令行或其他额外信息。ETL头、扩展数据及运行时版本仍需另核；关键词和level也不是对payload字段的投影选择。",
+    "metadataCompletenessCheckPassed": true,
+    "providerTemplatesSha256": "0febe432de65e39a53f93d32ed0fa9cea99acd85a04b34c14b4eaecea5c7159e",
+    "staticAssessmentSha256": "ff5c6a84850127978ad9306465ffff2af81fe4a87af041f03c2317f1673ad51e"
+  },
+  "requirements": [
+    {
+      "requirement": "记录真实进程实例和父子关系，覆盖短命进程",
+      "result": "条件可行，未实测",
+      "reason": "本机模板包含PID、创建时间、父PID；新版本还含实例序号。若将来获准实验，仍须与独立OS句柄回执逐一匹配10进程20条真实Start/Stop，不能拿rundown补数。"
+    },
+    {
+      "requirement": "确认记录完整且丢失已知为零",
+      "result": "未证明",
+      "reason": "官方TRACE_LOGFILE_HEADER定义EventsLost/BuffersLost；tracerpt支持summary，但文档未保证本机输出能完整取得这些字段。没有ETL，不把未知填0；不为此新增自制二进制解码器。"
+    },
+    {
+      "requirement": "遵守旧观察授权的数据范围",
+      "result": "不满足原样替换条件",
+      "reason": "本机选定provider的可匹配模板已包含SID类型、镜像和包标识等额外字段；事后删字段不等于没有采集。"
+    },
+    {
+      "requirement": "独立观察同进程内模型请求",
+      "result": "该进程路径不覆盖",
+      "reason": "进程Start/Stop不代表HTTP请求；应用modelCalls为空不能替代独立请求观察。"
+    },
+    {
+      "requirement": "运行中丢失观察或出现CLI/模型请求立即停止",
+      "result": "该事后分析路径不覆盖",
+      "reason": "ETL停止后解码不提供原计划要求的实时检测与停止。此结论针对所评估路径，不宣称ETW技术本身不能实时消费。"
+    }
+  ],
+  "exitCondition": {
+    "met": true,
+    "reason": "已核实系统工具和40个声明事件版本，明确9个匹配版本及隐私差异，并识别原合同的请求边界和实时停止缺口。当前约束下不具备原标准的完整安装验收方案。",
+    "automaticFurtherToolIteration": false,
+    "newEtwTestBudgetRequested": false,
+    "newModelBudgetRequested": false,
+    "next": "docs/delivery/foundation-win-20261102/install-acceptance-scope-proposal-20261103.json"
+  },
+  "preservation": {
+    "taskInitiatedModelCalls": 0,
+    "taskInitiatedOfficialAiCliInvocations": 0,
+    "modelTokens": 0,
+    "administratorExecutions": 0,
+    "wmiSubscriptions": 0,
+    "etwSessions": 0,
+    "fixtureRuns": 0,
+    "candidateStarts": 0,
+    "oldAppCloseActions": 0,
+    "productSourceChanges": 0,
+    "installationWrites": 0,
+    "userWorkspaceAccess": false,
+    "otherAgentTaskTouched": false,
+    "qualification": "执行统计仅描述本任务，不证明其他agent或全机没有活动。",
+    "frozenArtifactCheck": {
+      "rootReadOnlyReceiptSha256": "24babc8344fe130d80afec2725ecd19c553f7dacbc6e6a1d9d0036cdae8f4daa",
+      "frozenZipAndAsarMatched": true,
+      "objects": 2,
+      "qualification": "根执行者本轮只读复核冻结ZIP与app.asar的哈希，独审核对该回执；不是本轮重新逐项核验86文件，不涉及当前安装目录。"
+    }
+  },
+  "references": [
+    "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/logman-create-trace",
+    "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tracerpt",
+    "https://learn.microsoft.com/en-us/windows/win32/api/evntrace/ns-evntrace-trace_logfile_header",
+    "https://learn.microsoft.com/en-us/windows/win32/api/evntrace/ns-evntrace-event_trace_logfilew",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-token_mandatory_label"
+  ],
+  "independentReview": "docs/evidence/foundation-etw-offline-review-20261103.json"
+}
