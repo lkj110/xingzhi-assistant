@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "releaseId": "foundation-win-0.42.4-20261103-3e47ec57",
+  "status": "passed-approved-bounded-parallel-installation-check",
+  "scope": "基础版并行安装与两次本地启动隔离检查",
+  "sourceCommit": "b20ef0ca6c22de530174954c2d920c6b4e7a8382",
+  "frozenPackage": {
+    "files": 86,
+    "bytes": 536108732,
+    "asarSha256": "3e47ec57a52502692bf8cbda0b8908fa3c1901230fb590276a29a98d007788cf",
+    "zipSha256": "9936d2265e7b5238bcb521b1d3d8fbb68155b7bd31d96ce779d58aa7628d69e0",
+    "unchangedDuringInstallation": true
+  },
+  "timing": {
+    "startedAtUtc": "2026-11-03T06:56:35Z",
+    "deadlineUtc": "2026-11-03T07:41:35Z",
+    "fixedWindowMinutes": 45,
+    "reset": false,
+    "includesBackupAndFinalIndependentReview": true,
+    "completedAtUtc": "2026-11-03T07:32:39.8173184Z",
+    "independentReviewCompletedAtUtc": "2026-11-03T07:31:30.622Z",
+    "completedWithinFixedWindow": true
+  },
+  "backup": {
+    "retainedPairs": 2,
+    "filesIncludingOriginalShortcuts": 384,
+    "bytes": 1201709633,
+    "backupCopyBytes": 1201709633,
+    "restoreCheckBytes": 1201709633,
+    "completeDirectoryListsVerified": true,
+    "sourceMetadataStable": true,
+    "mainStreamsSha256Verified": true,
+    "heldReadOnlySourceHandleDuringCopy": true,
+    "skippedFiles": 0,
+    "oldApplicationRuntimeRestoreTested": false,
+    "adsConsistencyVerified": false
+  },
+  "starts": [
+    {
+      "number": 1,
+      "countedBeforeStart": true,
+      "status": "exited-normally",
+      "startedAtUtc": "2026-11-03T07:09:50.9452236Z",
+      "exitedAtUtc": "2026-11-03T07:21:08.9644807Z",
+      "startToExitCheckSeconds": 678.0192571,
+      "observedStillRunningAfterSeconds": 619.1946696
+    },
+    {
+      "number": 2,
+      "countedBeforeStart": true,
+      "status": "exited-normally",
+      "startedAtUtc": "2026-11-03T07:23:40.6215403Z",
+      "exitedAtUtc": "2026-11-03T07:24:46.0146208Z",
+      "startToExitCheckSeconds": 65.3930805,
+      "observedStillRunningAfterSeconds": 44.2708404
+    }
+  ],
+  "verification": {
+    "maxStarts": 2,
+    "startsUsed": 2,
+    "shortcutStarts": 0,
+    "correctExecutableAndAsarAndExplicitProfile": true,
+    "mainWindowAndEmptyBoardObservedTwice": true,
+    "emptyBusinessAndProviderCollections": 15,
+    "spendScopes": 0,
+    "errorEvents": 0,
+    "matchingApplicationAndHelperProcessesAfterExit": 0,
+    "retainedFilesComparedAfterEachExitAndAfterShortcuts": 381,
+    "oldShortcutsCompared": 3,
+    "oldShortcutBytesMetadataAndBindingsUnchanged": true,
+    "retainedContentMetadataAndDirectoryListsUnchanged": true,
+    "newProgramFilesUnchanged": 86,
+    "registryView": "Registry64",
+    "notificationRegistryNodesCompared": 2,
+    "notificationRegistryValueNamesTypesDataSubkeysAndOwnerGroupDaclUnchanged": true,
+    "notificationActivationStillTargetsRetainedOldProgram": true
+  },
+  "settings": {
+    "method": "正常退出后备份新配置，原子替换四个允许字段，再冷启动读回",
+    "values": {
+      "automatic": false,
+      "autoExtract": false,
+      "autoComplete": false,
+      "evidenceGrounding": true
+    },
+    "semanticDifferencesWritten": [
+      "settings.autoExtract: true → false",
+      "settings.evidenceGrounding: absent → true"
+    ],
+    "otherJsonValuesUnchangedByOfflineEdit": true,
+    "originalConfigurationBytesBackedUp": true,
+    "persistentAcrossColdStart": true,
+    "uiSettingsClickPathVerified": false
+  },
+  "shortcuts": {
+    "name": "行知助手（基础版 20261103-3e47ec57）.lnk",
+    "locations": [
+      "当前用户 DesktopDirectory",
+      "%APPDATA%/Microsoft/Windows/Start Menu/Programs"
+    ],
+    "target": "%LOCALAPPDATA%/Programs/XingzhiAssistantFoundation/20261103-3e47ec57/XingzhiAssistant.exe",
+    "profile": "%APPDATA%/XingzhiAssistantFoundation/20261103-3e47ec57",
+    "fullAbsoluteUserDataDirArgumentVerified": true,
+    "workingDirectoryVerified": true,
+    "created": 2,
+    "originalEntriesOverwritten": 0
+  },
+  "calls": {
+    "intentionalApplicationModelCalls": 0,
+    "intentionalOfficialAiCliCalls": 0,
+    "modelTokenBudget": 0,
+    "spendScopesObserved": 0,
+    "independentAbsoluteZeroRequestProof": false,
+    "allBackgroundRequestUsageKnown": false,
+    "newHallucinationOrTokenComparisonResults": false
+  },
+  "notificationBehavior": {
+    "isolatedWindowsSystemNotifications": "disabled",
+    "inAppAttentionAndTrayCounts": "retained by implementation and prior offline regression; live notification delivery not exercised",
+    "defaultWindowsBehavior": "默认打包分支按离线回归保持；本轮未启动默认profile，仅验证原入口及保留文件未变",
+    "systemToastDeliveryOrComActivationTested": false
+  },
+  "observations": [
+    {
+      "kind": "report-only-correction",
+      "detail": "首次退出回执的dwellSeconds因PowerShell DateTime转字符串丢失UTC信息而错误；原证据保留，另附更正并由独审以原始Z时间独立重算。正确观测间隔678.0192571秒。第二次退出回执与原始起止时间的18毫秒差为采样时点差；两者均超过30秒。"
+    },
+    {
+      "kind": "ui-tool-recovery",
+      "detail": "首次窗口最小化，改用已支持的窗口激活API读取页面；退出前因检测到用户输入重新读取窗口状态后发送Ctrl+Q。没有增加启动次数。"
+    },
+    {
+      "kind": "runtime-warning",
+      "detail": "第二次启动出现libpng iCCP颜色配置警告；应用error事件为0，页面和设置读回正常。"
+    }
+  ],
+  "rollback": {
+    "retainedOldProgramAndProfileUnchanged": true,
+    "oldShortcutsStillTargetOldProgram": true,
+    "backupLocation": "%LOCALAPPDATA%/XingzhiAssistantFoundationBackups/before-20261103-3e47ec57",
+    "procedure": "正常退出新基础版后，通过原有旧版快捷方式使用保留旧版及旧数据；无需覆盖还原。只有实际数据损坏时才另行制定并确认从已校验备份恢复，禁止混用新旧profile。",
+    "performed": false
+  },
+  "limits": [
+    "这是Windows本机并行安装范围的验收，不是新增业务模型评测、A–D完整Agent验收或macOS实机验收。",
+    "独立profile停用Windows系统通知，不验证系统通知投递或COM激活。",
+    "界面设置点击路径未验证；四设置离线保存和冷重启持久化已验证。",
+    "主数据流备份及局部注册表快照不等于系统镜像、全注册表监控或凭据隔离。",
+    "未迁移旧数据、模型配置或凭据；未探测全局CLI登录或系统凭据。",
+    "本次不保证独立证明绝对零后台请求，也不产生新的幻觉率或token效率结论。",
+    "冻结candidate/proposal/offline-review保留准备阶段状态，执行结果以本文件及installation-review为准；未重打ZIP或发布GitHub Release资产。"
+  ],
+  "independentReview": {
+    "decision": "passed",
+    "file": "installation-review.json",
+    "privateFinalReviewSha256": "e3dfc92cc231907396bf611253bb41fe807048e224accce789efedee8480efca"
+  }
+}

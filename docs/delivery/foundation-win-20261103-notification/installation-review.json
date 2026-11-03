@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "kind": "sanitized-independent-final-installation-review",
+  "releaseId": "foundation-win-0.42.4-20261103-3e47ec57",
+  "reviewer": "/root/title_candidate_review",
+  "completedAtUtc": "2026-11-03T07:31:30.622Z",
+  "sourceReviewSha256": "e3dfc92cc231907396bf611253bb41fe807048e224accce789efedee8480efca",
+  "decision": {
+    "passed": true,
+    "scope": "基础版并行安装与两次本地启动隔离检查",
+    "completedWithinFixedWindow": true,
+    "applicationAttemptsUsed": 2,
+    "remainingApplicationAttempts": 0,
+    "additionalApplicationStartsAuthorized": false
+  },
+  "verified": {
+    "backupRestoreFiles": 384,
+    "bytesPerCopy": 1201709633,
+    "newProgramFiles": 86,
+    "retainedFilesPreserved": 384,
+    "newShortcuts": 2,
+    "fourSettingsPersistent": true,
+    "notificationRegistryCapturedNodesUnchanged": 2,
+    "firstDwellSeconds": 678.0192571,
+    "secondReceiptIntervalSeconds": 65.3930805,
+    "firstObservedRunningAfterSeconds": 619.1946696,
+    "secondObservedRunningAfterSeconds": 44.2708404,
+    "settingsEditIndependentlyReconstructed": true,
+    "fullManifestsAndUtc100nsMetadataIndependentlyCompared": true
+  },
+  "findings": [
+    {
+      "status": "corrected-report-field",
+      "detail": "首次退出时长换算错误已另存更正，原证据不变；独立使用原始UTC时间复算通过。第二次约18毫秒的差值为同一函数的先后采样，不影响30秒条件。"
+    }
+  ],
+  "reviewMethod": "独立检查已落盘的授权、备份/还原完整清单、执行脚本、UI/运行身份、配置写入与持久化回执、三次保留基线比对、注册表快照、新快捷方式读回及启动账本；未重新启动应用或读取当前用户profile实体。",
+  "reviewerActions": {
+    "applicationStarts": 0,
+    "modelCalls": 0,
+    "officialAiCliInvocations": 0,
+    "registryWrites": 0,
+    "installedProgramOrProfileWrites": 0
+  },
+  "limits": [
+    "仅批准本轮基础版并行安装与两次本地启动隔离检查。",
+    "未证明绝对零后台请求、Windows系统通知投递、UI设置点击、旧版运行兼容性、凭据解密、数据迁移或macOS实机可用性。",
+    "没有新增模型质量或token对照结果；系统通知在独立profile中停用。"
+  ],
+  "privacy": "公开摘要不包含本机用户名、完整本机路径、进程命令行、用户文件内容、注册表ACL/SID或凭据。完整原始证据仅本地保存。"
+}
