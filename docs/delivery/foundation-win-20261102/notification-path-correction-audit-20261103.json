@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "kind": "independent-notification-path-correction-audit",
+  "date": "2026-11-03",
+  "at": "2026-11-03T06:14:23.837Z",
+  "reviewer": "/root/title_candidate_review",
+  "sourceHead": "d56e4bde696039be4c7017c9c6286f29a15ac5ce",
+  "report": "docs/delivery/foundation-win-20261102/notification-path-correction-result-20261103.json",
+  "reportSha256": "912ef02a7afa7886c436912070dcc65f2ae42b99a21fc189554555ad9d28e25d",
+  "decision": {
+    "publicationApproved": true,
+    "authorizedSingleValueCorrectionVerified": true,
+    "installationAcceptancePassed": false,
+    "candidateApprovedForUse": false,
+    "additionalApplicationStartsAuthorized": false
+  },
+  "verification": {
+    "explicitApprovalAndProposalBinding": true,
+    "executionCommandStaticallyReviewed": true,
+    "registryView": "Registry64",
+    "capturedNodes": 2,
+    "onlyDifference": "LocalServer32 unnamed REG_SZ: new candidate executable to retained old executable",
+    "registryWritesInExecutionReceipt": 1,
+    "valueKindUnchanged": true,
+    "otherCapturedValueDataAndNamesUnchanged": true,
+    "capturedKeyNamesUnchanged": true,
+    "capturedOwnerGroupDaclUnchanged": true,
+    "independentCurrentRegistryMatchesAfterSnapshot": true,
+    "originalShortcutHashMatches": 3,
+    "oldExecutableAndAsarReceiptMatchesBaseline": true,
+    "restrictedBackupCopiesByteIdentical": true
+  },
+  "evidence": {
+    "privateReviewSha256": "98d4bca9d3c5069a162e7c92395c8d8dfab5664727a2e06429c43a0b59401316",
+    "authorizationSha256": "05aa3ac22fcde76712e1bdc2fb287ce28b0830393ee32aaa97d78c3a3e0b49c8",
+    "executionReceiptSha256": "0f6c1b4f2f1d5577e7816b11b767d7b624fe198f80ca11514dcbd0b396afc5fe",
+    "commandSha256": "dba211c62ca4a6da4fa7e43719b343d4827ce00f54c0756699adbf67ccf5f20e",
+    "beforeSnapshotSha256": "674667079ba53e86460dd00ed752b31dee845c6040cfe422dfc77424ba1f2def",
+    "afterSnapshotSha256": "7622007096de3e031c43f80069db747815759730d8f3601ccb03afcccf200e19",
+    "independentCurrentReadbackSha256": "7c6b5b67fe339f9c38332fd2cac652f0107204edd9a3dc99fa8b4c411165e4de",
+    "launchLedgerSha256": "5dbb2aa84875e41bcc6640af0fec02d206ed12060f7ba091eb9f6c01f5666aac",
+    "launchClarificationSha256": "ccf7b18a0540221b7bfb8d6f6c9c4a5d0033785313c51f126c73b5de36e42bb5"
+  },
+  "findings": [
+    {
+      "id": "N1",
+      "status": "passed",
+      "text": "Explicit user approval was limited to one notification activation path. Independent before/after comparison found exactly that unnamed string value changed; current readback matches."
+    },
+    {
+      "id": "N2",
+      "status": "passed",
+      "text": "All three original shortcut hashes still match the existing baseline. No application was started by this correction or review."
+    },
+    {
+      "id": "N3",
+      "status": "clarified-without-editing-original-receipt",
+      "text": "The private execution receipt field previousLaunchesRemain is misnamed. The launch ledger records two starts already used out of two, leaving zero. This correction adds no launch authorization."
+    },
+    {
+      "id": "N4",
+      "status": "limit-retained",
+      "text": "The current activation path points to the retained installation. This is not proof of historical registry restoration, runtime notification success, or a passing parallel-installation isolation test."
+    }
+  ],
+  "scope": {
+    "reviewerRegistryWrites": 0,
+    "reviewerApplicationStarts": 0,
+    "reviewerProgramOrProfileReads": 0,
+    "reviewerProgramOrProfileWrites": 0,
+    "intentionalReviewerModelOrOfficialCliInvocations": 0,
+    "previousLaunchesUsed": 2,
+    "previousLaunchLimit": 2,
+    "remainingLaunchAttempts": 0
+  },
+  "limits": {
+    "historicalRegistryBaselineAvailable": false,
+    "runtimeComActivationTested": false,
+    "allRegistryEntriesSnapshotClaim": false,
+    "saclVerificationClaim": false,
+    "independentAbsoluteZeroRequestProof": false,
+    "productFixDeveloped": false,
+    "newCandidateStarted": false
+  },
+  "publicationScope": "Only the sanitized result and this audit. Private paths, account identifiers, registry ACL contents and user data are excluded.",
+  "publicationByteNormalization": {
+    "change": "CRLF to LF only in the public result; JSON content unchanged",
+    "priorReportBytes": 3030,
+    "priorReportSha256": "86d5e23d0409bd20920015e1e46f0a579731b76f03292df738e640607721360c",
+    "publishedReportBytes": 2970,
+    "publishedReportSha256": "912ef02a7afa7886c436912070dcc65f2ae42b99a21fc189554555ad9d28e25d",
+    "gitReportBlobMatched": true,
+    "priorPrivateReviewPreserved": true,
+    "priorPrivateReviewBinds": "original CRLF report representation",
+    "underlyingExecutionEvidenceUnchanged": true,
+    "additionalRegistryReads": 0,
+    "additionalApplicationStarts": 0
+  }
+}

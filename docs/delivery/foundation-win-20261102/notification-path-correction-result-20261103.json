@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "date": "2026-11-03",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "status": "notification-path-correction-passed-installation-still-not-accepted",
+  "priorReport": "install-attempt-result-20261103.json",
+  "priorReportCommit": "d56e4bde696039be4c7017c9c6286f29a15ac5ce",
+  "authorization": "User explicitly approved only correcting this notification activation path after the proposal and independent review.",
+  "action": {
+    "registryView": "Registry64",
+    "applicationToastActivatorClsid": "{9CB14368-0A71-4D19-8CC7-20B58B091361}",
+    "subkey": "LocalServer32",
+    "valueName": "",
+    "valueKind": "REG_SZ",
+    "before": "new candidate 20261102-2671389c executable",
+    "after": "retained old installation 20261027-90815f4 executable",
+    "writes": 1,
+    "keysCreated": 0,
+    "keysDeleted": 0,
+    "aclWrites": 0
+  },
+  "verification": {
+    "preconditionMatchedReviewedValueTypeAndAcl": true,
+    "oldExecutableAndAsarMatchedPriorBaseline": true,
+    "originalShortcutAndOldProgramNotificationIdentitiesMatched": true,
+    "restrictedNonOverwritingBeforeAfterBackups": true,
+    "snapshotScope": "Application-specific CLSID parent and direct subkeys; value names/types/data, child-key names and owner/group/DACL",
+    "capturedNodes": 2,
+    "onlyAuthorizedDefaultValueChanged": true,
+    "otherCapturedFieldsUnchanged": true,
+    "matchingAppProcessesBeforeAndAfter": 0
+  },
+  "evidence": {
+    "privateResultSha256": "0f6c1b4f2f1d5577e7816b11b767d7b624fe198f80ca11514dcbd0b396afc5fe",
+    "beforeSnapshotSha256": "674667079ba53e86460dd00ed752b31dee845c6040cfe422dfc77424ba1f2def",
+    "afterSnapshotSha256": "7622007096de3e031c43f80069db747815759730d8f3601ccb03afcccf200e19",
+    "executionCommandSha256": "dba211c62ca4a6da4fa7e43719b343d4827ce00f54c0756699adbf67ccf5f20e",
+    "authorizationSha256": "05aa3ac22fcde76712e1bdc2fb287ce28b0830393ee32aaa97d78c3a3e0b49c8"
+  },
+  "scope": {
+    "applicationStarts": 0,
+    "programOrProfileWrites": 0,
+    "intentionalApplicationModelCalls": 0,
+    "intentionalOfficialAiCliInvocations": 0,
+    "newShortcutsCreated": 0,
+    "previousLaunchesUsed": 2,
+    "previousLaunchLimit": 2
+  },
+  "limits": {
+    "historicalRegistryBaselineAvailable": false,
+    "historicalRegistryRestorationClaim": false,
+    "runtimeComActivationTested": false,
+    "allRegistryEntriesSnapshotClaim": false,
+    "independentAbsoluteZeroRequestProof": false,
+    "installationAcceptancePassed": false,
+    "candidateApprovedForUse": false,
+    "additionalApplicationStartsAuthorized": false
+  },
+  "independentReview": "See notification-path-correction-audit-20261103.json",
+  "recommendedNextStep": "Prepare a narrow offline fix for Windows notification initialization under an isolated profile, regressions, independent review and a newly frozen candidate. Propose a separately bounded zero-model installation check afterward. This record does not authorize product changes or new launches."
+}
