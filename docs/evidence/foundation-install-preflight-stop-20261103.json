@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "kind": "parallel-install-backup-precondition-stop",
+  "date": "2026-11-03",
+  "releaseId": "foundation-win-0.42.4-20261102-2671389c",
+  "sourceCommit": "ede695f8eee0e038ff6c8cdde24c4f97cd269abe",
+  "scopeProposal": "docs/delivery/foundation-win-20261102/install-acceptance-scope-proposal-20261103.json",
+  "status": "stopped-before-backup-and-installation",
+  "authorization": {
+    "scopeChangeApproved": true,
+    "existingParallelInstallationApprovalRetained": true,
+    "otherAgentCompletedBeforeHandoff": true,
+    "userReportedOldAppNormalExit": true,
+    "originalMaximumApplicationAttempts": 2,
+    "applicationAttemptsUsed": 0,
+    "automaticRetry": false
+  },
+  "completed": {
+    "zipFilesVerified": 86,
+    "zipSha256": "49d3277016955dff976edbb3c0f7036c6bacf4ed5e96e374d62aac8df1a6d793",
+    "safeStartupStaticReviewPassed": true,
+    "futureDirectoriesAndShortcutsAbsent": 5,
+    "matchingAppProcessesAfterFailure": 0,
+    "oldShortcutBindingsChecked": 3,
+    "matchingAppProcessesAtBackupPrecheckReportedByExecutor": 0
+  },
+  "failure": {
+    "stage": "旧profile逐文件读取，完整静止基线尚未生成",
+    "relativeFile": "GrShaderCache/data_0",
+    "operation": "File.Open(Open, Read, FileShare.None)",
+    "result": "Windows报告文件正被另一进程使用",
+    "lockOwnerIdentified": false,
+    "holderAccessModeKnown": false,
+    "oldLockFileRetried": false,
+    "noInference": "进程名/路径快照未发现旧应用，不能据此认定所有句柄已释放；本次错误也不能证明持有者是只读者、杀毒程序或系统服务。"
+  },
+  "reviewFinding": {
+    "rootImplementationIssue": "执行者为备份源读取使用FileShare.None，会额外拒绝兼容的已有只读句柄，比完整稳定备份所需的防写入条件更严。",
+    "actualFileCauseUnproven": true,
+    "proposedReadMode": "FileAccess.Read + FileShare.Read",
+    "samePolicyForHashAndCopy": true,
+    "copyProtocol": "实际复制也必须持有同样的源FileStream直到复制及源内容hash完成；目标以CreateNew创建。不能检查后关闭源句柄，再交给共享模式不明确的复制入口。",
+    "noWriteOrDeleteSharing": true,
+    "metadataQualification": "共享模式不限制仅属性/扩展属性访问，因此仍核对前后路径、大小、SHA256、LastWriteTimeUtc及必要属性；不将本次读取可能更新的LastAccessTime误算为外部修改。",
+    "snapshotQualification": "逐文件读取和前后扫描不等于整目录原子快照；只报告检查点清单与字节一致，不为此新增VSS或观察工具。",
+    "copyAndRestoreChecksRetained": "完整程序、完整profile、快捷方式和空目录全部包含；源前后清单及hash一致，备份与restore-check副本逐项字节一致，权限和路径检查仍保留。",
+    "onIncompatibleHandleOrAnyMismatch": "停止，不升级到ReadWrite/Delete共享，不强杀，不跳过或删除缓存，不自动重试。",
+    "harmlessSharingValidation": {
+      "passed": true,
+      "checks": 7,
+      "compatibleReadChecksPassed": 2,
+      "expectedSharingViolations": 5,
+      "expectedViolationHresult": "0x80070020",
+      "fixture": "新建私有无害文件；内容验证未变，未触碰旧profile锁文件。",
+      "covers": [
+        "已有兼容读句柄会使FileShare.None失败",
+        "已有兼容读句柄允许FileShare.Read",
+        "已有写句柄会使新Read+FileShare.Read失败",
+        "备份Read+FileShare.Read句柄允许后续兼容读",
+        "同一备份句柄阻止写、删和改名"
+      ],
+      "testResultSha256": "c5d01a325942926dab58b1dd0431d1cace861cc34d35038bc621d22fc8838dbb",
+      "testScriptSha256": "0fc13f06192377e1da05cb4afee253d1d3a52e83ad6ecc5a1066523751012013",
+      "qualification": "仅验证Windows/.NET共享语义，不证明实际锁文件可读、持锁者只读、实际备份通过或整目录静止；未重试旧文件。"
+    }
+  },
+  "preservation": {
+    "backupRootCreated": false,
+    "newProgramCreated": false,
+    "newProfileCreated": false,
+    "newShortcutsCreated": false,
+    "oldProgramOrProfileWritesByThisTask": 0,
+    "applicationStarts": 0,
+    "explicitModelCalls": 0,
+    "officialAiCliInvocations": 0,
+    "traceSessions": 0,
+    "processesForceStopped": 0,
+    "sourceCacheFilesSkippedOrDeleted": 0,
+    "productSourceChanges": 0,
+    "qualification": "以上执行统计仅描述本任务。本次临时文件共享测试没有重试实际备份、启动应用或独立观察模型请求。"
+  },
+  "next": {
+    "proposal": "独审确认读取策略后，申请恢复一次已批准的备份/并行安装流程；候选总启动次数仍最多2次，包含失败尝试，首个失败即停止。",
+    "existingInstallAndScopeApprovalRetained": true,
+    "modelBudgetRequested": 0,
+    "newAdministratorTraceAuthorizationRequested": false,
+    "reasonForResumeConfirmation": "当前轮已按首次前置失败停止；不能未经说明自动重试或把失败重新判为通过。",
+    "installationMayProceedNow": false,
+    "resumeConfirmationPending": true
+  },
+  "references": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew",
+    "https://learn.microsoft.com/en-us/dotnet/api/system.io.fileshare"
+  ],
+  "independentReview": "docs/evidence/foundation-install-preflight-stop-review-20261103.json",
+  "rawLocalPathsAndUserDataPublished": false
+}

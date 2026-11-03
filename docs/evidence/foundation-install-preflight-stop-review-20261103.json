@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "kind": "independent-install-backup-preflight-stop-review",
+  "at": "2026-11-03T02:27:04.026Z",
+  "reviewer": "/root/title_candidate_review",
+  "sourceCommit": "ede695f8eee0e038ff6c8cdde24c4f97cd269abe",
+  "report": "docs/evidence/foundation-install-preflight-stop-20261103.json",
+  "reportSha256": "f7eccda58ad47749a95e3bf3889e5df926fd4ee9d65c81464743224d982fd2e6",
+  "decision": {
+    "publicationApproved": true,
+    "sharingPolicyRecommendationReviewed": true,
+    "actualLockedFileReadabilityProven": false,
+    "actualBackupPassed": false,
+    "installationPassed": false,
+    "currentRoundStopped": true,
+    "resumeConfirmationPending": true,
+    "installationMayProceedNow": false
+  },
+  "evidence": {
+    "privateReviewSha256": "4a7f0730a1e42783a4047dd792411fadbd5d6755add03a0360487ce241ea7167",
+    "semanticTestResultSha256": "c5d01a325942926dab58b1dd0431d1cace861cc34d35038bc621d22fc8838dbb",
+    "semanticTestScriptSha256": "0fc13f06192377e1da05cb4afee253d1d3a52e83ad6ecc5a1066523751012013",
+    "priorDiagnosisSha256": "ced27684189b6dc95a63617f74e966a0e226a4863802554f53ba76217770e650"
+  },
+  "checks": {
+    "harmlessSemanticTestsPassed": 7,
+    "expectedSharingViolations": 5,
+    "unchangedHarmlessFixture": true,
+    "oldLockedFileRetried": false,
+    "applicationAttemptsUsed": 0,
+    "maximumApplicationAttemptsRetained": 2,
+    "originalFailureRetained": true,
+    "zip86FileAndStaticPreflightEvidenceReviewed": true,
+    "rootPreflightTestsRerunByReviewer": false,
+    "otherAgentHandoffEvidenceReviewed": true
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "status": "confirmed",
+      "description": "FileShare.None会额外拒绝兼容读者。仅改为Read+FileShare.Read属于更准确的源读取策略，不能据此断言实际持锁者只读或恢复一定成功。"
+    },
+    {
+      "id": "R2",
+      "status": "confirmed",
+      "description": "hash与实际复制均持有同样的受限源句柄，目标CreateNew；完整源前后、备份、还原副本清单与hash仍须通过，不能跳过缓存或退到ReadWrite/Delete共享。"
+    },
+    {
+      "id": "R3",
+      "status": "qualified",
+      "description": "共享模式不冻结全部属性；稳定metadata仍要比对，LastAccessTime单列。逐文件扫描不是整目录原子快照。"
+    },
+    {
+      "id": "R4",
+      "status": "added",
+      "description": "补充7项私有临时文件语义验证及精确hash，明确不是旧锁文件重试或实际备份成功。"
+    },
+    {
+      "id": "R5",
+      "status": "clarified",
+      "description": "将备份前进程快照与更早的初始预检区分；原范围与安装批准保留，但当前轮已停止，仅待用户确认按这项小调整恢复一次，不新增模型预算或管理员权限。"
+    }
+  ],
+  "reviewActions": {
+    "existingEvidenceOnly": true,
+    "newSemanticTestRunsDuringPublication": 0,
+    "oldProfileAccess": false,
+    "oldLockedFileOpened": false,
+    "installationRetried": false,
+    "applicationStarts": 0,
+    "modelCalls": 0,
+    "officialCliInvocations": 0,
+    "observerStarts": 0,
+    "productChanges": 0
+  },
+  "publicationScope": "仅两份脱敏结果及审核文档；实际备份、还原校验和安装尚未通过，未执行恢复。"
+}
